@@ -27,7 +27,7 @@ export const trainModel = async (imageUrl: string, orderId: string) => {
   return result;
 };
 
-export const generateHeadshots = async (modelId: string, plan: string, startIndex: number, limit: number) => {
+export const generateHeadshots = async (modelId: string, plan: string) => {
   const allPrompts = PLAN_PROMPTS[plan] ?? PLAN_PROMPTS.basic;
   const prompts = allPrompts.slice(startIndex, startIndex + limit);
 
