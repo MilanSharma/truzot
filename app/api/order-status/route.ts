@@ -19,7 +19,7 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: 'Order not found' }, { status: 404 });
   }
 
-  let headshots = [];
+  let headshots: { id: string; image_url: string; style: string }[] = [];
   if (order.status === 'completed') {
     const { data: shots } = await supabaseAdmin
       .from('headshots')
