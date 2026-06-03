@@ -38,6 +38,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Failed to create order' }, { status: 500 });
     }
 
+    // Dynamically get the base URL from the request headers
+    const url = new URL(req.url);
+    const baseUrl = `${url.protocol}//${url.host}`;
+
     // Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -59,8 +63,8 @@ export async function POST(req: Request) {
         zip_url: zipUrl,
         email,
       },
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard?order=${order.id}&success=1`,
-      cancel_url:  `${process.env.NEXT_PUBLIC_SITE_URL}/upload?cancelled=1`,
+      success_url: `${baseUrl}/dashboard?order=${order.id}&success=1`,
+      cancel_url:  `${baseUrl}/upload?cancelled=1`,
     });
 
     return NextResponse.json({ url: session.url });
