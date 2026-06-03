@@ -24,7 +24,7 @@ export const generateHeadshots = async (modelId: string) => {
     fal.run("fal-ai/flux-lora", {
       input: {
         prompt: prompt,
-        model_name: modelId,
+        // model_name removed (deprecated)
         num_inference_steps: 28,
         guidance_scale: 3.5
       }
