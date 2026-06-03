@@ -78,6 +78,7 @@ export async function POST(req: Request) {
       await supabaseAdmin.from('trainings').update({ status: 'failed', error: 'AI generation blocked' }).eq('order_id', orderId);
       return NextResponse.json({ status: 'failed', count: newCount, target: targetCount });
     }
+    // --------------------
 
     // 3. Complete order if target is met
     if (newCount >= targetCount) {

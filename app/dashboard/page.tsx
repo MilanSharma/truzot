@@ -31,6 +31,7 @@ function DashboardContent() {
 
   const triggerBatchGeneration = useCallback(async () => {
     if (!orderId || status !== 'generating') return;
+    
     try {
       const res = await fetch('/api/generate', {
         method: 'POST',
@@ -44,16 +45,18 @@ function DashboardContent() {
           if (data.count !== undefined) {
             setGenerationProgress({ current: data.count, target: data.target });
           }
+          
+          // If still generating, safely schedule the next batch in 2 seconds
+          if (data.status === 'generating') {
+            setTimeout(() => {
+              triggerBatchGeneration();
+            }, 2000);
+          }
         }
-      }
-      // If still generating, safely schedule the next batch in 2 seconds
-      if (data.status === 'generating') {
-        setTimeout(() => {
-          triggerBatchGeneration();
-        }, 2000);
       }
     } catch (err) {
       console.error('Batch generation fetch error:', err);
+    }
   }, [orderId, status]);
 
   const fetchStatus = useCallback(async () => {
@@ -62,7 +65,6 @@ function DashboardContent() {
     if (!res.ok) return;
     const data = await res.json();
     setStatus(data.status);
-
     if (data.status === 'generating') {
       const { count } = await supabase
         .from('headshots')
