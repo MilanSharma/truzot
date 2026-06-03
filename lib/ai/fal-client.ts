@@ -8,7 +8,7 @@ export const trainModel = async (imageUrl: string, userId: string) => {
       steps: 1000,
       trigger_word: "TOK",
     },
-    webhook_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhooks/fal?userId=${userId}`,
+    webhookUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhooks/fal?userId=${userId}`,
   });
   return result;
 };
