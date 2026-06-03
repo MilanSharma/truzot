@@ -55,7 +55,6 @@ export const trainModel = async (imageUrl: string, orderId: string) => {
       images_data_url: imageUrl,
       steps: 1000,
       trigger_word: 'TOK',
-      learning_rate: 0.0004,
     },
     webhookUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhooks/fal?orderId=${orderId}`,
   });
