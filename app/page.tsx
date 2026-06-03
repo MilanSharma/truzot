@@ -255,9 +255,9 @@ export default function LandingPage() {
           <div>
             <h4 className="font-semibold text-white mb-4">Company</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white">About</a></li>
-              <li><a href="#" className="hover:text-white">Blog</a></li>
-              <li><a href="#" className="hover:text-white">Contact</a></li>
+              <li><Link href="/about" className="hover:text-white">About</Link></li>
+              <li><Link href="/blog" className="hover:text-white">Blog</Link></li>
+              <li><Link href="/contact" className="hover:text-white">Contact</Link></li>
             </ul>
           </div>
           <div>
