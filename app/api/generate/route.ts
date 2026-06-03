@@ -70,6 +70,15 @@ export async function POST(req: Request) {
 
     const newCount = generatedCount + headshotsToInsert.length;
 
+    // --- SAFETY CHECK ---
+    // If a batch yields 0 images, Fal.ai rejected them (e.g. NSFW filter).
+    if (headshotsToInsert.length === 0) {
+      console.error(`Batch for order ${orderId} generated 0 images. Marking as failed.`);
+      await supabaseAdmin.from('orders').update({ status: 'failed' }).eq('id', orderId);
+      await supabaseAdmin.from('trainings').update({ status: 'failed', error: 'AI generation blocked' }).eq('order_id', orderId);
+      return NextResponse.json({ status: 'failed', count: newCount, target: targetCount });
+    }
+
     // 3. Complete order if target is met
     if (newCount >= targetCount) {
       await supabaseAdmin.from('orders').update({ status: 'completed' }).eq('id', orderId);

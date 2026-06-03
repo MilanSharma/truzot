@@ -28,11 +28,9 @@ function DashboardContent() {
   const [headshots, setHeadshots] = useState<Headshot[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
   const [generationProgress, setGenerationProgress] = useState({ current: 0, target: 0 });
-  const [isGeneratingBatch, setIsGeneratingBatch] = useState(false);
 
   const triggerBatchGeneration = useCallback(async () => {
-    if (!orderId || isGeneratingBatch || status !== 'generating') return;
-    setIsGeneratingBatch(true);
+    if (!orderId || status !== 'generating') return;
     try {
       const res = await fetch('/api/generate', {
         method: 'POST',
@@ -48,12 +46,15 @@ function DashboardContent() {
           }
         }
       }
+      // If still generating, safely schedule the next batch in 2 seconds
+      if (data.status === 'generating') {
+        setTimeout(() => {
+          triggerBatchGeneration();
+        }, 2000);
+      }
     } catch (err) {
       console.error('Batch generation fetch error:', err);
-    } finally {
-      setIsGeneratingBatch(false);
-    }
-  }, [orderId, isGeneratingBatch, status]);
+  }, [orderId, status]);
 
   const fetchStatus = useCallback(async () => {
     if (!orderId) return;
@@ -97,10 +98,10 @@ function DashboardContent() {
   }, [status, fetchHeadshots]);
 
   useEffect(() => {
-    if (status === 'generating' && !isGeneratingBatch) {
+    if (status === 'generating') {
       triggerBatchGeneration();
     }
-  }, [status, isGeneratingBatch, triggerBatchGeneration]);
+  }, [status, triggerBatchGeneration]);
 
   const step = STATUS_STEPS[status];
   const displayProgress = status === 'generating' && generationProgress.target > 0
@@ -112,7 +113,6 @@ function DashboardContent() {
       const link = document.createElement('a');
       link.href = h.image_url;
       link.download = `truzot-headshot-${i + 1}.jpg`;
-      link.target = '_blank';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
