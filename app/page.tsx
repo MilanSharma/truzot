@@ -53,9 +53,10 @@ export default function LandingPage() {
     { name: 'Emily Watson', role: 'Actor', content: 'Finally, professional headshots without the awkward studio session. The AI nailed my likeness.', rating: 5 }
   ];
 
+  
   const faqs = [
     { q: 'How many photos do I need to upload?', a: 'We recommend 10–20 clear selfies with different angles, lighting, and expressions. More variety = better results.' },
-    { q: 'What if I don't like the headshots?', a: 'We offer a 100% satisfaction guarantee. If you're not happy, we'll refund your purchase — no questions asked.' },
+    { q: 'What if I don\'t like the headshots?', a: 'We offer a 100% satisfaction guarantee. If you\'re not happy, we\'ll refund your purchase — no questions asked.' },
     { q: 'How long does it take?', a: 'Training takes ~30 minutes, generating another 15–30 minutes. Most orders are delivered within 60 minutes.' },
     { q: 'Is my data safe?', a: 'Yes. Your photos are encrypted in transit and at rest. We automatically delete everything after 30 days.' }
   ];
