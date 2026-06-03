@@ -28,9 +28,8 @@ export const trainModel = async (imageUrl: string, orderId: string) => {
 };
 
 export const generateHeadshots = async (modelId: string, plan: string) => {
-  const allPrompts = PLAN_PROMPTS[plan] ?? PLAN_PROMPTS.basic;
-  const prompts = allPrompts.slice(startIndex, startIndex + limit);
-
+  const prompts = PLAN_PROMPTS[plan] ?? PLAN_PROMPTS.basic;
+  // Generate one image per prompt
   const results = await Promise.allSettled(
     prompts.map((prompt) =>
       fal.run('fal-ai/flux-lora', {
