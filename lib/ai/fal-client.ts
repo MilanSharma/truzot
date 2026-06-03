@@ -5,7 +5,7 @@ export const trainModel = async (imageUrl: string, userId: string) => {
   const result = await fal.subscribe("fal-ai/flux-lora-fast-training", {
     input: {
       images_data_url: imageUrl,
-      iter_steps: 1000,
+      num_steps: 1000,
       trigger_word: "TOK",
     },
     webhook_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhooks/fal?userId=${userId}`,
