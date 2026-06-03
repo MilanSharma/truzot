@@ -3,6 +3,7 @@ import { useState, useCallback, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import JSZip from 'jszip';
+import { supabase } from '@/lib/supabase/client';
 
 const PLANS = [
   { id: 'basic',     label: 'Basic',     price: '$29',  shots: '40',   time: '60 min' },
@@ -54,17 +55,35 @@ function UploadContent() {
       const zipBlob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
 
       setProgress('Uploading your photos securely…');
-      const formData = new FormData();
-      formData.append('zip', zipBlob, 'selfies.zip');
-      formData.append('email', email);
-      formData.append('plan', plan);
+      const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.zip`;
 
-      const uploadRes = await fetch('/api/upload', { method: 'POST', body: formData });
-      if (!uploadRes.ok) {
-        const err = await uploadRes.json();
-        throw new Error(err.error ?? 'Upload failed');
+      // 1. Get signed upload URL from API
+      const uploadUrlRes = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'get-upload-url', filename }),
+      });
+      if (!uploadUrlRes.ok) throw new Error('Failed to get secure upload channel.');
+      const { token, path } = await uploadUrlRes.json();
+
+      // 2. Upload file directly to Supabase Storage bypassing Vercel limit
+      const { error: uploadError } = await supabase.storage
+        .from('uploads')
+        .uploadToSignedUrl(path, token, zipBlob, { contentType: 'application/zip' });
+
+      if (uploadError) {
+        console.error('Direct upload error:', uploadError);
+        throw new Error('Secure upload failed. Please try again.');
       }
-      const { zipUrl } = await uploadRes.json();
+
+      // 3. Get signed download URL for Fal.ai
+      const downloadUrlRes = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'get-download-url', path }),
+      });
+      if (!downloadUrlRes.ok) throw new Error('Failed to lock secure asset.');
+      const { zipUrl } = await downloadUrlRes.json();
 
       setProgress('Redirecting to checkout…');
       const checkoutRes = await fetch('/api/checkout', {

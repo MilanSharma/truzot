@@ -1,47 +1,49 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/admin';
 
-
-
 export async function POST(req: Request) {
   try {
-    const formData = await req.formData();
-    const file = formData.get('zip') as File;
-    const email = formData.get('email') as string;
-    const plan = formData.get('plan') as string;
+    const { action, filename, path } = await req.json();
 
-    if (!file || !email || !plan) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    if (action === 'get-upload-url') {
+      if (!filename) {
+        return NextResponse.json({ error: 'Missing filename' }, { status: 400 });
+      }
+      
+      const { data, error } = await supabaseAdmin.storage
+        .from('uploads')
+        .createSignedUploadUrl(filename);
+
+      if (error) {
+        console.error('Failed to create signed upload URL:', error);
+        return NextResponse.json({ error: 'Failed to generate upload URL' }, { status: 500 });
+      }
+
+      return NextResponse.json({
+        signedUrl: data.signedUrl,
+        token: data.token,
+        path: data.path,
+      });
     }
 
-    if (file.size > 50 * 1024 * 1024) {
-      return NextResponse.json({ error: 'File too large. Max 50MB.' }, { status: 400 });
+    if (action === 'get-download-url') {
+      if (!path) {
+        return NextResponse.json({ error: 'Missing path' }, { status: 400 });
+      }
+
+      const { data, error } = await supabaseAdmin.storage
+        .from('uploads')
+        .createSignedUrl(path, 7200);
+
+      if (error || !data?.signedUrl) {
+        console.error('Failed to create signed download URL:', error);
+        return NextResponse.json({ error: 'Failed to generate download URL' }, { status: 500 });
+      }
+
+      return NextResponse.json({ zipUrl: data.signedUrl });
     }
 
-    const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.zip`;
-    const bytes = await file.arrayBuffer();
-
-    const { error: uploadError } = await supabaseAdmin.storage
-      .from('uploads')
-      .upload(filename, bytes, { contentType: 'application/zip', upsert: false });
-
-    if (uploadError) {
-      console.error('Upload error:', uploadError);
-      return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
-    }
-
-    const { data: signedUrlData } = await supabaseAdmin.storage
-      .from('uploads')
-      .createSignedUrl(filename, 7200);
-
-    if (!signedUrlData?.signedUrl) {
-      return NextResponse.json({ error: 'Failed to create signed URL' }, { status: 500 });
-    }
-
-    return NextResponse.json({
-      zipUrl: signedUrlData.signedUrl,
-      storagePath: filename,
-    });
+    return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
   } catch (err) {
     console.error('Upload route error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

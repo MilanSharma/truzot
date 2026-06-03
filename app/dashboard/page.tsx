@@ -27,6 +27,33 @@ function DashboardContent() {
   const [status, setStatus] = useState<OrderStatus>('pending');
   const [headshots, setHeadshots] = useState<Headshot[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
+  const [generationProgress, setGenerationProgress] = useState({ current: 0, target: 0 });
+  const [isGeneratingBatch, setIsGeneratingBatch] = useState(false);
+
+  const triggerBatchGeneration = useCallback(async () => {
+    if (!orderId || isGeneratingBatch || status !== 'generating') return;
+    setIsGeneratingBatch(true);
+    try {
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.status) {
+          setStatus(data.status);
+          if (data.count !== undefined) {
+            setGenerationProgress({ current: data.count, target: data.target });
+          }
+        }
+      }
+    } catch (err) {
+      console.error('Batch generation fetch error:', err);
+    } finally {
+      setIsGeneratingBatch(false);
+    }
+  }, [orderId, isGeneratingBatch, status]);
 
   const fetchStatus = useCallback(async () => {
     if (!orderId) return;
@@ -34,6 +61,14 @@ function DashboardContent() {
     if (!res.ok) return;
     const data = await res.json();
     setStatus(data.status);
+
+    if (data.status === 'generating') {
+      const { count } = await supabase
+        .from('headshots')
+        .select('id', { count: 'exact', head: true })
+        .eq('order_id', orderId);
+      setGenerationProgress(prev => ({ current: count ?? 0, target: prev.target || 40 }));
+    }
   }, [orderId]);
 
   const fetchHeadshots = useCallback(async () => {
@@ -51,16 +86,26 @@ function DashboardContent() {
     fetchStatus();
     const interval = setInterval(() => {
       fetchStatus();
-      if (status === 'completed' || status === 'failed') clearInterval(interval);
     }, 15000);
     return () => clearInterval(interval);
-  }, [orderId, fetchStatus, status]);
+  }, [orderId, fetchStatus]);
 
   useEffect(() => {
-    if (status === 'completed') fetchHeadshots();
+    if (status === 'completed' || status === 'failed') {
+      fetchHeadshots();
+    }
   }, [status, fetchHeadshots]);
 
+  useEffect(() => {
+    if (status === 'generating' && !isGeneratingBatch) {
+      triggerBatchGeneration();
+    }
+  }, [status, isGeneratingBatch, triggerBatchGeneration]);
+
   const step = STATUS_STEPS[status];
+  const displayProgress = status === 'generating' && generationProgress.target > 0
+    ? Math.round((generationProgress.current / generationProgress.target) * 100)
+    : step.progress;
 
   const downloadAll = () => {
     headshots.forEach((h, i) => {
@@ -99,18 +144,22 @@ function DashboardContent() {
           </div>
         ) : (
           <>
-            <div style={{ background: status === 'completed' ? '#ede8df' : status === 'failed' ? '#fdf2f2' : '#ede8df', border: `1px solid ${status === 'failed' ? '#fca5a5' : 'rgba(10,10,10,0.1)'}`, borderRadius: '4px', padding: '2rem', marginBottom: '2rem' }}>
+            <div style={{ background: '#ede8df', border: `1px solid ${status === 'failed' ? '#fca5a5' : 'rgba(10,10,10,0.1)'}`, borderRadius: '4px', padding: '2rem', marginBottom: '2rem' }}>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', marginBottom: '1.5rem' }}>
                 <div style={{ fontSize: '2rem', flexShrink: 0 }}>{step.icon}</div>
                 <div>
                   <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.25rem' }}>{step.label}</h2>
-                  <p style={{ fontSize: '0.9rem', color: '#6b6560', fontWeight: 300 }}>{step.desc}</p>
+                  <p style={{ fontSize: '0.9rem', color: '#6b6560', fontWeight: 300 }}>
+                    {status === 'generating' && generationProgress.target > 0
+                      ? `Generating your photos in real-time... (${generationProgress.current} of ${generationProgress.target} completed)`
+                      : step.desc}
+                  </p>
                 </div>
               </div>
               {status !== 'failed' && (
                 <div>
                   <div style={{ height: '4px', background: 'rgba(10,10,10,0.1)', borderRadius: '2px', overflow: 'hidden' }}>
-                    <div style={{ height: '100%', width: `${step.progress}%`, background: status === 'completed' ? '#c9a84c' : '#0a0a0a', borderRadius: '2px', transition: 'width 1s ease' }} />
+                    <div style={{ height: '100%', width: `${displayProgress}%`, background: status === 'completed' ? '#c9a84c' : '#0a0a0a', borderRadius: '2px', transition: 'width 1s ease' }} />
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.5rem', fontSize: '0.75rem', color: '#6b6560' }}>
                     <span>Order placed</span><span>Training</span><span>Generating</span><span>Ready!</span>
@@ -120,7 +169,7 @@ function DashboardContent() {
               {['paid', 'training', 'generating'].includes(status) && (
                 <div style={{ marginTop: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.825rem', color: '#6b6560' }}>
                   <span style={{ display: 'inline-block', animation: 'spin 1s linear infinite' }}>⚙️</span>
-                  Checking progress automatically every 15 seconds…
+                  Preparing configurations dynamically...
                 </div>
               )}
             </div>

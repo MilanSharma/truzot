@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server';
-import { generateHeadshots } from '@/lib/ai/fal-client';
 import { supabaseAdmin } from '@/lib/supabase/admin';
-import { sendHeadshotsReadyEmail } from '@/lib/email';
 
 export const maxDuration = 30;
 
@@ -40,12 +38,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'No model URL' }, { status: 400 });
     }
 
-    const { data: order } = await supabaseAdmin
-      .from('orders')
-      .select('plan, email')
-      .eq('id', orderId)
-      .single();
-
+    // Instantly transition to "generating". The browser dashboard will now poll and process batches.
     await supabaseAdmin
       .from('trainings')
       .update({ status: 'generating', model_id: modelId })
@@ -55,35 +48,6 @@ export async function POST(req: Request) {
       .from('orders')
       .update({ status: 'generating' })
       .eq('id', orderId);
-
-    // Generate headshots
-    const results = await generateHeadshots(modelId, order?.plan ?? 'basic');
-
-    const headshotsToInsert = results.flatMap((res: any) =>
-      (res.images ?? []).map((img: any) => ({
-        order_id: orderId,
-        image_url: img.url,
-        style: 'ai-generated',
-      }))
-    );
-
-    if (headshotsToInsert.length > 0) {
-      await supabaseAdmin.from('headshots').insert(headshotsToInsert);
-    }
-
-    await supabaseAdmin
-      .from('trainings')
-      .update({ status: 'completed' })
-      .eq('order_id', orderId);
-
-    await supabaseAdmin
-      .from('orders')
-      .update({ status: 'completed' })
-      .eq('id', orderId);
-
-    if (order?.email) {
-      await sendHeadshotsReadyEmail(order.email, orderId, headshotsToInsert.length).catch(console.error);
-    }
 
     return NextResponse.json({ ok: true });
   } catch (err) {
