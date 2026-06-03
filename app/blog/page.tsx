@@ -24,33 +24,31 @@ const posts = [
 
 export default function BlogPage() {
   return (
-    <div style={ minHeight: '100vh', background: '#faf7f2', fontFamily: 'DM Sans, sans-serif', color: '#0a0a0a' }>
-      
+    <div style={{ minHeight: '100vh', background: '#faf7f2', fontFamily: 'DM Sans, sans-serif', color: '#0a0a0a' }}>
       <nav style={{ padding: '1.25rem 4rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(10,10,10,0.08)' }}>
         <Link href="/" style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.5rem', fontWeight: 900, color: '#0a0a0a', textDecoration: 'none', letterSpacing: '-0.02em' }}>
           Tru<span style={{ color: '#c9a84c' }}>zot</span>
         </Link>
         <Link href="/" style={{ fontSize: '0.875rem', color: '#6b6560', textDecoration: 'none', fontWeight: 500 }}>← Back to Home</Link>
       </nav>
-    
-      <div style={ maxWidth: '800px', margin: '0 auto', padding: '4rem 2rem' }>
-        <h1 style={ fontFamily: 'Playfair Display, serif', fontSize: '3rem', fontWeight: 700, marginBottom: '0.5rem' }>The Truzot Blog</h1>
-        <p style={ fontSize: '1.1rem', color: '#6b6560', marginBottom: '3rem', fontWeight: 300 }>
+      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '4rem 2rem' }}>
+        <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: '3rem', fontWeight: 700, marginBottom: '0.5rem' }}>The Truzot Blog</h1>
+        <p style={{ fontSize: '1.1rem', color: '#6b6560', marginBottom: '3rem', fontWeight: 300 }}>
           Tips, tricks, and insights on professional branding and AI technology.
         </p>
 
-        <div style={ display: 'flex', flexDirection: 'column', gap: '2rem' }>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           {posts.map((post, i) => (
-            <article key={i} style={ background: '#fff', padding: '2rem', borderRadius: '4px', border: '1px solid rgba(10,10,10,0.08)', transition: 'transform 0.2s', cursor: 'pointer' }
+            <article key={i} style={{ background: '#fff', padding: '2rem', borderRadius: '4px', border: '1px solid rgba(10,10,10,0.08)', transition: 'transform 0.2s', cursor: 'pointer' }}
               onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-4px)'}
               onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-              <div style={ fontSize: '0.8rem', color: '#c9a84c', fontWeight: 600, marginBottom: '0.5rem', letterSpacing: '0.05em', textTransform: 'uppercase' }>
+              <div style={{ fontSize: '0.8rem', color: '#c9a84c', fontWeight: 600, marginBottom: '0.5rem', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
                 {post.date} · {post.readTime}
               </div>
-              <h2 style={ fontFamily: 'Playfair Display, serif', fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.75rem' }>
+              <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.75rem' }}>
                 {post.title}
               </h2>
-              <p style={ color: '#6b6560', lineHeight: 1.6, fontWeight: 300 }>
+              <p style={{ color: '#6b6560', lineHeight: 1.6, fontWeight: 300 }}>
                 {post.excerpt}
               </p>
             </article>
