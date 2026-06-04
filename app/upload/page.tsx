@@ -58,14 +58,9 @@ function UploadContent() {
 
   const handleSubmit = async () => {
     setError('');
-    if (!email || !email.includes('@')) { 
-      setError('Please enter a valid email address.'); 
-      return; 
-    }
-    if (files.length < 1) { 
-      setError('Please upload at least 1 photo.'); 
-      return; 
-    }
+    if (!email || !email.includes('@')) { setError('Please enter a valid email address.'); return; }
+    if (files.length < 1) { setError('Please upload at least 1 photo.'); return; }
+    
     setStage('processing');
     try {
       setProgress('Compressing your photos…');
@@ -76,20 +71,54 @@ function UploadContent() {
       });
       const zipBlob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
       
-      setProgress('Uploading securely…');
-      const formData = new FormData();
-      formData.append('zip', zipBlob, 'selfies.zip');
-      formData.append('email', email);
-      formData.append('plan', plan);
-      
-      const uploadRes = await fetch('/api/upload', { method: 'POST', body: formData });
-      if (!uploadRes.ok) {
-        const err = await uploadRes.json();
-        throw new Error(err.error ?? 'Upload failed');
+      setProgress('Preparing secure upload...');
+      // 1. Get signed upload URL from backend
+      const uploadUrlRes = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'get-upload-url', filename: `selfies_${Date.now()}.zip` })
+      });
+      if (!uploadUrlRes.ok) {
+        const err = await uploadUrlRes.json();
+        throw new Error(err.error ?? 'Failed to get upload URL');
       }
-      const { zipUrl } = await uploadRes.json();
+      const { signedUrl, token, path } = await uploadUrlRes.json();
+
+      setProgress('Uploading your photos securely…');
+      // 2. Upload file directly to Supabase Storage via signed URL
+      const uploadHeaders: Record<string, string> = {
+        'x-upsert': 'true',
+        'content-type': 'application/zip',
+      };
+      if (token) {
+        uploadHeaders['authorization'] = `Bearer ${token}`;
+      }
+      
+      const uploadRes = await fetch(signedUrl, {
+        method: 'PUT',
+        body: zipBlob,
+        headers: uploadHeaders,
+      });
+      
+      if (!uploadRes.ok) {
+        throw new Error('File upload failed. Please try again.');
+      }
+
+      setProgress('Finalizing upload...');
+      // 3. Get the download URL for the checkout session
+      const downloadUrlRes = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'get-download-url', path })
+      });
+      if (!downloadUrlRes.ok) {
+        const err = await downloadUrlRes.json();
+        throw new Error(err.error ?? 'Failed to finalize upload');
+      }
+      const { zipUrl } = await downloadUrlRes.json();
       
       setProgress('Redirecting to secure checkout…');
+      // 4. Create Stripe checkout session
       const checkoutRes = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -100,16 +129,16 @@ function UploadContent() {
         throw new Error(err.error ?? 'Checkout failed');
       }
       const { url } = await checkoutRes.json();
+      
       window.location.href = url;
     } catch (err: any) {
+      console.error('Upload error:', err);
       setError(err.message ?? 'Something went wrong. Please try again.');
-      setStage('details');
+      setStage('upload');
     }
   };
 
-  const selectedPlan = PLANS.find(p => p.id === plan) || PLANS[1];
-
-  return (
+    return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       {/* Header */}
       <nav className="bg-white border-b border-slate-200 sticky top-0 z-50">
