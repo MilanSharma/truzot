@@ -9,7 +9,6 @@ const supabase = createClient(
 export async function POST(req: Request) {
   try {
     const { email, password, name } = await req.json();
-
     if (!email || !password) {
       return NextResponse.json({ error: 'Email and password required' }, { status: 400 });
     }
@@ -27,7 +26,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
-    return NextResponse.json({ user: data.user });
+    return NextResponse.json({ 
+      user: data.user,
+      message: 'Check your email to confirm your account!' 
+    });
   } catch (err) {
     console.error('Signup error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
