@@ -27,6 +27,7 @@ function UploadContent() {
   const [plan, setPlan] = useState(searchParams.get('plan') ?? 'pro');
   const [email, setEmail] = useState('');
   const [stage, setStage] = useState<Stage>('upload');
+  const selectedPlan = PLANS.find(p => p.id === plan) || PLANS[1];
   const [dragOver, setDragOver] = useState(false);
   const [error, setError] = useState('');
   const [progress, setProgress] = useState('');
