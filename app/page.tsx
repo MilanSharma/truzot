@@ -74,7 +74,41 @@ export default function LandingPage() {
       </section>
 
       {/* Cost Comparison Banner */}
-      <section className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-12">
+      
+      {/* Features Section */}
+      <section id="features" className="py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4">Why choose Truzot?</h2>
+            <p className="text-slate-600 max-w-2xl mx-auto">Professional headshots that don't break the bank — or your schedule.</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+              <div className="w-12 h-12 text-blue-600 mb-4">📸</div>
+              <h3 className="text-xl font-bold mb-2">Studio Quality</h3>
+              <p className="text-slate-600">AI-generated headshots that look like they were taken by a professional photographer.</p>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+              <div className="w-12 h-12 text-blue-600 mb-4">⚡</div>
+              <h3 className="text-xl font-bold mb-2">60-Minute Delivery</h3>
+              <p className="text-slate-600">Get your headshots delivered to your inbox in under an hour.</p>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+              <div className="w-12 h-12 text-blue-600 mb-4">🔒</div>
+              <h3 className="text-xl font-bold mb-2">Private & Secure</h3>
+              <p className="text-slate-600">Your photos are encrypted and permanently deleted after 30 days.</p>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+              <div className="w-12 h-12 text-blue-600 mb-4">🎨</div>
+              <h3 className="text-xl font-bold mb-2">10+ Styles</h3>
+              <p className="text-slate-600">Corporate, creative, casual, and more — all with your face.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+<section className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-12">
         <div className="max-w-4xl mx-auto text-center px-6">
           <div className="flex justify-center gap-12 flex-wrap">
             <div>
@@ -92,7 +126,7 @@ export default function LandingPage() {
       </section>
 
       {/* Headshot Categories Section */}
-      <section id="categories" className="py-20 px-6">
+      <section id="headshot-types" className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">Headshots for every profession</h2>
@@ -152,7 +186,39 @@ export default function LandingPage() {
           </div>
           <p className="text-center text-sm text-slate-500 mt-8">💳 All plans include a 100% satisfaction guarantee. Pay once, own forever.</p>
         </div>
+      
+      {/* Testimonials Section */}
+      <section id="testimonials" className="py-20 bg-slate-50 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4">Loved by professionals worldwide</h2>
+            <p className="text-slate-600">Join thousands who've upgraded their professional image.</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+              <div className="flex gap-1 text-yellow-400 mb-4">★★★★★</div>
+              <p className="text-slate-700 mb-4">"Got hired after updating my LinkedIn with these headshots. Best $39 I ever spent."</p>
+              <div className="font-semibold">Sarah Chen</div>
+              <div className="text-sm text-slate-500">Product Manager @ Google</div>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+              <div className="flex gap-1 text-yellow-400 mb-4">★★★★★</div>
+              <p className="text-slate-700 mb-4">"The team plan saved us thousands vs. a photo studio. Highly recommend!"</p>
+              <div className="font-semibold">Marcus Rodriguez</div>
+              <div className="text-sm text-slate-500">Founder @ Startup</div>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+              <div className="flex gap-1 text-yellow-400 mb-4">★★★★★</div>
+              <p className="text-slate-700 mb-4">"Finally, professional headshots without the awkward studio session. The AI nailed my likeness."</p>
+              <div className="font-semibold">Emily Watson</div>
+              <div className="text-sm text-slate-500">Actor</div>
+            </div>
+          </div>
+        </div>
       </section>
+
+
+</section>
 
       {/* CTA Banner */}
       <section className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-16 px-6">
