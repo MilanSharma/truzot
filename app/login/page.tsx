@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase/client';
@@ -10,6 +10,17 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isSignUp, setIsSignUp] = useState(false);
+
+  useEffect(() => {
+    // Handle email confirmation redirect
+    const handleConfirmation = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        router.push('/dashboard');
+      }
+    };
+    handleConfirmation();
+  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

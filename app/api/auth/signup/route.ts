@@ -1,5 +1,10 @@
 import { NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabase/admin';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 export async function POST(req: Request) {
   try {
@@ -9,20 +14,20 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Email and password required' }, { status: 400 });
     }
 
-    // Create user in Supabase Auth
-    const { data: authData, error: signUpError } = await supabaseAdmin.auth.admin.createUser({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      email_confirm: true,
-      user_metadata: { name },
+      options: {
+        data: { name },
+      },
     });
 
-    if (signUpError) {
-      console.error('Signup error:', signUpError);
-      return NextResponse.json({ error: signUpError.message }, { status: 400 });
+    if (error) {
+      console.error('Signup error:', error);
+      return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
-    return NextResponse.json({ user: authData.user });
+    return NextResponse.json({ user: data.user });
   } catch (err) {
     console.error('Signup error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
