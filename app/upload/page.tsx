@@ -22,6 +22,7 @@ function UploadContent() {
   const [dragOver, setDragOver] = useState(false);
   const [error, setError] = useState('');
   const [progress, setProgress] = useState('');
+  const [style, setStyle] = useState('Corporate');
 
   const handleFiles = useCallback((incoming: FileList | null) => {
     if (!incoming) return;
@@ -109,11 +110,45 @@ function UploadContent() {
         <Link href="/" style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.5rem', fontWeight: 900, color: '#0a0a0a', textDecoration: 'none', letterSpacing: '-0.02em' }}>
           Tru<span style={{ color: '#c9a84c' }}>zot</span>
         </Link>
-        <div style={{ fontSize: '0.825rem', color: '#6b6560' }}>🔒 Secure · Private · Encrypted</div>
+        <div style={{ fontSize: '0.825rem', color: '#6b6560' }}>🔒 Secure · Private · Encrypted
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
+        </div>
       </nav>
 
       <div style={{ maxWidth: '720px', margin: '0 auto', padding: '4rem 2rem' }}>
-        <div style={{ marginBottom: '0.5rem', fontSize: '0.75rem', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#c9a84c' }}>Step 1 of 2</div>
+        <div style={{ marginBottom: '0.5rem', fontSize: '0.75rem', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#c9a84c' }}>Step 1 of 2
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
+        </div>
         <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: '2.5rem', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '0.5rem' }}>Upload your selfies</h1>
         <p style={{ fontSize: '1rem', color: '#6b6560', fontWeight: 300, lineHeight: 1.6, marginBottom: '2.5rem' }}>
           Upload 10–20 clear photos of your face. Phone selfies work perfectly. Different angles and lighting give better results.
@@ -131,10 +166,78 @@ function UploadContent() {
           }}
           onClick={() => document.getElementById('file-input')?.click()}
         >
-          <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>📸</div>
-          <div style={{ fontWeight: 500, marginBottom: '0.25rem' }}>Drop photos here or click to browse</div>
-          <div style={{ fontSize: '0.825rem', color: '#6b6560', fontWeight: 300 }}>JPG or PNG · Max 10MB each · Up to 25 photos</div>
+          <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>📸
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
+        </div>
+          <div style={{ fontWeight: 500, marginBottom: '0.25rem' }}>Drop photos here or click to browse
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
+        </div>
+          <div style={{ fontSize: '0.825rem', color: '#6b6560', fontWeight: 300 }}>JPG or PNG · Max 10MB each · Up to 25 photos
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
+        </div>
           <input id="file-input" type="file" multiple accept="image/*" style={{ display: 'none' }} onChange={(e) => handleFiles(e.target.files)} />
+        
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
         </div>
 
         {files.length > 0 && (
@@ -148,17 +251,85 @@ function UploadContent() {
                   border: 'none', borderRadius: '50%', width: '20px', height: '20px',
                   fontSize: '0.7rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}>✕</button>
-              </div>
+              
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
             ))}
           </div>
+        </div>
+        </div>
+            ))}
+          
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
+        </div>
         )}
 
         <div style={{ fontSize: '0.825rem', color: files.length >= 10 ? '#1a6e3a' : '#6b6560', fontWeight: 500, marginBottom: '2rem' }}>
           {files.length === 0 ? 'No photos yet — upload at least 10 for best results' : `${files.length} photo${files.length !== 1 ? 's' : ''} selected ${files.length >= 10 ? '✓ Good to go!' : `— ${10 - files.length} more recommended`}`}
+        
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
         </div>
 
         <div style={{ marginBottom: '2rem' }}>
-          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your plan</div>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your plan
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
+        </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
             {PLANS.map((p) => (
               <button key={p.id} onClick={() => setPlan(p.id)} style={{
@@ -167,12 +338,97 @@ function UploadContent() {
                 color: plan === p.id ? '#f5f0e8' : '#0a0a0a',
                 cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s',
               }}>
-                <div style={{ fontWeight: 600, marginBottom: '2px' }}>{p.label}</div>
-                <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.5rem', fontWeight: 700, marginBottom: '2px' }}>{p.price}</div>
-                <div style={{ fontSize: '0.75rem', opacity: 0.6 }}>{p.shots} shots · {p.time}</div>
-              </button>
+                <div style={{ fontWeight: 600, marginBottom: '2px' }}>{p.label}
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
             ))}
           </div>
+        </div>
+        </div>
+                <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.5rem', fontWeight: 700, marginBottom: '2px' }}>{p.price}
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
+        </div>
+                <div style={{ fontSize: '0.75rem', opacity: 0.6 }}>{p.shots} shots · {p.time}
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
+        </div>
+              </button>
+            ))}
+          
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
+        </div>
+        
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
         </div>
 
         <div style={{ marginBottom: '1.5rem' }}>
@@ -187,20 +443,122 @@ function UploadContent() {
               outline: 'none', fontFamily: 'DM Sans, sans-serif',
             }}
           />
+        
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
         </div>
 
         {error && (
           <div style={{ background: '#fdf2f2', border: '1px solid #fca5a5', borderRadius: '2px', padding: '0.875rem 1rem', marginBottom: '1.5rem', fontSize: '0.875rem', color: '#b91c1c' }}>
             {error}
+          
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
           </div>
+        </div>
+        </div>
         )}
 
         {stage === 'processing' ? (
           <div style={{ padding: '2rem', textAlign: 'center', background: '#ede8df', borderRadius: '4px' }}>
-            <div style={{ fontSize: '1.5rem', marginBottom: '1rem', animation: 'spin 1s linear infinite', display: 'inline-block' }}>⚙️</div>
-            <div style={{ fontWeight: 500, marginBottom: '0.25rem' }}>{progress}</div>
-            <div style={{ fontSize: '0.825rem', color: '#6b6560' }}>Please don't close this tab</div>
+            <div style={{ fontSize: '1.5rem', marginBottom: '1rem', animation: 'spin 1s linear infinite', display: 'inline-block' }}>⚙️
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
           </div>
+        </div>
+        </div>
+            <div style={{ fontWeight: 500, marginBottom: '0.25rem' }}>{progress}
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
+        </div>
+            <div style={{ fontSize: '0.825rem', color: '#6b6560' }}>Please don't close this tab
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
+        </div>
+          
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
+        </div>
         ) : (
           <button onClick={handleSubmit} style={{
             width: '100%', padding: '1rem', background: '#0a0a0a',
@@ -214,12 +572,46 @@ function UploadContent() {
         <p style={{ fontSize: '0.775rem', color: '#6b6560', textAlign: 'center', marginTop: '1.25rem', lineHeight: 1.6 }}>
           🔒 Your photos are encrypted in transit and at rest. Permanently deleted after 30 days. We never share or sell your data.
         </p>
-      </div>
+      
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
+        </div>
 
       <style>{`
         @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
       `}</style>
-    </div>
+    
+        {/* Style Selection */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontWeight: 500, marginBottom: '1rem' }}>Choose your style preferences (optional)</div>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Corporate','Creative','Casual','Executive','Actor'].map(s => (
+              <button key={s} onClick={() => setStyle(s)} style={{
+                padding: '0.5rem 1rem',
+                border: `1px solid ${style === s ? '#0a0a0a' : 'rgba(10,10,10,0.2)'}`,
+                background: style === s ? '#0a0a0a' : 'transparent',
+                color: style === s ? '#fff' : '#0a0a0a',
+                borderRadius: '20px',
+                cursor: 'pointer'
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
+        </div>
   );
 }
 

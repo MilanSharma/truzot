@@ -8,7 +8,6 @@ export const PLANS = {
     resolution: 'HD (1080p)',
     styles: '10+',
     backgrounds: '10+',
-    editCredits: 4,
     popular: false,
     slug: 'basic'
   },
@@ -21,7 +20,6 @@ export const PLANS = {
     resolution: 'Premium 4K',
     styles: '30+',
     backgrounds: '30+',
-    editCredits: 10,
     popular: true,
     slug: 'pro'
   },
@@ -34,7 +32,6 @@ export const PLANS = {
     resolution: 'Ultra 8K',
     styles: 'All styles',
     backgrounds: '50+',
-    editCredits: 20,
     popular: false,
     slug: 'executive'
   }
