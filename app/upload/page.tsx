@@ -89,7 +89,7 @@ function UploadContent() {
       const checkoutRes = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan, email, zipUrl }),
+        body: JSON.stringify({ plan, email, zipUrl, userId: user?.id }),
       });
       if (!checkoutRes.ok) {
         const err = await checkoutRes.json();

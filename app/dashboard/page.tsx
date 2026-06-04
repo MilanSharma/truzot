@@ -1,78 +1,63 @@
 'use client';
 import { useEffect, useState, useCallback, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase/client';
+import { HEADSHOT_CATEGORIES, PLANS } from '@/lib/plants';
 
 type OrderStatus = 'pending' | 'paid' | 'training' | 'generating' | 'completed' | 'failed';
+type PlanType = 'basic' | 'pro' | 'executive';
 
 interface Headshot {
   id: string;
   image_url: string;
   style?: string;
+  category?: string;
 }
-
-const STATUS_STEPS: Record<OrderStatus, { label: string; icon: string; desc: string; progress: number }> = {
-  pending:    { label: 'Order received',        icon: '📋', desc: 'Your order has been placed.',                              progress: 10 },
-  paid:       { label: 'Payment confirmed',     icon: '💳', desc: 'Payment confirmed. Starting AI training...',             progress: 20 },
-  training:   { label: 'Training your AI model',icon: '🧠', desc: 'Our AI is learning your face. This takes ~30 minutes.',   progress: 45 },
-  generating: { label: 'Generating headshots',  icon: '✨', desc: 'Almost there! Generating your photos now.',              progress: 80 },
-  completed:  { label: 'Your headshots are ready!', icon: '🎉', desc: 'Download your professional headshots below.',        progress: 100 },
-  failed:     { label: 'Something went wrong',  icon: '⚠️', desc: 'We encountered an error. Please contact support.',       progress: 0 },
-};
 
 function DashboardContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const orderId = searchParams.get('order');
   const [status, setStatus] = useState<OrderStatus>('pending');
   const [headshots, setHeadshots] = useState<Headshot[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
-  const [generationProgress, setGenerationProgress] = useState({ current: 0, target: 0 });
+  const [user, setUser] = useState<any>(null);
+  const [orders, setOrders] = useState<any[]>([]);
+  const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [downloading, setDownloading] = useState(false);
 
-  const triggerBatchGeneration = useCallback(async () => {
-    if (!orderId || status !== 'generating') return;
-    
-    try {
-      const res = await fetch('/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.status) {
-          setStatus(data.status);
-          if (data.count !== undefined) {
-            setGenerationProgress({ current: data.count, target: data.target });
-          }
-          
-          // If still generating, safely schedule the next batch in 2 seconds
-          if (data.status === 'generating') {
-            setTimeout(() => {
-              triggerBatchGeneration();
-            }, 2000);
-          }
-        }
+  // Check authentication
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session && !orderId) {
+        router.push('/login');
+      } else if (session) {
+        setUser(session.user);
+        fetchUserOrders(session.user.id);
       }
-    } catch (err) {
-      console.error('Batch generation fetch error:', err);
-    }
-  }, [orderId, status]);
+    });
 
-  const fetchStatus = useCallback(async () => {
-    if (!orderId) return;
-    const res = await fetch(`/api/order-status?orderId=${orderId}`);
-    if (!res.ok) return;
-    const data = await res.json();
-    setStatus(data.status);
-    if (data.status === 'generating') {
-      const { count } = await supabase
-        .from('headshots')
-        .select('id', { count: 'exact', head: true })
-        .eq('order_id', orderId);
-      setGenerationProgress(prev => ({ current: count ?? 0, target: prev.target || 40 }));
-    }
-  }, [orderId]);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session && !orderId) {
+        router.push('/login');
+      } else if (session) {
+        setUser(session.user);
+        fetchUserOrders(session.user.id);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [router, orderId]);
+
+  const fetchUserOrders = async (userId: string) => {
+    const { data } = await supabase
+      .from('orders')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
+    if (data) setOrders(data);
+  };
 
   const fetchHeadshots = useCallback(async () => {
     if (!orderId) return;
@@ -85,158 +70,192 @@ function DashboardContent() {
   }, [orderId]);
 
   useEffect(() => {
-    if (!orderId) return;
-    fetchStatus();
-    const interval = setInterval(() => {
-      fetchStatus();
-    }, 15000);
-    return () => clearInterval(interval);
-  }, [orderId, fetchStatus]);
+    if (orderId) fetchHeadshots();
+  }, [orderId, fetchHeadshots]);
 
-  useEffect(() => {
-    if (status === 'completed' || status === 'failed') {
-      fetchHeadshots();
+  const downloadAll = async () => {
+    setDownloading(true);
+    try {
+      window.location.href = `/api/download?orderId=${orderId}`;
+    } catch (err) {
+      console.error('Download failed:', err);
+    } finally {
+      setDownloading(false);
     }
-  }, [status, fetchHeadshots]);
-
-  useEffect(() => {
-    if (status === 'generating') {
-      triggerBatchGeneration();
-    }
-  }, [status, triggerBatchGeneration]);
-
-  const step = STATUS_STEPS[status];
-  const displayProgress = status === 'generating' && generationProgress.target > 0
-    ? Math.round((generationProgress.current / generationProgress.target) * 100)
-    : step.progress;
-
-  const downloadAll = () => {
-    headshots.forEach((h, i) => {
-      const link = document.createElement('a');
-      link.href = h.image_url;
-      link.download = `truzot-headshot-${i + 1}.jpg`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    });
   };
+
+  const downloadSingle = async (url: string, index: number) => {
+    window.location.href = `/api/download?imageUrl=${encodeURIComponent(url)}`;
+  };
+
+  const filteredHeadshots = activeCategory === 'all' 
+    ? headshots 
+    : headshots.filter(h => h.category === activeCategory);
+
+  const plan = orderId && orders.find(o => o.id === orderId)?.plan;
 
   return (
     <div style={{ minHeight: '100vh', background: '#faf7f2', fontFamily: 'DM Sans, sans-serif', color: '#0a0a0a' }}>
+      {/* Navigation with user menu */}
       <nav style={{ padding: '1.25rem 4rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(10,10,10,0.08)' }}>
-        <Link href="/" style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.5rem', fontWeight: 900, color: '#0a0a0a', textDecoration: 'none', letterSpacing: '-0.02em' }}>
+        <Link href="/" style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.5rem', fontWeight: 900, color: '#0a0a0a', textDecoration: 'none' }}>
           Tru<span style={{ color: '#c9a84c' }}>zot</span>
         </Link>
-        {status === 'completed' && (
-          <button onClick={downloadAll} style={{ background: '#0a0a0a', color: '#f5f0e8', padding: '0.6rem 1.4rem', borderRadius: '2px', border: 'none', fontSize: '0.875rem', fontWeight: 500, cursor: 'pointer' }}>
-            ↓ Download all ({headshots.length})
-          </button>
-        )}
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          {user && (
+            <>
+              <span style={{ fontSize: '0.875rem', color: '#6b6560' }}>{user.email}</span>
+              <button 
+                onClick={() => supabase.auth.signOut().then(() => router.push('/'))}
+                style={{ background: 'transparent', border: '1px solid rgba(10,10,10,0.2)', padding: '0.5rem 1rem', borderRadius: '4px', cursor: 'pointer' }}
+              >
+                Sign Out
+              </button>
+            </>
+          )}
+          {status === 'completed' && (
+            <button 
+              onClick={downloadAll} 
+              disabled={downloading}
+              style={{ background: '#0a0a0a', color: '#f5f0e8', padding: '0.6rem 1.4rem', borderRadius: '2px', border: 'none', cursor: 'pointer' }}
+            >
+              {downloading ? 'Preparing...' : `↓ Download All (${headshots.length})`}
+            </button>
+          )}
+        </div>
       </nav>
 
-      <div style={{ maxWidth: '860px', margin: '0 auto', padding: '4rem 2rem' }}>
-        {!orderId ? (
-          <div style={{ textAlign: 'center', padding: '4rem' }}>
-            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🤔</div>
-            <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: '2rem', fontWeight: 700, marginBottom: '1rem' }}>No order found</h1>
-            <p style={{ color: '#6b6560', marginBottom: '2rem' }}>Please check your email for your order confirmation link.</p>
-            <Link href="/upload" style={{ background: '#0a0a0a', color: '#f5f0e8', padding: '0.875rem 2rem', borderRadius: '2px', textDecoration: 'none', fontSize: '0.875rem', fontWeight: 500 }}>
-              Create a new order →
-            </Link>
-          </div>
-        ) : (
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '4rem 2rem' }}>
+        {!orderId && orders.length > 0 && (
           <>
-            <div style={{ background: '#ede8df', border: `1px solid ${status === 'failed' ? '#fca5a5' : 'rgba(10,10,10,0.1)'}`, borderRadius: '4px', padding: '2rem', marginBottom: '2rem' }}>
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', marginBottom: '1.5rem' }}>
-                <div style={{ fontSize: '2rem', flexShrink: 0 }}>{step.icon}</div>
-                <div>
-                  <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.25rem' }}>{step.label}</h2>
-                  <p style={{ fontSize: '0.9rem', color: '#6b6560', fontWeight: 300 }}>
-                    {status === 'generating' && generationProgress.target > 0
-                      ? `Generating your photos in real-time... (${generationProgress.current} of ${generationProgress.target} completed)`
-                      : step.desc}
-                  </p>
+            <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: '2rem', marginBottom: '2rem' }}>My Orders</h1>
+            <div style={{ display: 'grid', gap: '1rem', marginBottom: '3rem' }}>
+              {orders.map(order => (
+                <Link 
+                  key={order.id} 
+                  href={`/dashboard?order=${order.id}`}
+                  style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px', textDecoration: 'none', color: '#0a0a0a', border: '1px solid #e0e0e0' }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                      <strong>{PLANS[order.plan as PlanType]?.name || order.plan}</strong>
+                      <div style={{ fontSize: '0.875rem', color: '#6b6560', marginTop: '0.25rem' }}>Ordered: {new Date(order.created_at).toLocaleDateString()}</div>
+                    </div>
+                    <div style={{ 
+                      padding: '0.25rem 0.75rem', 
+                      borderRadius: '20px', 
+                      background: order.status === 'completed' ? '#10b981' : '#f59e0b',
+                      color: '#fff',
+                      fontSize: '0.75rem'
+                    }}>
+                      {order.status}
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </>
+        )}
+
+        {orderId ? (
+          <>
+            {/* Headshot Categories Filter */}
+            {headshots.length > 0 && (
+              <div style={{ marginBottom: '2rem' }}>
+                <h3 style={{ marginBottom: '1rem' }}>Filter by use case:</h3>
+                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                  <button 
+                    onClick={() => setActiveCategory('all')}
+                    style={{ 
+                      padding: '0.5rem 1rem', 
+                      borderRadius: '20px', 
+                      border: '1px solid rgba(10,10,10,0.2)',
+                      background: activeCategory === 'all' ? '#0a0a0a' : 'transparent',
+                      color: activeCategory === 'all' ? '#fff' : '#0a0a0a',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    All ({headshots.length})
+                  </button>
+                  {HEADSHOT_CATEGORIES.map(cat => (
+                    <button
+                      key={cat.id}
+                      onClick={() => setActiveCategory(cat.id)}
+                      style={{ 
+                        padding: '0.5rem 1rem', 
+                        borderRadius: '20px', 
+                        border: '1px solid rgba(10,10,10,0.2)',
+                        background: activeCategory === cat.id ? '#0a0a0a' : 'transparent',
+                        color: activeCategory === cat.id ? '#fff' : '#0a0a0a',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {cat.icon} {cat.name}
+                    </button>
+                  ))}
                 </div>
               </div>
-              {status !== 'failed' && (
-                <div>
-                  <div style={{ height: '4px', background: 'rgba(10,10,10,0.1)', borderRadius: '2px', overflow: 'hidden' }}>
-                    <div style={{ height: '100%', width: `${displayProgress}%`, background: status === 'completed' ? '#c9a84c' : '#0a0a0a', borderRadius: '2px', transition: 'width 1s ease' }} />
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.5rem', fontSize: '0.75rem', color: '#6b6560' }}>
-                    <span>Order placed</span><span>Training</span><span>Generating</span><span>Ready!</span>
-                  </div>
-                </div>
-              )}
-              {['paid', 'training', 'generating'].includes(status) && (
-                <div style={{ marginTop: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.825rem', color: '#6b6560' }}>
-                  <span style={{ display: 'inline-block', animation: 'spin 1s linear infinite' }}>⚙️</span>
-                  Preparing configurations dynamically...
-                </div>
-              )}
-            </div>
+            )}
 
-            {headshots.length > 0 && (
+            {/* Headshots Grid with Download Buttons */}
+            {filteredHeadshots.length > 0 && (
               <>
                 <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.5rem', fontWeight: 700 }}>Your {headshots.length} headshots</h3>
-                  <button onClick={downloadAll} style={{ background: '#0a0a0a', color: '#f5f0e8', padding: '0.6rem 1.25rem', borderRadius: '2px', border: 'none', fontSize: '0.825rem', fontWeight: 500, cursor: 'pointer' }}>
-                    ↓ Download all
-                  </button>
+                  <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.5rem', fontWeight: 700 }}>
+                    Your {filteredHeadshots.length} headshots
+                    {activeCategory !== 'all' && ` for ${activeCategory}`}
+                  </h3>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '8px' }}>
-                  {headshots.map((h) => (
-                    <div key={h.id} onClick={() => setSelected(h.image_url)} style={{ aspectRatio: '3/4', borderRadius: '4px', overflow: 'hidden', cursor: 'pointer', position: 'relative', background: '#d4c9b8' }}>
-                      <img src={h.image_url} alt="AI headshot" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.2s' }}
-                        onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.04)')}
-                        onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
+                  {filteredHeadshots.map((h, idx) => (
+                    <div key={h.id} style={{ position: 'relative', cursor: 'pointer' }}>
+                      <img 
+                        src={h.image_url} 
+                        alt="AI headshot" 
+                        style={{ width: '100%', aspectRatio: '3/4', objectFit: 'cover', borderRadius: '8px' }}
+                        onClick={() => setSelected(h.image_url)}
                       />
-                      <a href={h.image_url} download target="_blank"
-                        onClick={(e) => e.stopPropagation()}
-                        style={{ position: 'absolute', bottom: '8px', right: '8px', background: 'rgba(10,10,10,0.75)', color: '#fff', padding: '4px 8px', borderRadius: '2px', fontSize: '0.7rem', textDecoration: 'none' }}>
-                        ↓
-                      </a>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); downloadSingle(h.image_url, idx); }}
+                        style={{
+                          position: 'absolute',
+                          bottom: '8px',
+                          right: '8px',
+                          background: 'rgba(0,0,0,0.7)',
+                          color: '#fff',
+                          border: 'none',
+                          borderRadius: '4px',
+                          padding: '4px 8px',
+                          cursor: 'pointer',
+                          fontSize: '12px'
+                        }}
+                      >
+                        ↓ Download
+                      </button>
                     </div>
                   ))}
                 </div>
-                <p style={{ marginTop: '1.5rem', fontSize: '0.8rem', color: '#6b6560', textAlign: 'center', fontWeight: 300 }}>
-                  💡 Your photos will be available for download for 30 days, then permanently deleted from our servers.
-                </p>
               </>
             )}
-
-            {status === 'completed' && (
-              <div style={{ marginTop: '2rem', background: '#0a0a0a', color: '#f5f0e8', borderRadius: '4px', padding: '1.75rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1.5rem', flexWrap: 'wrap' }}>
-                <div>
-                  <div style={{ fontWeight: 500, marginBottom: '0.25rem' }}>Love your headshots? Tell people.</div>
-                  <div style={{ fontSize: '0.825rem', opacity: 0.6, fontWeight: 300 }}>Share on LinkedIn or TikTok — your followers will ask where you got them.</div>
-                </div>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <a href={`https://www.linkedin.com/shareArticle?mini=true&url=https://truzot.com&title=Got%20my%20AI%20headshots%20on%20Truzot!`} target="_blank" rel="noreferrer"
-                    style={{ background: '#0077b5', color: '#fff', padding: '0.6rem 1.25rem', borderRadius: '2px', fontSize: '0.825rem', textDecoration: 'none', fontWeight: 500 }}>
-                    Share on LinkedIn
-                  </a>
-                  <a href="https://truzot.com" target="_blank" rel="noreferrer"
-                    style={{ background: 'rgba(255,255,255,0.1)', color: '#f5f0e8', padding: '0.6rem 1.25rem', borderRadius: '2px', fontSize: '0.825rem', textDecoration: 'none', border: '1px solid rgba(255,255,255,0.15)' }}>
-                    truzot.com
-                  </a>
-                </div>
-              </div>
-            )}
           </>
+        ) : (
+          <div style={{ textAlign: 'center', padding: '4rem' }}>
+            <h2>No order selected</h2>
+            <p style={{ color: '#6b6560', marginTop: '1rem' }}>Select an order from the list above or create a new one.</p>
+            <Link href="/upload" style={{ display: 'inline-block', marginTop: '2rem', background: '#0a0a0a', color: '#fff', padding: '0.75rem 2rem', borderRadius: '4px', textDecoration: 'none' }}>
+              Create New Headshots →
+            </Link>
+          </div>
         )}
       </div>
 
+      {/* Lightbox */}
       {selected && (
-        <div onClick={() => setSelected(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, cursor: 'pointer' }}>
-          <img src={selected} alt="Headshot" style={{ maxHeight: '90vh', maxWidth: '90vw', objectFit: 'contain', borderRadius: '4px' }} />
-          <button onClick={() => setSelected(null)} style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', background: 'rgba(255,255,255,0.1)', color: '#fff', border: 'none', borderRadius: '50%', width: '40px', height: '40px', fontSize: '1rem', cursor: 'pointer' }}>✕</button>
+        <div onClick={() => setSelected(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+          <img src={selected} alt="Headshot" style={{ maxHeight: '90vh', maxWidth: '90vw', objectFit: 'contain' }} />
+          <button onClick={() => setSelected(null)} style={{ position: 'absolute', top: '1rem', right: '1rem', background: 'rgba(255,255,255,0.2)', color: '#fff', border: 'none', borderRadius: '50%', width: '40px', height: '40px', fontSize: '1.5rem', cursor: 'pointer' }}>✕</button>
         </div>
       )}
-
-      <style>{`
-        @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
-      `}</style>
     </div>
   );
 }
