@@ -1,11 +1,25 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase/client';
 import { CheckCircle, AlertCircle, Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 
+// Wrapper component with Suspense boundary (Required by Next.js for useSearchParams)
 export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50">
+        <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+// Actual form logic
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
@@ -15,16 +29,12 @@ export default function LoginPage() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [emailVerified, setEmailVerified] = useState(false);
 
   useEffect(() => {
-    // Check for email confirmation
     const checkEmailConfirmation = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       
-      // Check if user just confirmed email
       if (searchParams.get('confirmed') === 'true' || session) {
-        setEmailVerified(true);
         setSuccess('Email confirmed successfully! You can now sign in.');
         
         if (session) {
@@ -57,7 +67,7 @@ export default function LoginPage() {
         if (error) {
           setError(error.message);
         } else {
-          setSuccess('Check your email to confirm your account! We\'ve sent you a confirmation link.');
+          setSuccess("Check your email to confirm your account! We've sent you a confirmation link.");
           setIsSignUp(false);
         }
       } else {
@@ -85,7 +95,6 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Navigation */}
       <nav className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <Link href="/" className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 transition">
@@ -97,7 +106,6 @@ export default function LoginPage() {
 
       <div className="min-h-[calc(100vh-73px)] flex items-center justify-center px-6 py-12">
         <div className="max-w-md w-full">
-          {/* Logo and Header */}
           <div className="text-center mb-8">
             <Link href="/" className="inline-block mb-6">
               <div className="text-3xl font-bold tracking-tighter bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
@@ -114,7 +122,6 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* Success Message */}
           {success && (
             <div className="mb-6 bg-green-50 border border-green-200 rounded-xl p-4 flex items-start gap-3">
               <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
@@ -122,7 +129,6 @@ export default function LoginPage() {
             </div>
           )}
 
-          {/* Error Message */}
           {error && (
             <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
@@ -130,14 +136,10 @@ export default function LoginPage() {
             </div>
           )}
 
-          {/* Form */}
           <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
             <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Email Field */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Email address
-                </label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Email address</label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
@@ -151,11 +153,8 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              {/* Password Field */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Password
-                </label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Password</label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
@@ -176,13 +175,10 @@ export default function LoginPage() {
                   </button>
                 </div>
                 {isSignUp && (
-                  <p className="mt-2 text-xs text-slate-500">
-                    Must be at least 6 characters
-                  </p>
+                  <p className="mt-2 text-xs text-slate-500">Must be at least 6 characters</p>
                 )}
               </div>
 
-              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={loading}
@@ -194,7 +190,6 @@ export default function LoginPage() {
               </button>
             </form>
 
-            {/* Divider */}
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-slate-200"></div>
@@ -204,7 +199,6 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Toggle Sign In/Sign Up */}
             <button
               onClick={() => {
                 setIsSignUp(!isSignUp);
@@ -219,7 +213,6 @@ export default function LoginPage() {
             </button>
           </div>
 
-          {/* Trust Badges */}
           <div className="mt-8 grid grid-cols-3 gap-4 text-center">
             <div>
               <div className="text-2xl mb-1">🔒</div>
@@ -235,17 +228,12 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Footer Links */}
           <div className="mt-8 text-center text-sm text-slate-600">
             <p>
               By continuing, you agree to our{' '}
-              <Link href="/terms" className="text-blue-600 hover:underline">
-                Terms
-              </Link>
+              <Link href="/terms" className="text-blue-600 hover:underline">Terms</Link>
               {' '}and{' '}
-              <Link href="/privacy" className="text-blue-600 hover:underline">
-                Privacy Policy
-              </Link>
+              <Link href="/privacy" className="text-blue-600 hover:underline">Privacy Policy</Link>
             </p>
           </div>
         </div>
