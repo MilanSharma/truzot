@@ -107,7 +107,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-
 <section className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-12">
         <div className="max-w-4xl mx-auto text-center px-6">
           <div className="flex justify-center gap-12 flex-wrap">
@@ -216,7 +215,6 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
 
 </section>
 
