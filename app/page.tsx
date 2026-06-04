@@ -22,7 +22,7 @@ export default function LandingPage() {
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium">
             <a href="#features" className="hover:text-blue-600 transition">Features</a>
-            <a href="#categories" className="hover:text-blue-600 transition">Headshot Types</a>
+            <a href="#headshot-types" className="hover:text-blue-600 transition">Headshot Types</a>
             <a href="#pricing" className="hover:text-blue-600 transition">Pricing</a>
             <a href="#testimonials" className="hover:text-blue-600 transition">Testimonials</a>
             <Link href="/login" className="text-slate-600 hover:text-blue-600 transition">Sign In</Link>
@@ -37,7 +37,7 @@ export default function LandingPage() {
         {mobileMenuOpen && (
           <div className="md:hidden bg-white border-b border-slate-100 py-4 px-6 flex flex-col gap-4">
             <a href="#features" onClick={() => setMobileMenuOpen(false)}>Features</a>
-            <a href="#categories" onClick={() => setMobileMenuOpen(false)}>Headshot Types</a>
+            <a href="#headshot-types" onClick={() => setMobileMenuOpen(false)}>Headshot Types</a>
             <a href="#pricing" onClick={() => setMobileMenuOpen(false)}>Pricing</a>
             <Link href="/login" onClick={() => setMobileMenuOpen(false)}>Sign In</Link>
             <Link href="/upload" onClick={() => setMobileMenuOpen(false)} className="bg-slate-900 text-white text-center px-5 py-2 rounded-full text-sm font-semibold">

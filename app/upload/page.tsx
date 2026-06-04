@@ -33,7 +33,7 @@ function UploadContent() {
     const valid = Array.from(incoming).filter((f) => f.type.startsWith('image/') && f.size < 10 * 1024 * 1024);
     setFiles((prev) => {
       const combined = [...prev, ...valid];
-      return combined.slice(0, 25);
+      return combined.slice(0, 10);
     });
   }, []);
 
@@ -47,7 +47,7 @@ function UploadContent() {
   const handleSubmit = async () => {
     setError('');
     if (!email || !email.includes('@')) { setError('Please enter a valid email address.'); return; }
-    if (files.length < 5) { setError('Please upload at least 5 photos.'); return; }
+    if (files.length < 2) { setError('Please upload at least 2 photos.'); return; }
 
     setStage('processing');
     try {
@@ -121,7 +121,7 @@ function UploadContent() {
         >
           <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>📸</div>
           <div style={{ fontWeight: 500, marginBottom: '0.25rem' }}>Drop photos here or click to browse</div>
-          <div style={{ fontSize: '0.825rem', color: '#6b6560', fontWeight: 300 }}>JPG or PNG · Max 10MB each · Up to 25 photos</div>
+          <div style={{ fontSize: '0.825rem', color: '#6b6560', fontWeight: 300 }}>JPG or PNG · Max 10MB each · Up to 10 photos</div>
           <input id="file-input" type="file" multiple accept="image/*" style={{ display: 'none' }} onChange={(e) => handleFiles(e.target.files)} />
         </div>
 
