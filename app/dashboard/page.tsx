@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase/client';
-import { HEADSHOT_CATEGORIES, PLANS } from '@/lib/plants';
+import { HEADSHOT_CATEGORIES, PLANS } from '@/lib/plans';
 
 type OrderStatus = 'pending' | 'paid' | 'training' | 'generating' | 'completed' | 'failed';
 type PlanType = 'basic' | 'pro' | 'executive';
