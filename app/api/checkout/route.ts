@@ -3,8 +3,15 @@ import Stripe from 'stripe';
 import { supabaseAdmin } from '@/lib/supabase/admin';
 
 export async function POST(req: Request) {
-  // Initialize Stripe INSIDE the function
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' } as any);
+  // Lazy-load Stripe to avoid build-time errors
+function getStripe() {
+  if (!process.env.STRIPE_SECRET_KEY) {
+    throw new Error('STRIPE_SECRET_KEY is not configured');
+  }
+  return new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: '2024-06-20'
+  });
+}
   
   try {
     const { plan, email, zipUrl, userId } = await req.json();
@@ -41,7 +48,7 @@ export async function POST(req: Request) {
     const url = new URL(req.url);
     const baseUrl = `${url.protocol}//${url.host}`;
 
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'payment',
       customer_email: email,

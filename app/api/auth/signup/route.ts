@@ -3,8 +3,13 @@ import { supabaseAdmin } from '@/lib/supabase/admin';
 import { Resend } from 'resend';
 
 export async function POST(req: Request) {
-  // Initialize Resend INSIDE the function
-  const resend = new Resend(process.env.RESEND_API_KEY);
+  // Lazy-load Resend to avoid build-time errors
+function getResend() {
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error('RESEND_API_KEY is not configured');
+  }
+  return new Resend(process.env.RESEND_API_KEY);
+}
   
   try {
     const { email, password } = await req.json();
@@ -29,7 +34,7 @@ export async function POST(req: Request) {
     
     const actionLink = data.properties.action_link;
     
-    await resend.emails.send({
+    await getResend().emails.send({
       from: 'Truzot <hello@truzot.com>',
       to: email,
       subject: 'Confirm your Truzot Account ✨',
