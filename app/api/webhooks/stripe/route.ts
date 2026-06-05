@@ -4,13 +4,14 @@ import { trainModel } from '@/lib/ai/fal-client';
 import { supabaseAdmin } from '@/lib/supabase/admin';
 import { sendOrderConfirmationEmail } from '@/lib/email';
 
-
 export async function POST(req: Request) {
+  // Initialize Stripe INSIDE the function so it doesn't crash during build when env vars are missing
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' });
+  
   const body = await req.text();
   const signature = req.headers.get('Stripe-Signature')!;
-
   let event: Stripe.Event;
+  
   try {
     event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!);
   } catch (err) {
@@ -21,13 +22,11 @@ export async function POST(req: Request) {
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session;
     const { orderId, plan, email } = session.metadata ?? {};
-
     if (!orderId) {
       console.error('Missing metadata in session:', session.id);
       return NextResponse.json({ error: 'Missing metadata' }, { status: 400 });
     }
 
-    // Retrieve order to fetch the database stored zip_url and current status
     const { data: order, error: fetchError } = await supabaseAdmin
       .from('orders')
       .select('zip_url, status')
@@ -39,15 +38,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Order not found' }, { status: 400 });
     }
 
-    // Idempotency: Avoid starting multiple parallel training calls if Stripe retries the webhook
+    // Idempotency check
     if (['training', 'generating', 'completed'].includes(order.status)) {
       console.log(`Order ${orderId} is already in state: ${order.status}. Skipping duplicate kickoff.`);
       return NextResponse.json({ received: true });
     }
 
     let freshZipUrl = order.zip_url;
-
-    // Refresh zip_url if it is an expired signed URL (longer than 2 hours)
     if (freshZipUrl.includes('/object/sign/')) {
       try {
         const urlObj = new URL(freshZipUrl);
@@ -67,18 +64,15 @@ export async function POST(req: Request) {
       }
     }
 
-    // Mark order as paid & training
     await supabaseAdmin
       .from('orders')
       .update({ status: 'training', stripe_payment_intent: session.payment_intent as string })
       .eq('id', orderId);
 
-    // Create training row safely
     await supabaseAdmin
       .from('trainings')
       .upsert({ order_id: orderId, status: 'training' }, { onConflict: 'order_id' });
 
-    // Kick off fal.ai training
     try {
       await trainModel(freshZipUrl, orderId);
     } catch (err) {
@@ -90,12 +84,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Training failed to start' }, { status: 500 });
     }
 
-    // Send confirmation email
     if (email) {
       const planAmounts: Record<string, number> = { basic: 2900, pro: 3900, executive: 5900 };
       await sendOrderConfirmationEmail(email, plan, planAmounts[plan] ?? 2900).catch(console.error);
     }
   }
-
   return NextResponse.json({ received: true });
 }

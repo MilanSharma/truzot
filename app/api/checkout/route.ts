@@ -2,26 +2,24 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { supabaseAdmin } from '@/lib/supabase/admin';
 
-
-const PLANS: Record<string, { priceId: string; amount: number; label: string; shots: number }> = {
-  basic:     { priceId: process.env.STRIPE_PRICE_BASIC!,     amount: 2900,  label: 'Basic — 40 Headshots',      shots: 40 },
-  pro:       { priceId: process.env.STRIPE_PRICE_PRO!,       amount: 3900,  label: 'Pro — 100 Headshots',       shots: 100 },
-  executive: { priceId: process.env.STRIPE_PRICE_EXECUTIVE!, amount: 5900,  label: 'Executive — 200 Headshots', shots: 200 },
-};
-
 export async function POST(req: Request) {
+  // Initialize Stripe INSIDE the function
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' });
+  
   try {
-    // Destructure plan, email, zipUrl, and userId in a single call to preserve the request stream
     const { plan, email, zipUrl, userId } = await req.json();
+    
+    const PLANS: Record<string, { priceId: string; amount: number; label: string; shots: number }> = {
+      basic:     { priceId: process.env.STRIPE_PRICE_BASIC!,     amount: 2900,  label: 'Basic — 40 Headshots',      shots: 40 },
+      pro:       { priceId: process.env.STRIPE_PRICE_PRO!,       amount: 3900,  label: 'Pro — 100 Headshots',       shots: 100 },
+      executive: { priceId: process.env.STRIPE_PRICE_EXECUTIVE!, amount: 5900,  label: 'Executive — 200 Headshots', shots: 200 },
+    };
 
     if (!PLANS[plan]) {
       return NextResponse.json({ error: 'Invalid plan' }, { status: 400 });
     }
-
     const planConfig = PLANS[plan];
 
-    // Create an order linked to the user account if authenticated
     const { data: order, error: orderError } = await supabaseAdmin
       .from('orders')
       .insert({
@@ -30,7 +28,7 @@ export async function POST(req: Request) {
         amount_cents: planConfig.amount,
         status: 'pending',
         zip_url: zipUrl,
-        user_id: userId || null, // Link order on creation
+        user_id: userId || null,
       })
       .select('id')
       .single();
@@ -40,11 +38,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Failed to create order' }, { status: 500 });
     }
 
-    // Dynamically get the base URL from the request headers
     const url = new URL(req.url);
     const baseUrl = `${url.protocol}//${url.host}`;
 
-    // Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'payment',
@@ -67,7 +63,6 @@ export async function POST(req: Request) {
       success_url: `${baseUrl}/dashboard?order=${order.id}&success=1`,
       cancel_url:  `${baseUrl}/upload?cancelled=1`,
     });
-
     return NextResponse.json({ url: session.url });
   } catch (err) {
     console.error('Checkout error:', err);
