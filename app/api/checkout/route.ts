@@ -2,71 +2,32 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { supabaseAdmin } from '@/lib/supabase/admin';
 
-export async function POST(req: Request) {
-  // Lazy-load Stripe to avoid build-time errors
 function getStripe() {
-  if (!process.env.STRIPE_SECRET_KEY) {
-    throw new Error('STRIPE_SECRET_KEY is not configured');
-  }
-  return new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: '2024-06-20'
-  });
+  if (!process.env.STRIPE_SECRET_KEY) throw new Error('STRIPE_SECRET_KEY is not configured');
+  return new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2024-06-20' } as any);
 }
-  
+
+export async function POST(req: Request) {
+  const stripe = getStripe();
   try {
     const { plan, email, zipUrl, userId } = await req.json();
-    
     const PLANS: Record<string, { priceId: string; amount: number; label: string; shots: number }> = {
       basic:     { priceId: process.env.STRIPE_PRICE_BASIC!,     amount: 2900,  label: 'Basic — 40 Headshots',      shots: 40 },
       pro:       { priceId: process.env.STRIPE_PRICE_PRO!,       amount: 3900,  label: 'Pro — 100 Headshots',       shots: 100 },
       executive: { priceId: process.env.STRIPE_PRICE_EXECUTIVE!, amount: 5900,  label: 'Executive — 200 Headshots', shots: 200 },
     };
-
-    if (!PLANS[plan]) {
-      return NextResponse.json({ error: 'Invalid plan' }, { status: 400 });
-    }
+    if (!PLANS[plan]) return NextResponse.json({ error: 'Invalid plan' }, { status: 400 });
     const planConfig = PLANS[plan];
-
-    const { data: order, error: orderError } = await supabaseAdmin
-      .from('orders')
-      .insert({
-        email,
-        plan,
-        amount_cents: planConfig.amount,
-        status: 'pending',
-        zip_url: zipUrl,
-        user_id: userId || null,
-      })
-      .select('id')
-      .single();
-
-    if (orderError || !order) {
-      console.error('Order creation error:', orderError);
-      return NextResponse.json({ error: 'Failed to create order' }, { status: 500 });
-    }
-
+    const { data: order, error: orderError } = await supabaseAdmin.from('orders').insert({ email, plan, amount_cents: planConfig.amount, status: 'pending', zip_url: zipUrl, user_id: userId || null }).select('id').single();
+    if (orderError || !order) return NextResponse.json({ error: 'Failed to create order' }, { status: 500 });
     const url = new URL(req.url);
     const baseUrl = `${url.protocol}//${url.host}`;
-
-    const session = await getStripe().checkout.sessions.create({
+    const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'payment',
       customer_email: email,
-      line_items: [
-        {
-          price_data: {
-            currency: 'usd',
-            product_data: { name: planConfig.label, description: 'AI Professional Headshots · Delivered in 60 minutes' },
-            unit_amount: planConfig.amount,
-          },
-          quantity: 1,
-        },
-      ],
-      metadata: {
-        orderId: order.id,
-        plan,
-        email,
-      },
+      line_items: [{ price_data: { currency: 'usd', product_data: { name: planConfig.label, description: 'AI Professional Headshots · Delivered in 60 minutes' }, unit_amount: planConfig.amount }, quantity: 1 }],
+      metadata: { orderId: order.id, plan, email },
       success_url: `${baseUrl}/dashboard?order=${order.id}&success=1`,
       cancel_url:  `${baseUrl}/upload?cancelled=1`,
     });

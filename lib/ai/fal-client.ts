@@ -1,5 +1,11 @@
 import { fal } from '@fal-ai/client';
-fal.config({ credentials: process.env.FAL_KEY });
+
+function configureFal() {
+  if (process.env.FAL_KEY) {
+    fal.config({ credentials: process.env.FAL_KEY });
+  }
+}
+
 
 const BASE_PROMPTS: string[] = [
   'A professional corporate headshot of TOK, wearing a navy business suit, blurred modern office background, soft studio lighting, 8k photo',
@@ -46,6 +52,7 @@ export const PLAN_PROMPTS: Record<string, string[]> = { basic: buildPrompts('bas
 export const PLAN_SHOTS: Record<string, number> = { basic: 40, pro: 100, executive: 200 };
 
 export const trainModel = async (imageUrl: string, orderId: string) => {
+  configureFal();
   const webhookSecret = process.env.FAL_WEBHOOK_SECRET;
   if (!webhookSecret) throw new Error('FAL_WEBHOOK_SECRET is not configured');
   return await fal.queue.submit('fal-ai/flux-lora-fast-training', {
@@ -55,6 +62,7 @@ export const trainModel = async (imageUrl: string, orderId: string) => {
 };
 
 export const generateHeadshots = async (modelId: string, plan: string, startIndex: number = 0, limit: number = 10000) => {
+  configureFal();
   const allPrompts = PLAN_PROMPTS[plan] ?? PLAN_PROMPTS.basic;
   const targetShots = PLAN_SHOTS[plan] ?? 40;
   const prompts: { prompt: string; index: number }[] = [];
