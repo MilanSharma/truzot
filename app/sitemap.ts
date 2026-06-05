@@ -54,14 +54,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const blogPosts = [
     {
-      slug: "ai-headshots-vs-traditional-photography",
+      slug: "why-your-linkedin-headshot-matters",
       lastModified: "2026-05-12",
     },
     {
-      slug: "how-to-choose-professional-linkedin-photo",
+      slug: "tips-for-perfect-ai-training-selfies",
       lastModified: "2026-05-05",
     },
-    { slug: "future-of-ai-headshots-2026", lastModified: "2026-04-28" },
+    { slug: "future-of-professional-photography", lastModified: "2026-04-28" },
   ];
 
   const blogEntries = blogPosts.map((post) => ({

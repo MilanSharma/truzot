@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import Nav from "@/components/Nav";
@@ -22,24 +22,32 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  const checkAdmin = async () => {
+  const getToken = useCallback(async () => {
     const {
       data: { session },
     } = await supabase.auth.getSession();
-    if (!session?.user?.email) return false;
-    const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS || "")
-      .split(",")
-      .map((e) => e.trim().toLowerCase());
-    return adminEmails.includes(session.user.email.toLowerCase());
+    return session?.access_token;
+  }, []);
+
+  const checkAdmin = async () => {
+    const token = await getToken();
+    if (!token) return false;
+    const res = await fetch("/api/admin/orders", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res.ok;
   };
 
   const fetchOrders = async () => {
-    const { data } = await supabase
-      .from("orders")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(100);
-    if (data) setOrders(data as AdminOrder[]);
+    const token = await getToken();
+    if (!token) return;
+    const res = await fetch("/api/admin/orders", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (res.ok) {
+      const data = await res.json();
+      setOrders(data.orders || []);
+    }
     setLoading(false);
   };
 
@@ -56,14 +64,12 @@ export default function AdminDashboard() {
 
   const retryOrder = async (orderId: string) => {
     if (!confirm(`Retry order ${orderId.slice(0, 8)}...?`)) return;
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
+    const token = await getToken();
     const res = await fetch("/api/retry", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${session?.access_token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ orderId }),
     });
@@ -75,14 +81,12 @@ export default function AdminDashboard() {
 
   const refundOrder = async (orderId: string) => {
     if (!confirm(`Refund order ${orderId.slice(0, 8)}...?`)) return;
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
+    const token = await getToken();
     const res = await fetch("/api/admin/refund", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${session?.access_token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ orderId }),
     });

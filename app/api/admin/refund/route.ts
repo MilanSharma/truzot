@@ -19,7 +19,7 @@ export const POST = withContext(async (req: Request) => {
     if (!user)
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS || "")
+    const adminEmails = (process.env.ADMIN_EMAILS || "")
       .split(",")
       .map((e) => e.trim().toLowerCase());
     if (!adminEmails.includes(user.email?.toLowerCase() || "")) {

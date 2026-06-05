@@ -15,6 +15,7 @@ const envSchema = z.object({
   CRON_SECRET: z.string().min(1),
   QSTASH_TOKEN: z.string().optional(),
   NEXT_PUBLIC_SITE_URL: z.string().url().optional(),
+  ADMIN_EMAILS: z.string().optional(),
   SENTRY_DSN: z.string().url().optional(),
   NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
   NEXT_PUBLIC_POSTHOG_HOST: z.string().optional(),

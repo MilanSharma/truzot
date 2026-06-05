@@ -19,10 +19,16 @@ export default function ContactPage() {
     e.preventDefault();
     setStatus("sending");
     try {
-      const res = await fetch("/api/team-demo", {
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: form.email, company: form.subject }),
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          subject: form.subject,
+          message: form.message,
+          orderId: form.orderId || undefined,
+        }),
       });
       if (!res.ok) throw new Error();
       setStatus("sent");

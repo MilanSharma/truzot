@@ -47,6 +47,14 @@ export const freeGenerateSchema = z.object({
   zipUrl: z.string().url(),
 });
 
+export const contactSchema = z.object({
+  name: z.string().min(1).max(200),
+  email: emailField,
+  subject: z.string().max(200).optional(),
+  message: z.string().min(1).max(5000),
+  orderId: z.string().max(100).optional(),
+});
+
 function formatZodErrors(error: z.ZodError): string {
   return error.issues
     .map((e) => `${e.path.join(".")}: ${e.message}`)

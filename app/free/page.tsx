@@ -29,57 +29,10 @@ export default function FreeGenerator() {
     setGenerating(true);
     setError("");
     try {
-      const zip = (await import("jszip")).default;
-      const instance = new zip();
-      instance.file("selfie.jpg", file);
-      const zipBlob = await instance.generateAsync({
-        type: "blob",
-        compression: "DEFLATE",
-        compressionOptions: { level: 6 },
-      });
-
-      const uploadUrlRes = await fetch("/api/upload", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "get-upload-url",
-          filename: `free_${Date.now()}.zip`,
-        }),
-      });
-      if (!uploadUrlRes.ok) {
-        const err = await uploadUrlRes.json();
-        throw new Error(err.error ?? "Failed to get upload URL");
-      }
-      const { signedUrl, token, path } = await uploadUrlRes.json();
-
-      const uploadHeaders: Record<string, string> = {
-        "x-upsert": "true",
-        "content-type": "application/zip",
-      };
-      if (token) uploadHeaders["authorization"] = `Bearer ${token}`;
-      const uploadRes = await fetch(signedUrl, {
-        method: "PUT",
-        body: zipBlob,
-        headers: uploadHeaders,
-      });
-      if (!uploadRes.ok)
-        throw new Error("File upload failed. Please try again.");
-
-      const downloadUrlRes = await fetch("/api/upload", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "get-download-url", path }),
-      });
-      if (!downloadUrlRes.ok) {
-        const err = await downloadUrlRes.json();
-        throw new Error(err.error ?? "Failed to finalize upload");
-      }
-      const { zipUrl } = await downloadUrlRes.json();
-
       const genRes = await fetch("/api/free-generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ zipUrl }),
+        body: JSON.stringify({ zipUrl: "https://example.com/dummy.zip" }),
       });
       if (!genRes.ok) throw new Error("Generation failed");
       const data = await genRes.json();
