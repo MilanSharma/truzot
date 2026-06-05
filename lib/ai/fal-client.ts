@@ -8,36 +8,41 @@ function configureFal() {
 
 export const PLAN_SHOTS: Record<string, number> = { basic: 40, pro: 100, executive: 200 };
 
-const BASE_PROMPTS: string[] = [
-  'A professional corporate headshot of TOK, wearing a tailored navy business suit, blurred modern office background, soft studio lighting, shot on 85mm lens, f/1.8, highly detailed, 8k resolution',
-  'A LinkedIn profile photo of TOK, business casual attire, clean light grey background, confident smile, sharp focus, professional photography, natural lighting',
-  'A professional headshot of TOK, crisp white dress shirt, neutral studio background, natural window light, photorealistic, 8k',
-  'A business portrait of TOK, dark navy blazer, outdoor urban background softly blurred, bright natural light, shallow depth of field',
-  'A creative studio portrait of TOK, black turtleneck, minimalist charcoal background, dramatic side lighting, editorial magazine look, highly detailed',
-  'A casual professional photo of TOK, smart casual attire, outdoor park background softly blurred, golden hour lighting, warm tone',
-  'An executive corporate headshot of TOK, dark charcoal suit and subtle tie, luxury modern office background, professional rim lighting, 8k',
-  'A speaker profile photo of TOK, business formal, conference hall background softly blurred, authoritative and approachable pose',
-  'A startup founder photo of TOK, open collar light blue shirt, modern glass coworking space background, bright and airy, friendly casual expression',
-  'A creative director headshot of TOK, stylish smart outfit, creative studio with exposed brick background, artistic softbox lighting',
+const getBasePrompts = (g: string, p: string, e: string) => [
+  `A professional corporate headshot of TOK, a ${g} ${p} ${e}, wearing a tailored navy business suit, blurred modern office background, soft studio lighting, shot on 85mm lens, f/1.8, highly detailed, 8k resolution`,
+  `A LinkedIn profile photo of TOK, a ${g} ${p} ${e}, business casual attire, clean light grey background, confident smile, sharp focus, professional photography, natural lighting`,
+  `A professional headshot of TOK, a ${g} ${p} ${e}, crisp white dress shirt, neutral studio background, natural window light, photorealistic, 8k`,
+  `A business portrait of TOK, a ${g} ${p} ${e}, dark navy blazer, outdoor urban background softly blurred, bright natural light, shallow depth of field`,
+  `A creative studio portrait of TOK, a ${g} ${p} ${e}, black turtleneck, minimalist charcoal background, dramatic side lighting, editorial magazine look, highly detailed`,
+  `A casual professional photo of TOK, a ${g} ${p} ${e}, smart casual attire, outdoor park background softly blurred, golden hour lighting, warm tone`,
+  `An executive corporate headshot of TOK, a ${g} ${p} ${e}, dark charcoal suit and subtle tie, luxury modern office background, professional rim lighting, 8k`,
+  `A speaker profile photo of TOK, a ${g} ${p} ${e}, business formal, conference hall background softly blurred, authoritative and approachable pose`,
+  `A startup founder photo of TOK, a ${g} ${p} ${e}, open collar light blue shirt, modern glass coworking space background, bright and airy, friendly casual expression`,
+  `A creative director headshot of TOK, a ${g} ${p} ${e}, stylish smart outfit, creative studio with exposed brick background, artistic softbox lighting`,
 ];
 
-const EXTENDED_PROMPTS: string[] = [
-  'A high-fashion studio portrait of TOK, tailored grey suit, seamless grey background, editorial cinematic lighting, 85mm',
-  'A warm friendly casual headshot of TOK, casual linen shirt, bright airy home office background, natural daylight flowing in',
-  'A dramatic black-and-white creative headshot of TOK, strong jaw lighting, seamless white background, fashion magazine style, crisp contrast',
-  'A tech executive corporate photo of TOK, smart casual dark blazer, modern tech office background with soft neon, cool-toned studio light',
-  'A trustworthy professional studio portrait of TOK, smart attire, clean bright background, soft even lighting, realistic skin texture',
-  'A leadership corporate headshot of TOK, dark suit, wood-panelled office background softly out of focus, authoritative but warm expression',
-  'A real-estate agent corporate headshot of TOK, business smart attire, luxury property entrance outdoor background, confident welcoming smile, sunny',
-  'A creative consultant photo of TOK, relaxed stylish blazer, colourful abstract blurred background, soft portrait lighting',
-  'A financial advisor corporate portrait of TOK, navy pinstripe suit, financial district outdoor background softly blurred, golden hour',
-  'A remote-work professional casual photo of TOK, smart casual, stylish bookshelf background, warm ambient indoor light',
+const getExtendedPrompts = (g: string, p: string, e: string) => [
+  `A high-fashion studio portrait of TOK, a ${g} ${p} ${e}, tailored grey suit, seamless grey background, editorial cinematic lighting, 85mm`,
+  `A warm friendly casual headshot of TOK, a ${g} ${p} ${e}, casual linen shirt, bright airy home office background, natural daylight flowing in`,
+  `A dramatic black-and-white creative headshot of TOK, a ${g} ${p} ${e}, strong jaw lighting, seamless white background, fashion magazine style, crisp contrast`,
+  `A tech executive corporate photo of TOK, a ${g} ${p} ${e}, smart casual dark blazer, modern tech office background with soft neon, cool-toned studio light`,
+  `A trustworthy professional studio portrait of TOK, a ${g} ${p} ${e}, smart attire, clean bright background, soft even lighting, realistic skin texture`,
+  `A leadership corporate headshot of TOK, a ${g} ${p} ${e}, dark suit, wood-panelled office background softly out of focus, authoritative but warm expression`,
+  `A real-estate agent corporate headshot of TOK, a ${g} ${p} ${e}, business smart attire, luxury property entrance outdoor background, confident welcoming smile, sunny`,
+  `A creative consultant photo of TOK, a ${g} ${p} ${e}, relaxed stylish blazer, colourful abstract blurred background, soft portrait lighting`,
+  `A financial advisor corporate portrait of TOK, a ${g} ${p} ${e}, navy pinstripe suit, financial district outdoor background softly blurred, golden hour`,
+  `A remote-work professional casual photo of TOK, a ${g} ${p} ${e}, smart casual, stylish bookshelf background, warm ambient indoor light`,
 ];
 
-function buildPrompts(plan: string): string[] {
+function buildPrompts(plan: string, prefs?: any): string[] {
   const target = PLAN_SHOTS[plan] ?? 40;
   const pool: string[] = [];
-  const allUnique = [...BASE_PROMPTS, ...EXTENDED_PROMPTS];
+  
+  const g = prefs?.gender ? prefs.gender.toLowerCase() : 'person';
+  const e = prefs?.eyeColor ? `with ${prefs.eyeColor.toLowerCase()} eyes` : '';
+  const p = prefs?.profession ? prefs.profession.toLowerCase() : 'professional';
+
+  const allUnique = [...getBasePrompts(g, p, e), ...getExtendedPrompts(g, p, e)];
   const suffixes = [
     ', looking directly at camera, slight smile',
     ', three-quarter angle, relaxed posture',
@@ -57,12 +62,6 @@ function buildPrompts(plan: string): string[] {
   return pool;
 }
 
-export const PLAN_PROMPTS: Record<string, string[]> = { 
-  basic: buildPrompts('basic'), 
-  pro: buildPrompts('pro'), 
-  executive: buildPrompts('executive') 
-};
-
 export const trainModel = async (imageUrl: string, orderId: string) => {
   configureFal();
   const webhookSecret = process.env.FAL_WEBHOOK_SECRET;
@@ -74,9 +73,9 @@ export const trainModel = async (imageUrl: string, orderId: string) => {
   });
 };
 
-export const generateHeadshots = async (modelId: string, plan: string, startIndex: number = 0, limit: number = 10000) => {
+export const generateHeadshots = async (modelId: string, plan: string, startIndex: number = 0, limit: number = 10000, prefs?: any) => {
   configureFal();
-  const allPrompts = PLAN_PROMPTS[plan] ?? PLAN_PROMPTS.basic;
+  const allPrompts = buildPrompts(plan, prefs);
   const targetShots = PLAN_SHOTS[plan] ?? 40;
   const prompts: { prompt: string; index: number }[] = [];
   

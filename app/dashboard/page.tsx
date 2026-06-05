@@ -93,7 +93,10 @@ function DashboardContent() {
 
   const checkOrderStatus = useCallback(async (id: string) => {
     try {
-      const res = await fetch(`/api/order-status?orderId=${id}`);
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch(`/api/order-status?orderId=${id}`, {
+        headers: { 'Authorization': `Bearer ${session?.access_token || ''}` }
+      });
       const data = await res.json();
       if (data.status === 'completed') {
         if (data.headshots?.length > 0) setHeadshots(data.headshots);
