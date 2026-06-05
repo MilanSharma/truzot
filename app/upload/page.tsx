@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import JSZip from 'jszip';
 import { supabase } from '@/lib/supabase/client';
-import { Camera, Upload, Shield, Zap, Check, X, ChevronRight, ChevronLeft, Star, Lock, User, Briefcase, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Camera, Upload, Shield, Zap, Check, X, ChevronRight, ChevronLeft, Star, Lock, User, Briefcase, AlertCircle, CheckCircle2 , Loader2, Image as ImageIcon} from 'lucide-react';
 
 const PLANS = [
   { id: 'basic', label: 'Basic', price: 29, shots: 40, time: '2 hours', popular: false },
