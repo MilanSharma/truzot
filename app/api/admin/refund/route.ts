@@ -1,28 +1,27 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { getAuthenticatedClient } from "@/lib/supabase/authenticated";
 import { createLogger } from "@/lib/logger";
 import { withContext } from "@/lib/request-context";
 import { getStripe } from "@/lib/stripe";
+import { isAdminUser } from "@/lib/admin";
 
 const log = createLogger("admin-refund");
 
 export const POST = withContext(async (req: Request) => {
   try {
-    const token = req.headers.get("Authorization")?.replace("Bearer ", "");
-    if (!token)
+    const authHeader = req.headers.get("Authorization")?.replace("Bearer ", "");
+    if (!authHeader) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    const supabase = getAuthenticatedClient(token);
+    }
     const {
       data: { user },
-    } = await supabase.auth.getUser();
-    if (!user)
+      error: authError,
+    } = await supabaseAdmin.auth.getUser(authHeader);
+    if (authError || !user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-    const adminEmails = (process.env.ADMIN_EMAILS || "")
-      .split(",")
-      .map((e) => e.trim().toLowerCase());
-    if (!adminEmails.includes(user.email?.toLowerCase() || "")) {
+    if (!(await isAdminUser(user.id))) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 

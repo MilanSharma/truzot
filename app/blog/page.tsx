@@ -1,36 +1,10 @@
-"use client";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-
-const posts = [
-  {
-    slug: "why-your-linkedin-headshot-matters",
-    title: "Why Your LinkedIn Headshot Matters More Than Ever",
-    excerpt:
-      "In the digital age, your LinkedIn profile is often the first impression you make on recruiters, clients, and partners. A high-quality headshot can increase your profile views by up to 14x.",
-    date: "May 12, 2026",
-    readTime: "4 min read",
-  },
-  {
-    slug: "tips-for-perfect-ai-training-selfies",
-    title: "5 Tips for Taking the Perfect AI Training Selfies",
-    excerpt:
-      "The quality of your AI headshots depends entirely on the photos you upload. Learn the best lighting, angles, and expressions to ensure your AI model captures your true likeness.",
-    date: "May 05, 2026",
-    readTime: "3 min read",
-  },
-  {
-    slug: "future-of-professional-photography",
-    title: "The Future of Professional Photography",
-    excerpt:
-      "AI isn't replacing photographers; it's democratizing access to professional branding. Discover how generative AI is changing the way we think about corporate headshots.",
-    date: "April 28, 2026",
-    readTime: "5 min read",
-  },
-];
+import { getAllPosts } from "@/lib/blog";
 
 export default function BlogPage() {
+  const posts = getAllPosts();
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       <Nav />
@@ -55,9 +29,6 @@ export default function BlogPage() {
                 <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 transition">
                   {post.title}
                 </h2>
-                <p className="text-slate-500 dark:text-slate-400 leading-relaxed">
-                  {post.excerpt}
-                </p>
               </article>
             </Link>
           ))}

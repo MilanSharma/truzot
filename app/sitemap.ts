@@ -1,4 +1,5 @@
 import { MetadataRoute } from "next";
+import { getAllPosts } from "@/lib/blog";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://truzot.com";
 
@@ -52,23 +53,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const blogPosts = [
-    {
-      slug: "why-your-linkedin-headshot-matters",
-      lastModified: "2026-05-12",
-    },
-    {
-      slug: "tips-for-perfect-ai-training-selfies",
-      lastModified: "2026-05-05",
-    },
-    { slug: "future-of-professional-photography", lastModified: "2026-04-28" },
-  ];
-
+  const blogPosts = getAllPosts();
   const blogEntries = blogPosts.map((post) => ({
     url: `${siteUrl}/blog/${post.slug}`,
     changeFrequency: "monthly" as const,
     priority: 0.7,
-    lastModified: post.lastModified,
   }));
 
   return [...staticPages, ...blogEntries];

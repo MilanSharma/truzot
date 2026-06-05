@@ -7,14 +7,19 @@ interface CompletedGalleryProps {
   headshots: Headshot[];
   filtered: Headshot[];
   activeCategory: string;
+  orderId?: string;
   favorites: string[];
   selectedImages: string[];
   multiSelectMode: boolean;
+  hasMore: boolean;
+  loadingMore: boolean;
+  onLoadMore: () => void;
   onCategoryChange: (cat: string) => void;
   onToggleSelect: (url: string, e?: React.MouseEvent) => void;
   onToggleFavorite: (url: string, e?: React.MouseEvent) => void;
   onView: (url: string) => void;
   onDownload: (url: string) => void;
+  onFlag?: (url: string) => void;
 }
 
 const CATEGORY_TABS = [
@@ -30,14 +35,19 @@ const CATEGORY_TABS = [
 export default function CompletedGallery({
   filtered,
   activeCategory,
+  orderId,
   favorites,
   selectedImages,
   multiSelectMode,
+  hasMore,
+  loadingMore,
+  onLoadMore,
   onCategoryChange,
   onToggleSelect,
   onToggleFavorite,
   onView,
   onDownload,
+  onFlag,
 }: CompletedGalleryProps) {
   return (
     <div>
@@ -56,17 +66,32 @@ export default function CompletedGallery({
       </div>
 
       {filtered.length > 0 ? (
-        <VirtualizedHeadshotGrid
-          headshots={filtered}
-          favorites={favorites}
-          selectedImages={selectedImages}
-          multiSelectMode={multiSelectMode}
-          activeCategory={activeCategory}
-          onToggleSelect={onToggleSelect}
-          onToggleFavorite={onToggleFavorite}
-          onView={(url) => onView(url)}
-          onDownload={onDownload}
-        />
+        <>
+          <VirtualizedHeadshotGrid
+            headshots={filtered}
+            favorites={favorites}
+            selectedImages={selectedImages}
+            multiSelectMode={multiSelectMode}
+            activeCategory={activeCategory}
+            orderId={orderId}
+            onToggleSelect={onToggleSelect}
+            onToggleFavorite={onToggleFavorite}
+            onView={(url) => onView(url)}
+            onDownload={onDownload}
+            onFlag={onFlag}
+          />
+          {hasMore && (
+            <div className="flex justify-center mt-8">
+              <button
+                onClick={onLoadMore}
+                disabled={loadingMore}
+                className="px-8 py-3 bg-slate-900 text-white rounded-xl text-sm font-bold hover:bg-slate-800 transition shadow-sm disabled:opacity-50"
+              >
+                {loadingMore ? "Loading..." : "Load More"}
+              </button>
+            </div>
+          )}
+        </>
       ) : (
         <div className="text-center py-20 bg-white rounded-3xl border border-slate-200 shadow-sm max-w-2xl mx-auto">
           <ImageIcon className="w-12 h-12 text-slate-300 mx-auto mb-4" />

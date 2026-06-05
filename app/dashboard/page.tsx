@@ -27,6 +27,9 @@ function DashboardContent() {
   const orderId = searchParams.get("order");
 
   const [headshots, setHeadshots] = useState<Headshot[]>([]);
+  const [headshotPage, setHeadshotPage] = useState<number>(0);
+  const [hasMoreHeadshots, setHasMoreHeadshots] = useState<boolean>(true);
+  const [loadingHeadshots, setLoadingHeadshots] = useState<boolean>(false);
   const [selected, setSelected] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
@@ -96,14 +99,38 @@ function DashboardContent() {
     return data as Order;
   }, []);
 
-  const fetchHeadshots = useCallback(async (id: string) => {
-    const { data } = await supabase
+  const PAGE_SIZE = 40;
+
+  const fetchHeadshots = useCallback(async (id: string, page = 0) => {
+    setLoadingHeadshots(true);
+    const from = page * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    const { data, count } = await supabase
       .from("headshots")
-      .select("id, image_url, style, category")
+      .select("id, image_url, style, category", { count: "exact" })
       .eq("order_id", id)
-      .order("created_at", { ascending: true });
-    if (data) setHeadshots(data as Headshot[]);
+      .order("created_at", { ascending: true })
+      .range(from, to);
+    if (data) {
+      setHeadshots(
+        (prev) => (page === 0 ? data : [...prev, ...data]) as Headshot[],
+      );
+      setHasMoreHeadshots((count ?? 0) > from + PAGE_SIZE);
+    }
+    setHeadshotPage(page);
+    setLoadingHeadshots(false);
   }, []);
+
+  const loadMoreHeadshots = useCallback(() => {
+    if (orderId && hasMoreHeadshots && !loadingHeadshots)
+      fetchHeadshots(orderId, headshotPage + 1);
+  }, [
+    orderId,
+    hasMoreHeadshots,
+    loadingHeadshots,
+    headshotPage,
+    fetchHeadshots,
+  ]);
 
   const checkOrderStatus = useCallback(
     async (id: string) => {
@@ -116,9 +143,15 @@ function DashboardContent() {
         });
         const data = await res.json();
         if (data.status === "completed") {
-          if (data.headshots?.length > 0)
+          if (data.headshots?.length > 0) {
             setHeadshots(data.headshots as Headshot[]);
-          else await fetchHeadshots(id);
+            setHasMoreHeadshots(false);
+          } else {
+            setHeadshots([]);
+            setHeadshotPage(0);
+            setHasMoreHeadshots(true);
+            await fetchHeadshots(id, 0);
+          }
         }
         if (data.status === "generating") {
           setGenerationProgress({
@@ -150,7 +183,10 @@ function DashboardContent() {
             const updated = payload.new as Order;
             setCurrentOrder(updated);
             if (updated.status === "completed") {
-              fetchHeadshots(id);
+              setHeadshots([]);
+              setHeadshotPage(0);
+              setHasMoreHeadshots(true);
+              fetchHeadshots(id, 0);
             }
             if (updated.status === "generating") {
               checkOrderStatus(id);
@@ -208,7 +244,10 @@ function DashboardContent() {
         const order = await fetchOrderById(orderId);
         if (order) {
           setCurrentOrder(order);
-          await fetchHeadshots(orderId);
+          setHeadshots([]);
+          setHeadshotPage(0);
+          setHasMoreHeadshots(true);
+          await fetchHeadshots(orderId, 0);
           if (["training", "generating"].includes(order.status)) {
             const channel = subscribeToOrder(orderId);
             subsRef.current = channel;
@@ -404,11 +443,23 @@ function DashboardContent() {
                         const {
                           data: { session },
                         } = await supabase.auth.getSession();
-                        const tokenParam = session?.access_token
-                          ? `&token=${encodeURIComponent(session.access_token)}`
-                          : "";
+                        let downloadToken = "";
+                        if (session?.access_token) {
+                          const tokRes = await fetch("/api/download/token", {
+                            method: "POST",
+                            headers: {
+                              "Content-Type": "application/json",
+                              Authorization: `Bearer ${session.access_token}`,
+                            },
+                            body: JSON.stringify({ orderId }),
+                          });
+                          if (tokRes.ok) {
+                            const tokData = await tokRes.json();
+                            downloadToken = tokData.token;
+                          }
+                        }
                         const res = await fetch(
-                          `/api/download?orderId=${orderId}${tokenParam}`,
+                          `/api/download?orderId=${orderId}&download_token=${encodeURIComponent(downloadToken)}`,
                         );
                         if (!res.ok) throw new Error("Download failed");
                         const reader = res.body?.getReader();
@@ -469,9 +520,13 @@ function DashboardContent() {
                     headshots={headshots}
                     filtered={currentFiltered}
                     activeCategory={activeCategory}
+                    orderId={orderId!}
                     favorites={favorites}
                     selectedImages={selectedImages}
                     multiSelectMode={multiSelectMode}
+                    hasMore={hasMoreHeadshots}
+                    loadingMore={loadingHeadshots}
+                    onLoadMore={loadMoreHeadshots}
                     onCategoryChange={(cat) => {
                       setActiveCategory(cat);
                       setSelectedImages([]);
@@ -480,6 +535,22 @@ function DashboardContent() {
                     onToggleFavorite={toggleFavorite}
                     onView={(url) => setSelected(url)}
                     onDownload={downloadSingle}
+                    onFlag={async (url) => {
+                      const {
+                        data: { session },
+                      } = await supabase.auth.getSession();
+                      const res = await fetch("/api/feedback", {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                          Authorization: `Bearer ${session?.access_token || ""}`,
+                        },
+                        body: JSON.stringify({ orderId, imageUrl: url }),
+                      });
+                      if (res.ok)
+                        toast("Headshot flagged for review", "success");
+                      else toast("Failed to flag headshot", "error");
+                    }}
                   />
                 </GalleryErrorBoundary>
               )}
@@ -500,15 +571,27 @@ function DashboardContent() {
         />
       )}
 
-      {selected && (
-        <LightboxModal
-          imageUrl={selected}
-          favorites={favorites}
-          onClose={() => setSelected(null)}
-          onToggleFavorite={toggleFavorite}
-          onDownload={downloadSingle}
-        />
-      )}
+      {selected &&
+        (() => {
+          const all = currentFiltered.map((h) => h.image_url);
+          const idx = all.indexOf(selected);
+          return (
+            <LightboxModal
+              imageUrl={selected}
+              allImages={all}
+              favorites={favorites}
+              onClose={() => setSelected(null)}
+              onPrev={idx > 0 ? () => setSelected(all[idx - 1]) : undefined}
+              onNext={
+                idx >= 0 && idx < all.length - 1
+                  ? () => setSelected(all[idx + 1])
+                  : undefined
+              }
+              onToggleFavorite={toggleFavorite}
+              onDownload={downloadSingle}
+            />
+          );
+        })()}
     </div>
   );
 }

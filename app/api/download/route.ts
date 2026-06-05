@@ -35,9 +35,7 @@ function isAllowedDomain(urlString: string): boolean {
   }
 }
 
-async function authenticateUser(
-  req: Request,
-): Promise<{
+async function authenticateUser(req: Request): Promise<{
   userId: string | null;
   supabase: ReturnType<typeof getAuthenticatedClient>;
 }> {
@@ -56,6 +54,30 @@ async function authenticateUser(
   return { userId: user?.id ?? null, supabase };
 }
 
+async function resolveUserIdFromDownloadToken(
+  req: Request,
+): Promise<string | null> {
+  const { searchParams } = new URL(req.url);
+  const downloadToken = searchParams.get("download_token");
+  if (!downloadToken) return null;
+
+  const { data: tokenRow } = await supabaseAdmin
+    .from("download_tokens")
+    .select("user_id, expires_at, used")
+    .eq("id", downloadToken)
+    .maybeSingle();
+  if (!tokenRow) return null;
+  if (tokenRow.used) return null;
+  if (new Date(tokenRow.expires_at) < new Date()) return null;
+
+  await supabaseAdmin
+    .from("download_tokens")
+    .update({ used: true })
+    .eq("id", downloadToken);
+
+  return tokenRow.user_id;
+}
+
 export const OPTIONS = handleOptions;
 
 export const GET = withContext(async (req: Request) => {
@@ -70,7 +92,8 @@ export const GET = withContext(async (req: Request) => {
         origin,
       );
 
-    const { userId } = await authenticateUser(req);
+    let userId = (await authenticateUser(req)).userId;
+    if (!userId) userId = await resolveUserIdFromDownloadToken(req);
 
     if (imageUrl) {
       if (!isAllowedDomain(imageUrl)) {
@@ -194,7 +217,8 @@ export const POST = withContext(async (req: Request) => {
       );
     }
 
-    const { userId } = await authenticateUser(req);
+    let userId = (await authenticateUser(req)).userId;
+    if (!userId) userId = await resolveUserIdFromDownloadToken(req);
     if (!userId) {
       return addCors(
         NextResponse.json({ error: "Unauthorized" }, { status: 401 }),

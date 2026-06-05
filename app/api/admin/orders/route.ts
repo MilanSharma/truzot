@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { createLogger } from "@/lib/logger";
 import { withContext } from "@/lib/request-context";
+import { isAdminUser } from "@/lib/admin";
 
 const log = createLogger("admin-orders");
 
@@ -20,11 +21,7 @@ export const GET = withContext(async (req: Request) => {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const adminEmails = (process.env.ADMIN_EMAILS || "")
-      .split(",")
-      .map((e) => e.trim().toLowerCase());
-
-    if (!adminEmails.includes(user.email?.toLowerCase() || "")) {
+    if (!(await isAdminUser(user.id))) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 

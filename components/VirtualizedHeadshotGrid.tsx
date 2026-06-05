@@ -1,7 +1,14 @@
 "use client";
 import { useState, useRef, useCallback, useEffect } from "react";
 import { Grid } from "react-window";
-import { Download, Heart, Maximize2, Square, CheckSquare } from "lucide-react";
+import {
+  Download,
+  Heart,
+  Maximize2,
+  Square,
+  CheckSquare,
+  Flag,
+} from "lucide-react";
 
 interface Headshot {
   id: string;
@@ -16,10 +23,12 @@ interface VirtualizedHeadshotGridProps {
   selectedImages: string[];
   multiSelectMode: boolean;
   activeCategory: string;
+  orderId?: string;
   onToggleSelect: (url: string, e?: React.MouseEvent) => void;
   onToggleFavorite: (url: string, e?: React.MouseEvent) => void;
   onView: (url: string) => void;
   onDownload: (url: string) => void;
+  onFlag?: (url: string) => void;
 }
 
 const CARD_ASPECT = 3 / 4;
@@ -33,20 +42,24 @@ function HeadshotCard({
   isSel,
   multiSelectMode,
   style,
+  orderId,
   onToggleSelect,
   onToggleFavorite,
   onView,
   onDownload,
+  onFlag,
 }: {
   headshot: Headshot;
   isFav: boolean;
   isSel: boolean;
   multiSelectMode: boolean;
   style: React.CSSProperties;
+  orderId?: string;
   onToggleSelect: (url: string, e?: React.MouseEvent) => void;
   onToggleFavorite: (url: string, e?: React.MouseEvent) => void;
   onView: (url: string) => void;
   onDownload: (url: string) => void;
+  onFlag?: (url: string) => void;
 }) {
   const [loaded, setLoaded] = useState(false);
 
@@ -111,6 +124,18 @@ function HeadshotCard({
             >
               <Download className="w-3.5 h-3.5" />
             </button>
+            {onFlag && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onFlag(headshot.image_url);
+                }}
+                className="w-7 h-7 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white rounded-lg flex items-center justify-center transition"
+                title="Flag for regeneration"
+              >
+                <Flag className="w-3.5 h-3.5" />
+              </button>
+            )}
           </div>
         </div>
         {isFav && (
@@ -175,10 +200,12 @@ export default function VirtualizedHeadshotGrid(
         isSel={props.selectedImages.includes(h.image_url)}
         multiSelectMode={props.multiSelectMode}
         style={style}
+        orderId={props.orderId}
         onToggleSelect={props.onToggleSelect}
         onToggleFavorite={props.onToggleFavorite}
         onView={props.onView}
         onDownload={props.onDownload}
+        onFlag={props.onFlag}
       />
     );
   };

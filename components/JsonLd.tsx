@@ -36,16 +36,16 @@ export function ProductSchema() {
       {
         "@type": "Offer",
         name: "Pro",
-        price: "49",
+        price: "39",
         priceCurrency: "USD",
-        description: "80 headshots",
+        description: "100 headshots",
       },
       {
         "@type": "Offer",
         name: "Executive",
-        price: "79",
+        price: "59",
         priceCurrency: "USD",
-        description: "120 headshots",
+        description: "200 headshots",
       },
     ],
   };
