@@ -76,14 +76,26 @@ function buildPrompts(plan: string, prefs?: any): string[] {
     ", front-facing, neutral confident expression, ultra-sharp",
     ", warm approachable smile, slightly turned head",
   ];
+  const variants = [
+    "",
+    ", alternative composition",
+    ", different pose",
+    ", varied expression",
+    ", subtle head tilt",
+  ];
 
-  let si = 0;
+  let variantIndex = 0;
   while (pool.length < target) {
     for (const prompt of allUnique) {
       if (pool.length >= target) break;
-      pool.push(prompt + suffixes[si % suffixes.length]);
+      const suffixIndex = pool.length % suffixes.length;
+      pool.push(
+        prompt +
+          suffixes[suffixIndex] +
+          variants[variantIndex % variants.length],
+      );
     }
-    si++;
+    variantIndex++;
   }
   return pool;
 }
@@ -139,5 +151,6 @@ export const generateHeadshots = async (
 
   return results
     .filter((r) => r.status === "fulfilled")
-    .map((r) => (r as PromiseFulfilledResult<any>).value);
+    .map((r) => (r as PromiseFulfilledResult<any>).value)
+    .sort((a, b) => a.index - b.index);
 };

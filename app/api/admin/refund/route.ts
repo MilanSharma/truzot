@@ -32,7 +32,7 @@ export const POST = withContext(async (req: Request) => {
 
     const { data: order } = await supabaseAdmin
       .from("orders")
-      .select("stripe_payment_intent")
+      .select("stripe_payment_intent, status")
       .eq("id", orderId)
       .single();
     if (!order?.stripe_payment_intent)
@@ -40,6 +40,13 @@ export const POST = withContext(async (req: Request) => {
         { error: "No payment intent found" },
         { status: 404 },
       );
+
+    if (order.status === "refunded") {
+      return NextResponse.json(
+        { error: "Order has already been refunded" },
+        { status: 400 },
+      );
+    }
 
     const stripe = getStripe();
     const refund = await stripe.refunds.create({

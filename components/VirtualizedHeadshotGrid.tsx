@@ -25,7 +25,7 @@ interface VirtualizedHeadshotGridProps {
 const CARD_ASPECT = 3 / 4;
 const GAP = 24;
 const MIN_COL_WIDTH = 200;
-const CONTAINER_HEIGHT = 700;
+const MAX_VISIBLE_ROWS = 6;
 
 function HeadshotCard({
   headshot,
@@ -153,6 +153,8 @@ export default function VirtualizedHeadshotGrid(
   );
   const rowHeight = Math.floor(columnWidth / CARD_ASPECT + GAP);
   const rowCount = Math.ceil(props.headshots.length / columnCount);
+  const visibleRows = Math.min(rowCount, MAX_VISIBLE_ROWS);
+  const containerHeight = Math.max(400, visibleRows * rowHeight);
 
   const Cell = ({
     columnIndex,
@@ -185,14 +187,14 @@ export default function VirtualizedHeadshotGrid(
     <div
       ref={containerRef}
       className="w-full"
-      style={{ height: CONTAINER_HEIGHT }}
+      style={{ height: containerHeight }}
     >
       <Grid
         columnCount={columnCount}
         columnWidth={columnWidth}
         rowCount={rowCount}
         rowHeight={rowHeight}
-        style={{ height: CONTAINER_HEIGHT, width }}
+        style={{ height: containerHeight, width }}
         cellComponent={Cell as any}
         cellProps={{}}
       />

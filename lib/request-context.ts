@@ -1,7 +1,6 @@
 import { AsyncLocalStorage } from "async_hooks";
 import { randomBytes } from "crypto";
 import { NextResponse } from "next/server";
-import { getEnv } from "@/lib/env";
 
 export interface RequestContext {
   reqId: string;
@@ -15,11 +14,6 @@ export function runWithContext<T>(fn: () => T): T {
     reqId: randomBytes(8).toString("hex"),
     startTime: Date.now(),
   };
-  try {
-    getEnv();
-  } catch {
-    /* already validated at startup */
-  }
   return storage.run(ctx, fn);
 }
 

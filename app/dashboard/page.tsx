@@ -174,6 +174,16 @@ function DashboardContent() {
   );
 
   useEffect(() => {
+    const { data: authListener } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_OUT") {
+        subsRef.current?.unsubscribe();
+        subsRef.current = null;
+      }
+    });
+    return () => authListener?.subscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
     const checkAuth = async () => {
       const {
         data: { session },
@@ -246,13 +256,18 @@ function DashboardContent() {
   };
 
   const downloadSingle = async (url: string) => {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-    const tokenParam = session?.access_token
-      ? `&token=${encodeURIComponent(session.access_token)}`
-      : "";
-    window.location.href = `/api/download?imageUrl=${encodeURIComponent(url)}${tokenParam}`;
+    try {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = blobUrl;
+      a.download = "headshot.jpg";
+      a.click();
+      URL.revokeObjectURL(blobUrl);
+    } catch {
+      // silent fail
+    }
   };
 
   const downloadSelected = async () => {
