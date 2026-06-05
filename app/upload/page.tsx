@@ -1,10 +1,11 @@
+
 'use client';
 import { useState, useCallback, Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import JSZip from 'jszip';
 import { supabase } from '@/lib/supabase/client';
-import { Camera, Upload, Shield, Zap, Check, X, ChevronRight, ChevronLeft, Star, Lock, User, Briefcase, AlertCircle, CheckCircle2 , Loader2, Image as ImageIcon} from 'lucide-react';
+import { Camera, Upload, Shield, Zap, Check, X, ChevronRight, ChevronLeft, Star, Lock, User, Briefcase, AlertCircle, CheckCircle2, Loader2, Image as ImageIcon } from 'lucide-react';
 
 const PLANS = [
   { id: 'basic', label: 'Basic', price: 29, shots: 40, time: '2 hours', popular: false },
@@ -92,6 +93,10 @@ function UploadContent() {
     
     setIsProcessing(true);
     try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      if (!token) throw new Error("You must be logged in to upload files.");
+
       setProgress('Optimizing image dataset…');
       const zip = new JSZip();
       files.forEach((f, i) => {
@@ -101,14 +106,9 @@ function UploadContent() {
       const zipBlob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
       
       setProgress('Securing upload channel...');
-      const { data: { session } } = await supabase.auth.getSession();
-      const token = session?.access_token;
-      if (!token) throw new Error("You must be logged in to upload files.");
-
       const uploadUrlRes = await fetch('/api/upload', {
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ action: 'get-upload-url', filename: `dataset_${Date.now()}.zip` })
       });
       if (!uploadUrlRes.ok) throw new Error('Failed to get upload URL');
@@ -138,18 +138,16 @@ function UploadContent() {
       setProgress('Generating checkout session…');
       const downloadUrlRes = await fetch('/api/upload', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ action: 'get-download-url', path })
       });
+      if (!downloadUrlRes.ok) throw new Error('Failed to secure dataset download URL');
       const { zipUrl } = await downloadUrlRes.json();
       
       const checkoutRes = await fetch('/api/checkout', {
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify({ plan, email, zipUrl, userId, gender, eyeColor, profession }),
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        // Passing metadata visually mimics HeadshotPro's custom prompts flow
-         
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ plan, email, zipUrl, userId, gender, eyeColor, profession }), 
       });
       if (!checkoutRes.ok) throw new Error('Checkout failed');
       const { url } = await checkoutRes.json();
