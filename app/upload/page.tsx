@@ -28,6 +28,7 @@ function UploadContent() {
   const [email, setEmail] = useState('');
   const [stage, setStage] = useState<Stage>('upload');
   const [userId, setUserId] = useState<string | null>(null);
+  const [consentChecked, setConsentChecked] = useState(false);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -71,6 +72,7 @@ function UploadContent() {
 
   const handleSubmit = async () => {
     setError('');
+    if (!consentChecked) { setError('Please accept the biometric processing consent check before proceeding.'); return; }
     if (!email || !email.includes('@')) { setError('Please enter a valid email address.'); return; }
     if (files.length < 1) { setError('Please upload at least 1 photo.'); return; }
     
@@ -98,24 +100,35 @@ function UploadContent() {
       const { signedUrl, token, path } = await uploadUrlRes.json();
 
       setProgress('Uploading your photos securely…');
-      // 2. Upload file directly to Supabase Storage via signed URL
-      const uploadHeaders: Record<string, string> = {
-        'x-upsert': 'true',
-        'content-type': 'application/zip',
-      };
-      if (token) {
-        uploadHeaders['authorization'] = `Bearer ${token}`;
-      }
       
-      const uploadRes = await fetch(signedUrl, {
-        method: 'PUT',
-        body: zipBlob,
-        headers: uploadHeaders,
+      // Upload using promise-wrapped XMLHttpRequest to output numeric progress feedback
+      await new Promise<void>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('PUT', signedUrl);
+        xhr.setRequestHeader('x-upsert', 'true');
+        xhr.setRequestHeader('content-type', 'application/zip');
+        if (token) {
+          xhr.setRequestHeader('authorization', `Bearer ${token}`);
+        }
+        
+        xhr.upload.onprogress = (e) => {
+          if (e.lengthComputable) {
+            const pct = Math.round((e.loaded / e.total) * 100);
+            setProgress(`Uploading selfies: ${pct}%`);
+          }
+        };
+        
+        xhr.onload = () => {
+          if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204) {
+            resolve();
+          } else {
+            reject(new Error('File upload failed. Please try again.'));
+          }
+        };
+        
+        xhr.onerror = () => reject(new Error('Network error during upload. Please check your connection.'));
+        xhr.send(zipBlob);
       });
-      
-      if (!uploadRes.ok) {
-        throw new Error('File upload failed. Please try again.');
-      }
 
       setProgress('Finalizing upload...');
       // 3. Get the download URL for the checkout session
@@ -329,6 +342,24 @@ function UploadContent() {
                 </p>
               </div>
 
+              {/* Biometric consent checkbox (GDPR/CCPA compliance requirement) */}
+              <div className="flex items-start gap-3 mt-4 mb-6">
+                <input
+                  type="checkbox"
+                  id="biometric-consent"
+                  checked={consentChecked}
+                  onChange={(e) => setConsentChecked(e.target.checked)}
+                  className="mt-1 w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300"
+                />
+                <label htmlFor="biometric-consent" className="text-xs text-slate-500 leading-relaxed select-none">
+                  I consent to Truzot processing my biometric face photos to train an AI model, and agree to the 30-day automatic deletion policy in accordance with the{' '}
+                  <Link href="/privacy" className="text-blue-600 hover:underline">
+                    Privacy Policy
+                  </Link>
+                  .
+                </label>
+              </div>
+
               {/* Submit Button */}
               {stage === 'processing' ? (
                 <div className="bg-slate-100 rounded-xl p-6 text-center">
@@ -339,7 +370,7 @@ function UploadContent() {
               ) : (
                 <button
                   onClick={handleSubmit}
-                  disabled={files.length === 0}
+                  disabled={files.length === 0 || !consentChecked}
                   className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   Continue to Payment

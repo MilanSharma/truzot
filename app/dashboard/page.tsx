@@ -275,9 +275,37 @@ function DashboardContent() {
   };
 
   const downloadSelected = async () => {
-    for (const url of selectedImages) {
-      window.open(`/api/download?imageUrl=${encodeURIComponent(url)}`, '_blank');
-      await new Promise(r => setTimeout(r, 400));
+    setDownloading(true);
+    try {
+      const JSZip = (await import('jszip')).default;
+      const zip = new JSZip();
+      
+      const fetchImage = async (url: string, index: number) => {
+        const res = await fetch(url);
+        const blob = await res.blob();
+        return { index, blob };
+      };
+      
+      const results = await Promise.all(
+        selectedImages.map((url, idx) => fetchImage(url, idx))
+      );
+      
+      for (const item of results) {
+        zip.file(`headshot_${item.index + 1}.jpg`, item.blob);
+      }
+      
+      const content = await zip.generateAsync({ type: 'blob' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(content);
+      link.download = `truzot-selected-${orderId}.zip`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (e) {
+      console.error("Batch download failed:", e);
+    } finally {
+      setDownloading(false);
+      setSelectedImages([]);
     }
   };
 
