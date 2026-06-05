@@ -34,7 +34,7 @@ function getResend() {
     
     const actionLink = data.properties.action_link;
     
-    await resend.emails.send({
+    await getResend().emails.send({
       from: 'Truzot <hello@truzot.com>',
       to: email,
       subject: 'Confirm your Truzot Account ✨',
