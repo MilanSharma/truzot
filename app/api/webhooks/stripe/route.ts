@@ -6,7 +6,7 @@ import { sendOrderConfirmationEmail } from '@/lib/email';
 
 export async function POST(req: Request) {
   // Initialize Stripe INSIDE the function so it doesn't crash during build when env vars are missing
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' });
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' } as any);
   
   const body = await req.text();
   const signature = req.headers.get('Stripe-Signature')!;
@@ -38,7 +38,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Order not found' }, { status: 400 });
     }
 
-    // Idempotency check
     if (['training', 'generating', 'completed'].includes(order.status)) {
       console.log(`Order ${orderId} is already in state: ${order.status}. Skipping duplicate kickoff.`);
       return NextResponse.json({ received: true });

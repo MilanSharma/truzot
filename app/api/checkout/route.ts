@@ -4,7 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase/admin';
 
 export async function POST(req: Request) {
   // Initialize Stripe INSIDE the function
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' });
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' } as any);
   
   try {
     const { plan, email, zipUrl, userId } = await req.json();
