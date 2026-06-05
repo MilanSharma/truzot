@@ -48,8 +48,8 @@ function buildPrompts(plan: string): string[] {
   return pool;
 }
 
-export const PLAN_PROMPTS: Record<string, string[]> = { basic: buildPrompts('basic'), pro: buildPrompts('pro'), executive: buildPrompts('executive') };
 export const PLAN_SHOTS: Record<string, number> = { basic: 40, pro: 100, executive: 200 };
+export const PLAN_PROMPTS: Record<string, string[]> = { basic: buildPrompts('basic'), pro: buildPrompts('pro'), executive: buildPrompts('executive') };
 
 export const trainModel = async (imageUrl: string, orderId: string) => {
   configureFal();
