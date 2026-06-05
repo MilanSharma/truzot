@@ -88,7 +88,7 @@ export async function GET(req: Request) {
         zip.file(`headshot_${item.index + 1}.jpg`, item.arrayBuffer);
       }
       
-      const zipBuffer = await zip.generateAsync({ type: 'uint8array' });
+      const zipBuffer = await zip.generateAsync({ type: 'arraybuffer' });
       
       return new NextResponse(zipBuffer, {
         headers: {
