@@ -18,10 +18,12 @@ import LightboxModal from "@/components/dashboard/LightboxModal";
 import FloatingSelectionBar from "@/components/dashboard/FloatingSelectionBar";
 import DownloadProgress from "@/components/DownloadProgress";
 import GalleryErrorBoundary from "@/components/GalleryErrorBoundary";
+import { useToast } from "@/components/Toast";
 
 function DashboardContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { toast } = useToast();
   const orderId = searchParams.get("order");
 
   const [headshots, setHeadshots] = useState<Headshot[]>([]);
@@ -296,7 +298,7 @@ function DashboardContent() {
       a.remove();
       URL.revokeObjectURL(url);
     } catch {
-      alert("Failed to download selected images. Please try again.");
+      toast("Failed to download selected images. Please try again.", "error");
     } finally {
       setDownloading(false);
     }

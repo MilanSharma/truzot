@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { useToast } from "@/components/Toast";
 
 interface AdminOrder {
   id: string;
@@ -18,6 +19,7 @@ interface AdminOrder {
 
 export default function AdminDashboard() {
   const router = useRouter();
+  const { toast } = useToast();
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -75,8 +77,8 @@ export default function AdminDashboard() {
     });
     if (res.ok) {
       fetchOrders();
-      alert("Retry initiated");
-    } else alert("Retry failed");
+      toast("Retry initiated", "success");
+    } else toast("Retry failed", "error");
   };
 
   const refundOrder = async (orderId: string) => {
@@ -93,8 +95,8 @@ export default function AdminDashboard() {
     const data = await res.json();
     if (res.ok) {
       fetchOrders();
-      alert(data.message || "Refund processed");
-    } else alert(data.error || "Refund failed");
+      toast(data.message || "Refund processed", "success");
+    } else toast(data.error || "Refund failed", "error");
   };
 
   if (!isAdmin)

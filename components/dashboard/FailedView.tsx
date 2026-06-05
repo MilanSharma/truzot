@@ -2,10 +2,12 @@
 import { X, Zap, Shield } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
+import { useToast } from "@/components/Toast";
 import type { Order } from "@/lib/types";
 
 export default function FailedView({ order }: { order: Order }) {
   const router = useRouter();
+  const { toast } = useToast();
 
   return (
     <div className="bg-white rounded-3xl border border-slate-200 p-10 max-w-2xl mx-auto shadow-sm mt-12 text-center">
@@ -37,7 +39,10 @@ export default function FailedView({ order }: { order: Order }) {
               if (!res.ok) throw new Error("Retry failed");
               window.location.reload();
             } catch {
-              alert("Failed to retry. Please try again or contact support.");
+              toast(
+                "Failed to retry. Please try again or contact support.",
+                "error",
+              );
             }
           }}
           className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-sm"

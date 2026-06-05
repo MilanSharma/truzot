@@ -11,7 +11,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
-        display: ["Playfair Display", "Georgia", "serif"],
+        display: ["var(--font-playfair)", "Georgia", "serif"],
       },
       animation: {
         "fade-in": "fadeIn 0.5s ease-out",
