@@ -44,6 +44,19 @@ function LoginForm() {
   const [emailNotConfirmed, setEmailNotConfirmed] = useState(false);
 
   useEffect(() => {
+    const handleOAuthError = () => {
+      const oauthError = searchParams.get("error");
+      const oauthErrorDesc = searchParams.get("error_description");
+      if (oauthError) {
+        setError(oauthErrorDesc ?? oauthError);
+        const cleanUrl = new URL(window.location.href);
+        cleanUrl.searchParams.delete("error");
+        cleanUrl.searchParams.delete("error_description");
+        cleanUrl.searchParams.delete("error_code");
+        window.history.replaceState({}, "", cleanUrl.toString());
+      }
+    };
+
     const checkEmailConfirmation = async () => {
       const {
         data: { session },
@@ -60,6 +73,7 @@ function LoginForm() {
       }
     };
 
+    handleOAuthError();
     checkEmailConfirmation();
   }, [router, searchParams]);
 
@@ -114,7 +128,7 @@ function LoginForm() {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
-        options: { redirectTo: `${window.location.origin}/dashboard` },
+        options: { redirectTo: `${window.location.origin}/login` },
       });
       if (error) setError(error.message);
     } catch (err: any) {
