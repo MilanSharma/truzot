@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { supabaseAdmin } from '@/lib/supabase/admin';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' });
 
 const PLANS: Record<string, { priceId: string; amount: number; label: string; shots: number }> = {
   basic:     { priceId: process.env.STRIPE_PRICE_BASIC!,     amount: 2900,  label: 'Basic — 40 Headshots',      shots: 40 },
@@ -11,6 +10,7 @@ const PLANS: Record<string, { priceId: string; amount: number; label: string; sh
 };
 
 export async function POST(req: Request) {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' });
   try {
     // Destructure plan, email, zipUrl, and userId in a single call to preserve the request stream
     const { plan, email, zipUrl, userId } = await req.json();

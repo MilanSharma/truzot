@@ -1,6 +1,12 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+let resendInstance: any = null;
+function getResend() {
+  if (!resendInstance) {
+    resendInstance = new Resend(process.env.RESEND_API_KEY);
+  }
+  return resendInstance;
+}
 
 export async function sendHeadshotsReadyEmail(
   email: string,
@@ -9,7 +15,7 @@ export async function sendHeadshotsReadyEmail(
 ) {
   const dashboardUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard?order=${orderId}`;
 
-  await resend.emails.send({
+  await getResend().emails.send({
     from: 'Truzot <hello@truzot.com>',
     to: email,
     subject: `Your ${shotCount} headshots are ready ✨`,
@@ -39,7 +45,7 @@ export async function sendHeadshotsReadyEmail(
 }
 
 export async function sendOrderConfirmationEmail(email: string, plan: string, amount: number) {
-  await resend.emails.send({
+  await getResend().emails.send({
     from: 'Truzot <hello@truzot.com>',
     to: email,
     subject: 'Order confirmed — your headshots are being generated',

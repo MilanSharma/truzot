@@ -4,9 +4,9 @@ import { trainModel } from '@/lib/ai/fal-client';
 import { supabaseAdmin } from '@/lib/supabase/admin';
 import { sendOrderConfirmationEmail } from '@/lib/email';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' });
 
 export async function POST(req: Request) {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' });
   const body = await req.text();
   const signature = req.headers.get('Stripe-Signature')!;
 
