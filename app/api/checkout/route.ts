@@ -48,7 +48,7 @@ function getStripe() {
     const url = new URL(req.url);
     const baseUrl = `${url.protocol}//${url.host}`;
 
-    const session = await getStripe().checkout.sessions.create({
+    const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'payment',
       customer_email: email,
