@@ -10,7 +10,7 @@ export const PLAN_PROMPTS: Record<string, string[]> = {
 
 export const PLAN_SHOTS: Record<string, number> = {
   basic: 40,
-  pro: 120,
+  pro: 100,
   executive: 200,
 };
 
@@ -29,7 +29,11 @@ export const trainModel = async (imageUrl: string, orderId: string) => {
 
 export const generateHeadshots = async (modelId: string, plan: string, startIndex: number = 0, limit: number = 10000) => {
   const allPrompts = PLAN_PROMPTS[plan] ?? PLAN_PROMPTS.basic;
-  const prompts = allPrompts.slice(startIndex, startIndex + limit);
+  const targetShots = PLAN_SHOTS[plan] ?? 40;
+  const prompts = [];
+  for (let i = startIndex; i < Math.min(startIndex + limit, targetShots); i++) {
+    prompts.push(allPrompts[i % allPrompts.length]);
+  }
   // Generate one image per prompt
   const results = await Promise.allSettled(
     prompts.map((prompt) =>

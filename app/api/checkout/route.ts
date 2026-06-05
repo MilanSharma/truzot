@@ -6,8 +6,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06
 
 const PLANS: Record<string, { priceId: string; amount: number; label: string; shots: number }> = {
   basic:     { priceId: process.env.STRIPE_PRICE_BASIC!,     amount: 2900,  label: 'Basic — 40 Headshots',      shots: 40 },
-  pro:       { priceId: process.env.STRIPE_PRICE_PRO!,       amount: 9900,  label: 'Pro — 120 Headshots',       shots: 120 },
-  executive: { priceId: process.env.STRIPE_PRICE_EXECUTIVE!, amount: 19900, label: 'Executive — 200 Headshots', shots: 200 },
+  pro:       { priceId: process.env.STRIPE_PRICE_PRO!,       amount: 3900,  label: 'Pro — 100 Headshots',       shots: 100 },
+  executive: { priceId: process.env.STRIPE_PRICE_EXECUTIVE!, amount: 5900,  label: 'Executive — 200 Headshots', shots: 200 },
 };
 
 export async function POST(req: Request) {
