@@ -141,18 +141,18 @@ function DashboardContent() {
     return data?.length || 0;
   }, []);
 
-  const triggerGeneration = useCallback(async (id: string) => {
+  const checkOrderStatus = useCallback(async (id: string) => {
     try {
-      const res = await fetch('/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId: id }),
-      });
+      const res = await fetch(`/api/order-status?orderId=${id}`);
       const data = await res.json();
       
       if (data.status === 'completed') {
         setGenerationStatus('completed');
-        await fetchHeadshots(id);
+        if (data.headshots && data.headshots.length > 0) {
+           setHeadshots(data.headshots);
+        } else {
+           await fetchHeadshots(id);
+        }
         return 'completed';
       }
       if (data.status === 'generating') {
@@ -164,7 +164,7 @@ function DashboardContent() {
       }
       return data.status;
     } catch (err) {
-      console.error('Generation trigger error:', err);
+      console.error('Order status check error:', err);
       return 'error';
     }
   }, [fetchHeadshots]);
@@ -200,7 +200,7 @@ function DashboardContent() {
         }
         
         if (order.status === 'generating') {
-          const result = await triggerGeneration(id);
+          const result = await checkOrderStatus(id);
           if (result === 'completed') {
             isProcessingPoll.current = false;
             return;
@@ -217,7 +217,7 @@ function DashboardContent() {
     };
 
     pollRef.current = setTimeout(pollFunc, 5000);
-  }, [fetchOrderById, fetchHeadshots, triggerGeneration]);
+  }, [fetchOrderById, fetchHeadshots, checkOrderStatus]);
 
   useEffect(() => {
     const checkAuth = async () => {
