@@ -19,6 +19,7 @@ import FloatingSelectionBar from "@/components/dashboard/FloatingSelectionBar";
 import DownloadProgress from "@/components/DownloadProgress";
 import GalleryErrorBoundary from "@/components/GalleryErrorBoundary";
 import { useToast } from "@/components/Toast";
+import { motion, AnimatePresence } from "framer-motion";
 
 function DashboardContent() {
   const searchParams = useSearchParams();
@@ -296,10 +297,35 @@ function DashboardContent() {
     );
   };
 
+  const clientSideZip = async (urls: string[], filename: string) => {
+    const JSZip = (await import("jszip")).default;
+    const zip = new JSZip();
+    for (let i = 0; i < urls.length; i++) {
+      const proxyRes = await fetch(
+        `/api/download/proxy?url=${encodeURIComponent(urls[i])}`,
+      );
+      if (!proxyRes.ok) continue;
+      const blob = await proxyRes.blob();
+      zip.file(`headshot_${i + 1}.jpg`, blob);
+    }
+    const zipBlob = await zip.generateAsync({ type: "blob" });
+    const blobUrl = URL.createObjectURL(zipBlob);
+    const a = document.createElement("a");
+    a.href = blobUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(blobUrl);
+  };
+
   const downloadSingle = async (url: string) => {
     try {
-      const res = await fetch(url);
-      const blob = await res.blob();
+      const proxyRes = await fetch(
+        `/api/download/proxy?url=${encodeURIComponent(url)}`,
+      );
+      if (!proxyRes.ok) return;
+      const blob = await proxyRes.blob();
       const blobUrl = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = blobUrl;
@@ -315,27 +341,10 @@ function DashboardContent() {
     if (selectedImages.length === 0 || !orderId) return;
     setDownloading(true);
     try {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      const res = await fetch("/api/download", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${session?.access_token || ""}`,
-        },
-        body: JSON.stringify({ imageUrls: selectedImages, orderId }),
-      });
-      if (!res.ok) throw new Error("Download failed");
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `truzot-selected-${selectedImages.length}.zip`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
+      await clientSideZip(
+        selectedImages,
+        `truzot-selected-${selectedImages.length}.zip`,
+      );
     } catch {
       toast("Failed to download selected images. Please try again.", "error");
     } finally {
@@ -408,7 +417,12 @@ function DashboardContent() {
           onClose={() => setMobileDrawerOpen(false)}
         />
 
-        <div className="p-6 md:p-10 max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="p-6 md:p-10 max-w-7xl mx-auto"
+        >
           {orderId && currentOrder ? (
             <div className="animate-in fade-in duration-500">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
@@ -440,60 +454,31 @@ function DashboardContent() {
                     </button>
                     <DownloadProgress
                       onDownload={async (onProgress) => {
-                        const {
-                          data: { session },
-                        } = await supabase.auth.getSession();
-                        let downloadToken = "";
-                        if (session?.access_token) {
-                          const tokRes = await fetch("/api/download/token", {
-                            method: "POST",
-                            headers: {
-                              "Content-Type": "application/json",
-                              Authorization: `Bearer ${session.access_token}`,
-                            },
-                            body: JSON.stringify({ orderId }),
-                          });
-                          if (tokRes.ok) {
-                            const tokData = await tokRes.json();
-                            downloadToken = tokData.token;
-                          }
+                        const urls = currentFiltered.map((h) => h.image_url);
+                        const JSZip = (await import("jszip")).default;
+                        const zip = new JSZip();
+                        let completed = 0;
+                        for (let i = 0; i < urls.length; i++) {
+                          const proxyRes = await fetch(
+                            `/api/download/proxy?url=${encodeURIComponent(urls[i])}`,
+                          );
+                          if (!proxyRes.ok) continue;
+                          const blob = await proxyRes.blob();
+                          zip.file(`headshot_${i + 1}.jpg`, blob);
+                          completed++;
+                          onProgress(completed, urls.length);
                         }
-                        const res = await fetch(
-                          `/api/download?orderId=${orderId}&download_token=${encodeURIComponent(downloadToken)}`,
-                        );
-                        if (!res.ok) throw new Error("Download failed");
-                        const reader = res.body?.getReader();
-                        if (!reader) return;
-                        const contentLength = +(
-                          res.headers.get("Content-Length") || "0"
-                        );
-                        let received = 0;
-                        const chunks: Uint8Array[] = [];
-                        while (true) {
-                          const { done, value } = await reader.read();
-                          if (done) break;
-                          chunks.push(value);
-                          received += value.length;
-                          if (contentLength)
-                            onProgress(received, contentLength);
-                        }
-                        const totalLength = chunks.reduce(
-                          (s, c) => s + c.length,
-                          0,
-                        );
-                        const merged = new Uint8Array(totalLength);
-                        let offset = 0;
-                        for (const c of chunks) {
-                          merged.set(c, offset);
-                          offset += c.length;
-                        }
-                        const blob = new Blob([merged]);
-                        const url = URL.createObjectURL(blob);
+                        const zipBlob = await zip.generateAsync({
+                          type: "blob",
+                        });
+                        const blobUrl = URL.createObjectURL(zipBlob);
                         const a = document.createElement("a");
-                        a.href = url;
+                        a.href = blobUrl;
                         a.download = `truzot-headshots-${orderId}.zip`;
+                        document.body.appendChild(a);
                         a.click();
-                        URL.revokeObjectURL(url);
+                        a.remove();
+                        URL.revokeObjectURL(blobUrl);
                       }}
                       label="Download All"
                     />
@@ -556,9 +541,15 @@ function DashboardContent() {
               )}
             </div>
           ) : (
-            <ProjectLibrary orders={orders} />
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
+            >
+              <ProjectLibrary orders={orders} />
+            </motion.div>
           )}
-        </div>
+        </motion.div>
       </main>
 
       {multiSelectMode && selectedImages.length > 0 && (

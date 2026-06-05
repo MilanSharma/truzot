@@ -21,6 +21,7 @@ export const checkoutSchema = z.object({
   eyeColor: z.string().min(1).max(50),
   profession: z.string().min(1).max(100),
   userId: z.string().optional(),
+  idempotencyKey: z.string().min(1, "Idempotency key is required"),
 });
 
 export const retrySchema = z.object({

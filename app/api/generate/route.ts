@@ -7,6 +7,7 @@ import { generateTriggerSchema, validate } from "@/lib/validations";
 import { createLogger } from "@/lib/logger";
 import { addCors, handleOptions } from "@/lib/cors";
 import { withContext } from "@/lib/request-context";
+import { getStripe } from "@/lib/stripe";
 
 const log = createLogger("generate");
 export const maxDuration = 300;
@@ -148,7 +149,7 @@ export const POST = withContext(async (req: Request) => {
       BATCH_SIZE,
       order.preferences,
     );
-    let headshotsToInsert = results.flatMap((res: any) => {
+    let headshotsToInsert = results.flatMap((res) => {
       const promptText = res.prompt ?? "";
       let category = "corporate";
       if (promptText.toLowerCase().includes("casual")) category = "casual";
@@ -157,7 +158,7 @@ export const POST = withContext(async (req: Request) => {
       else if (promptText.toLowerCase().includes("studio")) category = "studio";
       else if (promptText.toLowerCase().includes("outdoor"))
         category = "outdoor";
-      return (res.images ?? []).map((img: any) => ({
+      return (res.images ?? []).map((img) => ({
         order_id: orderId,
         image_url: img.url,
         style: promptText || "ai-generated",
@@ -231,6 +232,29 @@ export const POST = withContext(async (req: Request) => {
           .from("orders")
           .update({ status: "failed" })
           .eq("id", orderId);
+        const { data: failedOrder } = await supabaseAdmin
+          .from("orders")
+          .select("stripe_payment_intent")
+          .eq("id", orderId)
+          .single();
+        if (failedOrder?.stripe_payment_intent) {
+          try {
+            const stripe = getStripe();
+            await stripe.refunds.create({
+              payment_intent: failedOrder.stripe_payment_intent as string,
+            });
+            await supabaseAdmin
+              .from("orders")
+              .update({ status: "refunded" })
+              .eq("id", orderId);
+            log.info(
+              { orderId },
+              "Auto-refund issued after generation failure",
+            );
+          } catch (refundErr) {
+            log.error({ err: refundErr, orderId }, "Auto-refund failed");
+          }
+        }
         log.error(
           { orderId },
           "Generation failed after 3 consecutive empty batches",

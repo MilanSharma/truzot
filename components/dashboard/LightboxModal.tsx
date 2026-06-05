@@ -1,6 +1,8 @@
 "use client";
 import { useEffect } from "react";
+import Image from "next/image";
 import { Heart, Download, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import ShareButton from "@/components/ShareButton";
 
 interface LightboxModalProps {
@@ -35,11 +37,21 @@ export default function LightboxModal({
   }, [onClose, onPrev, onNext]);
 
   return (
-    <div
-      className="fixed inset-0 bg-slate-900/95 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in duration-200"
+    <motion.div
+      className="fixed inset-0 bg-slate-900/95 backdrop-blur-sm z-50 flex items-center justify-center p-4"
       onClick={onClose}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
     >
-      <div className="relative max-w-5xl w-full h-full flex flex-col justify-center items-center">
+      <motion.div
+        className="relative max-w-5xl w-full h-full flex flex-col justify-center items-center"
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.95, opacity: 0 }}
+        transition={{ duration: 0.2 }}
+      >
         {allImages && allImages.length > 1 && (
           <div className="text-white/60 text-xs font-bold tracking-wide uppercase absolute top-6 left-1/2 -translate-x-1/2 z-20 bg-black/40 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10">
             {allImages.indexOf(imageUrl) + 1} / {allImages.length}
@@ -102,20 +114,21 @@ export default function LightboxModal({
             <ChevronRight className="w-6 h-6" />
           </button>
         )}
-        <div className="relative max-h-[85vh] max-w-full">
+        <div className="relative max-h-[85vh] max-w-full w-full h-full">
           <div className="absolute inset-0 bg-slate-700/50 rounded-2xl animate-pulse" />
-          <img
+          <Image
             src={imageUrl}
             alt="HD Headshot preview"
-            className="relative max-h-[85vh] max-w-full object-contain rounded-2xl shadow-2xl border-4 border-white/10"
+            fill
+            sizes="90vw"
+            className="object-contain rounded-2xl shadow-2xl border-4 border-white/10"
             onLoad={(e) => {
-              (e.target as HTMLElement).previousElementSibling?.classList.add(
-                "hidden",
-              );
+              const target = e.target as HTMLImageElement;
+              target.previousElementSibling?.classList.add("hidden");
             }}
           />
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

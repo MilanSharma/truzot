@@ -111,8 +111,8 @@ CREATE TABLE IF NOT EXISTS email_preferences (
 );
 
 ALTER TABLE email_preferences ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Anyone can upsert email_preferences" ON email_preferences
-  FOR ALL USING (true);
+CREATE POLICY "Service role can manage email_preferences" ON email_preferences
+  FOR ALL USING (auth.role() = 'service_role');
 
 -- Create delete_user_account RPC function (called by account settings page)
 CREATE OR REPLACE FUNCTION delete_user_account()

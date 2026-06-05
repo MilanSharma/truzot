@@ -2,6 +2,11 @@ import "server-only";
 import { fal } from "@fal-ai/client";
 import pLimit from "p-limit";
 import { PLAN_SHOTS } from "@/lib/plans";
+import type {
+  GenerateHeadshotsResult,
+  TrainModelResult,
+  UserPreferences,
+} from "@/lib/ai/types";
 
 function configureFal() {
   if (process.env.FAL_KEY) {
@@ -35,7 +40,7 @@ const getExtendedPrompts = (g: string, p: string, e: string) => [
   `A remote-work professional casual photo of TOK, a ${g} ${p} ${e}, smart casual, stylish bookshelf background, warm ambient indoor light`,
 ];
 
-function buildPrompts(plan: string, prefs?: any): string[] {
+function buildPrompts(plan: string, prefs?: UserPreferences): string[] {
   const target = PLAN_SHOTS[plan] ?? 40;
   const pool: string[] = [];
 
@@ -118,8 +123,8 @@ export const generateHeadshots = async (
   plan: string,
   startIndex: number = 0,
   limit: number = 10000,
-  prefs?: any,
-) => {
+  prefs?: UserPreferences,
+): Promise<GenerateHeadshotsResult[]> => {
   configureFal();
   const allPrompts = buildPrompts(plan, prefs);
   const targetShots = PLAN_SHOTS[plan] ?? 40;
@@ -149,8 +154,8 @@ export const generateHeadshots = async (
     ),
   );
 
-  return results
+  return (results as PromiseSettledResult<GenerateHeadshotsResult>[])
     .filter((r) => r.status === "fulfilled")
-    .map((r) => (r as PromiseFulfilledResult<any>).value)
+    .map((r) => (r as PromiseFulfilledResult<GenerateHeadshotsResult>).value)
     .sort((a, b) => a.index - b.index);
 };

@@ -1,5 +1,6 @@
 "use client";
 import { useState, useRef, useCallback, useEffect } from "react";
+import Image from "next/image";
 import { Grid } from "react-window";
 import {
   Download,
@@ -71,13 +72,14 @@ function HeadshotCard({
         {!loaded && (
           <div className="absolute inset-0 bg-slate-200 dark:bg-slate-800 animate-pulse" />
         )}
-        <img
+        <Image
           src={headshot.image_url}
           alt="AI Headshot"
-          className={`w-full h-full object-cover select-none transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
+          fill
+          sizes="(max-width: 768px) 50vw, 25vw"
+          className={`object-cover select-none transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
           onDoubleClick={() => onToggleSelect(headshot.image_url)}
           onLoad={() => setLoaded(true)}
-          loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-slate-900/40 opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-between p-3">
           <div className="flex items-center justify-between">

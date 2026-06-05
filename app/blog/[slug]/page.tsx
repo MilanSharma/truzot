@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { getPost, getAllPosts } from "@/lib/blog";
@@ -9,6 +10,24 @@ import remarkGfm from "remark-gfm";
 export function generateStaticParams() {
   const posts = getAllPosts();
   return posts.map((post) => ({ slug: post.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const resolvedParams = await params;
+  const post = getPost(resolvedParams.slug);
+  if (!post) return { title: "Post Not Found - Truzot Blog" };
+  return {
+    title: `${post.title} - Truzot Blog`,
+    description: `Read "${post.title}" on the Truzot Blog.`,
+    openGraph: {
+      title: post.title,
+      description: `Read "${post.title}" on the Truzot Blog.`,
+    },
+  };
 }
 
 export default function BlogPostPage({

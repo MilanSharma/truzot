@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { createLogger } from "@/lib/logger";
 import { withContext } from "@/lib/request-context";
+import { getStripe } from "@/lib/stripe";
 
 const log = createLogger("cleanup");
 
@@ -12,6 +13,9 @@ const log = createLogger("cleanup");
  * AI-generated headshots, training data, and order metadata for
  * orders older than 30 days.
  *
+ * Also checks for stuck orders (generating > 4 hours) and
+ * orders stuck in training > 2 hours, flagging them for review.
+ *
  * Schedule: Run daily via Vercel Cron or external scheduler.
  * Security: Protected by CRON_SECRET header.
  */
@@ -21,6 +25,61 @@ export const GET = withContext(async (req: Request) => {
 
   if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const stuckResults = { flagged: 0, autoRefunded: 0 };
+
+  // Check for stuck generating orders (> 4 hours)
+  const fourHoursAgo = new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString();
+  const { data: stuckGenerating } = await supabaseAdmin
+    .from("orders")
+    .select("id, stripe_payment_intent")
+    .eq("status", "generating")
+    .lt("created_at", fourHoursAgo);
+
+  for (const order of stuckGenerating || []) {
+    stuckResults.flagged++;
+    if (order.stripe_payment_intent) {
+      try {
+        const stripe = getStripe();
+        await stripe.refunds.create({
+          payment_intent: order.stripe_payment_intent as string,
+        });
+        await supabaseAdmin
+          .from("orders")
+          .update({ status: "refunded" })
+          .eq("id", order.id);
+        stuckResults.autoRefunded++;
+        log.info({ orderId: order.id }, "Auto-refunded stuck generating order");
+      } catch (err) {
+        log.error({ err, orderId: order.id }, "Failed to refund stuck order");
+      }
+    } else {
+      await supabaseAdmin
+        .from("orders")
+        .update({ status: "failed" })
+        .eq("id", order.id);
+    }
+  }
+
+  // Check for stuck training orders (> 2 hours)
+  const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString();
+  const { data: stuckTraining } = await supabaseAdmin
+    .from("orders")
+    .select("id, stripe_payment_intent")
+    .eq("status", "training")
+    .lt("created_at", twoHoursAgo);
+
+  for (const order of stuckTraining || []) {
+    stuckResults.flagged++;
+    await supabaseAdmin
+      .from("orders")
+      .update({ status: "failed" })
+      .eq("id", order.id);
+  }
+
+  if (stuckResults.flagged > 0) {
+    log.info(stuckResults, "Stuck order check complete");
   }
 
   try {
@@ -92,6 +151,8 @@ export const GET = withContext(async (req: Request) => {
     return NextResponse.json({
       message: "Cleanup complete",
       deleted: results.deleted,
+      stuckFlagged: stuckResults.flagged,
+      stuckAutoRefunded: stuckResults.autoRefunded,
       errors: results.errors.length > 0 ? results.errors : undefined,
     });
   } catch (err) {

@@ -63,17 +63,11 @@ async function resolveUserIdFromDownloadToken(
 
   const { data: tokenRow } = await supabaseAdmin
     .from("download_tokens")
-    .select("user_id, expires_at, used")
+    .select("user_id, expires_at")
     .eq("id", downloadToken)
     .maybeSingle();
   if (!tokenRow) return null;
-  if (tokenRow.used) return null;
   if (new Date(tokenRow.expires_at) < new Date()) return null;
-
-  await supabaseAdmin
-    .from("download_tokens")
-    .update({ used: true })
-    .eq("id", downloadToken);
 
   return tokenRow.user_id;
 }

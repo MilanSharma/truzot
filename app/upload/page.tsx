@@ -74,6 +74,7 @@ function UploadContent() {
   const [email, setEmail] = useState("");
   const [userId, setUserId] = useState<string | null>(null);
   const [consentChecked, setConsentChecked] = useState(false);
+  // Biometric consent intentionally starts unchecked for GDPR/CCPA compliance
   const [error, setError] = useState("");
   const [progress, setProgress] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -104,13 +105,35 @@ function UploadContent() {
     };
   }, [objectUrls]);
 
-  const handleFiles = useCallback((incoming: FileList | null) => {
+  const handleFiles = useCallback(async (incoming: FileList | null) => {
     if (!incoming) return;
-    const valid = Array.from(incoming).filter(
-      (f) => f.type.startsWith("image/") && f.size < 10 * 1024 * 1024,
-    );
+    const converted: File[] = [];
+    for (const f of Array.from(incoming)) {
+      if (f.size >= 10 * 1024 * 1024) continue;
+      if (
+        f.type === "image/heic" ||
+        f.type === "image/heif" ||
+        f.name.toLowerCase().endsWith(".heic") ||
+        f.name.toLowerCase().endsWith(".heif")
+      ) {
+        try {
+          const heic2any = (await import("heic2any")).default;
+          const blob = await heic2any({ blob: f, toType: "image/jpeg" });
+          const jpegFile = new File(
+            [blob as Blob],
+            f.name.replace(/\.(heic|heif)$/i, ".jpg"),
+            { type: "image/jpeg" },
+          );
+          converted.push(jpegFile);
+        } catch {
+          converted.push(f);
+        }
+      } else if (f.type.startsWith("image/")) {
+        converted.push(f);
+      }
+    }
     setFiles((prev) => {
-      const next = [...prev, ...valid].slice(0, 25);
+      const next = [...prev, ...converted].slice(0, 25);
       return next;
     });
   }, []);
@@ -253,6 +276,8 @@ function UploadContent() {
         throw new Error("Failed to secure dataset download URL");
       const { zipUrl, storagePath } = await downloadUrlRes.json();
 
+      const idempotencyKey = crypto.randomUUID();
+
       const checkoutRes = await fetch("/api/checkout", {
         method: "POST",
         headers: {
@@ -268,6 +293,7 @@ function UploadContent() {
           gender,
           eyeColor,
           profession,
+          idempotencyKey,
         }),
       });
       if (!checkoutRes.ok) throw new Error("Checkout failed");
@@ -343,7 +369,8 @@ function UploadContent() {
                 <input
                   type="file"
                   multiple
-                  accept="image/*"
+                  accept="image/jpeg,image/png,image/heic"
+                  capture="environment"
                   className="hidden"
                   id="file-input"
                   onChange={(e) => handleFiles(e.target.files)}

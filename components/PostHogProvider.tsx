@@ -8,7 +8,8 @@ const posthogHost =
 
 export function PostHogProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
-    if (posthogKey && typeof window !== "undefined") {
+    const consent = localStorage.getItem("truzot-cookie-consent");
+    if (posthogKey && typeof window !== "undefined" && consent === "accepted") {
       try {
         posthog.init(posthogKey, {
           api_host: posthogHost,

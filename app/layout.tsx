@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { getEnv } from "@/lib/env";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import { ToastProvider } from "@/components/Toast";
+import CookieConsent from "@/components/CookieConsent";
 
 if (typeof window === "undefined") {
   try {
@@ -71,6 +72,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <ToastProvider>
             {children}
             <Analytics />
+            <CookieConsent />
           </ToastProvider>
         </PostHogProvider>
       </body>

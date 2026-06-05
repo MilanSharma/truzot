@@ -45,8 +45,16 @@ export const POST = withContext(async (req: Request) => {
         NextResponse.json({ error: parsed.error }, { status: 400 }),
         origin,
       );
-    const { plan, email, zipUrl, storagePath, gender, eyeColor, profession } =
-      parsed.data!;
+    const {
+      plan,
+      email,
+      zipUrl,
+      storagePath,
+      gender,
+      eyeColor,
+      profession,
+      idempotencyKey,
+    } = parsed.data!;
 
     if (!PLANS[plan])
       return addCors(
@@ -55,7 +63,6 @@ export const POST = withContext(async (req: Request) => {
       );
     const planConfig = PLANS[plan];
 
-    const idempotencyKey = req.headers.get("idempotency-key");
     if (idempotencyKey) {
       const { data: existing } = await supabase
         .from("orders")
