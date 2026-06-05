@@ -1,12 +1,8 @@
 import { Resend } from 'resend';
 
 // Lazy-load Resend to prevent build-time crashes when RESEND_API_KEY is missing
-let resendInstance: Resend | null = null;
 function getResend() {
-  if (!resendInstance) {
-    resendInstance = new Resend(process.env.RESEND_API_KEY);
-  }
-  return resendInstance;
+  return new Resend(process.env.RESEND_API_KEY);
 }
 
 export async function sendHeadshotsReadyEmail(

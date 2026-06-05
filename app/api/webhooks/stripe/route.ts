@@ -5,7 +5,7 @@ import { supabaseAdmin } from '@/lib/supabase/admin';
 import { sendOrderConfirmationEmail } from '@/lib/email';
 
 export async function POST(req: Request) {
-  // Initialize Stripe INSIDE the function so it doesn't crash during build when env vars are missing
+  // Initialize Stripe INSIDE the function so it doesn't crash during build
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' } as any);
   
   const body = await req.text();
