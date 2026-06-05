@@ -56,18 +56,17 @@ function LoginForm() {
 
     try {
       if (isSignUp) {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/login?confirmed=true`,
-          },
+        const res = await fetch('/api/auth/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
         });
+        const data = await res.json();
         
-        if (error) {
-          setError(error.message);
+        if (!res.ok) {
+          setError(data.error ?? 'Signup failed');
         } else {
-          setSuccess("Check your email to confirm your account! We've sent you a confirmation link.");
+          setSuccess("Check your email to confirm your account! We've sent you a confirmation link from hello@truzot.com.");
           setIsSignUp(false);
         }
       } else {
