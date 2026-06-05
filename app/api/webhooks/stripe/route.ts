@@ -75,12 +75,19 @@ export const POST = withContext(async (req: Request) => {
       }
     }
 
+    const customerId =
+      typeof session.customer === "string"
+        ? session.customer
+        : session.customer?.id;
+    const existingPrefs = (order.preferences as Record<string, any>) || {};
+
     const { error: orderUpdateError } = await supabaseAdmin
       .from("orders")
       .update({
         status: "training",
         zip_url: freshZipUrl,
         stripe_payment_intent: session.payment_intent as string,
+        preferences: { ...existingPrefs, stripe_customer_id: customerId },
       })
       .eq("id", orderId);
     if (orderUpdateError)

@@ -148,7 +148,7 @@ export const POST = withContext(async (req: Request) => {
       BATCH_SIZE,
       order.preferences,
     );
-    const headshotsToInsert = results.flatMap((res: any) => {
+    let headshotsToInsert = results.flatMap((res: any) => {
       const promptText = res.prompt ?? "";
       let category = "corporate";
       if (promptText.toLowerCase().includes("casual")) category = "casual";
@@ -166,11 +166,26 @@ export const POST = withContext(async (req: Request) => {
     });
 
     if (headshotsToInsert.length > 0) {
-      const { error: insertError } = await supabaseAdmin
+      const { count: dedupCheck } = await supabaseAdmin
         .from("headshots")
-        .insert(headshotsToInsert);
-      if (insertError)
-        log.error({ err: insertError, orderId }, "Failed to insert headshots");
+        .select("id", { count: "exact", head: true })
+        .eq("order_id", orderId);
+      if ((dedupCheck ?? 0) !== currentCount) {
+        log.warn(
+          { orderId, expected: currentCount, actual: dedupCheck },
+          "Dedup: skipping batch, another instance already wrote headshots",
+        );
+        headshotsToInsert = [];
+      } else {
+        const { error: insertError } = await supabaseAdmin
+          .from("headshots")
+          .insert(headshotsToInsert);
+        if (insertError)
+          log.error(
+            { err: insertError, orderId },
+            "Failed to insert headshots",
+          );
+      }
     }
 
     const newTotal = currentCount + headshotsToInsert.length;
@@ -236,27 +251,15 @@ export const POST = withContext(async (req: Request) => {
     }
 
     const enqueued = await enqueueNextBatch(orderId);
-    if (!enqueued) {
-      fetch(
-        `${process.env.NEXT_PUBLIC_SITE_URL || "https://truzot.com"}/api/generate`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-truzot-secret": process.env.CRON_SECRET || "",
-          },
-          body: JSON.stringify({ orderId }),
-        },
-      ).catch((err) =>
-        log.error({ err, orderId }, "Self-fetch fallback failed"),
-      );
-    }
     return addCors(
-      NextResponse.json({
-        status: enqueued ? "generating" : "generating_continued",
-        count: newTotal,
-        target: targetCount,
-      }),
+      NextResponse.json(
+        {
+          status: enqueued ? "generating" : "generating_retry_later",
+          count: newTotal,
+          target: targetCount,
+        },
+        { status: enqueued ? 200 : 503 },
+      ),
       origin,
     );
   } catch (err) {

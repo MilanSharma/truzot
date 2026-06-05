@@ -20,19 +20,32 @@ export const GET = withContext(async (req: Request) => {
 
     const stripe = getStripe();
 
-    // Find or create a Stripe Customer for this user
+    // Find Stripe Customer for this user
     const { data: orders } = await supabase
       .from("orders")
-      .select("stripe_payment_intent")
-      .not("stripe_payment_intent", "is", null)
+      .select("preferences")
+      .not("preferences->>stripe_customer_id", "is", null)
+      .order("created_at", { ascending: false })
       .limit(1);
-    let customerId: string | null = null;
-    if (orders?.[0]?.stripe_payment_intent) {
-      const pi = await stripe.paymentIntents.retrieve(
-        orders[0].stripe_payment_intent as string,
-      );
-      customerId =
-        typeof pi.customer === "string" ? pi.customer : pi.customer?.id || null;
+    let customerId: string | null =
+      (orders?.[0]?.preferences as Record<string, any>)?.stripe_customer_id ||
+      null;
+
+    if (!customerId) {
+      const { data: ordersWithPI } = await supabase
+        .from("orders")
+        .select("stripe_payment_intent")
+        .not("stripe_payment_intent", "is", null)
+        .limit(1);
+      if (ordersWithPI?.[0]?.stripe_payment_intent) {
+        const pi = await stripe.paymentIntents.retrieve(
+          ordersWithPI[0].stripe_payment_intent as string,
+        );
+        customerId =
+          typeof pi.customer === "string"
+            ? pi.customer
+            : pi.customer?.id || null;
+      }
     }
 
     if (!customerId) {

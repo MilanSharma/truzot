@@ -46,6 +46,19 @@ export const GET = withContext(async (req: Request) => {
     checks.stripe = `fail: ${e.message}`;
   }
 
+  try {
+    if (process.env.FAL_KEY) {
+      const res = await fetch("https://rest.fal.ai/v1/health", {
+        headers: { Authorization: `Key ${process.env.FAL_KEY}` },
+      });
+      checks.fal = res.ok ? "ok" : `fail: status ${res.status}`;
+    } else {
+      checks.fal = "skipped: no key";
+    }
+  } catch (e: any) {
+    checks.fal = `fail: ${e.message}`;
+  }
+
   const elapsed = Date.now() - start;
   const allOk = Object.values(checks).every((v) => v === "ok");
   const status = allOk ? "healthy" : "degraded";
