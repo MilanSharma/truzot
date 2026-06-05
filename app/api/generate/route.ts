@@ -56,13 +56,21 @@ export async function POST(req: Request) {
     const batchSize = 5;
     const results = await generateHeadshots(training.model_id, order.plan, generatedCount, batchSize);
 
-    const headshotsToInsert = results.flatMap((res: any) =>
-      (res.images ?? []).map((img: any) => ({
+    const headshotsToInsert = results.flatMap((res: any) => {
+      const promptText = res.prompt || '';
+      let category = 'corporate';
+      if (promptText.toLowerCase().includes('casual')) category = 'casual';
+      else if (promptText.toLowerCase().includes('creative')) category = 'creative';
+      else if (promptText.toLowerCase().includes('studio')) category = 'studio';
+      else if (promptText.toLowerCase().includes('outdoor')) category = 'outdoor';
+
+      return (res.images ?? []).map((img: any) => ({
         order_id: orderId,
         image_url: img.url,
-        style: 'ai-generated',
-      }))
-    );
+        style: promptText || 'ai-generated',
+        category: category,
+      }));
+    });
 
     if (headshotsToInsert.length > 0) {
       await supabaseAdmin.from('headshots').insert(headshotsToInsert);

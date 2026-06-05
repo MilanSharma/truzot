@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/admin';
+import JSZip from 'jszip';
 
 export async function GET(req: Request) {
   try {
@@ -70,14 +71,21 @@ export async function GET(req: Request) {
         return NextResponse.json({ error: 'No headshots found' }, { status: 404 });
       }
 
-      // Fetch all images and create zip
-      const JSZip = require('jszip');
       const zip = new JSZip();
       
-      for (let i = 0; i < headshots.length; i++) {
-        const response = await fetch(headshots[i].image_url);
-        const buffer = await response.arrayBuffer();
-        zip.file(`headshot_${i + 1}.jpg`, buffer);
+      // Fetch image buffers in parallel using Promise.all to avoid Vercel serverless function timeouts
+      const fetchImageBuffer = async (url: string, index: number) => {
+        const res = await fetch(url);
+        const arrayBuffer = await res.arrayBuffer();
+        return { index, arrayBuffer };
+      };
+
+      const results = await Promise.all(
+        headshots.map((h, idx) => fetchImageBuffer(h.image_url, idx))
+      );
+
+      for (const item of results) {
+        zip.file(`headshot_${item.index + 1}.jpg`, item.arrayBuffer);
       }
       
       const zipBuffer = await zip.generateAsync({ type: 'nodebuffer' });

@@ -12,7 +12,7 @@ const PLANS: Record<string, { priceId: string; amount: number; label: string; sh
 
 export async function POST(req: Request) {
   try {
-    const { plan, email, zipUrl } = await req.json();
+    
 
     if (!PLANS[plan]) {
       return NextResponse.json({ error: 'Invalid plan' }, { status: 400 });
@@ -20,7 +20,9 @@ export async function POST(req: Request) {
 
     const planConfig = PLANS[plan];
 
-    // Create an order
+    const { userId } = await req.json(); // Accept optional user account ID
+
+    // Create an order linked to the user account if authenticated
     const { data: order, error: orderError } = await supabaseAdmin
       .from('orders')
       .insert({
@@ -29,6 +31,7 @@ export async function POST(req: Request) {
         amount_cents: planConfig.amount,
         status: 'pending',
         zip_url: zipUrl,
+        user_id: userId || null, // Link order on creation
       })
       .select('id')
       .single();

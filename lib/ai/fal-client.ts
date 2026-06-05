@@ -33,11 +33,11 @@ export const generateHeadshots = async (modelId: string, plan: string, startInde
   const targetShots = PLAN_SHOTS[plan] ?? 40;
   const prompts = [];
   for (let i = startIndex; i < Math.min(startIndex + limit, targetShots); i++) {
-    prompts.push(allPrompts[i % allPrompts.length]);
+    prompts.push({ prompt: allPrompts[i % allPrompts.length], index: i });
   }
   // Generate one image per prompt
   const results = await Promise.allSettled(
-    prompts.map((prompt) =>
+    prompts.map(({ prompt }) =>
       fal.run('fal-ai/flux-lora', {
         input: {
           prompt,
@@ -48,7 +48,7 @@ export const generateHeadshots = async (modelId: string, plan: string, startInde
           image_size: 'portrait_4_3',
           output_format: 'jpeg',
         },
-      })
+      }).then(res => ({ ...res, prompt })) // Return prompt metadata for database categorization
     )
   );
 

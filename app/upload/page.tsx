@@ -1,5 +1,5 @@
 'use client';
-import { useState, useCallback, Suspense } from 'react';
+import { useState, useCallback, Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import JSZip from 'jszip';
@@ -27,6 +27,18 @@ function UploadContent() {
   const [plan, setPlan] = useState(searchParams.get('plan') ?? 'pro');
   const [email, setEmail] = useState('');
   const [stage, setStage] = useState<Stage>('upload');
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        setUserId(session.user.id);
+        setEmail(session.user.email ?? '');
+      }
+    };
+    loadUser();
+  }, []);
   const selectedPlan = PLANS.find(p => p.id === plan) || PLANS[1];
   const [dragOver, setDragOver] = useState(false);
   const [error, setError] = useState('');
@@ -123,7 +135,7 @@ function UploadContent() {
       const checkoutRes = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan, email, zipUrl }),
+        body: JSON.stringify({ plan, email, zipUrl, userId }), // Pass user ID to secure order linking
       });
       if (!checkoutRes.ok) {
         const err = await checkoutRes.json();
