@@ -1,47 +1,112 @@
-'use client';
-import { useState } from 'react';
-import Link from 'next/link';
+"use client";
+import { useState } from "react";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 
 export default function TeamPage() {
-  const [email, setEmail] = useState('');
-  const [invited, setInvited] = useState(false);
+  const [email, setEmail] = useState("");
+  const [company, setCompany] = useState("");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleInvite = async () => {
-    // Call API to create team and invite admin
-    setInvited(true);
+  const handleRequestDemo = async () => {
+    setStatus("loading");
+    setErrorMsg("");
+    try {
+      const res = await fetch("/api/team-demo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, company: company || undefined }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error ?? "Request failed");
+      }
+      setStatus("success");
+    } catch (err: any) {
+      setStatus("error");
+      setErrorMsg(err.message);
+    }
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#faf7f2', fontFamily: 'DM Sans, sans-serif' }}>
-      <nav style={{ padding: '1rem 2rem', borderBottom: '1px solid #eee' }}>
-        <Link href="/" style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>Truzot</Link>
-      </nav>
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '4rem 2rem' }}>
-        <h1 style={{ fontSize: '3rem', fontWeight: 'bold' }}>Team Headshots, Unified Brand</h1>
-        <p style={{ fontSize: '1.25rem', color: '#4a5568', marginBottom: '2rem' }}>
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+      <Nav />
+      <div className="max-w-5xl mx-auto px-6 py-16">
+        <h1 className="text-4xl font-bold mb-2 text-slate-900 dark:text-white">
+          Team Headshots, Unified Brand
+        </h1>
+        <p className="text-lg text-slate-500 dark:text-slate-400 mb-10">
           Create consistent, professional headshots for your entire company.
         </p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px,1fr))', gap: '2rem', marginBottom: '3rem' }}>
-          <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-            <h3>Admin Dashboard</h3>
-            <p>Invite employees, set branding guidelines, track progress.</p>
+        <div className="grid md:grid-cols-3 gap-6 mb-10">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6">
+            <h3 className="text-lg font-bold mb-2 text-slate-900 dark:text-white">
+              Admin Dashboard
+            </h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Invite employees, set branding guidelines, track progress.
+            </p>
           </div>
-          <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-            <h3>Bulk Pricing</h3>
-            <p>Volume discounts starting at 10+ employees.</p>
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6">
+            <h3 className="text-lg font-bold mb-2 text-slate-900 dark:text-white">
+              Bulk Pricing
+            </h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Volume discounts starting at 10+ employees.
+            </p>
           </div>
-          <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-            <h3>API & SSO</h3>
-            <p>Enterprise‑grade security and automation.</p>
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6">
+            <h3 className="text-lg font-bold mb-2 text-slate-900 dark:text-white">
+              API & SSO
+            </h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Enterprise-grade security and automation.
+            </p>
           </div>
         </div>
-        <div style={{ background: '#f0f4f8', padding: '2rem', borderRadius: '8px' }}>
-          <h2>Start your team trial</h2>
-          <input type="email" placeholder="work email" value={email} onChange={e => setEmail(e.target.value)} style={{ padding: '0.5rem', marginRight: '0.5rem', width: '250px' }} />
-          <button onClick={handleInvite} style={{ background: '#0a0a0a', color: '#fff', padding: '0.5rem 1rem', borderRadius: '4px' }}>Request Demo</button>
-          {invited && <p>Thanks! We'll contact you shortly.</p>}
+        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-xl p-8">
+          <h2 className="text-2xl font-bold mb-4 text-slate-900 dark:text-white">
+            Start your team trial
+          </h2>
+          <div className="flex flex-col sm:flex-row gap-4 max-w-xl">
+            <input
+              type="email"
+              placeholder="Work email *"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={status === "loading" || status === "success"}
+              className="flex-1 px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition disabled:opacity-50"
+            />
+            <input
+              type="text"
+              placeholder="Company (optional)"
+              value={company}
+              onChange={(e) => setCompany(e.target.value)}
+              disabled={status === "loading" || status === "success"}
+              className="flex-1 px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition disabled:opacity-50"
+            />
+            <button
+              onClick={handleRequestDemo}
+              disabled={!email || status === "loading" || status === "success"}
+              className="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition disabled:opacity-50"
+            >
+              {status === "loading" ? "Sending..." : "Request Demo"}
+            </button>
+          </div>
+          {status === "success" && (
+            <p className="text-green-600 font-semibold mt-4">
+              Thanks! We&apos;ll contact you shortly.
+            </p>
+          )}
+          {status === "error" && (
+            <p className="text-red-600 text-sm mt-2">{errorMsg}</p>
+          )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

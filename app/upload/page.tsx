@@ -1,23 +1,59 @@
+"use client";
+import {
+  useState,
+  useCallback,
+  Suspense,
+  useEffect,
+  useRef,
+  useMemo,
+} from "react";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
-'use client';
-import { useState, useCallback, Suspense, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
-import JSZip from 'jszip';
-import { supabase } from '@/lib/supabase/client';
-import { Camera, Upload, Shield, Zap, Check, X, ChevronRight, ChevronLeft, Star, Lock, User, Briefcase, AlertCircle, CheckCircle2, Loader2, Image as ImageIcon } from 'lucide-react';
+import { supabase } from "@/lib/supabase/client";
+import { PLANS } from "@/lib/plans";
+import {
+  Camera,
+  Upload,
+  Shield,
+  Zap,
+  Check,
+  X,
+  ChevronRight,
+  ChevronLeft,
+  Star,
+  Lock,
+  User,
+  Briefcase,
+  AlertCircle,
+  CheckCircle2,
+  Loader2,
+  Image as ImageIcon,
+} from "lucide-react";
 
-const PLANS = [
-  { id: 'basic', label: 'Basic', price: 29, shots: 40, time: '2 hours', popular: false },
-  { id: 'pro', label: 'Professional', price: 39, shots: 100, time: '1 hour', popular: true },
-  { id: 'executive', label: 'Executive', price: 59, shots: 200, time: '30 min', popular: false },
-];
+const PLANS_LIST = Object.values(PLANS);
 
 const PHOTO_TIPS = [
-  { icon: '😊', text: 'Clear face visibility', desc: 'No sunglasses or heavy hats.' },
-  { icon: '💡', text: 'Good lighting', desc: 'Natural window light works best.' },
-  { icon: '📐', text: 'Variety of angles', desc: 'Front, side, and 3/4 views.' },
-  { icon: '👔', text: 'Different outfits', desc: 'Change clothes/backgrounds.' },
+  {
+    icon: "😊",
+    text: "Clear face visibility",
+    desc: "No sunglasses or heavy hats.",
+  },
+  {
+    icon: "💡",
+    text: "Good lighting",
+    desc: "Natural window light works best.",
+  },
+  {
+    icon: "📐",
+    text: "Variety of angles",
+    desc: "Front, side, and 3/4 views.",
+  },
+  {
+    icon: "👔",
+    text: "Different outfits",
+    desc: "Change clothes/backgrounds.",
+  },
 ];
 
 type Step = 1 | 2 | 3;
@@ -26,60 +62,103 @@ function UploadContent() {
   const searchParams = useSearchParams();
   const [step, setStep] = useState<Step>(1);
   const [files, setFiles] = useState<File[]>([]);
-  
+
   // Customization Preferences
-  const [gender, setGender] = useState('');
-  const [eyeColor, setEyeColor] = useState('');
-  const [profession, setProfession] = useState('');
+  const [gender, setGender] = useState("");
+  const [eyeColor, setEyeColor] = useState("");
+  const [profession, setProfession] = useState("");
 
   // Checkout State
-  const [plan, setPlan] = useState(searchParams.get('plan') ?? 'pro');
-  const [email, setEmail] = useState('');
+  const [plan, setPlan] = useState(searchParams.get("plan") ?? "pro");
+  const [email, setEmail] = useState("");
   const [userId, setUserId] = useState<string | null>(null);
   const [consentChecked, setConsentChecked] = useState(false);
-  const [error, setError] = useState('');
-  const [progress, setProgress] = useState('');
+  const [error, setError] = useState("");
+  const [progress, setProgress] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     const loadUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (session?.user) {
         setUserId(session.user.id);
-        setEmail(session.user.email ?? '');
+        setEmail(session.user.email ?? "");
       }
     };
     loadUser();
   }, []);
 
-  const selectedPlan = PLANS.find(p => p.id === plan) || PLANS[1];
+  const selectedPlan = PLANS_LIST.find((p) => p.id === plan) || PLANS_LIST[1];
+
+  const objectUrls = useMemo(
+    () => files.map((f) => URL.createObjectURL(f)),
+    [files],
+  );
+
+  useEffect(() => {
+    return () => {
+      for (const url of objectUrls) URL.revokeObjectURL(url);
+    };
+  }, [objectUrls]);
 
   const handleFiles = useCallback((incoming: FileList | null) => {
     if (!incoming) return;
-    const valid = Array.from(incoming).filter((f) => f.type.startsWith('image/') && f.size < 10 * 1024 * 1024);
-    setFiles((prev) => [...prev, ...valid].slice(0, 25));
+    const valid = Array.from(incoming).filter(
+      (f) => f.type.startsWith("image/") && f.size < 10 * 1024 * 1024,
+    );
+    setFiles((prev) => {
+      const next = [...prev, ...valid].slice(0, 25);
+      return next;
+    });
   }, []);
 
-  const removeFile = (i: number) => setFiles((f) => f.filter((_, idx) => idx !== i));
+  const removeFile = (i: number) => {
+    setFiles((f) => f.filter((_, idx) => idx !== i));
+  };
 
   // Quality Score Calculation
   const getQualityScore = () => {
-    if (files.length === 0) return { score: 0, label: 'Upload photos to start', color: 'bg-slate-200', text: 'text-slate-500' };
-    if (files.length < 5) return { score: 25, label: 'Needs More Photos', color: 'bg-red-500', text: 'text-red-600' };
-    if (files.length < 10) return { score: 60, label: 'Good', color: 'bg-amber-500', text: 'text-amber-600' };
-    return { score: 100, label: 'Excellent Variety', color: 'bg-emerald-500', text: 'text-emerald-600' };
+    if (files.length === 0)
+      return {
+        score: 0,
+        label: "Upload photos to start",
+        color: "bg-slate-200",
+        text: "text-slate-500",
+      };
+    if (files.length < 5)
+      return {
+        score: 25,
+        label: "Needs More Photos",
+        color: "bg-red-500",
+        text: "text-red-600",
+      };
+    if (files.length < 10)
+      return {
+        score: 60,
+        label: "Good",
+        color: "bg-amber-500",
+        text: "text-amber-600",
+      };
+    return {
+      score: 100,
+      label: "Excellent Variety",
+      color: "bg-emerald-500",
+      text: "text-emerald-600",
+    };
   };
 
   const score = getQualityScore();
 
   const handleNextStep = () => {
-    setError('');
+    setError("");
     if (step === 1 && files.length < 3) {
-      setError('Please upload at least 3 photos to proceed.');
+      setError("Please upload at least 3 photos to proceed.");
       return;
     }
     if (step === 2 && (!gender || !eyeColor || !profession)) {
-      setError('Please select all preferences to help the AI model.');
+      setError("Please select all preferences to help the AI model.");
       return;
     }
     setStep((s) => (s + 1) as Step);
@@ -87,75 +166,116 @@ function UploadContent() {
   };
 
   const handleSubmit = async () => {
-    setError('');
-    if (!consentChecked) { setError('Please accept the biometric processing consent check before proceeding.'); return; }
-    if (!email || !email.includes('@')) { setError('Please enter a valid email address.'); return; }
-    
+    setError("");
+    if (!consentChecked) {
+      setError(
+        "Please accept the biometric processing consent check before proceeding.",
+      );
+      return;
+    }
+    if (!email || !email.includes("@")) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
     setIsProcessing(true);
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       const token = session?.access_token;
       if (!token) throw new Error("You must be logged in to upload files.");
 
-      setProgress('Optimizing image dataset…');
+      setProgress("Optimizing image dataset…");
+      const JSZip = (await import("jszip")).default;
       const zip = new JSZip();
       files.forEach((f, i) => {
-        const ext = f.name.split('.').pop() ?? 'jpg';
+        const ext = f.name.split(".").pop() ?? "jpg";
         zip.file(`photo_${i + 1}.${ext}`, f);
       });
-      const zipBlob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
-      
-      setProgress('Securing upload channel...');
-      const uploadUrlRes = await fetch('/api/upload', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify({ action: 'get-upload-url', filename: `dataset_${Date.now()}.zip` })
+      const zipBlob = await zip.generateAsync({
+        type: "blob",
+        compression: "DEFLATE",
+        compressionOptions: { level: 6 },
       });
-      if (!uploadUrlRes.ok) throw new Error('Failed to get upload URL');
+
+      setProgress("Securing upload channel...");
+      const uploadUrlRes = await fetch("/api/upload", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          action: "get-upload-url",
+          filename: `dataset_${Date.now()}.zip`,
+        }),
+      });
+      if (!uploadUrlRes.ok) throw new Error("Failed to get upload URL");
       const { signedUrl, token: uploadToken, path } = await uploadUrlRes.json();
 
-      setProgress('Transferring encrypted data…');
+      setProgress("Transferring encrypted data…");
       await new Promise<void>((resolve, reject) => {
         const xhr = new XMLHttpRequest();
-        xhr.open('PUT', signedUrl);
-        xhr.setRequestHeader('x-upsert', 'true');
-        xhr.setRequestHeader('content-type', 'application/zip');
-        if (uploadToken) xhr.setRequestHeader('authorization', `Bearer ${uploadToken}`);
-        
+        xhr.open("PUT", signedUrl);
+        xhr.setRequestHeader("x-upsert", "true");
+        xhr.setRequestHeader("content-type", "application/zip");
+        if (uploadToken)
+          xhr.setRequestHeader("authorization", `Bearer ${uploadToken}`);
+
         xhr.upload.onprogress = (e) => {
           if (e.lengthComputable) {
-            setProgress(`Uploading: ${Math.round((e.loaded / e.total) * 100)}%`);
+            setProgress(
+              `Uploading: ${Math.round((e.loaded / e.total) * 100)}%`,
+            );
           }
         };
         xhr.onload = () => {
-          if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204) resolve();
-          else reject(new Error('File upload failed.'));
+          if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204)
+            resolve();
+          else reject(new Error("File upload failed."));
         };
-        xhr.onerror = () => reject(new Error('Network error during upload.'));
+        xhr.onerror = () => reject(new Error("Network error during upload."));
         xhr.send(zipBlob);
       });
 
-      setProgress('Generating checkout session…');
-      const downloadUrlRes = await fetch('/api/upload', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify({ action: 'get-download-url', path })
+      setProgress("Generating checkout session…");
+      const downloadUrlRes = await fetch("/api/upload", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ action: "get-download-url", path }),
       });
-      if (!downloadUrlRes.ok) throw new Error('Failed to secure dataset download URL');
-      const { zipUrl } = await downloadUrlRes.json();
-      
-      const checkoutRes = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify({ plan, email, zipUrl, userId, gender, eyeColor, profession }), 
+      if (!downloadUrlRes.ok)
+        throw new Error("Failed to secure dataset download URL");
+      const { zipUrl, storagePath } = await downloadUrlRes.json();
+
+      const checkoutRes = await fetch("/api/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          plan,
+          email,
+          zipUrl,
+          storagePath,
+          userId,
+          gender,
+          eyeColor,
+          profession,
+        }),
       });
-      if (!checkoutRes.ok) throw new Error('Checkout failed');
+      if (!checkoutRes.ok) throw new Error("Checkout failed");
       const { url } = await checkoutRes.json();
-      
+
       window.location.href = url;
     } catch (err: any) {
-      console.error('Upload error:', err);
-      setError(err.message ?? 'Something went wrong. Please try again.');
+      console.error("Upload error:", err);
+      setError(err.message ?? "Something went wrong. Please try again.");
       setIsProcessing(false);
     }
   };
@@ -164,7 +284,10 @@ function UploadContent() {
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20">
       <nav className="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="text-xl font-black tracking-tighter bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+          <Link
+            href="/"
+            className="text-xl font-black tracking-tighter bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
+          >
             TRUZOT
           </Link>
           <div className="flex items-center gap-2 text-sm font-semibold text-slate-500">
@@ -179,15 +302,18 @@ function UploadContent() {
           <div className="flex items-center justify-between relative">
             <div className="absolute left-0 right-0 top-1/2 h-0.5 bg-slate-200 -z-10" />
             {[1, 2, 3].map((num) => (
-              <div key={num} className={`w-10 h-10 rounded-full flex items-center justify-center font-bold border-4 border-slate-50 transition-colors ${step >= num ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-400'}`}>
+              <div
+                key={num}
+                className={`w-10 h-10 rounded-full flex items-center justify-center font-bold border-4 border-slate-50 transition-colors ${step >= num ? "bg-blue-600 text-white" : "bg-slate-200 text-slate-400"}`}
+              >
                 {step > num ? <Check className="w-5 h-5" /> : num}
               </div>
             ))}
           </div>
           <div className="flex justify-between text-xs font-bold text-slate-500 mt-3 uppercase tracking-wider">
-            <span className={step >= 1 ? 'text-blue-600' : ''}>Upload</span>
-            <span className={step >= 2 ? 'text-blue-600' : ''}>Details</span>
-            <span className={step >= 3 ? 'text-blue-600' : ''}>Checkout</span>
+            <span className={step >= 1 ? "text-blue-600" : ""}>Upload</span>
+            <span className={step >= 2 ? "text-blue-600" : ""}>Details</span>
+            <span className={step >= 3 ? "text-blue-600" : ""}>Checkout</span>
           </div>
         </div>
 
@@ -203,7 +329,10 @@ function UploadContent() {
           <div className="animate-in slide-in-from-right-4 fade-in duration-300">
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold mb-2">Upload your selfies</h1>
-              <p className="text-slate-500">The AI uses these to learn your facial structure. We need 10-20 photos for the best results.</p>
+              <p className="text-slate-500">
+                The AI uses these to learn your facial structure. We need 10-20
+                photos for the best results.
+              </p>
             </div>
 
             <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm mb-6">
@@ -212,26 +341,56 @@ function UploadContent() {
                 <span className={`font-bold ${score.text}`}>{score.label}</span>
               </div>
               <div className="h-3 bg-slate-100 rounded-full overflow-hidden mb-8">
-                <div className={`h-full ${score.color} transition-all duration-500`} style={{ width: `${score.score}%` }} />
+                <div
+                  className={`h-full ${score.color} transition-all duration-500`}
+                  style={{ width: `${score.score}%` }}
+                />
               </div>
 
-              <label htmlFor="file-input" className="block cursor-pointer border-2 border-dashed border-slate-300 rounded-2xl p-10 text-center hover:border-blue-500 hover:bg-blue-50 transition-colors">
-                <input type="file" multiple accept="image/*" className="hidden" id="file-input" onChange={(e) => handleFiles(e.target.files)} />
+              <label
+                htmlFor="file-input"
+                className="block cursor-pointer border-2 border-dashed border-slate-300 rounded-2xl p-10 text-center hover:border-blue-500 hover:bg-blue-50 transition-colors"
+              >
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  className="hidden"
+                  id="file-input"
+                  onChange={(e) => handleFiles(e.target.files)}
+                />
                 <div className="w-16 h-16 bg-white shadow-sm border border-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Upload className="w-8 h-8 text-blue-600" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2">
-                  {files.length === 0 ? 'Click to browse or drag photos here' : `Add more photos`}
+                  {files.length === 0
+                    ? "Click to browse or drag photos here"
+                    : `Add more photos`}
                 </h3>
-                <p className="text-sm text-slate-500">JPG, PNG, HEIC accepted.</p>
+                <p className="text-sm text-slate-500">
+                  JPG, PNG, HEIC accepted.
+                </p>
               </label>
 
               {files.length > 0 && (
                 <div className="mt-8 grid grid-cols-4 sm:grid-cols-5 gap-3">
                   {files.map((f, i) => (
-                    <div key={i} className="relative aspect-square rounded-xl overflow-hidden shadow-sm group">
-                      <img src={URL.createObjectURL(f)} alt="" className="w-full h-full object-cover" />
-                      <button onClick={(e) => { e.preventDefault(); removeFile(i); }} className="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm">
+                    <div
+                      key={i}
+                      className="relative aspect-square rounded-xl overflow-hidden shadow-sm group"
+                    >
+                      <img
+                        src={objectUrls[i] || URL.createObjectURL(f)}
+                        alt=""
+                        className="w-full h-full object-cover"
+                      />
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          removeFile(i);
+                        }}
+                        className="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+                      >
                         <X className="w-4 h-4" />
                       </button>
                     </div>
@@ -243,7 +402,10 @@ function UploadContent() {
             {files.length === 0 && (
               <div className="grid sm:grid-cols-2 gap-4">
                 {PHOTO_TIPS.map((tip, idx) => (
-                  <div key={idx} className="bg-white p-4 rounded-xl border border-slate-200 flex gap-3 shadow-sm">
+                  <div
+                    key={idx}
+                    className="bg-white p-4 rounded-xl border border-slate-200 flex gap-3 shadow-sm"
+                  >
                     <span className="text-2xl">{tip.icon}</span>
                     <div>
                       <div className="font-bold text-sm">{tip.text}</div>
@@ -255,7 +417,10 @@ function UploadContent() {
             )}
 
             <div className="mt-8 flex justify-end">
-              <button onClick={handleNextStep} className="bg-slate-900 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 transition shadow-sm">
+              <button
+                onClick={handleNextStep}
+                className="bg-slate-900 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 transition shadow-sm"
+              >
                 Next: Customization <ChevronRight className="w-5 h-5" />
               </button>
             </div>
@@ -266,16 +431,27 @@ function UploadContent() {
         {step === 2 && (
           <div className="animate-in slide-in-from-right-4 fade-in duration-300">
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold mb-2">Help the AI understand you</h1>
-              <p className="text-slate-500">Providing these details drastically improves the realism of your final headshots.</p>
+              <h1 className="text-3xl font-bold mb-2">
+                Help the AI understand you
+              </h1>
+              <p className="text-slate-500">
+                Providing these details drastically improves the realism of your
+                final headshots.
+              </p>
             </div>
 
             <div className="space-y-8 bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
               <div>
-                <h3 className="font-bold text-lg mb-3 flex items-center gap-2"><User className="w-5 h-5 text-blue-600" /> Biological Gender</h3>
+                <h3 className="font-bold text-lg mb-3 flex items-center gap-2">
+                  <User className="w-5 h-5 text-blue-600" /> Biological Gender
+                </h3>
                 <div className="grid grid-cols-3 gap-3">
-                  {['Male', 'Female', 'Non-Binary'].map(g => (
-                    <button key={g} onClick={() => setGender(g)} className={`py-3 rounded-xl border-2 font-semibold transition ${gender === g ? 'border-blue-600 bg-blue-50 text-blue-700' : 'border-slate-200 text-slate-600 hover:border-slate-300'}`}>
+                  {["Male", "Female", "Non-Binary"].map((g) => (
+                    <button
+                      key={g}
+                      onClick={() => setGender(g)}
+                      className={`py-3 rounded-xl border-2 font-semibold transition ${gender === g ? "border-blue-600 bg-blue-50 text-blue-700" : "border-slate-200 text-slate-600 hover:border-slate-300"}`}
+                    >
                       {g}
                     </button>
                   ))}
@@ -283,10 +459,16 @@ function UploadContent() {
               </div>
 
               <div>
-                <h3 className="font-bold text-lg mb-3 flex items-center gap-2"><ImageIcon className="w-5 h-5 text-blue-600" /> Eye Color</h3>
+                <h3 className="font-bold text-lg mb-3 flex items-center gap-2">
+                  <ImageIcon className="w-5 h-5 text-blue-600" /> Eye Color
+                </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  {['Brown', 'Blue', 'Green', 'Hazel'].map(c => (
-                    <button key={c} onClick={() => setEyeColor(c)} className={`py-3 rounded-xl border-2 font-semibold transition ${eyeColor === c ? 'border-blue-600 bg-blue-50 text-blue-700' : 'border-slate-200 text-slate-600 hover:border-slate-300'}`}>
+                  {["Brown", "Blue", "Green", "Hazel"].map((c) => (
+                    <button
+                      key={c}
+                      onClick={() => setEyeColor(c)}
+                      className={`py-3 rounded-xl border-2 font-semibold transition ${eyeColor === c ? "border-blue-600 bg-blue-50 text-blue-700" : "border-slate-200 text-slate-600 hover:border-slate-300"}`}
+                    >
                       {c}
                     </button>
                   ))}
@@ -294,10 +476,22 @@ function UploadContent() {
               </div>
 
               <div>
-                <h3 className="font-bold text-lg mb-3 flex items-center gap-2"><Briefcase className="w-5 h-5 text-blue-600" /> Primary Use Case</h3>
+                <h3 className="font-bold text-lg mb-3 flex items-center gap-2">
+                  <Briefcase className="w-5 h-5 text-blue-600" /> Primary Use
+                  Case
+                </h3>
                 <div className="grid grid-cols-2 gap-3">
-                  {['Corporate / Executive', 'Creative / Casual', 'Real Estate', 'Acting / Modeling'].map(p => (
-                    <button key={p} onClick={() => setProfession(p)} className={`py-3 rounded-xl border-2 font-semibold transition ${profession === p ? 'border-blue-600 bg-blue-50 text-blue-700' : 'border-slate-200 text-slate-600 hover:border-slate-300'}`}>
+                  {[
+                    "Corporate / Executive",
+                    "Creative / Casual",
+                    "Real Estate",
+                    "Acting / Modeling",
+                  ].map((p) => (
+                    <button
+                      key={p}
+                      onClick={() => setProfession(p)}
+                      className={`py-3 rounded-xl border-2 font-semibold transition ${profession === p ? "border-blue-600 bg-blue-50 text-blue-700" : "border-slate-200 text-slate-600 hover:border-slate-300"}`}
+                    >
                       {p}
                     </button>
                   ))}
@@ -306,10 +500,16 @@ function UploadContent() {
             </div>
 
             <div className="mt-8 flex justify-between">
-              <button onClick={() => setStep(1)} className="text-slate-500 font-bold flex items-center gap-2 hover:text-slate-800">
+              <button
+                onClick={() => setStep(1)}
+                className="text-slate-500 font-bold flex items-center gap-2 hover:text-slate-800"
+              >
                 <ChevronLeft className="w-5 h-5" /> Back
               </button>
-              <button onClick={handleNextStep} className="bg-slate-900 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 transition shadow-sm">
+              <button
+                onClick={handleNextStep}
+                className="bg-slate-900 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 transition shadow-sm"
+              >
                 Next: Select Plan <ChevronRight className="w-5 h-5" />
               </button>
             </div>
@@ -319,18 +519,23 @@ function UploadContent() {
         {/* STEP 3: CHECKOUT */}
         {step === 3 && (
           <div className="animate-in slide-in-from-right-4 fade-in duration-300">
-             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold mb-2">Final Step: Choose Plan</h1>
-              <p className="text-slate-500">Pick the package that fits your needs. 100% money-back guarantee.</p>
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold mb-2">
+                Final Step: Choose Plan
+              </h1>
+              <p className="text-slate-500">
+                Pick the package that fits your needs. 100% money-back
+                guarantee.
+              </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-8">
               <div className="space-y-4">
-                {PLANS.map((p) => (
+                {PLANS_LIST.map((p) => (
                   <button
                     key={p.id}
                     onClick={() => setPlan(p.id)}
-                    className={`w-full p-5 rounded-2xl border-2 text-left transition-all relative ${plan === p.id ? 'border-blue-600 bg-white shadow-md ring-4 ring-blue-50' : 'border-slate-200 bg-white hover:border-slate-300'}`}
+                    className={`w-full p-5 rounded-2xl border-2 text-left transition-all relative ${plan === p.id ? "border-blue-600 bg-white shadow-md ring-4 ring-blue-50" : "border-slate-200 bg-white hover:border-slate-300"}`}
                   >
                     {p.popular && (
                       <div className="absolute -top-3 right-4 bg-blue-600 text-white text-[10px] font-black px-3 py-1 rounded-full tracking-wider uppercase">
@@ -338,21 +543,30 @@ function UploadContent() {
                       </div>
                     )}
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-bold text-lg text-slate-900">{p.label}</span>
-                      <span className="text-2xl font-black text-blue-600">${p.price}</span>
+                      <span className="font-bold text-lg text-slate-900">
+                        {p.name}
+                      </span>
+                      <span className="text-2xl font-black text-blue-600">
+                        ${p.price}
+                      </span>
                     </div>
                     <div className="text-sm font-medium text-slate-500 flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500" /> {p.shots} photos • {p.time} delivery
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500" />{" "}
+                      {p.shots} photos • {p.turnaround} delivery
                     </div>
                   </button>
                 ))}
               </div>
 
               <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm h-fit">
-                <h3 className="font-bold mb-4 flex items-center gap-2"><Lock className="w-4 h-4" /> Secure Checkout</h3>
-                
+                <h3 className="font-bold mb-4 flex items-center gap-2">
+                  <Lock className="w-4 h-4" /> Secure Checkout
+                </h3>
+
                 <div className="mb-5">
-                  <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Delivery Email</label>
+                  <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                    Delivery Email
+                  </label>
                   <input
                     type="email"
                     value={email}
@@ -370,8 +584,17 @@ function UploadContent() {
                     onChange={(e) => setConsentChecked(e.target.checked)}
                     className="mt-1 w-4 h-4 rounded text-blue-600 border-slate-300 cursor-pointer"
                   />
-                  <label htmlFor="consent" className="text-xs text-slate-500 leading-relaxed cursor-pointer select-none">
-                    I consent to Truzot processing my biometric face photos to train a temporary AI model. Data is automatically permanently deleted in 30 days per the <Link href="/privacy" className="text-blue-600 underline">Privacy Policy</Link>.
+                  <label
+                    htmlFor="consent"
+                    className="text-xs text-slate-500 leading-relaxed cursor-pointer select-none"
+                  >
+                    I consent to Truzot processing my biometric face photos to
+                    train a temporary AI model. Data is automatically
+                    permanently deleted in 30 days per the{" "}
+                    <Link href="/privacy" className="text-blue-600 underline">
+                      Privacy Policy
+                    </Link>
+                    .
                   </label>
                 </div>
 
@@ -379,7 +602,9 @@ function UploadContent() {
                   <div className="bg-blue-50 text-blue-800 rounded-xl p-4 text-center border border-blue-100">
                     <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2 text-blue-600" />
                     <div className="font-bold text-sm">{progress}</div>
-                    <div className="text-xs opacity-75 mt-1">Please do not close this window</div>
+                    <div className="text-xs opacity-75 mt-1">
+                      Please do not close this window
+                    </div>
                   </div>
                 ) : (
                   <button
@@ -391,14 +616,21 @@ function UploadContent() {
                 )}
 
                 <div className="mt-6 flex items-center justify-center gap-4 text-xs font-semibold text-slate-400">
-                  <div className="flex items-center gap-1"><Shield className="w-4 h-4" /> 256-bit TLS</div>
-                  <div className="flex items-center gap-1"><Star className="w-4 h-4" /> Money-back guarantee</div>
+                  <div className="flex items-center gap-1">
+                    <Shield className="w-4 h-4" /> 256-bit TLS
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Star className="w-4 h-4" /> Money-back guarantee
+                  </div>
                 </div>
               </div>
             </div>
-            
+
             <div className="mt-8">
-              <button onClick={() => setStep(2)} className="text-slate-500 font-bold flex items-center gap-2 hover:text-slate-800">
+              <button
+                onClick={() => setStep(2)}
+                className="text-slate-500 font-bold flex items-center gap-2 hover:text-slate-800"
+              >
                 <ChevronLeft className="w-5 h-5" /> Back to Customization
               </button>
             </div>

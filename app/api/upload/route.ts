@@ -1,32 +1,101 @@
-import { NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabase/admin';
+import { NextResponse } from "next/server";
+import { supabaseAdmin } from "@/lib/supabase/admin";
+import { uploadActionSchema, validate } from "@/lib/validations";
+import { addCors, handleOptions } from "@/lib/cors";
+import { withContext } from "@/lib/request-context";
 
-export async function POST(req: Request) {
+export const OPTIONS = handleOptions;
+
+export const POST = withContext(async (req: Request) => {
+  const origin = req.headers.get("origin");
   try {
-    // ENFORCE AUTHENTICATION (Fix 3)
-    const token = req.headers.get('Authorization')?.replace('Bearer ', '');
-    if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    const { data: { user } } = await supabaseAdmin.auth.getUser(token);
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const token = req.headers.get("Authorization")?.replace("Bearer ", "");
+    if (!token)
+      return addCors(
+        NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
+        origin,
+      );
+    const {
+      data: { user },
+    } = await supabaseAdmin.auth.getUser(token);
+    if (!user)
+      return addCors(
+        NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
+        origin,
+      );
 
-    const { action, filename, path } = await req.json();
+    const body = await req.json();
+    const parsed = validate(uploadActionSchema, body);
+    if (parsed.error)
+      return addCors(
+        NextResponse.json({ error: parsed.error }, { status: 400 }),
+        origin,
+      );
+    const { action, filename, path } = parsed.data!;
 
-    if (action === 'get-upload-url') {
-      if (!filename) return NextResponse.json({ error: 'Missing filename' }, { status: 400 });
-      const { data, error } = await supabaseAdmin.storage.from('uploads').createSignedUploadUrl(filename);
-      if (error) return NextResponse.json({ error: 'Failed to generate upload URL' }, { status: 500 });
-      return NextResponse.json({ signedUrl: data.signedUrl, token: data.token, path: data.path });
+    if (action === "get-upload-url") {
+      const safeFilename = `${user.id}/dataset_${Date.now()}_${Math.random().toString(36).substring(2, 10)}.zip`;
+      const { data, error } = await supabaseAdmin.storage
+        .from("uploads")
+        .createSignedUploadUrl(safeFilename);
+      if (error)
+        return addCors(
+          NextResponse.json(
+            { error: "Failed to generate upload URL" },
+            { status: 500 },
+          ),
+          origin,
+        );
+      return addCors(
+        NextResponse.json({
+          signedUrl: data.signedUrl,
+          token: data.token,
+          path: data.path,
+        }),
+        origin,
+      );
     }
 
-    if (action === 'get-download-url') {
-      if (!path) return NextResponse.json({ error: 'Missing path' }, { status: 400 });
-      const { data, error } = await supabaseAdmin.storage.from('uploads').createSignedUrl(path, 7200);
-      if (error || !data?.signedUrl) return NextResponse.json({ error: 'Failed to generate download URL' }, { status: 500 });
-      return NextResponse.json({ zipUrl: data.signedUrl });
+    if (action === "get-download-url") {
+      if (!path)
+        return addCors(
+          NextResponse.json({ error: "Missing path" }, { status: 400 }),
+          origin,
+        );
+      if (!path.startsWith(`${user.id}/`)) {
+        return addCors(
+          NextResponse.json(
+            { error: "Forbidden. You do not own this resource." },
+            { status: 403 },
+          ),
+          origin,
+        );
+      }
+      const { data, error } = await supabaseAdmin.storage
+        .from("uploads")
+        .createSignedUrl(path, 7200);
+      if (error || !data?.signedUrl)
+        return addCors(
+          NextResponse.json(
+            { error: "Failed to generate download URL" },
+            { status: 500 },
+          ),
+          origin,
+        );
+      return addCors(
+        NextResponse.json({ zipUrl: data.signedUrl, storagePath: path }),
+        origin,
+      );
     }
 
-    return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
+    return addCors(
+      NextResponse.json({ error: "Invalid action" }, { status: 400 }),
+      origin,
+    );
   } catch (err) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return addCors(
+      NextResponse.json({ error: "Internal server error" }, { status: 500 }),
+      origin,
+    );
   }
-}
+});

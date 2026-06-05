@@ -1,10 +1,149 @@
+import { Metadata } from "next";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy — Truzot AI Headshots",
+  description:
+    "How Truzot collects, processes, stores, and protects your personal data and uploaded photos.",
+};
+
 export default function PrivacyPage() {
   return (
-    <div style={{ maxWidth: '800px', margin: '4rem auto', padding: '0 2rem', fontFamily: 'DM Sans, sans-serif', color: '#0a0a0a' }}>
-      <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: '2.5rem', marginBottom: '1.5rem' }}>Privacy Policy</h1>
-      <p style={{ lineHeight: 1.8, marginBottom: '1.5rem' }}>At Truzot, your privacy is our top priority. We only collect the photos you explicitly upload to generate your headshots, along with your email address to deliver them.</p>
-      <p style={{ lineHeight: 1.8, marginBottom: '1.5rem' }}><strong>Data Retention:</strong> All uploaded photos and generated headshots are permanently and automatically deleted from our servers 30 days after your order is completed.</p>
-      <p style={{ lineHeight: 1.8, marginBottom: '1.5rem' }}>We do not sell, share, or use your photos for training our own AI models. Your data is encrypted in transit and at rest.</p>
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+      <Nav />
+      <div className="max-w-3xl mx-auto px-6 py-16">
+        <h1 className="text-4xl font-bold mb-6 text-slate-900 dark:text-white font-display">
+          Privacy Policy
+        </h1>
+        <p className="text-slate-500 mb-8">Last updated: May 2026</p>
+        <div className="space-y-6 text-slate-600 dark:text-slate-400 leading-relaxed">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-8">
+            1. Information We Collect
+          </h2>
+          <p>
+            <strong className="text-slate-900 dark:text-white">
+              Photos you upload:
+            </strong>{" "}
+            You upload selfies for AI model training. These images are processed
+            ephemerally and stored only until automatic deletion (30 days after
+            order completion).
+          </p>
+          <p>
+            <strong className="text-slate-900 dark:text-white">
+              Account data:
+            </strong>{" "}
+            Email address, hashed password, and Stripe payment identifiers. We
+            never store raw credit card numbers.
+          </p>
+          <p>
+            <strong className="text-slate-900 dark:text-white">
+              Biometric data:
+            </strong>{" "}
+            Our AI processes facial features (eye spacing, jawline, skin tone)
+            solely to generate headshots. We do not create biometric profiles,
+            perform facial recognition, or share biometric data with third
+            parties. All biometric feature vectors are deleted within 30 days
+            per our automatic purge policy.
+          </p>
+          <p>
+            <strong className="text-slate-900 dark:text-white">
+              Usage data:
+            </strong>{" "}
+            Page views, feature interactions, and conversion events via Vercel
+            Analytics and optional PostHog. No personal data is tied to
+            analytics events.
+          </p>
+
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-8">
+            2. How We Use Your Data
+          </h2>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Train a custom LoRA AI model to generate your headshots</li>
+            <li>Deliver your generated headshots via email and dashboard</li>
+            <li>Process payments and issue refunds through Stripe</li>
+            <li>Send order confirmations and delivery notifications</li>
+            <li>Improve our service quality through aggregated analytics</li>
+          </ul>
+
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-8">
+            3. Data Retention & Deletion
+          </h2>
+          <p>
+            All uploaded photos, trained AI models, and generated headshots are
+            automatically and permanently deleted 30 days after your order is
+            completed. You may request earlier deletion by contacting
+            hello@truzot.com. Stripe retains payment records for 7 years per
+            financial regulations.
+          </p>
+
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-8">
+            4. Third-Party Processors
+          </h2>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>
+              <strong>fal.ai</strong> — AI model training and image generation.
+              Images are processed in-memory and not retained.
+            </li>
+            <li>
+              <strong>Stripe</strong> — Payment processing. Truzot never sees
+              your full card number.
+            </li>
+            <li>
+              <strong>Supabase</strong> — Database and file storage (encrypted
+              at rest).
+            </li>
+            <li>
+              <strong>Resend</strong> — Transactional email delivery.
+            </li>
+            <li>
+              <strong>Vercel</strong> — Hosting and edge functions.
+            </li>
+          </ul>
+
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-8">
+            5. Your Rights (GDPR & CCPA)
+          </h2>
+          <p>
+            Depending on your jurisdiction, you may have the right to access,
+            correct, delete, or port your data. To exercise these rights, email
+            hello@truzot.com. We respond within 30 days.
+          </p>
+
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-8">
+            6. Cookies
+          </h2>
+          <p>
+            We use essential cookies for authentication and session management.
+            Optional analytics cookies (PostHog) are set only if you consent. No
+            advertising or tracking cookies are used.
+          </p>
+
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-8">
+            7. Security
+          </h2>
+          <p>
+            All data is encrypted in transit (TLS 1.3) and at rest (AES-256). We
+            enforce row-level security in Supabase to isolate user data. Our AI
+            processing occurs in isolated environments and no user data is used
+            for training our public models.
+          </p>
+
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-8">
+            8. Contact
+          </h2>
+          <p>
+            For privacy inquiries:{" "}
+            <a
+              href="mailto:hello@truzot.com"
+              className="text-blue-600 underline"
+            >
+              hello@truzot.com
+            </a>
+          </p>
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 }

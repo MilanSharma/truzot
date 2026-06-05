@@ -1,12 +1,13 @@
-import { fal } from '@fal-ai/client';
+import "server-only";
+import { fal } from "@fal-ai/client";
+import pLimit from "p-limit";
+import { PLAN_SHOTS } from "@/lib/plans";
 
 function configureFal() {
   if (process.env.FAL_KEY) {
     fal.config({ credentials: process.env.FAL_KEY });
   }
 }
-
-export const PLAN_SHOTS: Record<string, number> = { basic: 40, pro: 100, executive: 200 };
 
 const getBasePrompts = (g: string, p: string, e: string) => [
   `A professional corporate headshot of TOK, a ${g} ${p} ${e}, wearing a tailored navy business suit, blurred modern office background, soft studio lighting, shot on 85mm lens, f/1.8, highly detailed, 8k resolution`,
@@ -37,20 +38,45 @@ const getExtendedPrompts = (g: string, p: string, e: string) => [
 function buildPrompts(plan: string, prefs?: any): string[] {
   const target = PLAN_SHOTS[plan] ?? 40;
   const pool: string[] = [];
-  
-  const g = prefs?.gender ? prefs.gender.toLowerCase() : 'person';
-  const e = prefs?.eyeColor ? `with ${prefs.eyeColor.toLowerCase()} eyes` : '';
-  const p = prefs?.profession ? prefs.profession.toLowerCase() : 'professional';
 
-  const allUnique = [...getBasePrompts(g, p, e), ...getExtendedPrompts(g, p, e)];
-  const suffixes = [
-    ', looking directly at camera, slight smile',
-    ', three-quarter angle, relaxed posture',
-    ', looking slightly off-camera, thoughtful expression',
-    ', front-facing, neutral confident expression, ultra-sharp',
-    ', warm approachable smile, slightly turned head'
+  const genderRaw = prefs?.gender || "person";
+  const g = genderRaw.toLowerCase();
+
+  const e = prefs?.eyeColor ? `with ${prefs.eyeColor.toLowerCase()} eyes` : "";
+
+  let p = "professional";
+  if (prefs?.profession) {
+    const prof = prefs.profession.toLowerCase();
+    if (prof.includes("corporate") || prof.includes("executive")) {
+      p = "business professional";
+    } else if (prof.includes("creative") || prof.includes("casual")) {
+      p = "creative professional";
+    } else if (prof.includes("real estate")) {
+      p = "real estate agent";
+    } else if (prof.includes("acting") || prof.includes("modeling")) {
+      p =
+        g === "female"
+          ? "actress/model"
+          : g === "male"
+            ? "actor/model"
+            : "actor/model";
+    } else {
+      p = prof;
+    }
+  }
+
+  const allUnique = [
+    ...getBasePrompts(g, p, e),
+    ...getExtendedPrompts(g, p, e),
   ];
-  
+  const suffixes = [
+    ", looking directly at camera, slight smile",
+    ", three-quarter angle, relaxed posture",
+    ", looking slightly off-camera, thoughtful expression",
+    ", front-facing, neutral confident expression, ultra-sharp",
+    ", warm approachable smile, slightly turned head",
+  ];
+
   let si = 0;
   while (pool.length < target) {
     for (const prompt of allUnique) {
@@ -65,37 +91,53 @@ function buildPrompts(plan: string, prefs?: any): string[] {
 export const trainModel = async (imageUrl: string, orderId: string) => {
   configureFal();
   const webhookSecret = process.env.FAL_WEBHOOK_SECRET;
-  if (!webhookSecret) throw new Error('FAL_WEBHOOK_SECRET is not configured');
-  
-  return await fal.queue.submit('fal-ai/flux-lora-fast-training', {
-    input: { images_data_url: imageUrl, steps: 1000, trigger_word: 'TOK' },
+  if (!webhookSecret) throw new Error("FAL_WEBHOOK_SECRET is not configured");
+
+  return await fal.queue.submit("fal-ai/flux-lora-fast-training", {
+    input: { images_data_url: imageUrl, steps: 1000, trigger_word: "TOK" },
     webhookUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhooks/fal?orderId=${orderId}&token=${webhookSecret}`,
   });
 };
 
-export const generateHeadshots = async (modelId: string, plan: string, startIndex: number = 0, limit: number = 10000, prefs?: any) => {
+const concurrencyLimit = pLimit(3);
+
+export const generateHeadshots = async (
+  modelId: string,
+  plan: string,
+  startIndex: number = 0,
+  limit: number = 10000,
+  prefs?: any,
+) => {
   configureFal();
   const allPrompts = buildPrompts(plan, prefs);
   const targetShots = PLAN_SHOTS[plan] ?? 40;
   const prompts: { prompt: string; index: number }[] = [];
-  
+
   for (let i = startIndex; i < Math.min(startIndex + limit, targetShots); i++) {
     prompts.push({ prompt: allPrompts[i], index: i });
   }
-  
-  const results = await Promise.allSettled(prompts.map(({ prompt }) => 
-    fal.run('fal-ai/flux-lora', { 
-      input: { 
-        prompt, 
-        loras: [{ path: modelId, scale: 0.85 }],
-        num_inference_steps: 28, 
-        guidance_scale: 3.5, 
-        num_images: 1, 
-        image_size: 'portrait_4_3', 
-        output_format: 'jpeg' 
-      } 
-    }).then((res) => ({ ...res, prompt }))
-  ));
-  
-  return results.filter((r) => r.status === 'fulfilled').map((r) => (r as PromiseFulfilledResult<any>).value);
+
+  const results = await Promise.allSettled(
+    prompts.map(({ prompt, index }) =>
+      concurrencyLimit(() =>
+        fal
+          .run("fal-ai/flux-lora", {
+            input: {
+              prompt,
+              loras: [{ path: modelId, scale: 0.85 }],
+              num_inference_steps: 28,
+              guidance_scale: 3.5,
+              num_images: 1,
+              image_size: "portrait_4_3",
+              output_format: "jpeg",
+            },
+          })
+          .then((res) => ({ ...res, prompt, index })),
+      ),
+    ),
+  );
+
+  return results
+    .filter((r) => r.status === "fulfilled")
+    .map((r) => (r as PromiseFulfilledResult<any>).value);
 };

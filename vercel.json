@@ -5,9 +5,16 @@
     },
     "app/api/webhooks/fal/route.ts": {
       "maxDuration": 30
+    },
+    "app/api/cron/cleanup/route.ts": {
+      "maxDuration": 60
     }
   },
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" }
-  ]
+  "crons": [
+    {
+      "path": "/api/cron/cleanup",
+      "schedule": "0 3 * * *"
+    }
+  ],
+  "rewrites": [{ "source": "/api/(.*)", "destination": "/api/$1" }]
 }
