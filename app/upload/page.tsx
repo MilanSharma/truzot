@@ -112,7 +112,7 @@ function UploadContent() {
         body: JSON.stringify({ action: 'get-upload-url', filename: `dataset_${Date.now()}.zip` })
       });
       if (!uploadUrlRes.ok) throw new Error('Failed to get upload URL');
-      const { signedUrl, token, path } = await uploadUrlRes.json();
+      const { signedUrl, token: uploadToken, path } = await uploadUrlRes.json();
 
       setProgress('Transferring encrypted data…');
       await new Promise<void>((resolve, reject) => {
@@ -120,7 +120,7 @@ function UploadContent() {
         xhr.open('PUT', signedUrl);
         xhr.setRequestHeader('x-upsert', 'true');
         xhr.setRequestHeader('content-type', 'application/zip');
-        if (token) xhr.setRequestHeader('authorization', `Bearer ${token}`);
+        if (uploadToken) xhr.setRequestHeader('authorization', `Bearer ${uploadToken}`);
         
         xhr.upload.onprogress = (e) => {
           if (e.lengthComputable) {
