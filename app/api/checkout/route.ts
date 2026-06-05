@@ -12,15 +12,14 @@ const PLANS: Record<string, { priceId: string; amount: number; label: string; sh
 
 export async function POST(req: Request) {
   try {
-    
+    // Destructure plan, email, zipUrl, and userId in a single call to preserve the request stream
+    const { plan, email, zipUrl, userId } = await req.json();
 
     if (!PLANS[plan]) {
       return NextResponse.json({ error: 'Invalid plan' }, { status: 400 });
     }
 
     const planConfig = PLANS[plan];
-
-    const { userId } = await req.json(); // Accept optional user account ID
 
     // Create an order linked to the user account if authenticated
     const { data: order, error: orderError } = await supabaseAdmin
