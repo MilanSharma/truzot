@@ -28,15 +28,51 @@ export default function FreeGenerator() {
     try {
       const zip = new JSZip();
       zip.file('selfie.jpg', file);
-      const zipBlob = await zip.generateAsync({ type: 'blob' });
-      const formData = new FormData();
-      formData.append('zip', zipBlob, 'selfie.zip');
-      formData.append('email', 'free@temporary.com');
-      formData.append('plan', 'basic');
-      const uploadRes = await fetch('/api/upload', { method: 'POST', body: formData });
-      if (!uploadRes.ok) throw new Error('Upload failed');
-      const { zipUrl } = await uploadRes.json();
-      // Call a dedicated free generation endpoint (simulate 9 styles)
+      const zipBlob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
+      
+      // 1. Get signed upload URL from backend
+      const uploadUrlRes = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'get-upload-url', filename: `free_${Date.now()}.zip` })
+      });
+      if (!uploadUrlRes.ok) {
+        const err = await uploadUrlRes.json();
+        throw new Error(err.error ?? 'Failed to get upload URL');
+      }
+      const { signedUrl, token, path } = await uploadUrlRes.json();
+
+      // 2. Upload file directly to Supabase Storage via signed URL
+      const uploadHeaders: Record<string, string> = {
+        'x-upsert': 'true',
+        'content-type': 'application/zip',
+      };
+      if (token) {
+        uploadHeaders['authorization'] = `Bearer ${token}`;
+      }
+      
+      const uploadRes = await fetch(signedUrl, {
+        method: 'PUT',
+        body: zipBlob,
+        headers: uploadHeaders,
+      });
+      if (!uploadRes.ok) {
+        throw new Error('File upload failed. Please try again.');
+      }
+
+      // 3. Get the download URL
+      const downloadUrlRes = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'get-download-url', path })
+      });
+      if (!downloadUrlRes.ok) {
+        const err = await downloadUrlRes.json();
+        throw new Error(err.error ?? 'Failed to finalize upload');
+      }
+      const { zipUrl } = await downloadUrlRes.json();
+
+      // 4. Call free generation endpoint
       const genRes = await fetch('/api/free-generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

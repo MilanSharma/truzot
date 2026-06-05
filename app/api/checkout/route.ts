@@ -60,7 +60,6 @@ export async function POST(req: Request) {
       metadata: {
         orderId: order.id,
         plan,
-        zip_url: zipUrl,
         email,
       },
       success_url: `${baseUrl}/dashboard?order=${order.id}&success=1`,

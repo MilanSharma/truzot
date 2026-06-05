@@ -16,13 +16,14 @@ export const PLAN_SHOTS: Record<string, number> = {
 
 
 export const trainModel = async (imageUrl: string, orderId: string) => {
+  const webhookSecret = process.env.FAL_WEBHOOK_SECRET || 'fallback_secret_token_123';
   const result = await fal.queue.submit('fal-ai/flux-lora-fast-training', {
     input: {
       images_data_url: imageUrl,
       steps: 1000,
       trigger_word: 'TOK',
     },
-    webhookUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhooks/fal?orderId=${orderId}`,
+    webhookUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhooks/fal?orderId=${orderId}&token=${webhookSecret}`,
   });
   return result;
 };

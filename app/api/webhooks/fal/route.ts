@@ -7,6 +7,12 @@ export async function POST(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const orderId = searchParams.get('orderId');
+    const token = searchParams.get('token');
+
+    const webhookSecret = process.env.FAL_WEBHOOK_SECRET || 'fallback_secret_token_123';
+    if (!token || token !== webhookSecret) {
+      return NextResponse.json({ error: 'Unauthorized webhook call' }, { status: 401 });
+    }
 
     if (!orderId) {
       return NextResponse.json({ error: 'Missing orderId' }, { status: 400 });
