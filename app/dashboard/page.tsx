@@ -8,7 +8,7 @@ import {
   Download, Clock, CheckCircle, Loader2, Plus, Image as ImageIcon,
   LayoutDashboard, Users, Settings, LogOut, ArrowRight, Sparkles, Heart,
   Square, CheckSquare, Maximize2, Shield, Zap, ChevronRight, Briefcase
-, Camera} from 'lucide-react';
+, Camera, X} from 'lucide-react';
 
 type OrderStatus = 'pending' | 'paid' | 'training' | 'generating' | 'completed' | 'failed';
 
