@@ -25,6 +25,42 @@ export async function GET(req: Request) {
 
     // Zip all headshots for an order
     if (orderId) {
+      // Fetch the order context to verify ownership constraints
+      const { data: order } = await supabaseAdmin
+        .from('orders')
+        .select('user_id')
+        .eq('id', orderId)
+        .single();
+
+      if (!order) {
+        return NextResponse.json({ error: 'Order not found' }, { status: 404 });
+      }
+
+      // If order is linked to a registered account, enforce authentication check
+      if (order.user_id) {
+        const { cookies } = await import('next/headers');
+        const cookieStore = await cookies();
+        const projectRef = process.env.NEXT_PUBLIC_SUPABASE_URL?.split('https://')[1]?.split('.')[0] || 'sb';
+        const cookieVal = cookieStore.get(`sb-${projectRef}-auth-token`)?.value;
+
+        let authorized = false;
+        if (cookieVal) {
+          try {
+            const session = JSON.parse(cookieVal);
+            const { data: { user } } = await supabaseAdmin.auth.getUser(session.access_token);
+            if (user && user.id === order.user_id) {
+              authorized = true;
+            }
+          } catch (e) {
+            console.error("IDOR validation parse error:", e);
+          }
+        }
+
+        if (!authorized) {
+          return NextResponse.json({ error: 'Unauthorized access to this order' }, { status: 403 });
+        }
+      }
+
       const { data: headshots } = await supabaseAdmin
         .from('headshots')
         .select('image_url')

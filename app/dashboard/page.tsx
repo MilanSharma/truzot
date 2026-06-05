@@ -42,7 +42,8 @@ function DashboardContent() {
   const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
   const [generationProgress, setGenerationProgress] = useState({ count: 0, target: 0 });
   const [generationStatus, setGenerationStatus] = useState<string>('');
-  const pollRef = useRef<NodeJS.Timeout | null>(null);
+  const pollRef = useRef<any>(null);
+  const isProcessingPoll = useRef<boolean>(false);
 
   // Fetch the specific order by ID (works regardless of user_id)
   const fetchOrderById = useCallback(async (id: string) => {
@@ -101,36 +102,53 @@ function DashboardContent() {
 
   // Polling loop for generation
   const startPolling = useCallback((id: string) => {
-    if (pollRef.current) clearInterval(pollRef.current);
+    if (pollRef.current) clearTimeout(pollRef.current);
     
-    pollRef.current = setInterval(async () => {
-      const order = await fetchOrderById(id);
-      if (!order) return;
-      
-      setCurrentOrder(order);
-      
-      if (order.status === 'completed') {
-        await fetchHeadshots(id);
-        setGenerationStatus('completed');
-        if (pollRef.current) clearInterval(pollRef.current);
-        return;
-      }
-      
-      if (order.status === 'failed') {
-        setGenerationStatus('failed');
-        if (pollRef.current) clearInterval(pollRef.current);
-        return;
-      }
-      
-      if (order.status === 'generating') {
-        const result = await triggerGeneration(id);
-        if (result === 'completed') {
-          if (pollRef.current) clearInterval(pollRef.current);
+    const pollFunc = async () => {
+      if (isProcessingPoll.current) return;
+      isProcessingPoll.current = true;
+
+      try {
+        const order = await fetchOrderById(id);
+        if (!order) {
+          isProcessingPoll.current = false;
+          pollRef.current = setTimeout(pollFunc, 5000);
+          return;
         }
-      } else if (order.status === 'training') {
-        setGenerationStatus('training');
+        
+        setCurrentOrder(order);
+        
+        if (order.status === 'completed') {
+          await fetchHeadshots(id);
+          setGenerationStatus('completed');
+          isProcessingPoll.current = false;
+          return;
+        }
+        
+        if (order.status === 'failed') {
+          setGenerationStatus('failed');
+          isProcessingPoll.current = false;
+          return;
+        }
+        
+        if (order.status === 'generating') {
+          const result = await triggerGeneration(id);
+          if (result === 'completed') {
+            isProcessingPoll.current = false;
+            return;
+          }
+        } else if (order.status === 'training') {
+          setGenerationStatus('training');
+        }
+      } catch (err) {
+        console.error("Polling check failed:", err);
+      } finally {
+        isProcessingPoll.current = false;
+        pollRef.current = setTimeout(pollFunc, 5000);
       }
-    }, 5000); // Poll every 5 seconds
+    };
+
+    pollRef.current = setTimeout(pollFunc, 5000);
   }, [fetchOrderById, fetchHeadshots, triggerGeneration]);
 
   // Check authentication and load data
@@ -174,7 +192,7 @@ function DashboardContent() {
 
     return () => {
       subscription.unsubscribe();
-      if (pollRef.current) clearInterval(pollRef.current);
+      if (pollRef.current) clearTimeout(pollRef.current);
     };
   }, [router, orderId, fetchOrderById, fetchHeadshots, startPolling]);
 
