@@ -245,8 +245,8 @@ export default function LandingPage() {
               compare.
             </p>
             <ComparisonSlider
-              before="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=750&fit=crop"
-              after="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&h=750&fit=crop"
+              before="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=600&h=750&fit=crop"
+              after="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=750&fit=crop"
             />
           </div>
         </section>
