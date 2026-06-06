@@ -327,7 +327,12 @@ function UploadContent() {
           idempotencyKey,
         }),
       });
-      if (!checkoutRes.ok) throw new Error("Checkout failed");
+      if (!checkoutRes.ok) {
+        const errBody = await checkoutRes.json().catch(() => null);
+        throw new Error(
+          errBody?.error || `Checkout failed (${checkoutRes.status})`,
+        );
+      }
       const { url } = await checkoutRes.json();
 
       window.location.href = url;

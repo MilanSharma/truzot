@@ -143,7 +143,15 @@ export const POST = withContext(async (req: Request) => {
 
     return addCors(NextResponse.json({ url: session.url }), origin);
   } catch (err) {
-    log.error({ err }, "Checkout failed");
+    log.error(
+      {
+        err:
+          err instanceof Error
+            ? { message: err.message, stack: err.stack }
+            : err,
+      },
+      "Checkout failed",
+    );
     return addCors(
       NextResponse.json({ error: "Checkout failed" }, { status: 500 }),
       origin,
