@@ -80,6 +80,22 @@ export const GET = withContext(async (req: Request) => {
 
   if (stuckResults.flagged > 0) {
     log.info(stuckResults, "Stuck order check complete");
+    // Notify admin
+    const adminEmail = (process.env.ADMIN_EMAILS || "").split(",")[0]?.trim();
+    if (adminEmail) {
+      try {
+        const { Resend } = await import("resend");
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        await resend.emails.send({
+          from: "Truzot <hello@truzot.com>",
+          to: adminEmail,
+          subject: `⚠️ ${stuckResults.flagged} stuck order(s) flagged`,
+          html: `<p>${stuckResults.flagged} stuck order(s) were flagged. ${stuckResults.autoRefunded} were auto-refunded.</p>`,
+        });
+      } catch (err) {
+        log.error({ err }, "Failed to send stuck order admin notification");
+      }
+    }
   }
 
   try {

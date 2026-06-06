@@ -13,6 +13,7 @@ import Nav from "@/components/Nav";
 
 import { supabase } from "@/lib/supabase/client";
 import { PLANS } from "@/lib/plans";
+import { useToast } from "@/components/Toast";
 import {
   Camera,
   Upload,
@@ -61,6 +62,7 @@ type Step = 1 | 2 | 3;
 
 function UploadContent() {
   const searchParams = useSearchParams();
+  const { toast } = useToast();
   const [step, setStep] = useState<Step>(1);
   const [files, setFiles] = useState<File[]>([]);
 
@@ -105,38 +107,52 @@ function UploadContent() {
     };
   }, [objectUrls]);
 
-  const handleFiles = useCallback(async (incoming: FileList | null) => {
-    if (!incoming) return;
-    const converted: File[] = [];
-    for (const f of Array.from(incoming)) {
-      if (f.size >= 10 * 1024 * 1024) continue;
-      if (
-        f.type === "image/heic" ||
-        f.type === "image/heif" ||
-        f.name.toLowerCase().endsWith(".heic") ||
-        f.name.toLowerCase().endsWith(".heif")
-      ) {
-        try {
-          const heic2any = (await import("heic2any")).default;
-          const blob = await heic2any({ blob: f, toType: "image/jpeg" });
-          const jpegFile = new File(
-            [blob as Blob],
-            f.name.replace(/\.(heic|heif)$/i, ".jpg"),
-            { type: "image/jpeg" },
-          );
-          converted.push(jpegFile);
-        } catch {
-          converted.push(f);
+  const handleFiles = useCallback(
+    async (incoming: FileList | null) => {
+      if (!incoming) return;
+      const converted: File[] = [];
+      const errors: string[] = [];
+      for (const f of Array.from(incoming)) {
+        if (f.size >= 10 * 1024 * 1024) {
+          errors.push(`${f.name}: file too large (max 10MB)`);
+          continue;
         }
-      } else if (f.type.startsWith("image/")) {
-        converted.push(f);
+        if (
+          f.type === "image/heic" ||
+          f.type === "image/heif" ||
+          f.name.toLowerCase().endsWith(".heic") ||
+          f.name.toLowerCase().endsWith(".heif")
+        ) {
+          try {
+            const heic2any = (await import("heic2any")).default;
+            const blob = await heic2any({ blob: f, toType: "image/jpeg" });
+            const jpegFile = new File(
+              [blob as Blob],
+              f.name.replace(/\.(heic|heif)$/i, ".jpg"),
+              { type: "image/jpeg" },
+            );
+            converted.push(jpegFile);
+          } catch {
+            errors.push(
+              `${f.name}: HEIC conversion failed — please convert to JPEG first`,
+            );
+          }
+        } else if (f.type.startsWith("image/")) {
+          converted.push(f);
+        } else {
+          errors.push(`${f.name}: unsupported format`);
+        }
       }
-    }
-    setFiles((prev) => {
-      const next = [...prev, ...converted].slice(0, 25);
-      return next;
-    });
-  }, []);
+      if (errors.length > 0) {
+        toast(errors.join("\n"), "error");
+      }
+      setFiles((prev) => {
+        const next = [...prev, ...converted].slice(0, 25);
+        return next;
+      });
+    },
+    [toast],
+  );
 
   const removeFile = (i: number) => {
     setFiles((f) => f.filter((_, idx) => idx !== i));
@@ -397,7 +413,7 @@ function UploadContent() {
                     >
                       <img
                         src={objectUrls[i] || URL.createObjectURL(f)}
-                        alt=""
+                        alt={`Photo ${i + 1}: ${f.name}`}
                         className="w-full h-full object-cover"
                       />
                       <button

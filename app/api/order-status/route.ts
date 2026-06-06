@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { supabaseAdmin } from "@/lib/supabase/admin";
 import { getAuthenticatedClient } from "@/lib/supabase/authenticated";
 import { PLAN_SHOTS } from "@/lib/plans";
 import { addCors, handleOptions } from "@/lib/cors";
@@ -10,6 +11,7 @@ export const GET = withContext(async (req: Request) => {
   const origin = req.headers.get("origin");
   const { searchParams } = new URL(req.url);
   const orderId = searchParams.get("orderId");
+  const downloadToken = searchParams.get("download_token");
 
   if (!orderId)
     return addCors(
@@ -18,33 +20,54 @@ export const GET = withContext(async (req: Request) => {
     );
 
   const token = req.headers.get("Authorization")?.replace("Bearer ", "");
-  if (!token)
-    return addCors(
-      NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
-      origin,
-    );
-  const supabase = getAuthenticatedClient(token);
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user)
-    return addCors(
-      NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
-      origin,
-    );
 
-  const { data: order, error: orderError } = await supabase
-    .from("orders")
-    .select("status, plan, user_id")
-    .eq("id", orderId)
-    .single();
+  let userId: string | null = null;
+  let order: { status: string; plan: string; user_id: string | null } | null =
+    null;
 
-  if (orderError || !order)
+  // Try download_token first for anonymous access
+  if (downloadToken) {
+    const { data: tokenRow } = await supabaseAdmin
+      .from("download_tokens")
+      .select("user_id, order_id, expires_at")
+      .eq("id", downloadToken)
+      .maybeSingle();
+    if (tokenRow && new Date(tokenRow.expires_at) > new Date()) {
+      userId = tokenRow.user_id;
+      const { data: tokOrder } = await supabaseAdmin
+        .from("orders")
+        .select("status, plan, user_id")
+        .eq("id", orderId)
+        .maybeSingle();
+      order = tokOrder;
+    }
+  }
+
+  // Fall back to authenticated access
+  if (!order && token) {
+    const supabase = getAuthenticatedClient(token);
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user) {
+      userId = user.id;
+      const { data: authOrder } = await supabase
+        .from("orders")
+        .select("status, plan, user_id")
+        .eq("id", orderId)
+        .maybeSingle();
+      order = authOrder;
+    }
+  }
+
+  if (!order)
     return addCors(
       NextResponse.json({ error: "Order not found" }, { status: 404 }),
       origin,
     );
-  if (order.user_id !== user.id)
+
+  // Only allow access if user owns the order or is anonymous with a valid token
+  if (order.user_id && userId && order.user_id !== userId)
     return addCors(
       NextResponse.json({ error: "Forbidden" }, { status: 403 }),
       origin,
@@ -60,7 +83,7 @@ export const GET = withContext(async (req: Request) => {
   const target = PLAN_SHOTS[order.plan] ?? 40;
 
   if (order.status === "completed") {
-    const { data: shots } = await supabase
+    const { data: shots } = await supabaseAdmin
       .from("headshots")
       .select("id, image_url, style, category")
       .eq("order_id", orderId)
@@ -68,7 +91,7 @@ export const GET = withContext(async (req: Request) => {
     headshots = shots || [];
     count = headshots.length;
   } else if (order.status === "generating") {
-    const { count: generatedCount } = await supabase
+    const { count: generatedCount } = await supabaseAdmin
       .from("headshots")
       .select("id", { count: "exact", head: true })
       .eq("order_id", orderId);

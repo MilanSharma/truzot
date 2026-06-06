@@ -91,14 +91,35 @@ function DashboardContent() {
     );
   };
 
-  const fetchOrderById = useCallback(async (id: string) => {
-    const { data } = await supabase
-      .from("orders")
-      .select("*")
-      .eq("id", id)
-      .single();
-    return data as Order;
-  }, []);
+  const fetchOrderById = useCallback(
+    async (id: string, downloadToken?: string) => {
+      const { data } = await supabase
+        .from("orders")
+        .select("*")
+        .eq("id", id)
+        .single();
+      if (data) return data as Order;
+      // If RLS blocks it (anonymous user), try with download token
+      if (downloadToken) {
+        try {
+          const res = await fetch(
+            `/api/order-status?orderId=${id}&download_token=${downloadToken}`,
+          );
+          const statusData = await res.json();
+          if (statusData.status) {
+            return {
+              id,
+              plan: statusData.plan || "unknown",
+              status: statusData.status,
+              created_at: new Date().toISOString(),
+            } as Order;
+          }
+        } catch {}
+      }
+      return null;
+    },
+    [],
+  );
 
   const PAGE_SIZE = 40;
 
@@ -242,7 +263,8 @@ function DashboardContent() {
         if (data) setOrders(data as Order[]);
       }
       if (orderId) {
-        const order = await fetchOrderById(orderId);
+        const downloadToken = searchParams.get("download_token") ?? undefined;
+        const order = await fetchOrderById(orderId, downloadToken);
         if (order) {
           setCurrentOrder(order);
           setHeadshots([]);

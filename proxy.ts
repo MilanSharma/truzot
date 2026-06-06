@@ -10,6 +10,12 @@ export const config = {
     "/api/checkout",
     "/api/upload",
     "/api/free-generate",
+    "/api/feedback",
+    "/api/retry",
+    "/api/contact",
+    "/api/order-status",
+    "/api/download",
+    "/api/download/token",
   ],
 };
 
@@ -23,6 +29,12 @@ const RATE_LIMIT_RULES: Record<string, RateLimitRule> = {
   "/api/checkout": { max: 10, window: "60 s" },
   "/api/upload": { max: 20, window: "60 s" },
   "/api/free-generate": { max: 3, window: "60 s" },
+  "/api/feedback": { max: 20, window: "60 s" },
+  "/api/retry": { max: 5, window: "60 s" },
+  "/api/contact": { max: 10, window: "60 s" },
+  "/api/order-status": { max: 30, window: "60 s" },
+  "/api/download": { max: 30, window: "60 s" },
+  "/api/download/token": { max: 10, window: "60 s" },
 };
 
 function getIp(req: NextRequest): string {

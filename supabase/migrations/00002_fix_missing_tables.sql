@@ -85,6 +85,25 @@ CREATE POLICY "Service role can manage all flags" ON headshot_flags
   FOR ALL USING (auth.role() = 'service_role');
 CREATE INDEX IF NOT EXISTS idx_headshot_flags_order_id ON headshot_flags(order_id);
 
+-- Create team_members table for team invites
+CREATE TABLE IF NOT EXISTS team_members (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  team_owner_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  member_email TEXT NOT NULL,
+  member_user_id UUID REFERENCES auth.users(id),
+  role TEXT NOT NULL DEFAULT 'member' CHECK (role IN ('admin', 'member')),
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'accepted', 'declined')),
+  joined_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE team_members ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Team owners can manage members" ON team_members
+  FOR ALL USING (auth.uid() = team_owner_id);
+CREATE POLICY "Service role can manage team_members" ON team_members
+  FOR ALL USING (auth.role() = 'service_role');
+CREATE INDEX IF NOT EXISTS idx_team_members_email ON team_members(member_email);
+
 -- Create webhook_events table (used by webhook-store.ts)
 CREATE TABLE IF NOT EXISTS webhook_events (
   id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
