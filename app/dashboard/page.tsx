@@ -491,7 +491,10 @@ function DashboardContent() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                 <div>
                   <button
-                    onClick={() => router.push("/dashboard")}
+                    onClick={() => {
+                      setCurrentOrder(null);
+                      router.push("/dashboard");
+                    }}
                     className="text-xs font-bold text-slate-400 hover:text-blue-600 mb-2 flex items-center gap-1 transition"
                   >
                     ← Back to library
