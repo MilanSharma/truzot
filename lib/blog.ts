@@ -9,6 +9,9 @@ export interface BlogPost {
   date: string;
   readTime: string;
   content: string;
+  excerpt?: string;
+  author?: string;
+  image?: string;
 }
 
 export function getAllPosts(): Omit<BlogPost, "content">[] {
@@ -27,6 +30,9 @@ export function getAllPosts(): Omit<BlogPost, "content">[] {
       title: frontmatter.title || slug,
       date: frontmatter.date || "",
       readTime: frontmatter.readTime || "",
+      excerpt: frontmatter.excerpt,
+      author: frontmatter.author,
+      image: frontmatter.image,
     };
   });
 }
@@ -43,6 +49,9 @@ export function getPost(slug: string): BlogPost | null {
     date: frontmatter.date || "",
     readTime: frontmatter.readTime || "",
     content,
+    excerpt: frontmatter.excerpt,
+    author: frontmatter.author,
+    image: frontmatter.image,
   };
 }
 

@@ -18,8 +18,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${siteUrl}/faq`,
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
     },
     {
       url: `${siteUrl}/contact`,
@@ -47,6 +47,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.5,
     },
     {
+      url: `${siteUrl}/free`,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${siteUrl}/about`,
+      changeFrequency: "monthly" as const,
+      priority: 0.4,
+    },
+    {
       url: `${siteUrl}/blog`,
       changeFrequency: "weekly" as const,
       priority: 0.8,
@@ -58,6 +68,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${siteUrl}/blog/${post.slug}`,
     changeFrequency: "monthly" as const,
     priority: 0.7,
+    lastModified: post.date ? new Date(post.date) : undefined,
   }));
 
   return [...staticPages, ...blogEntries];

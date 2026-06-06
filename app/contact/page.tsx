@@ -38,7 +38,10 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+    <div
+      id="main-content"
+      className="min-h-screen bg-slate-50 dark:bg-slate-950"
+    >
       <Nav />
       <div className="max-w-4xl mx-auto px-6 py-16">
         <h1 className="text-4xl font-bold mb-2 text-slate-900 dark:text-white">

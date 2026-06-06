@@ -462,11 +462,11 @@ function DashboardContent() {
   const currentFiltered = getFilteredHeadshots();
 
   return (
-    <div className="flex h-screen bg-slate-50 font-sans text-slate-900 overflow-hidden">
+    <div className="flex h-screen bg-slate-50 dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100 overflow-hidden">
       <Sidebar user={user} active={!orderId} />
 
       <main className="flex-1 overflow-y-auto relative">
-        <div className="md:hidden h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 sticky top-0 z-20">
+        <div className="md:hidden h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between px-6 sticky top-0 z-20">
           <Link
             href="/"
             className="text-lg font-black tracking-tighter bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
@@ -502,20 +502,20 @@ function DashboardContent() {
                       setCurrentOrder(null);
                       router.push("/dashboard");
                     }}
-                    className="text-xs font-bold text-slate-400 hover:text-blue-600 mb-2 flex items-center gap-1 transition"
+                    className="text-xs font-bold text-slate-400 dark:text-slate-500 hover:text-blue-600 mb-2 flex items-center gap-1 transition"
                   >
                     ← Back to library
                   </button>
                   <div className="flex items-center gap-3">
-                    <h1 className="text-3xl font-black text-slate-900">
+                    <h1 className="text-3xl font-black text-slate-900 dark:text-white">
                       {PLANS[currentOrder.plan as keyof typeof PLANS]?.name ||
                         "Shoot"}
                     </h1>
-                    <span className="px-3 py-1 bg-emerald-50 text-emerald-600 border border-emerald-200 rounded-full text-xs font-bold uppercase tracking-wider">
+                    <span className="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 rounded-full text-xs font-bold uppercase tracking-wider">
                       {currentOrder.status}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-400 font-medium mt-1">
+                  <p className="text-xs text-slate-400 dark:text-slate-500 font-medium mt-1">
                     Created{" "}
                     {new Date(currentOrder.created_at).toLocaleDateString(
                       undefined,
@@ -532,13 +532,13 @@ function DashboardContent() {
                   <div className="flex items-center gap-3">
                     <button
                       onClick={() => setMultiSelectMode(!multiSelectMode)}
-                      className={`px-4 py-2.5 rounded-xl text-sm font-bold transition border ${multiSelectMode ? "bg-blue-50 border-blue-200 text-blue-700" : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50"}`}
+                      className={`px-4 py-2.5 rounded-xl text-sm font-bold transition border ${multiSelectMode ? "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-400" : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700"}`}
                     >
                       {multiSelectMode ? "Cancel Select" : "Select Multiple"}
                     </button>
                     <Suspense
                       fallback={
-                        <div className="px-5 py-2.5 bg-slate-100 rounded-xl text-sm font-bold">
+                        <div className="px-5 py-2.5 bg-slate-100 dark:bg-slate-800 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-300">
                           Loading...
                         </div>
                       }
@@ -592,13 +592,13 @@ function DashboardContent() {
               )}
               {currentOrder.status === "pending" && (
                 <div className="flex flex-col items-center justify-center py-20 text-center">
-                  <div className="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mb-6">
-                    <Camera className="w-8 h-8 text-amber-600" />
+                  <div className="w-16 h-16 bg-amber-50 dark:bg-amber-900/20 rounded-full flex items-center justify-center mb-6">
+                    <Camera className="w-8 h-8 text-amber-600 dark:text-amber-400" />
                   </div>
-                  <h2 className="text-2xl font-bold text-slate-900 mb-3">
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
                     Payment Incomplete
                   </h2>
-                  <p className="text-slate-500 max-w-md mb-8">
+                  <p className="text-slate-500 dark:text-slate-400 max-w-md mb-8">
                     This order hasn&apos;t been paid yet. Go back to the upload
                     page to start a new checkout.
                   </p>
@@ -705,7 +705,7 @@ export default function DashboardPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-slate-50 p-6 md:p-10">
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-6 md:p-10">
           <div className="skeleton h-10 w-64 mb-8" />
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3].map((i) => (

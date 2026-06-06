@@ -48,7 +48,10 @@ export default function FAQPage() {
 
   const allFaqs = [...faqs.individual, ...faqs.free, ...faqs.team];
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+    <div
+      id="main-content"
+      className="min-h-screen bg-slate-50 dark:bg-slate-950"
+    >
       <FAQSchema
         questions={allFaqs.map((f) => ({ question: f.q, answer: f.a }))}
       />

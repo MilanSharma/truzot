@@ -1,11 +1,14 @@
 import "./globals.css";
 import { ReactNode } from "react";
+import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { getEnv } from "@/lib/env";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import { ToastProvider } from "@/components/Toast";
 import CookieConsent from "@/components/CookieConsent";
+import { OrganizationSchema, WebSiteSchema } from "@/components/JsonLd";
+import { SITE_CONFIG } from "@/lib/seo";
 
 if (typeof window === "undefined") {
   try {
@@ -21,30 +24,64 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://truzot.com";
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#2563eb",
+};
 
-export const metadata = {
-  metadataBase: new URL(siteUrl),
-  title: "Truzot AI Headshots",
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_CONFIG.url),
+  title: {
+    default: "Truzot AI Headshots — Professional Headshots in Minutes",
+    template: "%s — Truzot AI Headshots",
+  },
   description:
-    "Generate AI-powered professional headshots without the studio hassle.",
+    "Generate AI-powered professional headshots from your photos. No studio, no photographer. Get LinkedIn-ready corporate headshots in under an hour.",
+  keywords: [
+    "AI headshots",
+    "professional headshots",
+    "LinkedIn headshots",
+    "corporate headshots",
+    "AI photo generator",
+    "headshot generator",
+    "professional portrait AI",
+  ],
+  authors: [{ name: "Truzot" }],
+  creator: "Truzot",
+  publisher: "Truzot",
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: SITE_CONFIG.url,
+  },
   openGraph: {
-    title: "Truzot AI Headshots",
+    title: "Truzot AI Headshots — Professional Headshots in Minutes",
     description:
-      "Generate AI-powered professional headshots without the studio hassle.",
-    url: siteUrl,
+      "Generate AI-powered professional headshots from your photos. No studio, no photographer. Get LinkedIn-ready corporate headshots in under an hour.",
+    url: SITE_CONFIG.url,
     siteName: "Truzot",
-    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+    images: [
+      {
+        url: SITE_CONFIG.ogImage,
+        width: 1200,
+        height: 630,
+        alt: "Truzot AI Headshots",
+      },
+    ],
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Truzot AI Headshots",
+    title: "Truzot AI Headshots — Professional Headshots in Minutes",
     description:
-      "Generate AI-powered professional headshots without the studio hassle.",
-    images: ["/og-image.png"],
+      "Generate AI-powered professional headshots from your photos. No studio, no photographer.",
+    images: [SITE_CONFIG.ogImage],
   },
+  category: "technology",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -68,6 +105,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         >
           Skip to main content
         </a>
+        <OrganizationSchema />
+        <WebSiteSchema />
         <PostHogProvider>
           <ToastProvider>
             {children}

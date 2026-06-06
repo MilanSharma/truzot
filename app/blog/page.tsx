@@ -1,7 +1,21 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { getAllPosts } from "@/lib/blog";
+import { PAGE_SEO, SITE_CONFIG } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  title: PAGE_SEO.blog.title,
+  description: PAGE_SEO.blog.description,
+  keywords: PAGE_SEO.blog.keywords,
+  alternates: { canonical: `${SITE_CONFIG.url}/blog` },
+  openGraph: {
+    title: PAGE_SEO.blog.title,
+    description: PAGE_SEO.blog.description,
+    url: `${SITE_CONFIG.url}/blog`,
+  },
+};
 
 export default function BlogPage() {
   const posts = getAllPosts();
