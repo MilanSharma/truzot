@@ -12,11 +12,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
-      url: `${siteUrl}/login`,
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    },
-    {
       url: `${siteUrl}/faq`,
       changeFrequency: "weekly" as const,
       priority: 0.7,
@@ -25,21 +20,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${siteUrl}/contact`,
       changeFrequency: "monthly" as const,
       priority: 0.5,
-    },
-    {
-      url: `${siteUrl}/privacy`,
-      changeFrequency: "yearly" as const,
-      priority: 0.3,
-    },
-    {
-      url: `${siteUrl}/terms`,
-      changeFrequency: "yearly" as const,
-      priority: 0.3,
-    },
-    {
-      url: `${siteUrl}/refund`,
-      changeFrequency: "yearly" as const,
-      priority: 0.3,
     },
     {
       url: `${siteUrl}/team`,

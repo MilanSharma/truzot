@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Privacy Policy — Truzot AI Headshots",
   description:
     "How Truzot collects, processes, stores, and protects your personal data and uploaded photos.",
+  robots: { index: false },
 };
 
 export default function PrivacyPage() {

@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Refund Policy — Truzot AI Headshots",
   description:
     "Truzot's 100% satisfaction guarantee and refund policy for AI headshot orders.",
+  robots: { index: false },
 };
 
 export default function RefundPage() {

@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Terms of Service — Truzot AI Headshots",
   description:
     "Terms and conditions governing the use of Truzot's AI headshot generation service.",
+  robots: { index: false },
 };
 
 export default function TermsPage() {
