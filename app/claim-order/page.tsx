@@ -21,51 +21,39 @@ function ClaimOrderForm() {
       orderId,
     );
 
-  const claimOrder = useCallback(
-    async (userId: string) => {
-      if (!orderId) return;
+  const claimOrder = useCallback(async () => {
+    if (!orderId) return;
+    setError("");
 
-      // Verify the claiming user's email matches the order email
-      const { data: order, error: fetchError } = await supabase
-        .from("orders")
-        .select("email")
-        .eq("id", orderId)
-        .single();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    if (!session?.access_token) {
+      setError("Please sign in first.");
+      return;
+    }
 
-      if (fetchError || !order) {
-        setError("Order not found.");
-        return;
-      }
+    const res = await fetch("/api/claim-order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session.access_token}`,
+      },
+      body: JSON.stringify({ orderId }),
+    });
 
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (user?.email !== order.email) {
-        setError(
-          "This order was placed with a different email address. Please use the email you used during checkout.",
-        );
-        return;
-      }
-
-      const { error } = await supabase
-        .from("orders")
-        .update({ user_id: userId })
-        .eq("id", orderId)
-        .is("user_id", null);
-
-      if (error) {
-        setError("Failed to claim order. Please try again.");
-      } else {
-        router.push(`/dashboard?order=${orderId}`);
-      }
-    },
-    [orderId, router, setError],
-  );
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      setError(body.error || "Failed to claim order.");
+    } else {
+      router.push(`/dashboard?order=${orderId}`);
+    }
+  }, [orderId, router, setError]);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session && orderId) {
-        claimOrder(session.user.id);
+        claimOrder();
       }
     });
   }, [orderId, claimOrder]);
@@ -85,7 +73,7 @@ function ClaimOrderForm() {
       if (signInError) throw signInError;
       if (!data.user) throw new Error("Failed to sign in");
 
-      await claimOrder(data.user.id);
+      await claimOrder();
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -122,7 +110,7 @@ function ClaimOrderForm() {
       if (authError) throw authError;
       if (!authData.user) throw new Error("Failed to create account");
 
-      await claimOrder(authData.user.id);
+      await claimOrder();
     } catch (err: any) {
       setError(err.message);
     } finally {
