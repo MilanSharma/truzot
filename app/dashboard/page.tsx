@@ -109,23 +109,29 @@ function DashboardContent() {
         .eq("id", id)
         .single();
       if (data) return data as Order;
-      // If RLS blocks it (anonymous user), try with download token
-      if (downloadToken) {
-        try {
-          const res = await fetch(
-            `/api/order-status?orderId=${id}&download_token=${downloadToken}`,
-          );
-          const statusData = await res.json();
-          if (statusData.status) {
-            return {
-              id,
-              plan: statusData.plan || "unknown",
-              status: statusData.status,
-              created_at: new Date().toISOString(),
-            } as Order;
-          }
-        } catch {}
-      }
+      // If RLS blocks (guest order or different owner), try via API
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        const apiUrl = downloadToken
+          ? `/api/order-status?orderId=${id}&download_token=${downloadToken}`
+          : `/api/order-status?orderId=${id}`;
+        const res = await fetch(apiUrl, {
+          headers: session?.access_token
+            ? { Authorization: `Bearer ${session.access_token}` }
+            : {},
+        });
+        const statusData = await res.json();
+        if (statusData.status) {
+          return {
+            id,
+            plan: statusData.plan || "unknown",
+            status: statusData.status,
+            created_at: new Date().toISOString(),
+          } as Order;
+        }
+      } catch {}
       return null;
     },
     [],
@@ -499,8 +505,7 @@ function DashboardContent() {
                 <div>
                   <button
                     onClick={() => {
-                      setCurrentOrder(null);
-                      router.push("/dashboard");
+                      window.location.href = "/dashboard";
                     }}
                     className="text-xs font-bold text-slate-400 dark:text-slate-500 hover:text-blue-600 mb-2 flex items-center gap-1 transition"
                   >
