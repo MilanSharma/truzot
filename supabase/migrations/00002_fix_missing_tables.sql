@@ -14,12 +14,15 @@ CREATE TABLE IF NOT EXISTS profiles (
 
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users can read own profile" ON profiles;
 CREATE POLICY "Users can read own profile" ON profiles
   FOR SELECT USING (auth.uid() = id);
 
+DROP POLICY IF EXISTS "Users can update own profile" ON profiles;
 CREATE POLICY "Users can update own profile" ON profiles
   FOR UPDATE USING (auth.uid() = id);
 
+DROP POLICY IF EXISTS "Service role can manage all profiles" ON profiles;
 CREATE POLICY "Service role can manage all profiles" ON profiles
   FOR ALL USING (auth.role() = 'service_role');
 
@@ -59,9 +62,11 @@ CREATE TABLE IF NOT EXISTS download_tokens (
 
 ALTER TABLE download_tokens ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users can create own download tokens" ON download_tokens;
 CREATE POLICY "Users can create own download tokens" ON download_tokens
   FOR INSERT WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Service role can manage all download tokens" ON download_tokens;
 CREATE POLICY "Service role can manage all download tokens" ON download_tokens
   FOR ALL USING (auth.role() = 'service_role');
 
@@ -80,8 +85,10 @@ CREATE TABLE IF NOT EXISTS headshot_flags (
 );
 
 ALTER TABLE headshot_flags ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Users can manage own flags" ON headshot_flags;
 CREATE POLICY "Users can manage own flags" ON headshot_flags
   FOR ALL USING (order_id IN (SELECT id FROM orders WHERE user_id = auth.uid()));
+DROP POLICY IF EXISTS "Service role can manage all flags" ON headshot_flags;
 CREATE POLICY "Service role can manage all flags" ON headshot_flags
   FOR ALL USING (auth.role() = 'service_role');
 CREATE INDEX IF NOT EXISTS idx_headshot_flags_order_id ON headshot_flags(order_id);
@@ -100,8 +107,10 @@ CREATE TABLE IF NOT EXISTS team_members (
 );
 
 ALTER TABLE team_members ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Team owners can manage members" ON team_members;
 CREATE POLICY "Team owners can manage members" ON team_members
   FOR ALL USING (auth.uid() = team_owner_id);
+DROP POLICY IF EXISTS "Service role can manage team_members" ON team_members;
 CREATE POLICY "Service role can manage team_members" ON team_members
   FOR ALL USING (auth.role() = 'service_role');
 CREATE INDEX IF NOT EXISTS idx_team_members_email ON team_members(member_email);
@@ -119,6 +128,7 @@ CREATE TABLE IF NOT EXISTS webhook_events (
 );
 
 ALTER TABLE webhook_events ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Service role can manage webhook_events" ON webhook_events;
 CREATE POLICY "Service role can manage webhook_events" ON webhook_events
   FOR ALL USING (auth.role() = 'service_role');
 
@@ -135,6 +145,7 @@ CREATE TABLE IF NOT EXISTS email_preferences (
 );
 
 ALTER TABLE email_preferences ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Service role can manage email_preferences" ON email_preferences;
 CREATE POLICY "Service role can manage email_preferences" ON email_preferences
   FOR ALL USING (auth.role() = 'service_role');
 
