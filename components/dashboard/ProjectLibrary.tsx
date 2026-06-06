@@ -1,9 +1,19 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { Plus, ArrowRight, Camera, CheckCircle, Trash2, X } from "lucide-react";
+import {
+  Plus,
+  ArrowRight,
+  Camera,
+  CheckCircle,
+  Trash2,
+  X,
+  Clock,
+  AlertCircle,
+} from "lucide-react";
 import { PLANS } from "@/lib/plans";
 import type { Order } from "@/lib/types";
+import { timeAgo, groupByDate, DATE_GROUPS } from "@/lib/time";
 
 function ProjectSkeleton() {
   return (
@@ -87,6 +97,9 @@ export default function ProjectLibrary({
   const [deletingOrderId, setDeletingOrderId] = useState<string | null>(null);
 
   if (loading) return <ProjectSkeleton />;
+
+  const groups = groupByDate(orders);
+
   return (
     <div className="animate-in fade-in">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-10 gap-4">
@@ -95,7 +108,7 @@ export default function ProjectLibrary({
             My Projects
           </h1>
           <p className="text-sm text-slate-500 font-medium">
-            Manage and download your AI photoshoots
+            {orders.length} {orders.length === 1 ? "shoot" : "shoots"} total
           </p>
         </div>
         <Link
@@ -127,62 +140,84 @@ export default function ProjectLibrary({
           </Link>
         </div>
       ) : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {orders.map((o) => (
-            <div
-              key={o.id}
-              className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:border-blue-300 transition group relative overflow-hidden"
-            >
-              <Link href={`/dashboard?order=${o.id}`} className="block p-6">
-                {o.status === "completed" && (
-                  <div className="absolute top-0 right-0 w-16 h-16 bg-emerald-50 rounded-bl-full flex items-start justify-end p-3">
-                    <CheckCircle className="w-4 h-4 text-emerald-500" />
-                  </div>
-                )}
-                <ArrowRight className="absolute top-4 right-4 w-5 h-5 text-slate-300 group-hover:text-blue-600 transition group-hover:translate-x-0.5" />
-                <span className="text-[10px] font-black text-blue-600 tracking-widest uppercase mb-2 block">
-                  {PLANS[o.plan as keyof typeof PLANS]?.name || "Shoot"}
-                </span>
-                <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition mb-1">
-                  Order #{o.id.slice(0, 6)}
-                </h3>
-                <span className="text-xs text-slate-400 font-medium block mb-6">
-                  {new Date(o.created_at).toLocaleDateString(undefined, {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
-                </span>
-                <div className="flex items-center justify-between">
-                  <span
-                    className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold ${
-                      o.status === "completed"
-                        ? "bg-emerald-50 text-emerald-700"
-                        : ["training", "generating"].includes(o.status)
-                          ? "bg-indigo-50 text-indigo-700"
-                          : "bg-amber-50 text-amber-700"
-                    }`}
+        <div className="space-y-10">
+          {DATE_GROUPS.filter((g) => groups[g]?.length).map((group) => (
+            <div key={group}>
+              <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                <Clock className="w-3.5 h-3.5" />
+                {group === "Today" || group === "Yesterday"
+                  ? group
+                  : `${group} — ${groups[group].length} shoot${groups[group].length > 1 ? "s" : ""}`}
+              </h2>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {groups[group].map((o) => (
+                  <div
+                    key={o.id}
+                    className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:border-blue-300 transition group relative overflow-hidden"
                   >
-                    {o.status === "completed"
-                      ? "Gallery Ready"
-                      : o.status === "failed"
-                        ? "Failed"
-                        : "In Progress"}
-                  </span>
-                </div>
-              </Link>
-              {onDelete && (
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setDeletingOrderId(o.id);
-                  }}
-                  className="absolute bottom-3 right-3 p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition opacity-0 group-hover:opacity-100"
-                  title="Delete order"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              )}
+                    <Link
+                      href={`/dashboard?order=${o.id}`}
+                      className="block p-6"
+                    >
+                      {o.status === "completed" && (
+                        <div className="absolute top-0 right-0 w-16 h-16 bg-emerald-50 rounded-bl-full flex items-start justify-end p-3">
+                          <CheckCircle className="w-4 h-4 text-emerald-500" />
+                        </div>
+                      )}
+                      <ArrowRight className="absolute top-4 right-4 w-5 h-5 text-slate-300 group-hover:text-blue-600 transition group-hover:translate-x-0.5" />
+                      <span className="text-[10px] font-black text-blue-600 tracking-widest uppercase mb-2 block">
+                        {PLANS[o.plan as keyof typeof PLANS]?.name || "Shoot"}
+                      </span>
+                      <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition mb-1">
+                        Order #{o.id.slice(0, 6)}
+                      </h3>
+                      <span className="text-xs text-slate-400 font-medium block mb-5">
+                        {timeAgo(o.created_at)}
+                      </span>
+                      <div className="flex items-center justify-between">
+                        <span
+                          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold ${
+                            o.status === "completed"
+                              ? "bg-emerald-50 text-emerald-700"
+                              : ["training", "generating"].includes(o.status)
+                                ? "bg-indigo-50 text-indigo-700"
+                                : o.status === "pending"
+                                  ? "bg-amber-50 text-amber-700"
+                                  : "bg-red-50 text-red-700"
+                          }`}
+                        >
+                          {o.status === "completed" ? (
+                            "Gallery Ready"
+                          ) : o.status === "failed" ? (
+                            <>
+                              <AlertCircle className="w-3 h-3" /> Failed
+                            </>
+                          ) : o.status === "pending" ? (
+                            "Payment Pending"
+                          ) : (
+                            <>
+                              <div className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse" />
+                              Processing
+                            </>
+                          )}
+                        </span>
+                      </div>
+                    </Link>
+                    {onDelete && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setDeletingOrderId(o.id);
+                        }}
+                        className="absolute bottom-3 right-3 p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition opacity-0 group-hover:opacity-100"
+                        title="Delete order"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
         </div>

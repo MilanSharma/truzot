@@ -141,7 +141,7 @@ function DashboardContent() {
       .from("headshots")
       .select("id, image_url, style, category", { count: "exact" })
       .eq("order_id", id)
-      .order("created_at", { ascending: true })
+      .order("created_at", { ascending: false })
       .range(from, to);
     if (data) {
       setHeadshots(
@@ -515,6 +515,17 @@ function DashboardContent() {
                       {currentOrder.status}
                     </span>
                   </div>
+                  <p className="text-xs text-slate-400 font-medium mt-1">
+                    Created{" "}
+                    {new Date(currentOrder.created_at).toLocaleDateString(
+                      undefined,
+                      {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                      },
+                    )}
+                  </p>
                 </div>
 
                 {currentOrder.status === "completed" && (
