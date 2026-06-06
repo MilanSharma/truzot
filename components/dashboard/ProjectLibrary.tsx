@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
-import { Plus, ArrowRight, Camera, CheckCircle, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { Plus, ArrowRight, Camera, CheckCircle, Trash2, X } from "lucide-react";
 import { PLANS } from "@/lib/plans";
 import type { Order } from "@/lib/types";
 
@@ -25,6 +26,55 @@ function ProjectSkeleton() {
   );
 }
 
+function ConfirmDialog({
+  open,
+  onConfirm,
+  onCancel,
+}: {
+  open: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}) {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="absolute inset-0 bg-black/40" onClick={onCancel} />
+      <div className="relative bg-white rounded-2xl shadow-2xl p-6 max-w-sm w-full mx-4 animate-in zoom-in-95 fade-in duration-200">
+        <button
+          onClick={onCancel}
+          className="absolute top-3 right-3 text-slate-400 hover:text-slate-600"
+        >
+          <X className="w-5 h-5" />
+        </button>
+        <div className="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
+          <Trash2 className="w-6 h-6 text-red-500" />
+        </div>
+        <h3 className="text-lg font-bold text-slate-900 text-center mb-2">
+          Delete Order
+        </h3>
+        <p className="text-sm text-slate-500 text-center mb-6">
+          Are you sure you want to delete this order? This action cannot be
+          undone.
+        </p>
+        <div className="flex gap-3">
+          <button
+            onClick={onCancel}
+            className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 text-sm font-bold text-slate-600 hover:bg-slate-50 transition"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={onConfirm}
+            className="flex-1 px-4 py-2.5 rounded-xl bg-red-600 text-sm font-bold text-white hover:bg-red-700 transition"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ProjectLibrary({
   orders,
   loading = false,
@@ -34,6 +84,8 @@ export default function ProjectLibrary({
   loading?: boolean;
   onDelete?: (id: string) => void;
 }) {
+  const [deletingOrderId, setDeletingOrderId] = useState<string | null>(null);
+
   if (loading) return <ProjectSkeleton />;
   return (
     <div className="animate-in fade-in">
@@ -79,14 +131,15 @@ export default function ProjectLibrary({
           {orders.map((o) => (
             <div
               key={o.id}
-              className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-lg hover:border-blue-300 transition group relative overflow-hidden"
+              className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:border-blue-300 transition group relative overflow-hidden"
             >
-              <Link href={`/dashboard?order=${o.id}`} className="block">
+              <Link href={`/dashboard?order=${o.id}`} className="block p-6">
                 {o.status === "completed" && (
                   <div className="absolute top-0 right-0 w-16 h-16 bg-emerald-50 rounded-bl-full flex items-start justify-end p-3">
                     <CheckCircle className="w-4 h-4 text-emerald-500" />
                   </div>
                 )}
+                <ArrowRight className="absolute top-4 right-4 w-5 h-5 text-slate-300 group-hover:text-blue-600 transition group-hover:translate-x-0.5" />
                 <span className="text-[10px] font-black text-blue-600 tracking-widest uppercase mb-2 block">
                   {PLANS[o.plan as keyof typeof PLANS]?.name || "Shoot"}
                 </span>
@@ -116,14 +169,13 @@ export default function ProjectLibrary({
                         ? "Failed"
                         : "In Progress"}
                   </span>
-                  <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-blue-600 transition -translate-x-2 group-hover:translate-x-0" />
                 </div>
               </Link>
               {onDelete && (
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (window.confirm("Delete this order?")) onDelete(o.id);
+                    setDeletingOrderId(o.id);
                   }}
                   className="absolute bottom-3 right-3 p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition opacity-0 group-hover:opacity-100"
                   title="Delete order"
@@ -135,6 +187,15 @@ export default function ProjectLibrary({
           ))}
         </div>
       )}
+
+      <ConfirmDialog
+        open={!!deletingOrderId}
+        onConfirm={() => {
+          if (deletingOrderId && onDelete) onDelete(deletingOrderId);
+          setDeletingOrderId(null);
+        }}
+        onCancel={() => setDeletingOrderId(null)}
+      />
     </div>
   );
 }
