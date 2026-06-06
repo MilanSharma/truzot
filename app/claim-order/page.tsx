@@ -2,8 +2,16 @@
 import { useEffect, useState, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
+import {
+  CheckCircle,
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  ArrowRight,
+  ArrowLeft,
+} from "lucide-react";
+import Link from "next/link";
 
 function ClaimOrderForm() {
   const router = useRouter();
@@ -14,6 +22,7 @@ function ClaimOrderForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isSignIn, setIsSignIn] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const isValidUuid =
     orderId &&
@@ -118,51 +127,76 @@ function ClaimOrderForm() {
     }
   };
 
+  const benefits = [
+    "Access your headshots anytime from your dashboard",
+    "Track order status in real-time",
+    "Download headshots in full HD resolution",
+    "Manage your account and payment history",
+  ];
+
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
-      <Nav />
-      <div className="max-w-md mx-auto px-6 py-16">
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 shadow-lg">
-          {!isValidUuid ? (
-            <div className="text-center">
-              <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                Invalid Link
-              </h2>
-              <p className="text-slate-500 dark:text-slate-400">
-                This order link is invalid or missing. Please check the URL and
-                try again.
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50 dark:from-slate-950 dark:via-slate-900 dark:to-emerald-950">
+      <nav className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition"
+          >
+            <ArrowLeft size={20} />
+            <span className="font-medium">Back to Home</span>
+          </Link>
+        </div>
+      </nav>
+      <div className="max-w-lg mx-auto px-6 py-12 md:py-20">
+        {!isValidUuid ? (
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-10 shadow-lg text-center">
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+              Invalid Link
+            </h2>
+            <p className="text-slate-500 dark:text-slate-400">
+              This order link is invalid or missing. Please check the URL and
+              try again.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {/* Success Header */}
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-10 shadow-lg text-center">
+              <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mx-auto mb-5">
+                <CheckCircle className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
+              </div>
+              <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+                Payment Successful!
+              </h1>
+              <p className="text-slate-600 dark:text-slate-400 max-w-sm mx-auto">
+                {isSignIn
+                  ? "Sign in to access your headshots and track your order."
+                  : "Create an account to access your headshots and track your order."}
               </p>
             </div>
-          ) : (
-            <>
-              <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg
-                    className="w-8 h-8 text-emerald-600"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
-                <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                  Payment Successful!
-                </h1>
-                <p className="text-slate-600 dark:text-slate-400">
-                  {isSignIn
-                    ? "Sign in to access your headshots and track your order."
-                    : "Create an account to access your headshots and track your order."}
-                </p>
-              </div>
 
+            {/* Benefits */}
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm">
+              <h3 className="font-semibold text-slate-900 dark:text-white mb-3 text-sm uppercase tracking-wider">
+                What you get
+              </h3>
+              <ul className="space-y-2.5">
+                {benefits.map((b) => (
+                  <li
+                    key={b}
+                    className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400"
+                  >
+                    <CheckCircle className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Auth Card */}
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 shadow-lg">
               {error && (
-                <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-600 dark:text-red-400 text-sm">
+                <div className="mb-5 p-3.5 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-sm text-red-600 dark:text-red-400">
                   {error}
                 </div>
               )}
@@ -172,50 +206,67 @@ function ClaimOrderForm() {
                 className="space-y-4"
               >
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                    Email
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                    Email address
                   </label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
-                  />
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      placeholder="you@example.com"
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:placeholder-slate-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                    />
+                  </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                     Password
                   </label>
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    minLength={6}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
-                  />
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      minLength={6}
+                      placeholder="••••••••"
+                      className="w-full pl-10 pr-12 py-3 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:placeholder-slate-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition"
+                    >
+                      {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    </button>
+                  </div>
                 </div>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition disabled:opacity-50"
+                  className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-blue-700 transition disabled:opacity-50 shadow-sm"
                 >
                   {loading
                     ? "Please wait..."
                     : isSignIn
                       ? "Sign In & View Headshots"
                       : "Create Account & View Headshots"}
+                  {!loading && <ArrowRight size={18} />}
                 </button>
               </form>
 
+              {/* Divider */}
               <div className="relative my-6">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-slate-200 dark:border-slate-700"></div>
+                  <div className="w-full border-t border-slate-200 dark:border-slate-700" />
                 </div>
                 <div className="relative flex justify-center text-sm">
                   <span className="bg-white dark:bg-slate-900 px-4 text-slate-500 dark:text-slate-400">
-                    or
+                    or continue with
                   </span>
                 </div>
               </div>
@@ -245,31 +296,31 @@ function ClaimOrderForm() {
                 Continue with Google
               </button>
 
-              <div className="mt-6 text-center space-y-3">
+              <div className="mt-6 flex flex-col items-center gap-3">
                 <button
-                  onClick={() => setIsSignIn(!isSignIn)}
-                  className="text-blue-600 text-sm hover:text-blue-700 font-medium"
+                  onClick={() => {
+                    setIsSignIn(!isSignIn);
+                    setError("");
+                  }}
+                  className="text-blue-600 dark:text-blue-400 text-sm hover:text-blue-700 dark:hover:text-blue-300 font-medium transition"
                 >
                   {isSignIn
                     ? "Don't have an account? Create one"
                     : "Already have an account? Sign in"}
                 </button>
-                <div>
-                  <button
-                    onClick={() =>
-                      orderId && router.push(`/dashboard?order=${orderId}`)
-                    }
-                    className="text-slate-500 dark:text-slate-400 text-sm hover:text-slate-700 dark:hover:text-slate-300 underline"
-                  >
-                    Skip for now - View order as guest
-                  </button>
-                </div>
+                <button
+                  onClick={() =>
+                    orderId && router.push(`/dashboard?order=${orderId}`)
+                  }
+                  className="text-slate-400 dark:text-slate-500 text-sm hover:text-slate-600 dark:hover:text-slate-400 underline transition"
+                >
+                  Skip for now — view your order as a guest
+                </button>
               </div>
-            </>
-          )}
-        </div>
+            </div>
+          </div>
+        )}
       </div>
-      <Footer />
     </div>
   );
 }
@@ -278,7 +329,7 @@ export default function ClaimOrderPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-emerald-50 dark:from-slate-950 dark:via-slate-900 dark:to-emerald-950">
           <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
         </div>
       }
