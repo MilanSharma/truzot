@@ -65,7 +65,7 @@ export const POST = withContext(async (req: Request) => {
       supabase = supabaseAdmin;
     }
 
-    if (idempotencyKey && userId) {
+    if (idempotencyKey) {
       const { data: existing } = await supabase
         .from("orders")
         .select("id")

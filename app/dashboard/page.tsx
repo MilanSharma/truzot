@@ -24,7 +24,7 @@ import CompletedGallery from "@/components/dashboard/CompletedGallery";
 import FloatingSelectionBar from "@/components/dashboard/FloatingSelectionBar";
 import GalleryErrorBoundary from "@/components/GalleryErrorBoundary";
 import { useToast } from "@/components/Toast";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 const LightboxModal = lazy(
   () => import("@/components/dashboard/LightboxModal"),
@@ -316,7 +316,14 @@ function DashboardContent() {
       subscription.unsubscribe();
       if (subsRef.current) supabase.removeChannel(subsRef.current);
     };
-  }, [router, orderId, fetchOrderById, fetchHeadshots, subscribeToOrder]);
+  }, [
+    router,
+    searchParams,
+    orderId,
+    fetchOrderById,
+    fetchHeadshots,
+    subscribeToOrder,
+  ]);
 
   const getStyleCategory = (h: Headshot, index: number) => {
     if (h.category) return h.category;

@@ -1,11 +1,9 @@
 "use client";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-
-import { Suspense } from "react";
 
 function ClaimOrderForm() {
   const router = useRouter();
@@ -17,9 +15,37 @@ function ClaimOrderForm() {
   const [error, setError] = useState("");
   const [isSignIn, setIsSignIn] = useState(false);
 
+  const isValidUuid =
+    orderId &&
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+      orderId,
+    );
+
   const claimOrder = useCallback(
     async (userId: string) => {
       if (!orderId) return;
+
+      // Verify the claiming user's email matches the order email
+      const { data: order, error: fetchError } = await supabase
+        .from("orders")
+        .select("email")
+        .eq("id", orderId)
+        .single();
+
+      if (fetchError || !order) {
+        setError("Order not found.");
+        return;
+      }
+
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user?.email !== order.email) {
+        setError(
+          "This order was placed with a different email address. Please use the email you used during checkout.",
+        );
+        return;
+      }
 
       const { error } = await supabase
         .from("orders")
@@ -27,11 +53,13 @@ function ClaimOrderForm() {
         .eq("id", orderId)
         .is("user_id", null);
 
-      if (!error) {
+      if (error) {
+        setError("Failed to claim order. Please try again.");
+      } else {
         router.push(`/dashboard?order=${orderId}`);
       }
     },
-    [orderId, router],
+    [orderId, router, setError],
   );
 
   useEffect(() => {
@@ -92,100 +120,114 @@ function ClaimOrderForm() {
       <Nav />
       <div className="max-w-md mx-auto px-6 py-16">
         <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-lg">
-          <div className="text-center mb-6">
-            <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg
-                className="w-8 h-8 text-emerald-600"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
+          {!isValidUuid ? (
+            <div className="text-center">
+              <h2 className="text-xl font-bold text-slate-900 mb-2">
+                Invalid Link
+              </h2>
+              <p className="text-slate-500">
+                This order link is invalid or missing. Please check the URL and
+                try again.
+              </p>
             </div>
-            <h1 className="text-2xl font-bold text-slate-900 mb-2">
-              Payment Successful!
-            </h1>
-            <p className="text-slate-600">
-              {isSignIn
-                ? "Sign in to access your headshots and track your order."
-                : "Create an account to access your headshots and track your order."}
-            </p>
-          </div>
+          ) : (
+            <>
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg
+                    className="w-8 h-8 text-emerald-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+                <h1 className="text-2xl font-bold text-slate-900 mb-2">
+                  Payment Successful!
+                </h1>
+                <p className="text-slate-600">
+                  {isSignIn
+                    ? "Sign in to access your headshots and track your order."
+                    : "Create an account to access your headshots and track your order."}
+                </p>
+              </div>
 
-          {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
-              {error}
-            </div>
+              {error && (
+                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
+                  {error}
+                </div>
+              )}
+
+              <form
+                onSubmit={isSignIn ? handleSignIn : handleCreateAccount}
+                className="space-y-4"
+              >
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    minLength={6}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition disabled:opacity-50"
+                >
+                  {loading
+                    ? "Please wait..."
+                    : isSignIn
+                      ? "Sign In & View Headshots"
+                      : "Create Account & View Headshots"}
+                </button>
+              </form>
+
+              <div className="mt-6 text-center space-y-3">
+                <button
+                  onClick={() => setIsSignIn(!isSignIn)}
+                  className="text-blue-600 text-sm hover:text-blue-700 font-medium"
+                >
+                  {isSignIn
+                    ? "Don't have an account? Create one"
+                    : "Already have an account? Sign in"}
+                </button>
+                <div>
+                  <button
+                    onClick={() =>
+                      orderId && router.push(`/dashboard?order=${orderId}`)
+                    }
+                    className="text-slate-500 text-sm hover:text-slate-700 underline"
+                  >
+                    Skip for now - View order as guest
+                  </button>
+                </div>
+              </div>
+            </>
           )}
-
-          <form
-            onSubmit={isSignIn ? handleSignIn : handleCreateAccount}
-            className="space-y-4"
-          >
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Password
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                minLength={6}
-                className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition disabled:opacity-50"
-            >
-              {loading
-                ? "Please wait..."
-                : isSignIn
-                  ? "Sign In & View Headshots"
-                  : "Create Account & View Headshots"}
-            </button>
-          </form>
-
-          <div className="mt-6 text-center space-y-3">
-            <button
-              onClick={() => setIsSignIn(!isSignIn)}
-              className="text-blue-600 text-sm hover:text-blue-700 font-medium"
-            >
-              {isSignIn
-                ? "Don't have an account? Create one"
-                : "Already have an account? Sign in"}
-            </button>
-            <div>
-              <button
-                onClick={() =>
-                  orderId && router.push(`/dashboard?order=${orderId}`)
-                }
-                className="text-slate-500 text-sm hover:text-slate-700 underline"
-              >
-                Skip for now - View order as guest
-              </button>
-            </div>
-          </div>
         </div>
       </div>
       <Footer />

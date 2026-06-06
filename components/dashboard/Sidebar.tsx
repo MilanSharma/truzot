@@ -34,7 +34,7 @@ export default function Sidebar({
         <div className="p-4 space-y-1">
           <button
             onClick={() => router.push("/dashboard")}
-            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-bold transition w-full text-left ${!active ? "bg-blue-50 text-blue-700" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"}`}
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-bold transition w-full text-left ${active ? "bg-blue-50 text-blue-700" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"}`}
           >
             <LayoutDashboard className="w-4 h-4" /> My Projects
           </button>
