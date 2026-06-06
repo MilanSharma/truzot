@@ -4,8 +4,14 @@ import { supabase } from "@/lib/supabase/client";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
+interface TeamMember {
+  id: string;
+  member_email: string;
+  role: string;
+}
+
 export default function TeamDashboard() {
-  const [members, setMembers] = useState([]);
+  const [members, setMembers] = useState<TeamMember[]>([]);
   const [inviteEmail, setInviteEmail] = useState("");
   const [loading, setLoading] = useState(true);
 

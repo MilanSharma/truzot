@@ -73,7 +73,6 @@ function HeadshotCard({
           <div className="absolute inset-0 bg-slate-200 dark:bg-slate-800 animate-pulse" />
         )}
         <Image
-          fetchPriority={index === 0 ? "high" : "auto"}
           src={headshot.image_url}
           alt="AI Headshot"
           fill

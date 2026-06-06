@@ -114,7 +114,11 @@ export const POST = withContext(async (req: Request) => {
     }
 
     try {
-      await trainModel(freshZipUrl, orderId);
+      const result = await trainModel(freshZipUrl, orderId);
+      await supabaseAdmin
+        .from("trainings")
+        .update({ request_id: result.request_id })
+        .eq("order_id", orderId);
     } catch (err) {
       log.error({ err, orderId }, "Training kickoff failed");
       await supabaseAdmin

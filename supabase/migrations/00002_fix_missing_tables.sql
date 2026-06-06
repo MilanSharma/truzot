@@ -1,5 +1,6 @@
--- Add model_id to trainings (used by fal webhook, generate, retry routes)
+-- Add model_id and request_id to trainings (used by fal webhook, generate, retry routes)
 ALTER TABLE trainings ADD COLUMN IF NOT EXISTS model_id TEXT;
+ALTER TABLE trainings ADD COLUMN IF NOT EXISTS request_id TEXT;
 
 -- Create profiles table for admin roles and user settings
 CREATE TABLE IF NOT EXISTS profiles (

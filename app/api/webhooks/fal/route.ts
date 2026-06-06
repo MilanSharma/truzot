@@ -92,7 +92,11 @@ export const POST = withContext(async (req: Request) => {
         }
         if (zipUrl) {
           try {
-            await trainModel(zipUrl, orderId);
+            const result = await trainModel(zipUrl, orderId);
+            await supabaseAdmin
+              .from("trainings")
+              .update({ request_id: result.request_id })
+              .eq("order_id", orderId);
           } catch (err) {
             await supabaseAdmin
               .from("trainings")

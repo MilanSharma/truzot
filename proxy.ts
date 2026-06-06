@@ -4,7 +4,6 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import type { Duration } from "@upstash/ratelimit";
 
-// Standard Next.js config matcher
 export const config = {
   matcher: [
     "/api/auth/signup",
@@ -17,21 +16,14 @@ export const config = {
 interface RateLimitRule {
   max: number;
   window: Duration;
-  windowMs: number;
 }
 
 const RATE_LIMIT_RULES: Record<string, RateLimitRule> = {
-  "/api/auth/signup": { max: 5, window: "60 s", windowMs: 60_000 },
-  "/api/checkout": { max: 10, window: "60 s", windowMs: 60_000 },
-  "/api/upload": { max: 20, window: "60 s", windowMs: 60_000 },
-  "/api/free-generate": { max: 3, window: "60 s", windowMs: 60_000 },
-  "/api/feedback": { max: 20, window: "60 s", windowMs: 60_000 },
-  "/api/retry": { max: 5, window: "60 s", windowMs: 60_000 },
-  "/api/contact": { max: 10, window: "60 s", windowMs: 60_000 },
+  "/api/auth/signup": { max: 5, window: "60 s" },
+  "/api/checkout": { max: 10, window: "60 s" },
+  "/api/upload": { max: 20, window: "60 s" },
+  "/api/free-generate": { max: 3, window: "60 s" },
 };
-
-// Fallback in-memory rate limiter for local development when Redis env variables are absent
-const localLimitMap = new Map<string, { count: number; resetAt: number }>();
 
 function getIp(req: NextRequest): string {
   return req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
@@ -72,39 +64,23 @@ export default async function proxy(req: NextRequest) {
     return NextResponse.next();
   }
 
+  if (!redisClient || !limiters[pathname]) {
+    return NextResponse.next();
+  }
+
   const ip = getIp(req);
   const key = `${ip}:${pathname}`;
 
-  if (redisClient && limiters[pathname]) {
-    try {
-      const { success } = await limiters[pathname].limit(key);
-      if (!success) {
-        return NextResponse.json(
-          { error: "Too many requests." },
-          { status: 429 },
-        );
-      }
-    } catch (err) {
-      console.error(
-        "Upstash ratelimit check failed, falling back to Next.js propagation",
-        err,
+  try {
+    const { success } = await limiters[pathname].limit(key);
+    if (!success) {
+      return NextResponse.json(
+        { error: "Too many requests." },
+        { status: 429 },
       );
     }
-  } else {
-    // Local fallback in-memory rate limiter
-    const now = Date.now();
-    const entry = localLimitMap.get(key);
-    if (!entry || now > entry.resetAt) {
-      localLimitMap.set(key, { count: 1, resetAt: now + rule.windowMs });
-    } else {
-      entry.count += 1;
-      if (entry.count > rule.max) {
-        return NextResponse.json(
-          { error: "Too many requests." },
-          { status: 429 },
-        );
-      }
-    }
+  } catch (err) {
+    console.error("Upstash ratelimit check failed, failing open:", err);
   }
 
   return NextResponse.next();

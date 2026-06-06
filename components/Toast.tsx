@@ -5,6 +5,7 @@ import {
   useState,
   useCallback,
   useRef,
+  useEffect,
   type ReactNode,
 } from "react";
 
@@ -27,14 +28,26 @@ export function useToast() {
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
   const nextId = useRef(0);
+  const timeoutIds = useRef<Map<number, ReturnType<typeof setTimeout>>>(
+    new Map(),
+  );
+
+  useEffect(() => {
+    return () => {
+      for (const id of timeoutIds.current.values()) clearTimeout(id);
+      timeoutIds.current.clear();
+    };
+  }, []);
 
   const toast = useCallback(
     (message: string, type: "success" | "error" | "info" = "info") => {
       const id = nextId.current++;
       setToasts((prev) => [...prev, { id, message, type }]);
-      setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         setToasts((prev) => prev.filter((t) => t.id !== id));
+        timeoutIds.current.delete(id);
       }, 4000);
+      timeoutIds.current.set(id, timeoutId);
     },
     [],
   );

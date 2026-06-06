@@ -105,15 +105,19 @@ function buildPrompts(plan: string, prefs?: UserPreferences): string[] {
   return pool;
 }
 
-export const trainModel = async (imageUrl: string, orderId: string) => {
+export const trainModel = async (
+  imageUrl: string,
+  orderId: string,
+): Promise<{ request_id: string }> => {
   configureFal();
   const webhookSecret = process.env.FAL_WEBHOOK_SECRET;
   if (!webhookSecret) throw new Error("FAL_WEBHOOK_SECRET is not configured");
 
-  return await fal.queue.submit("fal-ai/flux-lora-fast-training", {
+  const result = await fal.queue.submit("fal-ai/flux-lora-fast-training", {
     input: { images_data_url: imageUrl, steps: 1000, trigger_word: "TOK" },
     webhookUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhooks/fal?orderId=${orderId}&token=${webhookSecret}`,
   });
+  return result as { request_id: string };
 };
 
 const concurrencyLimit = pLimit(3);
