@@ -283,10 +283,8 @@ function DashboardContent() {
           if (order.status !== "pending") {
             await fetchHeadshots(orderId, 0);
           }
-          if (["training", "generating"].includes(order.status)) {
-            const channel = subscribeToOrder(orderId);
-            subsRef.current = channel;
-          }
+          const channel = subscribeToOrder(orderId);
+          subsRef.current = channel;
         }
       }
       setAuthChecked(true);
