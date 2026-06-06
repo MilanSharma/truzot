@@ -63,14 +63,13 @@ function LoginForm() {
         data: { session },
       } = await supabase.auth.getSession();
 
-      if (searchParams.get("confirmed") === "true" || session) {
-        setSuccess("Email confirmed successfully! You can now sign in.");
+      if (session) {
+        router.replace("/dashboard");
+        return;
+      }
 
-        if (session) {
-          setTimeout(() => {
-            router.push("/dashboard");
-          }, 1500);
-        }
+      if (searchParams.get("confirmed") === "true") {
+        setSuccess("Email confirmed successfully! You can now sign in.");
       }
     };
 

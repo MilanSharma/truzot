@@ -28,10 +28,7 @@ export default function Sidebar({
             href="/"
             className="text-xl font-black tracking-tighter bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
           >
-            TRUZOT{" "}
-            <span className="text-[10px] font-bold px-2 py-0.5 bg-blue-50 text-blue-600 rounded-full ml-1 uppercase align-middle">
-              Pro
-            </span>
+            TRUZOT
           </Link>
         </div>
         <div className="p-4 space-y-1">
