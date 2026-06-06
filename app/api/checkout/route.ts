@@ -20,8 +20,8 @@ export const OPTIONS = handleOptions;
 
 export const POST = withContext(async (req: Request) => {
   const origin = req.headers.get("origin");
-  const stripe = getStripe();
   try {
+    const stripe = getStripe();
     const token = req.headers.get("Authorization")?.replace("Bearer ", "");
     if (!token)
       return addCors(
@@ -143,6 +143,8 @@ export const POST = withContext(async (req: Request) => {
 
     return addCors(NextResponse.json({ url: session.url }), origin);
   } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Unknown checkout error";
     log.error(
       {
         err:
@@ -153,7 +155,7 @@ export const POST = withContext(async (req: Request) => {
       "Checkout failed",
     );
     return addCors(
-      NextResponse.json({ error: "Checkout failed" }, { status: 500 }),
+      NextResponse.json({ error: message }, { status: 500 }),
       origin,
     );
   }
