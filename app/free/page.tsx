@@ -96,7 +96,7 @@ export default function FreeGenerator() {
                     <img
                       src={url}
                       className="w-full rounded-xl"
-                      alt={`example style ${idx + 1}`}
+                      alt="Example AI headshot style"
                     />
                     <span className="text-xs text-slate-500">
                       Example style

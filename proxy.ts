@@ -21,7 +21,14 @@ interface RateLimitRule {
 }
 
 const RATE_LIMIT_RULES: Record<string, RateLimitRule> = {
-  "/api/auth/signup": { max: 5, window: "60 s", windowMs: 60_000 },
+  "/api/auth/signup": {
+    max: 5,
+    window: "60 s",
+    windowMs: 60_000,
+    "/api/feedback": { max: 20, window: "60 s", windowMs: 60000 },
+    "/api/retry": { max: 5, window: "60 s", windowMs: 60000 },
+    "/api/contact": { max: 10, window: "60 s", windowMs: 60000 },
+  },
   "/api/checkout": { max: 10, window: "60 s", windowMs: 60_000 },
   "/api/upload": { max: 20, window: "60 s", windowMs: 60_000 },
   "/api/free-generate": { max: 3, window: "60 s", windowMs: 60_000 },
