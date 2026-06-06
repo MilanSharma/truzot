@@ -1,6 +1,6 @@
 "use client";
-import { Sun, Moon } from "lucide-react";
 import { useState, useEffect, Suspense } from "react";
+import { Sun, Moon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
@@ -43,6 +43,10 @@ function LoginForm() {
   const [forgotPasswordMode, setForgotPasswordMode] = useState(false);
   const [resending, setResending] = useState(false);
   const [emailNotConfirmed, setEmailNotConfirmed] = useState(false);
+  const [isDark, setIsDark] = useState(
+    typeof document !== "undefined" &&
+      document.documentElement.classList.contains("dark"),
+  );
 
   useEffect(() => {
     const handleOAuthError = () => {
@@ -203,15 +207,15 @@ function LoginForm() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => {
-                  const next =
-                    !document.documentElement.classList.contains("dark");
+                  const next = !isDark;
                   document.documentElement.classList.toggle("dark", next);
                   localStorage.setItem("theme", next ? "dark" : "light");
+                  setIsDark(next);
                 }}
-                className="text-slate-600 hover:text-slate-900 transition"
+                className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200 transition"
                 aria-label="Toggle dark mode"
               >
-                <Sun size={18} />
+                {isDark ? <Moon size={18} /> : <Sun size={18} />}
               </button>
             </div>
           </div>

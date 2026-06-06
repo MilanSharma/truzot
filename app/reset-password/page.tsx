@@ -22,6 +22,10 @@ export default function ResetPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [ready, setReady] = useState(false);
+  const [isDark, setIsDark] = useState(
+    typeof document !== "undefined" &&
+      document.documentElement.classList.contains("dark"),
+  );
 
   useEffect(() => {
     supabase.auth.onAuthStateChange(async (event, session) => {
@@ -68,8 +72,8 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      <nav className="bg-white border-b border-slate-200">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-950 dark:to-indigo-950">
+      <nav className="bg-white dark:bg-[#131620] border-b border-slate-200 dark:border-slate-700">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <Link
             href="/"
@@ -83,15 +87,15 @@ export default function ResetPasswordPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => {
-                const next =
-                  !document.documentElement.classList.contains("dark");
+                const next = !isDark;
                 document.documentElement.classList.toggle("dark", next);
                 localStorage.setItem("theme", next ? "dark" : "light");
+                setIsDark(next);
               }}
-              className="text-slate-600 hover:text-slate-900 transition"
+              className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200 transition"
               aria-label="Toggle dark mode"
             >
-              <Sun size={18} />
+              {isDark ? <Moon size={18} /> : <Sun size={18} />}
             </button>
           </div>
         </div>

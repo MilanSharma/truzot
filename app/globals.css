@@ -4,12 +4,154 @@
 
 @layer base {
   body {
-    @apply bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors;
+    @apply bg-white text-slate-900 dark:text-slate-100 transition-colors;
   }
 }
 
 @layer components {
   .skeleton {
-    @apply bg-slate-200 dark:bg-slate-800 rounded animate-pulse;
+    @apply bg-slate-200 dark:bg-white/5 rounded animate-pulse;
   }
+}
+
+/* === Aesthetic Dark Mode Refinement === */
+/* Warmer, richer dark palette — inspired by GitHub, Linear, and Vercel dark themes */
+
+.dark body,
+.dark {
+  background-color: #0b0d14;
+  color-scheme: dark;
+}
+
+/* Cards, panels, and elevated surfaces */
+.dark .dark\:bg-slate-900 {
+  background-color: #131620;
+}
+
+.dark .dark\:bg-slate-950 {
+  background-color: #0b0d14;
+}
+
+.dark .dark\:bg-slate-800 {
+  background-color: #1c2030;
+}
+
+.dark .dark\:bg-slate-700 {
+  background-color: #252940;
+}
+
+/* Text refinements — softer, more readable */
+.dark .dark\:text-slate-100 {
+  color: #e8eaed;
+}
+
+.dark .dark\:text-slate-200 {
+  color: #d1d5db;
+}
+
+.dark .dark\:text-slate-300 {
+  color: #b0b8c4;
+}
+
+.dark .dark\:text-slate-400 {
+  color: #8892a6;
+}
+
+.dark .dark\:text-slate-500 {
+  color: #6b7280;
+}
+
+.dark .dark\:text-slate-600 {
+  color: #555e70;
+}
+
+.dark .dark\:text-slate-700 {
+  color: #3f4758;
+}
+
+/* Border refinements — subtler, less contrasty */
+.dark .dark\:border-slate-200 {
+  border-color: #252940;
+}
+
+.dark .dark\:border-slate-300 {
+  border-color: #2d3250;
+}
+
+.dark .dark\:border-slate-600 {
+  border-color: #2d3250;
+}
+
+.dark .dark\:border-slate-700 {
+  border-color: #252940;
+}
+
+.dark .dark\:border-slate-800 {
+  border-color: #1c2030;
+}
+
+/* Accent adjustments — blues that pop against warm dark BG */
+.dark .dark\:text-blue-600 {
+  color: #5b9aff;
+}
+
+.dark .dark\:text-blue-400 {
+  color: #7cb3ff;
+}
+
+.dark .dark\:ring-blue-50 {
+  --tw-ring-color: rgba(91, 154, 255, 0.15);
+}
+
+.dark .dark\:bg-blue-50 {
+  background-color: rgba(91, 154, 255, 0.08);
+}
+
+.dark .dark\:bg-blue-900\/20 {
+  background-color: rgba(91, 154, 255, 0.12);
+}
+
+/* Green/emerald refinements */
+.dark .dark\:text-emerald-400 {
+  color: #4ade80;
+}
+
+.dark .dark\:text-emerald-600 {
+  color: #34d399;
+}
+
+.dark .dark\:bg-emerald-900\/20 {
+  background-color: rgba(52, 211, 153, 0.12);
+}
+
+/* Red refinements */
+.dark .dark\:text-red-400 {
+  color: #f87171;
+}
+
+.dark .dark\:bg-red-900\/20 {
+  background-color: rgba(248, 113, 113, 0.12);
+}
+
+/* Amber refinements */
+.dark .dark\:text-amber-400 {
+  color: #fbbf24;
+}
+
+.dark .dark\:bg-amber-900\/20 {
+  background-color: rgba(251, 191, 36, 0.12);
+}
+
+/* Indigo refinements */
+.dark .dark\:text-indigo-400 {
+  color: #818cf8;
+}
+
+.dark .dark\:bg-indigo-900\/20 {
+  background-color: rgba(129, 140, 248, 0.12);
+}
+
+/* Placeholder text */
+.dark .dark\:placeholder-slate-500::placeholder {
+  color: #555e70;
 }
