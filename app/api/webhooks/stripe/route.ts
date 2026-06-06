@@ -54,7 +54,7 @@ export const POST = withContext(async (req: Request) => {
       .select("zip_url, status, preferences, user_id")
       .eq("id", orderId)
       .single();
-    if (fetchError || !order?.zip_url)
+    if (fetchError)
       return NextResponse.json({ error: "Order not found" }, { status: 400 });
     if (["training", "generating", "completed"].includes(order.status))
       return NextResponse.json({ received: true });
@@ -70,7 +70,7 @@ export const POST = withContext(async (req: Request) => {
     const prefs = (order.preferences as Record<string, any>) || {};
     let freshZipUrl = order.zip_url;
     const storagePath = prefs.storagePath as string | undefined;
-    if (storagePath) {
+    if (!freshZipUrl && storagePath) {
       try {
         const { data: newData } = await supabaseAdmin.storage
           .from("uploads")
@@ -82,6 +82,11 @@ export const POST = withContext(async (req: Request) => {
         log.error({ err: e, orderId }, "Failed to refresh zip URL");
       }
     }
+    if (!freshZipUrl)
+      return NextResponse.json(
+        { error: "No zip URL available" },
+        { status: 400 },
+      );
 
     const customerId =
       typeof session.customer === "string"

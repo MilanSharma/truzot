@@ -23,7 +23,7 @@ export const POST = withContext(async (req: Request) => {
         NextResponse.json({ error: parsed.error }, { status: 400 }),
         origin,
       );
-    const {
+    let {
       plan,
       email,
       zipUrl,
@@ -37,6 +37,14 @@ export const POST = withContext(async (req: Request) => {
       selectedStyles,
       idempotencyKey,
     } = parsed.data!;
+
+    // Generate signed download URL from storagePath if zipUrl not provided
+    if (!zipUrl && storagePath) {
+      const { data } = await supabaseAdmin.storage
+        .from("uploads")
+        .createSignedUrl(storagePath, 7200);
+      zipUrl = data?.signedUrl;
+    }
 
     if (!PLANS[plan])
       return addCors(

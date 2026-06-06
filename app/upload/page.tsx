@@ -75,47 +75,61 @@ function UploadContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { toast } = useToast();
-  const saved = useRef(getSavedState()).current;
 
   const urlStep = parseInt(searchParams.get("step") ?? "") as Step;
-  const [step, setStep] = useState<Step>(
-    saved?.step &&
+  const [step, setStep] = useState<Step>(() => {
+    const saved = getSavedState();
+    if (
+      saved?.step &&
       typeof saved.step === "number" &&
       saved.step >= 1 &&
       saved.step <= 3
-      ? (saved.step as Step)
-      : urlStep >= 1 && urlStep <= 3
-        ? urlStep
-        : 1,
-  );
+    )
+      return saved.step as Step;
+    return urlStep >= 1 && urlStep <= 3 ? urlStep : 1;
+  });
   const [files, setFiles] = useState<File[]>([]);
 
   // Customization Preferences
-  const [gender, setGender] = useState((saved?.gender as string) || "");
-  const [eyeColor, setEyeColor] = useState((saved?.eyeColor as string) || "");
+  const [gender, setGender] = useState(
+    () => (getSavedState()?.gender as string) || "",
+  );
+  const [eyeColor, setEyeColor] = useState(
+    () => (getSavedState()?.eyeColor as string) || "",
+  );
   const [hairColor, setHairColor] = useState(
-    (saved?.hairColor as string) || "",
+    () => (getSavedState()?.hairColor as string) || "",
   );
-  const [clothing, setClothing] = useState((saved?.clothing as string) || "");
+  const [clothing, setClothing] = useState(
+    () => (getSavedState()?.clothing as string) || "",
+  );
   const [background, setBackground] = useState(
-    (saved?.background as string) || "",
+    () => (getSavedState()?.background as string) || "",
   );
-  const [framing, setFraming] = useState((saved?.framing as string) || "");
+  const [framing, setFraming] = useState(
+    () => (getSavedState()?.framing as string) || "",
+  );
   const [selectedStyles, setSelectedStyles] = useState<string[]>(
-    (saved?.selectedStyles as string[]) || STYLE_CATEGORIES.map((c) => c.id),
+    () =>
+      (getSavedState()?.selectedStyles as string[]) ||
+      STYLE_CATEGORIES.map((c) => c.id),
   );
 
   // Checkout State
   const [plan, setPlan] = useState(
-    (saved?.plan as string) || searchParams.get("plan") || "pro",
+    () =>
+      (getSavedState()?.plan as string) || searchParams.get("plan") || "pro",
   );
-  const [email, setEmail] = useState((saved?.email as string) || "");
+  const [email, setEmail] = useState(
+    () => (getSavedState()?.email as string) || "",
+  );
   const [userId, setUserId] = useState<string | null>(null);
-  const [consentChecked, setConsentChecked] = useState(
-    saved?.consentChecked !== undefined
+  const [consentChecked, setConsentChecked] = useState(() => {
+    const saved = getSavedState();
+    return saved?.consentChecked !== undefined
       ? (saved.consentChecked as boolean)
-      : true,
-  );
+      : true;
+  });
   const [error, setError] = useState("");
   const [progress, setProgress] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -451,6 +465,11 @@ function UploadContent() {
       } = await supabase.auth.getSession();
       const token = session?.access_token;
 
+      const authHeaders: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      if (token) authHeaders.Authorization = `Bearer ${token}`;
+
       setProgress("Optimizing image dataset…");
       const JSZip = (await import("jszip")).default;
       const zip = new JSZip();
@@ -458,19 +477,9 @@ function UploadContent() {
         const ext = f.name.split(".").pop() ?? "jpg";
         zip.file(`photo_${i + 1}.${ext}`, f);
       });
-      const zipBlob = await zip.generateAsync({
-        type: "blob",
-        compression: "DEFLATE",
-        compressionOptions: { level: 6 },
-      });
 
-      setProgress("Securing upload channel...");
-      const authHeaders: Record<string, string> = {
-        "Content-Type": "application/json",
-      };
-      if (token) authHeaders.Authorization = `Bearer ${token}`;
-
-      const uploadUrlRes = await fetch("/api/upload", {
+      // Fetch upload URL in parallel with zipping
+      const uploadUrlPromise = fetch("/api/upload", {
         method: "POST",
         headers: authHeaders,
         body: JSON.stringify({
@@ -478,6 +487,14 @@ function UploadContent() {
           filename: `dataset_${Date.now()}.zip`,
         }),
       });
+
+      const zipBlob = await zip.generateAsync({
+        type: "blob",
+        compression: "STORE",
+      });
+
+      setProgress("Securing upload channel...");
+      const uploadUrlRes = await uploadUrlPromise;
       if (!uploadUrlRes.ok) throw new Error("Failed to get upload URL");
       const { signedUrl, token: uploadToken, path } = await uploadUrlRes.json();
 
@@ -507,22 +524,13 @@ function UploadContent() {
       });
 
       setProgress("Generating checkout session…");
-      const downloadUrlRes = await fetch("/api/upload", {
-        method: "POST",
-        headers: authHeaders,
-        body: JSON.stringify({ action: "get-download-url", path }),
-      });
-      if (!downloadUrlRes.ok)
-        throw new Error("Failed to secure dataset download URL");
-      const { zipUrl, storagePath } = await downloadUrlRes.json();
 
       const idempotencyKey = crypto.randomUUID();
 
       const checkoutPayload: Record<string, unknown> = {
         plan,
         email,
-        zipUrl,
-        storagePath,
+        storagePath: path,
         gender,
         eyeColor,
         hairColor,

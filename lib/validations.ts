@@ -15,7 +15,7 @@ export const signupSchema = z.object({
 export const checkoutSchema = z.object({
   plan: planField,
   email: emailField,
-  zipUrl: z.string().url(),
+  zipUrl: z.string().url().optional(),
   storagePath: z.string().optional(),
   gender: z.string().min(1).max(50),
   eyeColor: z.string().min(1).max(50),
