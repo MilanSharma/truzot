@@ -69,6 +69,10 @@ function UploadContent() {
   // Customization Preferences
   const [gender, setGender] = useState("");
   const [eyeColor, setEyeColor] = useState("");
+  const [hairColor, setHairColor] = useState("");
+  const [clothing, setClothing] = useState("");
+  const [background, setBackground] = useState("");
+  const [framing, setFraming] = useState("");
   const [selectedStyles, setSelectedStyles] = useState<string[]>(
     STYLE_CATEGORIES.map((c) => c.id),
   );
@@ -192,8 +196,16 @@ function UploadContent() {
       setError("Please upload at least 1 photo to proceed.");
       return;
     }
-    if (step === 2 && (!gender || !eyeColor)) {
-      setError("Please select gender and eye color.");
+    if (
+      step === 2 &&
+      (!gender ||
+        !eyeColor ||
+        !hairColor ||
+        !clothing ||
+        !background ||
+        !framing)
+    ) {
+      setError("Please fill in all details to help the AI.");
       return;
     }
     if (step === 2 && selectedStyles.length === 0) {
@@ -307,6 +319,10 @@ function UploadContent() {
           userId,
           gender,
           eyeColor,
+          hairColor,
+          clothing,
+          background,
+          framing,
           selectedStyles,
           idempotencyKey,
         }),
@@ -512,6 +528,112 @@ function UploadContent() {
               </div>
 
               <div>
+                <h3 className="font-bold text-lg mb-3 flex items-center gap-2">
+                  <User className="w-5 h-5 text-blue-600" /> Hair Color
+                </h3>
+                <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
+                  {["Black", "Brown", "Blonde", "Red", "Gray", "White"].map(
+                    (c) => (
+                      <button
+                        key={c}
+                        onClick={() => setHairColor(c)}
+                        className={`py-3 rounded-xl border-2 font-semibold transition ${hairColor === c ? "border-blue-600 bg-blue-50 text-blue-700" : "border-slate-200 text-slate-600 hover:border-slate-300"}`}
+                      >
+                        {c}
+                      </button>
+                    ),
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="font-bold text-lg mb-3 flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-blue-600" /> Clothing
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {[
+                    {
+                      id: "business-formal",
+                      label: "Business Formal",
+                      desc: "Suit & tie",
+                    },
+                    {
+                      id: "business-casual",
+                      label: "Business Casual",
+                      desc: "Blazer, no tie",
+                    },
+                    {
+                      id: "smart-casual",
+                      label: "Smart Casual",
+                      desc: "Polished relaxed",
+                    },
+                    {
+                      id: "creative",
+                      label: "Creative",
+                      desc: "Turtleneck, etc.",
+                    },
+                  ].map((opt) => (
+                    <button
+                      key={opt.id}
+                      onClick={() => setClothing(opt.id)}
+                      className={`py-3 px-4 rounded-xl border-2 text-left transition ${clothing === opt.id ? "border-blue-600 bg-blue-50 text-blue-700" : "border-slate-200 text-slate-600 hover:border-slate-300"}`}
+                    >
+                      <div className="font-semibold text-sm">{opt.label}</div>
+                      <div className="text-xs opacity-70">{opt.desc}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="font-bold text-lg mb-3 flex items-center gap-2">
+                  <Camera className="w-5 h-5 text-blue-600" /> Background
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {[
+                    { id: "studio", label: "Studio", desc: "Clean backdrop" },
+                    { id: "office", label: "Office", desc: "Modern workspace" },
+                    { id: "outdoor", label: "Outdoor", desc: "Nature, park" },
+                    { id: "city", label: "City", desc: "Urban skyline" },
+                  ].map((opt) => (
+                    <button
+                      key={opt.id}
+                      onClick={() => setBackground(opt.id)}
+                      className={`py-3 px-4 rounded-xl border-2 text-left transition ${background === opt.id ? "border-blue-600 bg-blue-50 text-blue-700" : "border-slate-200 text-slate-600 hover:border-slate-300"}`}
+                    >
+                      <div className="font-semibold text-sm">{opt.label}</div>
+                      <div className="text-xs opacity-70">{opt.desc}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="font-bold text-lg mb-3 flex items-center gap-2">
+                  <Camera className="w-5 h-5 text-blue-600" /> Framing
+                </h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    {
+                      id: "closeup",
+                      label: "Close-up",
+                      desc: "Head & shoulders",
+                    },
+                    { id: "half-body", label: "Half-body", desc: "Waist up" },
+                  ].map((opt) => (
+                    <button
+                      key={opt.id}
+                      onClick={() => setFraming(opt.id)}
+                      className={`py-3 px-4 rounded-xl border-2 text-left transition ${framing === opt.id ? "border-blue-600 bg-blue-50 text-blue-700" : "border-slate-200 text-slate-600 hover:border-slate-300"}`}
+                    >
+                      <div className="font-semibold text-sm">{opt.label}</div>
+                      <div className="text-xs opacity-70">{opt.desc}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="font-bold text-lg flex items-center gap-2">
                     <Camera className="w-5 h-5 text-blue-600" /> Headshot Styles
@@ -591,7 +713,15 @@ function UploadContent() {
               </button>
               <button
                 onClick={handleNextStep}
-                disabled={!gender || !eyeColor || selectedStyles.length === 0}
+                disabled={
+                  !gender ||
+                  !eyeColor ||
+                  !hairColor ||
+                  !clothing ||
+                  !background ||
+                  !framing ||
+                  selectedStyles.length === 0
+                }
                 className="bg-slate-900 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Next: Choose Plan <ChevronRight className="w-5 h-5" />

@@ -27,7 +27,10 @@ export interface TrainModelResult {
 export interface UserPreferences {
   gender?: string;
   eyeColor?: string;
-  profession?: string;
+  hairColor?: string;
+  clothing?: string;
+  background?: string;
+  framing?: string;
   selectedStyles?: string[];
   storagePath?: string;
   idempotency_key?: string;
