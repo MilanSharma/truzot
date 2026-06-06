@@ -8,7 +8,7 @@ const faqs = {
   individual: [
     {
       q: "How many photos should I upload?",
-      a: "We recommend 10-20 clear selfies for best results.",
+      a: "Upload 1-5 clear selfies. The more variety in angles and lighting, the better your headshots will look.",
     },
     {
       q: "What if I don\u2019t like my headshots?",

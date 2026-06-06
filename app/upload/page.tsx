@@ -147,7 +147,7 @@ function UploadContent() {
         toast(errors.join("\n"), "error");
       }
       setFiles((prev) => {
-        const next = [...prev, ...converted].slice(0, 25);
+        const next = [...prev, ...converted].slice(0, 5);
         return next;
       });
     },
@@ -167,17 +167,10 @@ function UploadContent() {
         color: "bg-slate-200",
         text: "text-slate-500",
       };
-    if (files.length < 5)
+    if (files.length < 3)
       return {
-        score: 25,
-        label: "Needs More Photos",
-        color: "bg-red-500",
-        text: "text-red-600",
-      };
-    if (files.length < 10)
-      return {
-        score: 60,
-        label: "Good",
+        score: 30,
+        label: "Good — add more for better results",
         color: "bg-amber-500",
         text: "text-amber-600",
       };
@@ -193,8 +186,8 @@ function UploadContent() {
 
   const handleNextStep = () => {
     setError("");
-    if (step === 1 && files.length < 3) {
-      setError("Please upload at least 3 photos to proceed.");
+    if (step === 1 && files.length < 1) {
+      setError("Please upload at least 1 photo to proceed.");
       return;
     }
     if (step === 2 && (!gender || !eyeColor || !profession)) {
@@ -361,8 +354,8 @@ function UploadContent() {
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold mb-2">Upload your selfies</h1>
               <p className="text-slate-500">
-                The AI uses these to learn your facial structure. We need 10-20
-                photos for the best results.
+                Upload 1-5 clear photos of your face. The AI uses these to
+                create your personalized headshots.
               </p>
             </div>
 
