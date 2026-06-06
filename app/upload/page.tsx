@@ -302,24 +302,26 @@ function UploadContent() {
 
       const idempotencyKey = crypto.randomUUID();
 
+      const checkoutPayload: Record<string, unknown> = {
+        plan,
+        email,
+        zipUrl,
+        storagePath,
+        gender,
+        eyeColor,
+        hairColor,
+        clothing,
+        background,
+        framing,
+        selectedStyles,
+        idempotencyKey,
+      };
+      if (userId) checkoutPayload.userId = userId;
+
       const checkoutRes = await fetch("/api/checkout", {
         method: "POST",
         headers: authHeaders,
-        body: JSON.stringify({
-          plan,
-          email,
-          zipUrl,
-          storagePath,
-          userId,
-          gender,
-          eyeColor,
-          hairColor,
-          clothing,
-          background,
-          framing,
-          selectedStyles,
-          idempotencyKey,
-        }),
+        body: JSON.stringify(checkoutPayload),
       });
       if (!checkoutRes.ok) {
         const errBody = await checkoutRes.json().catch(() => null);
