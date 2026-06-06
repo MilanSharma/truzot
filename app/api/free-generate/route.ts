@@ -49,7 +49,7 @@ export const POST = withContext(async (req: Request) => {
       ),
     );
 
-    const urls = results.map((r) => r.images[0].url);
+    const urls = results.map((r) => (r as any).images[0].url);
     return addCors(NextResponse.json({ urls }), origin);
   } catch (err) {
     console.error("Free generate error:", err);
