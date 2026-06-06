@@ -538,6 +538,26 @@ function DashboardContent() {
               {currentOrder.status === "failed" && (
                 <FailedView order={currentOrder} />
               )}
+              {currentOrder.status === "pending" && (
+                <div className="flex flex-col items-center justify-center py-20 text-center">
+                  <div className="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mb-6">
+                    <Camera className="w-8 h-8 text-amber-600" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-slate-900 mb-3">
+                    Payment Incomplete
+                  </h2>
+                  <p className="text-slate-500 max-w-md mb-8">
+                    This order hasn&apos;t been paid yet. Go back to the upload
+                    page to start a new checkout.
+                  </p>
+                  <Link
+                    href="/upload"
+                    className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition"
+                  >
+                    Start New Upload
+                  </Link>
+                </div>
+              )}
 
               {currentOrder.status === "completed" && (
                 <GalleryErrorBoundary>
