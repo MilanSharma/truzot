@@ -9,7 +9,8 @@
     "lint": "eslint . --ext .ts,.tsx",
     "test": "vitest",
     "typecheck": "tsc --noEmit",
-    "prepare": "husky"
+    "prepare": "husky",
+    "migrate": "supabase migration up"
   },
   "dependencies": {
     "@fal-ai/client": "^1.2.0",
