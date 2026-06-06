@@ -111,12 +111,15 @@ export default function ProjectLibrary({
             {orders.length} {orders.length === 1 ? "shoot" : "shoots"} total
           </p>
         </div>
-        <Link
-          href="/upload"
+        <button
+          onClick={() => {
+            sessionStorage.removeItem("truzot-upload");
+            window.location.href = "/upload";
+          }}
           className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl text-sm font-bold hover:bg-blue-700 transition shadow-sm"
         >
           <Plus className="w-4 h-4" /> New Shoot
-        </Link>
+        </button>
       </div>
 
       {orders.length === 0 ? (
