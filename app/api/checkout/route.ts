@@ -132,7 +132,7 @@ export const POST = withContext(async (req: Request) => {
           },
         ],
         metadata: { orderId, plan, email },
-        success_url: `${baseUrl}/dashboard?order=${orderId}&success=1`,
+        success_url: `${baseUrl}/claim-order?order=${orderId}`,
         cancel_url: `${baseUrl}/upload?cancelled=1`,
       });
     } catch (stripeErr) {

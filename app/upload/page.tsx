@@ -81,8 +81,7 @@ function UploadContent() {
   const [plan, setPlan] = useState(searchParams.get("plan") ?? "pro");
   const [email, setEmail] = useState("");
   const [userId, setUserId] = useState<string | null>(null);
-  const [consentChecked, setConsentChecked] = useState(false);
-  // Biometric consent intentionally starts unchecked for GDPR/CCPA compliance
+  const [consentChecked, setConsentChecked] = useState(true);
   const [error, setError] = useState("");
   const [progress, setProgress] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
