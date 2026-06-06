@@ -60,37 +60,65 @@ const PHOTO_TIPS = [
 
 type Step = 1 | 2 | 3;
 
+const SESSION_KEY = "truzot-upload";
+
+function getSavedState(): Record<string, unknown> | null {
+  try {
+    const saved = sessionStorage.getItem(SESSION_KEY);
+    return saved ? JSON.parse(saved) : null;
+  } catch {
+    return null;
+  }
+}
+
 function UploadContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { toast } = useToast();
+  const saved = useRef(getSavedState()).current;
+
   const urlStep = parseInt(searchParams.get("step") ?? "") as Step;
   const [step, setStep] = useState<Step>(
-    urlStep >= 1 && urlStep <= 3 ? urlStep : 1,
+    saved?.step &&
+      typeof saved.step === "number" &&
+      saved.step >= 1 &&
+      saved.step <= 3
+      ? (saved.step as Step)
+      : urlStep >= 1 && urlStep <= 3
+        ? urlStep
+        : 1,
   );
   const [files, setFiles] = useState<File[]>([]);
 
   // Customization Preferences
-  const [gender, setGender] = useState("");
-  const [eyeColor, setEyeColor] = useState("");
-  const [hairColor, setHairColor] = useState("");
-  const [clothing, setClothing] = useState("");
-  const [background, setBackground] = useState("");
-  const [framing, setFraming] = useState("");
+  const [gender, setGender] = useState((saved?.gender as string) || "");
+  const [eyeColor, setEyeColor] = useState((saved?.eyeColor as string) || "");
+  const [hairColor, setHairColor] = useState(
+    (saved?.hairColor as string) || "",
+  );
+  const [clothing, setClothing] = useState((saved?.clothing as string) || "");
+  const [background, setBackground] = useState(
+    (saved?.background as string) || "",
+  );
+  const [framing, setFraming] = useState((saved?.framing as string) || "");
   const [selectedStyles, setSelectedStyles] = useState<string[]>(
-    STYLE_CATEGORIES.map((c) => c.id),
+    (saved?.selectedStyles as string[]) || STYLE_CATEGORIES.map((c) => c.id),
   );
 
   // Checkout State
-  const [plan, setPlan] = useState(searchParams.get("plan") ?? "pro");
-  const [email, setEmail] = useState("");
+  const [plan, setPlan] = useState(
+    (saved?.plan as string) || searchParams.get("plan") || "pro",
+  );
+  const [email, setEmail] = useState((saved?.email as string) || "");
   const [userId, setUserId] = useState<string | null>(null);
-  const [consentChecked, setConsentChecked] = useState(true);
+  const [consentChecked, setConsentChecked] = useState(
+    saved?.consentChecked !== undefined
+      ? (saved.consentChecked as boolean)
+      : true,
+  );
   const [error, setError] = useState("");
   const [progress, setProgress] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-
-  const SESSION_KEY = "truzot-upload";
 
   // Sync step to URL for back/forward navigation
   const stepRef = useRef(step);
@@ -105,34 +133,6 @@ function UploadContent() {
       setStep(urlStep);
     }
   }, [urlStep]);
-
-  // Restore state after returning from Stripe (browser back button)
-  const restoreKey = useRef(0);
-  useEffect(() => {
-    try {
-      const saved = sessionStorage.getItem(SESSION_KEY);
-      if (!saved) return;
-      const s = JSON.parse(saved);
-      restoreKey.current = Date.now();
-      // Defer state restorations to avoid cascading renders warning
-      const t = setTimeout(() => {
-        if (s.plan) setPlan(s.plan as string);
-        if (s.email) setEmail(s.email as string);
-        if (s.consentChecked !== undefined)
-          setConsentChecked(s.consentChecked as boolean);
-        if (s.gender) setGender(s.gender as string);
-        if (s.eyeColor) setEyeColor(s.eyeColor as string);
-        if (s.hairColor) setHairColor(s.hairColor as string);
-        if (s.clothing) setClothing(s.clothing as string);
-        if (s.background) setBackground(s.background as string);
-        if (s.framing) setFraming(s.framing as string);
-        if (s.selectedStyles) setSelectedStyles(s.selectedStyles as string[]);
-        if (s.step && typeof s.step === "number" && s.step >= 1 && s.step <= 3)
-          setStep(s.step as Step);
-      }, 0);
-      return () => clearTimeout(t);
-    } catch {}
-  }, []);
 
   // Persist state so browser back from Stripe preserves details
   useEffect(() => {
@@ -177,7 +177,7 @@ function UploadContent() {
       } = await supabase.auth.getSession();
       if (session?.user) {
         setUserId(session.user.id);
-        if (!email) setEmail(session.user.email ?? "");
+        setEmail((prev) => (prev || session.user.email) ?? "");
       }
     };
     loadUser();
@@ -1098,7 +1098,7 @@ function UploadContent() {
               <button
                 onClick={() => {
                   sessionStorage.removeItem(SESSION_KEY);
-                  window.location.reload();
+                  window.location.href = "/upload";
                 }}
                 className="text-xs text-slate-400 hover:text-slate-600 underline"
               >
