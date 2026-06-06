@@ -16,22 +16,6 @@ export const POST = withContext(async (req: Request) => {
   const origin = req.headers.get("origin");
   try {
     const stripe = getStripe();
-    const token = req.headers.get("Authorization")?.replace("Bearer ", "");
-    if (!token)
-      return addCors(
-        NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
-        origin,
-      );
-    const supabase = getAuthenticatedClient(token);
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user)
-      return addCors(
-        NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
-        origin,
-      );
-
     const body = await req.json();
     const parsed = validate(checkoutSchema, body);
     if (parsed.error)
@@ -61,7 +45,27 @@ export const POST = withContext(async (req: Request) => {
       );
     const planConfig = PLANS[plan];
 
-    if (idempotencyKey) {
+    // Try to get authenticated user
+    const token = req.headers.get("Authorization")?.replace("Bearer ", "");
+    let userId: string | null = null;
+    let supabase;
+
+    if (token) {
+      supabase = getAuthenticatedClient(token);
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user)
+        return addCors(
+          NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
+          origin,
+        );
+      userId = user.id;
+    } else {
+      supabase = supabaseAdmin;
+    }
+
+    if (idempotencyKey && userId) {
       const { data: existing } = await supabase
         .from("orders")
         .select("id")
@@ -83,7 +87,7 @@ export const POST = withContext(async (req: Request) => {
         amount_cents: planConfig.amount,
         status: "pending",
         zip_url: zipUrl,
-        user_id: user.id,
+        user_id: userId,
         preferences: {
           gender,
           eyeColor,
@@ -131,12 +135,11 @@ export const POST = withContext(async (req: Request) => {
             quantity: 1,
           },
         ],
-        metadata: { orderId, plan, email },
+        metadata: { orderId, plan, email, userId: userId || "" },
         success_url: `${baseUrl}/claim-order?order=${orderId}`,
         cancel_url: `${baseUrl}/upload?cancelled=1`,
       });
     } catch (stripeErr) {
-      // Clean up the dangling order since Stripe session failed
       await supabase.from("orders").delete().eq("id", orderId);
       throw stripeErr;
     }

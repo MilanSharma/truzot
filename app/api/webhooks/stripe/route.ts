@@ -46,18 +46,26 @@ export const POST = withContext(async (req: Request) => {
   );
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
-    const { orderId, plan, email } = session.metadata ?? {};
+    const { orderId, plan, email, userId } = session.metadata ?? {};
     if (!orderId)
       return NextResponse.json({ error: "Missing metadata" }, { status: 400 });
     const { data: order, error: fetchError } = await supabaseAdmin
       .from("orders")
-      .select("zip_url, status, preferences")
+      .select("zip_url, status, preferences, user_id")
       .eq("id", orderId)
       .single();
     if (fetchError || !order?.zip_url)
       return NextResponse.json({ error: "Order not found" }, { status: 400 });
     if (["training", "generating", "completed"].includes(order.status))
       return NextResponse.json({ received: true });
+
+    // Claim guest order if userId is in metadata
+    if (!order.user_id && userId) {
+      await supabaseAdmin
+        .from("orders")
+        .update({ user_id: userId })
+        .eq("id", orderId);
+    }
 
     const prefs = (order.preferences as Record<string, any>) || {};
     let freshZipUrl = order.zip_url;
