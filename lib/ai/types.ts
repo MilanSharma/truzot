@@ -28,6 +28,7 @@ export interface UserPreferences {
   gender?: string;
   eyeColor?: string;
   profession?: string;
+  selectedStyles?: string[];
   storagePath?: string;
   idempotency_key?: string;
   stripe_customer_id?: string;

@@ -53,6 +53,7 @@ export const POST = withContext(async (req: Request) => {
       gender,
       eyeColor,
       profession,
+      selectedStyles,
       idempotencyKey,
     } = parsed.data!;
 
@@ -90,6 +91,7 @@ export const POST = withContext(async (req: Request) => {
           gender,
           eyeColor,
           profession,
+          selectedStyles: selectedStyles || [],
           storagePath: storagePath || null,
           idempotency_key: idempotencyKey || undefined,
         },

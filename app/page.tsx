@@ -158,9 +158,9 @@ export default function LandingPage() {
 
         {/* Hero Section */}
         <section className="pt-32 pb-16 px-6 max-w-6xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
-            <Zap size={16} />
-            <span>AI Headshots in 10 minutes — from $29</span>
+          <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
+            <TrendingDown size={16} />
+            <span>80% cheaper than a traditional photographer</span>
           </div>
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
             Get Your Professional
@@ -297,32 +297,56 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Style Gallery */}
+        {/* What's Included */}
         <section className="py-20 px-6 bg-white">
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">
-                20+ AI styles to choose from
+                Every headshot package includes
               </h2>
               <p className="text-slate-600 max-w-2xl mx-auto">
-                Corporate, creative, casual, and more — all with your face.
+                All styles are automatically generated — no need to pick. You
+                get a mix of corporate, creative, casual, and more.
               </p>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {STYLE_GALLERY.map((style) => (
+            <div className="grid md:grid-cols-2 gap-6">
+              {[
+                {
+                  title: "Corporate & Executive",
+                  desc: "Suit-and-tie studio shots with office backgrounds",
+                },
+                {
+                  title: "LinkedIn Professional",
+                  desc: "Clean, approachable photos perfect for your profile",
+                },
+                {
+                  title: "Creative & Editorial",
+                  desc: "Artistic lighting, bold backgrounds, magazine look",
+                },
+                {
+                  title: "Casual & Outdoor",
+                  desc: "Relaxed shots with natural light and outdoor settings",
+                },
+                {
+                  title: "Startup & Tech",
+                  desc: "Modern coworking spaces, smart casual attire",
+                },
+                {
+                  title: "Real Estate & Sales",
+                  desc: "Trustworthy, welcoming headshots for client-facing roles",
+                },
+              ].map((style) => (
                 <div
-                  key={style.name}
-                  className={`${style.color} aspect-[3/4] rounded-2xl flex items-end p-4 relative overflow-hidden group cursor-pointer`}
+                  key={style.title}
+                  className="bg-slate-50 p-6 rounded-xl border border-slate-100"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <span className="relative text-white font-bold text-lg z-10">
-                    {style.name}
-                  </span>
+                  <h3 className="font-bold text-lg mb-1">{style.title}</h3>
+                  <p className="text-sm text-slate-600">{style.desc}</p>
                 </div>
               ))}
             </div>
-            <p className="text-center text-sm text-slate-500 mt-6">
-              Styles vary by plan. Basic includes 10+ styles, Pro includes 30+,
+            <p className="text-center text-sm text-slate-500 mt-8">
+              Styles vary by plan. Basic includes 10 styles, Pro includes 20,
               Executive includes all.
             </p>
           </div>

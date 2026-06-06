@@ -1,7 +1,7 @@
 import "server-only";
 import { fal } from "@fal-ai/client";
 import pLimit from "p-limit";
-import { PLAN_SHOTS } from "@/lib/plans";
+import { PLAN_SHOTS, STYLE_CATEGORIES } from "@/lib/plans";
 import type {
   GenerateHeadshotsResult,
   TrainModelResult,
@@ -14,31 +14,67 @@ function configureFal() {
   }
 }
 
-const getBasePrompts = (g: string, p: string, e: string) => [
-  `A professional corporate headshot of TOK, a ${g} ${p} ${e}, wearing a tailored navy business suit, blurred modern office background, soft studio lighting, shot on 85mm lens, f/1.8, highly detailed, 8k resolution`,
-  `A LinkedIn profile photo of TOK, a ${g} ${p} ${e}, business casual attire, clean light grey background, confident smile, sharp focus, professional photography, natural lighting`,
-  `A professional headshot of TOK, a ${g} ${p} ${e}, crisp white dress shirt, neutral studio background, natural window light, photorealistic, 8k`,
-  `A business portrait of TOK, a ${g} ${p} ${e}, dark navy blazer, outdoor urban background softly blurred, bright natural light, shallow depth of field`,
-  `A creative studio portrait of TOK, a ${g} ${p} ${e}, black turtleneck, minimalist charcoal background, dramatic side lighting, editorial magazine look, highly detailed`,
-  `A casual professional photo of TOK, a ${g} ${p} ${e}, smart casual attire, outdoor park background softly blurred, golden hour lighting, warm tone`,
-  `An executive corporate headshot of TOK, a ${g} ${p} ${e}, dark charcoal suit and subtle tie, luxury modern office background, professional rim lighting, 8k`,
-  `A speaker profile photo of TOK, a ${g} ${p} ${e}, business formal, conference hall background softly blurred, authoritative and approachable pose`,
-  `A startup founder photo of TOK, a ${g} ${p} ${e}, open collar light blue shirt, modern glass coworking space background, bright and airy, friendly casual expression`,
-  `A creative director headshot of TOK, a ${g} ${p} ${e}, stylish smart outfit, creative studio with exposed brick background, artistic softbox lighting`,
-];
+const ALL_PROMPTS: Record<string, (g: string, p: string, e: string) => string> =
+  {
+    corporate: (g, p, e) =>
+      `A professional corporate headshot of TOK, a ${g} ${p} ${e}, wearing a tailored navy business suit, blurred modern office background, soft studio lighting, shot on 85mm lens, f/1.8, highly detailed, 8k resolution`,
+    linkedin: (g, p, e) =>
+      `A LinkedIn profile photo of TOK, a ${g} ${p} ${e}, business casual attire, clean light grey background, confident smile, sharp focus, professional photography, natural lighting`,
+    "white-shirt": (g, p, e) =>
+      `A professional headshot of TOK, a ${g} ${p} ${e}, crisp white dress shirt, neutral studio background, natural window light, photorealistic, 8k`,
+    urban: (g, p, e) =>
+      `A business portrait of TOK, a ${g} ${p} ${e}, dark navy blazer, outdoor urban background softly blurred, bright natural light, shallow depth of field`,
+    "creative-studio": (g, p, e) =>
+      `A creative studio portrait of TOK, a ${g} ${p} ${e}, black turtleneck, minimalist charcoal background, dramatic side lighting, editorial magazine look, highly detailed`,
+    casual: (g, p, e) =>
+      `A casual professional photo of TOK, a ${g} ${p} ${e}, smart casual attire, outdoor park background softly blurred, golden hour lighting, warm tone`,
+    executive: (g, p, e) =>
+      `An executive corporate headshot of TOK, a ${g} ${p} ${e}, dark charcoal suit and subtle tie, luxury modern office background, professional rim lighting, 8k`,
+    speaker: (g, p, e) =>
+      `A speaker profile photo of TOK, a ${g} ${p} ${e}, business formal, conference hall background softly blurred, authoritative and approachable pose`,
+    startup: (g, p, e) =>
+      `A startup founder photo of TOK, a ${g} ${p} ${e}, open collar light blue shirt, modern glass coworking space background, bright and airy, friendly casual expression`,
+    "creative-director": (g, p, e) =>
+      `A creative director headshot of TOK, a ${g} ${p} ${e}, stylish smart outfit, creative studio with exposed brick background, artistic softbox lighting`,
+    fashion: (g, p, e) =>
+      `A high-fashion studio portrait of TOK, a ${g} ${p} ${e}, tailored grey suit, seamless grey background, editorial cinematic lighting, 85mm`,
+    "friendly-casual": (g, p, e) =>
+      `A warm friendly casual headshot of TOK, a ${g} ${p} ${e}, casual linen shirt, bright airy home office background, natural daylight flowing in`,
+    "black-and-white": (g, p, e) =>
+      `A dramatic black-and-white creative headshot of TOK, a ${g} ${p} ${e}, strong jaw lighting, seamless white background, fashion magazine style, crisp contrast`,
+    "tech-exec": (g, p, e) =>
+      `A tech executive corporate photo of TOK, a ${g} ${p} ${e}, smart casual dark blazer, modern tech office background with soft neon, cool-toned studio light`,
+    "professional-studio": (g, p, e) =>
+      `A trustworthy professional studio portrait of TOK, a ${g} ${p} ${e}, smart attire, clean bright background, soft even lighting, realistic skin texture`,
+    leadership: (g, p, e) =>
+      `A leadership corporate headshot of TOK, a ${g} ${p} ${e}, dark suit, wood-panelled office background softly out of focus, authoritative but warm expression`,
+    realestate: (g, p, e) =>
+      `A real-estate agent corporate headshot of TOK, a ${g} ${p} ${e}, business smart attire, luxury property entrance outdoor background, confident welcoming smile, sunny`,
+    "creative-consultant": (g, p, e) =>
+      `A creative consultant photo of TOK, a ${g} ${p} ${e}, relaxed stylish blazer, colourful abstract blurred background, soft portrait lighting`,
+    "financial-advisor": (g, p, e) =>
+      `A financial advisor corporate portrait of TOK, a ${g} ${p} ${e}, navy pinstripe suit, financial district outdoor background softly blurred, golden hour`,
+    "remote-work": (g, p, e) =>
+      `A remote-work professional casual photo of TOK, a ${g} ${p} ${e}, smart casual, stylish bookshelf background, warm ambient indoor light`,
+  };
 
-const getExtendedPrompts = (g: string, p: string, e: string) => [
-  `A high-fashion studio portrait of TOK, a ${g} ${p} ${e}, tailored grey suit, seamless grey background, editorial cinematic lighting, 85mm`,
-  `A warm friendly casual headshot of TOK, a ${g} ${p} ${e}, casual linen shirt, bright airy home office background, natural daylight flowing in`,
-  `A dramatic black-and-white creative headshot of TOK, a ${g} ${p} ${e}, strong jaw lighting, seamless white background, fashion magazine style, crisp contrast`,
-  `A tech executive corporate photo of TOK, a ${g} ${p} ${e}, smart casual dark blazer, modern tech office background with soft neon, cool-toned studio light`,
-  `A trustworthy professional studio portrait of TOK, a ${g} ${p} ${e}, smart attire, clean bright background, soft even lighting, realistic skin texture`,
-  `A leadership corporate headshot of TOK, a ${g} ${p} ${e}, dark suit, wood-panelled office background softly out of focus, authoritative but warm expression`,
-  `A real-estate agent corporate headshot of TOK, a ${g} ${p} ${e}, business smart attire, luxury property entrance outdoor background, confident welcoming smile, sunny`,
-  `A creative consultant photo of TOK, a ${g} ${p} ${e}, relaxed stylish blazer, colourful abstract blurred background, soft portrait lighting`,
-  `A financial advisor corporate portrait of TOK, a ${g} ${p} ${e}, navy pinstripe suit, financial district outdoor background softly blurred, golden hour`,
-  `A remote-work professional casual photo of TOK, a ${g} ${p} ${e}, smart casual, stylish bookshelf background, warm ambient indoor light`,
-];
+function getPromptsForStyles(
+  selectedStyles: string[],
+  g: string,
+  p: string,
+  e: string,
+): string[] {
+  const prompts: string[] = [];
+  for (const [key, fn] of Object.entries(ALL_PROMPTS)) {
+    const category = STYLE_CATEGORIES.find((c) =>
+      c.promptKeywords.some((kw) => key.includes(kw)),
+    );
+    if (!category || selectedStyles.includes(category.id)) {
+      prompts.push(fn(g, p, e));
+    }
+  }
+  return prompts;
+}
 
 function buildPrompts(plan: string, prefs?: UserPreferences): string[] {
   const target = PLAN_SHOTS[plan] ?? 40;
@@ -59,21 +95,24 @@ function buildPrompts(plan: string, prefs?: UserPreferences): string[] {
     } else if (prof.includes("real estate")) {
       p = "real estate agent";
     } else if (prof.includes("acting") || prof.includes("modeling")) {
-      p =
-        g === "female"
-          ? "actress/model"
-          : g === "male"
-            ? "actor/model"
-            : "actor/model";
+      p = g === "female" ? "actress/model" : "actor/model";
     } else {
       p = prof;
     }
   }
 
-  const allUnique = [
-    ...getBasePrompts(g, p, e),
-    ...getExtendedPrompts(g, p, e),
-  ];
+  const selectedStyles =
+    prefs?.selectedStyles || STYLE_CATEGORIES.map((c) => c.id);
+  const allUnique = getPromptsForStyles(selectedStyles, g, p, e);
+  if (allUnique.length === 0) {
+    allUnique.push(
+      ...STYLE_CATEGORIES.slice(0, 3).map((c) =>
+        ALL_PROMPTS[c.id]
+          ? ALL_PROMPTS[c.id](g, p, e)
+          : `A professional headshot of TOK, a ${g} ${p} ${e}, studio background, 8k`,
+      ),
+    );
+  }
   const suffixes = [
     ", looking directly at camera, slight smile",
     ", three-quarter angle, relaxed posture",

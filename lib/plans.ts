@@ -79,6 +79,51 @@ export const PLAN_SHOTS: Record<string, number> = {
   executive: 200,
 };
 
+export const STYLE_CATEGORIES = [
+  {
+    id: "corporate",
+    name: "Corporate",
+    description: "Suit-and-tie with office backgrounds",
+    icon: "💼",
+    promptKeywords: ["corporate", "executive", "leadership"],
+  },
+  {
+    id: "linkedin",
+    name: "LinkedIn",
+    description: "Clean, approachable profile photos",
+    icon: "🔗",
+    promptKeywords: ["linkedin", "profile"],
+  },
+  {
+    id: "creative",
+    name: "Creative",
+    description: "Artistic lighting and bold backgrounds",
+    icon: "🎨",
+    promptKeywords: ["creative", "editorial", "fashion"],
+  },
+  {
+    id: "casual",
+    name: "Casual",
+    description: "Relaxed outdoor and natural settings",
+    icon: "🌿",
+    promptKeywords: ["casual", "outdoor", "park", "remote"],
+  },
+  {
+    id: "startup",
+    name: "Startup & Tech",
+    description: "Modern coworking, smart casual",
+    icon: "🚀",
+    promptKeywords: ["startup", "founder", "tech"],
+  },
+  {
+    id: "realestate",
+    name: "Real Estate",
+    description: "Trustworthy, client-facing headshots",
+    icon: "🏠",
+    promptKeywords: ["real-estate", "agent"],
+  },
+];
+
 export const getPlanById = (id: string) => PLANS[id as keyof typeof PLANS];
 
 export type PlanId = keyof typeof PLANS;

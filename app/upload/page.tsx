@@ -13,6 +13,7 @@ import Nav from "@/components/Nav";
 
 import { supabase } from "@/lib/supabase/client";
 import { PLANS } from "@/lib/plans";
+import { STYLE_CATEGORIES } from "@/lib/plans";
 import { useToast } from "@/components/Toast";
 import {
   Camera,
@@ -58,7 +59,7 @@ const PHOTO_TIPS = [
   },
 ];
 
-type Step = 1 | 2 | 3;
+type Step = 1 | 2 | 3 | 4;
 
 function UploadContent() {
   const searchParams = useSearchParams();
@@ -70,6 +71,9 @@ function UploadContent() {
   const [gender, setGender] = useState("");
   const [eyeColor, setEyeColor] = useState("");
   const [profession, setProfession] = useState("");
+  const [selectedStyles, setSelectedStyles] = useState<string[]>(
+    STYLE_CATEGORIES.map((c) => c.id),
+  );
 
   // Checkout State
   const [plan, setPlan] = useState(searchParams.get("plan") ?? "pro");
@@ -194,6 +198,10 @@ function UploadContent() {
       setError("Please select all preferences to help the AI model.");
       return;
     }
+    if (step === 3 && selectedStyles.length === 0) {
+      setError("Please select at least one style.");
+      return;
+    }
     setStep((s) => (s + 1) as Step);
     window.scrollTo(0, 0);
   };
@@ -302,6 +310,7 @@ function UploadContent() {
           gender,
           eyeColor,
           profession,
+          selectedStyles,
           idempotencyKey,
         }),
       });
@@ -535,14 +544,116 @@ function UploadContent() {
                 onClick={handleNextStep}
                 className="bg-slate-900 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 transition shadow-sm"
               >
+                Next: Choose Styles <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* STEP 3: SELECT STYLES */}
+        {step === 3 && (
+          <div className="animate-in slide-in-from-right-4 fade-in duration-300">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold mb-2">
+                Choose your headshot styles
+              </h1>
+              <p className="text-slate-500">
+                Select which styles you want. All styles are included in your
+                plan — just pick the ones you like.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
+              <div className="flex items-center justify-between mb-6">
+                <span className="text-sm font-bold text-slate-700">
+                  {selectedStyles.length} of {STYLE_CATEGORIES.length} styles
+                  selected
+                </span>
+                <button
+                  onClick={() =>
+                    setSelectedStyles(
+                      selectedStyles.length === STYLE_CATEGORIES.length
+                        ? []
+                        : STYLE_CATEGORIES.map((c) => c.id),
+                    )
+                  }
+                  className="text-sm font-bold text-blue-600 hover:text-blue-700"
+                >
+                  {selectedStyles.length === STYLE_CATEGORIES.length
+                    ? "Deselect All"
+                    : "Select All"}
+                </button>
+              </div>
+
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {STYLE_CATEGORIES.map((style) => {
+                  const isSelected = selectedStyles.includes(style.id);
+                  return (
+                    <button
+                      key={style.id}
+                      onClick={() =>
+                        setSelectedStyles((prev) =>
+                          isSelected
+                            ? prev.filter((s) => s !== style.id)
+                            : [...prev, style.id],
+                        )
+                      }
+                      className={`p-5 rounded-xl border-2 text-left transition-all ${
+                        isSelected
+                          ? "border-blue-600 bg-blue-50 ring-2 ring-blue-100"
+                          : "border-slate-200 bg-white hover:border-slate-300"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-2xl">{style.icon}</span>
+                        <div
+                          className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+                            isSelected
+                              ? "border-blue-600 bg-blue-600"
+                              : "border-slate-300"
+                          }`}
+                        >
+                          {isSelected && (
+                            <Check className="w-4 h-4 text-white" />
+                          )}
+                        </div>
+                      </div>
+                      <h3 className="font-bold text-slate-900">{style.name}</h3>
+                      <p className="text-sm text-slate-500 mt-1">
+                        {style.description}
+                      </p>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {selectedStyles.length === 0 && (
+                <p className="text-sm text-amber-600 mt-4 text-center">
+                  Please select at least one style to continue.
+                </p>
+              )}
+            </div>
+
+            <div className="mt-8 flex justify-between">
+              <button
+                onClick={() => setStep(2)}
+                className="text-slate-500 font-bold flex items-center gap-2 hover:text-slate-800"
+              >
+                <ChevronLeft className="w-5 h-5" /> Back
+              </button>
+              <button
+                onClick={handleNextStep}
+                disabled={selectedStyles.length === 0}
+                className="bg-slate-900 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 Next: Select Plan <ChevronRight className="w-5 h-5" />
               </button>
             </div>
           </div>
         )}
 
-        {/* STEP 3: CHECKOUT */}
-        {step === 3 && (
+        {/* STEP 4: CHECKOUT */}
+        {step === 4 && (
           <div className="animate-in slide-in-from-right-4 fade-in duration-300">
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold mb-2">
@@ -653,10 +764,10 @@ function UploadContent() {
 
             <div className="mt-8">
               <button
-                onClick={() => setStep(2)}
+                onClick={() => setStep(3)}
                 className="text-slate-500 font-bold flex items-center gap-2 hover:text-slate-800"
               >
-                <ChevronLeft className="w-5 h-5" /> Back to Customization
+                <ChevronLeft className="w-5 h-5" /> Back to Styles
               </button>
             </div>
           </div>
