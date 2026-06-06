@@ -189,11 +189,135 @@ function UploadContent() {
 
   const score = getQualityScore();
 
-  const handleNextStep = () => {
+  const analyzePhotos = useCallback(async (imageFiles: File[]) => {
+    if (imageFiles.length === 0) return;
+    const img = imageFiles[0];
+    const bitmap = await createImageBitmap(img);
+    const w = 200;
+    const h = 200;
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      bitmap.close();
+      return;
+    }
+    ctx.drawImage(bitmap, 0, 0, w, h);
+    bitmap.close();
+
+    const imageData = ctx.getImageData(0, 0, w, h).data;
+
+    const getDominant = (
+      pixels: Uint8ClampedArray,
+    ): [number, number, number] => {
+      let tr = 0,
+        tg = 0,
+        tb = 0,
+        count = 0;
+      for (let i = 0; i < pixels.length; i += 4) {
+        const r = pixels[i],
+          g = pixels[i + 1],
+          b = pixels[i + 2];
+        const brightness = (r + g + b) / 3;
+        if (brightness > 235 || brightness < 20) continue;
+        tr += r;
+        tg += g;
+        tb += b;
+        count++;
+      }
+      if (count === 0) return [128, 128, 128];
+      return [
+        Math.round(tr / count),
+        Math.round(tg / count),
+        Math.round(tb / count),
+      ];
+    };
+
+    const sampleRegion = (x: number, y: number, rw: number, rh: number) => {
+      const data: number[] = [];
+      for (let row = y; row < y + rh && row < h; row++) {
+        for (let col = x; col < x + rw && col < w; col++) {
+          const idx = (row * w + col) * 4;
+          data.push(
+            imageData[idx],
+            imageData[idx + 1],
+            imageData[idx + 2],
+            imageData[idx + 3],
+          );
+        }
+      }
+      return new Uint8ClampedArray(data);
+    };
+
+    // Framing: estimate from face-to-image ratio heuristic
+    const ratio = img.width / img.height;
+    if (ratio > 0.65) {
+      setFraming("closeup");
+    } else {
+      setFraming("half-body");
+    }
+
+    // Hair color: sample from top-center region
+    const hairPixels = sampleRegion(
+      Math.round(w * 0.25),
+      0,
+      Math.round(w * 0.5),
+      Math.round(h * 0.2),
+    );
+    const [hr, hg, hb] = getDominant(hairPixels);
+    const hairBrightness = (hr + hg + hb) / 3;
+    const hairSaturation = Math.max(hr, hg, hb) - Math.min(hr, hg, hb);
+    let detectedHair = "";
+    if (hairBrightness < 50) detectedHair = "Black";
+    else if (hairBrightness < 100) detectedHair = "Brown";
+    else if (hairSaturation > 60 && hr > 150 && hg < 130) detectedHair = "Red";
+    else if (hairBrightness < 180) detectedHair = "Brown";
+    else if (hairBrightness < 220) detectedHair = "Blonde";
+    else detectedHair = "Gray";
+    if (
+      ["Black", "Brown", "Blonde", "Red", "Gray", "White"].includes(
+        detectedHair,
+      )
+    ) {
+      setHairColor(detectedHair);
+    }
+
+    // Eye color: sample from center region
+    const eyePixels = sampleRegion(
+      Math.round(w * 0.3),
+      Math.round(h * 0.38),
+      Math.round(w * 0.4),
+      Math.round(h * 0.15),
+    );
+    const [er, eg, eb] = getDominant(eyePixels);
+    const eyeBrightness = (er + eg + eb) / 3;
+    const eyeSat = Math.max(er, eg, eb) - Math.min(er, eg, eb);
+    let detectedEye = "";
+    if (eyeBrightness < 40) detectedEye = "Black";
+    else if (eb > 150 && er < 140 && eg < 150) detectedEye = "Blue";
+    else if (eg > 130 && er < 140 && eb < 120) detectedEye = "Green";
+    else if (eyeSat > 50 && er > 130 && eg < 140) detectedEye = "Amber";
+    else if (eyeSat > 40 && er > 110 && er < 180) detectedEye = "Hazel";
+    else if (eyeBrightness < 100) detectedEye = "Brown";
+    else detectedEye = "Brown";
+    if (
+      ["Brown", "Black", "Blue", "Green", "Hazel", "Gray", "Amber"].includes(
+        detectedEye,
+      )
+    ) {
+      setEyeColor(detectedEye);
+    }
+  }, []);
+
+  const handleNextStep = async () => {
     setError("");
     if (step === 1 && files.length < 1) {
       setError("Please upload at least 1 photo to proceed.");
       return;
+    }
+    if (step === 1) {
+      await analyzePhotos(files);
     }
     if (
       step === 2 &&
