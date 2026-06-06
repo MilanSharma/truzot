@@ -191,8 +191,9 @@ function UploadContent() {
 
   const analyzePhotos = useCallback(async (imageFiles: File[]) => {
     if (imageFiles.length === 0) return;
-    const img = imageFiles[0];
-    const bitmap = await createImageBitmap(img);
+    const bitmap = await createImageBitmap(imageFiles[0]);
+    const imgW = bitmap.width;
+    const imgH = bitmap.height;
     const w = 200;
     const h = 200;
     const canvas = document.createElement("canvas");
@@ -251,7 +252,7 @@ function UploadContent() {
     };
 
     // Framing: estimate from face-to-image ratio heuristic
-    const ratio = img.width / img.height;
+    const ratio = imgW / imgH;
     if (ratio > 0.65) {
       setFraming("closeup");
     } else {
