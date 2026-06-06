@@ -286,6 +286,15 @@ function DashboardContent() {
           const channel = subscribeToOrder(orderId);
           subsRef.current = channel;
         }
+      } else {
+        setCurrentOrder(null);
+        setHeadshots([]);
+        setHeadshotPage(0);
+        setHasMoreHeadshots(true);
+        if (subsRef.current) {
+          supabase.removeChannel(subsRef.current);
+          subsRef.current = null;
+        }
       }
       setAuthChecked(true);
       setLoading(false);
@@ -384,6 +393,28 @@ function DashboardContent() {
     }
   };
 
+  const handleDeleteOrder = async (id: string) => {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    const token = session?.access_token;
+    if (!token) return;
+    const res = await fetch(`/api/orders?id=${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (res.ok) {
+      setOrders((prev) => prev.filter((o) => o.id !== id));
+      if (orderId === id) {
+        setCurrentOrder(null);
+        router.push("/dashboard");
+      }
+      toast("Order deleted", "success");
+    } else {
+      toast("Failed to delete order", "error");
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-50 p-6 md:p-10">
@@ -456,7 +487,7 @@ function DashboardContent() {
           className="p-6 md:p-10 max-w-7xl mx-auto"
         >
           {orderId && currentOrder ? (
-            <div className="animate-in fade-in duration-500">
+            <div>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                 <div>
                   <button
@@ -606,7 +637,7 @@ function DashboardContent() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.1 }}
             >
-              <ProjectLibrary orders={orders} />
+              <ProjectLibrary orders={orders} onDelete={handleDeleteOrder} />
             </motion.div>
           )}
         </motion.div>

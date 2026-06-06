@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Plus, ArrowRight, Camera, CheckCircle } from "lucide-react";
+import { Plus, ArrowRight, Camera, CheckCircle, Trash2 } from "lucide-react";
 import { PLANS } from "@/lib/plans";
 import type { Order } from "@/lib/types";
 
@@ -28,9 +28,11 @@ function ProjectSkeleton() {
 export default function ProjectLibrary({
   orders,
   loading = false,
+  onDelete,
 }: {
   orders: Order[];
   loading?: boolean;
+  onDelete?: (id: string) => void;
 }) {
   if (loading) return <ProjectSkeleton />;
   return (
@@ -75,48 +77,61 @@ export default function ProjectLibrary({
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {orders.map((o) => (
-            <Link
+            <div
               key={o.id}
-              href={`/dashboard?order=${o.id}`}
-              className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-lg hover:border-blue-300 transition group block relative overflow-hidden"
+              className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-lg hover:border-blue-300 transition group relative overflow-hidden"
             >
-              {o.status === "completed" && (
-                <div className="absolute top-0 right-0 w-16 h-16 bg-emerald-50 rounded-bl-full flex items-start justify-end p-3">
-                  <CheckCircle className="w-4 h-4 text-emerald-500" />
-                </div>
-              )}
-              <span className="text-[10px] font-black text-blue-600 tracking-widest uppercase mb-2 block">
-                {PLANS[o.plan as keyof typeof PLANS]?.name || "Shoot"}
-              </span>
-              <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition mb-1">
-                Order #{o.id.slice(0, 6)}
-              </h3>
-              <span className="text-xs text-slate-400 font-medium block mb-6">
-                {new Date(o.created_at).toLocaleDateString(undefined, {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-              </span>
-              <div className="flex items-center justify-between">
-                <span
-                  className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold ${
-                    o.status === "completed"
-                      ? "bg-emerald-50 text-emerald-700"
-                      : ["training", "generating"].includes(o.status)
-                        ? "bg-indigo-50 text-indigo-700"
-                        : "bg-amber-50 text-amber-700"
-                  }`}
-                >
-                  {o.status === "completed"
-                    ? "Gallery Ready"
-                    : o.status === "failed"
-                      ? "Failed"
-                      : "In Progress"}
+              <Link href={`/dashboard?order=${o.id}`} className="block">
+                {o.status === "completed" && (
+                  <div className="absolute top-0 right-0 w-16 h-16 bg-emerald-50 rounded-bl-full flex items-start justify-end p-3">
+                    <CheckCircle className="w-4 h-4 text-emerald-500" />
+                  </div>
+                )}
+                <span className="text-[10px] font-black text-blue-600 tracking-widest uppercase mb-2 block">
+                  {PLANS[o.plan as keyof typeof PLANS]?.name || "Shoot"}
                 </span>
-                <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-blue-600 transition -translate-x-2 group-hover:translate-x-0" />
-              </div>
-            </Link>
+                <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition mb-1">
+                  Order #{o.id.slice(0, 6)}
+                </h3>
+                <span className="text-xs text-slate-400 font-medium block mb-6">
+                  {new Date(o.created_at).toLocaleDateString(undefined, {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </span>
+                <div className="flex items-center justify-between">
+                  <span
+                    className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold ${
+                      o.status === "completed"
+                        ? "bg-emerald-50 text-emerald-700"
+                        : ["training", "generating"].includes(o.status)
+                          ? "bg-indigo-50 text-indigo-700"
+                          : "bg-amber-50 text-amber-700"
+                    }`}
+                  >
+                    {o.status === "completed"
+                      ? "Gallery Ready"
+                      : o.status === "failed"
+                        ? "Failed"
+                        : "In Progress"}
+                  </span>
+                  <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-blue-600 transition -translate-x-2 group-hover:translate-x-0" />
+                </div>
+              </Link>
+              {onDelete && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (window.confirm("Delete this order?")) onDelete(o.id);
+                  }}
+                  className="absolute bottom-3 right-3 p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition opacity-0 group-hover:opacity-100"
+                  title="Delete order"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              )}
+            </div>
           ))}
         </div>
       )}
