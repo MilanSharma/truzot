@@ -1,4 +1,5 @@
-"use client";
+import { Sun, Moon } from "lucide-react";
+("use client");
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -198,6 +199,22 @@ function LoginForm() {
               <ArrowLeft size={20} />
               <span className="font-medium">Back to Home</span>
             </Link>
+          </div>
+          <div className="flex items-center gap-3 ml-auto">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => {
+                  const next =
+                    !document.documentElement.classList.contains("dark");
+                  document.documentElement.classList.toggle("dark", next);
+                  localStorage.setItem("theme", next ? "dark" : "light");
+                }}
+                className="text-slate-600 hover:text-slate-900 transition"
+                aria-label="Toggle dark mode"
+              >
+                <Sun size={18} />
+              </button>
+            </div>
           </div>
         </nav>
         <div className="min-h-[calc(100vh-73px)] flex items-center justify-center px-6 py-12">

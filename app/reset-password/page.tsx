@@ -1,4 +1,5 @@
-"use client";
+import { Sun, Moon } from "lucide-react";
+("use client");
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -77,6 +78,22 @@ export default function ResetPasswordPage() {
             <ArrowLeft size={20} />
             <span className="font-medium">Back to Home</span>
           </Link>
+        </div>
+        <div className="flex items-center gap-3 ml-auto">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => {
+                const next =
+                  !document.documentElement.classList.contains("dark");
+                document.documentElement.classList.toggle("dark", next);
+                localStorage.setItem("theme", next ? "dark" : "light");
+              }}
+              className="text-slate-600 hover:text-slate-900 transition"
+              aria-label="Toggle dark mode"
+            >
+              <Sun size={18} />
+            </button>
+          </div>
         </div>
       </nav>
 
