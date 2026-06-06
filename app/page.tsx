@@ -205,8 +205,8 @@ export default function LandingPage() {
               <div className="text-sm text-slate-500">Average delivery</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-slate-900">20+</div>
-              <div className="text-sm text-slate-500">AI styles</div>
+              <div className="text-3xl font-bold text-slate-900">6</div>
+              <div className="text-sm text-slate-500">Style categories</div>
             </div>
             <div>
               <div className="text-3xl font-bold text-slate-900">$29</div>
@@ -247,20 +247,18 @@ export default function LandingPage() {
                 </div>
                 <h3 className="text-xl font-bold mb-3">Upload your photos</h3>
                 <p className="text-slate-600">
-                  Simply upload 1-5 casual selfies of yourself. No professional
-                  shots needed — phone photos work great.
+                  Upload 1-5 casual selfies. Phone photos work great — no
+                  professional shots needed.
                 </p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
                   <span className="text-3xl font-bold text-blue-600">2</span>
                 </div>
-                <h3 className="text-xl font-bold mb-3">
-                  AI creates your model
-                </h3>
+                <h3 className="text-xl font-bold mb-3">Add your details</h3>
                 <p className="text-slate-600">
-                  Our AI analyzes your unique features to create a personalized
-                  model that captures your best look.
+                  Tell the AI your eye color and pick the styles you want —
+                  corporate, creative, casual, and more.
                 </p>
               </div>
               <div className="text-center">
@@ -271,8 +269,8 @@ export default function LandingPage() {
                   Download your headshots
                 </h3>
                 <p className="text-slate-600">
-                  Get {PLANS.basic.shots}+ professional headshots with various
-                  backgrounds, outfits, and styles.
+                  Get {PLANS.basic.shots}+ professional headshots delivered in
+                  minutes. Download and use anywhere.
                 </p>
               </div>
             </div>
@@ -302,11 +300,11 @@ export default function LandingPage() {
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">
-                Every headshot package includes
+                6 style categories, unlimited variety
               </h2>
               <p className="text-slate-600 max-w-2xl mx-auto">
-                All styles are automatically generated — no need to pick. You
-                get a mix of corporate, creative, casual, and more.
+                Pick the styles you want during upload. Each category generates
+                multiple unique headshots with different poses and expressions.
               </p>
             </div>
             <div className="grid md:grid-cols-2 gap-6">

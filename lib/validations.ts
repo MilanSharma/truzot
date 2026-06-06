@@ -19,8 +19,8 @@ export const checkoutSchema = z.object({
   storagePath: z.string().optional(),
   gender: z.string().min(1).max(50),
   eyeColor: z.string().min(1).max(50),
-  profession: z.string().min(1).max(100),
-  selectedStyles: z.array(z.string()).min(1).optional(),
+  profession: z.string().max(100).optional(),
+  selectedStyles: z.array(z.string()).min(1),
   userId: z.string().optional(),
   idempotencyKey: z.string().min(1, "Idempotency key is required"),
 });

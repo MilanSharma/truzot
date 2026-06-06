@@ -27,7 +27,6 @@ import {
   Star,
   Lock,
   User,
-  Briefcase,
   AlertCircle,
   CheckCircle2,
   Loader2,
@@ -59,7 +58,7 @@ const PHOTO_TIPS = [
   },
 ];
 
-type Step = 1 | 2 | 3 | 4;
+type Step = 1 | 2 | 3;
 
 function UploadContent() {
   const searchParams = useSearchParams();
@@ -70,7 +69,6 @@ function UploadContent() {
   // Customization Preferences
   const [gender, setGender] = useState("");
   const [eyeColor, setEyeColor] = useState("");
-  const [profession, setProfession] = useState("");
   const [selectedStyles, setSelectedStyles] = useState<string[]>(
     STYLE_CATEGORIES.map((c) => c.id),
   );
@@ -194,11 +192,11 @@ function UploadContent() {
       setError("Please upload at least 1 photo to proceed.");
       return;
     }
-    if (step === 2 && (!gender || !eyeColor || !profession)) {
-      setError("Please select all preferences to help the AI model.");
+    if (step === 2 && (!gender || !eyeColor)) {
+      setError("Please select gender and eye color.");
       return;
     }
-    if (step === 3 && selectedStyles.length === 0) {
+    if (step === 2 && selectedStyles.length === 0) {
       setError("Please select at least one style.");
       return;
     }
@@ -309,7 +307,6 @@ function UploadContent() {
           userId,
           gender,
           eyeColor,
-          profession,
           selectedStyles,
           idempotencyKey,
         }),
@@ -461,23 +458,20 @@ function UploadContent() {
           </div>
         )}
 
-        {/* STEP 2: PREFERENCES */}
+        {/* STEP 2: DETAILS FOR AI */}
         {step === 2 && (
           <div className="animate-in slide-in-from-right-4 fade-in duration-300">
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold mb-2">
-                Help the AI understand you
-              </h1>
+              <h1 className="text-3xl font-bold mb-2">Details for the AI</h1>
               <p className="text-slate-500">
-                Providing these details drastically improves the realism of your
-                final headshots.
+                These details help the AI create more realistic headshots.
               </p>
             </div>
 
             <div className="space-y-8 bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
               <div>
                 <h3 className="font-bold text-lg mb-3 flex items-center gap-2">
-                  <User className="w-5 h-5 text-blue-600" /> Biological Gender
+                  <User className="w-5 h-5 text-blue-600" /> Gender
                 </h3>
                 <div className="grid grid-cols-3 gap-3">
                   {["Male", "Female", "Non-Binary"].map((g) => (
@@ -496,8 +490,16 @@ function UploadContent() {
                 <h3 className="font-bold text-lg mb-3 flex items-center gap-2">
                   <ImageIcon className="w-5 h-5 text-blue-600" /> Eye Color
                 </h3>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  {["Brown", "Blue", "Green", "Hazel"].map((c) => (
+                <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
+                  {[
+                    "Brown",
+                    "Black",
+                    "Blue",
+                    "Green",
+                    "Hazel",
+                    "Gray",
+                    "Amber",
+                  ].map((c) => (
                     <button
                       key={c}
                       onClick={() => setEyeColor(c)}
@@ -510,26 +512,73 @@ function UploadContent() {
               </div>
 
               <div>
-                <h3 className="font-bold text-lg mb-3 flex items-center gap-2">
-                  <Briefcase className="w-5 h-5 text-blue-600" /> Primary Use
-                  Case
-                </h3>
-                <div className="grid grid-cols-2 gap-3">
-                  {[
-                    "Corporate / Executive",
-                    "Creative / Casual",
-                    "Real Estate",
-                    "Acting / Modeling",
-                  ].map((p) => (
-                    <button
-                      key={p}
-                      onClick={() => setProfession(p)}
-                      className={`py-3 rounded-xl border-2 font-semibold transition ${profession === p ? "border-blue-600 bg-blue-50 text-blue-700" : "border-slate-200 text-slate-600 hover:border-slate-300"}`}
-                    >
-                      {p}
-                    </button>
-                  ))}
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-bold text-lg flex items-center gap-2">
+                    <Camera className="w-5 h-5 text-blue-600" /> Headshot Styles
+                  </h3>
+                  <button
+                    onClick={() =>
+                      setSelectedStyles((prev) =>
+                        prev.length === STYLE_CATEGORIES.length
+                          ? []
+                          : STYLE_CATEGORIES.map((c) => c.id),
+                      )
+                    }
+                    className="text-sm font-bold text-blue-600 hover:text-blue-700"
+                  >
+                    {selectedStyles.length === STYLE_CATEGORIES.length
+                      ? "Deselect All"
+                      : "Select All"}
+                  </button>
                 </div>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {STYLE_CATEGORIES.map((style) => {
+                    const isSelected = selectedStyles.includes(style.id);
+                    return (
+                      <button
+                        key={style.id}
+                        onClick={() =>
+                          setSelectedStyles((prev) =>
+                            isSelected
+                              ? prev.filter((s) => s !== style.id)
+                              : [...prev, style.id],
+                          )
+                        }
+                        className={`p-4 rounded-xl border-2 text-left transition-all ${
+                          isSelected
+                            ? "border-blue-600 bg-blue-50 ring-2 ring-blue-100"
+                            : "border-slate-200 bg-white hover:border-slate-300"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-xl">{style.icon}</span>
+                          <div
+                            className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                              isSelected
+                                ? "border-blue-600 bg-blue-600"
+                                : "border-slate-300"
+                            }`}
+                          >
+                            {isSelected && (
+                              <Check className="w-3 h-3 text-white" />
+                            )}
+                          </div>
+                        </div>
+                        <h4 className="font-bold text-sm text-slate-900">
+                          {style.name}
+                        </h4>
+                        <p className="text-xs text-slate-500 mt-0.5">
+                          {style.description}
+                        </p>
+                      </button>
+                    );
+                  })}
+                </div>
+                {selectedStyles.length === 0 && (
+                  <p className="text-sm text-amber-600 mt-3">
+                    Select at least one style to continue.
+                  </p>
+                )}
               </div>
             </div>
 
@@ -542,118 +591,17 @@ function UploadContent() {
               </button>
               <button
                 onClick={handleNextStep}
-                className="bg-slate-900 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 transition shadow-sm"
-              >
-                Next: Choose Styles <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* STEP 3: SELECT STYLES */}
-        {step === 3 && (
-          <div className="animate-in slide-in-from-right-4 fade-in duration-300">
-            <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold mb-2">
-                Choose your headshot styles
-              </h1>
-              <p className="text-slate-500">
-                Select which styles you want. All styles are included in your
-                plan — just pick the ones you like.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
-              <div className="flex items-center justify-between mb-6">
-                <span className="text-sm font-bold text-slate-700">
-                  {selectedStyles.length} of {STYLE_CATEGORIES.length} styles
-                  selected
-                </span>
-                <button
-                  onClick={() =>
-                    setSelectedStyles(
-                      selectedStyles.length === STYLE_CATEGORIES.length
-                        ? []
-                        : STYLE_CATEGORIES.map((c) => c.id),
-                    )
-                  }
-                  className="text-sm font-bold text-blue-600 hover:text-blue-700"
-                >
-                  {selectedStyles.length === STYLE_CATEGORIES.length
-                    ? "Deselect All"
-                    : "Select All"}
-                </button>
-              </div>
-
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {STYLE_CATEGORIES.map((style) => {
-                  const isSelected = selectedStyles.includes(style.id);
-                  return (
-                    <button
-                      key={style.id}
-                      onClick={() =>
-                        setSelectedStyles((prev) =>
-                          isSelected
-                            ? prev.filter((s) => s !== style.id)
-                            : [...prev, style.id],
-                        )
-                      }
-                      className={`p-5 rounded-xl border-2 text-left transition-all ${
-                        isSelected
-                          ? "border-blue-600 bg-blue-50 ring-2 ring-blue-100"
-                          : "border-slate-200 bg-white hover:border-slate-300"
-                      }`}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-2xl">{style.icon}</span>
-                        <div
-                          className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                            isSelected
-                              ? "border-blue-600 bg-blue-600"
-                              : "border-slate-300"
-                          }`}
-                        >
-                          {isSelected && (
-                            <Check className="w-4 h-4 text-white" />
-                          )}
-                        </div>
-                      </div>
-                      <h3 className="font-bold text-slate-900">{style.name}</h3>
-                      <p className="text-sm text-slate-500 mt-1">
-                        {style.description}
-                      </p>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {selectedStyles.length === 0 && (
-                <p className="text-sm text-amber-600 mt-4 text-center">
-                  Please select at least one style to continue.
-                </p>
-              )}
-            </div>
-
-            <div className="mt-8 flex justify-between">
-              <button
-                onClick={() => setStep(2)}
-                className="text-slate-500 font-bold flex items-center gap-2 hover:text-slate-800"
-              >
-                <ChevronLeft className="w-5 h-5" /> Back
-              </button>
-              <button
-                onClick={handleNextStep}
-                disabled={selectedStyles.length === 0}
+                disabled={!gender || !eyeColor || selectedStyles.length === 0}
                 className="bg-slate-900 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Next: Select Plan <ChevronRight className="w-5 h-5" />
+                Next: Choose Plan <ChevronRight className="w-5 h-5" />
               </button>
             </div>
           </div>
         )}
 
-        {/* STEP 4: CHECKOUT */}
-        {step === 4 && (
+        {/* STEP 3: CHECKOUT */}
+        {step === 3 && (
           <div className="animate-in slide-in-from-right-4 fade-in duration-300">
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold mb-2">
@@ -764,10 +712,10 @@ function UploadContent() {
 
             <div className="mt-8">
               <button
-                onClick={() => setStep(3)}
+                onClick={() => setStep(2)}
                 className="text-slate-500 font-bold flex items-center gap-2 hover:text-slate-800"
               >
-                <ChevronLeft className="w-5 h-5" /> Back to Styles
+                <ChevronLeft className="w-5 h-5" /> Back to Details
               </button>
             </div>
           </div>
