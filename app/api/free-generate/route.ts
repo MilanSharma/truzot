@@ -1,22 +1,10 @@
 import { NextResponse } from "next/server";
+import { fal } from "@fal-ai/client";
 import { freeGenerateSchema, validate } from "@/lib/validations";
-import { createLogger } from "@/lib/logger";
 import { addCors, handleOptions } from "@/lib/cors";
 import { withContext } from "@/lib/request-context";
 
-const log = createLogger("free-generate");
-
-const EXAMPLE_STYLES = [
-  "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&sig=2",
-  "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop",
-];
+fal.config({ credentials: process.env.FAL_KEY });
 
 export const OPTIONS = handleOptions;
 
@@ -30,9 +18,41 @@ export const POST = withContext(async (req: Request) => {
         NextResponse.json({ error: parsed.error }, { status: 400 }),
         origin,
       );
-    return addCors(NextResponse.json({ urls: EXAMPLE_STYLES }), origin);
+    const { zipUrl } = parsed.data!;
+
+    // For free tier, we generate 9 preview images using a generic headshot model
+    // that does not require training. We'll use fal-ai/flux-lora with a generic prompt.
+    const prompts = [
+      "A professional corporate headshot, studio lighting, neutral background",
+      "A creative headshot, soft natural light, slight smile",
+      "A casual professional headshot, outdoor blurred background",
+      "An executive headshot, dark suit, confident expression",
+      "A friendly LinkedIn profile photo, warm smile, light background",
+      "A creative studio portrait, artistic lighting, contemporary style",
+      "A real estate agent headshot, professional and approachable",
+      "A tech startup founder headshot, casual blazer, modern office",
+      "A speaker headshot, authoritative pose, stage lighting",
+    ];
+
+    const results = await Promise.all(
+      prompts.map((prompt) =>
+        fal.run("fal-ai/flux-lora", {
+          input: {
+            prompt,
+            num_inference_steps: 28,
+            guidance_scale: 3.5,
+            num_images: 1,
+            image_size: "portrait_4_3",
+            output_format: "jpeg",
+          },
+        }),
+      ),
+    );
+
+    const urls = results.map((r) => r.images[0].url);
+    return addCors(NextResponse.json({ urls }), origin);
   } catch (err) {
-    log.error({ err }, "Free generate failed");
+    console.error("Free generate error:", err);
     return addCors(
       NextResponse.json({ error: "Generation failed" }, { status: 500 }),
       origin,
