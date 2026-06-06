@@ -122,6 +122,7 @@ export const GET = withContext(async (req: Request) => {
         headers: {
           "Content-Type": blob.type,
           "Content-Disposition": 'attachment; filename="headshot.jpg"',
+          "Cache-Control": "private, max-age=3600",
         },
       });
     }
@@ -171,6 +172,7 @@ export const GET = withContext(async (req: Request) => {
         headers: {
           "Content-Type": "application/zip",
           "Content-Disposition": `attachment; filename="truzot-headshots-${orderId}.zip"`,
+          "Cache-Control": "private, no-store",
         },
       });
     }
@@ -277,6 +279,7 @@ export const POST = withContext(async (req: Request) => {
       headers: {
         "Content-Type": "application/zip",
         "Content-Disposition": `attachment; filename="truzot-selected-${safeUrls.length}.zip"`,
+        "Cache-Control": "private, no-store",
       },
     });
   } catch (err) {

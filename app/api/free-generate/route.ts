@@ -3,6 +3,9 @@ import { fal } from "@fal-ai/client";
 import { freeGenerateSchema, validate } from "@/lib/validations";
 import { addCors, handleOptions } from "@/lib/cors";
 import { withContext } from "@/lib/request-context";
+import { createLogger } from "@/lib/logger";
+
+const log = createLogger("free-generate");
 
 fal.config({ credentials: process.env.FAL_KEY });
 
@@ -36,7 +39,7 @@ export const POST = withContext(async (req: Request) => {
 
     const results = await Promise.all(
       prompts.map((prompt) =>
-        fal.run("fal-ai/flux-lora", {
+        fal.run("fal-ai/flux/dev", {
           input: {
             prompt,
             num_inference_steps: 28,
@@ -52,7 +55,7 @@ export const POST = withContext(async (req: Request) => {
     const urls = results.map((r) => (r as any).images[0].url);
     return addCors(NextResponse.json({ urls }), origin);
   } catch (err) {
-    console.error("Free generate error:", err);
+    log.error({ err }, "Free generate failed");
     return addCors(
       NextResponse.json({ error: "Generation failed" }, { status: 500 }),
       origin,

@@ -87,6 +87,7 @@ function HeadshotCard({
               <button
                 onClick={(e) => onToggleSelect(headshot.image_url, e)}
                 className="w-7 h-7 bg-white rounded-lg flex items-center justify-center shadow-sm"
+                aria-label={isSel ? "Deselect image" : "Select image"}
               >
                 {isSel ? (
                   <CheckSquare className="w-4 h-4 text-blue-600" />
@@ -98,6 +99,7 @@ function HeadshotCard({
               <button
                 onClick={(e) => onToggleSelect(headshot.image_url, e)}
                 className="w-7 h-7 bg-white/20 rounded-lg flex items-center justify-center text-white opacity-0 group-hover:opacity-100 hover:bg-white/40 backdrop-blur-sm"
+                aria-label={isSel ? "Deselect image" : "Select image"}
               >
                 {isSel ? (
                   <CheckSquare className="w-4 h-4 text-white" />
@@ -109,6 +111,7 @@ function HeadshotCard({
             <button
               onClick={(e) => onToggleFavorite(headshot.image_url, e)}
               className={`w-7 h-7 rounded-full flex items-center justify-center transition backdrop-blur-sm ${isFav ? "bg-rose-500 text-white" : "bg-white/20 text-white hover:bg-white/40"}`}
+              aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
             >
               <Heart className={`w-3.5 h-3.5 ${isFav ? "fill-white" : ""}`} />
             </button>
@@ -117,12 +120,14 @@ function HeadshotCard({
             <button
               onClick={() => onView(headshot.image_url)}
               className="flex-1 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white py-1.5 rounded-lg text-[11px] font-bold flex items-center justify-center gap-1 transition"
+              aria-label="View full size"
             >
               <Maximize2 className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={() => onDownload(headshot.image_url)}
               className="w-9 h-9 bg-white hover:bg-slate-100 text-slate-900 rounded-lg flex items-center justify-center transition shadow-sm"
+              aria-label="Download image"
             >
               <Download className="w-3.5 h-3.5" />
             </button>
@@ -133,7 +138,7 @@ function HeadshotCard({
                   onFlag(headshot.image_url);
                 }}
                 className="w-7 h-7 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white rounded-lg flex items-center justify-center transition"
-                title="Flag for regeneration"
+                aria-label="Flag for regeneration"
               >
                 <Flag className="w-3.5 h-3.5" />
               </button>

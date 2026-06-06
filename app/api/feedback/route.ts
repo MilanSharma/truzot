@@ -39,6 +39,7 @@ export const POST = withContext(async (req: Request) => {
       .insert({
         order_id: orderId,
         image_url: imageUrl,
+        user_id: user.id,
         reason: reason || "regenerate",
         notes: notes || null,
       });

@@ -73,6 +73,7 @@ CREATE TABLE IF NOT EXISTS headshot_flags (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   order_id UUID REFERENCES orders(id) ON DELETE CASCADE NOT NULL,
   image_url TEXT NOT NULL,
+  user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
   reason TEXT NOT NULL DEFAULT 'regenerate',
   notes TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW()
@@ -84,6 +85,7 @@ CREATE POLICY "Users can manage own flags" ON headshot_flags
 CREATE POLICY "Service role can manage all flags" ON headshot_flags
   FOR ALL USING (auth.role() = 'service_role');
 CREATE INDEX IF NOT EXISTS idx_headshot_flags_order_id ON headshot_flags(order_id);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_headshot_flags_order_image ON headshot_flags(order_id, image_url);
 
 -- Create team_members table for team invites
 CREATE TABLE IF NOT EXISTS team_members (
@@ -127,6 +129,8 @@ CREATE INDEX IF NOT EXISTS idx_webhook_events_created_at ON webhook_events(creat
 CREATE TABLE IF NOT EXISTS email_preferences (
   email TEXT PRIMARY KEY,
   unsubscribed BOOLEAN NOT NULL DEFAULT false,
+  marketing BOOLEAN NOT NULL DEFAULT true,
+  product_updates BOOLEAN NOT NULL DEFAULT true,
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 

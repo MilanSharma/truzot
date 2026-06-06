@@ -62,6 +62,53 @@ export const GET = withContext(async (req: Request) => {
     }
   }
 
+  // Abandoned checkout emails: orders pending > 1hr with no completed session
+  const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+  const { data: abandonedOrders } = await supabaseAdmin
+    .from("orders")
+    .select("id, user_id, plan")
+    .eq("status", "pending")
+    .lt("created_at", oneHourAgo)
+    .limit(20);
+
+  let abandonedNotified = 0;
+  for (const order of abandonedOrders || []) {
+    if (!order.user_id) continue;
+    const { data: profile } = await supabaseAdmin
+      .from("profiles")
+      .select("email")
+      .eq("id", order.user_id)
+      .single();
+    if (!profile?.email) continue;
+    // Skip if already unsubscribed
+    const { data: prefs } = await supabaseAdmin
+      .from("email_preferences")
+      .select("unsubscribed")
+      .eq("email", profile.email)
+      .single();
+    if (prefs?.unsubscribed) continue;
+    try {
+      const { Resend } = await import("resend");
+      const resend = new Resend(process.env.RESEND_API_KEY);
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://truzot.com";
+      await resend.emails.send({
+        from: "Truzot <hello@truzot.com>",
+        to: profile.email,
+        subject: "You left something behind — your headshots are waiting",
+        html: `<div style="font-family: Georgia, serif; max-width: 560px; margin: 0 auto; color: #0a0a0a;"><div style="padding: 40px 0 20px;"><h1 style="font-size: 28px; font-weight: 900; margin: 0 0 8px;">Finish your order</h1><p style="color: #6b6560; font-size: 16px; line-height: 1.6; margin: 0 0 16px;">You started a <strong>${order.plan}</strong> order but didn't complete payment. Your photos are ready to go — just one step away.</p><a href="${siteUrl}/upload" style="background: #0a0a0a; color: #f5f0e8; padding: 14px 32px; border-radius: 2px; text-decoration: none; font-size: 15px; font-weight: 500; display: inline-block;">Complete your order →</a></div><hr style="border: none; border-top: 1px solid #e8e4dc; margin: 32px 0;" /><p style="color: #9b9590; font-size: 13px;">If you didn't start this order, just ignore this email. — The Truzot team</p></div>`,
+      });
+      abandonedNotified++;
+    } catch (err) {
+      log.error(
+        { err, orderId: order.id },
+        "Failed to send abandoned checkout email",
+      );
+    }
+  }
+  if (abandonedNotified > 0) {
+    log.info({ count: abandonedNotified }, "Abandoned checkout emails sent");
+  }
+
   // Check for stuck training orders (> 2 hours)
   const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString();
   const { data: stuckTraining } = await supabaseAdmin
@@ -169,6 +216,7 @@ export const GET = withContext(async (req: Request) => {
       deleted: results.deleted,
       stuckFlagged: stuckResults.flagged,
       stuckAutoRefunded: stuckResults.autoRefunded,
+      abandonedNotified,
       errors: results.errors.length > 0 ? results.errors : undefined,
     });
   } catch (err) {

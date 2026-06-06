@@ -1,5 +1,12 @@
 "use client";
-import { useEffect, useState, useCallback, Suspense, useRef } from "react";
+import {
+  useEffect,
+  useState,
+  useCallback,
+  Suspense,
+  useRef,
+  lazy,
+} from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
@@ -14,12 +21,15 @@ import TrainingView from "@/components/dashboard/TrainingView";
 import GeneratingView from "@/components/dashboard/GeneratingView";
 import FailedView from "@/components/dashboard/FailedView";
 import CompletedGallery from "@/components/dashboard/CompletedGallery";
-import LightboxModal from "@/components/dashboard/LightboxModal";
 import FloatingSelectionBar from "@/components/dashboard/FloatingSelectionBar";
-import DownloadProgress from "@/components/DownloadProgress";
 import GalleryErrorBoundary from "@/components/GalleryErrorBoundary";
 import { useToast } from "@/components/Toast";
 import { motion, AnimatePresence } from "framer-motion";
+
+const LightboxModal = lazy(
+  () => import("@/components/dashboard/LightboxModal"),
+);
+const DownloadProgress = lazy(() => import("@/components/DownloadProgress"));
 
 function DashboardContent() {
   const searchParams = useSearchParams();
@@ -474,36 +484,44 @@ function DashboardContent() {
                     >
                       {multiSelectMode ? "Cancel Select" : "Select Multiple"}
                     </button>
-                    <DownloadProgress
-                      onDownload={async (onProgress) => {
-                        const urls = currentFiltered.map((h) => h.image_url);
-                        const JSZip = (await import("jszip")).default;
-                        const zip = new JSZip();
-                        let completed = 0;
-                        for (let i = 0; i < urls.length; i++) {
-                          const proxyRes = await fetch(
-                            `/api/download/proxy?url=${encodeURIComponent(urls[i])}`,
-                          );
-                          if (!proxyRes.ok) continue;
-                          const blob = await proxyRes.blob();
-                          zip.file(`headshot_${i + 1}.jpg`, blob);
-                          completed++;
-                          onProgress(completed, urls.length);
-                        }
-                        const zipBlob = await zip.generateAsync({
-                          type: "blob",
-                        });
-                        const blobUrl = URL.createObjectURL(zipBlob);
-                        const a = document.createElement("a");
-                        a.href = blobUrl;
-                        a.download = `truzot-headshots-${orderId}.zip`;
-                        document.body.appendChild(a);
-                        a.click();
-                        a.remove();
-                        URL.revokeObjectURL(blobUrl);
-                      }}
-                      label="Download All"
-                    />
+                    <Suspense
+                      fallback={
+                        <div className="px-5 py-2.5 bg-slate-100 rounded-xl text-sm font-bold">
+                          Loading...
+                        </div>
+                      }
+                    >
+                      <DownloadProgress
+                        onDownload={async (onProgress) => {
+                          const urls = currentFiltered.map((h) => h.image_url);
+                          const JSZip = (await import("jszip")).default;
+                          const zip = new JSZip();
+                          let completed = 0;
+                          for (let i = 0; i < urls.length; i++) {
+                            const proxyRes = await fetch(
+                              `/api/download/proxy?url=${encodeURIComponent(urls[i])}`,
+                            );
+                            if (!proxyRes.ok) continue;
+                            const blob = await proxyRes.blob();
+                            zip.file(`headshot_${i + 1}.jpg`, blob);
+                            completed++;
+                            onProgress(completed, urls.length);
+                          }
+                          const zipBlob = await zip.generateAsync({
+                            type: "blob",
+                          });
+                          const blobUrl = URL.createObjectURL(zipBlob);
+                          const a = document.createElement("a");
+                          a.href = blobUrl;
+                          a.download = `truzot-headshots-${orderId}.zip`;
+                          document.body.appendChild(a);
+                          a.click();
+                          a.remove();
+                          URL.revokeObjectURL(blobUrl);
+                        }}
+                        label="Download All"
+                      />
+                    </Suspense>
                   </div>
                 )}
               </div>
@@ -589,20 +607,22 @@ function DashboardContent() {
           const all = currentFiltered.map((h) => h.image_url);
           const idx = all.indexOf(selected);
           return (
-            <LightboxModal
-              imageUrl={selected}
-              allImages={all}
-              favorites={favorites}
-              onClose={() => setSelected(null)}
-              onPrev={idx > 0 ? () => setSelected(all[idx - 1]) : undefined}
-              onNext={
-                idx >= 0 && idx < all.length - 1
-                  ? () => setSelected(all[idx + 1])
-                  : undefined
-              }
-              onToggleFavorite={toggleFavorite}
-              onDownload={downloadSingle}
-            />
+            <Suspense fallback={null}>
+              <LightboxModal
+                imageUrl={selected}
+                allImages={all}
+                favorites={favorites}
+                onClose={() => setSelected(null)}
+                onPrev={idx > 0 ? () => setSelected(all[idx - 1]) : undefined}
+                onNext={
+                  idx >= 0 && idx < all.length - 1
+                    ? () => setSelected(all[idx + 1])
+                    : undefined
+                }
+                onToggleFavorite={toggleFavorite}
+                onDownload={downloadSingle}
+              />
+            </Suspense>
           );
         })()}
     </div>

@@ -4,7 +4,35 @@ import { Plus, ArrowRight, Camera, CheckCircle } from "lucide-react";
 import { PLANS } from "@/lib/plans";
 import type { Order } from "@/lib/types";
 
-export default function ProjectLibrary({ orders }: { orders: Order[] }) {
+function ProjectSkeleton() {
+  return (
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {[1, 2, 3].map((i) => (
+        <div
+          key={i}
+          className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm animate-pulse"
+        >
+          <div className="h-3 w-16 bg-slate-200 rounded mb-3" />
+          <div className="h-5 w-32 bg-slate-200 rounded mb-2" />
+          <div className="h-3 w-24 bg-slate-200 rounded mb-6" />
+          <div className="flex items-center justify-between">
+            <div className="h-6 w-20 bg-slate-200 rounded" />
+            <div className="h-4 w-4 bg-slate-200 rounded" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default function ProjectLibrary({
+  orders,
+  loading = false,
+}: {
+  orders: Order[];
+  loading?: boolean;
+}) {
+  if (loading) return <ProjectSkeleton />;
   return (
     <div className="animate-in fade-in">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-10 gap-4">

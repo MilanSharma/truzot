@@ -3,6 +3,9 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { uploadActionSchema, validate } from "@/lib/validations";
 import { addCors, handleOptions } from "@/lib/cors";
 import { withContext } from "@/lib/request-context";
+import { createLogger } from "@/lib/logger";
+
+const log = createLogger("upload");
 
 export const OPTIONS = handleOptions;
 
@@ -93,6 +96,7 @@ export const POST = withContext(async (req: Request) => {
       origin,
     );
   } catch (err) {
+    log.error({ err }, "Upload failed");
     return addCors(
       NextResponse.json({ error: "Internal server error" }, { status: 500 }),
       origin,

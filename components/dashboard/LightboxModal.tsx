@@ -67,6 +67,11 @@ export default function LightboxModal({
             <button
               onClick={(e) => onToggleFavorite(imageUrl, e)}
               className={`w-12 h-12 rounded-xl flex items-center justify-center transition border ${favorites.includes(imageUrl) ? "bg-rose-500 border-rose-400 text-white" : "bg-white/10 hover:bg-white/20 border-white/10 text-white"}`}
+              aria-label={
+                favorites.includes(imageUrl)
+                  ? "Remove from favorites"
+                  : "Add to favorites"
+              }
             >
               <Heart
                 className={`w-5 h-5 ${favorites.includes(imageUrl) ? "fill-white" : ""}`}
@@ -81,12 +86,14 @@ export default function LightboxModal({
                 onDownload(imageUrl);
               }}
               className="w-12 h-12 rounded-xl bg-white text-slate-900 flex items-center justify-center hover:bg-slate-100 transition shadow-xl"
+              aria-label="Download image"
             >
               <Download className="w-5 h-5" />
             </button>
             <button
               onClick={onClose}
               className="w-12 h-12 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white flex items-center justify-center transition"
+              aria-label="Close lightbox"
             >
               <X className="w-6 h-6" />
             </button>
@@ -99,6 +106,7 @@ export default function LightboxModal({
               onPrev();
             }}
             className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-white/25 backdrop-blur-md border border-white/10 text-white flex items-center justify-center transition z-10"
+            aria-label="Previous image"
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
@@ -110,6 +118,7 @@ export default function LightboxModal({
               onNext();
             }}
             className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-white/25 backdrop-blur-md border border-white/10 text-white flex items-center justify-center transition z-10"
+            aria-label="Next image"
           >
             <ChevronRight className="w-6 h-6" />
           </button>
