@@ -52,8 +52,11 @@ export async function POST(request: NextRequest) {
     }
 
     if (order.user_id) {
+      if (order.user_id === user.id) {
+        return NextResponse.json({ success: true, isOwner: true });
+      }
       return NextResponse.json(
-        { error: "This order has already been claimed." },
+        { error: "This order has already been claimed by another account." },
         { status: 409 },
       );
     }
