@@ -28,25 +28,45 @@ export async function generateMetadata({
     };
   }
   return {
-    title: `${post.title} - Truzot Blog`,
-    description: post.excerpt || `Read "${post.title}" on the Truzot Blog.`,
-    alternates: {
-      canonical: `${SITE_CONFIG.url}/blog/${post.slug}`,
-    },
+    title: `${post.title} - Truzot AI Headshots Blog`,
+    description:
+      post.excerpt ||
+      `Read "${post.title}" on the Truzot Blog. Expert insights on AI headshots and professional branding.`,
+    keywords: [
+      "AI headshots",
+      "professional headshots",
+      post.title,
+      "LinkedIn tips",
+      "personal branding",
+      "AI photography",
+    ],
+    authors: [{ name: post.author || "Truzot Team" }],
+    creator: post.author || "Truzot",
+    alternates: { canonical: `${SITE_CONFIG.url}/blog/${post.slug}` },
     openGraph: {
-      title: `${post.title} - Truzot Blog`,
+      title: `${post.title} - Truzot AI Headshots Blog`,
       description: post.excerpt || `Read "${post.title}" on the Truzot Blog.`,
       url: `${SITE_CONFIG.url}/blog/${post.slug}`,
+      siteName: "Truzot",
       type: "article",
       publishedTime: post.date,
+      authors: [post.author || "Truzot Team"],
       images: post.image
-        ? [{ url: post.image, width: 1200, height: 630 }]
-        : undefined,
+        ? [{ url: post.image, width: 1200, height: 630, alt: post.title }]
+        : [
+            {
+              url: SITE_CONFIG.ogImage,
+              width: 1200,
+              height: 630,
+              alt: "Truzot AI Headshots Blog",
+            },
+          ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${post.title} - Truzot Blog`,
+      title: `${post.title} - Truzot AI Headshots Blog`,
       description: post.excerpt || `Read "${post.title}" on the Truzot Blog.`,
+      images: post.image ? [post.image] : [SITE_CONFIG.ogImage],
     },
   };
 }
@@ -77,7 +97,7 @@ export default async function BlogPostPage({
         ]}
       />
       <Nav showBack />
-      <main role="main" className="max-w-3xl mx-auto px-6 py-16">
+      <main id="main-content" className="max-w-3xl mx-auto px-6 py-16">
         <div className="text-sm text-blue-600 font-semibold mb-2 uppercase tracking-wider">
           {post.date}
         </div>

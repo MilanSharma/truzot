@@ -5,15 +5,29 @@ import Footer from "@/components/Footer";
 import { getAllPosts } from "@/lib/blog";
 import { PAGE_SEO, SITE_CONFIG } from "@/lib/seo";
 
+const seo = PAGE_SEO.blog;
+
 export const metadata: Metadata = {
-  title: PAGE_SEO.blog.title,
-  description: PAGE_SEO.blog.description,
-  keywords: PAGE_SEO.blog.keywords,
+  title: seo.title,
+  description: seo.description,
+  keywords: seo.keywords,
+  authors: [{ name: "Truzot" }],
+  creator: "Truzot",
   alternates: { canonical: `${SITE_CONFIG.url}/blog` },
   openGraph: {
-    title: PAGE_SEO.blog.title,
-    description: PAGE_SEO.blog.description,
+    title: seo.ogTitle || seo.title,
+    description: seo.ogDescription || seo.description,
     url: `${SITE_CONFIG.url}/blog`,
+    siteName: "Truzot",
+    images: [{ url: SITE_CONFIG.ogImage, width: 1200, height: 630 }],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: seo.ogTitle || seo.title,
+    description: seo.ogDescription || seo.description,
+    images: [SITE_CONFIG.ogImage],
   },
 };
 
@@ -22,12 +36,13 @@ export default function BlogPage() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       <Nav />
-      <div className="max-w-3xl mx-auto px-6 py-16">
+      <div id="main-content" className="max-w-3xl mx-auto px-6 py-16">
         <h1 className="text-4xl font-bold mb-2 text-slate-900 dark:text-white">
-          The Truzot Blog
+          AI Headshots Blog
         </h1>
         <p className="text-lg text-slate-500 dark:text-slate-400 mb-10 font-light">
-          Tips, tricks, and insights on professional branding and AI technology.
+          Expert tips, comprehensive guides, and insights about professional AI
+          headshots, LinkedIn optimization, and personal branding.
         </p>
         <div className="flex flex-col gap-6">
           {posts.map((post) => (

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import { FAQSchema } from "@/components/JsonLd";
+import { FAQSchema, SpeakableSchema } from "@/components/JsonLd";
 
 const faqs = {
   individual: [
@@ -55,6 +55,7 @@ export default function FAQPage() {
       <FAQSchema
         questions={allFaqs.map((f) => ({ question: f.q, answer: f.a }))}
       />
+      <SpeakableSchema cssSelector={["h1", "h2", ".faq-question"]} />
       <Nav />
       <div className="max-w-3xl mx-auto px-6 py-16">
         <h1 className="text-4xl font-bold mb-10 text-slate-900 dark:text-white">
@@ -74,7 +75,7 @@ export default function FAQPage() {
                 >
                   <button
                     onClick={() => toggle(key)}
-                    className="w-full text-left py-4 font-semibold text-slate-800 dark:text-slate-200 hover:text-blue-600 transition flex justify-between items-center gap-4"
+                    className="faq-question w-full text-left py-4 font-semibold text-slate-800 dark:text-slate-200 hover:text-blue-600 transition flex justify-between items-center gap-4"
                   >
                     <span>{faq.q}</span>
                     <span

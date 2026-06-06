@@ -13,7 +13,7 @@ export const SITE_CONFIG = {
 export interface PageSEO {
   title: string;
   description: string;
-  keywords?: string;
+  keywords?: string[];
   canonical?: string;
   ogTitle?: string;
   ogDescription?: string;
@@ -21,77 +21,186 @@ export interface PageSEO {
   noindex?: boolean;
 }
 
+const H_KEYWORDS = [
+  "AI headshots",
+  "professional headshots",
+  "LinkedIn headshots",
+  "corporate headshots",
+  "AI photo generator",
+  "headshot generator",
+  "professional portrait AI",
+  "business headshots online",
+  "AI portrait generator",
+  "headshots near me",
+  "online headshot maker",
+  "AI photography",
+  "professional profile picture",
+  "team headshots",
+  "executive headshots",
+  "headshot photographer alternative",
+  "AI headshot app",
+  "best AI headshot generator",
+  "headshots for LinkedIn profile",
+  "professional photo AI",
+];
+
 export const PAGE_SEO: Record<string, PageSEO> = {
   home: {
-    title: "Truzot AI Headshots — Professional Headshots in Minutes",
+    title:
+      "Truzot AI Headshots — Professional Headshots in Minutes | AI Headshot Generator",
     description:
-      "Generate AI-powered professional headshots from your photos. No studio, no photographer. Get LinkedIn-ready corporate headshots in under an hour. Trusted by 10,000+ professionals.",
-    keywords:
-      "AI headshots, professional headshots, LinkedIn headshots, corporate headshots, AI photo generator, headshot generator",
+      "Generate AI-powered professional headshots from your photos. No studio, no photographer needed. Get LinkedIn-ready corporate, executive, and business headshots in under 10 minutes. Trusted by 10,000+ professionals. Starting at $29.",
+    keywords: H_KEYWORDS,
+    canonical: siteUrl,
+    ogTitle: "Truzot AI Headshots — Professional AI Headshot Generator Online",
+    ogDescription:
+      "Get studio-quality professional headshots from your phone photos. AI-powered. 10-minute delivery. 100% satisfaction guaranteed.",
   },
   upload: {
-    title: "Upload Photos — Truzot AI Headshots",
+    title:
+      "Create AI Professional Headshots Online — Truzot Headshot Generator",
     description:
-      "Upload your selfies and get AI-generated professional headshots. Choose your style, clothing, and background. Starting at $29.",
-    keywords:
-      "upload photos for AI headshots, AI headshot generator, professional headshots online",
+      "Upload your selfies and get AI-generated professional headshots for LinkedIn, resumes, and company pages. Choose from 6 style categories including corporate, casual, and creative. Starting at $29. No subscription required.",
+    keywords: [
+      ...H_KEYWORDS,
+      "upload photos for AI headshots",
+      "AI headshot generator online",
+      "make professional headshot online",
+      "create LinkedIn photo",
+      "AI headshot creator",
+    ],
+    canonical: `${siteUrl}/upload`,
+    ogTitle:
+      "Create AI Headshots Online — Upload Your Photos, Get Professional Results",
+    ogDescription:
+      "Upload 1-5 selfies and get 40-200 professional AI headshots delivered in minutes. Corporate, LinkedIn, creative styles available.",
   },
   faq: {
-    title: "FAQ — Truzot AI Headshots",
+    title:
+      "AI Headshots FAQ — Everything About Professional AI Headshots | Truzot",
     description:
-      "Frequently asked questions about AI headshot generation. Learn how Truzot works, turnaround times, privacy, and our money-back guarantee.",
-    keywords:
-      "AI headshots FAQ, how do AI headshots work, headshot generator questions",
+      "Frequently asked questions about AI headshot generation. Learn how AI headshots work, turnaround times, privacy and security, pricing, team plans, and our 100% money-back guarantee.",
+    keywords: [
+      "AI headshots FAQ",
+      "how do AI headshots work",
+      "are AI headshots good for LinkedIn",
+      "professional headshot questions",
+      "AI headshot generator how it works",
+      "headshot privacy",
+      "AI headshots safe",
+    ],
+    canonical: `${siteUrl}/faq`,
+    ogTitle: "AI Headshots FAQ — All Your Questions Answered",
+    ogDescription:
+      "Learn everything about AI professional headshots: how they work, turnaround times, pricing, privacy, and our satisfaction guarantee.",
   },
   contact: {
-    title: "Contact Us — Truzot AI Headshots",
+    title: "Contact Truzot — AI Headshot Support & Inquiries",
     description:
-      "Get in touch with the Truzot team. Contact us for support, partnership inquiries, or any questions about AI professional headshots.",
-    keywords: "contact Truzot, AI headshot support, headshot generator help",
+      "Get in touch with the Truzot team. Contact us for support, partnership inquiries, team pricing, or any questions about AI professional headshot generation. We respond within 24 hours.",
+    keywords: [
+      "contact Truzot",
+      "AI headshot support",
+      "AI headshot help",
+      "professional headshot inquiries",
+      "Truzot customer service",
+    ],
+    canonical: `${siteUrl}/contact`,
+    ogTitle: "Contact Truzot AI Headshots — We're Here to Help",
   },
   blog: {
-    title: "Blog — Truzot AI Headshots",
+    title: "AI Headshots Blog — Tips, Guides & Professional Branding | Truzot",
     description:
-      "Tips, guides, and insights about AI headshots, professional photography, LinkedIn optimization, and personal branding.",
-    keywords:
-      "AI headshots blog, professional headshot tips, LinkedIn photo guide",
+      "Expert tips, comprehensive guides, and insights about AI headshots, professional photography alternatives, LinkedIn profile optimization, personal branding, and career advancement.",
+    keywords: [
+      "AI headshots blog",
+      "professional headshot tips",
+      "LinkedIn photo guide",
+      "personal branding tips",
+      "AI photography guide",
+      "professional portrait tips",
+      "career branding",
+    ],
+    canonical: `${siteUrl}/blog`,
   },
   team: {
-    title: "Team Plans — Truzot AI Headshots",
+    title:
+      "Team AI Headshots — Consistent Corporate Headshots for Teams | Truzot",
     description:
-      "Get consistent, professional AI headshots for your entire team. Bulk pricing for companies, startups, and organizations.",
-    keywords:
-      "team headshots, corporate headshots bulk, AI headshots for teams",
+      "Get consistent, professional AI headshots for your entire team or organization. Bulk pricing for companies, startups, and remote teams. Perfect for company pages, LinkedIn, and internal directories.",
+    keywords: [
+      "team headshots",
+      "corporate headshots bulk",
+      "AI headshots for teams",
+      "company headshots",
+      "employee headshots",
+      "business headshots package",
+      "startup team photos",
+    ],
+    canonical: `${siteUrl}/team`,
+    ogTitle:
+      "Team AI Headshots — Consistent Professional Headshots for Your Organization",
+    ogDescription:
+      "Get studio-quality headshots for your entire team. Bulk pricing available. Perfect for company websites and LinkedIn.",
   },
   free: {
-    title: "Free AI Headshot Generator — Truzot",
+    title:
+      "Free AI Headshot Generator — Try Professional Headshots Free | Truzot",
     description:
-      "Try our AI headshot generator for free. Generate a professional headshot from your photo at no cost. Upgrade for full access.",
-    keywords:
-      "free AI headshot generator, free professional headshot, try AI headshots",
+      "Try our AI headshot generator for free. Generate a professional headshot from your photo at no cost. See the quality before you buy. Upgrade to unlock all styles and HD downloads.",
+    keywords: [
+      "free AI headshot generator",
+      "free professional headshot",
+      "try AI headshots free",
+      "free headshot maker",
+      "AI headshot trial",
+      "free LinkedIn photo generator",
+    ],
+    canonical: `${siteUrl}/free`,
+    ogTitle: "Free AI Headshot Generator — Try Before You Buy",
+    ogDescription:
+      "Generate a professional AI headshot for free. See the quality yourself before choosing a plan.",
   },
   about: {
-    title: "About Us — Truzot AI Headshots",
+    title: "About Truzot — AI Headshot Platform for Professionals",
     description:
-      "Learn about Truzot, the AI-powered headshot platform helping professionals get studio-quality photos from home.",
+      "Learn about Truzot, the AI-powered headshot platform helping thousands of professionals get studio-quality photos from home. Our mission, team, and technology.",
+    keywords: [
+      "about Truzot",
+      "AI headshot company",
+      "professional headshot platform",
+      "AI photography startup",
+      "Truzot team",
+    ],
+    canonical: `${siteUrl}/about`,
+    ogTitle: "About Truzot — AI-Powered Professional Headshots",
   },
   pricing: {
-    title: "Pricing — Truzot AI Headshots",
+    title: "AI Headshot Pricing — Professional Headshots from $29 | Truzot",
     description:
-      "Choose the perfect AI headshot plan. Basic ($29), Pro ($39), or Executive ($59). 100% money-back guarantee.",
-    keywords:
-      "AI headshot pricing, professional headshot cost, headshot generator plans",
+      "Choose the perfect AI headshot plan for your needs. Basic ($29) — 40 HD headshots. Pro ($39) — 100 premium headshots. Executive ($59) — 200 ultra HD headshots. 100% money-back guarantee.",
+    keywords: [
+      "AI headshot pricing",
+      "professional headshot cost",
+      "headshot generator plans",
+      "best value headshots",
+      "affordable professional headshots",
+      "headshot prices",
+    ],
+    ogTitle: "AI Headshot Pricing — Starting at $29, One-Time Payment",
+    ogDescription:
+      "Basic ($29), Pro ($39), or Executive ($59). One-time payment, no subscription. 100% money-back guarantee.",
   },
   login: {
-    title: "Sign In — Truzot AI Headshots",
+    title: "Sign In — Truzot AI Headshots Dashboard",
     description:
-      "Sign in to your Truzot account to access your AI headshots and dashboard.",
+      "Sign in to your Truzot account to access your AI headshots, order history, and dashboard.",
     noindex: true,
   },
   privacy: {
     title: "Privacy Policy — Truzot AI Headshots",
     description:
-      "How Truzot collects, processes, stores, and protects your personal data and uploaded photos.",
+      "How Truzot collects, processes, stores, and protects your personal data and uploaded photos. GDPR and CCPA compliant.",
     noindex: true,
   },
   terms: {
@@ -103,7 +212,7 @@ export const PAGE_SEO: Record<string, PageSEO> = {
   refund: {
     title: "Refund Policy — Truzot AI Headshots",
     description:
-      "Truzot's 100% satisfaction guarantee and refund policy for AI headshot orders.",
+      "Truzot's 100% satisfaction guarantee and refund policy for AI headshot orders. Full refund within 14 days if not satisfied.",
     noindex: true,
   },
 };

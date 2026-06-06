@@ -20,7 +20,11 @@ import {
 import { useState } from "react";
 import ComparisonSlider from "@/components/ComparisonSlider";
 import { PLANS, HEADSHOT_CATEGORIES } from "@/lib/plans";
-import { ProductSchema } from "@/components/JsonLd";
+import {
+  ProductSchema,
+  SpeakableSchema,
+  BreadcrumbSchema,
+} from "@/components/JsonLd";
 
 const USE_CASES = [
   { icon: <Linkedin className="w-5 h-5" />, name: "LinkedIn" },
@@ -86,6 +90,8 @@ export default function LandingPageContent() {
   return (
     <>
       <ProductSchema />
+      <SpeakableSchema />
+      <BreadcrumbSchema items={[{ name: "Home", url: "/" }]} />
       <div
         id="main-content"
         className="min-h-screen bg-white text-slate-900 font-sans"

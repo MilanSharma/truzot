@@ -7,7 +7,13 @@ import { getEnv } from "@/lib/env";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import { ToastProvider } from "@/components/Toast";
 import CookieConsent from "@/components/CookieConsent";
-import { OrganizationSchema, WebSiteSchema } from "@/components/JsonLd";
+import {
+  OrganizationSchema,
+  WebSiteSchema,
+  ServiceSchema,
+  HowToSchema,
+  SpeakableSchema,
+} from "@/components/JsonLd";
 import { SITE_CONFIG } from "@/lib/seo";
 
 if (typeof window === "undefined") {
@@ -92,6 +98,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       suppressHydrationWarning
     >
       <head>
+        <link rel="dns-prefetch" href="https://fal.ai" />
+        <link rel="preconnect" href="https://fal.ai" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://js.stripe.com" />
+        <link rel="preconnect" href="https://js.stripe.com" />
         <script
           dangerouslySetInnerHTML={{
             __html: `try { document.documentElement.classList.toggle('dark', localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)); } catch(e) {}`,
@@ -107,6 +119,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </a>
         <OrganizationSchema />
         <WebSiteSchema />
+        <ServiceSchema />
+        <HowToSchema />
+        <SpeakableSchema />
         <PostHogProvider>
           <ToastProvider>
             {children}
