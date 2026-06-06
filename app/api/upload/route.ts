@@ -13,19 +13,14 @@ export const POST = withContext(async (req: Request) => {
   const origin = req.headers.get("origin");
   try {
     const token = req.headers.get("Authorization")?.replace("Bearer ", "");
-    if (!token)
-      return addCors(
-        NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
-        origin,
-      );
-    const {
-      data: { user },
-    } = await supabaseAdmin.auth.getUser(token);
-    if (!user)
-      return addCors(
-        NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
-        origin,
-      );
+    let ownerId: string | null = null;
+
+    if (token) {
+      const {
+        data: { user },
+      } = await supabaseAdmin.auth.getUser(token);
+      if (user) ownerId = user.id;
+    }
 
     const body = await req.json();
     const parsed = validate(uploadActionSchema, body);
@@ -37,7 +32,8 @@ export const POST = withContext(async (req: Request) => {
     const { action, filename, path } = parsed.data!;
 
     if (action === "get-upload-url") {
-      const safeFilename = `${user.id}/dataset_${Date.now()}_${Math.random().toString(36).substring(2, 10)}.zip`;
+      const prefix = ownerId ?? crypto.randomUUID();
+      const safeFilename = `${prefix}/dataset_${Date.now()}_${Math.random().toString(36).substring(2, 10)}.zip`;
       const { data, error } = await supabaseAdmin.storage
         .from("uploads")
         .createSignedUploadUrl(safeFilename);
@@ -65,7 +61,7 @@ export const POST = withContext(async (req: Request) => {
           NextResponse.json({ error: "Missing path" }, { status: 400 }),
           origin,
         );
-      if (!path.startsWith(`${user.id}/`)) {
+      if (ownerId && !path.startsWith(`${ownerId}/`)) {
         return addCors(
           NextResponse.json(
             { error: "Forbidden. You do not own this resource." },

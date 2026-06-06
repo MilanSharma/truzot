@@ -82,8 +82,6 @@ function UploadContent() {
   const [email, setEmail] = useState("");
   const [userId, setUserId] = useState<string | null>(null);
   const [consentChecked, setConsentChecked] = useState(true);
-  const [requiresAuth, setRequiresAuth] = useState(false);
-  const [guestEmail, setGuestEmail] = useState("");
   const [error, setError] = useState("");
   const [progress, setProgress] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -236,11 +234,6 @@ function UploadContent() {
         data: { session },
       } = await supabase.auth.getSession();
       const token = session?.access_token;
-      if (!token) {
-        setIsProcessing(false);
-        setRequiresAuth(true);
-        return;
-      }
 
       setProgress("Optimizing image dataset…");
       const JSZip = (await import("jszip")).default;
@@ -256,12 +249,14 @@ function UploadContent() {
       });
 
       setProgress("Securing upload channel...");
+      const authHeaders: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      if (token) authHeaders.Authorization = `Bearer ${token}`;
+
       const uploadUrlRes = await fetch("/api/upload", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: authHeaders,
         body: JSON.stringify({
           action: "get-upload-url",
           filename: `dataset_${Date.now()}.zip`,
@@ -298,10 +293,7 @@ function UploadContent() {
       setProgress("Generating checkout session…");
       const downloadUrlRes = await fetch("/api/upload", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: authHeaders,
         body: JSON.stringify({ action: "get-download-url", path }),
       });
       if (!downloadUrlRes.ok)
@@ -312,10 +304,7 @@ function UploadContent() {
 
       const checkoutRes = await fetch("/api/checkout", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: authHeaders,
         body: JSON.stringify({
           plan,
           email,
@@ -347,202 +336,6 @@ function UploadContent() {
       setIsProcessing(false);
     }
   };
-
-  const handleGuestCheckout = async () => {
-    setError("");
-    const emailToUse = guestEmail || email;
-    if (!emailToUse || !emailToUse.includes("@")) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-    if (!consentChecked) {
-      setError(
-        "Please accept the biometric processing consent check before proceeding.",
-      );
-      return;
-    }
-
-    setIsProcessing(true);
-    setRequiresAuth(false);
-    try {
-      setProgress("Optimizing image dataset…");
-      const JSZip = (await import("jszip")).default;
-      const zip = new JSZip();
-      files.forEach((f, i) => {
-        const ext = f.name.split(".").pop() ?? "jpg";
-        zip.file(`photo_${i + 1}.${ext}`, f);
-      });
-      const zipBlob = await zip.generateAsync({
-        type: "blob",
-        compression: "DEFLATE",
-        compressionOptions: { level: 6 },
-      });
-
-      setProgress("Securing upload channel...");
-      const uploadUrlRes = await fetch("/api/upload", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "get-upload-url",
-          filename: `dataset_${Date.now()}.zip`,
-        }),
-      });
-      if (!uploadUrlRes.ok) throw new Error("Failed to get upload URL");
-      const { signedUrl, token: uploadToken, path } = await uploadUrlRes.json();
-
-      setProgress("Transferring encrypted data…");
-      await new Promise<void>((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open("PUT", signedUrl);
-        xhr.setRequestHeader("x-upsert", "true");
-        xhr.setRequestHeader("content-type", "application/zip");
-        if (uploadToken)
-          xhr.setRequestHeader("authorization", `Bearer ${uploadToken}`);
-
-        xhr.upload.onprogress = (e) => {
-          if (e.lengthComputable) {
-            setProgress(
-              `Uploading: ${Math.round((e.loaded / e.total) * 100)}%`,
-            );
-          }
-        };
-        xhr.onload = () => {
-          if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204)
-            resolve();
-          else reject(new Error("File upload failed."));
-        };
-        xhr.onerror = () => reject(new Error("Network error during upload."));
-        xhr.send(zipBlob);
-      });
-
-      setProgress("Generating checkout session…");
-      const downloadUrlRes = await fetch("/api/upload", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "get-download-url", path }),
-      });
-      if (!downloadUrlRes.ok)
-        throw new Error("Failed to secure dataset download URL");
-      const { zipUrl, storagePath } = await downloadUrlRes.json();
-
-      const idempotencyKey = crypto.randomUUID();
-
-      const checkoutRes = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          plan,
-          email: emailToUse,
-          zipUrl,
-          storagePath,
-          gender,
-          eyeColor,
-          hairColor,
-          clothing,
-          background,
-          framing,
-          selectedStyles,
-          idempotencyKey,
-        }),
-      });
-      if (!checkoutRes.ok) {
-        const errBody = await checkoutRes.json().catch(() => null);
-        throw new Error(
-          errBody?.error || `Checkout failed (${checkoutRes.status})`,
-        );
-      }
-      const { url } = await checkoutRes.json();
-
-      window.location.href = url;
-    } catch (err: any) {
-      console.error("Guest checkout error:", err);
-      setError(err.message ?? "Something went wrong. Please try again.");
-      setIsProcessing(false);
-    }
-  };
-
-  if (requiresAuth && step === 3) {
-    return (
-      <div className="min-h-screen bg-slate-50 font-sans text-slate-900 flex items-center justify-center p-6">
-        <Nav />
-        <div className="max-w-md w-full bg-white rounded-2xl border border-slate-200 p-8 shadow-lg mt-20">
-          <div className="text-center mb-6">
-            <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Lock className="w-8 h-8 text-blue-600" />
-            </div>
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">
-              Complete Your Order
-            </h2>
-            <p className="text-slate-600">
-              Create an account or sign in to complete your purchase and access
-              your headshots.
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            <button
-              onClick={() => {
-                localStorage.setItem("redirect_after_login", "/upload?step=3");
-                window.location.href = "/login";
-              }}
-              className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition"
-            >
-              Sign In
-            </button>
-
-            <button
-              onClick={() => {
-                localStorage.setItem("redirect_after_login", "/upload?step=3");
-                window.location.href = "/login?signup=true";
-              }}
-              className="w-full bg-white text-blue-600 border-2 border-blue-600 py-3 rounded-xl font-bold hover:bg-blue-50 transition"
-            >
-              Create Account
-            </button>
-
-            <div className="relative my-6">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-200"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white text-slate-500">or</span>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Continue as Guest
-              </label>
-              <input
-                type="email"
-                value={guestEmail}
-                onChange={(e) => setGuestEmail(e.target.value)}
-                placeholder="your@email.com"
-                className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none transition mb-3"
-              />
-              <button
-                onClick={handleGuestCheckout}
-                disabled={isProcessing}
-                className="w-full bg-slate-900 text-white py-3 rounded-xl font-bold hover:bg-slate-800 transition disabled:opacity-50"
-              >
-                {isProcessing ? "Processing…" : "Continue to Payment"}
-              </button>
-              <p className="text-xs text-slate-500 mt-2 text-center">
-                You can create an account after payment to access your headshots
-              </p>
-            </div>
-
-            <button
-              onClick={() => setRequiresAuth(false)}
-              className="w-full text-slate-500 py-2 text-sm hover:text-slate-700 transition"
-            >
-              Go Back
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20">

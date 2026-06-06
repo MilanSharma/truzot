@@ -15,6 +15,7 @@ function ClaimOrderForm() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isSignIn, setIsSignIn] = useState(false);
 
   const claimOrder = useCallback(
     async (userId: string) => {
@@ -34,14 +35,35 @@ function ClaimOrderForm() {
   );
 
   useEffect(() => {
-    // Check if user is already logged in
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session && orderId) {
-        // Claim the order to the logged-in user
         claimOrder(session.user.id);
       }
     });
   }, [orderId, claimOrder]);
+
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      const { data, error: signInError } =
+        await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+      if (signInError) throw signInError;
+      if (!data.user) throw new Error("Failed to sign in");
+
+      await claimOrder(data.user.id);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleCreateAccount = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +71,6 @@ function ClaimOrderForm() {
     setError("");
 
     try {
-      // Create account
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
@@ -58,7 +79,6 @@ function ClaimOrderForm() {
       if (authError) throw authError;
       if (!authData.user) throw new Error("Failed to create account");
 
-      // Claim the order
       await claimOrder(authData.user.id);
     } catch (err: any) {
       setError(err.message);
@@ -92,7 +112,9 @@ function ClaimOrderForm() {
               Payment Successful!
             </h1>
             <p className="text-slate-600">
-              Create an account to access your headshots and track your order.
+              {isSignIn
+                ? "Sign in to access your headshots and track your order."
+                : "Create an account to access your headshots and track your order."}
             </p>
           </div>
 
@@ -102,7 +124,10 @@ function ClaimOrderForm() {
             </div>
           )}
 
-          <form onSubmit={handleCreateAccount} className="space-y-4">
+          <form
+            onSubmit={isSignIn ? handleSignIn : handleCreateAccount}
+            className="space-y-4"
+          >
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">
                 Email
@@ -134,20 +159,32 @@ function ClaimOrderForm() {
               className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition disabled:opacity-50"
             >
               {loading
-                ? "Creating Account..."
-                : "Create Account & View Headshots"}
+                ? "Please wait..."
+                : isSignIn
+                  ? "Sign In & View Headshots"
+                  : "Create Account & View Headshots"}
             </button>
           </form>
 
-          <div className="mt-6 text-center">
+          <div className="mt-6 text-center space-y-3">
             <button
-              onClick={() =>
-                orderId && router.push(`/dashboard?order=${orderId}`)
-              }
-              className="text-slate-500 text-sm hover:text-slate-700 underline"
+              onClick={() => setIsSignIn(!isSignIn)}
+              className="text-blue-600 text-sm hover:text-blue-700 font-medium"
             >
-              Skip for now - View order as guest
+              {isSignIn
+                ? "Don't have an account? Create one"
+                : "Already have an account? Sign in"}
             </button>
+            <div>
+              <button
+                onClick={() =>
+                  orderId && router.push(`/dashboard?order=${orderId}`)
+                }
+                className="text-slate-500 text-sm hover:text-slate-700 underline"
+              >
+                Skip for now - View order as guest
+              </button>
+            </div>
           </div>
         </div>
       </div>
