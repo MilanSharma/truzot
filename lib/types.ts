@@ -15,6 +15,16 @@ export interface Headshot {
   created_at?: string;
 }
 
+export interface Training {
+  id: string;
+  order_id: string;
+  status: string;
+  model_id?: string;
+  error?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
 export interface Order {
   id: string;
   plan: string;
