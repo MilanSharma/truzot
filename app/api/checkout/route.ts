@@ -105,32 +105,41 @@ export const POST = withContext(async (req: Request) => {
         origin,
       );
 
+    const orderId = order.id;
+
     const url = new URL(req.url);
     const baseUrl = `${url.protocol}//${url.host}`;
 
     const label = `${planConfig.name} — ${planConfig.shots} Headshots`;
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      mode: "payment",
-      customer_email: email,
-      line_items: [
-        {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: label,
-              description: "AI Professional Headshots",
+    let session;
+    try {
+      session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        mode: "payment",
+        customer_email: email,
+        line_items: [
+          {
+            price_data: {
+              currency: "usd",
+              product_data: {
+                name: label,
+                description: "AI Professional Headshots",
+              },
+              unit_amount: planConfig.amount,
             },
-            unit_amount: planConfig.amount,
+            quantity: 1,
           },
-          quantity: 1,
-        },
-      ],
-      metadata: { orderId: order.id, plan, email },
-      success_url: `${baseUrl}/dashboard?order=${order.id}&success=1`,
-      cancel_url: `${baseUrl}/upload?cancelled=1`,
-    });
+        ],
+        metadata: { orderId, plan, email },
+        success_url: `${baseUrl}/dashboard?order=${orderId}&success=1`,
+        cancel_url: `${baseUrl}/upload?cancelled=1`,
+      });
+    } catch (stripeErr) {
+      // Clean up the dangling order since Stripe session failed
+      await supabase.from("orders").delete().eq("id", orderId);
+      throw stripeErr;
+    }
 
     return addCors(NextResponse.json({ url: session.url }), origin);
   } catch (err) {
