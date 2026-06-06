@@ -7,7 +7,7 @@ import {
   useRef,
   useMemo,
 } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 
@@ -62,8 +62,12 @@ type Step = 1 | 2 | 3;
 
 function UploadContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const { toast } = useToast();
-  const [step, setStep] = useState<Step>(1);
+  const urlStep = parseInt(searchParams.get("step") ?? "") as Step;
+  const [step, setStep] = useState<Step>(
+    urlStep >= 1 && urlStep <= 3 ? urlStep : 1,
+  );
   const [files, setFiles] = useState<File[]>([]);
 
   // Customization Preferences
@@ -86,6 +90,86 @@ function UploadContent() {
   const [progress, setProgress] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
 
+  const SESSION_KEY = "truzot-upload";
+
+  // Sync step to URL for back/forward navigation
+  const stepRef = useRef(step);
+  useEffect(() => {
+    stepRef.current = step;
+    router.replace(`/upload?step=${step}`, { scroll: false });
+  }, [step, router]);
+
+  // Listen for browser back/forward changes to step param
+  useEffect(() => {
+    if (urlStep >= 1 && urlStep <= 3 && urlStep !== stepRef.current) {
+      setStep(urlStep);
+    }
+  }, [urlStep]);
+
+  // Restore state after returning from Stripe (browser back button)
+  const restoreKey = useRef(0);
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem(SESSION_KEY);
+      if (!saved) return;
+      const s = JSON.parse(saved);
+      restoreKey.current = Date.now();
+      // Defer state restorations to avoid cascading renders warning
+      const t = setTimeout(() => {
+        if (s.plan) setPlan(s.plan as string);
+        if (s.email) setEmail(s.email as string);
+        if (s.consentChecked !== undefined)
+          setConsentChecked(s.consentChecked as boolean);
+        if (s.gender) setGender(s.gender as string);
+        if (s.eyeColor) setEyeColor(s.eyeColor as string);
+        if (s.hairColor) setHairColor(s.hairColor as string);
+        if (s.clothing) setClothing(s.clothing as string);
+        if (s.background) setBackground(s.background as string);
+        if (s.framing) setFraming(s.framing as string);
+        if (s.selectedStyles) setSelectedStyles(s.selectedStyles as string[]);
+        if (s.step && typeof s.step === "number" && s.step >= 1 && s.step <= 3)
+          setStep(s.step as Step);
+      }, 0);
+      return () => clearTimeout(t);
+    } catch {}
+  }, []);
+
+  // Persist state so browser back from Stripe preserves details
+  useEffect(() => {
+    if (step === 1 && files.length === 0) return;
+    try {
+      sessionStorage.setItem(
+        SESSION_KEY,
+        JSON.stringify({
+          step,
+          plan,
+          email,
+          consentChecked,
+          gender,
+          eyeColor,
+          hairColor,
+          clothing,
+          background,
+          framing,
+          selectedStyles,
+        }),
+      );
+    } catch {}
+  }, [
+    step,
+    plan,
+    email,
+    consentChecked,
+    gender,
+    eyeColor,
+    hairColor,
+    clothing,
+    background,
+    framing,
+    selectedStyles,
+    files,
+  ]);
+
   useEffect(() => {
     const loadUser = async () => {
       const {
@@ -93,7 +177,7 @@ function UploadContent() {
       } = await supabase.auth.getSession();
       if (session?.user) {
         setUserId(session.user.id);
-        setEmail(session.user.email ?? "");
+        if (!email) setEmail(session.user.email ?? "");
       }
     };
     loadUser();
@@ -353,6 +437,13 @@ function UploadContent() {
       return;
     }
 
+    if (files.length === 0) {
+      setError("Please upload at least one photo first.");
+      setStep(1);
+      setIsProcessing(false);
+      return;
+    }
+
     setIsProcessing(true);
     try {
       const {
@@ -456,6 +547,22 @@ function UploadContent() {
       }
       const { url } = await checkoutRes.json();
 
+      sessionStorage.setItem(
+        SESSION_KEY,
+        JSON.stringify({
+          step,
+          plan,
+          email,
+          consentChecked,
+          gender,
+          eyeColor,
+          hairColor,
+          clothing,
+          background,
+          framing,
+          selectedStyles,
+        }),
+      );
       window.location.href = url;
     } catch (err: any) {
       console.error("Upload error:", err);
@@ -981,12 +1088,21 @@ function UploadContent() {
               </div>
             </div>
 
-            <div className="mt-8">
+            <div className="mt-8 flex items-center justify-between">
               <button
                 onClick={() => setStep(2)}
                 className="text-slate-500 dark:text-slate-400 font-bold flex items-center gap-2 hover:text-slate-800 dark:hover:text-slate-200"
               >
                 <ChevronLeft className="w-5 h-5" /> Back to Details
+              </button>
+              <button
+                onClick={() => {
+                  sessionStorage.removeItem(SESSION_KEY);
+                  window.location.reload();
+                }}
+                className="text-xs text-slate-400 hover:text-slate-600 underline"
+              >
+                Start Over
               </button>
             </div>
           </div>
