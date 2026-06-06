@@ -280,7 +280,9 @@ function DashboardContent() {
           setHeadshots([]);
           setHeadshotPage(0);
           setHasMoreHeadshots(true);
-          await fetchHeadshots(orderId, 0);
+          if (order.status !== "pending") {
+            await fetchHeadshots(orderId, 0);
+          }
           if (["training", "generating"].includes(order.status)) {
             const channel = subscribeToOrder(orderId);
             subsRef.current = channel;
