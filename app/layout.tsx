@@ -8,6 +8,7 @@ import { getEnv } from "@/lib/env";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import { ToastProvider } from "@/components/Toast";
 import CookieConsent from "@/components/CookieConsent";
+import AuthSync from "@/components/AuthSync";
 import {
   OrganizationSchema,
   WebSiteSchema,
@@ -141,6 +142,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         )}
         <PostHogProvider>
           <ToastProvider>
+            <AuthSync />
             {children}
             <Analytics />
             <CookieConsent />
