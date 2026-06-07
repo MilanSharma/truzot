@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 
 interface ComparisonSliderProps {
   before: string;
@@ -16,6 +16,7 @@ export default function ComparisonSlider({
 }: ComparisonSliderProps) {
   const [sliderPos, setSliderPos] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
 
   const handleMove = useCallback((clientX: number) => {
     const rect = containerRef.current?.getBoundingClientRect();
@@ -24,34 +25,41 @@ export default function ComparisonSlider({
     setSliderPos((x / rect.width) * 100);
   }, []);
 
-  const onMouseDown = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const onMove = (ev: MouseEvent) => handleMove(ev.clientX);
-    const onUp = () => {
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
+  useEffect(() => {
+    const onMove = (ev: MouseEvent) => {
+      if (isDragging.current) handleMove(ev.clientX);
     };
+    const onTouchMove = (ev: TouchEvent) => {
+      if (isDragging.current) handleMove(ev.touches[0].clientX);
+    };
+    const onUp = () => {
+      isDragging.current = false;
+    };
+
     document.addEventListener("mousemove", onMove);
     document.addEventListener("mouseup", onUp);
-  };
+    document.addEventListener("touchmove", onTouchMove);
+    document.addEventListener("touchend", onUp);
 
-  const onTouchStart = (e: React.TouchEvent) => {
-    const onMove = (ev: TouchEvent) => handleMove(ev.touches[0].clientX);
-    const onEnd = () => {
-      document.removeEventListener("touchmove", onMove);
-      document.removeEventListener("touchend", onEnd);
+    return () => {
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseup", onUp);
+      document.removeEventListener("touchmove", onTouchMove);
+      document.removeEventListener("touchend", onUp);
     };
-    document.addEventListener("touchmove", onMove);
-    document.addEventListener("touchend", onEnd);
-  };
+  }, [handleMove]);
 
   return (
     <div className="w-full max-w-lg mx-auto">
       <div
         ref={containerRef}
         className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden select-none cursor-ew-resize bg-slate-200"
-        onMouseDown={onMouseDown}
-        onTouchStart={onTouchStart}
+        onMouseDown={() => {
+          isDragging.current = true;
+        }}
+        onTouchStart={() => {
+          isDragging.current = true;
+        }}
       >
         <img
           src={after}

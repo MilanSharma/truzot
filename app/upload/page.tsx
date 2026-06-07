@@ -146,6 +146,7 @@ function UploadContent() {
   const [shootName, setShootName] = useState(
     () => (getSavedState()?.shootName as string) || "",
   );
+  const [idempotencyKey] = useState(() => crypto.randomUUID());
   const [error, setError] = useState("");
   const [progress, setProgress] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -555,7 +556,6 @@ function UploadContent() {
       };
       if (token) authHeaders.Authorization = `Bearer ${token}`;
 
-      const idempotencyKey = crypto.randomUUID();
       const checkoutPayload: Record<string, unknown> = {
         plan,
         email,

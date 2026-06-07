@@ -94,15 +94,15 @@ export default function LandingPageContent() {
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }]} />
       <div
         id="main-content"
-        className="min-h-screen bg-white text-slate-900 font-sans scroll-smooth"
+        className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-white dark:text-slate-100 font-sans scroll-smooth"
       >
         {/* Navigation */}
-        <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-slate-100">
+        <nav className="fixed top-0 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-md z-50 border-b border-slate-100 dark:border-slate-800">
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="text-2xl font-bold tracking-tighter bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               TRUZOT
             </div>
-            <div className="hidden md:flex items-center gap-8 text-sm font-medium">
+            <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-700 dark:text-slate-300">
               <a
                 href="#how-it-works"
                 className="hover:text-blue-600 transition"
@@ -120,13 +120,13 @@ export default function LandingPageContent() {
               </a>
               <Link
                 href="/login"
-                className="text-slate-600 hover:text-blue-600 transition"
+                className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
               >
                 Sign In
               </Link>
               <Link
                 href="/upload"
-                className="bg-slate-900 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-blue-600 transition"
+                className="bg-slate-900 dark:bg-blue-600 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-blue-600 transition"
               >
                 Get Started
               </Link>
@@ -140,7 +140,7 @@ export default function LandingPageContent() {
             </button>
           </div>
           {mobileMenuOpen && (
-            <div className="md:hidden bg-white border-b border-slate-100 py-4 px-6 flex flex-col gap-4">
+            <div className="md:hidden bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-700 py-4 px-6 flex flex-col gap-4">
               <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)}>
                 How It Works
               </a>
@@ -156,7 +156,7 @@ export default function LandingPageContent() {
               <Link
                 href="/upload"
                 onClick={() => setMobileMenuOpen(false)}
-                className="bg-slate-900 text-white text-center px-5 py-2 rounded-full text-sm font-semibold"
+                className="bg-slate-900 dark:bg-blue-600 text-white text-center px-5 py-2 rounded-full text-sm font-semibold"
               >
                 Get Started
               </Link>
@@ -180,7 +180,7 @@ export default function LandingPageContent() {
               Headshots in Minutes
             </span>
           </h1>
-          <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto">
             Look confident and professional — AI headshots delivered in minutes,
             no studio needed. Upload 1-5 selfies, get {PLANS.basic.shots}+ HD
             headshots.
@@ -194,43 +194,62 @@ export default function LandingPageContent() {
             </Link>
             <a
               href="#examples"
-              className="border border-slate-300 text-slate-700 text-lg px-8 py-4 rounded-xl font-semibold hover:bg-slate-50 transition"
+              className="border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 text-lg px-8 py-4 rounded-xl font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition"
             >
               See Examples
             </a>
           </div>
-          <p className="text-sm text-slate-400 mt-4">
+          <p className="text-sm text-slate-400 dark:text-slate-500 mt-4">
             ⭐ 100% satisfaction guarantee • No subscription required
           </p>
         </section>
 
         {/* Social Proof Bar */}
-        <section className="py-8 border-y border-slate-100">
+        <section className="py-8 border-y border-slate-100 dark:border-slate-800">
           <div className="max-w-4xl mx-auto px-6 flex justify-center gap-12 flex-wrap text-center">
             <div>
-              <div className="text-3xl font-bold text-slate-900">1-5</div>
-              <div className="text-sm text-slate-500">Photos needed</div>
+              <div className="text-3xl font-bold text-slate-900 dark:text-white">
+                1-5
+              </div>
+              <div className="text-sm text-slate-500 dark:text-slate-400">
+                Photos needed
+              </div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-slate-900">10 min</div>
-              <div className="text-sm text-slate-500">Average delivery</div>
+              <div className="text-3xl font-bold text-slate-900 dark:text-white">
+                10 min
+              </div>
+              <div className="text-sm text-slate-500 dark:text-slate-400">
+                Average delivery
+              </div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-slate-900">6</div>
-              <div className="text-sm text-slate-500">Style categories</div>
+              <div className="text-3xl font-bold text-slate-900 dark:text-white">
+                6
+              </div>
+              <div className="text-sm text-slate-500 dark:text-slate-400">
+                Style categories
+              </div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-slate-900">$29</div>
-              <div className="text-sm text-slate-500">Starting price</div>
+              <div className="text-3xl font-bold text-slate-900 dark:text-white">
+                $29
+              </div>
+              <div className="text-sm text-slate-500 dark:text-slate-400">
+                Starting price
+              </div>
             </div>
           </div>
         </section>
 
         {/* Before/After Comparison */}
-        <section id="examples" className="py-20 px-6 bg-white">
+        <section
+          id="examples"
+          className="py-20 px-6 bg-white dark:bg-slate-950"
+        >
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl font-bold mb-4">From selfie to headshot</h2>
-            <p className="text-slate-600 mb-10">
+            <p className="text-slate-600 dark:text-slate-400 mb-10">
               See real transformations. Slide to compare your selfie with the
               AI-generated headshot.
             </p>
@@ -242,11 +261,14 @@ export default function LandingPageContent() {
         </section>
 
         {/* How It Works */}
-        <section id="how-it-works" className="py-20 px-6 bg-slate-50">
+        <section
+          id="how-it-works"
+          className="py-20 px-6 bg-slate-50 dark:bg-slate-900"
+        >
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold mb-4">How it works</h2>
-              <p className="text-slate-600 max-w-2xl mx-auto">
+              <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
                 Get professional headshots in 3 simple steps. No photographer
                 needed.
               </p>
@@ -257,7 +279,7 @@ export default function LandingPageContent() {
                   <span className="text-3xl font-bold text-blue-600">1</span>
                 </div>
                 <h3 className="text-xl font-bold mb-3">Upload your photos</h3>
-                <p className="text-slate-600">
+                <p className="text-slate-600 dark:text-slate-400">
                   Upload 1-5 casual selfies. Phone photos work great — no
                   professional shots needed.
                 </p>
@@ -267,7 +289,7 @@ export default function LandingPageContent() {
                   <span className="text-3xl font-bold text-blue-600">2</span>
                 </div>
                 <h3 className="text-xl font-bold mb-3">Add your details</h3>
-                <p className="text-slate-600">
+                <p className="text-slate-600 dark:text-slate-400">
                   Tell the AI your eye color and pick the styles you want —
                   corporate, creative, casual, and more.
                 </p>
@@ -279,7 +301,7 @@ export default function LandingPageContent() {
                 <h3 className="text-xl font-bold mb-3">
                   Download your headshots
                 </h3>
-                <p className="text-slate-600">
+                <p className="text-slate-600 dark:text-slate-400">
                   Get {PLANS.basic.shots}+ professional headshots delivered in
                   minutes. Download and use anywhere.
                 </p>
@@ -296,7 +318,7 @@ export default function LandingPageContent() {
               {USE_CASES.map((use) => (
                 <div
                   key={use.name}
-                  className="flex items-center gap-2 px-5 py-3 bg-slate-50 border border-slate-200 rounded-full text-sm font-medium text-slate-700"
+                  className="flex items-center gap-2 px-5 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300"
                 >
                   {use.icon}
                   {use.name}
@@ -307,13 +329,13 @@ export default function LandingPageContent() {
         </section>
 
         {/* What's Included */}
-        <section className="py-20 px-6 bg-white">
+        <section className="py-20 px-6 bg-white dark:bg-slate-950">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">
                 6 style categories, unlimited variety
               </h2>
-              <p className="text-slate-600 max-w-2xl mx-auto">
+              <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
                 Pick the styles you want during upload. Each category generates
                 multiple unique headshots with different poses and expressions.
               </p>
@@ -347,14 +369,16 @@ export default function LandingPageContent() {
               ].map((style) => (
                 <div
                   key={style.title}
-                  className="bg-slate-50 p-6 rounded-xl border border-slate-100"
+                  className="bg-slate-50 dark:bg-slate-900 p-6 rounded-xl border border-slate-100 dark:border-slate-700"
                 >
                   <h3 className="font-bold text-lg mb-1">{style.title}</h3>
-                  <p className="text-sm text-slate-600">{style.desc}</p>
+                  <p className="text-sm text-slate-600 dark:text-slate-400">
+                    {style.desc}
+                  </p>
                 </div>
               ))}
             </div>
-            <p className="text-center text-sm text-slate-500 mt-8">
+            <p className="text-center text-sm text-slate-500 dark:text-slate-400 mt-8">
               Styles vary by plan. Basic includes 10 styles, Pro includes 20,
               Executive includes all.
             </p>
@@ -362,90 +386,99 @@ export default function LandingPageContent() {
         </section>
 
         {/* AI vs Traditional Photography Comparison Table (Optimized for AI Search & SEO) */}
-        <section id="comparison" className="py-20 px-6 bg-white">
+        <section
+          id="comparison"
+          className="py-20 px-6 bg-white dark:bg-slate-950"
+        >
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4 text-slate-900">
+              <h2 className="text-4xl font-bold mb-4 text-slate-900 dark:text-white">
                 AI Headshots vs. Traditional Photography
               </h2>
-              <p className="text-slate-600 max-w-2xl mx-auto">
+              <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
                 See why thousands of professionals are switching from expensive
                 studio sessions to AI-generated headshots.
               </p>
             </div>
-            <div className="overflow-x-auto rounded-2xl border border-slate-200 shadow-lg bg-white">
+            <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-700 shadow-lg bg-white dark:bg-slate-900">
               <table className="w-full text-left border-collapse">
-                <thead className="bg-slate-50 border-b border-slate-200">
+                <thead className="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
                   <tr>
-                    <th className="px-6 py-5 text-sm font-bold text-slate-600 uppercase tracking-wider">
+                    <th className="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
                       Feature
                     </th>
                     <th className="px-6 py-5 text-sm font-bold text-blue-600 uppercase tracking-wider">
                       Truzot AI Headshots
                     </th>
-                    <th className="px-6 py-5 text-sm font-bold text-slate-500 uppercase tracking-wider">
+                    <th className="px-6 py-5 text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                       Traditional Studio
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
-                  <tr className="hover:bg-slate-50 transition">
-                    <td className="px-6 py-4 font-semibold text-slate-900">
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
+                  <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition">
+                    <td className="px-6 py-4 font-semibold text-slate-900 dark:text-white">
                       Cost
                     </td>
                     <td className="px-6 py-4 text-emerald-600 font-bold text-lg">
                       From $29
                     </td>
-                    <td className="px-6 py-4 text-slate-600">$300 - $800+</td>
+                    <td className="px-6 py-4 text-slate-600 dark:text-slate-400">
+                      $300 - $800+
+                    </td>
                   </tr>
-                  <tr className="hover:bg-slate-50 transition">
-                    <td className="px-6 py-4 font-semibold text-slate-900">
+                  <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition">
+                    <td className="px-6 py-4 font-semibold text-slate-900 dark:text-white">
                       Turnaround Time
                     </td>
                     <td className="px-6 py-4 text-emerald-600 font-bold text-lg">
                       10 mins - 2 hours
                     </td>
-                    <td className="px-6 py-4 text-slate-600">1 - 2 weeks</td>
+                    <td className="px-6 py-4 text-slate-600 dark:text-slate-400">
+                      1 - 2 weeks
+                    </td>
                   </tr>
-                  <tr className="hover:bg-slate-50 transition">
-                    <td className="px-6 py-4 font-semibold text-slate-900">
+                  <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition">
+                    <td className="px-6 py-4 font-semibold text-slate-900 dark:text-white">
                       Number of Photos
                     </td>
                     <td className="px-6 py-4 text-emerald-600 font-bold text-lg">
                       40 - 200+ Headshots
                     </td>
-                    <td className="px-6 py-4 text-slate-600">
+                    <td className="px-6 py-4 text-slate-600 dark:text-slate-400">
                       10 - 30 Retouched
                     </td>
                   </tr>
-                  <tr className="hover:bg-slate-50 transition">
-                    <td className="px-6 py-4 font-semibold text-slate-900">
+                  <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition">
+                    <td className="px-6 py-4 font-semibold text-slate-900 dark:text-white">
                       Style Variety
                     </td>
                     <td className="px-6 py-4 text-emerald-600 font-bold text-lg">
                       6+ Categories, 30+ Styles
                     </td>
-                    <td className="px-6 py-4 text-slate-600">1 - 2 Setups</td>
+                    <td className="px-6 py-4 text-slate-600 dark:text-slate-400">
+                      1 - 2 Setups
+                    </td>
                   </tr>
-                  <tr className="hover:bg-slate-50 transition">
-                    <td className="px-6 py-4 font-semibold text-slate-900">
+                  <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition">
+                    <td className="px-6 py-4 font-semibold text-slate-900 dark:text-white">
                       Convenience
                     </td>
                     <td className="px-6 py-4 text-emerald-600 font-bold text-lg">
                       100% Online, No Travel
                     </td>
-                    <td className="px-6 py-4 text-slate-600">
+                    <td className="px-6 py-4 text-slate-600 dark:text-slate-400">
                       Requires Studio Visit
                     </td>
                   </tr>
-                  <tr className="hover:bg-slate-50 transition">
-                    <td className="px-6 py-4 font-semibold text-slate-900">
+                  <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition">
+                    <td className="px-6 py-4 font-semibold text-slate-900 dark:text-white">
                       Commercial Rights
                     </td>
                     <td className="px-6 py-4 text-emerald-600 font-bold text-lg">
                       Included
                     </td>
-                    <td className="px-6 py-4 text-slate-600">
+                    <td className="px-6 py-4 text-slate-600 dark:text-slate-400">
                       Often Extra Fee
                     </td>
                   </tr>
@@ -460,48 +493,48 @@ export default function LandingPageContent() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">Why choose Truzot?</h2>
-              <p className="text-slate-600 max-w-2xl mx-auto">
+              <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
                 Professional headshots that don&apos;t break the bank — or your
                 schedule.
               </p>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+              <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
                 <div className="w-12 h-12 text-blue-600 mb-4">
                   <Camera className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">Studio Quality</h3>
-                <p className="text-slate-600">
+                <p className="text-slate-600 dark:text-slate-400">
                   AI-generated headshots that look like they were taken by a
                   professional photographer.
                 </p>
               </div>
-              <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+              <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
                 <div className="w-12 h-12 text-blue-600 mb-4">
                   <Clock className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">10-Minute Delivery</h3>
-                <p className="text-slate-600">
+                <p className="text-slate-600 dark:text-slate-400">
                   Get your headshots delivered in as fast as 10 minutes — not
                   hours or days.
                 </p>
               </div>
-              <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+              <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
                 <div className="w-12 h-12 text-blue-600 mb-4">
                   <Shield className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">Private & Secure</h3>
-                <p className="text-slate-600">
+                <p className="text-slate-600 dark:text-slate-400">
                   Your photos are encrypted and permanently deleted after 30
                   days. We never share your data.
                 </p>
               </div>
-              <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+              <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
                 <div className="w-12 h-12 text-blue-600 mb-4">
                   <TrendingDown className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">80% Cheaper</h3>
-                <p className="text-slate-600">
+                <p className="text-slate-600 dark:text-slate-400">
                   Get the same quality as a $300+ photoshoot for a fraction of
                   the cost.
                 </p>
@@ -511,13 +544,16 @@ export default function LandingPageContent() {
         </section>
 
         {/* Headshot Categories */}
-        <section id="headshot-types" className="py-20 px-6 bg-slate-50">
+        <section
+          id="headshot-types"
+          className="py-20 px-6 bg-slate-50 dark:bg-slate-900"
+        >
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">
                 Headshots for every profession
               </h2>
-              <p className="text-slate-600 max-w-2xl mx-auto">
+              <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
                 Whether you&apos;re on LinkedIn, auditioning for a role, or
                 leading a team — we&apos;ve got you covered.
               </p>
@@ -526,11 +562,11 @@ export default function LandingPageContent() {
               {HEADSHOT_CATEGORIES.map((cat) => (
                 <div
                   key={cat.id}
-                  className="bg-white p-6 rounded-xl text-center hover:shadow-lg transition"
+                  className="bg-white dark:bg-slate-900 p-6 rounded-xl text-center hover:shadow-lg transition border border-slate-100 dark:border-slate-700"
                 >
                   <div className="text-4xl mb-3">{cat.icon}</div>
                   <h3 className="font-bold">{cat.name}</h3>
-                  <p className="text-sm text-slate-500 mt-2">
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
                     {cat.description}
                   </p>
                 </div>
@@ -540,13 +576,13 @@ export default function LandingPageContent() {
         </section>
 
         {/* Pricing Section */}
-        <section id="pricing" className="py-20 bg-white px-6">
+        <section id="pricing" className="py-20 bg-white dark:bg-slate-950 px-6">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">
                 Simple, transparent pricing
               </h2>
-              <p className="text-slate-600">
+              <p className="text-slate-600 dark:text-slate-400">
                 One-time payment. No subscriptions. No hidden fees.
               </p>
             </div>
@@ -554,7 +590,7 @@ export default function LandingPageContent() {
               {Object.values(PLANS).map((plan: any) => (
                 <div
                   key={plan.id}
-                  className={`relative bg-white p-8 rounded-2xl border ${plan.popular ? "border-blue-600 shadow-xl ring-2 ring-blue-50 scale-105" : "border-slate-200"} transition hover:shadow-lg`}
+                  className={`relative bg-white dark:bg-slate-900 p-8 rounded-2xl border ${plan.popular ? "border-blue-600 shadow-xl ring-2 ring-blue-50 dark:ring-blue-900 scale-105" : "border-slate-200 dark:border-slate-700"} transition hover:shadow-lg`}
                 >
                   {plan.popular && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">
@@ -564,7 +600,10 @@ export default function LandingPageContent() {
                   <h3 className="text-2xl font-bold">{plan.name}</h3>
                   <div className="mt-4 mb-2">
                     <span className="text-5xl font-black">${plan.price}</span>
-                    <span className="text-slate-500"> one-time</span>
+                    <span className="text-slate-500 dark:text-slate-400">
+                      {" "}
+                      one-time
+                    </span>
                   </div>
                   <div className="text-sm text-green-600 mb-6 font-medium">
                     ⚡ Ready in {plan.turnaround}
@@ -596,7 +635,7 @@ export default function LandingPageContent() {
                     className={`block w-full text-center py-3 rounded-xl font-bold transition ${
                       plan.popular
                         ? "bg-blue-600 text-white hover:bg-blue-700"
-                        : "bg-slate-100 text-slate-900 hover:bg-slate-200"
+                        : "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700"
                     }`}
                   >
                     Get {plan.name}
@@ -608,13 +647,16 @@ export default function LandingPageContent() {
         </section>
 
         {/* Testimonials */}
-        <section id="testimonials" className="py-20 px-6 bg-slate-50">
+        <section
+          id="testimonials"
+          className="py-20 px-6 bg-slate-50 dark:bg-slate-900"
+        >
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">
                 What our customers say
               </h2>
-              <p className="text-slate-600">
+              <p className="text-slate-600 dark:text-slate-400">
                 Real reviews from professionals who trust Truzot.
               </p>
             </div>
@@ -622,7 +664,7 @@ export default function LandingPageContent() {
               {TESTIMONIALS.map((t) => (
                 <div
                   key={t.name}
-                  className="bg-white p-6 rounded-xl shadow-sm border border-slate-200"
+                  className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700"
                 >
                   <div className="flex gap-1 text-yellow-400 mb-3">
                     {Array.from({ length: t.rating }).map((_, i) => (
@@ -633,10 +675,12 @@ export default function LandingPageContent() {
                     &ldquo;{t.text}&rdquo;
                   </p>
                   <div>
-                    <div className="font-bold text-slate-900 text-sm">
+                    <div className="font-bold text-slate-900 dark:text-white text-sm">
                       {t.name}
                     </div>
-                    <div className="text-xs text-slate-500">{t.role}</div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400">
+                      {t.role}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -677,10 +721,14 @@ export default function LandingPageContent() {
               ].map((faq) => (
                 <div
                   key={faq.q}
-                  className="bg-white border border-slate-200 rounded-xl p-6"
+                  className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-6"
                 >
-                  <h3 className="font-bold text-slate-900 mb-2">{faq.q}</h3>
-                  <p className="text-slate-600 text-sm">{faq.a}</p>
+                  <h3 className="font-bold text-slate-900 dark:text-white mb-2">
+                    {faq.q}
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-400 text-sm">
+                    {faq.a}
+                  </p>
                 </div>
               ))}
             </div>

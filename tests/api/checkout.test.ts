@@ -9,7 +9,12 @@ describe("checkoutSchema", () => {
       zipUrl: "https://example.com/photos.zip",
       gender: "male",
       eyeColor: "brown",
-      profession: "engineer",
+      hairColor: "black",
+      clothing: "formal",
+      background: "office",
+      framing: "headshot",
+      selectedStyles: ["corporate"],
+      idempotencyKey: "test-key-123",
     });
     expect(result.error).toBeUndefined();
     expect(result.data?.plan).toBe("basic");
@@ -17,7 +22,17 @@ describe("checkoutSchema", () => {
 
   it("rejects missing plan", async () => {
     const { checkoutSchema, validate } = await import("@/lib/validations");
-    const result = validate(checkoutSchema, { email: "test@example.com" });
+    const result = validate(checkoutSchema, {
+      email: "test@example.com",
+      gender: "male",
+      eyeColor: "brown",
+      hairColor: "black",
+      clothing: "formal",
+      background: "office",
+      framing: "headshot",
+      selectedStyles: ["corporate"],
+      idempotencyKey: "test-key-123",
+    });
     expect(result.error).toBeDefined();
   });
 });
