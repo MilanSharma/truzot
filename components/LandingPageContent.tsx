@@ -687,6 +687,26 @@ export default function LandingPageContent() {
           </div>
         </section>
 
+        {/* Affiliate CTA */}
+        <section className="bg-slate-900 dark:bg-slate-950 text-white py-20 px-6">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Earn <span className="text-emerald-400">30%</span> on Every
+              Referral
+            </h2>
+            <p className="text-lg text-slate-300 mb-8 max-w-2xl mx-auto">
+              Join the Truzot Affiliate Program. Share your link and earn
+              commission on every sale.
+            </p>
+            <Link
+              href="/affiliates"
+              className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-500 transition shadow-lg"
+            >
+              Become an Affiliate <ChevronRight size={20} />
+            </Link>
+          </div>
+        </section>
+
         {/* CTA Banner */}
         <section className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-16 px-6">
           <div className="max-w-4xl mx-auto text-center">
@@ -746,6 +766,11 @@ export default function LandingPageContent() {
                 <li>
                   <Link href="/contact" className="hover:text-white">
                     Contact
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/affiliates" className="hover:text-white">
+                    Affiliate Program
                   </Link>
                 </li>
               </ul>
