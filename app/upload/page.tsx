@@ -148,32 +148,16 @@ function UploadContent() {
     }
   }, [urlStep]);
 
-  // Handle returning from Stripe (browser back or cancel redirect) with no files
-  const restoredRef = useRef(false);
+  // Handle ?cancelled=1 from Stripe cancel URL — clear state and start fresh
   useEffect(() => {
-    if (restoredRef.current) return;
-    restoredRef.current = true;
     if (searchParams.get("cancelled")) {
       try {
         sessionStorage.removeItem(SESSION_KEY);
       } catch {}
       setTimeout(() => setStep(1), 0);
       router.replace("/upload", { scroll: false });
-      return;
     }
-    if (step === 3 && files.length === 0) {
-      try {
-        const saved = getSavedState();
-        if (saved) {
-          sessionStorage.setItem(
-            SESSION_KEY,
-            JSON.stringify({ ...saved, step: 1 }),
-          );
-        }
-      } catch {}
-      setTimeout(() => setStep(1), 0);
-    }
-  }, [searchParams, step, files, router]);
+  }, [searchParams, router]);
 
   // Persist state so browser back from Stripe preserves details
   useEffect(() => {
