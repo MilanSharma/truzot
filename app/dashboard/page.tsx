@@ -14,7 +14,7 @@ import JSZip from "jszip";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 import { PLANS } from "@/lib/plans";
 import type { User, Order, Headshot } from "@/lib/types";
-import { Camera, ChevronRight } from "lucide-react";
+import { Camera, ChevronRight, Share2, Mail } from "lucide-react";
 import Sidebar from "@/components/dashboard/Sidebar";
 import MobileDrawer from "@/components/dashboard/MobileDrawer";
 import ProjectLibrary from "@/components/dashboard/ProjectLibrary";
@@ -47,6 +47,10 @@ function DashboardContent() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [downloading, setDownloading] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState({
+    current: 0,
+    total: 0,
+  });
   const [loading, setLoading] = useState(true);
   const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
   const [generationProgress, setGenerationProgress] = useState({
@@ -355,7 +359,11 @@ function DashboardContent() {
     );
   };
 
-  const serverSideDownload = async (urls: string[], filename: string) => {
+  const serverSideDownload = async (
+    urls: string[],
+    filename: string,
+    onProgress?: (current: number, total: number) => void,
+  ) => {
     const {
       data: { session },
     } = await supabase.auth.getSession();
@@ -377,16 +385,15 @@ function DashboardContent() {
       toast("No images to download.", "error");
       return;
     }
+    const total = signedUrls.length;
+    if (onProgress) onProgress(0, total);
     const zip = new JSZip();
-    const results = await Promise.all(
-      signedUrls.map(async (url: string, idx: number) => {
-        const res = await fetch(url);
-        const buf = await res.arrayBuffer();
-        return { idx, buf };
-      }),
-    );
-    for (const { idx, buf } of results)
-      zip.file(`headshot_${idx + 1}.jpg`, buf);
+    for (let i = 0; i < signedUrls.length; i++) {
+      const res = await fetch(signedUrls[i]);
+      const buf = await res.arrayBuffer();
+      zip.file(`headshot_${i + 1}.jpg`, buf);
+      if (onProgress) onProgress(i + 1, total);
+    }
     const zipBuffer = await zip.generateAsync({ type: "arraybuffer" });
     const blob = new Blob([zipBuffer], { type: "application/zip" });
     const blobUrl = URL.createObjectURL(blob);
@@ -397,6 +404,63 @@ function DashboardContent() {
     a.click();
     a.remove();
     URL.revokeObjectURL(blobUrl);
+  };
+
+  const shareGallery = async () => {
+    if (!orderId) return;
+    try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      const res = await fetch("/api/download/token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ orderId }),
+      });
+      if (!res.ok) {
+        toast("Failed to create share link", "error");
+        return;
+      }
+      const { token: dlToken } = await res.json();
+      const shareUrl = `${window.location.origin}/dashboard?order=${orderId}&download_token=${dlToken}`;
+      await navigator.clipboard.writeText(shareUrl);
+      toast("Share link copied to clipboard!", "success");
+    } catch {
+      toast("Failed to copy share link", "error");
+    }
+  };
+
+  const emailDelivery = async () => {
+    if (!orderId || !user?.email) return;
+    try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      const res = await fetch("/api/send-headshots", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          orderId,
+          email: user.email,
+          imageUrls: headshots.map((h) => h.image_url),
+        }),
+      });
+      if (res.ok) {
+        toast("Headshots sent to your email!", "success");
+      } else {
+        toast("Failed to send headshots", "error");
+      }
+    } catch {
+      toast("Failed to send headshots", "error");
+    }
   };
 
   const downloadSingle = async (url: string) => {
@@ -420,10 +484,12 @@ function DashboardContent() {
   const downloadSelected = async () => {
     if (selectedImages.length === 0 || !orderId) return;
     setDownloading(true);
+    setDownloadProgress({ current: 0, total: selectedImages.length });
     try {
       await serverSideDownload(
         selectedImages,
         `truzot-selected-${selectedImages.length}.zip`,
+        (current, total) => setDownloadProgress({ current, total }),
       );
     } catch {
       toast("Failed to download selected images. Please try again.", "error");
@@ -560,7 +626,21 @@ function DashboardContent() {
                 </div>
 
                 {currentOrder.status === "completed" && (
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <button
+                      onClick={shareGallery}
+                      className="px-4 py-2.5 rounded-xl text-sm font-bold border bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition flex items-center gap-2"
+                      title="Copy shareable gallery link"
+                    >
+                      <Share2 className="w-4 h-4" /> Share
+                    </button>
+                    <button
+                      onClick={emailDelivery}
+                      className="px-4 py-2.5 rounded-xl text-sm font-bold border bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition flex items-center gap-2"
+                      title="Email my headshots"
+                    >
+                      <Mail className="w-4 h-4" /> Email
+                    </button>
                     <button
                       onClick={() => setMultiSelectMode(!multiSelectMode)}
                       className={`px-4 py-2.5 rounded-xl text-sm font-bold transition border ${multiSelectMode ? "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-400" : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700"}`}
@@ -575,7 +655,7 @@ function DashboardContent() {
                       }
                     >
                       <DownloadProgress
-                        onDownload={async (_onProgress) => {
+                        onDownload={async (onProgress) => {
                           const {
                             data: { session },
                           } = await supabase.auth.getSession();
@@ -599,16 +679,15 @@ function DashboardContent() {
                             toast("No images to download.", "error");
                             return;
                           }
+                          const total = signedUrls.length;
+                          onProgress(0, total);
                           const zip = new JSZip();
-                          const results = await Promise.all(
-                            signedUrls.map(async (url: string, idx: number) => {
-                              const res = await fetch(url);
-                              const buf = await res.arrayBuffer();
-                              return { idx, buf };
-                            }),
-                          );
-                          for (const { idx, buf } of results)
-                            zip.file(`headshot_${idx + 1}.jpg`, buf);
+                          for (let i = 0; i < signedUrls.length; i++) {
+                            const res = await fetch(signedUrls[i]);
+                            const buf = await res.arrayBuffer();
+                            zip.file(`headshot_${i + 1}.jpg`, buf);
+                            onProgress(i + 1, total);
+                          }
                           const zipBuffer = await zip.generateAsync({
                             type: "arraybuffer",
                           });
@@ -761,6 +840,7 @@ function DashboardContent() {
         <FloatingSelectionBar
           selectedCount={selectedImages.length}
           downloading={downloading}
+          downloadProgress={downloadProgress}
           onSelectAll={toggleSelectAll}
           onDownload={downloadSelected}
           onClear={() => setSelectedImages([])}
