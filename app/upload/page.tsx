@@ -111,13 +111,13 @@ function UploadContent() {
     () => (getSavedState()?.hairColor as string) || "",
   );
   const [clothing, setClothing] = useState(
-    () => (getSavedState()?.clothing as string) || "",
+    () => (getSavedState()?.clothing as string) || "business-casual",
   );
   const [background, setBackground] = useState(
-    () => (getSavedState()?.background as string) || "",
+    () => (getSavedState()?.background as string) || "studio",
   );
   const [framing, setFraming] = useState(
-    () => (getSavedState()?.framing as string) || "",
+    () => (getSavedState()?.framing as string) || "closeup",
   );
   const [selectedStyles, setSelectedStyles] = useState<string[]>(
     () =>
@@ -143,8 +143,21 @@ function UploadContent() {
   const [storagePath, setStoragePath] = useState(
     () => (getSavedState()?.storagePath as string) || "",
   );
+  const SHOOT_NAMES = [
+    "Professional Headshots",
+    "My New Headshots",
+    "LinkedIn Ready",
+    "Corporate Collection",
+    "Personal Branding",
+    "Portfolio Shots",
+    "Profile Pictures",
+    "Business Photos",
+  ];
+
   const [shootName, setShootName] = useState(
-    () => (getSavedState()?.shootName as string) || "",
+    () =>
+      (getSavedState()?.shootName as string) ||
+      SHOOT_NAMES[Math.floor(Math.random() * SHOOT_NAMES.length)],
   );
   const [idempotencyKey] = useState(() => crypto.randomUUID());
   const [error, setError] = useState("");
