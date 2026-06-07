@@ -125,11 +125,21 @@ export const POST = withContext(async (req: Request) => {
       .select("id")
       .single();
 
-    if (orderError || !order)
+    if (orderError || !order) {
+      log.error(
+        { error: orderError, body: { plan, email, userId, shootName } },
+        "Order insert failed",
+      );
       return addCors(
-        NextResponse.json({ error: "Failed to create order" }, { status: 500 }),
+        NextResponse.json(
+          {
+            error: `Failed to create order: ${orderError?.message || "Unknown error"}`,
+          },
+          { status: 500 },
+        ),
         origin,
       );
+    }
 
     const orderId = order.id;
 
