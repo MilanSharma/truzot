@@ -7,6 +7,7 @@ import { addCors, handleOptions } from "@/lib/cors";
 import { createLogger } from "@/lib/logger";
 import { withContext } from "@/lib/request-context";
 import { getStripe } from "@/lib/stripe";
+import type Stripe from "stripe";
 
 const log = createLogger("checkout");
 
@@ -162,7 +163,7 @@ export const POST = withContext(async (req: Request) => {
 
     let session;
     try {
-      const stripeOptions: any = {
+      const sessionParams: Stripe.Checkout.SessionCreateParams = {
         payment_method_types: ["card"],
         mode: "payment",
         customer: customerId,
@@ -185,10 +186,14 @@ export const POST = withContext(async (req: Request) => {
         success_url: `${baseUrl}/claim-order?order=${orderId}`,
         cancel_url: `${baseUrl}/upload?cancelled=1`,
       };
+      const requestOptions: Stripe.RequestOptions = {};
       if (idempotencyKey) {
-        (stripeOptions as any).idempotencyKey = `checkout-${idempotencyKey}`;
+        requestOptions.idempotencyKey = `checkout-${idempotencyKey}`;
       }
-      session = await stripe.checkout.sessions.create(stripeOptions);
+      session = await stripe.checkout.sessions.create(
+        sessionParams,
+        requestOptions,
+      );
     } catch (stripeErr) {
       await supabase.from("orders").delete().eq("id", orderId);
       throw stripeErr;
