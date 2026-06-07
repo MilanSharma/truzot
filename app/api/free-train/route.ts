@@ -145,6 +145,13 @@ export const POST = withContext(async (req: Request) => {
     const imgRes = await fetch(imageUrl, { signal: controller.signal });
     clearTimeout(fetchTimeout);
 
+    if (!imgRes.ok) {
+      return addCors(
+        NextResponse.json({ error: "Image fetch failed" }, { status: 502 }),
+        origin,
+      );
+    }
+
     const imgBody = imgRes.body;
     if (!imgBody) {
       return addCors(

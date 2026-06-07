@@ -106,13 +106,14 @@ export default function FreeGenerator() {
   }, [files]);
 
   useEffect(() => {
-    if (step !== "done" || !resultUrl || !canvasRef.current || !imgRef.current)
-      return;
-    const img = imgRef.current;
+    if (step !== "done" || !resultUrl || !canvasRef.current) return;
     const canvas = canvasRef.current;
-    canvas.width = img.naturalWidth || 400;
-    canvas.height = img.naturalHeight || 500;
-    drawWatermark(canvas);
+    const img = imgRef.current;
+    if (img && img.complete && img.naturalWidth > 0) {
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      drawWatermark(canvas);
+    }
 
     const handleMouseEnter = () => {
       const ctx = canvas.getContext("2d");

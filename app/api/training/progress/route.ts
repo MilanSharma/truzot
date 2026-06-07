@@ -3,6 +3,7 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { createLogger } from "@/lib/logger";
 import { withContext } from "@/lib/request-context";
 import { addCors } from "@/lib/cors";
+import { fal } from "@/lib/ai/fal-client-module";
 
 const log = createLogger("training-progress");
 
@@ -45,7 +46,6 @@ export const GET = withContext(async (req: Request) => {
 
     if (training.request_id) {
       try {
-        const { fal } = await import("@/lib/ai/fal-client-module");
         const status = await fal.queue.status(
           "fal-ai/flux-lora-fast-training",
           {
