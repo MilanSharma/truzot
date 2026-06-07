@@ -155,11 +155,14 @@ function UploadContent() {
   ];
 
   const [shootName, setShootName] = useState(
-    () =>
-      (getSavedState()?.shootName as string) ||
-      SHOOT_NAMES[Math.floor(Math.random() * SHOOT_NAMES.length)],
+    () => (getSavedState()?.shootName as string) || "",
   );
-  const [idempotencyKey] = useState(() => crypto.randomUUID());
+  const [defaultShootName] = useState(
+    () => SHOOT_NAMES[Math.floor(Math.random() * SHOOT_NAMES.length)],
+  );
+  const [idempotencyKey, setIdempotencyKey] = useState(() =>
+    crypto.randomUUID(),
+  );
   const [error, setError] = useState("");
   const [progress, setProgress] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -585,6 +588,28 @@ function UploadContent() {
     window.scrollTo(0, 0);
   };
 
+  const handleStartOver = useCallback(() => {
+    try {
+      sessionStorage.removeItem(SESSION_KEY);
+      localStorage.removeItem(LOCAL_KEY);
+    } catch {}
+    setStep(1);
+    setPlan(searchParams.get("plan") || "pro");
+    setEmail("");
+    setShootName("");
+    setGender("");
+    setEyeColor("");
+    setHairColor("");
+    setClothing("business-casual");
+    setBackground("studio");
+    setFraming("closeup");
+    setSelectedStyles(STYLE_CATEGORIES.map((c) => c.id));
+    setConsentChecked(true);
+    setError("");
+    setIsProcessing(false);
+    setIdempotencyKey(crypto.randomUUID());
+  }, [searchParams]);
+
   const handleSubmit = async () => {
     setError("");
     if (!consentChecked) {
@@ -647,7 +672,7 @@ function UploadContent() {
         framing,
         selectedStyles,
         idempotencyKey,
-        shootName: shootName || undefined,
+        shootName: shootName || defaultShootName,
       };
       if (userId) checkoutPayload.userId = userId;
 
@@ -1209,8 +1234,11 @@ function UploadContent() {
                     type="text"
                     value={shootName}
                     onChange={(e) => setShootName(e.target.value)}
-                    placeholder={`e.g. "John's LinkedIn" or "Summer Shoot"`}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900 outline-none transition font-medium"
+                    onFocus={() => {
+                      if (!shootName) setShootName("");
+                    }}
+                    placeholder={defaultShootName}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900 outline-none transition font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500"
                     maxLength={100}
                   />
                 </div>
@@ -1286,13 +1314,7 @@ function UploadContent() {
                 <ChevronLeft className="w-5 h-5" /> Back to Details
               </button>
               <button
-                onClick={() => {
-                  try {
-                    sessionStorage.removeItem(SESSION_KEY);
-                    localStorage.removeItem(LOCAL_KEY);
-                  } catch {}
-                  window.location.href = "/upload";
-                }}
+                onClick={handleStartOver}
                 className="text-xs text-slate-400 hover:text-slate-600 underline"
               >
                 Start Over
