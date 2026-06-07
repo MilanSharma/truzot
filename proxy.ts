@@ -17,6 +17,9 @@ export const config = {
     "/api/order-status",
     "/api/download",
     "/api/download/token",
+    "/api/generate",
+    "/api/generate/retry",
+    "/api/free-train",
   ],
 };
 
@@ -37,6 +40,9 @@ const RATE_LIMIT_RULES: Record<string, RateLimitRule> = {
   "/api/order-status": { max: 30, window: "60 s" },
   "/api/download": { max: 30, window: "60 s" },
   "/api/download/token": { max: 10, window: "60 s" },
+  "/api/generate": { max: 5, window: "60 s" },
+  "/api/generate/retry": { max: 5, window: "60 s" },
+  "/api/free-train": { max: 3, window: "60 s" },
 };
 
 function getIp(req: NextRequest): string {

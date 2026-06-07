@@ -25,7 +25,10 @@ export const POST = withContext(async (req: Request) => {
       );
     }
 
-    const ipHash = createHash("sha256").update(fingerprint).digest("hex");
+    const clientIp =
+      req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+    const raw = `${fingerprint}:${clientIp}`;
+    const ipHash = createHash("sha256").update(raw).digest("hex");
 
     const { data: usage } = await supabaseAdmin
       .from("free_usage")

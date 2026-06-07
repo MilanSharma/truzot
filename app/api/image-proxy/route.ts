@@ -5,6 +5,12 @@ import { withContext } from "@/lib/request-context";
 const log = createLogger("image-proxy");
 
 const ALLOWED_DOMAINS = ["fal.media", "storage.fal.ai"];
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://truzot.com";
+const ALLOWED_ORIGINS = [
+  SITE_URL,
+  "http://localhost:3000",
+  "http://localhost:4137",
+];
 
 function isAllowed(url: string): boolean {
   try {
@@ -17,8 +23,20 @@ function isAllowed(url: string): boolean {
   }
 }
 
+function isAuthorizedOrigin(req: Request): boolean {
+  const referer = req.headers.get("referer") || "";
+  const origin = req.headers.get("origin") || "";
+  const check = referer || origin;
+  if (!check) return false;
+  return ALLOWED_ORIGINS.some((o) => check.startsWith(o));
+}
+
 export const GET = withContext(async (req: Request) => {
   try {
+    if (!isAuthorizedOrigin(req)) {
+      return new NextResponse("Forbidden", { status: 403 });
+    }
+
     const { searchParams } = new URL(req.url);
     const imageUrl = searchParams.get("url");
 
@@ -47,7 +65,7 @@ export const GET = withContext(async (req: Request) => {
       headers: {
         "Content-Type": response.headers.get("content-type") || "image/jpeg",
         "Cache-Control": `public, max-age=${maxAge}, s-maxage=${maxAge}, immutable`,
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": SITE_URL,
         "X-Content-Type-Options": "nosniff",
       },
     });
