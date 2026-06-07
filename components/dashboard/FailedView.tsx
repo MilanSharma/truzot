@@ -58,8 +58,8 @@ export default function FailedView({ order }: { order: Order }) {
       </div>
       <div className="mt-6 text-xs text-slate-400 flex items-center justify-center gap-1">
         <Shield className="w-3 h-3" /> If the issue persists, email{" "}
-        <a href="mailto:support@truzot.com" className="text-blue-600 underline">
-          support@truzot.com
+        <a href="mailto:hello@truzot.com" className="text-blue-600 underline">
+          hello@truzot.com
         </a>
       </div>
     </div>
