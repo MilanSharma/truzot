@@ -446,19 +446,92 @@ function UploadContent() {
     }
   }, []);
 
+  const performUpload = useCallback(
+    async (filesToUpload: File[], onProgress?: (msg: string) => void) => {
+      if (filesToUpload.length === 0) return null;
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      const authHeaders: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      if (token) authHeaders.Authorization = `Bearer ${token}`;
+
+      if (onProgress) onProgress("Preparing photos...");
+      const JSZip = (await import("jszip")).default;
+      const zip = new JSZip();
+      filesToUpload.forEach((f, i) => {
+        const ext = f.name.split(".").pop() ?? "jpg";
+        zip.file(`photo_${i + 1}.${ext}`, f);
+      });
+
+      const uploadUrlRes = await fetch("/api/upload", {
+        method: "POST",
+        headers: authHeaders,
+        body: JSON.stringify({
+          action: "get-upload-url",
+          filename: `dataset_${Date.now()}.zip`,
+        }),
+      });
+
+      if (!uploadUrlRes.ok) throw new Error("Failed to get upload URL");
+      const { signedUrl, token: uploadToken, path } = await uploadUrlRes.json();
+
+      if (onProgress) onProgress("Uploading photos...");
+      const zipBlob = await zip.generateAsync({
+        type: "blob",
+        compression: "STORE",
+      });
+
+      await new Promise<void>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("PUT", signedUrl);
+        xhr.setRequestHeader("x-upsert", "true");
+        xhr.setRequestHeader("content-type", "application/zip");
+        if (uploadToken)
+          xhr.setRequestHeader("authorization", `Bearer ${uploadToken}`);
+        xhr.upload.onprogress = (e) => {
+          if (e.lengthComputable && onProgress) {
+            onProgress(`Uploading: ${Math.round((e.loaded / e.total) * 100)}%`);
+          }
+        };
+        xhr.onload = () => {
+          if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204)
+            resolve();
+          else reject(new Error("File upload failed."));
+        };
+        xhr.onerror = () => reject(new Error("Network error during upload."));
+        xhr.send(zipBlob);
+      });
+
+      return path;
+    },
+    [],
+  );
+
   const handleNextStep = async () => {
     setError("");
-    // Allow proceeding if files exist OR a saved dataset path exists
     if (step === 1 && files.length < 1 && !storagePath) {
       setError("Please upload at least 1 photo to proceed.");
       return;
     }
     if (step === 1) {
-      // Only run AI analysis if the user actually uploaded new files
-      if (files.length > 0) {
-        await analyzePhotos(files);
+      // Start background upload so it's ready by Step 3
+      if (files.length > 0 && !storagePath) {
+        performUpload(files)
+          .then((path) => {
+            if (path) setStoragePath(path);
+          })
+          .catch((err) => {
+            console.warn(
+              "Background upload failed, will retry at checkout:",
+              err,
+            );
+          });
       }
-      // Move to Step 2 regardless (new analysis or saved dataset)
+      await analyzePhotos(files);
       setStep(2);
       return;
     }
@@ -478,7 +551,7 @@ function UploadContent() {
       setError("Please select at least one style.");
       return;
     }
-    setStep((prev) => (prev < 3 ? ((prev + 1) as Step) : prev));
+    setStep((s) => (s + 1) as Step);
     window.scrollTo(0, 0);
   };
 
@@ -494,8 +567,6 @@ function UploadContent() {
       setError("Please enter a valid email address.");
       return;
     }
-
-    // Allow proceeding if we have a saved storagePath from a previous attempt
     if (files.length === 0 && !storagePath) {
       setError("Please upload at least one photo first.");
       setStep(1);
@@ -504,86 +575,37 @@ function UploadContent() {
     }
 
     setIsProcessing(true);
+    let finalStoragePath = storagePath;
+
+    // Fallback: If the user was super fast and background upload didn't finish, do it now
+    if (files.length > 0 && !finalStoragePath) {
+      setProgress("Finalizing photo upload...");
+      try {
+        finalStoragePath = await performUpload(files, setProgress);
+        if (finalStoragePath) setStoragePath(finalStoragePath);
+      } catch (err: any) {
+        console.error("Upload error:", err);
+        setError(
+          err.message ??
+            "Something went wrong during upload. Please try again.",
+        );
+        setIsProcessing(false);
+        return;
+      }
+    }
+
+    setProgress("Securing your checkout session...");
     try {
       const {
         data: { session },
       } = await supabase.auth.getSession();
       const token = session?.access_token;
-
       const authHeaders: Record<string, string> = {
         "Content-Type": "application/json",
       };
       if (token) authHeaders.Authorization = `Bearer ${token}`;
 
-      let finalStoragePath = storagePath;
-
-      if (files.length > 0) {
-        setProgress("Optimizing image dataset…");
-        const JSZip = (await import("jszip")).default;
-        const zip = new JSZip();
-        files.forEach((f, i) => {
-          const ext = f.name.split(".").pop() ?? "jpg";
-          zip.file(`photo_${i + 1}.${ext}`, f);
-        });
-
-        // Fetch upload URL in parallel with zipping
-        const uploadUrlPromise = fetch("/api/upload", {
-          method: "POST",
-          headers: authHeaders,
-          body: JSON.stringify({
-            action: "get-upload-url",
-            filename: `dataset_${Date.now()}.zip`,
-          }),
-        });
-
-        const zipBlob = await zip.generateAsync({
-          type: "blob",
-          compression: "STORE",
-        });
-
-        setProgress("Securing upload channel...");
-        const uploadUrlRes = await uploadUrlPromise;
-        if (!uploadUrlRes.ok) throw new Error("Failed to get upload URL");
-        const {
-          signedUrl,
-          token: uploadToken,
-          path,
-        } = await uploadUrlRes.json();
-        finalStoragePath = path;
-        setStoragePath(path);
-
-        setProgress("Transferring encrypted data…");
-        await new Promise<void>((resolve, reject) => {
-          const xhr = new XMLHttpRequest();
-          xhr.open("PUT", signedUrl);
-          xhr.setRequestHeader("x-upsert", "true");
-          xhr.setRequestHeader("content-type", "application/zip");
-          if (uploadToken)
-            xhr.setRequestHeader("authorization", `Bearer ${uploadToken}`);
-
-          xhr.upload.onprogress = (e) => {
-            if (e.lengthComputable) {
-              setProgress(
-                `Uploading: ${Math.round((e.loaded / e.total) * 100)}%`,
-              );
-            }
-          };
-          xhr.onload = () => {
-            if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204)
-              resolve();
-            else reject(new Error("File upload failed."));
-          };
-          xhr.onerror = () => reject(new Error("Network error during upload."));
-          xhr.send(zipBlob);
-        });
-      } else {
-        setProgress("Using previously uploaded dataset...");
-      }
-
-      setProgress("Generating checkout session…");
-
       const idempotencyKey = crypto.randomUUID();
-
       const checkoutPayload: Record<string, unknown> = {
         plan,
         email,
@@ -604,15 +626,17 @@ function UploadContent() {
         headers: authHeaders,
         body: JSON.stringify(checkoutPayload),
       });
+
       if (!checkoutRes.ok) {
         const errBody = await checkoutRes.json().catch(() => null);
         throw new Error(
           errBody?.error || `Checkout failed (${checkoutRes.status})`,
         );
       }
+
       const { url } = await checkoutRes.json();
 
-      // Update session storage with final state before redirect
+      // Save final state
       sessionStorage.setItem(
         SESSION_KEY,
         JSON.stringify({
@@ -628,12 +652,12 @@ function UploadContent() {
           framing,
           selectedStyles,
           storagePath: finalStoragePath,
-          filesCount: files.length,
         }),
       );
+
       window.location.href = url;
     } catch (err: any) {
-      console.error("Upload error:", err);
+      console.error("Checkout error:", err);
       setError(err.message ?? "Something went wrong. Please try again.");
       setIsProcessing(false);
     }
