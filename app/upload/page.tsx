@@ -691,6 +691,9 @@ function UploadContent() {
       console.error("Checkout error:", err);
       setError(err.message ?? "Something went wrong. Please try again.");
       setIsProcessing(false);
+      if (err.message?.includes("Failed to create order")) {
+        setStep(2);
+      }
     }
   };
 
@@ -1284,7 +1287,10 @@ function UploadContent() {
               </button>
               <button
                 onClick={() => {
-                  sessionStorage.removeItem(SESSION_KEY);
+                  try {
+                    sessionStorage.removeItem(SESSION_KEY);
+                    localStorage.removeItem(LOCAL_KEY);
+                  } catch {}
                   window.location.href = "/upload";
                 }}
                 className="text-xs text-slate-400 hover:text-slate-600 underline"
