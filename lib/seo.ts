@@ -47,14 +47,29 @@ const H_KEYWORDS = [
 export const PAGE_SEO: Record<string, PageSEO> = {
   home: {
     title:
-      "Truzot AI Headshots — Professional Headshots in Minutes | AI Headshot Generator",
+      "AI Headshot Generator | Professional AI Headshots for LinkedIn in Minutes | Truzot",
     description:
-      "Generate AI-powered professional headshots from your photos. No studio, no photographer needed. Get LinkedIn-ready corporate, executive, and business headshots in under 10 minutes. Trusted by 10,000+ professionals. Starting at $29.",
-    keywords: H_KEYWORDS,
+      "Generate studio-quality AI professional headshots from your selfies. The #1 AI headshot generator for LinkedIn, resumes, and corporate teams. Get 40-200+ HD headshots in minutes. Starting at $29. 100% money-back guarantee.",
+    keywords: [
+      "AI headshot generator",
+      "professional AI headshots",
+      "LinkedIn headshot AI",
+      "AI headshots for teams",
+      "corporate headshot generator",
+      "AI portrait generator",
+      "best AI headshot app",
+      "headshots from selfie",
+      "AI photography",
+      "professional profile picture AI",
+      "Truzot AI headshots",
+      "cheap professional headshots",
+      "online headshot maker",
+    ],
     canonical: siteUrl,
-    ogTitle: "Truzot AI Headshots — Professional AI Headshot Generator Online",
+    ogTitle:
+      "Truzot | #1 AI Headshot Generator for Professional LinkedIn Photos",
     ogDescription:
-      "Get studio-quality professional headshots from your phone photos. AI-powered. 10-minute delivery. 100% satisfaction guaranteed.",
+      "Turn your selfies into studio-quality professional headshots in minutes. AI-powered. 10-minute delivery. Trusted by thousands of professionals.",
   },
   upload: {
     title:

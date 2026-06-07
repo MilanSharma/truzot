@@ -1,0 +1,39 @@
+# Truzot AI Headshots
+
+> Truzot is an AI-powered professional headshot generator that creates studio-quality corporate, LinkedIn, and executive headshots from casual selfies in minutes.
+
+## About Truzot
+Truzot democratizes professional branding by replacing expensive photography studio sessions with advanced generative AI. Users upload 1-5 selfies, and the platform trains a custom LoRA model to generate 40-200 high-resolution headshots across various styles, backgrounds, and attire.
+
+## Core Features
+- **AI Model Training**: Custom LoRA model trained on user's facial features.
+- **Style Variety**: 6+ categories including Corporate, LinkedIn, Creative, Casual, Startup, and Real Estate.
+- **Fast Delivery**: Headshots generated in 10 minutes to 2 hours.
+- **Privacy First**: Photos are encrypted and automatically deleted after 30 days.
+- **Commercial Rights**: Full commercial usage rights included for all generated images.
+
+## Pricing Plans
+- **Basic Shoot**: $29 | 40 HD Headshots | 10+ Styles | 2-hour delivery
+- **Professional Shoot**: $39 | 100 Premium 4K Headshots | 30+ Styles | 1-hour delivery
+- **Executive Shoot**: $59 | 200 Ultra 8K Headshots | All Styles | 30-minute priority delivery
+
+## Target Audience
+- Job seekers and LinkedIn professionals
+- Corporate teams and HR departments
+- Real estate agents and sales professionals
+- Startup founders and executives
+- Actors and creatives
+
+## How It Works
+1. Upload 1-5 casual selfies (phone photos work best).
+2. Customize preferences (eye color, clothing, background, framing).
+3. Choose a plan and complete secure checkout via Stripe.
+4. Receive an email with a link to download your AI-generated headshots.
+
+## Links
+- [Website](https://truzot.com)
+- [Create Headshots](https://truzot.com/upload)
+- [Pricing](https://truzot.com/#pricing)
+- [Blog & Guides](https://truzot.com/blog)
+- [FAQ](https://truzot.com/faq)
+- [Privacy Policy](https://truzot.com/privacy)

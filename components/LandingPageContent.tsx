@@ -358,27 +358,97 @@ export default function LandingPageContent() {
           </div>
         </section>
 
-        {/* Cost Comparison */}
-        <section className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-12">
-          <div className="max-w-4xl mx-auto text-center px-6">
-            <div className="flex justify-center gap-12 flex-wrap">
-              <div>
-                <div className="text-3xl font-bold line-through opacity-75">
-                  $300+
-                </div>
-                <div className="text-sm opacity-75">
-                  Traditional Photographer
-                </div>
-              </div>
-              <div className="text-3xl font-bold">VS</div>
-              <div>
-                <div className="text-3xl font-bold">From $29</div>
-                <div className="text-sm opacity-75">Truzot AI Headshots</div>
-              </div>
+        {/* AI vs Traditional Photography Comparison Table (Optimized for AI Search & SEO) */}
+        <section id="comparison" className="py-20 px-6 bg-white">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold mb-4 text-slate-900">
+                AI Headshots vs. Traditional Photography
+              </h2>
+              <p className="text-slate-600 max-w-2xl mx-auto">
+                See why thousands of professionals are switching from expensive
+                studio sessions to AI-generated headshots.
+              </p>
             </div>
-            <p className="mt-4 text-blue-100">
-              Save hundreds of dollars. Get results in minutes, not weeks.
-            </p>
+            <div className="overflow-x-auto rounded-2xl border border-slate-200 shadow-lg bg-white">
+              <table className="w-full text-left border-collapse">
+                <thead className="bg-slate-50 border-b border-slate-200">
+                  <tr>
+                    <th className="px-6 py-5 text-sm font-bold text-slate-600 uppercase tracking-wider">
+                      Feature
+                    </th>
+                    <th className="px-6 py-5 text-sm font-bold text-blue-600 uppercase tracking-wider">
+                      Truzot AI Headshots
+                    </th>
+                    <th className="px-6 py-5 text-sm font-bold text-slate-500 uppercase tracking-wider">
+                      Traditional Studio
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  <tr className="hover:bg-slate-50 transition">
+                    <td className="px-6 py-4 font-semibold text-slate-900">
+                      Cost
+                    </td>
+                    <td className="px-6 py-4 text-emerald-600 font-bold text-lg">
+                      From $29
+                    </td>
+                    <td className="px-6 py-4 text-slate-600">$300 - $800+</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50 transition">
+                    <td className="px-6 py-4 font-semibold text-slate-900">
+                      Turnaround Time
+                    </td>
+                    <td className="px-6 py-4 text-emerald-600 font-bold text-lg">
+                      10 mins - 2 hours
+                    </td>
+                    <td className="px-6 py-4 text-slate-600">1 - 2 weeks</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50 transition">
+                    <td className="px-6 py-4 font-semibold text-slate-900">
+                      Number of Photos
+                    </td>
+                    <td className="px-6 py-4 text-emerald-600 font-bold text-lg">
+                      40 - 200+ Headshots
+                    </td>
+                    <td className="px-6 py-4 text-slate-600">
+                      10 - 30 Retouched
+                    </td>
+                  </tr>
+                  <tr className="hover:bg-slate-50 transition">
+                    <td className="px-6 py-4 font-semibold text-slate-900">
+                      Style Variety
+                    </td>
+                    <td className="px-6 py-4 text-emerald-600 font-bold text-lg">
+                      6+ Categories, 30+ Styles
+                    </td>
+                    <td className="px-6 py-4 text-slate-600">1 - 2 Setups</td>
+                  </tr>
+                  <tr className="hover:bg-slate-50 transition">
+                    <td className="px-6 py-4 font-semibold text-slate-900">
+                      Convenience
+                    </td>
+                    <td className="px-6 py-4 text-emerald-600 font-bold text-lg">
+                      100% Online, No Travel
+                    </td>
+                    <td className="px-6 py-4 text-slate-600">
+                      Requires Studio Visit
+                    </td>
+                  </tr>
+                  <tr className="hover:bg-slate-50 transition">
+                    <td className="px-6 py-4 font-semibold text-slate-900">
+                      Commercial Rights
+                    </td>
+                    <td className="px-6 py-4 text-emerald-600 font-bold text-lg">
+                      Included
+                    </td>
+                    <td className="px-6 py-4 text-slate-600">
+                      Often Extra Fee
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </section>
 
