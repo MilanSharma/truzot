@@ -14,144 +14,114 @@
   }
 }
 
-/* === Aesthetic Dark Mode Refinement === */
-/* Warmer, richer dark palette — inspired by GitHub, Linear, and Vercel dark themes */
+/* === Premium Soft Dark Mode Refinement === */
+/* Inspired by Vercel, Linear, and GitHub: softer contrast, rich grays, reduced eye strain */
 
 .dark body,
 .dark {
-  background-color: #0b0d14;
+  background-color: #18181b; /* zinc-900: Softer, richer alternative to pure black/deep navy */
   color-scheme: dark;
 }
 
 /* Cards, panels, and elevated surfaces */
+.dark .dark\:bg-slate-950,
 .dark .dark\:bg-slate-900 {
-  background-color: #131620;
-}
-
-.dark .dark\:bg-slate-950 {
-  background-color: #0b0d14;
+  background-color: #27272a; /* zinc-800: Clear elevation without being pitch black */
 }
 
 .dark .dark\:bg-slate-800 {
-  background-color: #1c2030;
+  background-color: #3f3f46; /* zinc-700: Interactive/hover states */
 }
 
 .dark .dark\:bg-slate-700 {
-  background-color: #252940;
+  background-color: #52525b; /* zinc-600: Active states */
 }
 
-/* Text refinements — softer, more readable */
+/* Text refinements — high readability, reduced eye strain */
 .dark .dark\:text-slate-100 {
-  color: #e8eaed;
+  color: #f4f4f5; /* zinc-100 */
 }
-
 .dark .dark\:text-slate-200 {
-  color: #d1d5db;
+  color: #e4e4e7; /* zinc-200 */
 }
-
 .dark .dark\:text-slate-300 {
-  color: #b0b8c4;
+  color: #d4d4d8; /* zinc-300 */
 }
-
 .dark .dark\:text-slate-400 {
-  color: #8892a6;
+  color: #a1a1aa; /* zinc-400 */
 }
-
 .dark .dark\:text-slate-500 {
-  color: #6b7280;
+  color: #71717a; /* zinc-500 */
 }
-
 .dark .dark\:text-slate-600 {
-  color: #555e70;
+  color: #52525b; /* zinc-600 */
 }
-
 .dark .dark\:text-slate-700 {
-  color: #3f4758;
+  color: #3f3f46; /* zinc-700 */
 }
 
-/* Border refinements — subtler, less contrasty */
-.dark .dark\:border-slate-200 {
-  border-color: #252940;
-}
-
-.dark .dark\:border-slate-300 {
-  border-color: #2d3250;
-}
-
-.dark .dark\:border-slate-600 {
-  border-color: #2d3250;
-}
-
-.dark .dark\:border-slate-700 {
-  border-color: #252940;
-}
-
+/* Border refinements — subtle, elegant separation (unified for consistency) */
+.dark .dark\:border-slate-200,
+.dark .dark\:border-slate-300,
+.dark .dark\:border-slate-600,
+.dark .dark\:border-slate-700,
 .dark .dark\:border-slate-800 {
-  border-color: #1c2030;
+  border-color: #3f3f46; /* zinc-700: Visible but not harsh */
 }
 
-/* Accent adjustments — blues that pop against warm dark BG */
+/* Accent adjustments — refined blues that pop elegantly against soft gray */
 .dark .dark\:text-blue-600 {
-  color: #5b9aff;
+  color: #60a5fa; /* blue-400 */
 }
-
 .dark .dark\:text-blue-400 {
-  color: #7cb3ff;
+  color: #93c5fd; /* blue-300 */
 }
-
-.dark .dark\:ring-blue-50 {
-  --tw-ring-color: rgba(91, 154, 255, 0.15);
-}
-
 .dark .dark\:bg-blue-50 {
-  background-color: rgba(91, 154, 255, 0.08);
+  background-color: rgba(96, 165, 250, 0.1);
 }
-
 .dark .dark\:bg-blue-900\/20 {
-  background-color: rgba(91, 154, 255, 0.12);
+  background-color: rgba(96, 165, 250, 0.15);
+}
+.dark .dark\:ring-blue-50 {
+  --tw-ring-color: rgba(96, 165, 250, 0.2);
 }
 
 /* Green/emerald refinements */
 .dark .dark\:text-emerald-400 {
-  color: #4ade80;
-}
-
-.dark .dark\:text-emerald-600 {
   color: #34d399;
 }
-
+.dark .dark\:text-emerald-600 {
+  color: #10b981;
+}
 .dark .dark\:bg-emerald-900\/20 {
-  background-color: rgba(52, 211, 153, 0.12);
+  background-color: rgba(16, 185, 129, 0.15);
 }
 
 /* Red refinements */
 .dark .dark\:text-red-400 {
   color: #f87171;
 }
-
 .dark .dark\:bg-red-900\/20 {
-  background-color: rgba(248, 113, 113, 0.12);
+  background-color: rgba(248, 113, 113, 0.15);
 }
 
 /* Amber refinements */
 .dark .dark\:text-amber-400 {
   color: #fbbf24;
 }
-
 .dark .dark\:bg-amber-900\/20 {
-  background-color: rgba(251, 191, 36, 0.12);
+  background-color: rgba(251, 191, 36, 0.15);
 }
 
 /* Indigo refinements */
 .dark .dark\:text-indigo-400 {
   color: #818cf8;
 }
-
 .dark .dark\:bg-indigo-900\/20 {
-  background-color: rgba(129, 140, 248, 0.12);
+  background-color: rgba(129, 140, 248, 0.15);
 }
 
-/* Placeholder text */
+/* Input placeholders */
 .dark .dark\:placeholder-slate-500::placeholder {
-  color: #555e70;
+  color: #71717a;
 }
