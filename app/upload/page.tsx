@@ -7,7 +7,7 @@ import {
   useRef,
   useMemo,
 } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 
@@ -73,7 +73,6 @@ function getSavedState(): Record<string, unknown> | null {
 
 function UploadContent() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const { toast } = useToast();
 
   const urlStep = parseInt(searchParams.get("step") ?? "") as Step;
@@ -134,19 +133,27 @@ function UploadContent() {
   const [progress, setProgress] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
 
-  // Sync step to URL for back/forward navigation
+  // Sync step to URL using native history API (pushes entries for back button)
   const stepRef = useRef(step);
   useEffect(() => {
-    stepRef.current = step;
-    router.replace(`/upload?step=${step}`, { scroll: false });
-  }, [step, router]);
-
-  // Listen for browser back/forward changes to step param
-  useEffect(() => {
-    if (urlStep >= 1 && urlStep <= 3 && urlStep !== stepRef.current) {
-      setStep(urlStep);
+    if (stepRef.current !== step) {
+      window.history.pushState(null, "", `/upload?step=${step}`);
     }
-  }, [urlStep]);
+    stepRef.current = step;
+  }, [step]);
+
+  // Listen for browser back/forward via popstate
+  useEffect(() => {
+    const onPopState = () => {
+      const params = new URLSearchParams(window.location.search);
+      const urlStep = parseInt(params.get("step") ?? "") as Step;
+      if (urlStep >= 1 && urlStep <= 3) {
+        setStep(urlStep);
+      }
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
 
   // Handle ?cancelled=1 from Stripe cancel URL — clear state and start fresh
   useEffect(() => {
@@ -154,10 +161,12 @@ function UploadContent() {
       try {
         sessionStorage.removeItem(SESSION_KEY);
       } catch {}
-      setTimeout(() => setStep(1), 0);
-      router.replace("/upload", { scroll: false });
+      setTimeout(() => {
+        setStep(1);
+        window.history.replaceState(null, "", "/upload");
+      }, 0);
     }
-  }, [searchParams, router]);
+  }, [searchParams]);
 
   // Persist state so browser back from Stripe preserves details
   useEffect(() => {
