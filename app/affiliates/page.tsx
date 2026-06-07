@@ -10,7 +10,8 @@ export const metadata: Metadata = {
 };
 
 export default function AffiliatesPage() {
-  const REWARDFUL_SIGNUP_URL = "https://affiliates.truzot.com";
+  const REWARDFUL_SIGNUP_URL =
+    process.env.NEXT_PUBLIC_REWARDFUL_SIGNUP_URL || "/contact";
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">

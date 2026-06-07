@@ -20,6 +20,7 @@ const envSchema = z.object({
   NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
   NEXT_PUBLIC_POSTHOG_HOST: z.string().optional(),
   NEXT_PUBLIC_REWARDFUL_API_KEY: z.string().optional(),
+  NEXT_PUBLIC_REWARDFUL_SIGNUP_URL: z.string().optional(),
   NODE_ENV: z.enum(["development", "production", "test"]).optional(),
 });
 
