@@ -125,9 +125,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <SpeakableSchema />
         {process.env.NEXT_PUBLIC_REWARDFUL_API_KEY && (
           <>
-            <Script id="rewardful-init" strategy="afterInteractive">
-              {`(function(w,r){w._rwq=r;w[r]=w[r]||function(){(w[r].q=w[r].q||[]).push(arguments)}})(window,'rewardful');`}
-            </Script>
+            <Script
+              id="rewardful-init"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `(function(w,r){w._rwq=r;w[r]=w[r]||function(){(w[r].q=w[r].q||[]).push(arguments)}})(window,'rewardful');`,
+              }}
+            />
             <Script
               src="https://r.wdfl.co/rw.js"
               data-rewardful={process.env.NEXT_PUBLIC_REWARDFUL_API_KEY}

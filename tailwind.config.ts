@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import colors from "tailwindcss/colors";
 
 const config: Config = {
   darkMode: "class",
@@ -9,6 +10,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        slate: {
+          ...colors.slate,
+          700: "#3f3f46",
+          800: "#27272a",
+          900: "#18181b",
+          950: "#09090b",
+        },
+      },
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
         display: ["var(--font-playfair)", "Georgia", "serif"],

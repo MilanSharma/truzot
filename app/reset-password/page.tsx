@@ -73,7 +73,7 @@ export default function ResetPasswordPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-950 dark:to-indigo-950">
-      <nav className="bg-white dark:bg-[#131620] border-b border-slate-200 dark:border-slate-700">
+      <nav className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <Link
             href="/"

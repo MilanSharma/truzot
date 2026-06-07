@@ -331,7 +331,7 @@ export default function FAQPage() {
   return (
     <div
       id="main-content"
-      className="min-h-screen bg-slate-50 dark:bg-[#0b0d14]"
+      className="min-h-screen bg-slate-50 dark:bg-slate-950"
     >
       <FAQSchema
         questions={[
@@ -416,7 +416,7 @@ export default function FAQPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search questions..."
-            className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#131620] text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm"
+            className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm"
           />
         </div>
 
@@ -506,7 +506,7 @@ export default function FAQPage() {
         )}
 
         {/* Contact CTA */}
-        <div className="mt-12 bg-white dark:bg-[#131620] rounded-2xl border border-slate-200 dark:border-slate-700 p-8 text-center shadow-sm">
+        <div className="mt-12 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 text-center shadow-sm">
           <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
             Still have questions?
           </h2>
