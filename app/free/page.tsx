@@ -1,118 +1,232 @@
 "use client";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import JSZip from "jszip";
+
+function drawWatermark(canvas: HTMLCanvasElement) {
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+  const w = canvas.width;
+  const h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+  ctx.save();
+  ctx.globalAlpha = 0.35;
+  ctx.fillStyle = "#ffffff";
+  ctx.font = `bold ${Math.round(w * 0.045)}px sans-serif`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.translate(w / 2, h / 2);
+  ctx.rotate(-Math.PI / 6);
+  ctx.fillText("TRUZOT.COM FREE", 0, 0);
+  ctx.restore();
+}
 
 export default function FreeGenerator() {
-  const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
-  const [generating, setGenerating] = useState(false);
-  const [results, setResults] = useState<string[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
+  const [step, setStep] = useState<"upload" | "training" | "done">("upload");
+  const [resultUrl, setResultUrl] = useState<string | null>(null);
   const [error, setError] = useState("");
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
 
-  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (preview) {
-      URL.revokeObjectURL(preview);
-      setPreview(null);
-    }
-    if (e.target.files && e.target.files[0]) {
-      const f = e.target.files[0];
-      setFile(f);
-      setPreview(URL.createObjectURL(f));
-      setResults([]);
-    }
+  const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    const incoming = Array.from(e.target.files).slice(0, 5);
+    setFiles(incoming);
+    setPreviews(incoming.map((f) => URL.createObjectURL(f)));
+    setStep("upload");
+    setResultUrl(null);
+    setError("");
   };
 
-  const generateFree = async () => {
-    if (!file) return;
-    setGenerating(true);
+  const generateFree = useCallback(async () => {
+    if (files.length === 0) return;
+    setStep("training");
     setError("");
+
     try {
-      const genRes = await fetch("/api/free-generate", {
+      const zip = new JSZip();
+      for (let i = 0; i < files.length; i++) {
+        const buf = await files[i].arrayBuffer();
+        zip.file(`photo_${i + 1}.jpg`, buf);
+      }
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+
+      const uploadRes = await fetch("/api/upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({}),
+        body: JSON.stringify({ action: "get-upload-url" }),
       });
-      if (!genRes.ok) throw new Error("Generation failed");
-      const data = await genRes.json();
-      setResults(data.urls.slice(0, 9));
+      const { signedUrl, path } = await uploadRes.json();
+      if (!signedUrl) throw new Error("Upload URL generation failed");
+
+      await fetch(signedUrl, {
+        method: "PUT",
+        body: zipBlob,
+        headers: { "Content-Type": "application/zip" },
+      });
+
+      const fp =
+        typeof window !== "undefined"
+          ? ((navigator as any).userAgentData?.platform || navigator.platform) +
+            screen.width +
+            screen.height
+          : "unknown";
+
+      const trainRes = await fetch("/api/free-train", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ storagePath: path, fingerprint: fp }),
+      });
+
+      const data = await trainRes.json();
+      if (!trainRes.ok) throw new Error(data.error || "Generation failed");
+
+      setResultUrl(data.url);
+      setStep("done");
     } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setGenerating(false);
+      setError(err.message || "Something went wrong");
+      setStep("upload");
     }
-  };
+  }, [files]);
+
+  useEffect(() => {
+    if (step !== "done" || !resultUrl || !canvasRef.current || !imgRef.current)
+      return;
+    const img = imgRef.current;
+    const canvas = canvasRef.current;
+    canvas.width = img.naturalWidth || 400;
+    canvas.height = img.naturalHeight || 500;
+    drawWatermark(canvas);
+
+    const handleMouseEnter = () => {
+      const ctx = canvas.getContext("2d");
+      if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+    };
+    const handleMouseLeave = () => drawWatermark(canvas);
+
+    canvas.addEventListener("mouseenter", handleMouseEnter);
+    canvas.addEventListener("mouseleave", handleMouseLeave);
+    return () => {
+      canvas.removeEventListener("mouseenter", handleMouseEnter);
+      canvas.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [step, resultUrl]);
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       <Nav />
       <div className="max-w-3xl mx-auto px-6 py-16">
         <h1 className="text-4xl font-bold mb-2 text-center text-slate-900 dark:text-white">
-          Try Truzot — See What&apos;s Possible
+          Try a Free AI Headshot
         </h1>
         <p className="text-center text-slate-500 dark:text-slate-400 mb-10">
-          See the style variety you&apos;ll get with a paid plan. These are{" "}
-          <strong>example headshots</strong> — not AI-generated from your photo.
+          Upload your photos and get <strong>one free headshot</strong>{" "}
+          generated with a watermark. No credit card required.
         </p>
+
+        {error && (
+          <div className="mb-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 text-sm text-red-700 dark:text-red-400">
+            {error}
+          </div>
+        )}
+
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-8 text-center">
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFile}
-            className="mb-4 text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-          />
-          {preview && (
-            <img
-              src={preview}
-              className="max-w-[200px] mx-auto mt-4 rounded-xl"
-              alt="Preview"
-            />
-          )}
-          {file && !generating && (
-            <button
-              onClick={generateFree}
-              className="mt-6 bg-slate-900 dark:bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-800 dark:hover:bg-blue-700 transition"
-            >
-              Show Example Styles
-            </button>
-          )}
-          {generating && <p className="mt-6 text-slate-500">Processing...</p>}
-          {error && <p className="mt-4 text-red-600 text-sm">{error}</p>}
-          {results.length > 0 && (
-            <div className="mt-8">
-              <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4 mb-6 text-sm text-amber-800 dark:text-amber-300">
-                ⚠️ These are <strong>example headshot styles</strong> from stock
-                photos, not AI-generated from your image. When you purchase a
-                paid plan, we train a custom AI model on your face to produce
-                real headshots that look like you.
-              </div>
-              <h3 className="text-lg font-bold mb-4 text-slate-900 dark:text-white">
-                Example styles you&apos;ll get with paid plans:
-              </h3>
-              <div className="grid grid-cols-3 gap-4">
-                {results.map((url, idx) => (
-                  <div key={idx} className="text-center">
+          {step === "upload" && (
+            <>
+              <input
+                type="file"
+                multiple
+                accept="image/jpeg,image/png,image/heic"
+                onChange={handleFiles}
+                className="mb-4 text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+              />
+              {previews.length > 0 && (
+                <div className="flex gap-3 justify-center mt-4 flex-wrap">
+                  {previews.map((p, i) => (
                     <img
-                      src={url}
-                      className="w-full rounded-xl"
-                      alt="Example AI headshot style"
+                      key={i}
+                      src={p}
+                      className="w-20 h-20 object-cover rounded-xl"
+                      alt={`Photo ${i + 1}`}
                     />
-                    <span className="text-xs text-slate-500">
-                      Example style
-                    </span>
-                  </div>
-                ))}
+                  ))}
+                </div>
+              )}
+              {files.length > 0 && (
+                <button
+                  onClick={generateFree}
+                  className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition"
+                >
+                  Generate My Free Headshot
+                </button>
+              )}
+            </>
+          )}
+
+          {step === "training" && (
+            <div className="py-16 text-center">
+              <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+              <p className="text-slate-600 dark:text-slate-400 font-medium">
+                Training AI model and generating your free headshot...
+              </p>
+              <p className="text-xs text-slate-400 mt-2">
+                This usually takes 2-3 minutes
+              </p>
+            </div>
+          )}
+
+          {step === "done" && resultUrl && (
+            <div>
+              <div className="relative max-w-sm mx-auto">
+                <img
+                  ref={imgRef}
+                  src={resultUrl}
+                  className="w-full rounded-xl shadow-lg"
+                  alt="Your free AI headshot"
+                  onLoad={() => {
+                    if (canvasRef.current && imgRef.current) {
+                      const c = canvasRef.current;
+                      c.width = imgRef.current.naturalWidth || 400;
+                      c.height = imgRef.current.naturalHeight || 500;
+                      drawWatermark(c);
+                    }
+                  }}
+                />
+                <canvas
+                  ref={canvasRef}
+                  className="absolute inset-0 pointer-events-none rounded-xl"
+                  width={400}
+                  height={500}
+                />
               </div>
+              <p className="text-xs text-slate-400 mt-3">
+                Hover to preview without watermark.{" "}
+                <strong>Upgrade for watermark-free downloads.</strong>
+              </p>
               <Link
                 href="/upload?plan=basic"
-                className="mt-6 inline-block bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition"
+                className="mt-6 inline-block bg-slate-900 dark:bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-800 dark:hover:bg-blue-700 transition"
               >
-                Get real AI headshots of yourself from $29 →
+                Remove Watermark — Get Full Access from $29 →
               </Link>
             </div>
           )}
         </div>
+
+        {step !== "done" && (
+          <div className="mt-12 text-center">
+            <Link
+              href="/upload?plan=basic"
+              className="text-blue-600 dark:text-blue-400 font-medium hover:underline"
+            >
+              Skip the free version — get full quality headshots from $29 →
+            </Link>
+          </div>
+        )}
       </div>
       <Footer />
     </div>

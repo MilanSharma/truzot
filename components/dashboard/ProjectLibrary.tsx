@@ -246,6 +246,35 @@ export default function ProjectLibrary({
     return () => clearInterval(interval);
   }, []);
 
+  const [trainingProgress, setTrainingProgress] = useState<
+    Record<string, number>
+  >({});
+
+  useEffect(() => {
+    const trainingOrders = (orders || []).filter(
+      (o) => o.status === "training",
+    );
+    if (trainingOrders.length === 0) return;
+    const poll = () => {
+      for (const o of trainingOrders) {
+        fetch(`/api/training/progress?orderId=${o.id}`)
+          .then((r) => r.json())
+          .then((data) => {
+            if (typeof data.progress === "number") {
+              setTrainingProgress((prev) => ({
+                ...prev,
+                [o.id]: data.progress,
+              }));
+            }
+          })
+          .catch(() => {});
+      }
+    };
+    poll();
+    const interval = setInterval(poll, 5000);
+    return () => clearInterval(interval);
+  }, [orders]);
+
   const completedCount = useMemo(
     () => orders.filter((o) => o.status === "completed").length,
     [orders],
@@ -633,17 +662,22 @@ export default function ProjectLibrary({
                         <div className="mt-3 mb-3">
                           <div className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
                             <div
-                              className="h-full bg-indigo-500 rounded-full animate-pulse"
+                              className="h-full bg-indigo-500 rounded-full transition-all duration-700"
                               style={{
-                                width:
-                                  o.status === "generating" ? "65%" : "30%",
+                                width: `${
+                                  o.status === "training"
+                                    ? Math.max(3, trainingProgress[o.id] ?? 0)
+                                    : o.status === "generating"
+                                      ? 65
+                                      : 0
+                                }%`,
                               }}
                             />
                           </div>
                           <p className="text-[10px] text-indigo-500 dark:text-indigo-400 font-semibold mt-1">
-                            {o.status === "generating"
-                              ? "Generating headshots..."
-                              : "Training AI model..."}
+                            {o.status === "training"
+                              ? `Training AI model... ${trainingProgress[o.id] ?? 0}%`
+                              : "Generating headshots..."}
                           </p>
                         </div>
                       )}

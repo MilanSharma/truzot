@@ -55,33 +55,37 @@ export async function POST(req: Request) {
       customerId = existingCustomers.data[0].id;
     }
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      mode: "payment",
-      customer: customerId,
-      customer_email: customerId ? undefined : order.email,
-      line_items: [
-        {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: label,
-              description: "AI Professional Headshots",
+    const idempotencyKey = `resume-${orderId}-${Date.now()}`;
+    const session = await stripe.checkout.sessions.create(
+      {
+        payment_method_types: ["card"],
+        mode: "payment",
+        customer: customerId,
+        customer_email: customerId ? undefined : order.email,
+        line_items: [
+          {
+            price_data: {
+              currency: "usd",
+              product_data: {
+                name: label,
+                description: "AI Professional Headshots",
+              },
+              unit_amount: planConfig.amount,
             },
-            unit_amount: planConfig.amount,
+            quantity: 1,
           },
-          quantity: 1,
+        ],
+        metadata: {
+          orderId,
+          plan: order.plan,
+          email: order.email,
+          userId: user.id,
         },
-      ],
-      metadata: {
-        orderId,
-        plan: order.plan,
-        email: order.email,
-        userId: user.id,
+        success_url: `${baseUrl}/claim-order?order=${orderId}`,
+        cancel_url: `${baseUrl}/dashboard`,
       },
-      success_url: `${baseUrl}/claim-order?order=${orderId}`,
-      cancel_url: `${baseUrl}/dashboard`,
-    });
+      { idempotencyKey },
+    );
 
     return NextResponse.json({ url: session.url });
   } catch (err) {

@@ -1,0 +1,176 @@
+import { NextResponse } from "next/server";
+import { supabaseAdmin } from "@/lib/supabase/admin";
+import { createLogger } from "@/lib/logger";
+import { withContext } from "@/lib/request-context";
+import { addCors } from "@/lib/cors";
+import { fal } from "@fal-ai/client";
+import { createHash } from "crypto";
+
+const log = createLogger("free-train");
+
+fal.config({ credentials: process.env.FAL_KEY });
+
+export const maxDuration = 180;
+
+export const POST = withContext(async (req: Request) => {
+  const origin = req.headers.get("origin");
+  try {
+    const body = await req.json();
+    const { storagePath, fingerprint } = body;
+
+    if (!storagePath || !fingerprint) {
+      return addCors(
+        NextResponse.json({ error: "Missing fields" }, { status: 400 }),
+        origin,
+      );
+    }
+
+    const ipHash = createHash("sha256").update(fingerprint).digest("hex");
+
+    const { data: usage } = await supabaseAdmin
+      .from("free_usage")
+      .select("remaining")
+      .eq("fingerprint", ipHash)
+      .maybeSingle();
+
+    if (usage && usage.remaining <= 0) {
+      return addCors(
+        NextResponse.json({ error: "Free limit reached" }, { status: 429 }),
+        origin,
+      );
+    }
+
+    const { data: signedUrl } = await supabaseAdmin.storage
+      .from("uploads")
+      .createSignedUrl(storagePath, 14400);
+
+    if (!signedUrl?.signedUrl) {
+      return addCors(
+        NextResponse.json({ error: "File not found" }, { status: 404 }),
+        origin,
+      );
+    }
+
+    const trainResult = await fal.queue.submit(
+      "fal-ai/flux-lora-fast-training",
+      {
+        input: {
+          images_data_url: signedUrl.signedUrl,
+          steps: 500,
+          trigger_word: "TOK",
+        },
+        storageSettings: { expiresIn: "7d" },
+      },
+    );
+
+    const requestId = (trainResult as any).request_id;
+    if (!requestId) {
+      return addCors(
+        NextResponse.json(
+          { error: "Training submission failed" },
+          { status: 500 },
+        ),
+        origin,
+      );
+    }
+
+    let trainingComplete = false;
+    let modelId = "";
+    for (let i = 0; i < 120; i++) {
+      await new Promise((r) => setTimeout(r, 3000));
+      try {
+        const status = await fal.queue.status(
+          "fal-ai/flux-lora-fast-training",
+          {
+            requestId,
+          },
+        );
+        if (status.status === "COMPLETED") {
+          const result = await fal.queue.result(
+            "fal-ai/flux-lora-fast-training",
+            {
+              requestId,
+            },
+          );
+          const data = result as any;
+          modelId =
+            data.diffusers_lora_file?.url ??
+            data.diff_url ??
+            data.output?.diffusers_lora_file?.url;
+          if (modelId) {
+            trainingComplete = true;
+            break;
+          }
+        }
+      } catch {}
+    }
+
+    if (!trainingComplete || !modelId) {
+      return addCors(
+        NextResponse.json({ error: "Training timed out" }, { status: 504 }),
+        origin,
+      );
+    }
+
+    const genResult = await fal.run("fal-ai/flux-lora", {
+      input: {
+        prompt:
+          "A professional corporate headshot of TOK, a person with professional attire, studio background, soft lighting, 8k",
+        loras: [{ path: modelId, scale: 0.85 }],
+        num_inference_steps: 28,
+        guidance_scale: 3.5,
+        num_images: 1,
+        image_size: "portrait_4_3",
+        output_format: "jpeg",
+      },
+      storageSettings: { expiresIn: "7d" },
+    });
+
+    const imageUrl = (genResult as any).images?.[0]?.url;
+    if (!imageUrl) {
+      return addCors(
+        NextResponse.json({ error: "Generation failed" }, { status: 500 }),
+        origin,
+      );
+    }
+
+    const imgRes = await fetch(imageUrl);
+    const imgBlob = await imgRes.blob();
+
+    const { data: uploaded } = await supabaseAdmin.storage
+      .from("headshots")
+      .upload(`free/${ipHash}_${Date.now()}.jpg`, imgBlob, {
+        contentType: "image/jpeg",
+        upsert: false,
+      });
+
+    let publicUrl = imageUrl;
+    if (uploaded?.path) {
+      const { data: pub } = supabaseAdmin.storage
+        .from("headshots")
+        .getPublicUrl(uploaded.path);
+      if (pub?.publicUrl) publicUrl = pub.publicUrl;
+    }
+
+    if (usage) {
+      await supabaseAdmin
+        .from("free_usage")
+        .update({ remaining: 0 })
+        .eq("fingerprint", ipHash);
+    } else {
+      await supabaseAdmin
+        .from("free_usage")
+        .insert({ fingerprint: ipHash, remaining: 0 });
+    }
+
+    await supabaseAdmin.storage.from("uploads").remove([storagePath]);
+
+    return addCors(NextResponse.json({ url: publicUrl }), origin);
+  } catch (err) {
+    log.error({ err }, "Free train error");
+    return addCors(
+      NextResponse.json({ error: "Internal error" }, { status: 500 }),
+      origin,
+    );
+  }
+});

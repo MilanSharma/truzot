@@ -200,6 +200,7 @@ export const trainModel = async (
   const result = await fal.queue.submit("fal-ai/flux-lora-fast-training", {
     input: { images_data_url: imageUrl, steps: 500, trigger_word: "TOK" },
     webhookUrl,
+    storageSettings: { expiresIn: "7d" },
   });
   return result as { request_id: string };
 };
@@ -235,6 +236,7 @@ export const generateHeadshots = async (
               image_size: "portrait_4_3",
               output_format: "jpeg",
             },
+            storageSettings: { expiresIn: "7d" },
           })
           .then((res) => ({ ...res, prompt, index })),
       ),

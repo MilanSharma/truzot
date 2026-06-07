@@ -279,6 +279,47 @@ function UploadContent() {
     [],
   );
 
+  const faceDetectorSupported =
+    typeof window !== "undefined" && "FaceDetector" in window;
+
+  const detectFaces = useCallback(
+    async (
+      file: File,
+    ): Promise<{
+      count: number;
+      crop?: { x: number; y: number; w: number; h: number };
+    } | null> => {
+      if (!faceDetectorSupported) return null;
+      try {
+        const bitmap = await createImageBitmap(file);
+        const detector = new (window as any).FaceDetector({
+          maxDetectedFaces: 5,
+          fastMode: true,
+        });
+        const faces = await detector.detect(bitmap);
+        bitmap.close();
+        if (faces.length === 0) return { count: 0 };
+        const f = faces[0].boundingBox ||
+          faces[0].boundingRect || {
+            x: 0,
+            y: 0,
+            width: bitmap.width,
+            height: bitmap.height,
+          };
+        const margin = 0.2;
+        const x = Math.max(0, f.x - f.width * margin);
+        const y = Math.max(0, f.y - f.height * margin);
+        const w = Math.min(bitmap.width - x, f.width * (1 + margin * 2));
+        const h = Math.min(bitmap.height - y, f.height * (1 + margin * 2));
+        return { count: faces.length, crop: { x, y, w, h } };
+      } catch {
+        return null;
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
   const computeFileFingerprint = useCallback(
     (file: File): string => `${file.name}|${file.size}`,
     [],
@@ -300,6 +341,7 @@ function UploadContent() {
       }
       const converted: File[] = [];
       const errors: string[] = [];
+      const warnings: string[] = [];
       for (const f of Array.from(incoming)) {
         if (f.size >= 10 * 1024 * 1024) {
           errors.push(`${f.name}: file too large (max 10MB)`);
@@ -319,11 +361,24 @@ function UploadContent() {
           if (heicConverterRef.current) {
             try {
               const blob = await heicConverterRef.current(f);
+              const convErr = await validatePhoto(
+                new File([blob as Blob], f.name, { type: "image/jpeg" }),
+              );
+              if (convErr) {
+                errors.push(convErr);
+                continue;
+              }
               const jpegFile = new File(
                 [blob as Blob],
                 f.name.replace(/\.(heic|heif)$/i, ".jpg"),
                 { type: "image/jpeg" },
               );
+              const faceResult = await detectFaces(jpegFile);
+              if (faceResult && faceResult.count === 0) {
+                warnings.push(
+                  `${jpegFile.name}: no face detected — model training may not work well`,
+                );
+              }
               converted.push(jpegFile);
             } catch {
               errors.push(
@@ -342,10 +397,19 @@ function UploadContent() {
             errors.push(`${f.name}: duplicate photo detected — skip`);
             continue;
           }
+          const faceResult = await detectFaces(f);
+          if (faceResult && faceResult.count === 0) {
+            warnings.push(
+              `${f.name}: no face detected — model training may not work well`,
+            );
+          }
           converted.push(f);
         } else {
           errors.push(`${f.name}: unsupported format`);
         }
+      }
+      if (warnings.length > 0) {
+        toast(warnings.join("\n"), "info");
       }
       if (errors.length > 0) {
         toast(errors.join("\n"), "error");
@@ -355,7 +419,7 @@ function UploadContent() {
         return next;
       });
     },
-    [toast, validatePhoto, computeFileFingerprint, files],
+    [toast, validatePhoto, computeFileFingerprint, files, detectFaces],
   );
 
   const removeFile = (i: number) => {

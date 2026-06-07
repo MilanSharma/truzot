@@ -152,7 +152,7 @@ export const POST = withContext(async (req: Request) => {
 
     let session;
     try {
-      session = await stripe.checkout.sessions.create({
+      const stripeOptions: any = {
         payment_method_types: ["card"],
         mode: "payment",
         customer: customerId,
@@ -174,7 +174,11 @@ export const POST = withContext(async (req: Request) => {
         metadata: { orderId, plan, email, userId: userId || "" },
         success_url: `${baseUrl}/claim-order?order=${orderId}`,
         cancel_url: `${baseUrl}/upload?cancelled=1`,
-      });
+      };
+      if (idempotencyKey) {
+        (stripeOptions as any).idempotencyKey = `checkout-${idempotencyKey}`;
+      }
+      session = await stripe.checkout.sessions.create(stripeOptions);
     } catch (stripeErr) {
       await supabase.from("orders").delete().eq("id", orderId);
       throw stripeErr;

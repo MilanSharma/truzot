@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef, useEffect, useCallback } from "react";
 import {
   ImageIcon,
   ArrowUpDown,
@@ -69,6 +69,24 @@ export default function CompletedGallery({
   const [gridDensity, setGridDensity] = useState<number>(3);
   const [hideSimilar, setHideSimilar] = useState(false);
 
+  const sentinelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!hasMore) return;
+    const el = sentinelRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && hasMore && !loadingMore) {
+          onLoadMore();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [hasMore, loadingMore, onLoadMore]);
+
   const sortedFiltered = useMemo(() => {
     let result = [...filtered];
     if (sortBy === "favorites") {
@@ -108,7 +126,6 @@ export default function CompletedGallery({
         </div>
       </div>
 
-      {/* Sort + View controls */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div className="flex items-center gap-4 text-xs font-medium text-slate-500 dark:text-slate-400">
           <div className="flex items-center gap-1.5">
@@ -169,15 +186,10 @@ export default function CompletedGallery({
             onDownload={onDownload}
             onFlag={onFlag}
           />
-          {hasMore && (
-            <div className="flex justify-center mt-8">
-              <button
-                onClick={onLoadMore}
-                disabled={loadingMore}
-                className="px-8 py-3 bg-slate-900 text-white rounded-xl text-sm font-bold hover:bg-slate-800 transition shadow-sm disabled:opacity-50"
-              >
-                {loadingMore ? "Loading..." : "Load More"}
-              </button>
+          {hasMore && <div ref={sentinelRef} className="h-10 w-full" />}
+          {loadingMore && (
+            <div className="flex justify-center py-8">
+              <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
             </div>
           )}
         </>

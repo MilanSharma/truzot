@@ -3,6 +3,7 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { createLogger } from "@/lib/logger";
 import { withContext } from "@/lib/request-context";
 import { getStripe } from "@/lib/stripe";
+import { deleteFalFiles } from "@/lib/ai/fal-cleanup";
 
 const log = createLogger("cleanup");
 
@@ -207,13 +208,38 @@ export const GET = withContext(async (req: Request) => {
           }
         }
 
-        // 1. Delete headshot records
+        // 1. Delete Fal-hosted headshot images
+        const { data: headshotUrls } = await supabaseAdmin
+          .from("headshots")
+          .select("image_url")
+          .eq("order_id", order.id);
+        const imageUrls: string[] = (headshotUrls || []).map(
+          (h: any) => h.image_url,
+        );
+        const falResult = await deleteFalFiles(imageUrls);
+        if (falResult.deleted > 0 || falResult.failed > 0) {
+          log.info({ orderId: order.id, ...falResult }, "Fal file cleanup");
+        }
+
+        // 2. Delete Fal training model
+        const { data: trainings } = await supabaseAdmin
+          .from("trainings")
+          .select("model_id")
+          .eq("order_id", order.id);
+        const modelIds: string[] = (trainings || [])
+          .map((t: any) => t.model_id)
+          .filter(Boolean);
+        if (modelIds.length > 0) {
+          await deleteFalFiles(modelIds);
+        }
+
+        // 5. Delete headshot records
         await supabaseAdmin.from("headshots").delete().eq("order_id", order.id);
 
-        // 2. Delete training records
+        // 6. Delete training records
         await supabaseAdmin.from("trainings").delete().eq("order_id", order.id);
 
-        // 3. Delete uploaded files from storage
+        // 7. Delete uploaded files from storage
         const uploadFolder = order.storage_path
           ? order.storage_path.split("/")[0]
           : order.user_id;
