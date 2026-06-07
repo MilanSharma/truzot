@@ -88,6 +88,9 @@ function UploadContent() {
     return urlStep >= 1 && urlStep <= 3 ? urlStep : 1;
   });
   const [files, setFiles] = useState<File[]>([]);
+  const [filesCount, setFilesCount] = useState(
+    () => (getSavedState()?.filesCount as number) || 0,
+  );
 
   // Customization Preferences
   const [gender, setGender] = useState(
@@ -198,6 +201,7 @@ function UploadContent() {
           framing,
           selectedStyles,
           storagePath,
+          filesCount: files.length,
         }),
       );
     } catch {}
@@ -444,12 +448,19 @@ function UploadContent() {
 
   const handleNextStep = async () => {
     setError("");
-    if (step === 1 && files.length < 1) {
+    // Allow proceeding if files exist OR a saved dataset path exists
+    if (step === 1 && files.length < 1 && !storagePath) {
       setError("Please upload at least 1 photo to proceed.");
       return;
     }
     if (step === 1) {
-      await analyzePhotos(files);
+      // Only run AI analysis if the user actually uploaded new files
+      if (files.length > 0) {
+        await analyzePhotos(files);
+      }
+      // Move to Step 2 regardless (new analysis or saved dataset)
+      setStep(2);
+      return;
     }
     if (
       step === 2 &&
@@ -467,7 +478,7 @@ function UploadContent() {
       setError("Please select at least one style.");
       return;
     }
-    setStep((s) => (s + 1) as Step);
+    setStep((prev) => (prev < 3 ? ((prev + 1) as Step) : prev));
     window.scrollTo(0, 0);
   };
 
@@ -617,6 +628,7 @@ function UploadContent() {
           framing,
           selectedStyles,
           storagePath: finalStoragePath,
+          filesCount: files.length,
         }),
       );
       window.location.href = url;
@@ -668,13 +680,27 @@ function UploadContent() {
         {step === 1 && (
           <div className="animate-in slide-in-from-right-4 fade-in duration-300">
             {storagePath && files.length === 0 && (
-              <div className="mb-6 p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl text-sm text-emerald-800 dark:text-emerald-300 flex items-center gap-3">
-                <CheckCircle2 className="w-5 h-5 shrink-0" />
-                <span>
-                  Your previous dataset is securely saved. You can upload new
-                  photos to replace it, or just click &ldquo;Next&rdquo; to
-                  continue.
-                </span>
+              <div className="mb-6 p-5 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-800 rounded-full flex items-center justify-center shrink-0">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-300" />
+                </div>
+                <div className="flex-1">
+                  <p className="font-semibold text-emerald-900 dark:text-emerald-200">
+                    {filesCount} {filesCount === 1 ? "photo" : "photos"}{" "}
+                    securely saved
+                  </p>
+                  <p className="text-sm text-emerald-700 dark:text-emerald-300 mt-1">
+                    Your dataset is preserved from your previous session. Upload
+                    new photos to replace it, or simply click{" "}
+                    <strong>Next</strong> to continue.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setStoragePath("")}
+                  className="text-xs font-medium text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 underline whitespace-nowrap"
+                >
+                  Replace files
+                </button>
               </div>
             )}
             <div className="text-center mb-8">
