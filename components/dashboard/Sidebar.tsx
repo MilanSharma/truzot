@@ -74,7 +74,12 @@ export default function Sidebar({
             </span>
             <button
               onClick={() =>
-                supabase.auth.signOut().then(() => router.push("/"))
+                supabase.auth.signOut().then(() => {
+                  sessionStorage.removeItem("truzot-upload");
+                  localStorage.removeItem("truzot-upload");
+                  localStorage.removeItem("truzot-upload-backup");
+                  router.push("/");
+                })
               }
               className="text-slate-400 hover:text-red-500 transition"
             >

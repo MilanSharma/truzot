@@ -70,6 +70,9 @@ export default function MobileDrawer({
               <button
                 onClick={() =>
                   supabase.auth.signOut().then(() => {
+                    sessionStorage.removeItem("truzot-upload");
+                    localStorage.removeItem("truzot-upload");
+                    localStorage.removeItem("truzot-upload-backup");
                     onClose();
                     router.push("/");
                   })

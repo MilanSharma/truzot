@@ -59,6 +59,9 @@ export default function AccountSettingsPage() {
     const { error } = await supabase.rpc("delete_user_account");
     if (error) setMessage(`Error: ${error.message}`);
     else {
+      sessionStorage.removeItem("truzot-upload");
+      localStorage.removeItem("truzot-upload");
+      localStorage.removeItem("truzot-upload-backup");
       await supabase.auth.signOut();
       router.push("/");
     }
