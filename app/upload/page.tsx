@@ -305,6 +305,8 @@ function UploadContent() {
       if (!faceDetectorSupported) return null;
       try {
         const bitmap = await createImageBitmap(file);
+        const bmpW = bitmap.width;
+        const bmpH = bitmap.height;
         const detector = new (window as any).FaceDetector({
           maxDetectedFaces: 5,
           fastMode: true,
@@ -316,8 +318,8 @@ function UploadContent() {
           faces[0].boundingRect || {
             x: 0,
             y: 0,
-            width: bitmap.width,
-            height: bitmap.height,
+            width: bmpW,
+            height: bmpH,
           };
         const margin = 0.2;
         const x = Math.max(0, f.x - f.width * margin);

@@ -27,15 +27,18 @@ function extractFileId(url: string): string | null {
 
 export async function deleteFalFile(url: string): Promise<boolean> {
   try {
-    if (!extractFileId(url)) return false;
-
     const falKey = process.env.FAL_KEY;
     if (!falKey) return false;
 
-    const fileId = extractFileId(url);
+    let fileId = extractFileId(url);
+    if (!fileId) {
+      if (url.startsWith("http")) return false;
+      fileId = url;
+    }
     if (!fileId) return false;
 
-    const res = await fetch(`${FAL_REST_BASE}/${encodeURIComponent(fileId)}`, {
+    const encoded = fileId.includes("/") ? fileId : encodeURIComponent(fileId);
+    const res = await fetch(`${FAL_REST_BASE}/${encoded}`, {
       method: "DELETE",
       headers: { Authorization: `Key ${falKey}` },
     });

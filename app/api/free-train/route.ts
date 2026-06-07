@@ -10,7 +10,7 @@ const log = createLogger("free-train");
 
 fal.config({ credentials: process.env.FAL_KEY });
 
-export const maxDuration = 180;
+export const maxDuration = 300;
 
 export const POST = withContext(async (req: Request) => {
   const origin = req.headers.get("origin");
@@ -33,7 +33,7 @@ export const POST = withContext(async (req: Request) => {
       .eq("fingerprint", ipHash)
       .maybeSingle();
 
-    if (usage && usage.remaining <= 0) {
+    if (usage && (usage.remaining ?? 0) <= 0) {
       return addCors(
         NextResponse.json({ error: "Free limit reached" }, { status: 429 }),
         origin,
@@ -76,21 +76,22 @@ export const POST = withContext(async (req: Request) => {
 
     let trainingComplete = false;
     let modelId = "";
-    for (let i = 0; i < 120; i++) {
-      await new Promise((r) => setTimeout(r, 3000));
+    const POLL_INTERVAL = 3000;
+    const MAX_POLLS = Math.floor(240000 / POLL_INTERVAL);
+    let consecutiveFails = 0;
+    const startTime = Date.now();
+    for (let i = 0; i < MAX_POLLS; i++) {
+      if (Date.now() - startTime > 240000) break;
+      await new Promise((r) => setTimeout(r, POLL_INTERVAL));
       try {
         const status = await fal.queue.status(
           "fal-ai/flux-lora-fast-training",
-          {
-            requestId,
-          },
+          { requestId },
         );
         if (status.status === "COMPLETED") {
           const result = await fal.queue.result(
             "fal-ai/flux-lora-fast-training",
-            {
-              requestId,
-            },
+            { requestId },
           );
           const data = result as any;
           modelId =
@@ -102,7 +103,12 @@ export const POST = withContext(async (req: Request) => {
             break;
           }
         }
-      } catch {}
+        consecutiveFails = 0;
+      } catch (err) {
+        consecutiveFails++;
+        log.warn({ err, attempt: i, orderId: requestId }, "FAL poll error");
+        if (consecutiveFails > 5) break;
+      }
     }
 
     if (!trainingComplete || !modelId) {
@@ -134,12 +140,21 @@ export const POST = withContext(async (req: Request) => {
       );
     }
 
-    const imgRes = await fetch(imageUrl);
-    const imgBlob = await imgRes.blob();
+    const controller = new AbortController();
+    const fetchTimeout = setTimeout(() => controller.abort(), 30000);
+    const imgRes = await fetch(imageUrl, { signal: controller.signal });
+    clearTimeout(fetchTimeout);
 
+    const imgBody = imgRes.body;
+    if (!imgBody) {
+      return addCors(
+        NextResponse.json({ error: "Empty image response" }, { status: 502 }),
+        origin,
+      );
+    }
     const { data: uploaded } = await supabaseAdmin.storage
       .from("headshots")
-      .upload(`free/${ipHash}_${Date.now()}.jpg`, imgBlob, {
+      .upload(`free/${ipHash}_${Date.now()}.jpg`, imgBody, {
         contentType: "image/jpeg",
         upsert: false,
       });

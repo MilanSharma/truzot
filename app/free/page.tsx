@@ -32,11 +32,23 @@ export default function FreeGenerator() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
 
+  const objectUrlsRef = useRef<string[]>([]);
+
+  useEffect(() => {
+    const urls = objectUrlsRef.current;
+    return () => {
+      for (const url of urls) URL.revokeObjectURL(url);
+    };
+  }, []);
+
   const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const incoming = Array.from(e.target.files).slice(0, 5);
     setFiles(incoming);
-    setPreviews(incoming.map((f) => URL.createObjectURL(f)));
+    for (const url of objectUrlsRef.current) URL.revokeObjectURL(url);
+    const newUrls = incoming.map((f) => URL.createObjectURL(f));
+    objectUrlsRef.current = newUrls;
+    setPreviews(newUrls);
     setStep("upload");
     setResultUrl(null);
     setError("");

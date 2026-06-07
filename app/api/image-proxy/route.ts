@@ -26,9 +26,13 @@ export const GET = withContext(async (req: Request) => {
     if (!isAllowed(imageUrl))
       return new NextResponse("Domain not allowed", { status: 403 });
 
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
     const response = await fetch(imageUrl, {
+      signal: controller.signal,
       headers: { "User-Agent": "Truzot/1.0", Accept: "image/*" },
     });
+    clearTimeout(timeout);
 
     if (!response.ok) {
       log.warn(
@@ -38,11 +42,10 @@ export const GET = withContext(async (req: Request) => {
       return new NextResponse("Upstream error", { status: 502 });
     }
 
-    const blob = await response.blob();
     const maxAge = 86400;
-    return new NextResponse(blob, {
+    return new NextResponse(response.body, {
       headers: {
-        "Content-Type": blob.type || "image/jpeg",
+        "Content-Type": response.headers.get("content-type") || "image/jpeg",
         "Cache-Control": `public, max-age=${maxAge}, s-maxage=${maxAge}, immutable`,
         "Access-Control-Allow-Origin": "*",
         "X-Content-Type-Options": "nosniff",
