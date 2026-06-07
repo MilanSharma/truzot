@@ -703,30 +703,6 @@ function UploadContent() {
         {/* STEP 1: UPLOAD */}
         {step === 1 && (
           <div className="animate-in slide-in-from-right-4 fade-in duration-300">
-            {storagePath && files.length === 0 && (
-              <div className="mb-6 p-5 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-800 rounded-full flex items-center justify-center shrink-0">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-300" />
-                </div>
-                <div className="flex-1">
-                  <p className="font-semibold text-emerald-900 dark:text-emerald-200">
-                    {filesCount} {filesCount === 1 ? "photo" : "photos"}{" "}
-                    securely saved
-                  </p>
-                  <p className="text-sm text-emerald-700 dark:text-emerald-300 mt-1">
-                    Your dataset is preserved from your previous session. Upload
-                    new photos to replace it, or simply click{" "}
-                    <strong>Next</strong> to continue.
-                  </p>
-                </div>
-                <button
-                  onClick={() => setStoragePath("")}
-                  className="text-xs font-medium text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 underline whitespace-nowrap"
-                >
-                  Replace files
-                </button>
-              </div>
-            )}
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold mb-2 text-slate-900 dark:text-white">
                 Upload your selfies
@@ -737,74 +713,124 @@ function UploadContent() {
               </p>
             </div>
 
-            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 shadow-sm mb-6">
-              <div className="flex items-center justify-between mb-4">
-                <span className="font-bold text-slate-900 dark:text-white">
-                  Dataset Quality
-                </span>
-                <span className={`font-bold ${score.text}`}>{score.label}</span>
-              </div>
-              <div className="h-3 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden mb-8">
-                <div
-                  className={`h-full ${score.color} transition-all duration-500`}
-                  style={{ width: `${score.score}%` }}
-                />
-              </div>
-
-              <label
-                htmlFor="file-input"
-                className="block cursor-pointer border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-2xl p-10 text-center hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/10 transition-colors"
-              >
-                <input
-                  type="file"
-                  multiple
-                  accept="image/jpeg,image/png,image/heic"
-                  capture="environment"
-                  className="hidden"
-                  id="file-input"
-                  onChange={(e) => handleFiles(e.target.files)}
-                />
-                <div className="w-16 h-16 bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Upload className="w-8 h-8 text-blue-600" />
+            {/* SAVED DATASET VIEW (Shows after hard reload / returning from Stripe) */}
+            {storagePath && files.length === 0 ? (
+              <div className="bg-white dark:bg-slate-900 rounded-2xl border border-emerald-200 dark:border-emerald-800 p-8 shadow-sm mb-6">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="font-bold text-slate-900 dark:text-white">
+                    Dataset Quality
+                  </span>
+                  <span className="font-bold text-emerald-600">
+                    Previously Uploaded
+                  </span>
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                  {files.length === 0
-                    ? "Click to browse or drag photos here"
-                    : `Add more photos`}
-                </h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400">
-                  JPG, PNG, HEIC accepted.
-                </p>
-              </label>
-
-              {files.length > 0 && (
-                <div className="mt-8 grid grid-cols-4 sm:grid-cols-5 gap-3">
-                  {files.map((f, i) => (
-                    <div
-                      key={i}
-                      className="relative aspect-square rounded-xl overflow-hidden shadow-sm group"
-                    >
-                      <img
-                        src={objectUrls[i] || URL.createObjectURL(f)}
-                        alt={`Photo ${i + 1}: ${f.name}`}
-                        className="w-full h-full object-cover"
-                      />
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          removeFile(i);
-                        }}
-                        className="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+                <div className="h-3 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden mb-6">
+                  <div
+                    className="h-full bg-emerald-500 transition-all duration-500"
+                    style={{ width: "100%" }}
+                  />
+                </div>
+                <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-xl p-6 text-center border border-emerald-100 dark:border-emerald-800">
+                  <ImageIcon className="w-12 h-12 text-emerald-600 dark:text-emerald-400 mx-auto mb-3" />
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
+                    Photos Securely Saved
+                  </h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
+                    Your previously uploaded photos are safely stored in our
+                    secure environment and ready to use. You can upload new
+                    photos to replace them, or simply click{" "}
+                    <strong>Next</strong> to continue.
+                  </p>
+                  <button
+                    onClick={() => {
+                      setStoragePath("");
+                      const saved = getSavedState();
+                      if (saved) {
+                        delete (saved as any).storagePath;
+                        sessionStorage.setItem(
+                          SESSION_KEY,
+                          JSON.stringify(saved),
+                        );
+                      }
+                    }}
+                    className="text-sm font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline"
+                  >
+                    Replace with new photos
+                  </button>
+                </div>
+              </div>
+            ) : (
+              /* NORMAL UPLOAD VIEW */
+              <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 shadow-sm mb-6">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="font-bold text-slate-900 dark:text-white">
+                    Dataset Quality
+                  </span>
+                  <span className={`font-bold ${score.text}`}>
+                    {score.label}
+                  </span>
+                </div>
+                <div className="h-3 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden mb-8">
+                  <div
+                    className={`h-full ${score.color} transition-all duration-500`}
+                    style={{ width: `${score.score}%` }}
+                  />
+                </div>
+                <label
+                  htmlFor="file-input"
+                  className="block cursor-pointer border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-2xl p-10 text-center hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/10 transition-colors"
+                >
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/jpeg,image/png,image/heic"
+                    capture="environment"
+                    className="hidden"
+                    id="file-input"
+                    onChange={(e) => handleFiles(e.target.files)}
+                  />
+                  <div className="w-16 h-16 bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Upload className="w-8 h-8 text-blue-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                    {files.length === 0
+                      ? "Click to browse or drag photos here"
+                      : `Add more photos`}
+                  </h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                    JPG, PNG, HEIC accepted.
+                  </p>
+                </label>
+                {files.length > 0 && (
+                  <div className="mt-8 grid grid-cols-4 sm:grid-cols-5 gap-3">
+                    {files.map((f, i) => (
+                      <div
+                        key={i}
+                        className="relative aspect-square rounded-xl overflow-hidden shadow-sm group"
                       >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+                        <img
+                          src={objectUrls[i] || URL.createObjectURL(f)}
+                          alt={`Photo ${i + 1}: ${f.name}`}
+                          className="w-full h-full object-cover"
+                        />
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            removeFile(i);
+                          }}
+                          className="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
 
-            {files.length === 0 && (
+            {/* Hide tips if dataset is already saved */}
+            {files.length === 0 && !storagePath && (
               <div className="grid sm:grid-cols-2 gap-4">
                 {PHOTO_TIPS.map((tip, idx) => (
                   <div
