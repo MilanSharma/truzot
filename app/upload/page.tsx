@@ -129,6 +129,9 @@ function UploadContent() {
       ? (saved.consentChecked as boolean)
       : true;
   });
+  const [storagePath, setStoragePath] = useState(
+    () => (getSavedState()?.storagePath as string) || "",
+  );
   const [error, setError] = useState("");
   const [progress, setProgress] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -155,22 +158,30 @@ function UploadContent() {
     return () => window.removeEventListener("popstate", onPopState);
   }, []);
 
-  // Handle ?cancelled=1 from Stripe cancel URL — clear state and start fresh
+  // Handle ?cancelled=1 from Stripe cancel URL — preserve state and return to last step
   useEffect(() => {
     if (searchParams.get("cancelled")) {
-      try {
-        sessionStorage.removeItem(SESSION_KEY);
-      } catch {}
       setTimeout(() => {
-        setStep(1);
-        window.history.replaceState(null, "", "/upload");
+        const saved = getSavedState();
+        const targetStep =
+          saved?.step &&
+          typeof saved.step === "number" &&
+          saved.step >= 1 &&
+          saved.step <= 3
+            ? (saved.step as Step)
+            : 3;
+        setStep(targetStep);
+        // Remove cancelled from URL without losing other state
+        const newUrl = new URL(window.location.href);
+        newUrl.searchParams.delete("cancelled");
+        window.history.replaceState(null, "", newUrl.toString());
       }, 0);
     }
   }, [searchParams]);
 
   // Persist state so browser back from Stripe preserves details
   useEffect(() => {
-    if (step === 1 && files.length === 0) return;
+    if (step === 1 && files.length === 0 && !storagePath) return;
     try {
       sessionStorage.setItem(
         SESSION_KEY,
@@ -186,6 +197,7 @@ function UploadContent() {
           background,
           framing,
           selectedStyles,
+          storagePath,
         }),
       );
     } catch {}
@@ -201,6 +213,7 @@ function UploadContent() {
     background,
     framing,
     selectedStyles,
+    storagePath,
     files,
   ]);
 
@@ -471,7 +484,8 @@ function UploadContent() {
       return;
     }
 
-    if (files.length === 0) {
+    // Allow proceeding if we have a saved storagePath from a previous attempt
+    if (files.length === 0 && !storagePath) {
       setError("Please upload at least one photo first.");
       setStep(1);
       setIsProcessing(false);
@@ -490,58 +504,70 @@ function UploadContent() {
       };
       if (token) authHeaders.Authorization = `Bearer ${token}`;
 
-      setProgress("Optimizing image dataset…");
-      const JSZip = (await import("jszip")).default;
-      const zip = new JSZip();
-      files.forEach((f, i) => {
-        const ext = f.name.split(".").pop() ?? "jpg";
-        zip.file(`photo_${i + 1}.${ext}`, f);
-      });
+      let finalStoragePath = storagePath;
 
-      // Fetch upload URL in parallel with zipping
-      const uploadUrlPromise = fetch("/api/upload", {
-        method: "POST",
-        headers: authHeaders,
-        body: JSON.stringify({
-          action: "get-upload-url",
-          filename: `dataset_${Date.now()}.zip`,
-        }),
-      });
+      if (files.length > 0) {
+        setProgress("Optimizing image dataset…");
+        const JSZip = (await import("jszip")).default;
+        const zip = new JSZip();
+        files.forEach((f, i) => {
+          const ext = f.name.split(".").pop() ?? "jpg";
+          zip.file(`photo_${i + 1}.${ext}`, f);
+        });
 
-      const zipBlob = await zip.generateAsync({
-        type: "blob",
-        compression: "STORE",
-      });
+        // Fetch upload URL in parallel with zipping
+        const uploadUrlPromise = fetch("/api/upload", {
+          method: "POST",
+          headers: authHeaders,
+          body: JSON.stringify({
+            action: "get-upload-url",
+            filename: `dataset_${Date.now()}.zip`,
+          }),
+        });
 
-      setProgress("Securing upload channel...");
-      const uploadUrlRes = await uploadUrlPromise;
-      if (!uploadUrlRes.ok) throw new Error("Failed to get upload URL");
-      const { signedUrl, token: uploadToken, path } = await uploadUrlRes.json();
+        const zipBlob = await zip.generateAsync({
+          type: "blob",
+          compression: "STORE",
+        });
 
-      setProgress("Transferring encrypted data…");
-      await new Promise<void>((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open("PUT", signedUrl);
-        xhr.setRequestHeader("x-upsert", "true");
-        xhr.setRequestHeader("content-type", "application/zip");
-        if (uploadToken)
-          xhr.setRequestHeader("authorization", `Bearer ${uploadToken}`);
+        setProgress("Securing upload channel...");
+        const uploadUrlRes = await uploadUrlPromise;
+        if (!uploadUrlRes.ok) throw new Error("Failed to get upload URL");
+        const {
+          signedUrl,
+          token: uploadToken,
+          path,
+        } = await uploadUrlRes.json();
+        finalStoragePath = path;
+        setStoragePath(path);
 
-        xhr.upload.onprogress = (e) => {
-          if (e.lengthComputable) {
-            setProgress(
-              `Uploading: ${Math.round((e.loaded / e.total) * 100)}%`,
-            );
-          }
-        };
-        xhr.onload = () => {
-          if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204)
-            resolve();
-          else reject(new Error("File upload failed."));
-        };
-        xhr.onerror = () => reject(new Error("Network error during upload."));
-        xhr.send(zipBlob);
-      });
+        setProgress("Transferring encrypted data…");
+        await new Promise<void>((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open("PUT", signedUrl);
+          xhr.setRequestHeader("x-upsert", "true");
+          xhr.setRequestHeader("content-type", "application/zip");
+          if (uploadToken)
+            xhr.setRequestHeader("authorization", `Bearer ${uploadToken}`);
+
+          xhr.upload.onprogress = (e) => {
+            if (e.lengthComputable) {
+              setProgress(
+                `Uploading: ${Math.round((e.loaded / e.total) * 100)}%`,
+              );
+            }
+          };
+          xhr.onload = () => {
+            if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204)
+              resolve();
+            else reject(new Error("File upload failed."));
+          };
+          xhr.onerror = () => reject(new Error("Network error during upload."));
+          xhr.send(zipBlob);
+        });
+      } else {
+        setProgress("Using previously uploaded dataset...");
+      }
 
       setProgress("Generating checkout session…");
 
@@ -550,7 +576,7 @@ function UploadContent() {
       const checkoutPayload: Record<string, unknown> = {
         plan,
         email,
-        storagePath: path,
+        storagePath: finalStoragePath,
         gender,
         eyeColor,
         hairColor,
@@ -575,6 +601,7 @@ function UploadContent() {
       }
       const { url } = await checkoutRes.json();
 
+      // Update session storage with final state before redirect
       sessionStorage.setItem(
         SESSION_KEY,
         JSON.stringify({
@@ -589,6 +616,7 @@ function UploadContent() {
           background,
           framing,
           selectedStyles,
+          storagePath: finalStoragePath,
         }),
       );
       window.location.href = url;
@@ -639,6 +667,16 @@ function UploadContent() {
         {/* STEP 1: UPLOAD */}
         {step === 1 && (
           <div className="animate-in slide-in-from-right-4 fade-in duration-300">
+            {storagePath && files.length === 0 && (
+              <div className="mb-6 p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl text-sm text-emerald-800 dark:text-emerald-300 flex items-center gap-3">
+                <CheckCircle2 className="w-5 h-5 shrink-0" />
+                <span>
+                  Your previous dataset is securely saved. You can upload new
+                  photos to replace it, or just click &ldquo;Next&rdquo; to
+                  continue.
+                </span>
+              </div>
+            )}
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold mb-2 text-slate-900 dark:text-white">
                 Upload your selfies
