@@ -13,7 +13,7 @@ import { supabase } from "@/lib/supabase/client";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 import { PLANS } from "@/lib/plans";
 import type { User, Order, Headshot } from "@/lib/types";
-import { Camera } from "lucide-react";
+import { Camera, ChevronRight } from "lucide-react";
 import Sidebar from "@/components/dashboard/Sidebar";
 import MobileDrawer from "@/components/dashboard/MobileDrawer";
 import ProjectLibrary from "@/components/dashboard/ProjectLibrary";
@@ -604,15 +604,39 @@ function DashboardContent() {
                     Payment Incomplete
                   </h2>
                   <p className="text-slate-500 dark:text-slate-400 max-w-md mb-8">
-                    This order hasn&apos;t been paid yet. Go back to the upload
-                    page to start a new checkout.
+                    You left this order unpaid. You can pick up right where you
+                    left off and complete your checkout.
                   </p>
-                  <Link
-                    href="/upload"
-                    className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition"
+                  <button
+                    onClick={() => {
+                      const prefs =
+                        (currentOrder.preferences as Record<string, any>) || {};
+                      const restoreState = {
+                        step: 3,
+                        plan: currentOrder.plan,
+                        email: currentOrder.email || "",
+                        consentChecked: true,
+                        gender: prefs.gender || "",
+                        eyeColor: prefs.eyeColor || "",
+                        hairColor: prefs.hairColor || "",
+                        clothing: prefs.clothing || "",
+                        background: prefs.background || "",
+                        framing: prefs.framing || "",
+                        selectedStyles: prefs.selectedStyles || [],
+                        storagePath: prefs.storagePath || "",
+                      };
+                      try {
+                        sessionStorage.setItem(
+                          "truzot-upload",
+                          JSON.stringify(restoreState),
+                        );
+                      } catch {}
+                      window.location.href = `/upload?step=3&plan=${currentOrder.plan}`;
+                    }}
+                    className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition flex items-center justify-center gap-2 mx-auto shadow-sm"
                   >
-                    Start New Upload
-                  </Link>
+                    Resume Payment <ChevronRight className="w-5 h-5" />
+                  </button>
                 </div>
               )}
 
