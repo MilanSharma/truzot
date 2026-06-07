@@ -143,6 +143,9 @@ function UploadContent() {
   const [storagePath, setStoragePath] = useState(
     () => (getSavedState()?.storagePath as string) || "",
   );
+  const [shootName, setShootName] = useState(
+    () => (getSavedState()?.shootName as string) || "",
+  );
   const [error, setError] = useState("");
   const [progress, setProgress] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -208,6 +211,7 @@ function UploadContent() {
         selectedStyles,
         storagePath,
         filesCount: files.length,
+        shootName,
       });
       sessionStorage.setItem(SESSION_KEY, state);
       localStorage.setItem(LOCAL_KEY, state);
@@ -226,6 +230,7 @@ function UploadContent() {
     selectedStyles,
     storagePath,
     files,
+    shootName,
   ]);
 
   useEffect(() => {
@@ -563,6 +568,7 @@ function UploadContent() {
         framing,
         selectedStyles,
         idempotencyKey,
+        shootName: shootName || undefined,
       };
       if (userId) checkoutPayload.userId = userId;
 
@@ -597,6 +603,7 @@ function UploadContent() {
           framing,
           selectedStyles,
           storagePath: finalStoragePath,
+          shootName,
         }),
       );
 
@@ -1111,6 +1118,20 @@ function UploadContent() {
                 <h3 className="font-bold mb-4 flex items-center gap-2 text-slate-900 dark:text-white">
                   <Lock className="w-4 h-4" /> Secure Checkout
                 </h3>
+
+                <div className="mb-5">
+                  <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                    Name This Shoot
+                  </label>
+                  <input
+                    type="text"
+                    value={shootName}
+                    onChange={(e) => setShootName(e.target.value)}
+                    placeholder={`e.g. "John's LinkedIn" or "Summer Shoot"`}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900 outline-none transition font-medium"
+                    maxLength={100}
+                  />
+                </div>
 
                 <div className="mb-5">
                   <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">

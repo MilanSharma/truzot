@@ -1,7 +1,15 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Heart, Download, X, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Heart,
+  Download,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  RefreshCw,
+  Loader2,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ShareButton from "@/components/ShareButton";
 
@@ -14,6 +22,7 @@ interface LightboxModalProps {
   onNext?: () => void;
   onToggleFavorite: (url: string, e?: React.MouseEvent) => void;
   onDownload: (url: string) => void;
+  onRegenerate?: (url: string) => Promise<void>;
 }
 
 export default function LightboxModal({
@@ -25,7 +34,10 @@ export default function LightboxModal({
   onNext,
   onToggleFavorite,
   onDownload,
+  onRegenerate,
 }: LightboxModalProps) {
+  const [regenerating, setRegenerating] = useState(false);
+
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -35,6 +47,16 @@ export default function LightboxModal({
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
   }, [onClose, onPrev, onNext]);
+
+  const handleRegenerate = async () => {
+    if (regenerating || !onRegenerate) return;
+    setRegenerating(true);
+    try {
+      await onRegenerate(imageUrl);
+    } finally {
+      setRegenerating(false);
+    }
+  };
 
   return (
     <motion.div
@@ -77,6 +99,28 @@ export default function LightboxModal({
                 className={`w-5 h-5 ${favorites.includes(imageUrl) ? "fill-white" : ""}`}
               />
             </button>
+            {onRegenerate && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleRegenerate();
+                }}
+                disabled={regenerating}
+                className={`w-12 h-12 rounded-xl flex items-center justify-center transition border ${
+                  regenerating
+                    ? "bg-blue-500/50 border-blue-400/50 text-white/50 cursor-not-allowed"
+                    : "bg-blue-500 hover:bg-blue-600 border-blue-400 text-white"
+                }`}
+                aria-label="Regenerate this headshot"
+                title="Regenerate this headshot"
+              >
+                {regenerating ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <RefreshCw className="w-5 h-5" />
+                )}
+              </button>
+            )}
             <div className="hidden sm:block">
               <ShareButton imageUrl={imageUrl} label="Share" />
             </div>

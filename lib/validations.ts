@@ -26,6 +26,7 @@ export const checkoutSchema = z.object({
   selectedStyles: z.array(z.string()).min(1),
   userId: z.string().optional(),
   idempotencyKey: z.string().min(1, "Idempotency key is required"),
+  shootName: z.string().max(100).optional(),
 });
 
 export const retrySchema = z.object({

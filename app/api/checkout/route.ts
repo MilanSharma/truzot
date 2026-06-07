@@ -36,6 +36,7 @@ export const POST = withContext(async (req: Request) => {
       framing,
       selectedStyles,
       idempotencyKey,
+      shootName,
     } = parsed.data!;
 
     // Basic email domain validation
@@ -108,6 +109,7 @@ export const POST = withContext(async (req: Request) => {
         status: "pending",
         zip_url: zipUrl,
         user_id: userId,
+        shoot_name: shootName || null,
         preferences: {
           gender,
           eyeColor,

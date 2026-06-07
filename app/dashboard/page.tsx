@@ -14,7 +14,7 @@ import JSZip from "jszip";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 import { PLANS } from "@/lib/plans";
 import type { User, Order, Headshot } from "@/lib/types";
-import { Camera, ChevronRight, Share2, Mail } from "lucide-react";
+import { Camera, ChevronRight, Share2, Mail, Sparkles } from "lucide-react";
 import Sidebar from "@/components/dashboard/Sidebar";
 import MobileDrawer from "@/components/dashboard/MobileDrawer";
 import ProjectLibrary from "@/components/dashboard/ProjectLibrary";
@@ -498,6 +498,97 @@ function DashboardContent() {
     }
   };
 
+  const handleRetryOrder = async (id: string) => {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    const token = session?.access_token;
+    if (!token) return;
+    const res = await fetch("/api/generate/retry", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ orderId: id }),
+    });
+    if (res.ok) {
+      setOrders((prev) =>
+        prev.map((o) => (o.id === id ? { ...o, status: "generating" } : o)),
+      );
+      toast("Retrying generation...", "success");
+    } else {
+      toast("Failed to retry generation", "error");
+    }
+  };
+
+  const handleResumeCheckout = async (id: string) => {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    const token = session?.access_token;
+    if (!token) return;
+    try {
+      const res = await fetch("/api/checkout/resume", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ orderId: id }),
+      });
+      if (res.ok) {
+        const { url } = await res.json();
+        if (url) window.location.href = url;
+      } else {
+        toast("Failed to resume checkout", "error");
+      }
+    } catch {
+      toast("Failed to resume checkout", "error");
+    }
+  };
+
+  const handleRegenerateHeadshot = async (imageUrl: string) => {
+    if (!orderId) return;
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    const token = session?.access_token;
+    if (!token) {
+      toast("Please sign in to regenerate", "error");
+      return;
+    }
+    try {
+      const res = await fetch("/api/regenerate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ orderId, imageUrl }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.replacementUrl) {
+          setHeadshots((prev) =>
+            prev.map((h) =>
+              h.image_url === imageUrl
+                ? { ...h, image_url: data.replacementUrl }
+                : h,
+            ),
+          );
+          toast("Headshot regenerated!", "success");
+        } else {
+          toast(data.message || "Regeneration submitted", "success");
+        }
+      } else {
+        toast("Failed to regenerate headshot", "error");
+      }
+    } catch {
+      toast("Failed to regenerate headshot", "error");
+    }
+  };
+
   const handleDeleteOrder = async (id: string) => {
     const {
       data: { session },
@@ -641,6 +732,13 @@ function DashboardContent() {
                     >
                       <Mail className="w-4 h-4" /> Email
                     </button>
+                    <Link
+                      href="/upload"
+                      className="px-4 py-2.5 rounded-xl text-sm font-bold border bg-indigo-50 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition flex items-center gap-2"
+                      title="Generate more headshots with new styles"
+                    >
+                      <Sparkles className="w-4 h-4" /> Generate More
+                    </Link>
                     <button
                       onClick={() => setMultiSelectMode(!multiSelectMode)}
                       className={`px-4 py-2.5 rounded-xl text-sm font-bold transition border ${multiSelectMode ? "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-400" : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700"}`}
@@ -830,7 +928,12 @@ function DashboardContent() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.1 }}
             >
-              <ProjectLibrary orders={orders} onDelete={handleDeleteOrder} />
+              <ProjectLibrary
+                orders={orders}
+                onDelete={handleDeleteOrder}
+                onRetry={handleRetryOrder}
+                onResumeCheckout={handleResumeCheckout}
+              />
             </motion.div>
           )}
         </motion.div>
@@ -866,6 +969,7 @@ function DashboardContent() {
                 }
                 onToggleFavorite={toggleFavorite}
                 onDownload={downloadSingle}
+                onRegenerate={handleRegenerateHeadshot}
               />
             </Suspense>
           );

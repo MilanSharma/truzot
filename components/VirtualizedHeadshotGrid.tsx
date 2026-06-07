@@ -23,8 +23,8 @@ interface VirtualizedHeadshotGridProps {
   favorites: string[];
   selectedImages: string[];
   multiSelectMode: boolean;
-  activeCategory: string;
   orderId?: string;
+  minColWidth?: number;
   onToggleSelect: (url: string, e?: React.MouseEvent) => void;
   onToggleFavorite: (url: string, e?: React.MouseEvent) => void;
   onView: (url: string) => void;
@@ -34,7 +34,6 @@ interface VirtualizedHeadshotGridProps {
 
 const CARD_ASPECT = 3 / 4;
 const GAP = 24;
-const MIN_COL_WIDTH = 200;
 const MAX_VISIBLE_ROWS = 6;
 
 function HeadshotCard({
@@ -176,9 +175,10 @@ export default function VirtualizedHeadshotGrid(
     return () => observer.disconnect();
   }, []);
 
+  const minColWidth = props.minColWidth ?? 200;
   const columnCount = Math.max(
     1,
-    Math.floor((width + GAP) / (MIN_COL_WIDTH + GAP)),
+    Math.floor((width + GAP) / (minColWidth + GAP)),
   );
   const columnWidth = Math.floor(
     (width - GAP * (columnCount - 1)) / columnCount,

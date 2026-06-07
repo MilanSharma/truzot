@@ -37,6 +37,8 @@ export interface Order {
   zip_url?: string;
   stripe_payment_intent?: string;
   preferences?: Record<string, unknown>;
+  shoot_name?: string;
+  source_image_url?: string;
 }
 
 export interface User {
