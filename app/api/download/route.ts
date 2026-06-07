@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { getAuthenticatedClient } from "@/lib/supabase/authenticated";
-import JSZip from "jszip";
 import { createLogger } from "@/lib/logger";
 import { addCors, handleOptions } from "@/lib/cors";
 import { withContext } from "@/lib/request-context";
@@ -156,25 +155,10 @@ export const GET = withContext(async (req: Request) => {
           origin,
         );
 
-      const zip = new JSZip();
-      const results = await Promise.all(
-        headshots.map(async (h, idx) => {
-          const res = await fetch(h.image_url);
-          const buf = await res.arrayBuffer();
-          return { idx, buf };
-        }),
+      return addCors(
+        NextResponse.json({ urls: headshots.map((h) => h.image_url) }),
+        origin,
       );
-      for (const { idx, buf } of results)
-        zip.file(`headshot_${idx + 1}.jpg`, buf);
-      const zipBuffer = await zip.generateAsync({ type: "arraybuffer" });
-
-      return new NextResponse(zipBuffer, {
-        headers: {
-          "Content-Type": "application/zip",
-          "Content-Disposition": `attachment; filename="truzot-headshots-${orderId}.zip"`,
-          "Cache-Control": "private, no-store",
-        },
-      });
     }
     return addCors(
       NextResponse.json({ error: "Missing parameters" }, { status: 400 }),
@@ -260,28 +244,7 @@ export const POST = withContext(async (req: Request) => {
       );
     }
 
-    const zip = new JSZip();
-    const results = await Promise.all(
-      safeUrls.map(async (url, idx) => {
-        const res = await fetch(url);
-        const buf = await res.arrayBuffer();
-        return { idx, buf };
-      }),
-    );
-
-    for (const { idx, buf } of results) {
-      zip.file(`headshot_${idx + 1}.jpg`, buf);
-    }
-
-    const zipBuffer = await zip.generateAsync({ type: "arraybuffer" });
-
-    return new NextResponse(zipBuffer, {
-      headers: {
-        "Content-Type": "application/zip",
-        "Content-Disposition": `attachment; filename="truzot-selected-${safeUrls.length}.zip"`,
-        "Cache-Control": "private, no-store",
-      },
-    });
+    return addCors(NextResponse.json({ urls: safeUrls }), origin);
   } catch (err) {
     log.error({ err }, "Download selected failed");
     return addCors(

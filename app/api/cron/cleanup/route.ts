@@ -153,7 +153,7 @@ export const GET = withContext(async (req: Request) => {
     // Find all orders older than 30 days
     const { data: expiredOrders, error: fetchError } = await supabaseAdmin
       .from("orders")
-      .select("id, user_id")
+      .select("id, user_id, storage_path")
       .lt("created_at", thirtyDaysAgo);
 
     if (fetchError) {
@@ -173,23 +173,58 @@ export const GET = withContext(async (req: Request) => {
 
     const results = { deleted: 0, errors: [] as string[] };
 
+    let warningEmailsSent = 0;
     for (const order of expiredOrders) {
       try {
+        // Send warning email before deletion
+        if (order.user_id) {
+          const { data: profile } = await supabaseAdmin
+            .from("profiles")
+            .select("email")
+            .eq("id", order.user_id)
+            .single();
+          if (profile?.email) {
+            const { data: prefs } = await supabaseAdmin
+              .from("email_preferences")
+              .select("unsubscribed")
+              .eq("email", profile.email)
+              .single();
+            if (!prefs?.unsubscribed) {
+              try {
+                const { Resend } = await import("resend");
+                const resend = new Resend(process.env.RESEND_API_KEY);
+                await resend.emails.send({
+                  from: "Truzot <hello@truzot.com>",
+                  to: profile.email,
+                  subject: "Your Truzot headshots will be deleted in 24 hours",
+                  html: `<div style="font-family: Georgia, serif; max-width: 560px; margin: 0 auto; color: #0a0a0a;"><div style="padding: 40px 0 20px;"><h1 style="font-size: 28px; font-weight: 900; margin: 0 0 8px;">Headshots expiring soon.</h1><p style="color: #6b6560; font-size: 16px; line-height: 1.6; margin: 0 0 32px;">Your AI headshots were generated over 30 days ago. Per our privacy policy, we will permanently delete all your photos, headshots, and training data within 24 hours.</p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/dashboard?order=${order.id}" style="background: #0a0a0a; color: #f5f0e8; padding: 14px 32px; border-radius: 2px; text-decoration: none; font-size: 15px; font-weight: 500; display: inline-block;">Download before they're gone →</a></div><hr style="border: none; border-top: 1px solid #e8e4dc; margin: 32px 0;" /><p style="color: #9b9590; font-size: 13px;">After deletion, this cannot be undone. — The Truzot team</p></div>`,
+                });
+                warningEmailsSent++;
+              } catch (err) {
+                log.error({ err, orderId: order.id }, "Warning email failed");
+              }
+            }
+          }
+        }
+
         // 1. Delete headshot records
         await supabaseAdmin.from("headshots").delete().eq("order_id", order.id);
 
         // 2. Delete training records
         await supabaseAdmin.from("trainings").delete().eq("order_id", order.id);
 
-        // 3. Delete uploaded files from storage (user's upload directory)
-        if (order.user_id) {
+        // 3. Delete uploaded files from storage
+        const uploadFolder = order.storage_path
+          ? order.storage_path.split("/")[0]
+          : order.user_id;
+        if (uploadFolder) {
           const { data: uploadFiles } = await supabaseAdmin.storage
             .from("uploads")
-            .list(order.user_id);
+            .list(uploadFolder);
 
           if (uploadFiles && uploadFiles.length > 0) {
             const filePaths = uploadFiles.map(
-              (f) => `${order.user_id}/${f.name}`,
+              (f) => `${uploadFolder}/${f.name}`,
             );
             await supabaseAdmin.storage.from("uploads").remove(filePaths);
           }

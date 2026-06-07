@@ -61,11 +61,19 @@ const PHOTO_TIPS = [
 type Step = 1 | 2 | 3;
 
 const SESSION_KEY = "truzot-upload";
+const LOCAL_KEY = "truzot-upload-backup";
 
 function getSavedState(): Record<string, unknown> | null {
   try {
     const saved = sessionStorage.getItem(SESSION_KEY);
-    return saved ? JSON.parse(saved) : null;
+    if (saved) return JSON.parse(saved);
+    const backup = localStorage.getItem(LOCAL_KEY);
+    if (backup) {
+      const parsed = JSON.parse(backup);
+      sessionStorage.setItem(SESSION_KEY, backup);
+      return parsed;
+    }
+    return null;
   } catch {
     return null;
   }
@@ -186,24 +194,23 @@ function UploadContent() {
   useEffect(() => {
     if (step === 1 && files.length === 0 && !storagePath) return;
     try {
-      sessionStorage.setItem(
-        SESSION_KEY,
-        JSON.stringify({
-          step,
-          plan,
-          email,
-          consentChecked,
-          gender,
-          eyeColor,
-          hairColor,
-          clothing,
-          background,
-          framing,
-          selectedStyles,
-          storagePath,
-          filesCount: files.length,
-        }),
-      );
+      const state = JSON.stringify({
+        step,
+        plan,
+        email,
+        consentChecked,
+        gender,
+        eyeColor,
+        hairColor,
+        clothing,
+        background,
+        framing,
+        selectedStyles,
+        storagePath,
+        filesCount: files.length,
+      });
+      sessionStorage.setItem(SESSION_KEY, state);
+      localStorage.setItem(LOCAL_KEY, state);
     } catch {}
   }, [
     step,
@@ -247,14 +254,54 @@ function UploadContent() {
     };
   }, [objectUrls]);
 
+  const validatePhoto = useCallback(
+    async (file: File): Promise<string | null> => {
+      try {
+        const bitmap = await createImageBitmap(file);
+        const { width, height } = bitmap;
+        bitmap.close();
+        if (width < 300 || height < 300)
+          return `${file.name}: image too small (${width}x${height}). Minimum 300x300.`;
+        const ratio = width / height;
+        if (ratio < 0.4 || ratio > 2.5)
+          return `${file.name}: unusual aspect ratio (${ratio.toFixed(1)}). Use a standard photo.`;
+        return null;
+      } catch {
+        return `${file.name}: unable to read image file.`;
+      }
+    },
+    [],
+  );
+
+  const computeFileFingerprint = useCallback(
+    (file: File): string => `${file.name}|${file.size}`,
+    [],
+  );
+
+  const heicConverterRef = useRef<((blob: Blob) => Promise<Blob>) | null>(null);
+
   const handleFiles = useCallback(
     async (incoming: FileList | null) => {
       if (!incoming) return;
+      if (!heicConverterRef.current) {
+        try {
+          const heic2any = (await import("heic2any")).default;
+          heicConverterRef.current = (blob: Blob) =>
+            heic2any({ blob, toType: "image/jpeg" }) as Promise<Blob>;
+        } catch {
+          heicConverterRef.current = null;
+        }
+      }
       const converted: File[] = [];
       const errors: string[] = [];
       for (const f of Array.from(incoming)) {
         if (f.size >= 10 * 1024 * 1024) {
           errors.push(`${f.name}: file too large (max 10MB)`);
+          continue;
+        }
+        const validationError = await validatePhoto(f);
+        if (validationError) {
+          errors.push(validationError);
           continue;
         }
         if (
@@ -263,21 +310,32 @@ function UploadContent() {
           f.name.toLowerCase().endsWith(".heic") ||
           f.name.toLowerCase().endsWith(".heif")
         ) {
-          try {
-            const heic2any = (await import("heic2any")).default;
-            const blob = await heic2any({ blob: f, toType: "image/jpeg" });
-            const jpegFile = new File(
-              [blob as Blob],
-              f.name.replace(/\.(heic|heif)$/i, ".jpg"),
-              { type: "image/jpeg" },
-            );
-            converted.push(jpegFile);
-          } catch {
-            errors.push(
-              `${f.name}: HEIC conversion failed — please convert to JPEG first`,
-            );
+          if (heicConverterRef.current) {
+            try {
+              const blob = await heicConverterRef.current(f);
+              const jpegFile = new File(
+                [blob as Blob],
+                f.name.replace(/\.(heic|heif)$/i, ".jpg"),
+                { type: "image/jpeg" },
+              );
+              converted.push(jpegFile);
+            } catch {
+              errors.push(
+                `${f.name}: HEIC conversion failed — please convert to JPEG first`,
+              );
+            }
+          } else {
+            errors.push(`${f.name}: HEIC converter not available`);
           }
         } else if (f.type.startsWith("image/")) {
+          const fp = computeFileFingerprint(f);
+          const existingFps = converted
+            .concat(files)
+            .map((ef) => computeFileFingerprint(ef));
+          if (existingFps.includes(fp)) {
+            errors.push(`${f.name}: duplicate photo detected — skip`);
+            continue;
+          }
           converted.push(f);
         } else {
           errors.push(`${f.name}: unsupported format`);
@@ -291,7 +349,7 @@ function UploadContent() {
         return next;
       });
     },
-    [toast],
+    [toast, validatePhoto, computeFileFingerprint, files],
   );
 
   const removeFile = (i: number) => {
@@ -307,10 +365,10 @@ function UploadContent() {
         color: "bg-slate-200",
         text: "text-slate-500",
       };
-    if (files.length < 3)
+    if (files.length < 5)
       return {
         score: 30,
-        label: "Good — add more for better results",
+        label: "Add 3-5 photos for best quality",
         color: "bg-amber-500",
         text: "text-amber-600",
       };
@@ -326,124 +384,9 @@ function UploadContent() {
 
   const analyzePhotos = useCallback(async (imageFiles: File[]) => {
     if (imageFiles.length === 0) return;
-    const bitmap = await createImageBitmap(imageFiles[0]);
-    const imgW = bitmap.width;
-    const imgH = bitmap.height;
-    const w = 200;
-    const h = 200;
-    const canvas = document.createElement("canvas");
-    canvas.width = w;
-    canvas.height = h;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) {
-      bitmap.close();
-      return;
-    }
-    ctx.drawImage(bitmap, 0, 0, w, h);
-    bitmap.close();
-
-    const imageData = ctx.getImageData(0, 0, w, h).data;
-
-    const getDominant = (
-      pixels: Uint8ClampedArray,
-    ): [number, number, number] => {
-      let tr = 0,
-        tg = 0,
-        tb = 0,
-        count = 0;
-      for (let i = 0; i < pixels.length; i += 4) {
-        const r = pixels[i],
-          g = pixels[i + 1],
-          b = pixels[i + 2];
-        const brightness = (r + g + b) / 3;
-        if (brightness > 235 || brightness < 20) continue;
-        tr += r;
-        tg += g;
-        tb += b;
-        count++;
-      }
-      if (count === 0) return [128, 128, 128];
-      return [
-        Math.round(tr / count),
-        Math.round(tg / count),
-        Math.round(tb / count),
-      ];
-    };
-
-    const sampleRegion = (x: number, y: number, rw: number, rh: number) => {
-      const data: number[] = [];
-      for (let row = y; row < y + rh && row < h; row++) {
-        for (let col = x; col < x + rw && col < w; col++) {
-          const idx = (row * w + col) * 4;
-          data.push(
-            imageData[idx],
-            imageData[idx + 1],
-            imageData[idx + 2],
-            imageData[idx + 3],
-          );
-        }
-      }
-      return new Uint8ClampedArray(data);
-    };
-
-    // Framing: estimate from face-to-image ratio heuristic
-    const ratio = imgW / imgH;
-    if (ratio > 0.65) {
-      setFraming("closeup");
-    } else {
-      setFraming("half-body");
-    }
-
-    // Hair color: sample from top-center region
-    const hairPixels = sampleRegion(
-      Math.round(w * 0.25),
-      0,
-      Math.round(w * 0.5),
-      Math.round(h * 0.2),
-    );
-    const [hr, hg, hb] = getDominant(hairPixels);
-    const hairBrightness = (hr + hg + hb) / 3;
-    const hairSaturation = Math.max(hr, hg, hb) - Math.min(hr, hg, hb);
-    let detectedHair = "";
-    if (hairBrightness < 50) detectedHair = "Black";
-    else if (hairBrightness < 100) detectedHair = "Brown";
-    else if (hairSaturation > 60 && hr > 150 && hg < 130) detectedHair = "Red";
-    else if (hairBrightness < 180) detectedHair = "Brown";
-    else if (hairBrightness < 220) detectedHair = "Blonde";
-    else detectedHair = "Gray";
-    if (
-      ["Black", "Brown", "Blonde", "Red", "Gray", "White"].includes(
-        detectedHair,
-      )
-    ) {
-      setHairColor(detectedHair);
-    }
-
-    // Eye color: sample from center region
-    const eyePixels = sampleRegion(
-      Math.round(w * 0.3),
-      Math.round(h * 0.38),
-      Math.round(w * 0.4),
-      Math.round(h * 0.15),
-    );
-    const [er, eg, eb] = getDominant(eyePixels);
-    const eyeBrightness = (er + eg + eb) / 3;
-    const eyeSat = Math.max(er, eg, eb) - Math.min(er, eg, eb);
-    let detectedEye = "";
-    if (eyeBrightness < 40) detectedEye = "Black";
-    else if (eb > 150 && er < 140 && eg < 150) detectedEye = "Blue";
-    else if (eg > 130 && er < 140 && eb < 120) detectedEye = "Green";
-    else if (eyeSat > 50 && er > 130 && eg < 140) detectedEye = "Amber";
-    else if (eyeSat > 40 && er > 110 && er < 180) detectedEye = "Hazel";
-    else if (eyeBrightness < 100) detectedEye = "Brown";
-    else detectedEye = "Brown";
-    if (
-      ["Brown", "Black", "Blue", "Green", "Hazel", "Gray", "Amber"].includes(
-        detectedEye,
-      )
-    ) {
-      setEyeColor(detectedEye);
-    }
+    setFraming("closeup");
+    setHairColor("Unknown");
+    setEyeColor("Unknown");
   }, []);
 
   const performUpload = useCallback(
@@ -513,8 +456,10 @@ function UploadContent() {
 
   const handleNextStep = async () => {
     setError("");
-    if (step === 1 && files.length < 1 && !storagePath) {
-      setError("Please upload at least 1 photo to proceed.");
+    if (step === 1 && files.length < 3 && !storagePath) {
+      setError(
+        "Please upload at least 3 photos for best results (5 recommended).",
+      );
       return;
     }
     if (step === 1) {
@@ -809,7 +754,7 @@ function UploadContent() {
                         className="relative aspect-square rounded-xl overflow-hidden shadow-sm group"
                       >
                         <img
-                          src={objectUrls[i] || URL.createObjectURL(f)}
+                          src={objectUrls[i]}
                           alt={`Photo ${i + 1}: ${f.name}`}
                           className="w-full h-full object-cover"
                         />

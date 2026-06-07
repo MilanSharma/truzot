@@ -38,6 +38,18 @@ export const POST = withContext(async (req: Request) => {
       idempotencyKey,
     } = parsed.data!;
 
+    // Basic email domain validation
+    const emailDomain = email.split("@")[1];
+    if (!emailDomain || emailDomain.length < 4 || !emailDomain.includes(".")) {
+      return addCors(
+        NextResponse.json(
+          { error: "Please provide a valid email address." },
+          { status: 400 },
+        ),
+        origin,
+      );
+    }
+
     // Generate signed download URL from storagePath if zipUrl not provided
     if (!zipUrl && storagePath) {
       const { data } = await supabaseAdmin.storage
@@ -124,12 +136,26 @@ export const POST = withContext(async (req: Request) => {
 
     const label = `${planConfig.name} — ${planConfig.shots} Headshots`;
 
+    // Look up or create Stripe customer to avoid duplicates
+    let customerId: string | undefined;
+    const existingCustomers = await stripe.customers.list({ email, limit: 1 });
+    if (existingCustomers.data.length > 0) {
+      customerId = existingCustomers.data[0].id;
+    }
+
+    // Extract Rewardful referral ID from cookie
+    const cookieHeader = req.headers.get("cookie") || "";
+    const rewardfulMatch = cookieHeader.match(/rewardful\.referral=([^;]+)/);
+    const referralId = rewardfulMatch ? rewardfulMatch[1] : undefined;
+
     let session;
     try {
       session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         mode: "payment",
-        customer_email: email,
+        customer: customerId,
+        customer_email: customerId ? undefined : email,
+        client_reference_id: referralId,
         line_items: [
           {
             price_data: {

@@ -106,13 +106,14 @@ function ClaimOrderForm() {
     setError("");
 
     try {
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email,
-        password,
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
       });
 
-      if (authError) throw authError;
-      if (!authData.user) throw new Error("Failed to create account");
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(body.error || "Failed to create account");
 
       await claimOrder();
     } catch (err: any) {

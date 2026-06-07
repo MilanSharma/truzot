@@ -18,6 +18,12 @@ export interface GenerateHeadshotsResult {
   seed?: number;
 }
 
+export interface GenerateHeadshotsResponse {
+  results: GenerateHeadshotsResult[];
+  failures: string[];
+  totalRequested: number;
+}
+
 export interface TrainModelResult {
   request_id?: string;
   response_id?: string;

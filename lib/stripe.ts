@@ -8,8 +8,8 @@ export function getStripe(): Stripe {
       throw new Error("STRIPE_SECRET_KEY is not configured");
     }
     stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: "2024-06-20",
-    } as Stripe.StripeConfig);
+      apiVersion: "2025-02-30.acacia",
+    } as unknown as Stripe.StripeConfig);
   }
   return stripeInstance;
 }

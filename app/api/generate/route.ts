@@ -15,11 +15,24 @@ const BATCH_SIZE = 10;
 
 async function enqueueNextBatch(orderId: string): Promise<boolean> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://truzot.com";
+  const cronSecret = process.env.CRON_SECRET;
   const qstashToken = process.env.QSTASH_TOKEN;
+
+  // Fallback: fire-and-forget self-call when QStash is unavailable
+  // Not awaited to avoid recursive timeout on large orders (maxDuration=300s)
   if (!qstashToken) {
-    log.warn({ orderId }, "QSTASH_TOKEN missing, cannot enqueue next batch");
+    log.warn({ orderId }, "QSTASH_TOKEN missing, firing inline fallback");
+    fetch(`${siteUrl}/api/generate`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-truzot-secret": cronSecret || "",
+      },
+      body: JSON.stringify({ orderId }),
+    }).catch((err) => log.error({ err, orderId }, "Inline fallback error"));
     return false;
   }
+
   for (let attempt = 1; attempt <= 3; attempt++) {
     try {
       const res = await fetch(
@@ -29,7 +42,7 @@ async function enqueueNextBatch(orderId: string): Promise<boolean> {
           headers: {
             Authorization: `Bearer ${qstashToken}`,
             "Content-Type": "application/json",
-            "x-truzot-secret": process.env.CRON_SECRET || "",
+            "x-truzot-secret": cronSecret || "",
           },
           body: JSON.stringify({ orderId }),
         },
@@ -142,14 +155,31 @@ export const POST = withContext(async (req: Request) => {
       );
     }
 
-    const results = await generateHeadshots(
+    const genResult = await generateHeadshots(
       training.model_id,
       order.plan,
       currentCount,
       BATCH_SIZE,
       order.preferences,
     );
-    let headshotsToInsert = results.flatMap((res) => {
+
+    if (genResult.failures.length > 0 && genResult.results.length === 0) {
+      log.error(
+        { orderId, failures: genResult.failures.length },
+        "All headshots in batch failed",
+      );
+    } else if (genResult.failures.length > 0) {
+      log.warn(
+        {
+          orderId,
+          failures: genResult.failures.length,
+          succeeded: genResult.results.length,
+        },
+        "Partial headshot generation failure",
+      );
+    }
+
+    let headshotsToInsert = genResult.results.flatMap((res) => {
       const promptText = res.prompt ?? "";
       let category = "corporate";
       if (promptText.toLowerCase().includes("casual")) category = "casual";
@@ -224,9 +254,22 @@ export const POST = withContext(async (req: Request) => {
     }
 
     if (headshotsToInsert.length === 0) {
-      const prefs = (order.preferences as Record<string, any>) || {};
-      const failures = (prefs.generate_failures as number) || 0;
-      const newFailures = failures + 1;
+      let newFailures = 1;
+      try {
+        const { data: rpcResult } = await supabaseAdmin.rpc(
+          "increment_order_failures",
+          { order_id: orderId },
+        );
+        newFailures = (rpcResult as number) ?? 1;
+      } catch {
+        const prefs = (order.preferences as Record<string, any>) || {};
+        const failures = (prefs.generate_failures as number) || 0;
+        newFailures = failures + 1;
+        await supabaseAdmin
+          .from("orders")
+          .update({ preferences: { ...prefs, generate_failures: newFailures } })
+          .eq("id", orderId);
+      }
       if (newFailures >= 3) {
         await supabaseAdmin
           .from("orders")
@@ -243,10 +286,6 @@ export const POST = withContext(async (req: Request) => {
             await stripe.refunds.create({
               payment_intent: failedOrder.stripe_payment_intent as string,
             });
-            await supabaseAdmin
-              .from("orders")
-              .update({ status: "refunded" })
-              .eq("id", orderId);
             log.info(
               { orderId },
               "Auto-refund issued after generation failure",
@@ -268,10 +307,6 @@ export const POST = withContext(async (req: Request) => {
           origin,
         );
       }
-      await supabaseAdmin
-        .from("orders")
-        .update({ preferences: { ...prefs, generate_failures: newFailures } })
-        .eq("id", orderId);
     }
 
     const enqueued = await enqueueNextBatch(orderId);

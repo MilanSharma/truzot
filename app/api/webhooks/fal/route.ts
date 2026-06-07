@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { trainModel } from "@/lib/ai/fal-client";
+import { trainModel, generateWebhookToken } from "@/lib/ai/fal-client";
 import { storeWebhookEvent } from "@/lib/webhook-store";
 import { createLogger } from "@/lib/logger";
 import { withContext } from "@/lib/request-context";
@@ -8,17 +8,44 @@ import { withContext } from "@/lib/request-context";
 const log = createLogger("fal-webhook");
 export const maxDuration = 30;
 
+async function triggerGenerate(orderId: string): Promise<boolean> {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  const cronSecret = process.env.CRON_SECRET;
+  if (!siteUrl || !cronSecret) return false;
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const res = await fetch(`${siteUrl}/api/generate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-truzot-secret": cronSecret,
+        },
+        body: JSON.stringify({ orderId }),
+      });
+      if (res.ok) return true;
+      log.error(
+        { status: res.status, attempt, orderId },
+        "Generate trigger attempt failed",
+      );
+    } catch (err) {
+      log.error({ err, attempt, orderId }, "Generate trigger attempt error");
+    }
+    if (attempt < 3) await new Promise((r) => setTimeout(r, 1000 * attempt));
+  }
+  return false;
+}
+
 export const POST = withContext(async (req: Request) => {
   try {
     const { searchParams } = new URL(req.url);
     const orderId = searchParams.get("orderId");
     const token = searchParams.get("token");
 
-    const webhookSecret = process.env.FAL_WEBHOOK_SECRET;
-    if (!webhookSecret || token !== webhookSecret)
+    if (!orderId || !token)
+      return NextResponse.json({ error: "Missing params" }, { status: 400 });
+    const expected = generateWebhookToken(orderId);
+    if (token !== expected)
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    if (!orderId)
-      return NextResponse.json({ error: "Missing orderId" }, { status: 400 });
 
     const data = await req.json();
     const falEventId = data.id || `fal-${Date.now()}`;
@@ -117,6 +144,23 @@ export const POST = withContext(async (req: Request) => {
           .from("orders")
           .update({ status: "failed" })
           .eq("id", orderId);
+        const { data: failedOrder } = await supabaseAdmin
+          .from("orders")
+          .select("stripe_payment_intent")
+          .eq("id", orderId)
+          .single();
+        if (failedOrder?.stripe_payment_intent) {
+          try {
+            const { getStripe } = await import("@/lib/stripe");
+            const stripe = getStripe();
+            await stripe.refunds.create({
+              payment_intent: failedOrder.stripe_payment_intent as string,
+            });
+            log.info({ orderId }, "Auto-refund issued after training failure");
+          } catch (refundErr) {
+            log.error({ err: refundErr, orderId }, "Auto-refund failed");
+          }
+        }
       }
       return NextResponse.json({ ok: true });
     }
@@ -140,19 +184,9 @@ export const POST = withContext(async (req: Request) => {
       .update({ status: "generating" })
       .eq("id", orderId);
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-    if (siteUrl) {
-      // FIX 5: Pass the Cron Secret to authorize the internal trigger
-      fetch(`${siteUrl}/api/generate`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-truzot-secret": process.env.CRON_SECRET || "",
-        },
-        body: JSON.stringify({ orderId }),
-      }).catch((err) =>
-        log.error({ err, orderId }, "Server-side generation trigger failed"),
-      );
+    const triggered = await triggerGenerate(orderId);
+    if (!triggered) {
+      log.error({ orderId }, "Generate trigger exhausted all retries");
     }
     return NextResponse.json({ ok: true });
   } catch (err) {

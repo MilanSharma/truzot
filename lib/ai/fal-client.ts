@@ -1,17 +1,29 @@
 import "server-only";
 import { fal } from "@fal-ai/client";
 import pLimit from "p-limit";
+import { createHmac } from "crypto";
 import { PLAN_SHOTS, STYLE_CATEGORIES } from "@/lib/plans";
+import { createLogger } from "@/lib/logger";
 import type {
   GenerateHeadshotsResult,
+  GenerateHeadshotsResponse,
   TrainModelResult,
   UserPreferences,
 } from "@/lib/ai/types";
 
-function configureFal() {
-  if (process.env.FAL_KEY) {
-    fal.config({ credentials: process.env.FAL_KEY });
-  }
+const log = createLogger("fal-client");
+
+export function generateWebhookToken(orderId: string): string {
+  const secret = process.env.FAL_WEBHOOK_SECRET;
+  if (!secret) throw new Error("FAL_WEBHOOK_SECRET is not configured");
+  return createHmac("sha256", secret)
+    .update(orderId)
+    .digest("hex")
+    .substring(0, 32);
+}
+
+if (process.env.FAL_KEY) {
+  fal.config({ credentials: process.env.FAL_KEY });
 }
 
 const CLOTHING_MAP: Record<string, string> = {
@@ -179,13 +191,15 @@ export const trainModel = async (
   imageUrl: string,
   orderId: string,
 ): Promise<{ request_id: string }> => {
-  configureFal();
   const webhookSecret = process.env.FAL_WEBHOOK_SECRET;
   if (!webhookSecret) throw new Error("FAL_WEBHOOK_SECRET is not configured");
 
+  const token = generateWebhookToken(orderId);
+  const webhookUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhooks/fal?orderId=${orderId}&token=${token}`;
+
   const result = await fal.queue.submit("fal-ai/flux-lora-fast-training", {
-    input: { images_data_url: imageUrl, steps: 1000, trigger_word: "TOK" },
-    webhookUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhooks/fal?orderId=${orderId}&token=${webhookSecret}`,
+    input: { images_data_url: imageUrl, steps: 500, trigger_word: "TOK" },
+    webhookUrl,
   });
   return result as { request_id: string };
 };
@@ -198,8 +212,7 @@ export const generateHeadshots = async (
   startIndex: number = 0,
   limit: number = 10000,
   prefs?: UserPreferences,
-): Promise<GenerateHeadshotsResult[]> => {
-  configureFal();
+): Promise<GenerateHeadshotsResponse> => {
   const allPrompts = buildPrompts(plan, prefs);
   const targetShots = PLAN_SHOTS[plan] ?? 40;
   const prompts: { prompt: string; index: number }[] = [];
@@ -228,8 +241,26 @@ export const generateHeadshots = async (
     ),
   );
 
-  return (results as PromiseSettledResult<GenerateHeadshotsResult>[])
-    .filter((r) => r.status === "fulfilled")
-    .map((r) => (r as PromiseFulfilledResult<GenerateHeadshotsResult>).value)
-    .sort((a, b) => a.index - b.index);
+  const fulfilled: GenerateHeadshotsResult[] = [];
+  const failures: string[] = [];
+  for (const r of results as PromiseSettledResult<GenerateHeadshotsResult>[]) {
+    if (r.status === "fulfilled") {
+      fulfilled.push(r.value);
+    } else {
+      failures.push(r.reason?.message || "Generation failed");
+    }
+  }
+
+  if (failures.length > 0) {
+    log.warn(
+      { failures: failures.length, total: prompts.length },
+      "Partial generation failure",
+    );
+  }
+
+  return {
+    results: fulfilled.sort((a, b) => a.index - b.index),
+    failures,
+    totalRequested: prompts.length,
+  };
 };

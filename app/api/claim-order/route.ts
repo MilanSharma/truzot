@@ -51,16 +51,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Order not found." }, { status: 404 });
     }
 
-    if (order.user_id) {
-      if (order.user_id === user.id) {
-        return NextResponse.json({ success: true, isOwner: true });
-      }
-      return NextResponse.json(
-        { error: "This order has already been claimed by another account." },
-        { status: 409 },
-      );
-    }
-
     if (order.email !== user.email) {
       return NextResponse.json(
         {
@@ -71,16 +61,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { error: updateError } = await supabaseAdmin
+    // Already owned by this user — return isOwner so UI refreshes
+    if (order.user_id === user.id) {
+      return NextResponse.json({ isOwner: true });
+    }
+
+    // Atomically claim: only succeeds if user_id is still null
+    const { data: claimed, error: updateError } = await supabaseAdmin
       .from("orders")
       .update({ user_id: user.id })
       .eq("id", orderId)
-      .is("user_id", null);
+      .is("user_id", null)
+      .select("user_id")
+      .single();
 
-    if (updateError) {
+    if (updateError || !claimed) {
       return NextResponse.json(
-        { error: "Failed to claim order. Please try again." },
-        { status: 500 },
+        { error: "This order has already been claimed by another account." },
+        { status: 409 },
       );
     }
 

@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
+import Script from "next/script";
 import { getEnv } from "@/lib/env";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import { ToastProvider } from "@/components/Toast";
@@ -122,6 +123,18 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ServiceSchema />
         <HowToSchema />
         <SpeakableSchema />
+        {process.env.NEXT_PUBLIC_REWARDFUL_API_KEY && (
+          <>
+            <Script id="rewardful-init" strategy="afterInteractive">
+              {`(function(w,r){w._rwq=r;w[r]=w[r]||function(){(w[r].q=w[r].q||[]).push(arguments)}})(window,'rewardful');`}
+            </Script>
+            <Script
+              src="https://r.wdfl.co/rw.js"
+              data-rewardful={process.env.NEXT_PUBLIC_REWARDFUL_API_KEY}
+              strategy="afterInteractive"
+            />
+          </>
+        )}
         <PostHogProvider>
           <ToastProvider>
             {children}

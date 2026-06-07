@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { fal } from "@fal-ai/client";
-import { freeGenerateSchema, validate } from "@/lib/validations";
 import { addCors, handleOptions } from "@/lib/cors";
 import { withContext } from "@/lib/request-context";
 import { createLogger } from "@/lib/logger";
@@ -14,17 +13,7 @@ export const OPTIONS = handleOptions;
 export const POST = withContext(async (req: Request) => {
   const origin = req.headers.get("origin");
   try {
-    const body = await req.json();
-    const parsed = validate(freeGenerateSchema, body);
-    if (parsed.error)
-      return addCors(
-        NextResponse.json({ error: parsed.error }, { status: 400 }),
-        origin,
-      );
-    const { zipUrl } = parsed.data!;
-
-    // For free tier, we generate 9 preview images using a generic headshot model
-    // that does not require training. We'll use fal-ai/flux-lora with a generic prompt.
+    // Free tier generates generic style previews — no user photo needed
     const prompts = [
       "A professional corporate headshot, studio lighting, neutral background",
       "A creative headshot, soft natural light, slight smile",

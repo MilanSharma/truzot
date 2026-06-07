@@ -135,9 +135,23 @@ export const POST = withContext(async (req: Request) => {
     } catch (err) {
       log.error({ err, orderId }, "Training kickoff failed");
       await supabaseAdmin
+        .from("orders")
+        .update({ status: "failed" })
+        .eq("id", orderId);
+      await supabaseAdmin
         .from("trainings")
         .update({ status: "failed", error: String(err) })
         .eq("order_id", orderId);
+      if (session.payment_intent) {
+        try {
+          await stripe.refunds.create({
+            payment_intent: session.payment_intent as string,
+          });
+          log.info({ orderId }, "Auto-refund issued after training failure");
+        } catch (refundErr) {
+          log.error({ err: refundErr, orderId }, "Auto-refund failed");
+        }
+      }
       return NextResponse.json(
         { error: "Training failed to start" },
         { status: 500 },

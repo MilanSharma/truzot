@@ -94,7 +94,7 @@ export default function LandingPageContent() {
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }]} />
       <div
         id="main-content"
-        className="min-h-screen bg-white text-slate-900 font-sans"
+        className="min-h-screen bg-white text-slate-900 font-sans scroll-smooth"
       >
         {/* Navigation */}
         <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-slate-100">
@@ -166,10 +166,13 @@ export default function LandingPageContent() {
 
         {/* Hero Section */}
         <section className="pt-32 pb-16 px-6 max-w-6xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
+          <a
+            href="#comparison"
+            className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full text-sm font-medium mb-6 hover:bg-green-100 transition"
+          >
             <TrendingDown size={16} />
             <span>80% cheaper than a traditional photographer</span>
-          </div>
+          </a>
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
             Get Your Professional
             <br />

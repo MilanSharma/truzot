@@ -4,7 +4,8 @@ export type OrderStatus =
   | "training"
   | "generating"
   | "completed"
-  | "failed";
+  | "failed"
+  | "refunded";
 
 export interface Headshot {
   id: string;

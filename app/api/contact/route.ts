@@ -16,6 +16,14 @@ export const POST = withContext(async (req: Request) => {
 
     const { name, email, subject, message, orderId } = parsed.data!;
 
+    const sanitize = (s: string) =>
+      s
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#x27;");
+
     if (!process.env.RESEND_API_KEY) {
       log.warn("RESEND_API_KEY not set; contact message not sent");
       return NextResponse.json({ success: true });
@@ -34,13 +42,13 @@ export const POST = withContext(async (req: Request) => {
       html: `<div style="font-family: sans-serif; max-width: 560px; margin: 0 auto;">
         <h2>New Contact Form Submission</h2>
         <table style="width: 100%; border-collapse: collapse;">
-          <tr><td style="padding: 8px 0; font-weight: bold; color: #333;">Name</td><td style="padding: 8px 0;">${name}</td></tr>
-          <tr><td style="padding: 8px 0; font-weight: bold; color: #333;">Email</td><td style="padding: 8px 0;">${email}</td></tr>
-          ${subject ? `<tr><td style="padding: 8px 0; font-weight: bold; color: #333;">Subject</td><td style="padding: 8px 0;">${subject}</td></tr>` : ""}
-          ${orderId ? `<tr><td style="padding: 8px 0; font-weight: bold; color: #333;">Order ID</td><td style="padding: 8px 0;">${orderId}</td></tr>` : ""}
+          <tr><td style="padding: 8px 0; font-weight: bold; color: #333;">Name</td><td style="padding: 8px 0;">${sanitize(name)}</td></tr>
+          <tr><td style="padding: 8px 0; font-weight: bold; color: #333;">Email</td><td style="padding: 8px 0;">${sanitize(email)}</td></tr>
+          ${subject ? `<tr><td style="padding: 8px 0; font-weight: bold; color: #333;">Subject</td><td style="padding: 8px 0;">${sanitize(subject)}</td></tr>` : ""}
+          ${orderId ? `<tr><td style="padding: 8px 0; font-weight: bold; color: #333;">Order ID</td><td style="padding: 8px 0;">${sanitize(orderId)}</td></tr>` : ""}
         </table>
         <hr style="border: none; border-top: 1px solid #eee; margin: 16px 0;" />
-        <p style="font-size: 15px; line-height: 1.6; color: #333;">${message.replace(/\n/g, "<br/>")}</p>
+        <p style="font-size: 15px; line-height: 1.6; color: #333;">${sanitize(message).replace(/\n/g, "<br/>")}</p>
         <hr style="border: none; border-top: 1px solid #eee; margin: 16px 0;" />
         <p style="color: #999; font-size: 13px;">Sent via Truzot contact form</p>
       </div>`,

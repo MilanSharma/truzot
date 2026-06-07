@@ -48,6 +48,22 @@ export const POST = withContext(async (req: Request) => {
     }
 
     const stripe = getStripe();
+    const paymentIntent = await stripe.paymentIntents.retrieve(
+      order.stripe_payment_intent as string,
+    );
+    if (paymentIntent.status === "succeeded") {
+      const existingRefunds = paymentIntent.latest_charge
+        ? await stripe.refunds.list({
+            charge: paymentIntent.latest_charge as string,
+          })
+        : { data: [] };
+      if (existingRefunds.data.length > 0) {
+        return NextResponse.json(
+          { error: "Already refunded via Stripe" },
+          { status: 400 },
+        );
+      }
+    }
     const refund = await stripe.refunds.create({
       payment_intent: order.stripe_payment_intent as string,
     });

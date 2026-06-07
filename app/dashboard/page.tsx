@@ -10,6 +10,7 @@ import {
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
+import JSZip from "jszip";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 import { PLANS } from "@/lib/plans";
 import type { User, Order, Headshot } from "@/lib/types";
@@ -227,7 +228,10 @@ function DashboardContent() {
               fetchHeadshots(id, 0);
             }
             if (updated.status === "generating") {
-              checkOrderStatus(id);
+              setGenerationProgress((prev) => ({
+                ...prev,
+                count: (updated as any).headshot_count ?? prev.count,
+              }));
             }
           },
         )
@@ -351,19 +355,41 @@ function DashboardContent() {
     );
   };
 
-  const clientSideZip = async (urls: string[], filename: string) => {
-    const JSZip = (await import("jszip")).default;
-    const zip = new JSZip();
-    for (let i = 0; i < urls.length; i++) {
-      const proxyRes = await fetch(
-        `/api/download/proxy?url=${encodeURIComponent(urls[i])}`,
-      );
-      if (!proxyRes.ok) continue;
-      const blob = await proxyRes.blob();
-      zip.file(`headshot_${i + 1}.jpg`, blob);
+  const serverSideDownload = async (urls: string[], filename: string) => {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    const token = session?.access_token;
+    const dlRes = await fetch("/api/download", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify({ imageUrls: urls, orderId }),
+    });
+    if (!dlRes.ok) {
+      toast("Download failed. Try again.", "error");
+      return;
     }
-    const zipBlob = await zip.generateAsync({ type: "blob" });
-    const blobUrl = URL.createObjectURL(zipBlob);
+    const { urls: signedUrls } = await dlRes.json();
+    if (!Array.isArray(signedUrls) || signedUrls.length === 0) {
+      toast("No images to download.", "error");
+      return;
+    }
+    const zip = new JSZip();
+    const results = await Promise.all(
+      signedUrls.map(async (url: string, idx: number) => {
+        const res = await fetch(url);
+        const buf = await res.arrayBuffer();
+        return { idx, buf };
+      }),
+    );
+    for (const { idx, buf } of results)
+      zip.file(`headshot_${idx + 1}.jpg`, buf);
+    const zipBuffer = await zip.generateAsync({ type: "arraybuffer" });
+    const blob = new Blob([zipBuffer], { type: "application/zip" });
+    const blobUrl = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = blobUrl;
     a.download = filename;
@@ -395,7 +421,7 @@ function DashboardContent() {
     if (selectedImages.length === 0 || !orderId) return;
     setDownloading(true);
     try {
-      await clientSideZip(
+      await serverSideDownload(
         selectedImages,
         `truzot-selected-${selectedImages.length}.zip`,
       );
@@ -549,25 +575,47 @@ function DashboardContent() {
                       }
                     >
                       <DownloadProgress
-                        onDownload={async (onProgress) => {
-                          const urls = currentFiltered.map((h) => h.image_url);
-                          const JSZip = (await import("jszip")).default;
-                          const zip = new JSZip();
-                          let completed = 0;
-                          for (let i = 0; i < urls.length; i++) {
-                            const proxyRes = await fetch(
-                              `/api/download/proxy?url=${encodeURIComponent(urls[i])}`,
-                            );
-                            if (!proxyRes.ok) continue;
-                            const blob = await proxyRes.blob();
-                            zip.file(`headshot_${i + 1}.jpg`, blob);
-                            completed++;
-                            onProgress(completed, urls.length);
-                          }
-                          const zipBlob = await zip.generateAsync({
-                            type: "blob",
+                        onDownload={async (_onProgress) => {
+                          const {
+                            data: { session },
+                          } = await supabase.auth.getSession();
+                          const token = session?.access_token;
+                          const params = new URLSearchParams({
+                            orderId: orderId!,
                           });
-                          const blobUrl = URL.createObjectURL(zipBlob);
+                          if (token) params.set("token", token);
+                          const dlRes = await fetch(
+                            `/api/download?${params.toString()}`,
+                          );
+                          if (!dlRes.ok) {
+                            toast("Download failed. Try again.", "error");
+                            return;
+                          }
+                          const { urls: signedUrls } = await dlRes.json();
+                          if (
+                            !Array.isArray(signedUrls) ||
+                            signedUrls.length === 0
+                          ) {
+                            toast("No images to download.", "error");
+                            return;
+                          }
+                          const zip = new JSZip();
+                          const results = await Promise.all(
+                            signedUrls.map(async (url: string, idx: number) => {
+                              const res = await fetch(url);
+                              const buf = await res.arrayBuffer();
+                              return { idx, buf };
+                            }),
+                          );
+                          for (const { idx, buf } of results)
+                            zip.file(`headshot_${idx + 1}.jpg`, buf);
+                          const zipBuffer = await zip.generateAsync({
+                            type: "arraybuffer",
+                          });
+                          const blob = new Blob([zipBuffer], {
+                            type: "application/zip",
+                          });
+                          const blobUrl = URL.createObjectURL(blob);
                           const a = document.createElement("a");
                           a.href = blobUrl;
                           a.download = `truzot-headshots-${orderId}.zip`;
@@ -608,30 +656,46 @@ function DashboardContent() {
                     left off and complete your checkout.
                   </p>
                   <button
-                    onClick={() => {
+                    onClick={async () => {
                       const prefs =
                         (currentOrder.preferences as Record<string, any>) || {};
-                      const restoreState = {
-                        step: 3,
-                        plan: currentOrder.plan,
-                        email: currentOrder.email || "",
-                        consentChecked: true,
-                        gender: prefs.gender || "",
-                        eyeColor: prefs.eyeColor || "",
-                        hairColor: prefs.hairColor || "",
-                        clothing: prefs.clothing || "",
-                        background: prefs.background || "",
-                        framing: prefs.framing || "",
-                        selectedStyles: prefs.selectedStyles || [],
-                        storagePath: prefs.storagePath || "",
+                      const {
+                        data: { session },
+                      } = await supabase.auth.getSession();
+                      const token = session?.access_token;
+                      const authHeaders: Record<string, string> = {
+                        "Content-Type": "application/json",
                       };
+                      if (token) authHeaders.Authorization = `Bearer ${token}`;
+                      const idempotencyKey = crypto.randomUUID();
                       try {
-                        sessionStorage.setItem(
-                          "truzot-upload",
-                          JSON.stringify(restoreState),
-                        );
-                      } catch {}
-                      window.location.href = `/upload?step=3&plan=${currentOrder.plan}`;
+                        const res = await fetch("/api/checkout", {
+                          method: "POST",
+                          headers: authHeaders,
+                          body: JSON.stringify({
+                            plan: currentOrder.plan,
+                            email: currentOrder.email || "",
+                            storagePath: prefs.storagePath || "",
+                            gender: prefs.gender || "",
+                            eyeColor: prefs.eyeColor || "",
+                            hairColor: prefs.hairColor || "",
+                            clothing: prefs.clothing || "",
+                            background: prefs.background || "",
+                            framing: prefs.framing || "",
+                            selectedStyles: prefs.selectedStyles || [],
+                            idempotencyKey,
+                          }),
+                        });
+                        if (!res.ok) {
+                          const errBody = await res.json().catch(() => null);
+                          toast(errBody?.error || "Checkout failed", "error");
+                          return;
+                        }
+                        const { url } = await res.json();
+                        if (url) window.location.href = url;
+                      } catch {
+                        toast("Checkout failed. Please try again.", "error");
+                      }
                     }}
                     className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition flex items-center justify-center gap-2 mx-auto shadow-sm"
                   >

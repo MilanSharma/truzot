@@ -32,7 +32,7 @@ export default function FreeGenerator() {
       const genRes = await fetch("/api/free-generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ zipUrl: "https://example.com/dummy.zip" }),
+        body: JSON.stringify({}),
       });
       if (!genRes.ok) throw new Error("Generation failed");
       const data = await genRes.json();
