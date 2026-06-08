@@ -230,7 +230,7 @@ export default function VirtualizedHeadshotGrid(
         rowHeight={rowHeight}
         style={{ height: containerHeight, width }}
         cellComponent={Cell as any}
-        cellProps={{}}
+        cellProps={{} as any}
       />
     </div>
   );

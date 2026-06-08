@@ -160,8 +160,8 @@ function UploadContent() {
   const [defaultShootName] = useState(
     () => SHOOT_NAMES[Math.floor(Math.random() * SHOOT_NAMES.length)],
   );
-  const [idempotencyKey, setIdempotencyKey] = useState(() =>
-    crypto.randomUUID(),
+  const [idempotencyKey, setIdempotencyKey] = useState(
+    () => (getSavedState()?.idempotencyKey as string) || crypto.randomUUID(),
   );
   const [error, setError] = useState("");
   const [progress, setProgress] = useState("");
@@ -230,8 +230,12 @@ function UploadContent() {
         filesCount: files.length,
         shootName,
       });
-      sessionStorage.setItem(SESSION_KEY, state);
-      localStorage.setItem(LOCAL_KEY, state);
+      const stateWithKey = JSON.stringify({
+        ...JSON.parse(state),
+        idempotencyKey,
+      });
+      sessionStorage.setItem(SESSION_KEY, stateWithKey);
+      localStorage.setItem(LOCAL_KEY, stateWithKey);
     } catch {}
   }, [
     step,
@@ -248,6 +252,7 @@ function UploadContent() {
     storagePath,
     files,
     shootName,
+    idempotencyKey,
   ]);
 
   useEffect(() => {

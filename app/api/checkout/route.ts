@@ -144,25 +144,27 @@ export const POST = withContext(async (req: Request) => {
 
     const orderId = order.id;
 
-    const url = new URL(req.url);
-    const baseUrl = `${url.protocol}//${url.host}`;
-
-    const label = `${planConfig.name} — ${planConfig.shots} Headshots`;
-
-    // Look up or create Stripe customer to avoid duplicates
-    let customerId: string | undefined;
-    const existingCustomers = await stripe.customers.list({ email, limit: 1 });
-    if (existingCustomers.data.length > 0) {
-      customerId = existingCustomers.data[0].id;
-    }
-
-    // Extract Rewardful referral ID from cookie
-    const cookieHeader = req.headers.get("cookie") || "";
-    const rewardfulMatch = cookieHeader.match(/rewardful\.referral=([^;]+)/);
-    const referralId = rewardfulMatch ? rewardfulMatch[1] : undefined;
-
-    let session;
     try {
+      const url = new URL(req.url);
+      const baseUrl = `${url.protocol}//${url.host}`;
+
+      const label = `${planConfig.name} — ${planConfig.shots} Headshots`;
+
+      // Look up or create Stripe customer to avoid duplicates
+      let customerId: string | undefined;
+      const existingCustomers = await stripe.customers.list({
+        email,
+        limit: 1,
+      });
+      if (existingCustomers.data.length > 0) {
+        customerId = existingCustomers.data[0].id;
+      }
+
+      // Extract Rewardful referral ID from cookie
+      const cookieHeader = req.headers.get("cookie") || "";
+      const rewardfulMatch = cookieHeader.match(/rewardful\.referral=([^;]+)/);
+      const referralId = rewardfulMatch ? rewardfulMatch[1] : undefined;
+
       const sessionParams: Stripe.Checkout.SessionCreateParams = {
         payment_method_types: ["card"],
         mode: "payment",
@@ -190,16 +192,16 @@ export const POST = withContext(async (req: Request) => {
       if (idempotencyKey) {
         requestOptions.idempotencyKey = `checkout-${idempotencyKey}`;
       }
-      session = await stripe.checkout.sessions.create(
+      const session = await stripe.checkout.sessions.create(
         sessionParams,
         requestOptions,
       );
-    } catch (stripeErr) {
-      await supabase.from("orders").delete().eq("id", orderId);
-      throw stripeErr;
-    }
 
-    return addCors(NextResponse.json({ url: session.url }), origin);
+      return addCors(NextResponse.json({ url: session.url }), origin);
+    } catch (err) {
+      await supabase.from("orders").delete().eq("id", orderId);
+      throw err;
+    }
   } catch (err) {
     const message =
       err instanceof Error ? err.message : "Unknown checkout error";

@@ -12,11 +12,24 @@ export const OPTIONS = handleOptions;
 export const GET = withContext(async (req: Request) => {
   const origin = req.headers.get("origin");
   try {
-    const authHeader = req.headers.get("Authorization");
-    const token = authHeader?.replace("Bearer ", "");
-    if (!token || !(await isAdminUser(token)))
+    const authHeader = req.headers.get("Authorization")?.replace("Bearer ", "");
+    if (!authHeader)
       return addCors(
         NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
+        origin,
+      );
+    const {
+      data: { user },
+      error: authError,
+    } = await supabaseAdmin.auth.getUser(authHeader);
+    if (authError || !user)
+      return addCors(
+        NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
+        origin,
+      );
+    if (!(await isAdminUser(user.id)))
+      return addCors(
+        NextResponse.json({ error: "Forbidden" }, { status: 403 }),
         origin,
       );
 
@@ -39,11 +52,24 @@ export const GET = withContext(async (req: Request) => {
 export const DELETE = withContext(async (req: Request) => {
   const origin = req.headers.get("origin");
   try {
-    const authHeader = req.headers.get("Authorization");
-    const token = authHeader?.replace("Bearer ", "");
-    if (!token || !(await isAdminUser(token)))
+    const authHeader = req.headers.get("Authorization")?.replace("Bearer ", "");
+    if (!authHeader)
       return addCors(
         NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
+        origin,
+      );
+    const {
+      data: { user },
+      error: authError,
+    } = await supabaseAdmin.auth.getUser(authHeader);
+    if (authError || !user)
+      return addCors(
+        NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
+        origin,
+      );
+    if (!(await isAdminUser(user.id)))
+      return addCors(
+        NextResponse.json({ error: "Forbidden" }, { status: 403 }),
         origin,
       );
 

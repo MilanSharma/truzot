@@ -286,6 +286,11 @@ function DashboardContent() {
           .order("created_at", { ascending: false });
         if (data) setOrders(data as Order[]);
       }
+      // Clean up previous subscription before creating a new one
+      if (subsRef.current) {
+        supabase.removeChannel(subsRef.current);
+        subsRef.current = null;
+      }
       if (orderId) {
         const downloadToken = searchParams.get("download_token") ?? undefined;
         const order = await fetchOrderById(orderId, downloadToken);
@@ -305,10 +310,6 @@ function DashboardContent() {
         setHeadshots([]);
         setHeadshotPage(0);
         setHasMoreHeadshots(true);
-        if (subsRef.current) {
-          supabase.removeChannel(subsRef.current);
-          subsRef.current = null;
-        }
       }
       setAuthChecked(true);
       setLoading(false);

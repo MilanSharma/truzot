@@ -115,6 +115,19 @@ export const POST = withContext(async (req: Request) => {
     }
 
     if (!trainingComplete || !modelId) {
+      try {
+        await fal.queue.cancel("fal-ai/flux-lora-fast-training", { requestId });
+      } catch (e) {
+        log.warn(
+          { err: e, requestId },
+          "Failed to cancel FAL queue job on timeout",
+        );
+      }
+      try {
+        await supabaseAdmin.storage.from("uploads").remove([storagePath]);
+      } catch (e) {
+        log.warn({ err: e, storagePath }, "Failed to delete upload on timeout");
+      }
       return addCors(
         NextResponse.json({ error: "Training timed out" }, { status: 504 }),
         origin,
