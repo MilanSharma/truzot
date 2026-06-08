@@ -15,6 +15,25 @@ export const maxDuration = 300;
 export const POST = withContext(async (req: Request) => {
   const origin = req.headers.get("origin");
   try {
+    // Require authenticated user for free training
+    const token = req.headers.get("Authorization")?.replace("Bearer ", "");
+    let userId: string | null = null;
+    if (token) {
+      const {
+        data: { user },
+      } = await supabaseAdmin.auth.getUser(token);
+      if (user) userId = user.id;
+    }
+    if (!userId) {
+      return addCors(
+        NextResponse.json(
+          { error: "Authentication required" },
+          { status: 401 },
+        ),
+        origin,
+      );
+    }
+
     const body = await req.json();
     const { storagePath, fingerprint } = body;
 

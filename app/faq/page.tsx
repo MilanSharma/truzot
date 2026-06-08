@@ -188,9 +188,8 @@ const faqs = {
       q: "Do I need to create an account for the free headshot?",
       a: (
         <p>
-          No — the free generator requires{" "}
-          <strong>no account or sign-up</strong>. Upload a photo and get a free
-          HD headshot instantly. No strings attached.
+          Yes — a quick <strong>free sign-up</strong> is required to prevent
+          abuse. It takes 10 seconds and no credit card is needed.
         </p>
       ),
     },
@@ -368,7 +367,7 @@ export default function FAQPage() {
           {
             question: "Do I need to create an account for the free headshot?",
             answer:
-              "No, the free generator requires no account or sign-up. Upload a photo and get a free HD headshot instantly.",
+              "Yes, a quick sign-up is required to prevent abuse. It takes 10 seconds and no credit card is needed.",
           },
           {
             question: "What's included in the free tier?",

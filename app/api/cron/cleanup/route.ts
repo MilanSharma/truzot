@@ -39,6 +39,20 @@ export const GET = withContext(async (req: Request) => {
     .lt("created_at", fourHoursAgo);
 
   for (const order of stuckGenerating || []) {
+    // Check if training is still actively running
+    const { data: activeTraining } = await supabaseAdmin
+      .from("trainings")
+      .select("status")
+      .eq("order_id", order.id)
+      .in("status", ["processing", "queued", "started"])
+      .maybeSingle();
+    if (activeTraining) {
+      log.info(
+        { orderId: order.id },
+        "Skipping refund — training still active",
+      );
+      continue;
+    }
     stuckResults.flagged++;
     if (order.stripe_payment_intent) {
       try {
@@ -75,17 +89,16 @@ export const GET = withContext(async (req: Request) => {
   let abandonedNotified = 0;
   for (const order of abandonedOrders || []) {
     if (!order.user_id) continue;
-    const { data: profile } = await supabaseAdmin
-      .from("profiles")
-      .select("email")
-      .eq("id", order.user_id)
-      .single();
-    if (!profile?.email) continue;
+    const { data: userData } = await supabaseAdmin.auth.admin.getUserById(
+      order.user_id,
+    );
+    const userEmail = userData?.user?.email;
+    if (!userEmail) continue;
     // Skip if already unsubscribed
     const { data: prefs } = await supabaseAdmin
       .from("email_preferences")
       .select("unsubscribed")
-      .eq("email", profile.email)
+      .eq("email", userEmail)
       .single();
     if (prefs?.unsubscribed) continue;
     try {
@@ -94,7 +107,7 @@ export const GET = withContext(async (req: Request) => {
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://truzot.com";
       await resend.emails.send({
         from: "Truzot <hello@truzot.com>",
-        to: profile.email,
+        to: userEmail,
         subject: "You left something behind — your headshots are waiting",
         html: `<div style="font-family: Georgia, serif; max-width: 560px; margin: 0 auto; color: #0a0a0a;"><div style="padding: 40px 0 20px;"><h1 style="font-size: 28px; font-weight: 900; margin: 0 0 8px;">Finish your order</h1><p style="color: #6b6560; font-size: 16px; line-height: 1.6; margin: 0 0 16px;">You started a <strong>${order.plan}</strong> order but didn't complete payment. Your photos are ready to go — just one step away.</p><a href="${siteUrl}/upload" style="background: #0a0a0a; color: #f5f0e8; padding: 14px 32px; border-radius: 2px; text-decoration: none; font-size: 15px; font-weight: 500; display: inline-block;">Complete your order →</a></div><hr style="border: none; border-top: 1px solid #e8e4dc; margin: 32px 0;" /><p style="color: #9b9590; font-size: 13px;">If you didn't start this order, just ignore this email. — The Truzot team</p></div>`,
       });
@@ -165,16 +178,15 @@ export const GET = withContext(async (req: Request) => {
     let warningEmailsSent = 0;
     for (const order of warnOrders || []) {
       if (!order.user_id) continue;
-      const { data: profile } = await supabaseAdmin
-        .from("profiles")
-        .select("email")
-        .eq("id", order.user_id)
-        .single();
-      if (!profile?.email) continue;
+      const { data: userData } = await supabaseAdmin.auth.admin.getUserById(
+        order.user_id,
+      );
+      const userEmail = userData?.user?.email;
+      if (!userEmail) continue;
       const { data: prefs } = await supabaseAdmin
         .from("email_preferences")
         .select("unsubscribed")
-        .eq("email", profile.email)
+        .eq("email", userEmail)
         .single();
       if (prefs?.unsubscribed) continue;
       try {
@@ -182,7 +194,7 @@ export const GET = withContext(async (req: Request) => {
         const resend = new Resend(process.env.RESEND_API_KEY);
         await resend.emails.send({
           from: "Truzot <hello@truzot.com>",
-          to: profile.email,
+          to: userEmail,
           subject: "Your Truzot headshots will be deleted in 24 hours",
           html: `<div style="font-family: Georgia, serif; max-width: 560px; margin: 0 auto; color: #0a0a0a;"><div style="padding: 40px 0 20px;"><h1 style="font-size: 28px; font-weight: 900; margin: 0 0 8px;">Headshots expiring soon.</h1><p style="color: #6b6560; font-size: 16px; line-height: 1.6; margin: 0 0 32px;">Your AI headshots were generated over 30 days ago. Per our privacy policy, we will permanently delete all your photos, headshots, and training data within 24 hours.</p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/dashboard?order=${order.id}" style="background: #0a0a0a; color: #f5f0e8; padding: 14px 32px; border-radius: 2px; text-decoration: none; font-size: 15px; font-weight: 500; display: inline-block;">Download before they're gone →</a></div><hr style="border: none; border-top: 1px solid #e8e4dc; margin: 32px 0;" /><p style="color: #9b9590; font-size: 13px;">After deletion, this cannot be undone. — The Truzot team</p></div>`,
         });

@@ -34,7 +34,7 @@ export const retrySchema = z.object({
 });
 
 export const uploadActionSchema = z.object({
-  action: z.enum(["get-upload-url", "get-download-url"]),
+  action: z.enum(["get-upload-url", "get-download-url", "check"]),
   filename: z.string().optional(),
   path: z.string().optional(),
 });

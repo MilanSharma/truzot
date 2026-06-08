@@ -3,6 +3,7 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { supabase } from "@/lib/supabase/client";
 import JSZip from "jszip";
 
 function drawWatermark(canvas: HTMLCanvasElement) {
@@ -88,9 +89,18 @@ export default function FreeGenerator() {
             screen.height
           : "unknown";
 
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      const authHeaders: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      if (session?.access_token)
+        authHeaders.Authorization = `Bearer ${session.access_token}`;
+
       const trainRes = await fetch("/api/free-train", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: authHeaders,
         body: JSON.stringify({ storagePath: path, fingerprint: fp }),
       });
 
