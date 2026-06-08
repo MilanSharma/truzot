@@ -32,7 +32,7 @@ export default function AuthSync() {
           return null;
         })();
 
-        if (saved?.email && saved.email !== session.user.email) {
+        if (saved && saved.email !== session.user.email) {
           clearUploadStorage();
         }
       }

@@ -173,98 +173,113 @@ export const GET = withContext(async (req: Request) => {
     }
 
     const results = { deleted: 0, errors: [] as string[] };
+    const BATCH_SIZE = 5;
 
-    let warningEmailsSent = 0;
-    for (const order of expiredOrders) {
-      try {
-        // Send warning email before deletion
-        if (order.user_id) {
-          const { data: profile } = await supabaseAdmin
-            .from("profiles")
-            .select("email")
-            .eq("id", order.user_id)
+    async function processOrder(
+      order: NonNullable<typeof expiredOrders>[number],
+    ) {
+      // Send warning email before deletion
+      if (order.user_id) {
+        const { data: profile } = await supabaseAdmin
+          .from("profiles")
+          .select("email")
+          .eq("id", order.user_id)
+          .single();
+        if (profile?.email) {
+          const { data: prefs } = await supabaseAdmin
+            .from("email_preferences")
+            .select("unsubscribed")
+            .eq("email", profile.email)
             .single();
-          if (profile?.email) {
-            const { data: prefs } = await supabaseAdmin
-              .from("email_preferences")
-              .select("unsubscribed")
-              .eq("email", profile.email)
-              .single();
-            if (!prefs?.unsubscribed) {
-              try {
-                const { Resend } = await import("resend");
-                const resend = new Resend(process.env.RESEND_API_KEY);
-                await resend.emails.send({
-                  from: "Truzot <hello@truzot.com>",
-                  to: profile.email,
-                  subject: "Your Truzot headshots will be deleted in 24 hours",
-                  html: `<div style="font-family: Georgia, serif; max-width: 560px; margin: 0 auto; color: #0a0a0a;"><div style="padding: 40px 0 20px;"><h1 style="font-size: 28px; font-weight: 900; margin: 0 0 8px;">Headshots expiring soon.</h1><p style="color: #6b6560; font-size: 16px; line-height: 1.6; margin: 0 0 32px;">Your AI headshots were generated over 30 days ago. Per our privacy policy, we will permanently delete all your photos, headshots, and training data within 24 hours.</p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/dashboard?order=${order.id}" style="background: #0a0a0a; color: #f5f0e8; padding: 14px 32px; border-radius: 2px; text-decoration: none; font-size: 15px; font-weight: 500; display: inline-block;">Download before they're gone →</a></div><hr style="border: none; border-top: 1px solid #e8e4dc; margin: 32px 0;" /><p style="color: #9b9590; font-size: 13px;">After deletion, this cannot be undone. — The Truzot team</p></div>`,
-                });
-                warningEmailsSent++;
-              } catch (err) {
-                log.error({ err, orderId: order.id }, "Warning email failed");
-              }
+          if (!prefs?.unsubscribed) {
+            try {
+              const { Resend } = await import("resend");
+              const resend = new Resend(process.env.RESEND_API_KEY);
+              await resend.emails.send({
+                from: "Truzot <hello@truzot.com>",
+                to: profile.email,
+                subject: "Your Truzot headshots will be deleted in 24 hours",
+                html: `<div style="font-family: Georgia, serif; max-width: 560px; margin: 0 auto; color: #0a0a0a;"><div style="padding: 40px 0 20px;"><h1 style="font-size: 28px; font-weight: 900; margin: 0 0 8px;">Headshots expiring soon.</h1><p style="color: #6b6560; font-size: 16px; line-height: 1.6; margin: 0 0 32px;">Your AI headshots were generated over 30 days ago. Per our privacy policy, we will permanently delete all your photos, headshots, and training data within 24 hours.</p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/dashboard?order=${order.id}" style="background: #0a0a0a; color: #f5f0e8; padding: 14px 32px; border-radius: 2px; text-decoration: none; font-size: 15px; font-weight: 500; display: inline-block;">Download before they're gone →</a></div><hr style="border: none; border-top: 1px solid #e8e4dc; margin: 32px 0;" /><p style="color: #9b9590; font-size: 13px;">After deletion, this cannot be undone. — The Truzot team</p></div>`,
+              });
+            } catch (err) {
+              log.error({ err, orderId: order.id }, "Warning email failed");
             }
           }
         }
-
-        // 1. Delete Fal-hosted headshot images
-        const { data: headshotUrls } = await supabaseAdmin
-          .from("headshots")
-          .select("image_url")
-          .eq("order_id", order.id);
-        const imageUrls: string[] = (headshotUrls || []).map(
-          (h: any) => h.image_url,
-        );
-        const falResult = await deleteFalFiles(imageUrls);
-        if (falResult.deleted > 0 || falResult.failed > 0) {
-          log.info({ orderId: order.id, ...falResult }, "Fal file cleanup");
-        }
-
-        // 2. Delete Fal training model
-        const { data: trainings } = await supabaseAdmin
-          .from("trainings")
-          .select("model_id")
-          .eq("order_id", order.id);
-        const modelIds: string[] = (trainings || [])
-          .map((t: any) => t.model_id)
-          .filter(Boolean);
-        if (modelIds.length > 0) {
-          await deleteFalFiles(modelIds);
-        }
-
-        // 5. Delete headshot records
-        await supabaseAdmin.from("headshots").delete().eq("order_id", order.id);
-
-        // 6. Delete training records
-        await supabaseAdmin.from("trainings").delete().eq("order_id", order.id);
-
-        // 7. Delete uploaded files from storage
-        const uploadFolder = order.storage_path
-          ? order.storage_path.split("/")[0]
-          : order.user_id;
-        if (uploadFolder) {
-          const { data: uploadFiles } = await supabaseAdmin.storage
-            .from("uploads")
-            .list(uploadFolder);
-
-          if (uploadFiles && uploadFiles.length > 0) {
-            const filePaths = uploadFiles.map(
-              (f) => `${uploadFolder}/${f.name}`,
-            );
-            await supabaseAdmin.storage.from("uploads").remove(filePaths);
-          }
-        }
-
-        // 4. Delete the order record itself
-        await supabaseAdmin.from("orders").delete().eq("id", order.id);
-
-        results.deleted++;
-      } catch (orderErr: any) {
-        const msg = `Failed to clean order ${order.id}: ${orderErr?.message || orderErr}`;
-        log.error({ msg }, "Cleanup order failed");
-        results.errors.push(msg);
       }
+
+      // Delete Fal-hosted headshot images
+      const { data: headshotUrls } = await supabaseAdmin
+        .from("headshots")
+        .select("image_url")
+        .eq("order_id", order.id);
+      const imageUrls: string[] = (headshotUrls || []).map(
+        (h: any) => h.image_url,
+      );
+      const falResult = await deleteFalFiles(imageUrls);
+      if (falResult.deleted > 0 || falResult.failed > 0) {
+        log.info({ orderId: order.id, ...falResult }, "Fal file cleanup");
+      }
+
+      // Delete Fal training model
+      const { data: trainings } = await supabaseAdmin
+        .from("trainings")
+        .select("model_id")
+        .eq("order_id", order.id);
+      const modelIds: string[] = (trainings || [])
+        .map((t: any) => t.model_id)
+        .filter(Boolean);
+      if (modelIds.length > 0) {
+        await deleteFalFiles(modelIds);
+      }
+
+      // Delete headshot records
+      await supabaseAdmin.from("headshots").delete().eq("order_id", order.id);
+
+      // Delete training records
+      await supabaseAdmin.from("trainings").delete().eq("order_id", order.id);
+
+      // Delete uploaded files from storage
+      const uploadFolder = order.storage_path
+        ? order.storage_path.split("/")[0]
+        : order.user_id;
+      if (uploadFolder) {
+        const { data: uploadFiles } = await supabaseAdmin.storage
+          .from("uploads")
+          .list(uploadFolder);
+
+        if (uploadFiles && uploadFiles.length > 0) {
+          const filePaths = uploadFiles.map((f) => `${uploadFolder}/${f.name}`);
+          await supabaseAdmin.storage.from("uploads").remove(filePaths);
+        }
+      }
+
+      // Delete the order record itself
+      await supabaseAdmin.from("orders").delete().eq("id", order.id);
+    }
+
+    let warningEmailsSent = 0;
+    for (let i = 0; i < expiredOrders.length; i += BATCH_SIZE) {
+      const batch = expiredOrders.slice(i, i + BATCH_SIZE);
+      const outcomes = await Promise.allSettled(
+        batch.map(async (order) => {
+          try {
+            await processOrder(order);
+            results.deleted++;
+          } catch (orderErr: any) {
+            const msg = `Failed to clean order ${order.id}: ${orderErr?.message || orderErr}`;
+            log.error({ msg }, "Cleanup order failed");
+            results.errors.push(msg);
+          }
+        }),
+      );
+      outcomes.forEach((outcome, idx) => {
+        if (outcome.status === "rejected") {
+          const order = batch[idx];
+          const msg = `Failed to clean order ${order.id}: ${outcome.reason}`;
+          results.errors.push(msg);
+        }
+      });
     }
 
     log.info(

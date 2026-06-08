@@ -210,6 +210,36 @@ function UploadContent() {
     }
   }, [searchParams]);
 
+  // Validate storagePath is still accessible after restoration from cancelled/saved state
+  useEffect(() => {
+    if (!storagePath || step < 2) return;
+    let cancelled = false;
+    const timer = setTimeout(async () => {
+      if (cancelled) return;
+      try {
+        const { data } = await supabase.storage
+          .from("uploads")
+          .list(storagePath.split("/")[0] || "");
+        const fileName = storagePath.split("/").pop();
+        const exists = data?.some((f) => f.name === fileName);
+        if (!exists) {
+          toast(
+            "Your uploaded files have expired. Please upload again.",
+            "error",
+          );
+          setStoragePath("");
+          setStep(1);
+        }
+      } catch {
+        // Silently skip validation on error
+      }
+    }, 500);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [storagePath, step, toast]);
+
   // Persist state so browser back from Stripe preserves details
   useEffect(() => {
     if (step === 1 && files.length === 0 && !storagePath) return;

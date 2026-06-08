@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { Grid } from "react-window";
 import {
@@ -159,6 +159,57 @@ function HeadshotCard({
   );
 }
 
+function GridCell({
+  columnIndex,
+  rowIndex,
+  style,
+  headshots,
+  columnCount,
+  favorites,
+  selectedImages,
+  multiSelectMode,
+  orderId,
+  onToggleSelect,
+  onToggleFavorite,
+  onView,
+  onDownload,
+  onFlag,
+}: {
+  columnIndex: number;
+  rowIndex: number;
+  style: React.CSSProperties;
+  headshots: Headshot[];
+  columnCount: number;
+  favorites: string[];
+  selectedImages: string[];
+  multiSelectMode: boolean;
+  orderId?: string;
+  onToggleSelect: (url: string, e?: React.MouseEvent) => void;
+  onToggleFavorite: (url: string, e?: React.MouseEvent) => void;
+  onView: (url: string) => void;
+  onDownload: (url: string) => void;
+  onFlag?: (url: string) => void;
+}) {
+  const index = rowIndex * columnCount + columnIndex;
+  if (index >= headshots.length) return null;
+  const h = headshots[index];
+  return (
+    <HeadshotCard
+      headshot={h}
+      isFav={favorites.includes(h.image_url)}
+      isSel={selectedImages.includes(h.image_url)}
+      multiSelectMode={multiSelectMode}
+      style={style}
+      orderId={orderId}
+      onToggleSelect={onToggleSelect}
+      onToggleFavorite={onToggleFavorite}
+      onView={onView}
+      onDownload={onDownload}
+      onFlag={onFlag}
+    />
+  );
+}
+
 export default function VirtualizedHeadshotGrid(
   props: VirtualizedHeadshotGridProps,
 ) {
@@ -188,34 +239,34 @@ export default function VirtualizedHeadshotGrid(
   const visibleRows = Math.min(rowCount, MAX_VISIBLE_ROWS);
   const containerHeight = Math.max(400, visibleRows * rowHeight);
 
-  const Cell = ({
-    columnIndex,
-    rowIndex,
-    style,
-  }: {
-    columnIndex: number;
-    rowIndex: number;
-    style: React.CSSProperties;
-  }) => {
-    const index = rowIndex * columnCount + columnIndex;
-    if (index >= props.headshots.length) return null;
-    const h = props.headshots[index];
-    return (
-      <HeadshotCard
-        headshot={h}
-        isFav={props.favorites.includes(h.image_url)}
-        isSel={props.selectedImages.includes(h.image_url)}
-        multiSelectMode={props.multiSelectMode}
-        style={style}
-        orderId={props.orderId}
-        onToggleSelect={props.onToggleSelect}
-        onToggleFavorite={props.onToggleFavorite}
-        onView={props.onView}
-        onDownload={props.onDownload}
-        onFlag={props.onFlag}
-      />
-    );
-  };
+  const cellProps = useMemo(
+    () => ({
+      headshots: props.headshots,
+      columnCount,
+      favorites: props.favorites,
+      selectedImages: props.selectedImages,
+      multiSelectMode: props.multiSelectMode,
+      orderId: props.orderId,
+      onToggleSelect: props.onToggleSelect,
+      onToggleFavorite: props.onToggleFavorite,
+      onView: props.onView,
+      onDownload: props.onDownload,
+      onFlag: props.onFlag,
+    }),
+    [
+      props.headshots,
+      columnCount,
+      props.favorites,
+      props.selectedImages,
+      props.multiSelectMode,
+      props.orderId,
+      props.onToggleSelect,
+      props.onToggleFavorite,
+      props.onView,
+      props.onDownload,
+      props.onFlag,
+    ],
+  );
 
   return (
     <div
@@ -229,8 +280,8 @@ export default function VirtualizedHeadshotGrid(
         rowCount={rowCount}
         rowHeight={rowHeight}
         style={{ height: containerHeight, width }}
-        cellComponent={Cell as any}
-        cellProps={{} as any}
+        cellComponent={GridCell as any}
+        cellProps={cellProps as any}
       />
     </div>
   );

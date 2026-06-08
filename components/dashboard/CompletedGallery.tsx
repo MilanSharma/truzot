@@ -93,15 +93,15 @@ export default function CompletedGallery({
       result.sort((a, b) => {
         const aFav = favorites.includes(a.image_url) ? 1 : 0;
         const bFav = favorites.includes(b.image_url) ? 1 : 0;
-        return bFav - aFav;
+        return bFav - aFav || a.id.localeCompare(b.id);
       });
     } else if (sortBy === "newest") {
       result.sort((a, b) => {
-        return (b.created_at || "").localeCompare(a.created_at || "");
+        return (b.created_at || b.id).localeCompare(a.created_at || a.id);
       });
     } else {
       result.sort((a, b) => {
-        return (a.created_at || "").localeCompare(b.created_at || "");
+        return (a.created_at || a.id).localeCompare(b.created_at || b.id);
       });
     }
     return result;

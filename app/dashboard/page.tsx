@@ -74,6 +74,8 @@ function DashboardContent() {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
   const subsRef = useRef<RealtimeChannel | null>(null);
+  const userIdRef = useRef<string | null>(null);
+  const initRef = useRef(false);
 
   const toggleFavorite = (url: string, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
@@ -258,41 +260,62 @@ function DashboardContent() {
   );
 
   useEffect(() => {
-    const { data: authListener } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "SIGNED_OUT") {
-        subsRef.current?.unsubscribe();
-        subsRef.current = null;
-      }
-    });
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (event === "SIGNED_OUT") {
+          subsRef.current?.unsubscribe();
+          subsRef.current = null;
+          setUser(null);
+          setOrders([]);
+          userIdRef.current = null;
+          return;
+        }
+        if (event === "SIGNED_IN" && session) {
+          const u = session.user;
+          setUser({
+            id: u.id,
+            email: u.email,
+            user_metadata: u.user_metadata as User["user_metadata"],
+          });
+          userIdRef.current = u.id;
+        }
+      },
+    );
     return () => authListener?.subscription.unsubscribe();
   }, []);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      if (session) {
-        const u = session.user;
-        setUser({
-          id: u.id,
-          email: u.email,
-          user_metadata: u.user_metadata as User["user_metadata"],
-        });
-        const { data } = await supabase
-          .from("orders")
-          .select("*")
-          .eq("user_id", u.id)
-          .order("created_at", { ascending: false });
-        if (data) setOrders(data as Order[]);
+    const loadOrderDetail = async () => {
+      if (!initRef.current) {
+        initRef.current = true;
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        if (session) {
+          const u = session.user;
+          userIdRef.current = u.id;
+          setUser({
+            id: u.id,
+            email: u.email,
+            user_metadata: u.user_metadata as User["user_metadata"],
+          });
+          const { data } = await supabase
+            .from("orders")
+            .select("*")
+            .eq("user_id", u.id)
+            .order("created_at", { ascending: false });
+          if (data) setOrders(data as Order[]);
+        }
+        setAuthChecked(true);
       }
-      // Clean up previous subscription before creating a new one
       if (subsRef.current) {
         supabase.removeChannel(subsRef.current);
         subsRef.current = null;
       }
       if (orderId) {
-        const downloadToken = searchParams.get("download_token") ?? undefined;
+        const downloadToken =
+          new URLSearchParams(window.location.search).get("download_token") ??
+          undefined;
         const order = await fetchOrderById(orderId, downloadToken);
         if (order) {
           setCurrentOrder(order);
@@ -311,34 +334,13 @@ function DashboardContent() {
         setHeadshotPage(0);
         setHasMoreHeadshots(true);
       }
-      setAuthChecked(true);
       setLoading(false);
     };
-    checkAuth();
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_e, session) => {
-      if (session) {
-        const u = session.user;
-        setUser({
-          id: u.id,
-          email: u.email,
-          user_metadata: u.user_metadata as User["user_metadata"],
-        });
-      }
-    });
+    loadOrderDetail();
     return () => {
-      subscription.unsubscribe();
       if (subsRef.current) supabase.removeChannel(subsRef.current);
     };
-  }, [
-    router,
-    searchParams,
-    orderId,
-    fetchOrderById,
-    fetchHeadshots,
-    subscribeToOrder,
-  ]);
+  }, [orderId, fetchOrderById, fetchHeadshots, subscribeToOrder]);
 
   const getStyleCategory = (h: Headshot, index: number) => {
     if (h.category) return h.category;
@@ -688,9 +690,7 @@ function DashboardContent() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                 <div>
                   <button
-                    onClick={() => {
-                      window.location.href = "/dashboard";
-                    }}
+                    onClick={() => router.push("/dashboard")}
                     className="text-xs font-bold text-slate-400 dark:text-slate-500 hover:text-blue-600 mb-2 flex items-center gap-1 transition"
                   >
                     ← Back to library
