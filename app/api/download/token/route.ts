@@ -36,7 +36,7 @@ export const POST = withContext(async (req: Request) => {
       .insert({
         user_id: user.id,
         order_id: orderId,
-        expires_at: new Date(Date.now() + 5 * 60 * 1000).toISOString(),
+        expires_at: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(),
       })
       .select("id")
       .single();

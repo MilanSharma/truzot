@@ -1,13 +1,61 @@
 "use client";
-import { useState } from "react";
-import { Zap, Shield, RefreshCw } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Zap, Shield, RefreshCw, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import type { Order } from "@/lib/types";
 
+interface ProgressData {
+  progress: number;
+  status?: string;
+  queuePosition?: number;
+  step?: number;
+  total?: number;
+}
+
 export default function TrainingView({ order }: { order: Order }) {
   const router = useRouter();
   const [retrying, setRetrying] = useState(false);
+  const [progress, setProgress] = useState<ProgressData | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    const poll = async () => {
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        const res = await fetch(`/api/training/progress?orderId=${order.id}`, {
+          headers: session?.access_token
+            ? { Authorization: `Bearer ${session.access_token}` }
+            : {},
+        });
+        if (res.ok && !cancelled) {
+          const data = await res.json();
+          setProgress(data);
+        }
+      } catch {
+        // ignore
+      }
+    };
+    poll();
+    const interval = setInterval(poll, 5000);
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, [order.id]);
+
+  const progressPct = progress?.progress ?? 0;
+  const progressStatus = progress?.status;
+  const statusText =
+    progressStatus === "in_queue" && progress?.queuePosition
+      ? `Waiting in queue (position: ${progress.queuePosition})...`
+      : progressStatus === "in_progress" && progress?.step && progress?.total
+        ? `Training step ${progress.step} of ${progress.total}...`
+        : progressPct > 0
+          ? `Training: ${progressPct}% complete`
+          : "Training LoRA model on your photos...";
 
   const handleRetry = async () => {
     setRetrying(true);
@@ -48,11 +96,30 @@ export default function TrainingView({ order }: { order: Order }) {
         </div>
       </div>
 
+      {progressPct > 0 && (
+        <div className="mb-6">
+          <div className="flex items-center justify-between text-sm text-slate-600 mb-2">
+            <span>Progress</span>
+            <span className="font-bold">{progressPct}%</span>
+          </div>
+          <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-blue-600 rounded-full transition-all duration-500"
+              style={{ width: `${progressPct}%` }}
+            />
+          </div>
+        </div>
+      )}
+
       <div className="space-y-3">
         <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100">
-          <div className="w-3 h-3 bg-blue-600 rounded-full animate-pulse" />
+          {progressStatus === "in_queue" ? (
+            <Loader2 className="w-3 h-3 text-amber-600 animate-spin" />
+          ) : (
+            <div className="w-3 h-3 bg-blue-600 rounded-full animate-pulse" />
+          )}
           <span className="text-sm font-medium text-slate-700">
-            Training LoRA model on your photos...
+            {statusText}
           </span>
         </div>
         <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100 opacity-60">

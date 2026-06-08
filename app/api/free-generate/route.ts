@@ -7,6 +7,8 @@ import { withContext } from "@/lib/request-context";
 import { createLogger } from "@/lib/logger";
 
 const log = createLogger("free-generate");
+const CACHE_KEY = "free-generate:preview-urls";
+const CACHE_TTL = 60 * 60 * 24; // 24 hours
 
 fal.config({ credentials: process.env.FAL_KEY });
 
@@ -15,14 +17,16 @@ const hasRedisConfig =
   process.env.UPSTASH_REDIS_REST_URL &&
   process.env.UPSTASH_REDIS_REST_TOKEN;
 
+let redisClient: Redis | null = null;
 let rateLimiter: Ratelimit | null = null;
 if (hasRedisConfig) {
   try {
+    redisClient = new Redis({
+      url: process.env.UPSTASH_REDIS_REST_URL!,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+    });
     rateLimiter = new Ratelimit({
-      redis: new Redis({
-        url: process.env.UPSTASH_REDIS_REST_URL!,
-        token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-      }),
+      redis: redisClient,
       limiter: Ratelimit.slidingWindow(3, "60 s"),
       prefix: "ratelimit:free-generate",
       ephemeralCache: new Map(),
@@ -35,6 +39,18 @@ if (hasRedisConfig) {
 function getIp(req: Request): string {
   return req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
 }
+
+const PROMPTS = [
+  "A professional corporate headshot, studio lighting, neutral background",
+  "A creative headshot, soft natural light, slight smile",
+  "A casual professional headshot, outdoor blurred background",
+  "An executive headshot, dark suit, confident expression",
+  "A friendly LinkedIn profile photo, warm smile, light background",
+  "A creative studio portrait, artistic lighting, contemporary style",
+  "A real estate agent headshot, professional and approachable",
+  "A tech startup founder headshot, casual blazer, modern office",
+  "A speaker headshot, authoritative pose, stage lighting",
+];
 
 export const OPTIONS = handleOptions;
 
@@ -58,21 +74,23 @@ export const POST = withContext(async (req: Request) => {
       }
     }
 
-    // Free tier generates generic style previews — no user photo needed
-    const prompts = [
-      "A professional corporate headshot, studio lighting, neutral background",
-      "A creative headshot, soft natural light, slight smile",
-      "A casual professional headshot, outdoor blurred background",
-      "An executive headshot, dark suit, confident expression",
-      "A friendly LinkedIn profile photo, warm smile, light background",
-      "A creative studio portrait, artistic lighting, contemporary style",
-      "A real estate agent headshot, professional and approachable",
-      "A tech startup founder headshot, casual blazer, modern office",
-      "A speaker headshot, authoritative pose, stage lighting",
-    ];
+    // Check cache (generic previews are the same for all users)
+    if (redisClient) {
+      try {
+        const cached = await redisClient.get<string>(CACHE_KEY);
+        if (cached) {
+          const urls = JSON.parse(cached);
+          if (Array.isArray(urls) && urls.length === PROMPTS.length) {
+            return addCors(NextResponse.json({ urls }), origin);
+          }
+        }
+      } catch (err) {
+        log.warn({ err }, "Cache read failed");
+      }
+    }
 
     const results = await Promise.all(
-      prompts.map((prompt) =>
+      PROMPTS.map((prompt) =>
         fal.run("fal-ai/flux/dev", {
           input: {
             prompt,
@@ -87,6 +105,14 @@ export const POST = withContext(async (req: Request) => {
     );
 
     const urls = results.map((r) => (r as any).images[0].url);
+
+    // Cache the results
+    if (redisClient) {
+      redisClient
+        .set(CACHE_KEY, JSON.stringify(urls), { ex: CACHE_TTL })
+        .catch((err) => log.warn({ err }, "Cache write failed"));
+    }
+
     return addCors(NextResponse.json({ urls }), origin);
   } catch (err) {
     log.error({ err }, "Free generate failed");

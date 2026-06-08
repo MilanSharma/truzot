@@ -22,6 +22,9 @@ export default function AdminDashboard() {
   const { toast } = useToast();
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [nextCursor, setNextCursor] = useState<string | null>(null);
+  const [hasMore, setHasMore] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
   const getToken = useCallback(async () => {
@@ -31,21 +34,38 @@ export default function AdminDashboard() {
     return session?.access_token;
   }, []);
 
-  const fetchOrders = useCallback(async () => {
-    const token = await getToken();
-    if (!token) return;
-    const res = await fetch("/api/admin/orders", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (res.ok) {
-      const data = await res.json();
-      setOrders(data.orders || []);
-      setIsAdmin(true);
-    } else {
-      router.push("/dashboard");
-    }
-    setLoading(false);
-  }, [getToken, router]);
+  const fetchOrders = useCallback(
+    async (cursor?: string | null) => {
+      const token = await getToken();
+      if (!token) return;
+      const params = new URLSearchParams();
+      if (cursor) params.set("cursor", cursor);
+      const res = await fetch(`/api/admin/orders?${params.toString()}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (cursor) {
+          setOrders((prev) => [...prev, ...(data.orders || [])]);
+        } else {
+          setOrders(data.orders || []);
+        }
+        setNextCursor(data.nextCursor || null);
+        setHasMore(data.hasMore || false);
+        setIsAdmin(true);
+      } else {
+        router.push("/dashboard");
+      }
+      setLoading(false);
+      setLoadingMore(false);
+    },
+    [getToken, router],
+  );
+
+  const loadMore = async () => {
+    setLoadingMore(true);
+    await fetchOrders(nextCursor);
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => fetchOrders(), 0);
@@ -218,6 +238,25 @@ export default function AdminDashboard() {
             </table>
           </div>
         </div>
+
+        {hasMore && (
+          <div className="flex justify-center py-6">
+            <button
+              onClick={loadMore}
+              disabled={loadingMore}
+              className="px-6 py-3 bg-slate-900 text-white rounded-xl text-sm font-bold hover:bg-slate-800 transition disabled:opacity-50 flex items-center gap-2"
+            >
+              {loadingMore ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Loading...
+                </>
+              ) : (
+                "Load More"
+              )}
+            </button>
+          </div>
+        )}
       </div>
       <Footer />
     </div>

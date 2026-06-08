@@ -28,6 +28,11 @@ export default function ResetPasswordPage() {
   );
 
   useEffect(() => {
+    const hash = window.location.hash;
+    if (hash && hash.includes("type=recovery")) {
+      setTimeout(() => setReady(true), 0);
+      return;
+    }
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
@@ -35,12 +40,6 @@ export default function ResetPasswordPage() {
         setReady(true);
       }
     });
-    const hash = window.location.hash;
-    if (hash && hash.includes("type=recovery")) {
-      supabase.auth.getSession().then(({ data: { session } }) => {
-        if (session) setReady(true);
-      });
-    }
     return () => subscription.unsubscribe();
   }, []);
 

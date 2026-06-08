@@ -54,6 +54,7 @@ function DashboardContent() {
     total: 0,
   });
   const [loading, setLoading] = useState(true);
+  const [orderLoading, setOrderLoading] = useState(false);
   const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
   const [generationProgress, setGenerationProgress] = useState({
     count: 0,
@@ -289,6 +290,7 @@ function DashboardContent() {
   useEffect(() => {
     const loadOrderDetail = async () => {
       setOrderError(null);
+      if (orderId) setOrderLoading(true);
       if (!initRef.current) {
         initRef.current = true;
         const {
@@ -345,6 +347,7 @@ function DashboardContent() {
         setHeadshotPage(0);
         setHasMoreHeadshots(true);
       }
+      setOrderLoading(false);
       setLoading(false);
     };
     loadOrderDetail();
@@ -700,6 +703,11 @@ function DashboardContent() {
           transition={{ duration: 0.3 }}
           className="p-6 md:p-10 max-w-7xl mx-auto"
         >
+          {orderLoading && orderId && !currentOrder && (
+            <div className="flex items-center justify-center py-20">
+              <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+            </div>
+          )}
           {orderError && (
             <div className="flex flex-col items-center justify-center py-20 text-center">
               <div className="w-16 h-16 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mb-6">

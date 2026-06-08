@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import Nav from "@/components/Nav";
@@ -19,6 +19,34 @@ export default function InvoicesPage() {
   const router = useRouter();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [receiptUrls, setReceiptUrls] = useState<Record<string, string | null>>(
+    {},
+  );
+  const fetchedRef = useRef<Set<string>>(new Set());
+
+  const fetchReceiptUrl = useCallback(async (pi: string, orderId: string) => {
+    if (fetchedRef.current.has(orderId)) return;
+    fetchedRef.current.add(orderId);
+    try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      const res = await fetch("/api/receipt-url", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session?.access_token || ""}`,
+        },
+        body: JSON.stringify({ paymentIntent: pi }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setReceiptUrls((prev) => ({ ...prev, [orderId]: data.url }));
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
 
   useEffect(() => {
     supabase.auth.getUser().then(async ({ data }) => {
@@ -33,15 +61,17 @@ export default function InvoicesPage() {
         )
         .eq("user_id", data.user.id)
         .order("created_at", { ascending: false });
-      if (ordersData) setOrders(ordersData as Order[]);
+      if (ordersData) {
+        setOrders(ordersData as Order[]);
+        for (const o of ordersData) {
+          if (o.stripe_payment_intent) {
+            fetchReceiptUrl(o.stripe_payment_intent, o.id);
+          }
+        }
+      }
       setLoading(false);
     });
-  }, [router]);
-
-  const receiptUrl = (pi?: string) => {
-    if (!pi) return null;
-    return `https://dashboard.stripe.com/invoices?payment_intent=${pi}`;
-  };
+  }, [router, fetchReceiptUrl]);
 
   if (loading)
     return (
@@ -97,15 +127,19 @@ export default function InvoicesPage() {
                   <p className="font-bold text-slate-900 dark:text-white">
                     ${(o.amount_cents / 100).toFixed(2)}
                   </p>
-                  {receiptUrl(o.stripe_payment_intent) ? (
+                  {receiptUrls[o.id] ? (
                     <a
-                      href={receiptUrl(o.stripe_payment_intent)!}
+                      href={receiptUrls[o.id]!}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 mt-2 text-xs text-blue-600 hover:underline"
                     >
                       <ExternalLink className="w-3 h-3" /> View Receipt
                     </a>
+                  ) : o.stripe_payment_intent ? (
+                    <span className="text-xs text-slate-400 mt-2 block">
+                      Loading receipt...
+                    </span>
                   ) : (
                     <span className="text-xs text-slate-400 mt-2 block">
                       Receipt pending
