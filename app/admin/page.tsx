@@ -31,16 +31,7 @@ export default function AdminDashboard() {
     return session?.access_token;
   }, []);
 
-  const checkAdmin = async () => {
-    const token = await getToken();
-    if (!token) return false;
-    const res = await fetch("/api/admin/orders", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return res.ok;
-  };
-
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     const token = await getToken();
     if (!token) return;
     const res = await fetch("/api/admin/orders", {
@@ -49,20 +40,17 @@ export default function AdminDashboard() {
     if (res.ok) {
       const data = await res.json();
       setOrders(data.orders || []);
+      setIsAdmin(true);
+    } else {
+      router.push("/dashboard");
     }
     setLoading(false);
-  };
+  }, [getToken, router]);
 
   useEffect(() => {
-    checkAdmin().then((admin) => {
-      if (!admin) {
-        router.push("/dashboard");
-        return;
-      }
-      setIsAdmin(true);
-      fetchOrders();
-    });
-  }, [router, checkAdmin, fetchOrders]);
+    const timer = setTimeout(() => fetchOrders(), 0);
+    return () => clearTimeout(timer);
+  }, [fetchOrders]);
 
   const retryOrder = async (orderId: string) => {
     if (!confirm(`Retry order ${orderId.slice(0, 8)}...?`)) return;

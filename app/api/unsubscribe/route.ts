@@ -14,9 +14,11 @@ export const POST = withContext(async (req: Request) => {
         { status: 400 },
       );
 
-    // Simple token validation: SHA-256 of email + CRON_SECRET
+    // Token validation: SHA-256 of email + UNSUBSCRIBE_SECRET
+    const secret =
+      process.env.UNSUBSCRIBE_SECRET || process.env.CRON_SECRET || "";
     const encoder = new TextEncoder();
-    const data = encoder.encode(email + (process.env.CRON_SECRET || ""));
+    const data = encoder.encode(email + secret);
     const hash = await crypto.subtle.digest("SHA-256", data);
     const expectedToken = Array.from(new Uint8Array(hash))
       .map((b) => b.toString(16).padStart(2, "0"))

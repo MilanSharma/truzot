@@ -32,6 +32,35 @@ function isAllowedDomain(urlString: string): boolean {
   }
 }
 
+async function resolveUserIdFromDownloadToken(
+  req: Request,
+): Promise<string | null> {
+  const { searchParams } = new URL(req.url);
+  const downloadToken = searchParams.get("download_token");
+  if (!downloadToken) return null;
+
+  const { data: tokenRow } = await supabaseAdmin
+    .from("download_tokens")
+    .select("user_id, expires_at, used")
+    .eq("id", downloadToken)
+    .maybeSingle();
+  if (!tokenRow) return null;
+  if (tokenRow.used) return null;
+  if (new Date(tokenRow.expires_at) < new Date()) return null;
+
+  return tokenRow.user_id;
+}
+
+async function markDownloadTokenUsed(req: Request): Promise<void> {
+  const { searchParams } = new URL(req.url);
+  const downloadToken = searchParams.get("download_token");
+  if (!downloadToken) return;
+  await supabaseAdmin
+    .from("download_tokens")
+    .update({ used: true })
+    .eq("id", downloadToken);
+}
+
 export const GET = withContext(async (req: Request) => {
   const { searchParams } = new URL(req.url);
   const url = searchParams.get("url");
@@ -42,16 +71,17 @@ export const GET = withContext(async (req: Request) => {
     return NextResponse.json({ error: "Forbidden domain" }, { status: 403 });
   }
 
-  // Verify the user owns this headshot
+  // Resolve userId from (in order of preference): Authorization header, download_token, token param
   const authHeader = req.headers.get("Authorization") ?? "";
-  const token = authHeader.replace("Bearer ", "").trim();
+  const bearerToken = authHeader.replace("Bearer ", "").trim();
   let userId: string | null = null;
-  if (token) {
+  if (bearerToken) {
     const {
       data: { user },
-    } = await supabaseAdmin.auth.getUser(token);
+    } = await supabaseAdmin.auth.getUser(bearerToken);
     userId = user?.id ?? null;
   }
+  if (!userId) userId = await resolveUserIdFromDownloadToken(req);
   if (!userId) {
     const tokenParam = searchParams.get("token");
     if (tokenParam) {
@@ -79,6 +109,8 @@ export const GET = withContext(async (req: Request) => {
       }
     }
   }
+
+  await markDownloadTokenUsed(req);
 
   try {
     const response = await fetch(url);

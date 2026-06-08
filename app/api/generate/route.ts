@@ -8,6 +8,7 @@ import { createLogger } from "@/lib/logger";
 import { addCors, handleOptions } from "@/lib/cors";
 import { withContext } from "@/lib/request-context";
 import { getStripe } from "@/lib/stripe";
+import { isValidTransition } from "@/lib/order-status";
 
 const log = createLogger("generate");
 export const maxDuration = 300;
@@ -132,11 +133,13 @@ export const POST = withContext(async (req: Request) => {
       await supabaseAdmin
         .from("orders")
         .update({ status: "completed" })
-        .eq("id", orderId);
+        .eq("id", orderId)
+        .eq("status", "generating");
       await supabaseAdmin
         .from("trainings")
         .update({ status: "completed" })
-        .eq("order_id", orderId);
+        .eq("order_id", orderId)
+        .in("status", ["training", "generating"]);
       if (order.email)
         await sendHeadshotsReadyEmail(order.email, orderId, currentCount).catch(
           (err) => log.error({ err, orderId }, "Email send failed"),
@@ -211,11 +214,17 @@ export const POST = withContext(async (req: Request) => {
         const { error: insertError } = await supabaseAdmin
           .from("headshots")
           .insert(headshotsToInsert);
-        if (insertError)
-          log.error(
-            { err: insertError, orderId },
-            "Failed to insert headshots",
-          );
+        if (insertError) {
+          // Unique violation (23505) means headshots already inserted — treat as idempotent success
+          if ((insertError as any)?.code === "23505") {
+            log.info({ orderId }, "Dedup: headshots already exist");
+          } else {
+            log.error(
+              { err: insertError, orderId },
+              "Failed to insert headshots",
+            );
+          }
+        }
       }
     }
 
@@ -234,11 +243,13 @@ export const POST = withContext(async (req: Request) => {
       await supabaseAdmin
         .from("orders")
         .update({ status: "completed" })
-        .eq("id", orderId);
+        .eq("id", orderId)
+        .eq("status", "generating");
       await supabaseAdmin
         .from("trainings")
         .update({ status: "completed" })
-        .eq("order_id", orderId);
+        .eq("order_id", orderId)
+        .in("status", ["training", "generating"]);
       if (order.email)
         await sendHeadshotsReadyEmail(order.email, orderId, newTotal).catch(
           (err) => log.error({ err, orderId }, "Email send failed"),

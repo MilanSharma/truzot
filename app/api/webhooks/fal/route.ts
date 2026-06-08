@@ -4,6 +4,7 @@ import { trainModel, generateWebhookToken } from "@/lib/ai/fal-client";
 import { storeWebhookEvent } from "@/lib/webhook-store";
 import { createLogger } from "@/lib/logger";
 import { withContext } from "@/lib/request-context";
+import { isValidTransition } from "@/lib/order-status";
 
 const log = createLogger("fal-webhook");
 export const maxDuration = 30;
@@ -61,13 +62,21 @@ export const POST = withContext(async (req: Request) => {
     if (data.status === "ERROR" || data.error) {
       const { data: order } = await supabaseAdmin
         .from("orders")
-        .select("preferences, zip_url")
+        .select("status, preferences, zip_url")
         .eq("id", orderId)
         .single();
+      const currentStatus = order?.status || "";
+      if (!isValidTransition(currentStatus, "failed")) {
+        log.warn(
+          { orderId, currentStatus },
+          "Ignoring ERROR webhook — terminal state",
+        );
+        return NextResponse.json({ ok: true });
+      }
       const prefs = (order?.preferences as Record<string, any>) || {};
       const retryCount = (prefs.retry_count as number) || 0;
 
-      if (retryCount < 1) {
+      if (retryCount < 1 && isValidTransition(currentStatus, "training")) {
         let zipUrl = order?.zip_url;
         const storagePath = prefs.storagePath as string | undefined;
         if (storagePath) {
@@ -108,14 +117,12 @@ export const POST = withContext(async (req: Request) => {
             { onConflict: "order_id" },
           );
         if (trainErr) {
-          await supabaseAdmin
-            .from("orders")
-            .update({ status: "failed" })
-            .eq("id", orderId);
-          return NextResponse.json(
-            { error: "Training upsert failed" },
-            { status: 500 },
+          log.error(
+            { err: trainErr, orderId },
+            "Training upsert failed on retry",
           );
+          // Don't fail the order — training may already be in progress
+          return NextResponse.json({ ok: true });
         }
         if (zipUrl) {
           try {
@@ -174,6 +181,19 @@ export const POST = withContext(async (req: Request) => {
       data.output?.diffusers_lora_file?.url;
     if (!modelId)
       return NextResponse.json({ error: "No model URL" }, { status: 400 });
+
+    const { data: curOrder } = await supabaseAdmin
+      .from("orders")
+      .select("status")
+      .eq("id", orderId)
+      .single();
+    if (!isValidTransition(curOrder?.status || "", "generating")) {
+      log.warn(
+        { orderId, currentStatus: curOrder?.status },
+        "Ignoring COMPLETED webhook — invalid transition",
+      );
+      return NextResponse.json({ ok: true });
+    }
 
     await supabaseAdmin
       .from("trainings")

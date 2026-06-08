@@ -8,11 +8,18 @@ import { storeWebhookEvent } from "@/lib/webhook-store";
 import { createLogger } from "@/lib/logger";
 import { withContext } from "@/lib/request-context";
 import { getStripe } from "@/lib/stripe";
+import { isValidTransition } from "@/lib/order-status";
 
 const log = createLogger("stripe-webhook");
 
+const MAX_BODY_SIZE = 1_048_576; // 1MB
+
 export const POST = withContext(async (req: Request) => {
   const stripe = getStripe();
+  const contentLength = parseInt(req.headers.get("content-length") || "0", 10);
+  if (contentLength > MAX_BODY_SIZE) {
+    return NextResponse.json({ error: "Payload too large" }, { status: 413 });
+  }
   const body = await req.text();
   const signature = req.headers.get("Stripe-Signature")!;
   let event: Stripe.Event;
@@ -58,6 +65,14 @@ export const POST = withContext(async (req: Request) => {
       return NextResponse.json({ error: "Order not found" }, { status: 400 });
     if (["training", "generating", "completed"].includes(order.status))
       return NextResponse.json({ received: true });
+
+    if (!isValidTransition(order.status, "training")) {
+      log.warn(
+        { orderId, currentStatus: order.status },
+        "Invalid transition to training from current status",
+      );
+      return NextResponse.json({ received: true });
+    }
 
     // Claim guest order if userId is in metadata
     if (!order.user_id && userId) {
@@ -118,7 +133,7 @@ export const POST = withContext(async (req: Request) => {
     if (trainingUpsertError) {
       await supabaseAdmin
         .from("orders")
-        .update({ status: "pending" })
+        .update({ status: "failed" })
         .eq("id", orderId);
       return NextResponse.json(
         { error: "Failed to create training record" },
