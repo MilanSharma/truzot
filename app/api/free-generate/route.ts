@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { fal } from "@fal-ai/client";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 import { addCors, handleOptions } from "@/lib/cors";
 import { withContext } from "@/lib/request-context";
 import { createLogger } from "@/lib/logger";
@@ -8,11 +10,54 @@ const log = createLogger("free-generate");
 
 fal.config({ credentials: process.env.FAL_KEY });
 
+const hasRedisConfig =
+  typeof process !== "undefined" &&
+  process.env.UPSTASH_REDIS_REST_URL &&
+  process.env.UPSTASH_REDIS_REST_TOKEN;
+
+let rateLimiter: Ratelimit | null = null;
+if (hasRedisConfig) {
+  try {
+    rateLimiter = new Ratelimit({
+      redis: new Redis({
+        url: process.env.UPSTASH_REDIS_REST_URL!,
+        token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+      }),
+      limiter: Ratelimit.slidingWindow(3, "60 s"),
+      prefix: "ratelimit:free-generate",
+      ephemeralCache: new Map(),
+    });
+  } catch (err) {
+    log.error({ err }, "Failed to init rate limiter");
+  }
+}
+
+function getIp(req: Request): string {
+  return req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+}
+
 export const OPTIONS = handleOptions;
 
 export const POST = withContext(async (req: Request) => {
   const origin = req.headers.get("origin");
   try {
+    // Rate limiting
+    if (rateLimiter) {
+      const ip = getIp(req);
+      const { success } = await rateLimiter.limit(ip);
+      if (!success) {
+        return addCors(
+          NextResponse.json(
+            {
+              error: "Too many requests. Please wait before generating again.",
+            },
+            { status: 429 },
+          ),
+          origin,
+        );
+      }
+    }
+
     // Free tier generates generic style previews — no user photo needed
     const prompts = [
       "A professional corporate headshot, studio lighting, neutral background",

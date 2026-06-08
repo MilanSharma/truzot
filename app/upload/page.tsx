@@ -665,6 +665,7 @@ function UploadContent() {
     }
 
     setIsProcessing(true);
+    setProgress("Preparing your order...");
     let finalStoragePath = storagePath;
 
     // Fallback: If the user was super fast and background upload didn't finish, do it now

@@ -56,6 +56,23 @@ export const POST = withContext(async (req: Request) => {
     const { orderId, plan, email, userId } = session.metadata ?? {};
     if (!orderId)
       return NextResponse.json({ error: "Missing metadata" }, { status: 400 });
+
+    // Idempotency check: skip if this event was already processed
+    if (event.id) {
+      const { data: existing } = await supabaseAdmin
+        .from("webhook_events")
+        .select("id")
+        .eq("event_id", event.id)
+        .eq("status", "processed")
+        .maybeSingle();
+      if (existing) {
+        log.info(
+          { eventId: event.id, orderId },
+          "Duplicate webhook — skipping",
+        );
+        return NextResponse.json({ received: true });
+      }
+    }
     const { data: order, error: fetchError } = await supabaseAdmin
       .from("orders")
       .select("zip_url, status, preferences, user_id")
@@ -171,6 +188,15 @@ export const POST = withContext(async (req: Request) => {
         { error: "Training failed to start" },
         { status: 500 },
       );
+    }
+    // Mark event as processed for idempotency
+    if (event.id) {
+      await supabaseAdmin
+        .from("webhook_events")
+        .update({ status: "processed" })
+        .eq("event_id", event.id)
+        .eq("source", "stripe")
+        .is("status", "received");
     }
     if (email) {
       const planAmount = PLANS[plan as keyof typeof PLANS]?.amount ?? 2900;

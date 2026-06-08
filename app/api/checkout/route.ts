@@ -82,6 +82,20 @@ export const POST = withContext(async (req: Request) => {
           NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
           origin,
         );
+      // Enforce email verification for email/password users
+      if (user.app_metadata?.provider === "email" && !user.email_confirmed_at) {
+        return addCors(
+          NextResponse.json(
+            {
+              error:
+                "Please verify your email address before checking out. Check your inbox for the verification link.",
+              needsVerification: true,
+            },
+            { status: 403 },
+          ),
+          origin,
+        );
+      }
       userId = user.id;
     } else {
       supabase = supabaseAdmin;

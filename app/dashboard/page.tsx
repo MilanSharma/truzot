@@ -45,6 +45,7 @@ function DashboardContent() {
   const [selected, setSelected] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
+  const [orderError, setOrderError] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [downloading, setDownloading] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState({
@@ -318,6 +319,7 @@ function DashboardContent() {
           undefined;
         const order = await fetchOrderById(orderId, downloadToken);
         if (order) {
+          setOrderError(null);
           setCurrentOrder(order);
           setHeadshots([]);
           setHeadshotPage(0);
@@ -327,8 +329,15 @@ function DashboardContent() {
           }
           const channel = subscribeToOrder(orderId);
           subsRef.current = channel;
+        } else {
+          setOrderError(
+            "Order not found. It may have been deleted or expired.",
+          );
+          setCurrentOrder(null);
+          setHeadshots([]);
         }
       } else {
+        setOrderError(null);
         setCurrentOrder(null);
         setHeadshots([]);
         setHeadshotPage(0);
@@ -685,7 +694,26 @@ function DashboardContent() {
           transition={{ duration: 0.3 }}
           className="p-6 md:p-10 max-w-7xl mx-auto"
         >
-          {orderId && currentOrder ? (
+          {orderError && (
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+              <div className="w-16 h-16 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mb-6">
+                <Camera className="w-8 h-8 text-red-500" />
+              </div>
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+                Order Not Found
+              </h2>
+              <p className="text-slate-500 dark:text-slate-400 max-w-md mb-8">
+                {orderError}
+              </p>
+              <button
+                onClick={() => router.push("/dashboard")}
+                className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition"
+              >
+                Back to Library
+              </button>
+            </div>
+          )}
+          {orderId && !orderError && currentOrder ? (
             <div>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                 <div>
@@ -923,7 +951,7 @@ function DashboardContent() {
                 </GalleryErrorBoundary>
               )}
             </div>
-          ) : (
+          ) : !orderError ? (
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -936,7 +964,7 @@ function DashboardContent() {
                 onResumeCheckout={handleResumeCheckout}
               />
             </motion.div>
-          )}
+          ) : null}
         </motion.div>
       </main>
 
