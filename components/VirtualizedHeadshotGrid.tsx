@@ -2,19 +2,7 @@
 import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { Grid as GridBase } from "react-window";
-const Grid = GridBase as unknown as React.FC<{
-  children: (args: {
-    columnIndex: number;
-    rowIndex: number;
-    style: React.CSSProperties;
-  }) => React.ReactNode;
-  columnCount: number;
-  columnWidth: number;
-  height: number;
-  rowCount: number;
-  rowHeight: number;
-  width: number;
-}>;
+const Grid = GridBase as React.ComponentType<any>;
 import {
   Download,
   Heart,
@@ -281,29 +269,43 @@ export default function VirtualizedHeadshotGrid(
     ],
   );
 
+  const Cell = useCallback(
+    ({
+      columnIndex,
+      rowIndex,
+      style,
+    }: {
+      columnIndex: number;
+      rowIndex: number;
+      style: React.CSSProperties;
+    }) => (
+      <GridCell
+        columnIndex={columnIndex}
+        rowIndex={rowIndex}
+        style={style}
+        {...cellArgs}
+      />
+    ),
+    [cellArgs],
+  );
+
   return (
     <div
       ref={containerRef}
       className="w-full"
       style={{ height: containerHeight }}
     >
+      {/* @ts-expect-error react-window v2 types mismatch with @types/react-window v1 */}
       <Grid
         columnCount={columnCount}
         columnWidth={columnWidth}
-        height={containerHeight}
+        defaultHeight={containerHeight}
+        defaultWidth={width}
         rowCount={rowCount}
         rowHeight={rowHeight}
-        width={width}
-      >
-        {({ columnIndex, rowIndex, style }: any) => (
-          <GridCell
-            columnIndex={columnIndex}
-            rowIndex={rowIndex}
-            style={style}
-            {...cellArgs}
-          />
-        )}
-      </Grid>
+        cellComponent={Cell}
+        style={{ height: containerHeight, width }}
+      />
     </div>
   );
 }

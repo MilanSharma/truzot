@@ -704,6 +704,33 @@ function UploadContent() {
       }
     }
 
+    // Verify the uploaded file actually exists in storage before proceeding
+    if (finalStoragePath) {
+      setProgress("Verifying upload...");
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      const authHeaders: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      if (token) authHeaders.Authorization = `Bearer ${token}`;
+
+      const checkRes = await fetch("/api/upload", {
+        method: "POST",
+        headers: authHeaders,
+        body: JSON.stringify({ action: "check", path: finalStoragePath }),
+      });
+      if (!checkRes.ok) {
+        const errData = await checkRes.json().catch(() => ({}));
+        setError(
+          `Upload verification failed: ${errData.error || "File not found in storage. Please re-upload."}`,
+        );
+        setIsProcessing(false);
+        return;
+      }
+    }
+
     setProgress("Securing your checkout session...");
     try {
       const {
