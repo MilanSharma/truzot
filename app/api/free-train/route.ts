@@ -175,9 +175,10 @@ export const POST = withContext(async (req: Request) => {
         origin,
       );
     }
+    const storageKey = `free/${crypto.randomUUID()}.jpg`;
     const { data: uploaded } = await supabaseAdmin.storage
       .from("headshots")
-      .upload(`free/${ipHash}_${Date.now()}.jpg`, imgBody, {
+      .upload(storageKey, imgBody, {
         contentType: "image/jpeg",
         upsert: false,
       });

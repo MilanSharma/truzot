@@ -1,7 +1,7 @@
-import nextEslint from 'eslint-config-next';
+import nextCoreWebVitals from "eslint-config-next";
 
 const eslintConfig = [
-  ...nextEslint,
+  ...nextCoreWebVitals,
   {
     rules: {
       '@next/next/no-html-link-for-pages': 'off',

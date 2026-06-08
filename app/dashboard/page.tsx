@@ -24,6 +24,7 @@ import FailedView from "@/components/dashboard/FailedView";
 import CompletedGallery from "@/components/dashboard/CompletedGallery";
 import FloatingSelectionBar from "@/components/dashboard/FloatingSelectionBar";
 import GalleryErrorBoundary from "@/components/GalleryErrorBoundary";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import { useToast } from "@/components/Toast";
 import { motion } from "framer-motion";
 
@@ -1021,7 +1022,30 @@ export default function DashboardPage() {
         </div>
       }
     >
-      <DashboardContent />
+      <ErrorBoundary
+        fallback={
+          <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center px-6">
+            <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mb-4">
+              <span className="text-red-500 text-2xl">!</span>
+            </div>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+              Something went wrong
+            </h2>
+            <p className="text-slate-500 dark:text-slate-400 max-w-md text-center mb-8">
+              The dashboard encountered an unexpected error. Please try
+              reloading.
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition"
+            >
+              Reload Page
+            </button>
+          </div>
+        }
+      >
+        <DashboardContent />
+      </ErrorBoundary>
     </Suspense>
   );
 }
