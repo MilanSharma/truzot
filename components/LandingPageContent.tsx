@@ -730,8 +730,10 @@ export default function LandingPageContent() {
         </section>
 
         {/* Affiliate CTA */}
-        <section className="bg-[var(--dark-900)] text-[var(--text-primary)] py-20 px-6">
-          <div className="max-w-4xl mx-auto text-center">
+        <section className="relative bg-[var(--dark-900)] text-[var(--text-primary)] py-20 px-6 overflow-hidden">
+          <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,.03)_25%,transparent_25%),linear-gradient(-45deg,rgba(255,255,255,.03)_25%,transparent_25%),linear-gradient(45deg,transparent_75%,rgba(255,255,255,.03)_75%),linear-gradient(-45deg,transparent_75%,rgba(255,255,255,.03)_75%)] bg-[size:20px_20px] bg-[position:0_0,0_10px,10px_-10px,-10px_0px]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--dark-900)] via-transparent to-transparent" />
+          <div className="relative max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Earn <span className="text-emerald-400">30%</span> on Every
               Referral
