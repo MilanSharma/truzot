@@ -94,10 +94,10 @@ export default function LandingPageContent() {
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }]} />
       <div
         id="main-content"
-        className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-white dark:text-slate-100 font-sans scroll-smooth"
+        className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans scroll-smooth"
       >
         {/* Navigation */}
-        <nav className="fixed top-0 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-md z-50 border-b border-slate-100 dark:border-slate-800">
+        <nav className="fixed top-0 w-full bg-[var(--bg-primary)]/80 backdrop-blur-md z-50 border-b border-[var(--border-primary)]">
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="text-2xl font-bold tracking-tighter bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               TRUZOT
@@ -140,7 +140,7 @@ export default function LandingPageContent() {
             </button>
           </div>
           {mobileMenuOpen && (
-            <div className="md:hidden bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-700 py-4 px-6 flex flex-col gap-4">
+            <div className="md:hidden bg-[var(--bg-card)] border-b border-[var(--border-primary)] py-4 px-6 flex flex-col gap-4">
               <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)}>
                 How It Works
               </a>
@@ -243,10 +243,7 @@ export default function LandingPageContent() {
         </section>
 
         {/* Before/After Comparison */}
-        <section
-          id="examples"
-          className="py-20 px-6 bg-white dark:bg-slate-950"
-        >
+        <section id="examples" className="py-20 px-6 bg-[var(--bg-primary)]">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl font-bold mb-4">From selfie to headshot</h2>
             <p className="text-slate-600 dark:text-slate-400 mb-10">
@@ -263,7 +260,7 @@ export default function LandingPageContent() {
         {/* How It Works */}
         <section
           id="how-it-works"
-          className="py-20 px-6 bg-slate-50 dark:bg-slate-900"
+          className="py-20 px-6 bg-[var(--bg-secondary)]"
         >
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
@@ -329,7 +326,7 @@ export default function LandingPageContent() {
         </section>
 
         {/* What's Included */}
-        <section className="py-20 px-6 bg-white dark:bg-slate-950">
+        <section className="py-20 px-6 bg-[var(--bg-primary)]">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">
@@ -386,10 +383,7 @@ export default function LandingPageContent() {
         </section>
 
         {/* AI vs Traditional Photography Comparison Table (Optimized for AI Search & SEO) */}
-        <section
-          id="comparison"
-          className="py-20 px-6 bg-white dark:bg-slate-950"
-        >
+        <section id="comparison" className="py-20 px-6 bg-[var(--bg-primary)]">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4 text-slate-900 dark:text-white">
@@ -489,7 +483,7 @@ export default function LandingPageContent() {
         </section>
 
         {/* Features Section */}
-        <section id="features" className="py-20 px-6">
+        <section id="features" className="py-20 px-6 bg-[var(--bg-primary)]">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">Why choose Truzot?</h2>
@@ -546,7 +540,7 @@ export default function LandingPageContent() {
         {/* Headshot Categories */}
         <section
           id="headshot-types"
-          className="py-20 px-6 bg-slate-50 dark:bg-slate-900"
+          className="py-20 px-6 bg-[var(--bg-secondary)]"
         >
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
@@ -576,7 +570,7 @@ export default function LandingPageContent() {
         </section>
 
         {/* Pricing Section */}
-        <section id="pricing" className="py-20 bg-white dark:bg-slate-950 px-6">
+        <section id="pricing" className="py-20 bg-[var(--bg-primary)] px-6">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">
@@ -649,7 +643,7 @@ export default function LandingPageContent() {
         {/* Testimonials */}
         <section
           id="testimonials"
-          className="py-20 px-6 bg-slate-50 dark:bg-slate-900"
+          className="py-20 px-6 bg-[var(--bg-secondary)]"
         >
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
@@ -689,7 +683,7 @@ export default function LandingPageContent() {
         </section>
 
         {/* FAQ */}
-        <section id="faq" className="py-20 px-6">
+        <section id="faq" className="py-20 px-6 bg-[var(--bg-primary)]">
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">
@@ -736,7 +730,7 @@ export default function LandingPageContent() {
         </section>
 
         {/* Affiliate CTA */}
-        <section className="bg-slate-900 dark:bg-slate-950 text-white py-20 px-6">
+        <section className="bg-[var(--dark-900)] text-[var(--text-primary)] py-20 px-6">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Earn <span className="text-emerald-400">30%</span> on Every
@@ -775,7 +769,7 @@ export default function LandingPageContent() {
         </section>
 
         {/* Footer */}
-        <footer className="bg-slate-900 text-slate-300 py-12 px-6">
+        <footer className="bg-[var(--dark-900)] text-[var(--text-muted)] py-12 px-6">
           <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-8">
             <div>
               <div className="text-2xl font-bold text-white mb-4">TRUZOT</div>
@@ -844,7 +838,7 @@ export default function LandingPageContent() {
               </ul>
             </div>
           </div>
-          <div className="max-w-7xl mx-auto border-t border-slate-800 mt-8 pt-8 text-center text-sm">
+          <div className="max-w-7xl mx-auto border-t border-[var(--border-primary)] mt-8 pt-8 text-center text-sm">
             &copy; {new Date().getFullYear()} Truzot. Professional headshots,
             AI-generated.
           </div>

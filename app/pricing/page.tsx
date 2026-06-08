@@ -7,7 +7,7 @@ import { CheckCircle } from "lucide-react";
 
 export default function PricingPage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950">
+    <div className="min-h-screen bg-[var(--bg-primary)]">
       <Nav />
       <main className="pt-24 px-6 pb-20">
         <div className="max-w-7xl mx-auto">

@@ -37,7 +37,7 @@ export default function Nav({ showBack = false }: NavProps) {
 
   return (
     <nav
-      className="w-full bg-white dark:bg-slate-950 border-b border-slate-100 dark:border-slate-800 sticky top-0 z-50"
+      className="w-full bg-[var(--bg-primary)] border-b border-[var(--border-primary)] sticky top-0 z-50"
       role="navigation"
       aria-label="Main navigation"
     >
@@ -110,7 +110,7 @@ export default function Nav({ showBack = false }: NavProps) {
         )}
       </div>
       {mobileOpen && !showBack && (
-        <div className="md:hidden bg-white dark:bg-slate-950 border-b border-slate-100 dark:border-slate-800 py-4 px-6 flex flex-col gap-4 text-sm font-medium">
+        <div className="md:hidden bg-[var(--bg-card)] border-b border-[var(--border-primary)] py-4 px-6 flex flex-col gap-4 text-sm font-medium">
           <Link
             href="/#pricing"
             onClick={() => setMobileOpen(false)}

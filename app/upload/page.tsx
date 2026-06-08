@@ -808,7 +808,7 @@ function UploadContent() {
     <UploadErrorBoundary>
       <div
         id="main-content"
-        className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100 pb-20"
+        className="min-h-screen bg-[var(--bg-primary)] font-sans text-[var(--text-primary)] pb-20"
       >
         <Nav />
 

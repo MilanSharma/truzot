@@ -679,7 +679,7 @@ function DashboardContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 p-6 md:p-10">
+      <div className="min-h-screen bg-[var(--bg-secondary)] p-6 md:p-10">
         <div className="max-w-7xl mx-auto">
           <div className="skeleton h-10 w-64 mb-8" />
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -694,7 +694,7 @@ function DashboardContent() {
 
   if (authChecked && !user && !orderId) {
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center px-6">
+      <div className="min-h-screen bg-[var(--bg-secondary)] flex flex-col items-center justify-center px-6">
         <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-6">
           <Camera className="w-10 h-10 text-blue-600" />
         </div>
@@ -717,11 +717,11 @@ function DashboardContent() {
   const currentFiltered = getFilteredHeadshots();
 
   return (
-    <div className="flex h-screen bg-slate-50 dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100 overflow-hidden">
+    <div className="flex h-screen bg-[var(--bg-primary)] font-sans text-[var(--text-primary)] overflow-hidden">
       <Sidebar user={user} active={!orderId} />
 
       <main className="flex-1 overflow-y-auto relative">
-        <div className="md:hidden h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between px-6 sticky top-0 z-20">
+        <div className="md:hidden h-16 bg-[var(--bg-card)] border-b border-[var(--border-primary)] flex items-center justify-between px-6 sticky top-0 z-20">
           <Link
             href="/"
             className="text-lg font-black tracking-tighter bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
@@ -1061,7 +1061,7 @@ export default function DashboardPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-6 md:p-10">
+        <div className="min-h-screen bg-[var(--bg-secondary)] p-6 md:p-10">
           <div className="skeleton h-10 w-64 mb-8" />
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3].map((i) => (
@@ -1073,7 +1073,7 @@ export default function DashboardPage() {
     >
       <ErrorBoundary
         fallback={
-          <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center px-6">
+          <div className="min-h-screen bg-[var(--bg-secondary)] flex flex-col items-center justify-center px-6">
             <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mb-4">
               <span className="text-red-500 text-2xl">!</span>
             </div>

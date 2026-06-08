@@ -19,7 +19,7 @@ export default function LoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50">
+        <div className="min-h-screen flex items-center justify-center bg-[var(--bg-secondary)]">
           <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
         </div>
       }
@@ -196,8 +196,8 @@ function LoginForm() {
 
   if (forgotPasswordMode) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-        <nav className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
+      <div className="min-h-screen bg-[var(--bg-primary)]">
+        <nav className="bg-[var(--bg-card)] border-b border-[var(--border-primary)]">
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <Link
               href="/"
@@ -293,8 +293,8 @@ function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      <nav className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
+    <div className="min-h-screen bg-[var(--bg-primary)]">
+      <nav className="bg-[var(--bg-card)] border-b border-[var(--border-primary)]">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
             href="/"
