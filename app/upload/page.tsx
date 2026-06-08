@@ -217,12 +217,18 @@ function UploadContent() {
     const timer = setTimeout(async () => {
       if (cancelled) return;
       try {
-        const { data } = await supabase.storage
-          .from("uploads")
-          .list(storagePath.split("/")[0] || "");
-        const fileName = storagePath.split("/").pop();
-        const exists = data?.some((f) => f.name === fileName);
-        if (!exists) {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        const res = await fetch(
+          `/api/upload?action=check&path=${encodeURIComponent(storagePath)}`,
+          {
+            headers: session?.access_token
+              ? { Authorization: `Bearer ${session.access_token}` }
+              : {},
+          },
+        );
+        if (!res.ok) {
           toast(
             "Your uploaded files have expired. Please upload again.",
             "error",
@@ -242,7 +248,6 @@ function UploadContent() {
 
   // Persist state so browser back from Stripe preserves details
   useEffect(() => {
-    if (step === 1 && files.length === 0 && !storagePath) return;
     try {
       const state = JSON.stringify({
         step,
@@ -259,13 +264,10 @@ function UploadContent() {
         storagePath,
         filesCount: files.length,
         shootName,
-      });
-      const stateWithKey = JSON.stringify({
-        ...JSON.parse(state),
         idempotencyKey,
       });
-      sessionStorage.setItem(SESSION_KEY, stateWithKey);
-      localStorage.setItem(LOCAL_KEY, stateWithKey);
+      sessionStorage.setItem(SESSION_KEY, state);
+      localStorage.setItem(LOCAL_KEY, state);
     } catch {}
   }, [
     step,

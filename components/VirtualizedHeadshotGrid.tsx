@@ -239,7 +239,7 @@ export default function VirtualizedHeadshotGrid(
   const visibleRows = Math.min(rowCount, MAX_VISIBLE_ROWS);
   const containerHeight = Math.max(400, visibleRows * rowHeight);
 
-  const cellProps = useMemo(
+  const cellArgs = useMemo(
     () => ({
       headshots: props.headshots,
       columnCount,
@@ -277,12 +277,20 @@ export default function VirtualizedHeadshotGrid(
       <Grid
         columnCount={columnCount}
         columnWidth={columnWidth}
+        height={containerHeight}
         rowCount={rowCount}
         rowHeight={rowHeight}
-        style={{ height: containerHeight, width }}
-        cellComponent={GridCell as any}
-        cellProps={cellProps as any}
-      />
+        width={width}
+      >
+        {({ columnIndex, rowIndex, style }) => (
+          <GridCell
+            columnIndex={columnIndex}
+            rowIndex={rowIndex}
+            style={style}
+            {...cellArgs}
+          />
+        )}
+      </Grid>
     </div>
   );
 }

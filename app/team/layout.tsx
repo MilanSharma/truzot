@@ -27,12 +27,10 @@ export const metadata: Metadata = {
   },
 };
 
-import { redirect } from "next/navigation";
-
 export default function TeamLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  redirect("/");
+  return <>{children}</>;
 }

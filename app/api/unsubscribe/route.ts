@@ -15,8 +15,12 @@ export const POST = withContext(async (req: Request) => {
       );
 
     // Token validation: SHA-256 of email + UNSUBSCRIBE_SECRET
-    const secret =
-      process.env.UNSUBSCRIBE_SECRET || process.env.CRON_SECRET || "";
+    const secret = process.env.UNSUBSCRIBE_SECRET || process.env.CRON_SECRET;
+    if (!secret)
+      return NextResponse.json(
+        { error: "Service misconfigured" },
+        { status: 500 },
+      );
     const encoder = new TextEncoder();
     const data = encoder.encode(email + secret);
     const hash = await crypto.subtle.digest("SHA-256", data);

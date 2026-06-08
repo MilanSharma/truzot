@@ -308,8 +308,8 @@ function DashboardContent() {
             .order("created_at", { ascending: false });
           if (data) setOrders(data as Order[]);
         }
-        setAuthChecked(true);
       }
+      if (!authChecked) setAuthChecked(true);
       if (subsRef.current) {
         supabase.removeChannel(subsRef.current);
         subsRef.current = null;
@@ -577,6 +577,7 @@ function DashboardContent() {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
+          "X-Requested-With": "XMLHttpRequest",
         },
         body: JSON.stringify({ orderId, imageUrl }),
       });
@@ -610,7 +611,10 @@ function DashboardContent() {
     if (!token) return;
     const res = await fetch(`/api/orders?id=${id}`, {
       method: "DELETE",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "X-Requested-With": "XMLHttpRequest",
+      },
     });
     if (res.ok) {
       setOrders((prev) => prev.filter((o) => o.id !== id));
@@ -941,6 +945,7 @@ function DashboardContent() {
                         headers: {
                           "Content-Type": "application/json",
                           Authorization: `Bearer ${session?.access_token || ""}`,
+                          "X-Requested-With": "XMLHttpRequest",
                         },
                         body: JSON.stringify({ orderId, imageUrl: url }),
                       });

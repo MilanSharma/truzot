@@ -55,6 +55,26 @@ export const POST = withContext(async (req: Request) => {
       );
     }
 
+    if (action === "check") {
+      if (!path)
+        return addCors(
+          NextResponse.json({ error: "Missing path" }, { status: 400 }),
+          origin,
+        );
+      const parentPath = path.split("/").slice(0, -1).join("/");
+      const fileName = path.split("/").pop();
+      const { data: files } = await supabaseAdmin.storage
+        .from("uploads")
+        .list(parentPath);
+      const exists = files?.some((f) => f.name === fileName);
+      if (!exists)
+        return addCors(
+          NextResponse.json({ error: "File not found" }, { status: 404 }),
+          origin,
+        );
+      return addCors(NextResponse.json({ ok: true }), origin);
+    }
+
     if (action === "get-download-url") {
       if (!path)
         return addCors(

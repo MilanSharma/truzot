@@ -76,8 +76,31 @@ if (hasRedisConfig) {
   }
 }
 
+// CSRF protection for browser-originated mutations
+const CSRF_PROTECTED = new Set([
+  "/api/feedback",
+  "/api/orders",
+  "/api/regenerate",
+]);
+
 export default async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  // CSRF check for browser-mutation routes
+  if (
+    CSRF_PROTECTED.has(pathname) &&
+    req.method !== "GET" &&
+    req.method !== "HEAD"
+  ) {
+    const requestedWith = req.headers.get("X-Requested-With");
+    if (!requestedWith || requestedWith !== "XMLHttpRequest") {
+      return NextResponse.json(
+        { error: "CSRF validation failed" },
+        { status: 403 },
+      );
+    }
+  }
+
   const rule = RATE_LIMIT_RULES[pathname];
 
   if (!rule) {
