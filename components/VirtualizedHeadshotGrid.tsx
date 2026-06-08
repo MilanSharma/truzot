@@ -1,7 +1,8 @@
 "use client";
 import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import Image from "next/image";
-import { Grid } from "react-window";
+import { Grid as GridBase } from "react-window";
+const Grid = GridBase as unknown as React.FC<any>;
 import {
   Download,
   Heart,
@@ -282,7 +283,7 @@ export default function VirtualizedHeadshotGrid(
         rowHeight={rowHeight}
         width={width}
       >
-        {({ columnIndex, rowIndex, style }) => (
+        {({ columnIndex, rowIndex, style }: any) => (
           <GridCell
             columnIndex={columnIndex}
             rowIndex={rowIndex}
