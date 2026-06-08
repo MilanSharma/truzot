@@ -7,6 +7,14 @@ import { createLogger } from "@/lib/logger";
 
 const log = createLogger("upload");
 
+function isValidPath(path: string): boolean {
+  // Reject path traversal sequences and absolute paths
+  if (path.includes("..")) return false;
+  if (path.startsWith("/")) return false;
+  // Only allow alphanumeric, dashes, underscores, slashes, dots
+  return /^[\w\-./]+$/.test(path);
+}
+
 export const OPTIONS = handleOptions;
 
 export const POST = withContext(async (req: Request) => {
@@ -56,9 +64,9 @@ export const POST = withContext(async (req: Request) => {
     }
 
     if (action === "check") {
-      if (!path)
+      if (!path || !isValidPath(path))
         return addCors(
-          NextResponse.json({ error: "Missing path" }, { status: 400 }),
+          NextResponse.json({ error: "Invalid path" }, { status: 400 }),
           origin,
         );
       const parentPath = path.split("/").slice(0, -1).join("/");
@@ -76,9 +84,9 @@ export const POST = withContext(async (req: Request) => {
     }
 
     if (action === "get-download-url") {
-      if (!path)
+      if (!path || !isValidPath(path))
         return addCors(
-          NextResponse.json({ error: "Missing path" }, { status: 400 }),
+          NextResponse.json({ error: "Invalid path" }, { status: 400 }),
           origin,
         );
       if (ownerId && !path.startsWith(`${ownerId}/`)) {

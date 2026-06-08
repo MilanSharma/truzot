@@ -84,22 +84,31 @@ export const GET = withContext(async (req: Request) => {
     }
   }
 
-  if (userId) {
-    const { data: headshot } = await supabaseAdmin
-      .from("headshots")
-      .select("order_id")
-      .eq("image_url", url)
-      .maybeSingle();
-    if (headshot) {
-      const { data: order } = await supabaseAdmin
-        .from("orders")
-        .select("user_id")
-        .eq("id", headshot.order_id)
-        .single();
-      if (order?.user_id && order.user_id !== userId) {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-      }
+  if (!userId) {
+    return NextResponse.json(
+      { error: "Authentication required" },
+      { status: 401 },
+    );
+  }
+
+  // Verify the requesting user actually owns this headshot
+  const { data: headshot } = await supabaseAdmin
+    .from("headshots")
+    .select("order_id")
+    .eq("image_url", url)
+    .maybeSingle();
+  if (headshot) {
+    const { data: order } = await supabaseAdmin
+      .from("orders")
+      .select("user_id")
+      .eq("id", headshot.order_id)
+      .single();
+    if (order?.user_id && order.user_id !== userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
+  } else {
+    // URL doesn't match any known headshot — reject to prevent open proxy abuse
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
   try {

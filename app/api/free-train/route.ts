@@ -99,11 +99,9 @@ export const POST = withContext(async (req: Request) => {
     let trainingComplete = false;
     let modelId = "";
     const POLL_INTERVAL = 3000;
-    const MAX_POLLS = Math.floor(295000 / POLL_INTERVAL);
+    const MAX_POLLS = 8;
     let consecutiveFails = 0;
-    const startTime = Date.now();
     for (let i = 0; i < MAX_POLLS; i++) {
-      if (Date.now() - startTime > 295000) break;
       await new Promise((r) => setTimeout(r, POLL_INTERVAL));
       try {
         const status = await fal.queue.status(

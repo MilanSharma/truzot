@@ -399,6 +399,8 @@ function DashboardContent() {
     );
   };
 
+  const MAX_ZIP_IMAGES = 50;
+
   const serverSideDownload = async (
     urls: string[],
     filename: string,
@@ -427,40 +429,43 @@ function DashboardContent() {
     }
     const total = signedUrls.length;
     if (onProgress) onProgress(0, total);
-    const zip = new JSZip();
-    const CONCURRENCY = 6;
-    for (let i = 0; i < signedUrls.length; i += CONCURRENCY) {
-      const batch = signedUrls.slice(i, i + CONCURRENCY);
-      const results = await Promise.all(
-        batch.map(async (url: string, batchIdx: number) => {
-          const res = await fetch(url);
-          const buf = await res.arrayBuffer();
-          return { buf, idx: i + batchIdx };
-        }),
-      );
-      for (const { buf, idx } of results) {
-        zip.file(`headshot_${idx + 1}.jpg`, buf);
-      }
-      if (onProgress) onProgress(Math.min(i + CONCURRENCY, total), total);
-    }
-    // Use chunking for large Zips to avoid blocking the main thread
-    const zipBuffer = await zip.generateAsync(
-      { type: "arraybuffer" },
-      (metadata) => {
-        if (onProgress && metadata.percent) {
-          onProgress(Math.round((metadata.percent / 100) * total), total);
+    // Split into chunks of MAX_ZIP_IMAGES to avoid memory exhaustion on mobile
+    for (let chunkStart = 0; chunkStart < total; chunkStart += MAX_ZIP_IMAGES) {
+      const chunk = signedUrls.slice(chunkStart, chunkStart + MAX_ZIP_IMAGES);
+      const chunkLabel =
+        total > MAX_ZIP_IMAGES
+          ? ` (part ${Math.floor(chunkStart / MAX_ZIP_IMAGES) + 1})`
+          : "";
+      const zip = new JSZip();
+      const CONCURRENCY = 6;
+      for (let i = 0; i < chunk.length; i += CONCURRENCY) {
+        const batch = chunk.slice(i, i + CONCURRENCY);
+        const results = await Promise.all(
+          batch.map(async (url: string, batchIdx: number) => {
+            const res = await fetch(url);
+            const buf = await res.arrayBuffer();
+            return { buf, idx: chunkStart + i + batchIdx };
+          }),
+        );
+        for (const { buf, idx } of results) {
+          zip.file(`headshot_${idx + 1}.jpg`, buf);
         }
-      },
-    );
-    const blob = new Blob([zipBuffer], { type: "application/zip" });
-    const blobUrl = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = blobUrl;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(blobUrl);
+        if (onProgress)
+          onProgress(Math.min(chunkStart + i + CONCURRENCY, total), total);
+      }
+      const zipBuffer = await zip.generateAsync({ type: "arraybuffer" });
+      const blob = new Blob([zipBuffer], { type: "application/zip" });
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = blobUrl;
+      a.download = filename.replace(".zip", `${chunkLabel}.zip`);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(blobUrl);
+      if (onProgress)
+        onProgress(Math.min(chunkStart + chunk.length, total), total);
+    }
   };
 
   const shareGallery = async () => {
@@ -863,52 +868,16 @@ function DashboardContent() {
                     >
                       <DownloadProgress
                         onDownload={async (onProgress) => {
-                          const {
-                            data: { session },
-                          } = await supabase.auth.getSession();
-                          const token = session?.access_token;
-                          const params = new URLSearchParams({
-                            orderId: orderId!,
-                          });
-                          if (token) params.set("token", token);
-                          const dlRes = await fetch(
-                            `/api/download?${params.toString()}`,
-                          );
-                          if (!dlRes.ok) {
-                            toast("Download failed. Try again.", "error");
-                            return;
-                          }
-                          const { urls: signedUrls } = await dlRes.json();
-                          if (
-                            !Array.isArray(signedUrls) ||
-                            signedUrls.length === 0
-                          ) {
+                          const imageUrls = headshots.map((h) => h.image_url);
+                          if (imageUrls.length === 0) {
                             toast("No images to download.", "error");
                             return;
                           }
-                          const total = signedUrls.length;
-                          onProgress(0, total);
-                          const zip = new JSZip();
-                          for (let i = 0; i < signedUrls.length; i++) {
-                            const res = await fetch(signedUrls[i]);
-                            const buf = await res.arrayBuffer();
-                            zip.file(`headshot_${i + 1}.jpg`, buf);
-                            onProgress(i + 1, total);
-                          }
-                          const zipBuffer = await zip.generateAsync({
-                            type: "arraybuffer",
-                          });
-                          const blob = new Blob([zipBuffer], {
-                            type: "application/zip",
-                          });
-                          const blobUrl = URL.createObjectURL(blob);
-                          const a = document.createElement("a");
-                          a.href = blobUrl;
-                          a.download = `truzot-headshots-${orderId}.zip`;
-                          document.body.appendChild(a);
-                          a.click();
-                          a.remove();
-                          URL.revokeObjectURL(blobUrl);
+                          await serverSideDownload(
+                            imageUrls,
+                            `truzot-headshots-${orderId}.zip`,
+                            onProgress,
+                          );
                         }}
                         label="Download All"
                       />
