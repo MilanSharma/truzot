@@ -10,8 +10,37 @@ const log = createLogger("training-progress");
 export const GET = withContext(async (req: Request) => {
   const origin = req.headers.get("origin");
   try {
+    const token = req.headers.get("Authorization")?.replace("Bearer ", "");
+    let userId: string | null = null;
+    if (token) {
+      const {
+        data: { user },
+      } = await supabaseAdmin.auth.getUser(token);
+      if (user) userId = user.id;
+    }
+
     const { searchParams } = new URL(req.url);
     const orderId = searchParams.get("orderId");
+    if (!orderId)
+      return addCors(
+        NextResponse.json({ error: "Missing orderId" }, { status: 400 }),
+        origin,
+      );
+
+    // Verify the requesting user owns this order
+    if (userId) {
+      const { data: order } = await supabaseAdmin
+        .from("orders")
+        .select("user_id")
+        .eq("id", orderId)
+        .maybeSingle();
+      if (order && order.user_id && order.user_id !== userId) {
+        return addCors(
+          NextResponse.json({ error: "Forbidden" }, { status: 403 }),
+          origin,
+        );
+      }
+    }
     if (!orderId)
       return addCors(
         NextResponse.json({ error: "Missing orderId" }, { status: 400 }),

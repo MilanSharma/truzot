@@ -31,15 +31,24 @@ export default function AccountSettingsPage() {
     });
   }, [router]);
 
+  const [emailUpdated, setEmailUpdated] = useState(false);
+
   const updateEmail = async () => {
     setSaving(true);
     setMessage("");
     const { error } = await supabase.auth.updateUser({ email });
-    if (error) setMessage(`Error: ${error.message}`);
-    else
+    if (error) {
+      setMessage(`Error: ${error.message}`);
+    } else {
+      const { data } = await supabase.auth.getUser();
+      if (data.user) {
+        setUser((prev) => (prev ? { ...prev, email: data.user!.email } : prev));
+      }
+      setEmailUpdated(true);
       setMessage(
         "Confirmation email sent to new address. Verify to complete update.",
       );
+    }
     setSaving(false);
   };
 
@@ -109,7 +118,7 @@ export default function AccountSettingsPage() {
               />
               <button
                 onClick={updateEmail}
-                disabled={saving || email === user?.email}
+                disabled={saving || email === user?.email || emailUpdated}
                 className="px-5 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition disabled:opacity-50"
               >
                 {saving ? "Saving..." : "Update"}

@@ -27,7 +27,11 @@ function isAuthorizedOrigin(req: Request): boolean {
   const referer = req.headers.get("referer") || "";
   const origin = req.headers.get("origin") || "";
   const check = referer || origin;
-  if (!check) return false;
+  // Mobile browsers may strip Referer/Origin — allow requests with a valid token
+  if (!check) {
+    const token = req.headers.get("Authorization")?.replace("Bearer ", "");
+    return !!token;
+  }
   return ALLOWED_ORIGINS.some((o) => check.startsWith(o));
 }
 

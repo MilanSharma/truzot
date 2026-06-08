@@ -171,7 +171,7 @@ export const GET = withContext(async (req: Request) => {
     // Phase 1: Send warning emails for orders between 29 and 30 days old
     const { data: warnOrders } = await supabaseAdmin
       .from("orders")
-      .select("id, user_id, storage_path")
+      .select("id, user_id, preferences")
       .lt("created_at", twentyNineDaysAgo)
       .gte("created_at", thirtyDaysAgo);
 
@@ -207,7 +207,7 @@ export const GET = withContext(async (req: Request) => {
     // Phase 2: Delete orders older than 30 days
     const { data: expiredOrders, error: fetchError } = await supabaseAdmin
       .from("orders")
-      .select("id, user_id, storage_path")
+      .select("id, user_id, preferences")
       .lt("created_at", thirtyDaysAgo);
 
     if (fetchError) {
@@ -264,8 +264,10 @@ export const GET = withContext(async (req: Request) => {
       await supabaseAdmin.from("trainings").delete().eq("order_id", order.id);
 
       // Delete uploaded files from storage
-      const uploadFolder = order.storage_path
-        ? order.storage_path.split("/")[0]
+      const prefs = (order.preferences as Record<string, any>) || {};
+      const storagePath = prefs.storagePath as string | undefined;
+      const uploadFolder = storagePath
+        ? storagePath.split("/")[0]
         : order.user_id;
       if (uploadFolder) {
         const { data: uploadFiles } = await supabaseAdmin.storage

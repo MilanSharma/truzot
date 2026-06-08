@@ -39,26 +39,18 @@ async function resolveUserIdFromDownloadToken(
   const downloadToken = searchParams.get("download_token");
   if (!downloadToken) return null;
 
+  // Atomic check-and-set: only claim the token if it's still unused and not expired
   const { data: tokenRow } = await supabaseAdmin
     .from("download_tokens")
-    .select("user_id, expires_at, used")
-    .eq("id", downloadToken)
-    .maybeSingle();
-  if (!tokenRow) return null;
-  if (tokenRow.used) return null;
-  if (new Date(tokenRow.expires_at) < new Date()) return null;
-
-  return tokenRow.user_id;
-}
-
-async function markDownloadTokenUsed(req: Request): Promise<void> {
-  const { searchParams } = new URL(req.url);
-  const downloadToken = searchParams.get("download_token");
-  if (!downloadToken) return;
-  await supabaseAdmin
-    .from("download_tokens")
     .update({ used: true })
-    .eq("id", downloadToken);
+    .eq("id", downloadToken)
+    .eq("used", false)
+    .gt("expires_at", new Date().toISOString())
+    .select("user_id")
+    .single();
+
+  if (!tokenRow) return null;
+  return tokenRow.user_id;
 }
 
 export const GET = withContext(async (req: Request) => {
@@ -109,8 +101,6 @@ export const GET = withContext(async (req: Request) => {
       }
     }
   }
-
-  await markDownloadTokenUsed(req);
 
   try {
     const response = await fetch(url);

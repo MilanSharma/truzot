@@ -158,6 +158,16 @@ export const POST = withContext(async (req: Request) => {
       );
     }
 
+    // Mark event as processed before trainModel to prevent duplicate processing on Stripe retry
+    if (event.id) {
+      await supabaseAdmin
+        .from("webhook_events")
+        .update({ status: "processed" })
+        .eq("event_id", event.id)
+        .eq("source", "stripe")
+        .is("status", "received");
+    }
+
     try {
       const result = await trainModel(freshZipUrl, orderId);
       await supabaseAdmin
@@ -188,15 +198,6 @@ export const POST = withContext(async (req: Request) => {
         { error: "Training failed to start" },
         { status: 500 },
       );
-    }
-    // Mark event as processed for idempotency
-    if (event.id) {
-      await supabaseAdmin
-        .from("webhook_events")
-        .update({ status: "processed" })
-        .eq("event_id", event.id)
-        .eq("source", "stripe")
-        .is("status", "received");
     }
     if (email) {
       const planAmount = PLANS[plan as keyof typeof PLANS]?.amount ?? 2900;

@@ -88,8 +88,19 @@ export default function CompletedGallery({
   }, [hasMore, loadingMore, onLoadMore]);
 
   const sortedFiltered = useMemo(() => {
-    const result = [...filtered];
+    let result = [...filtered];
     const originalIndex = new Map(result.map((h, i) => [h.image_url, i]));
+
+    if (hideSimilar) {
+      const seen = new Set<string>();
+      result = result.filter((h) => {
+        const key = h.category || h.style || "unknown";
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
+
     if (sortBy === "favorites") {
       result.sort((a, b) => {
         const aFav = favorites.includes(a.image_url) ? 1 : 0;
@@ -122,7 +133,7 @@ export default function CompletedGallery({
       });
     }
     return result;
-  }, [filtered, sortBy, favorites]);
+  }, [filtered, sortBy, favorites, hideSimilar]);
 
   const gridMinWidth =
     GRID_DENSITIES.find((d) => d.cols === gridDensity)?.minWidth ?? 250;

@@ -98,6 +98,10 @@ function UploadContent() {
     return urlStep >= 1 && urlStep <= 3 ? urlStep : 1;
   });
   const [files, setFiles] = useState<File[]>([]);
+  const filesRef = useRef(files);
+  useEffect(() => {
+    filesRef.current = files;
+  }, [files]);
   const [filesCount, setFilesCount] = useState(
     () => (getSavedState()?.filesCount as number) || 0,
   );
@@ -162,9 +166,20 @@ function UploadContent() {
   const [defaultShootName] = useState(
     () => SHOOT_NAMES[Math.floor(Math.random() * SHOOT_NAMES.length)],
   );
-  const [idempotencyKey, setIdempotencyKey] = useState(
-    () => (getSavedState()?.idempotencyKey as string) || crypto.randomUUID(),
-  );
+  const [idempotencyKey, setIdempotencyKey] = useState(() => {
+    const saved = getSavedState()?.idempotencyKey as string | undefined;
+    if (saved) return saved;
+    // Fallback: stable key per user session stored in localStorage
+    try {
+      const stable = localStorage.getItem("truzot-idempotency-key");
+      if (stable) return stable;
+    } catch {}
+    const key = crypto.randomUUID();
+    try {
+      localStorage.setItem("truzot-idempotency-key", key);
+    } catch {}
+    return key;
+  });
   const [error, setError] = useState("");
   const [progress, setProgress] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -448,7 +463,7 @@ function UploadContent() {
         } else if (f.type.startsWith("image/")) {
           const fp = computeFileFingerprint(f);
           const existingFps = converted
-            .concat(files)
+            .concat(filesRef.current)
             .map((ef) => computeFileFingerprint(ef));
           if (existingFps.includes(fp)) {
             errors.push(`${f.name}: duplicate photo detected — skip`);
@@ -476,7 +491,7 @@ function UploadContent() {
         return next;
       });
     },
-    [toast, validatePhoto, computeFileFingerprint, files, detectFaces],
+    [toast, validatePhoto, computeFileFingerprint, detectFaces],
   );
 
   const removeFile = (i: number) => {

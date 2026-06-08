@@ -21,6 +21,8 @@ async function enqueueNextBatch(orderId: string): Promise<boolean> {
 
   // Fallback: fire-and-forget self-call when QStash is unavailable
   // Not awaited to avoid recursive timeout on large orders (maxDuration=300s)
+  // Returns true so the current invocation returns 200 — the next batch
+  // will be picked up either by the inline fetch or the cron cleanup.
   if (!qstashToken) {
     log.warn({ orderId }, "QSTASH_TOKEN missing, firing inline fallback");
     fetch(`${siteUrl}/api/generate`, {
@@ -31,7 +33,7 @@ async function enqueueNextBatch(orderId: string): Promise<boolean> {
       },
       body: JSON.stringify({ orderId }),
     }).catch((err) => log.error({ err, orderId }, "Inline fallback error"));
-    return false;
+    return true;
   }
 
   for (let attempt = 1; attempt <= 3; attempt++) {

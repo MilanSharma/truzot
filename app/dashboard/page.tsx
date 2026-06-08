@@ -60,18 +60,21 @@ function DashboardContent() {
     count: 0,
     target: 0,
   });
-  const [favorites, setFavorites] = useState<string[]>(() => {
-    if (typeof window !== "undefined" && orderId) {
+  const [favorites, setFavorites] = useState<string[]>([]);
+
+  // Reload favorites from localStorage when orderId changes (handles hydration and navigation)
+  useEffect(() => {
+    if (!orderId) return;
+    const timer = setTimeout(() => {
       try {
-        return JSON.parse(
-          localStorage.getItem(`truzot-favs-${orderId}`) || "[]",
-        );
+        const stored = localStorage.getItem(`truzot-favs-${orderId}`);
+        setFavorites(stored ? JSON.parse(stored) : []);
       } catch {
-        return [];
+        setFavorites([]);
       }
-    }
-    return [];
-  });
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [orderId]);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [multiSelectMode, setMultiSelectMode] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -215,52 +218,63 @@ function DashboardContent() {
     [fetchHeadshots],
   );
 
-  const subscribeToOrder = useCallback(
-    (id: string) => {
-      const channel = supabase
-        .channel(`order-${id}`)
-        .on(
-          "postgres_changes",
-          {
-            event: "UPDATE",
-            schema: "public",
-            table: "orders",
-            filter: `id=eq.${id}`,
-          },
-          (payload) => {
-            const updated = payload.new as Order;
-            setCurrentOrder(updated);
-            if (updated.status === "completed") {
-              setHeadshots([]);
-              setHeadshotPage(0);
-              setHasMoreHeadshots(true);
-              fetchHeadshots(id, 0);
-            }
-            if (updated.status === "generating") {
-              setGenerationProgress((prev) => ({
-                ...prev,
-                count: (updated as any).headshot_count ?? prev.count,
-              }));
-            }
-          },
-        )
-        .on(
-          "postgres_changes",
-          {
-            event: "INSERT",
-            schema: "public",
-            table: "headshots",
-            filter: `order_id=eq.${id}`,
-          },
-          () => {
-            checkOrderStatus(id);
-          },
-        )
-        .subscribe();
-      return channel;
-    },
-    [fetchHeadshots, checkOrderStatus],
-  );
+  const fetchHeadshotsRef = useRef(fetchHeadshots);
+  useEffect(() => {
+    fetchHeadshotsRef.current = fetchHeadshots;
+  }, [fetchHeadshots]);
+  const checkOrderStatusRef = useRef(checkOrderStatus);
+  useEffect(() => {
+    checkOrderStatusRef.current = checkOrderStatus;
+  }, [checkOrderStatus]);
+
+  const headshotInsertTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const subscribeToOrder = useCallback((id: string) => {
+    const channel = supabase
+      .channel(`order-${id}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "orders",
+          filter: `id=eq.${id}`,
+        },
+        (payload) => {
+          const updated = payload.new as Order;
+          setCurrentOrder(updated);
+          if (updated.status === "completed") {
+            setHeadshots([]);
+            setHeadshotPage(0);
+            setHasMoreHeadshots(true);
+            fetchHeadshotsRef.current(id, 0);
+          }
+          if (updated.status === "generating") {
+            checkOrderStatusRef.current(id);
+          }
+        },
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "headshots",
+          filter: `order_id=eq.${id}`,
+        },
+        () => {
+          // Debounce: batch rapid INSERT events into a single status check
+          if (headshotInsertTimerRef.current) {
+            clearTimeout(headshotInsertTimerRef.current);
+          }
+          headshotInsertTimerRef.current = setTimeout(() => {
+            checkOrderStatusRef.current(id);
+          }, 2000);
+        },
+      )
+      .subscribe();
+    return channel;
+  }, []);
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
@@ -405,13 +419,30 @@ function DashboardContent() {
     const total = signedUrls.length;
     if (onProgress) onProgress(0, total);
     const zip = new JSZip();
-    for (let i = 0; i < signedUrls.length; i++) {
-      const res = await fetch(signedUrls[i]);
-      const buf = await res.arrayBuffer();
-      zip.file(`headshot_${i + 1}.jpg`, buf);
-      if (onProgress) onProgress(i + 1, total);
+    const CONCURRENCY = 6;
+    for (let i = 0; i < signedUrls.length; i += CONCURRENCY) {
+      const batch = signedUrls.slice(i, i + CONCURRENCY);
+      const results = await Promise.all(
+        batch.map(async (url: string, batchIdx: number) => {
+          const res = await fetch(url);
+          const buf = await res.arrayBuffer();
+          return { buf, idx: i + batchIdx };
+        }),
+      );
+      for (const { buf, idx } of results) {
+        zip.file(`headshot_${idx + 1}.jpg`, buf);
+      }
+      if (onProgress) onProgress(Math.min(i + CONCURRENCY, total), total);
     }
-    const zipBuffer = await zip.generateAsync({ type: "arraybuffer" });
+    // Use chunking for large Zips to avoid blocking the main thread
+    const zipBuffer = await zip.generateAsync(
+      { type: "arraybuffer" },
+      (metadata) => {
+        if (onProgress && metadata.percent) {
+          onProgress(Math.round((metadata.percent / 100) * total), total);
+        }
+      },
+    );
     const blob = new Blob([zipBuffer], { type: "application/zip" });
     const blobUrl = URL.createObjectURL(blob);
     const a = document.createElement("a");

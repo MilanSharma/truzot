@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import {
   Heart,
@@ -37,6 +37,10 @@ export default function LightboxModal({
   onRegenerate,
 }: LightboxModalProps) {
   const [regenerating, setRegenerating] = useState(false);
+  const callbacksRef = useRef({ onClose, onPrev, onNext });
+  useEffect(() => {
+    callbacksRef.current = { onClose, onPrev, onNext };
+  });
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -45,6 +49,7 @@ export default function LightboxModal({
         target.tagName === "INPUT" ||
         target.tagName === "TEXTAREA" ||
         target.isContentEditable;
+      const { onClose, onPrev, onNext } = callbacksRef.current;
       if (e.key === "Escape") onClose();
       if (!isInput) {
         if (e.key === "ArrowLeft" && onPrev) onPrev();
@@ -53,7 +58,7 @@ export default function LightboxModal({
     };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
-  }, [onClose, onPrev, onNext]);
+  }, []);
 
   const handleRegenerate = async () => {
     if (regenerating || !onRegenerate) return;
