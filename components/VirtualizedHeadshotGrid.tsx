@@ -295,7 +295,6 @@ export default function VirtualizedHeadshotGrid(
       className="w-full"
       style={{ height: containerHeight }}
     >
-      {/* @ts-expect-error react-window v2 types mismatch with @types/react-window v1 */}
       <Grid
         columnCount={columnCount}
         columnWidth={columnWidth}
