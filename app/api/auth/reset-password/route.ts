@@ -26,29 +26,29 @@ export const POST = withContext(async (req: Request) => {
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://truzot.com";
 
-    // Generate a secure recovery link
     const { data, error } = await supabaseAdmin.auth.admin.generateLink({
       type: "recovery",
       email,
       options: { redirectTo: `${siteUrl}/reset-password` },
     });
 
-    // We return success even on missing accounts to prevent email enumeration,
-    // but log it on the backend.
     if (error || !data?.properties?.action_link) {
       log.warn({ err: error, email }, "Failed to generate recovery link");
       return addCors(
-        NextResponse.json({
-          success: true,
-          message: "If an account exists, a reset email was sent.",
-        }),
+        NextResponse.json(
+          {
+            error:
+              error?.message ||
+              "Failed to generate link. Make sure the email is registered.",
+          },
+          { status: 400 },
+        ),
         origin,
       );
     }
 
     const actionLink = data.properties.action_link;
 
-    // Send via custom Resend template
     await sendPasswordResetEmail(email, actionLink);
 
     return addCors(
@@ -58,10 +58,13 @@ export const POST = withContext(async (req: Request) => {
       }),
       origin,
     );
-  } catch (err) {
+  } catch (err: any) {
     log.error({ err }, "Custom reset password API error");
     return addCors(
-      NextResponse.json({ error: "Internal server error" }, { status: 500 }),
+      NextResponse.json(
+        { error: err.message || "Internal server error" },
+        { status: 500 },
+      ),
       origin,
     );
   }

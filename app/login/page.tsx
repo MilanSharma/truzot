@@ -197,17 +197,15 @@ function LoginForm() {
   if (forgotPasswordMode) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-        <nav className="bg-white border-b border-slate-200">
-          <div className="max-w-7xl mx-auto px-6 py-4">
+        <nav className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
+          <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 transition"
+              className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200 transition"
             >
               <ArrowLeft size={20} />
               <span className="font-medium">Back to Home</span>
             </Link>
-          </div>
-          <div className="flex items-center gap-3 ml-auto">
             <div className="flex items-center gap-3">
               <button
                 onClick={() => {
@@ -296,15 +294,29 @@ function LoginForm() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      <nav className="bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+      <nav className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 transition"
+            className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200 transition"
           >
             <ArrowLeft size={20} />
             <span className="font-medium">Back to Home</span>
           </Link>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => {
+                const next = !isDark;
+                document.documentElement.classList.toggle("dark", next);
+                localStorage.setItem("theme", next ? "dark" : "light");
+                setIsDark(next);
+              }}
+              className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200 transition"
+              aria-label="Toggle dark mode"
+            >
+              {isDark ? <Moon size={18} /> : <Sun size={18} />}
+            </button>
+          </div>
         </div>
       </nav>
 
