@@ -7,6 +7,7 @@ import type { Duration } from "@upstash/ratelimit";
 export const config = {
   matcher: [
     "/api/auth/signup",
+    "/api/auth/reset-password",
     "/api/checkout",
     "/api/upload",
     "/api/free-generate",
@@ -30,6 +31,7 @@ interface RateLimitRule {
 
 const RATE_LIMIT_RULES: Record<string, RateLimitRule> = {
   "/api/auth/signup": { max: 5, window: "60 s" },
+  "/api/auth/reset-password": { max: 5, window: "60 s" },
   "/api/checkout": { max: 10, window: "60 s" },
   "/api/upload": { max: 20, window: "60 s" },
   "/api/free-generate": { max: 3, window: "60 s" },

@@ -111,11 +111,15 @@ function LoginForm() {
     setError("");
     setSuccess("");
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`,
+      const res = await fetch("/api/auth/reset-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
       });
-      if (error) {
-        setError(error.message);
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Failed to send reset link.");
       } else {
         setSuccess("Check your email for a password reset link.");
         setForgotPasswordMode(false);

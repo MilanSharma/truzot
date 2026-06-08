@@ -137,14 +137,22 @@ export default function AccountSettingsPage() {
             <button
               onClick={async () => {
                 if (!user?.email) return;
-                const { error } = await supabase.auth.resetPasswordForEmail(
-                  user.email,
-                  {
-                    redirectTo: `${window.location.origin}/reset-password`,
-                  },
-                );
-                if (error) setMessage(`Error: ${error.message}`);
-                else setMessage("Password reset email sent. Check your inbox.");
+                try {
+                  const res = await fetch("/api/auth/reset-password", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email: user.email }),
+                  });
+                  const data = await res.json();
+                  if (!res.ok)
+                    setMessage(
+                      `Error: ${data.error || "Failed to send reset link"}`,
+                    );
+                  else
+                    setMessage("Password reset email sent. Check your inbox.");
+                } catch (err: any) {
+                  setMessage(`Error: ${err.message}`);
+                }
               }}
               className="px-5 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-sm font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition"
             >

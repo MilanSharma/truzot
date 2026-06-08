@@ -4,7 +4,6 @@ import { createLogger } from "@/lib/logger";
 import { withContext } from "@/lib/request-context";
 import { addCors } from "@/lib/cors";
 import { fal } from "@fal-ai/client";
-import { createHash } from "crypto";
 
 const log = createLogger("free-train");
 
@@ -35,24 +34,20 @@ export const POST = withContext(async (req: Request) => {
     }
 
     const body = await req.json();
-    const { storagePath, fingerprint } = body;
+    const { storagePath } = body;
 
-    if (!storagePath || !fingerprint) {
+    if (!storagePath) {
       return addCors(
         NextResponse.json({ error: "Missing fields" }, { status: 400 }),
         origin,
       );
     }
 
-    const clientIp =
-      req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-    const raw = `${fingerprint}:${clientIp}`;
-    const ipHash = createHash("sha256").update(raw).digest("hex");
-
+    // Server-side rate limiting by user_id (not client-controlled fingerprint)
     const { data: usage } = await supabaseAdmin
       .from("free_usage")
       .select("remaining")
-      .eq("fingerprint", ipHash)
+      .eq("user_id", userId)
       .maybeSingle();
 
     if (usage && (usage.remaining ?? 0) <= 0) {
@@ -212,11 +207,11 @@ export const POST = withContext(async (req: Request) => {
       await supabaseAdmin
         .from("free_usage")
         .update({ remaining: 0 })
-        .eq("fingerprint", ipHash);
+        .eq("user_id", userId);
     } else {
       await supabaseAdmin
         .from("free_usage")
-        .insert({ fingerprint: ipHash, remaining: 0 });
+        .insert({ user_id: userId, remaining: 0 });
     }
 
     await supabaseAdmin.storage.from("uploads").remove([storagePath]);

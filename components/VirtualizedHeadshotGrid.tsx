@@ -2,7 +2,19 @@
 import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { Grid as GridBase } from "react-window";
-const Grid = GridBase as unknown as React.FC<any>;
+const Grid = GridBase as unknown as React.FC<{
+  children: (args: {
+    columnIndex: number;
+    rowIndex: number;
+    style: React.CSSProperties;
+  }) => React.ReactNode;
+  columnCount: number;
+  columnWidth: number;
+  height: number;
+  rowCount: number;
+  rowHeight: number;
+  width: number;
+}>;
 import {
   Download,
   Heart,

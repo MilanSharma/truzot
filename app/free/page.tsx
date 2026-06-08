@@ -82,13 +82,6 @@ export default function FreeGenerator() {
         headers: { "Content-Type": "application/zip" },
       });
 
-      const fp =
-        typeof window !== "undefined"
-          ? ((navigator as any).userAgentData?.platform || navigator.platform) +
-            screen.width +
-            screen.height
-          : "unknown";
-
       const {
         data: { session },
       } = await supabase.auth.getSession();
@@ -101,7 +94,7 @@ export default function FreeGenerator() {
       const trainRes = await fetch("/api/free-train", {
         method: "POST",
         headers: authHeaders,
-        body: JSON.stringify({ storagePath: path, fingerprint: fp }),
+        body: JSON.stringify({ storagePath: path }),
       });
 
       const data = await trainRes.json();
