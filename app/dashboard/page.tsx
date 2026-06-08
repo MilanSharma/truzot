@@ -228,6 +228,7 @@ function DashboardContent() {
   }, [checkOrderStatus]);
 
   const headshotInsertTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const orderUpdateTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const subscribeToOrder = useCallback((id: string) => {
     const channel = supabase
@@ -250,7 +251,12 @@ function DashboardContent() {
             fetchHeadshotsRef.current(id, 0);
           }
           if (updated.status === "generating") {
-            checkOrderStatusRef.current(id);
+            if (orderUpdateTimerRef.current) {
+              clearTimeout(orderUpdateTimerRef.current);
+            }
+            orderUpdateTimerRef.current = setTimeout(() => {
+              checkOrderStatusRef.current(id);
+            }, 2000);
           }
         },
       )
@@ -347,6 +353,9 @@ function DashboardContent() {
           }
           const channel = subscribeToOrder(orderId);
           subsRef.current = channel;
+          if (order.status === "generating") {
+            checkOrderStatusRef.current(orderId);
+          }
         } else {
           setOrderError(
             "Order not found. It may have been deleted or expired.",

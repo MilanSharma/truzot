@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { supabaseAdmin } from "@/lib/supabase/admin";
 import { createLogger } from "@/lib/logger";
 import { withContext } from "@/lib/request-context";
 
@@ -23,21 +24,25 @@ function isAllowed(url: string): boolean {
   }
 }
 
-function isAuthorizedOrigin(req: Request): boolean {
+async function isAuthorizedOrigin(req: Request): Promise<boolean> {
   const referer = req.headers.get("referer") || "";
   const origin = req.headers.get("origin") || "";
   const check = referer || origin;
   // Mobile browsers may strip Referer/Origin — allow requests with a valid token
   if (!check) {
     const token = req.headers.get("Authorization")?.replace("Bearer ", "");
-    return !!token;
+    if (!token) return false;
+    const {
+      data: { user },
+    } = await supabaseAdmin.auth.getUser(token);
+    return !!user;
   }
   return ALLOWED_ORIGINS.some((o) => check.startsWith(o));
 }
 
 export const GET = withContext(async (req: Request) => {
   try {
-    if (!isAuthorizedOrigin(req)) {
+    if (!(await isAuthorizedOrigin(req))) {
       return new NextResponse("Forbidden", { status: 403 });
     }
 
