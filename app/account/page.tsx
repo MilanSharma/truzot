@@ -56,6 +56,19 @@ export default function AccountSettingsPage() {
       )
     )
       return;
+    setMessage("Cleaning up data...");
+    try {
+      const token = (await supabase.auth.getSession()).data.session
+        ?.access_token;
+      if (token) {
+        await fetch("/api/account/cleanup", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      }
+    } catch (e) {
+      console.error("Fal cleanup failed:", e);
+    }
     const { error } = await supabase.rpc("delete_user_account");
     if (error) setMessage(`Error: ${error.message}`);
     else {
@@ -139,6 +152,23 @@ export default function AccountSettingsPage() {
             </p>
             <a href="/unsubscribe" className="text-blue-600 text-sm underline">
               Manage email preferences →
+            </a>
+          </div>
+
+          <div className="border-t border-slate-200 dark:border-slate-700 pt-6">
+            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+              Data Export
+            </label>
+            <p className="text-xs text-slate-500 mb-3">
+              Download all your data in JSON format (GDPR right to portability).
+            </p>
+            <a
+              href="/api/export"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 text-sm underline"
+            >
+              Download my data →
             </a>
           </div>
 

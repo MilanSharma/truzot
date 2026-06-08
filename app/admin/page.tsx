@@ -62,7 +62,7 @@ export default function AdminDashboard() {
       setIsAdmin(true);
       fetchOrders();
     });
-  }, [router]);
+  }, [router, checkAdmin, fetchOrders]);
 
   const retryOrder = async (orderId: string) => {
     if (!confirm(`Retry order ${orderId.slice(0, 8)}...?`)) return;

@@ -4,6 +4,7 @@ import { getAuthenticatedClient } from "@/lib/supabase/authenticated";
 import { addCors, handleOptions } from "@/lib/cors";
 import { createLogger } from "@/lib/logger";
 import { withContext } from "@/lib/request-context";
+import { deleteFalFiles } from "@/lib/ai/fal-cleanup";
 
 const log = createLogger("orders-delete");
 
@@ -53,6 +54,35 @@ export const DELETE = withContext(async (req: Request) => {
         NextResponse.json({ error: "Forbidden" }, { status: 403 }),
         origin,
       );
+
+    // Clean up Fal.ai files before deleting records
+    try {
+      const { data: headshots } = await supabaseAdmin
+        .from("headshots")
+        .select("image_url")
+        .eq("order_id", orderId);
+      const { data: trainings } = await supabaseAdmin
+        .from("trainings")
+        .select("model_id")
+        .eq("order_id", orderId)
+        .not("model_id", "is", null);
+      const falUrls: string[] = [];
+      if (headshots) {
+        for (const h of headshots) {
+          if (h.image_url) falUrls.push(h.image_url);
+        }
+      }
+      if (trainings) {
+        for (const t of trainings) {
+          if (t.model_id) falUrls.push(t.model_id);
+        }
+      }
+      if (falUrls.length > 0) {
+        await deleteFalFiles(falUrls);
+      }
+    } catch (e) {
+      log.warn({ err: e, orderId }, "Fal cleanup failed during order deletion");
+    }
 
     const prefs = (order.preferences as Record<string, any>) || {};
     const storagePath = prefs.storagePath as string | undefined;
