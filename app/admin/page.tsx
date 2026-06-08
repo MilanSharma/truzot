@@ -138,7 +138,7 @@ export default function AdminDashboard() {
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold text-slate-900">Admin Dashboard</h1>
           <button
-            onClick={fetchOrders}
+            onClick={() => fetchOrders()}
             className="px-4 py-2 bg-slate-900 text-white rounded-xl text-sm font-bold hover:bg-slate-800 transition"
           >
             Refresh
