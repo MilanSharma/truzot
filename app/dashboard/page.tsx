@@ -288,6 +288,7 @@ function DashboardContent() {
 
   useEffect(() => {
     const loadOrderDetail = async () => {
+      setOrderError(null);
       if (!initRef.current) {
         initRef.current = true;
         const {
@@ -766,13 +767,39 @@ function DashboardContent() {
                     >
                       <Mail className="w-4 h-4" /> Email
                     </button>
-                    <Link
-                      href="/upload"
+                    <button
+                      onClick={() => {
+                        const prefs =
+                          (currentOrder.preferences as Record<string, any>) ||
+                          {};
+                        try {
+                          sessionStorage.setItem(
+                            "truzot-upload",
+                            JSON.stringify({
+                              step: 3,
+                              plan: currentOrder.plan,
+                              email: currentOrder.email || "",
+                              consentChecked: true,
+                              gender: prefs.gender || "",
+                              eyeColor: prefs.eyeColor || "",
+                              hairColor: prefs.hairColor || "",
+                              clothing: prefs.clothing || "business-casual",
+                              background: prefs.background || "studio",
+                              framing: prefs.framing || "closeup",
+                              selectedStyles: prefs.selectedStyles || [],
+                              storagePath: prefs.storagePath || "",
+                              filesCount: 0,
+                              shootName: "",
+                            }),
+                          );
+                        } catch {}
+                        router.push("/upload");
+                      }}
                       className="px-4 py-2.5 rounded-xl text-sm font-bold border bg-indigo-50 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition flex items-center gap-2"
                       title="Generate more headshots with new styles"
                     >
                       <Sparkles className="w-4 h-4" /> Generate More
-                    </Link>
+                    </button>
                     <button
                       onClick={() => setMultiSelectMode(!multiSelectMode)}
                       className={`px-4 py-2.5 rounded-xl text-sm font-bold transition border ${multiSelectMode ? "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-400" : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700"}`}

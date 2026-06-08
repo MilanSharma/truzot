@@ -52,10 +52,10 @@ export const POST = withContext(async (req: Request) => {
         NextResponse.json({ error: "Forbidden" }, { status: 403 }),
         origin,
       );
-    if (order.status !== "failed")
+    if (order.status !== "failed" && order.status !== "training")
       return addCors(
         NextResponse.json(
-          { error: "Order is not in failed state" },
+          { error: "Order is not in a retryable state" },
           { status: 400 },
         ),
         origin,

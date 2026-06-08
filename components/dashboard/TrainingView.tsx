@@ -78,8 +78,8 @@ export default function TrainingView({ order }: { order: Order }) {
         <Shield className="w-5 h-5 text-emerald-500 shrink-0" />
         <p>
           You can safely close this window. We&apos;ll send an email to{" "}
-          <strong>{order.email}</strong> the moment your high-resolution
-          headshots are ready to view.
+          <strong>{order.email || "your email on file"}</strong> the moment your
+          high-resolution headshots are ready to view.
         </p>
       </div>
     </div>

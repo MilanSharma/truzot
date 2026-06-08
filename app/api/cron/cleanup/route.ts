@@ -147,11 +147,52 @@ export const GET = withContext(async (req: Request) => {
   }
 
   try {
+    const now = Date.now();
+    const twentyNineDaysAgo = new Date(
+      now - 29 * 24 * 60 * 60 * 1000,
+    ).toISOString();
     const thirtyDaysAgo = new Date(
-      Date.now() - 30 * 24 * 60 * 60 * 1000,
+      now - 30 * 24 * 60 * 60 * 1000,
     ).toISOString();
 
-    // Find all orders older than 30 days
+    // Phase 1: Send warning emails for orders between 29 and 30 days old
+    const { data: warnOrders } = await supabaseAdmin
+      .from("orders")
+      .select("id, user_id, storage_path")
+      .lt("created_at", twentyNineDaysAgo)
+      .gte("created_at", thirtyDaysAgo);
+
+    let warningEmailsSent = 0;
+    for (const order of warnOrders || []) {
+      if (!order.user_id) continue;
+      const { data: profile } = await supabaseAdmin
+        .from("profiles")
+        .select("email")
+        .eq("id", order.user_id)
+        .single();
+      if (!profile?.email) continue;
+      const { data: prefs } = await supabaseAdmin
+        .from("email_preferences")
+        .select("unsubscribed")
+        .eq("email", profile.email)
+        .single();
+      if (prefs?.unsubscribed) continue;
+      try {
+        const { Resend } = await import("resend");
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        await resend.emails.send({
+          from: "Truzot <hello@truzot.com>",
+          to: profile.email,
+          subject: "Your Truzot headshots will be deleted in 24 hours",
+          html: `<div style="font-family: Georgia, serif; max-width: 560px; margin: 0 auto; color: #0a0a0a;"><div style="padding: 40px 0 20px;"><h1 style="font-size: 28px; font-weight: 900; margin: 0 0 8px;">Headshots expiring soon.</h1><p style="color: #6b6560; font-size: 16px; line-height: 1.6; margin: 0 0 32px;">Your AI headshots were generated over 30 days ago. Per our privacy policy, we will permanently delete all your photos, headshots, and training data within 24 hours.</p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/dashboard?order=${order.id}" style="background: #0a0a0a; color: #f5f0e8; padding: 14px 32px; border-radius: 2px; text-decoration: none; font-size: 15px; font-weight: 500; display: inline-block;">Download before they're gone →</a></div><hr style="border: none; border-top: 1px solid #e8e4dc; margin: 32px 0;" /><p style="color: #9b9590; font-size: 13px;">After deletion, this cannot be undone. — The Truzot team</p></div>`,
+        });
+        warningEmailsSent++;
+      } catch (err) {
+        log.error({ err, orderId: order.id }, "Warning email failed");
+      }
+    }
+
+    // Phase 2: Delete orders older than 30 days
     const { data: expiredOrders, error: fetchError } = await supabaseAdmin
       .from("orders")
       .select("id, user_id, storage_path")
@@ -169,45 +210,16 @@ export const GET = withContext(async (req: Request) => {
       return NextResponse.json({
         message: "No expired orders to clean up",
         deleted: 0,
+        warningsSent: warningEmailsSent,
       });
     }
 
     const results = { deleted: 0, errors: [] as string[] };
     const BATCH_SIZE = 5;
 
-    async function processOrder(
+    async function deleteOrder(
       order: NonNullable<typeof expiredOrders>[number],
     ) {
-      // Send warning email before deletion
-      if (order.user_id) {
-        const { data: profile } = await supabaseAdmin
-          .from("profiles")
-          .select("email")
-          .eq("id", order.user_id)
-          .single();
-        if (profile?.email) {
-          const { data: prefs } = await supabaseAdmin
-            .from("email_preferences")
-            .select("unsubscribed")
-            .eq("email", profile.email)
-            .single();
-          if (!prefs?.unsubscribed) {
-            try {
-              const { Resend } = await import("resend");
-              const resend = new Resend(process.env.RESEND_API_KEY);
-              await resend.emails.send({
-                from: "Truzot <hello@truzot.com>",
-                to: profile.email,
-                subject: "Your Truzot headshots will be deleted in 24 hours",
-                html: `<div style="font-family: Georgia, serif; max-width: 560px; margin: 0 auto; color: #0a0a0a;"><div style="padding: 40px 0 20px;"><h1 style="font-size: 28px; font-weight: 900; margin: 0 0 8px;">Headshots expiring soon.</h1><p style="color: #6b6560; font-size: 16px; line-height: 1.6; margin: 0 0 32px;">Your AI headshots were generated over 30 days ago. Per our privacy policy, we will permanently delete all your photos, headshots, and training data within 24 hours.</p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/dashboard?order=${order.id}" style="background: #0a0a0a; color: #f5f0e8; padding: 14px 32px; border-radius: 2px; text-decoration: none; font-size: 15px; font-weight: 500; display: inline-block;">Download before they're gone →</a></div><hr style="border: none; border-top: 1px solid #e8e4dc; margin: 32px 0;" /><p style="color: #9b9590; font-size: 13px;">After deletion, this cannot be undone. — The Truzot team</p></div>`,
-              });
-            } catch (err) {
-              log.error({ err, orderId: order.id }, "Warning email failed");
-            }
-          }
-        }
-      }
-
       // Delete Fal-hosted headshot images
       const { data: headshotUrls } = await supabaseAdmin
         .from("headshots")
@@ -258,13 +270,12 @@ export const GET = withContext(async (req: Request) => {
       await supabaseAdmin.from("orders").delete().eq("id", order.id);
     }
 
-    let warningEmailsSent = 0;
     for (let i = 0; i < expiredOrders.length; i += BATCH_SIZE) {
       const batch = expiredOrders.slice(i, i + BATCH_SIZE);
       const outcomes = await Promise.allSettled(
         batch.map(async (order) => {
           try {
-            await processOrder(order);
+            await deleteOrder(order);
             results.deleted++;
           } catch (orderErr: any) {
             const msg = `Failed to clean order ${order.id}: ${orderErr?.message || orderErr}`;
@@ -290,6 +301,7 @@ export const GET = withContext(async (req: Request) => {
     return NextResponse.json({
       message: "Cleanup complete",
       deleted: results.deleted,
+      warningsSent: warningEmailsSent,
       stuckFlagged: stuckResults.flagged,
       stuckAutoRefunded: stuckResults.autoRefunded,
       abandonedNotified,

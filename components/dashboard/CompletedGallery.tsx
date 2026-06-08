@@ -88,20 +88,37 @@ export default function CompletedGallery({
   }, [hasMore, loadingMore, onLoadMore]);
 
   const sortedFiltered = useMemo(() => {
-    let result = [...filtered];
+    const result = [...filtered];
+    const originalIndex = new Map(result.map((h, i) => [h.image_url, i]));
     if (sortBy === "favorites") {
       result.sort((a, b) => {
         const aFav = favorites.includes(a.image_url) ? 1 : 0;
         const bFav = favorites.includes(b.image_url) ? 1 : 0;
-        return bFav - aFav || a.id.localeCompare(b.id);
+        return (
+          bFav - aFav ||
+          (originalIndex.get(a.image_url) ?? 0) -
+            (originalIndex.get(b.image_url) ?? 0)
+        );
       });
     } else if (sortBy === "newest") {
       result.sort((a, b) => {
-        return (b.created_at || b.id).localeCompare(a.created_at || a.id);
+        const aTime = a.created_at ? new Date(a.created_at).getTime() : 0;
+        const bTime = b.created_at ? new Date(b.created_at).getTime() : 0;
+        return (
+          bTime - aTime ||
+          (originalIndex.get(a.image_url) ?? 0) -
+            (originalIndex.get(b.image_url) ?? 0)
+        );
       });
     } else {
       result.sort((a, b) => {
-        return (a.created_at || a.id).localeCompare(b.created_at || b.id);
+        const aTime = a.created_at ? new Date(a.created_at).getTime() : 0;
+        const bTime = b.created_at ? new Date(b.created_at).getTime() : 0;
+        return (
+          aTime - bTime ||
+          (originalIndex.get(a.image_url) ?? 0) -
+            (originalIndex.get(b.image_url) ?? 0)
+        );
       });
     }
     return result;
