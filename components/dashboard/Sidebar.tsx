@@ -32,12 +32,12 @@ export default function Sidebar({
           </Link>
         </div>
         <div className="p-4 space-y-1">
-          <Link
+          <a
             href="/dashboard"
             className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-bold transition w-full text-left ${active ? "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400" : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200"}`}
           >
             <LayoutDashboard className="w-4 h-4" /> My Projects
-          </Link>
+          </a>
           <div className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-bold text-slate-400 dark:text-slate-500 cursor-not-allowed group">
             <div className="flex items-center gap-3">
               <Users className="w-4 h-4" /> Team Workspace

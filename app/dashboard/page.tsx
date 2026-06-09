@@ -669,7 +669,7 @@ function DashboardContent() {
       setOrders((prev) => prev.filter((o) => o.id !== id));
       if (orderId === id) {
         setCurrentOrder(null);
-        router.push("/dashboard");
+        window.location.href = "/dashboard";
       }
       toast("Order deleted", "success");
     } else {
@@ -764,24 +764,24 @@ function DashboardContent() {
               <p className="text-slate-500 dark:text-slate-400 max-w-md mb-8">
                 {orderError}
               </p>
-              <button
-                onClick={() => router.push("/dashboard")}
-                className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition"
+              <a
+                href="/dashboard"
+                className="inline-flex items-center justify-center bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition"
               >
                 Back to Library
-              </button>
+              </a>
             </div>
           )}
           {orderId && !orderError && currentOrder ? (
             <div>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                 <div>
-                  <button
-                    onClick={() => router.push("/dashboard")}
+                  <a
+                    href="/dashboard"
                     className="text-xs font-bold text-slate-400 dark:text-slate-500 hover:text-blue-600 mb-2 flex items-center gap-1 transition"
                   >
                     ← Back to library
-                  </button>
+                  </a>
                   <div className="flex items-center gap-3">
                     <h1 className="text-3xl font-black text-slate-900 dark:text-white">
                       {PLANS[currentOrder.plan as keyof typeof PLANS]?.name ||
