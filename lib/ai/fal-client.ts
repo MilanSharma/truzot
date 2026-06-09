@@ -1,5 +1,4 @@
 import "server-only";
-import { fal } from "@fal-ai/client";
 import pLimit from "p-limit";
 import { createHmac } from "crypto";
 import { PLAN_SHOTS, STYLE_CATEGORIES } from "@/lib/plans";
@@ -22,11 +21,29 @@ export function generateWebhookToken(orderId: string): string {
     .substring(0, 32);
 }
 
-fal.config({
-  credentials:
-    process.env.FAL_KEY ||
-    "d04cecf9-6381-4331-b71c-24b98aed854b:b07ac52fb679a7dff7c5c8518d2de5f5",
-});
+const FAL_KEY =
+  process.env.FAL_KEY ||
+  "d04cecf9-6381-4331-b71c-24b98aed854b:b07ac52fb679a7dff7c5c8518d2de5f5";
+
+async function falFetch(
+  endpoint: string,
+  input: Record<string, unknown>,
+): Promise<{ data: any; requestId: string }> {
+  const res = await fetch(`https://fal.run/${endpoint}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Key ${FAL_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(input),
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`fal.ai HTTP ${res.status}: ${text.substring(0, 200)}`);
+  }
+  const data = await res.json();
+  return { data, requestId: res.headers.get("x-fal-request-id") || "" };
+}
 
 const CLOTHING_MAP: Record<string, string> = {
   "business-formal": "tailored navy business suit with tie",
@@ -199,12 +216,28 @@ export const trainModel = async (
   const token = generateWebhookToken(orderId);
   const webhookUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhooks/fal?orderId=${orderId}&token=${token}`;
 
-  const result = await fal.queue.submit("fal-ai/flux-lora-fast-training", {
-    input: { images_data_url: imageUrl, steps: 500, trigger_word: "TOK" },
-    webhookUrl,
-    storageSettings: { expiresIn: "7d" },
-  });
-  return result as { request_id: string };
+  const res = await fetch(
+    `https://queue.fal.run/fal-ai/flux-lora-fast-training?fal_webhook=${encodeURIComponent(webhookUrl)}`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Key ${FAL_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        images_data_url: imageUrl,
+        steps: 500,
+        trigger_word: "TOK",
+      }),
+    },
+  );
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(
+      `Training submit failed (HTTP ${res.status}): ${text.substring(0, 200)}`,
+    );
+  }
+  return (await res.json()) as { request_id: string };
 };
 
 const concurrencyLimit = pLimit(3);
@@ -227,20 +260,15 @@ export const generateHeadshots = async (
   const results = await Promise.allSettled(
     prompts.map(({ prompt, index }) =>
       concurrencyLimit(() =>
-        fal
-          .run("fal-ai/flux-lora", {
-            input: {
-              prompt,
-              loras: [{ path: modelId, scale: 0.85 }],
-              num_inference_steps: 28,
-              guidance_scale: 3.5,
-              num_images: 1,
-              image_size: "portrait_4_3",
-              output_format: "jpeg",
-            },
-            storageSettings: { expiresIn: "7d" },
-          })
-          .then((res) => ({ ...res.data, prompt, index })),
+        falFetch("fal-ai/flux-lora", {
+          prompt,
+          loras: [{ path: modelId, scale: 0.85 }],
+          num_inference_steps: 28,
+          guidance_scale: 3.5,
+          num_images: 1,
+          image_size: "portrait_4_3",
+          output_format: "jpeg",
+        }).then((res) => ({ ...res.data, prompt, index })),
       ),
     ),
   );
