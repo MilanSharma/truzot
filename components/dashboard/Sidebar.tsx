@@ -21,8 +21,7 @@ export default function Sidebar({
   const router = useRouter();
 
   return (
-    <aside className="relative w-64 bg-[var(--bg-card)] border-r border-[var(--border-primary)] flex flex-col justify-between hidden md:flex shrink-0 z-10 overflow-hidden">
-      <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(0,0,0,.02)_25%,transparent_25%),linear-gradient(-45deg,rgba(0,0,0,.02)_25%,transparent_25%),linear-gradient(45deg,transparent_75%,rgba(0,0,0,.02)_75%),linear-gradient(-45deg,transparent_75%,rgba(0,0,0,.02)_75%)] bg-[size:20px_20px] bg-[position:0_0,0_10px,10px_-10px,-10px_0px] dark:opacity-50" />
+    <aside className="w-64 bg-[var(--bg-card)] border-r border-[var(--border-primary)] flex flex-col justify-between hidden md:flex shrink-0 z-10">
       <div>
         <div className="h-16 flex items-center px-6 border-b border-[var(--border-primary)]">
           <Link
