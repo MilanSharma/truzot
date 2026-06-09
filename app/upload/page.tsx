@@ -606,18 +606,26 @@ function UploadContent() {
       return;
     }
     if (step === 1) {
-      // Start background upload so it's ready by Step 3
+      // Wait for upload to complete before moving to next step
       if (files.length > 0 && !storagePath) {
-        performUpload(files)
-          .then((path) => {
-            if (path) setStoragePath(path);
-          })
-          .catch((err) => {
-            console.warn(
-              "Background upload failed, will retry at checkout:",
-              err,
-            );
-          });
+        setIsProcessing(true);
+        setProgress("Uploading photos...");
+        try {
+          const path = await performUpload(files, setProgress);
+          if (path) {
+            setStoragePath(path);
+          } else {
+            setError("Upload failed. Please try again.");
+            setIsProcessing(false);
+            return;
+          }
+        } catch (err: any) {
+          console.error("Upload error:", err);
+          setError(err.message ?? "Upload failed. Please try again.");
+          setIsProcessing(false);
+          return;
+        }
+        setIsProcessing(false);
       }
       await analyzePhotos(files);
       setStep(2);
