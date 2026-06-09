@@ -490,6 +490,7 @@ function UploadContent() {
         const next = [...prev, ...converted].slice(0, 5);
         return next;
       });
+      setStoragePath("");
     },
     [toast, validatePhoto, computeFileFingerprint, detectFaces],
   );
