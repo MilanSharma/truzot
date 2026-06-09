@@ -205,8 +205,6 @@ export const POST = withContext(async (req: Request) => {
       return (res.images ?? []).map((img) => ({
         order_id: orderId,
         image_url: img.url,
-        style: promptText || "ai-generated",
-        category,
       }));
     });
 
@@ -344,11 +342,10 @@ export const POST = withContext(async (req: Request) => {
       origin,
     );
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Unknown error";
     log.error({ err }, "Generation execution failed");
     return addCors(
       NextResponse.json(
-        { error: `Generation execution failed: ${message}` },
+        { error: "Generation execution failed" },
         { status: 500 },
       ),
       origin,
