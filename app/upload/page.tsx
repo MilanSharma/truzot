@@ -246,22 +246,24 @@ function UploadContent() {
           },
         );
         if (!res.ok) {
-          toast(
-            "Your uploaded files have expired. Please upload again.",
-            "error",
-          );
-          setStoragePath("");
-          setStep(1);
+          if (!isProcessing) {
+            toast(
+              "Your uploaded files have expired. Please upload again.",
+              "error",
+            );
+            setStoragePath("");
+            setStep(1);
+          }
         }
       } catch {
         // Silently skip validation on error
       }
-    }, 500);
+    }, 2000);
     return () => {
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [storagePath, step, toast]);
+  }, [storagePath, step, toast, isProcessing]);
 
   // Persist state so browser back from Stripe preserves details
   useEffect(() => {
@@ -606,26 +608,25 @@ function UploadContent() {
       return;
     }
     if (step === 1) {
-      // Wait for upload to complete before moving to next step
+      // CRITICAL FIX: Wait for upload to complete before proceeding
       if (files.length > 0 && !storagePath) {
         setIsProcessing(true);
-        setProgress("Uploading photos...");
         try {
-          const path = await performUpload(files, setProgress);
+          const path = await performUpload(files, (msg) => setProgress(msg));
           if (path) {
             setStoragePath(path);
+            await new Promise((resolve) => setTimeout(resolve, 1000));
           } else {
-            setError("Upload failed. Please try again.");
-            setIsProcessing(false);
-            return;
+            throw new Error("Upload failed to return a path");
           }
-        } catch (err: any) {
-          console.error("Upload error:", err);
-          setError(err.message ?? "Upload failed. Please try again.");
+        } catch (err) {
+          console.error("Upload failed:", err);
+          setError("Failed to upload photos. Please try again.");
           setIsProcessing(false);
           return;
+        } finally {
+          setIsProcessing(false);
         }
-        setIsProcessing(false);
       }
       await analyzePhotos(files);
       setStep(2);
