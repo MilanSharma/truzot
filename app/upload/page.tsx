@@ -237,14 +237,17 @@ function UploadContent() {
         const {
           data: { session },
         } = await supabase.auth.getSession();
-        const res = await fetch(
-          `/api/upload?action=check&path=${encodeURIComponent(storagePath)}`,
-          {
-            headers: session?.access_token
-              ? { Authorization: `Bearer ${session.access_token}` }
-              : {},
-          },
-        );
+        const authHeaders: Record<string, string> = {
+          "Content-Type": "application/json",
+        };
+        if (session?.access_token) {
+          authHeaders.Authorization = `Bearer ${session.access_token}`;
+        }
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          headers: authHeaders,
+          body: JSON.stringify({ action: "check", path: storagePath }),
+        });
         if (!res.ok) {
           if (!isProcessing) {
             toast(
