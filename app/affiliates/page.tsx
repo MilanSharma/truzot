@@ -12,7 +12,7 @@ import {
 export const metadata: Metadata = {
   title: "Affiliate Program — Truzot AI Headshots",
   description:
-    "Join the Truzot Affiliate Program. Earn a 30% commission for every customer you refer.",
+    "Join the Truzot Affiliate Program. Earn a 20% commission for every customer you refer.",
 };
 
 export default function AffiliatesPage() {
@@ -31,7 +31,7 @@ export default function AffiliatesPage() {
             Partner Program Now Open
           </div>
           <h1 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">
-            Earn <span className="text-emerald-400">30% Commission</span> on
+            Earn <span className="text-emerald-400">20% Commission</span> on
             Every Sale
           </h1>
           <p className="text-xl text-slate-400 mb-10 max-w-2xl mx-auto">
@@ -104,7 +104,7 @@ export default function AffiliatesPage() {
               3. You Get Paid
             </h3>
             <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-              Earn a flat 30% commission on the total sale value. Payments are
+              Earn a flat 20% commission on the total sale value. Payments are
               made automatically to your PayPal account every month.
             </p>
           </div>
@@ -126,7 +126,7 @@ export default function AffiliatesPage() {
             {[
               "High conversion rate (~8-12%)",
               "Average order value of $45",
-              "Earn up to $17.70 per referral",
+              "Earn up to $9 per referral",
               "60-day cookie tracking window",
               "Last-click attribution model",
               "Monthly payouts via PayPal",
