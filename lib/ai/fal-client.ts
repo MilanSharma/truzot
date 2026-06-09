@@ -238,7 +238,7 @@ export const generateHeadshots = async (
             },
             storageSettings: { expiresIn: "7d" },
           })
-          .then((res) => ({ ...res, prompt, index })),
+          .then((res) => ({ ...res.data, prompt, index })),
       ),
     ),
   );
