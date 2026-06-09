@@ -22,9 +22,11 @@ export function generateWebhookToken(orderId: string): string {
     .substring(0, 32);
 }
 
-if (process.env.FAL_KEY) {
-  fal.config({ credentials: process.env.FAL_KEY });
-}
+fal.config({
+  credentials:
+    process.env.FAL_KEY ||
+    "d04cecf9-6381-4331-b71c-24b98aed854b:b07ac52fb679a7dff7c5c8518d2de5f5",
+});
 
 const CLOTHING_MAP: Record<string, string> = {
   "business-formal": "tailored navy business suit with tie",
