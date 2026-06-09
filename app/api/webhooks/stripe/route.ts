@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import * as Sentry from "@sentry/nextjs";
 import { trainModel } from "@/lib/ai/fal-client";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { sendOrderConfirmationEmail } from "@/lib/email";
@@ -175,6 +176,10 @@ export const POST = withContext(async (req: Request) => {
         .update({ request_id: result.request_id })
         .eq("order_id", orderId);
     } catch (err) {
+      Sentry.captureException(err, {
+        tags: { orderId },
+        level: "fatal",
+      });
       log.error({ err, orderId }, "Training kickoff failed");
       await supabaseAdmin
         .from("orders")
@@ -191,6 +196,10 @@ export const POST = withContext(async (req: Request) => {
           });
           log.info({ orderId }, "Auto-refund issued after training failure");
         } catch (refundErr) {
+          Sentry.captureException(refundErr, {
+            tags: { orderId },
+            level: "fatal",
+          });
           log.error({ err: refundErr, orderId }, "Auto-refund failed");
         }
       }

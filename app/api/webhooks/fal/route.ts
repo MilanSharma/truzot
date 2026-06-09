@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { trainModel, generateWebhookToken } from "@/lib/ai/fal-client";
 import { storeWebhookEvent } from "@/lib/webhook-store";
@@ -132,6 +133,10 @@ export const POST = withContext(async (req: Request) => {
               .update({ request_id: result.request_id })
               .eq("order_id", orderId);
           } catch (err) {
+            Sentry.captureException(err, {
+              tags: { orderId },
+              level: "fatal",
+            });
             await supabaseAdmin
               .from("trainings")
               .update({ status: "failed", error: String(err) })
@@ -165,6 +170,10 @@ export const POST = withContext(async (req: Request) => {
             });
             log.info({ orderId }, "Auto-refund issued after training failure");
           } catch (refundErr) {
+            Sentry.captureException(refundErr, {
+              tags: { orderId },
+              level: "fatal",
+            });
             log.error({ err: refundErr, orderId }, "Auto-refund failed");
           }
         }

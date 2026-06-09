@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 import { generateHeadshots } from "@/lib/ai/fal-client";
 import { PLAN_SHOTS } from "@/lib/plans";
 import { supabaseAdmin } from "@/lib/supabase/admin";
@@ -311,6 +312,10 @@ export const POST = withContext(async (req: Request) => {
               "Auto-refund issued after generation failure",
             );
           } catch (refundErr) {
+            Sentry.captureException(refundErr, {
+              tags: { orderId },
+              level: "fatal",
+            });
             log.error({ err: refundErr, orderId }, "Auto-refund failed");
           }
         }
@@ -342,6 +347,7 @@ export const POST = withContext(async (req: Request) => {
       origin,
     );
   } catch (err) {
+    Sentry.captureException(err);
     log.error({ err }, "Generation execution failed");
     return addCors(
       NextResponse.json(

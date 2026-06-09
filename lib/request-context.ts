@@ -1,6 +1,7 @@
 import { AsyncLocalStorage } from "async_hooks";
 import { randomBytes } from "crypto";
 import { NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 
 export interface RequestContext {
   reqId: string;
@@ -29,5 +30,16 @@ export function getReqId(): string {
 type NextHandler = (req: Request, ...args: any[]) => Promise<NextResponse>;
 
 export function withContext(handler: NextHandler): NextHandler {
-  return async (req, ...args) => runWithContext(() => handler(req, ...args));
+  return async (req, ...args) =>
+    runWithContext(async () => {
+      try {
+        return await handler(req, ...args);
+      } catch (err) {
+        Sentry.captureException(err, {
+          extra: { url: req.url, method: req.method },
+          tags: { reqId: getReqId() },
+        });
+        throw err;
+      }
+    });
 }
