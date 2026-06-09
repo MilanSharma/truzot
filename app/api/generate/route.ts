@@ -160,13 +160,22 @@ export const POST = withContext(async (req: Request) => {
       );
     }
 
-    const genResult = await generateHeadshots(
-      training.model_id,
-      order.plan,
-      currentCount,
-      BATCH_SIZE,
-      order.preferences,
-    );
+    let genResult;
+    try {
+      genResult = await generateHeadshots(
+        training.model_id,
+        order.plan,
+        currentCount,
+        BATCH_SIZE,
+        order.preferences,
+      );
+    } catch (genErr) {
+      log.error(
+        { err: genErr, orderId, modelId: training.model_id },
+        "generateHeadshots threw unexpectedly",
+      );
+      throw genErr;
+    }
 
     if (genResult.failures.length > 0 && genResult.results.length === 0) {
       log.error(

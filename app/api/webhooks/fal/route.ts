@@ -175,12 +175,19 @@ export const POST = withContext(async (req: Request) => {
     if (data.status !== "COMPLETED" && data.status !== "OK")
       return NextResponse.json({ ok: true });
 
+    // Check all possible locations where fal.ai might nest the model URL
     const modelId =
       data.diffusers_lora_file?.url ??
       data.diff_url ??
-      data.output?.diffusers_lora_file?.url;
-    if (!modelId)
+      data.output?.diffusers_lora_file?.url ??
+      data.payload?.diffusers_lora_file?.url ??
+      data.data?.diffusers_lora_file?.url ??
+      data.result?.diffusers_lora_file?.url;
+
+    if (!modelId) {
+      log.error({ data }, "No model URL found in webhook payload");
       return NextResponse.json({ error: "No model URL" }, { status: 400 });
+    }
 
     const { data: curOrder } = await supabaseAdmin
       .from("orders")
