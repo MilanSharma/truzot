@@ -344,10 +344,11 @@ export const POST = withContext(async (req: Request) => {
       origin,
     );
   } catch (err) {
+    const message = err instanceof Error ? err.message : "Unknown error";
     log.error({ err }, "Generation execution failed");
     return addCors(
       NextResponse.json(
-        { error: "Generation execution failed" },
+        { error: `Generation execution failed: ${message}` },
         { status: 500 },
       ),
       origin,
