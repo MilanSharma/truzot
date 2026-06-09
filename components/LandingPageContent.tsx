@@ -730,9 +730,9 @@ export default function LandingPageContent() {
         </section>
 
         {/* Affiliate CTA */}
-        <section className="relative bg-[var(--dark-900)] text-[var(--text-primary)] py-20 px-6 overflow-hidden">
+        <section className="relative bg-slate-900 dark:bg-slate-950 text-white py-20 px-6 overflow-hidden">
           <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,.03)_25%,transparent_25%),linear-gradient(-45deg,rgba(255,255,255,.03)_25%,transparent_25%),linear-gradient(45deg,transparent_75%,rgba(255,255,255,.03)_75%),linear-gradient(-45deg,transparent_75%,rgba(255,255,255,.03)_75%)] bg-[size:20px_20px] bg-[position:0_0,0_10px,10px_-10px,-10px_0px]" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[var(--dark-900)] via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
           <div className="relative max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Earn <span className="text-emerald-400">30%</span> on Every
@@ -771,8 +771,10 @@ export default function LandingPageContent() {
         </section>
 
         {/* Footer */}
-        <footer className="bg-[var(--dark-900)] text-[var(--text-muted)] py-12 px-6">
-          <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-8">
+        <footer className="relative bg-slate-900 dark:bg-slate-950 text-slate-400 py-12 px-6 overflow-hidden">
+          <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,.03)_25%,transparent_25%),linear-gradient(-45deg,rgba(255,255,255,.03)_25%,transparent_25%),linear-gradient(45deg,transparent_75%,rgba(255,255,255,.03)_75%),linear-gradient(-45deg,transparent_75%,rgba(255,255,255,.03)_75%)] bg-[size:20px_20px] bg-[position:0_0,0_10px,10px_-10px,-10px_0px]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
+          <div className="relative max-w-7xl mx-auto grid md:grid-cols-4 gap-8">
             <div>
               <div className="text-2xl font-bold text-white mb-4">TRUZOT</div>
               <p className="text-sm">
@@ -840,7 +842,7 @@ export default function LandingPageContent() {
               </ul>
             </div>
           </div>
-          <div className="max-w-7xl mx-auto border-t border-[var(--border-primary)] mt-8 pt-8 text-center text-sm">
+          <div className="relative max-w-7xl mx-auto border-t border-slate-800 mt-8 pt-8 text-center text-sm">
             &copy; {new Date().getFullYear()} Truzot. Professional headshots,
             AI-generated.
           </div>

@@ -21,9 +21,10 @@ export default function Sidebar({
   const router = useRouter();
 
   return (
-    <aside className="w-64 bg-white border-r border-slate-200 flex flex-col justify-between hidden md:flex shrink-0 z-10">
+    <aside className="relative w-64 bg-[var(--bg-card)] border-r border-[var(--border-primary)] flex flex-col justify-between hidden md:flex shrink-0 z-10 overflow-hidden">
+      <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(0,0,0,.02)_25%,transparent_25%),linear-gradient(-45deg,rgba(0,0,0,.02)_25%,transparent_25%),linear-gradient(45deg,transparent_75%,rgba(0,0,0,.02)_75%),linear-gradient(-45deg,transparent_75%,rgba(0,0,0,.02)_75%)] bg-[size:20px_20px] bg-[position:0_0,0_10px,10px_-10px,-10px_0px] dark:opacity-50" />
       <div>
-        <div className="h-16 flex items-center px-6 border-b border-slate-100">
+        <div className="h-16 flex items-center px-6 border-b border-[var(--border-primary)]">
           <Link
             href="/"
             className="text-xl font-black tracking-tighter bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
@@ -34,29 +35,29 @@ export default function Sidebar({
         <div className="p-4 space-y-1">
           <Link
             href="/dashboard"
-            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-bold transition w-full text-left ${active ? "bg-blue-50 text-blue-700" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"}`}
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-bold transition w-full text-left ${active ? "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400" : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200"}`}
           >
             <LayoutDashboard className="w-4 h-4" /> My Projects
           </Link>
-          <div className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-bold text-slate-400 cursor-not-allowed group">
+          <div className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-bold text-slate-400 dark:text-slate-500 cursor-not-allowed group">
             <div className="flex items-center gap-3">
               <Users className="w-4 h-4" /> Team Workspace
             </div>
-            <span className="text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded uppercase">
+            <span className="text-[9px] bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-1.5 py-0.5 rounded uppercase">
               Upgrade
             </span>
           </div>
           <Link
             href="/account"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-bold text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition"
           >
             <Settings className="w-4 h-4" /> Account Settings
           </Link>
         </div>
       </div>
 
-      <div className="p-4 border-t border-slate-100">
-        <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-xl p-4 mb-4 text-white">
+      <div className="p-4 border-t border-[var(--border-primary)]">
+        <div className="bg-gradient-to-br from-slate-900 to-slate-800 dark:from-slate-800 dark:to-slate-900 rounded-xl p-4 mb-4 text-white">
           <div className="flex items-center gap-2 font-bold text-sm mb-1">
             <Briefcase className="w-4 h-4 text-amber-400" /> For Teams
           </div>
@@ -69,7 +70,7 @@ export default function Sidebar({
         </div>
         {user && (
           <div className="flex items-center justify-between px-3">
-            <span className="text-xs font-semibold text-slate-500 truncate max-w-[140px]">
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 truncate max-w-[140px]">
               {user.email}
             </span>
             <button
