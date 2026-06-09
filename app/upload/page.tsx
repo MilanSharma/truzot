@@ -585,7 +585,7 @@ function UploadContent() {
         xhr.onload = () => {
           if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204)
             resolve();
-          else reject(new Error("File upload failed."));
+          else reject(new Error(`File upload failed (HTTP ${xhr.status})`));
         };
         xhr.onerror = () => reject(new Error("Network error during upload."));
         xhr.send(zipBlob);
