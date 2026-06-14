@@ -793,6 +793,12 @@ function UploadContent() {
     }
   };
 
+  const handleStartOver = () => {
+    sessionStorage.removeItem("truzot-upload");
+    localStorage.removeItem("truzot-upload-backup");
+    window.location.href = "/upload";
+  };
+
   return (
     <UploadErrorBoundary>
       <div
