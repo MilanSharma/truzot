@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
-const withMDX = require('@next/mdx')({
+import nextMDX from '@next/mdx';
+import { withSentryConfig } from '@sentry/nextjs';
+
+const withMDX = nextMDX({
   extension: /\.mdx?$/,
 });
 
@@ -45,19 +48,20 @@ const nextConfig = {
 
 const mdxConfig = withMDX(nextConfig);
 const sentryDsn = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
+
+let finalConfig = mdxConfig;
 if (sentryDsn) {
   try {
-    const { withSentryConfig } = require('@sentry/nextjs');
-    module.exports = withSentryConfig(mdxConfig, {
+    finalConfig = withSentryConfig(mdxConfig, {
       org: process.env.SENTRY_ORG,
       project: process.env.SENTRY_PROJECT,
       silent: true,
       widenClientFileUpload: true,
       tunnelRoute: '/monitoring',
     });
-  } catch {
-    module.exports = mdxConfig;
+  } catch (err) {
+    console.warn("Failed to apply Sentry config:", err);
   }
-} else {
-  module.exports = mdxConfig;
 }
+
+export default finalConfig;
