@@ -763,7 +763,7 @@ function UploadContent() {
         background,
         framing,
         selectedStyles,
-        idempotencyKey,
+        idempotencyKey: crypto.randomUUID(),
         shootName: shootName || defaultShootName,
         coupon: coupon || undefined,
       };
@@ -982,10 +982,7 @@ function UploadContent() {
                       <div className="mt-6 p-4 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/50 rounded-xl text-center">
                         <div className="flex items-center justify-center gap-2 text-xs font-bold text-emerald-600 dark:text-emerald-400">
                           <Check className="w-4 h-4" />
-                          <span>
-                            Photos fully uploaded and ready! Next transition
-                            will be instant.
-                          </span>
+                          <span>Photos uploaded and ready.</span>
                         </div>
                       </div>
                     )}
