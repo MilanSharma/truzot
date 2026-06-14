@@ -1,0 +1,339 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwig_Ybbrf2UAxX6JkQIHeDZHqwQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "sacramento" "influencer" "@gmail.com" site:instagram.com "sacramento" "influencer" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522sacramento%2522%2B%2522influencer%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22sacramento%22+%22influencer%22+%22%40gmail.com%22&sca_esv=112a2bccbf037f13&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&aep=1&ntc=1&sa=X&ved=2ahUKEwig_Ybbrf2UAxX6JkQIHeDZHqwQ2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=112a2bccbf037f13&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22sacramento%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwig_Ybbrf2UAxX6JkQIHeDZHqwQtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "News" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=112a2bccbf037f13&q=site:instagram.com+%22sacramento%22+%22influencer%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&sa=X&ved=2ahUKEwig_Ybbrf2UAxX6JkQIHeDZHqwQ0pQJegQIFBAB
+              - generic [ref=e94]: News
+          - listitem [ref=e95]:
+            - link "Videos" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=112a2bccbf037f13&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22sacramento%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwig_Ybbrf2UAxX6JkQIHeDZHqwQtKgLegQIERAB
+              - generic [ref=e98]: Videos
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=112a2bccbf037f13&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22sacramento%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwig_Ybbrf2UAxX6JkQIHeDZHqwQs6gLegQIExAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=112a2bccbf037f13&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22sacramento%22+%22influencer%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "Fashion + Beauty (@vivacitaa) - Vivian Instagram · vivacitaa 5.8K+ followers" [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/vivacitaa/
+                - heading "Fashion + Beauty (@vivacitaa) - Vivian" [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram · vivacitaa
+                  - generic [ref=e153]: 5.8K+ followers
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e161]:
+              - text: ...
+              - emphasis [ref=e162]: gmail.com
+              - text: My links + socials! ⬇️ ... Woman dressed in a black dress with high heels sparkly
+              - emphasis [ref=e163]: influencer
+              - text: Photoshoot in
+              - emphasis [ref=e164]: Sacramento
+              - text: ...
+        - generic [ref=e168]:
+          - generic [ref=e171]:
+            - link "Carol Kaledzera🇲🇼 (@carol_kaledzera) Instagram · carol_kaledzera 19.1K+ followers" [ref=e173] [cursor=pointer]:
+              - /url: https://www.instagram.com/carol_kaledzera/
+              - heading "Carol Kaledzera🇲🇼 (@carol_kaledzera)" [level=3] [ref=e174]
+              - generic [ref=e179]:
+                - generic [ref=e181]: Instagram · carol_kaledzera
+                - generic [ref=e183]: 19.1K+ followers
+            - button "About this result" [ref=e184] [cursor=pointer]:
+              - img [ref=e187]
+          - generic [ref=e190]:
+            - generic [ref=e191]:
+              - text: Pro MUA ||
+              - emphasis [ref=e192]: influencer
+              - text: .
+              - emphasis [ref=e193]: Sacramento
+              - text: PR & collaborations email Carolkaledzerapr@
+              - emphasis [ref=e194]: gmail.com
+              - text: . Makeup appointment DM/email Carolkaledzera.booking@yahoo.com.
+            - link "Read more" [ref=e195] [cursor=pointer]:
+              - /url: https://www.instagram.com/carol_kaledzera/#:~:text=Pro%20MUA%20%7C%7C%20influencer,Makeup%20appointment%20DM%2Femail%20Carolkaledzera.booking%40yahoo.com
+          - link "site:instagram.com \"sacramento\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e198] [cursor=pointer]:
+            - /url: https://www.instagram.com/carol_kaledzera/
+            - img "site:instagram.com \"sacramento\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e200]
+        - generic [ref=e204]:
+          - generic [ref=e207]:
+            - link "Sarah | Sacramento Finds + Lifestyle (@xosarahsahara) Instagram · xosarahsahara 6.6K+ followers" [ref=e209] [cursor=pointer]:
+              - /url: https://www.instagram.com/xosarahsahara/
+              - heading "Sarah | Sacramento Finds + Lifestyle (@xosarahsahara)" [level=3] [ref=e210]
+              - generic [ref=e215]:
+                - generic [ref=e217]: Instagram · xosarahsahara
+                - generic [ref=e219]: 6.6K+ followers
+            - button "About this result" [ref=e220] [cursor=pointer]:
+              - img [ref=e223]
+          - generic [ref=e226]:
+            - generic [ref=e227]:
+              - text: ✨
+              - emphasis [ref=e228]: Sacramento
+              - text: + NorCal finds 🍽️ Food | Travel | Fits | Lifestyle No gatekeeping here xosarahsahara@
+              - emphasis [ref=e229]: gmail.com
+              - text: Follow for more Shop my looks below.
+            - link "Read more" [ref=e230] [cursor=pointer]:
+              - /url: https://www.instagram.com/xosarahsahara/#:~:text=%E2%9C%A8%20Sacramento%20%2B%20NorCal%20finds,%F0%9F%9B%8D%20Shop%20my%20looks%20below
+          - link "site:instagram.com \"sacramento\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e233] [cursor=pointer]:
+            - /url: https://www.instagram.com/xosarahsahara/
+            - img "site:instagram.com \"sacramento\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e235]
+        - generic [ref=e239]:
+          - generic [ref=e242]:
+            - link "Janelle ∗ Sacramento Food & Travel (@beholdjanelle) Instagram · beholdjanelle 2.8K+ followers" [ref=e244] [cursor=pointer]:
+              - /url: https://www.instagram.com/beholdjanelle/
+              - heading "Janelle ∗ Sacramento Food & Travel (@beholdjanelle)" [level=3] [ref=e245]
+              - generic [ref=e250]:
+                - generic [ref=e252]: Instagram · beholdjanelle
+                - generic [ref=e254]: 2.8K+ followers
+            - button "About this result" [ref=e255] [cursor=pointer]:
+              - img [ref=e258]
+          - generic [ref=e262]:
+            - text: ...
+            - emphasis [ref=e263]: gmail.com
+            - text: ... (+ how cute is our lil'
+            - emphasis [ref=e264]: influencer
+            - text: "puppy? She's a natural ) #partnership #sacramentohummingbirds ..."
+          - link "site:instagram.com \"sacramento\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e267] [cursor=pointer]:
+            - /url: https://www.instagram.com/beholdjanelle/
+            - img "site:instagram.com \"sacramento\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e269]
+        - generic [ref=e273]:
+          - generic [ref=e276]:
+            - link "mary jo (@themaryjoshow) Instagram · themaryjoshow 2.7K+ followers" [ref=e278] [cursor=pointer]:
+              - /url: https://www.instagram.com/themaryjoshow/
+              - heading "mary jo (@themaryjoshow)" [level=3] [ref=e279]
+              - generic [ref=e284]:
+                - generic [ref=e286]: Instagram · themaryjoshow
+                - generic [ref=e288]: 2.7K+ followers
+            - button "About this result" [ref=e289] [cursor=pointer]:
+              - img [ref=e292]
+          - generic [ref=e296]:
+            - text: ...
+            - emphasis [ref=e297]: sacramento
+            - text: ", ca collab.maryjo@"
+            - emphasis [ref=e298]: gmail.com
+            - text: 4 pr ...
+            - emphasis [ref=e299]: influencer
+            - text: "#yummy #yummyfood #tasty #boston #bostonfoodies ..."
+          - link "site:instagram.com \"sacramento\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e301] [cursor=pointer]:
+            - /url: https://www.instagram.com/themaryjoshow/
+        - generic [ref=e318]:
+          - generic [ref=e321]:
+            - link "𝒜𝓃𝑔𝑒𝓁𝒾𝓃𝒶 ❀ 𝒫𝒶𝓁𝓀𝑜 ❀ (@angelinapalko23) Instagram · angelinapalko23 7.4K+ followers" [ref=e323] [cursor=pointer]:
+              - /url: https://www.instagram.com/angelinapalko23/
+              - heading "𝒜𝓃𝑔𝑒𝓁𝒾𝓃𝒶 ❀ 𝒫𝒶𝓁𝓀𝑜 ❀ (@angelinapalko23)" [level=3] [ref=e324]
+              - generic [ref=e329]:
+                - generic [ref=e331]: Instagram · angelinapalko23
+                - generic [ref=e333]: 7.4K+ followers
+            - button "About this result" [ref=e334] [cursor=pointer]:
+              - img [ref=e337]
+          - generic [ref=e341]:
+            - text: "7.4K+ followers · 1.4K+ following · 367 posts · @angelinapalko23: “Lifestyle. UGC creator-"
+            - emphasis [ref=e342]: Influencer
+            - text: "Collab: palkoangelina16@"
+            - emphasis [ref=e343]: gmail.com Sacramento
+            - text: . CA”
+          - link "site:instagram.com \"sacramento\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e346] [cursor=pointer]:
+            - /url: https://www.instagram.com/angelinapalko23/
+            - img "site:instagram.com \"sacramento\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e348]
+        - generic [ref=e352]:
+          - generic [ref=e355]:
+            - link "deets.on.eats - Instagram Instagram · deets.on.eats 13.6K+ followers" [ref=e357] [cursor=pointer]:
+              - /url: https://www.instagram.com/deets.on.eats/
+              - heading "deets.on.eats - Instagram" [level=3] [ref=e358]
+              - generic [ref=e363]:
+                - generic [ref=e365]: Instagram · deets.on.eats
+                - generic [ref=e367]: 13.6K+ followers
+            - button "About this result" [ref=e368] [cursor=pointer]:
+              - img [ref=e371]
+          - generic [ref=e374]:
+            - generic [ref=e375]:
+              - text: DIXIE happy eater
+              - emphasis [ref=e376]: Sacramento
+              - text: ", CA I'm not an expert, I just eat a lot. Food=bond.need.encounter deetsoneats.com dixiedeets@"
+              - emphasis [ref=e377]: gmail.com
+              - text: .
+            - link "Read more" [ref=e378] [cursor=pointer]:
+              - /url: https://www.instagram.com/deets.on.eats/#:~:text=DIXIE%F0%9F%91%8B%F0%9F%A5%B9%20happy%20eater%F0%9F%93%8DSacramento%2C%20CA,%F0%9F%92%BBdeetsoneats.com%20%F0%9F%93%A7dixiedeets%40gmail.com
+          - link "site:instagram.com \"sacramento\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e381] [cursor=pointer]:
+            - /url: https://www.instagram.com/deets.on.eats/
+            - img "site:instagram.com \"sacramento\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e383]
+        - generic [ref=e387]:
+          - generic [ref=e390]:
+            - link "kass ♡ (@princesa.kl) • Instagram photos and videos Instagram · princesa.kl 1.4K+ followers" [ref=e392] [cursor=pointer]:
+              - /url: https://www.instagram.com/princesa.kl/
+              - heading "kass ♡ (@princesa.kl) • Instagram photos and videos" [level=3] [ref=e393]
+              - generic [ref=e398]:
+                - generic [ref=e400]: Instagram · princesa.kl
+                - generic [ref=e402]: 1.4K+ followers
+            - button "About this result" [ref=e403] [cursor=pointer]:
+              - img [ref=e406]
+          - generic [ref=e410]:
+            - text: "... K+ followers · 597 following · 71 posts · @princesa.kl: “welcome to my myspace page kassielo97@"
+            - emphasis [ref=e411]: gmail.com
+            - text: "... #ootd #midsized #fashion #plussize #"
+            - emphasis [ref=e412]: sacramento
+            - text: "# ..."
+          - link "site:instagram.com \"sacramento\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e415] [cursor=pointer]:
+            - /url: https://www.instagram.com/princesa.kl/
+            - img "site:instagram.com \"sacramento\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e417]
+        - generic [ref=e421]:
+          - generic [ref=e424]:
+            - link "lauren case (@laurencase_) Instagram · laurencase_ 257.8K+ followers" [ref=e426] [cursor=pointer]:
+              - /url: https://www.instagram.com/laurencase_/
+              - heading "lauren case (@laurencase_)" [level=3] [ref=e427]
+              - generic [ref=e432]:
+                - generic [ref=e434]: Instagram · laurencase_
+                - generic [ref=e436]: 257.8K+ followers
+            - button "About this result" [ref=e437] [cursor=pointer]:
+              - img [ref=e440]
+          - generic [ref=e444]:
+            - text: ...
+            - emphasis [ref=e445]: gmail.com
+            - text: "P.O. Box #661271"
+            - emphasis [ref=e446]: Sacramento
+            - text: ", CA 95866 1.1M+ on TikTok ... we're just happy to be invited #"
+            - emphasis [ref=e447]: sacramento
+            - text: "#916 #sac #couple #marriage #"
+            - emphasis [ref=e448]: influencer
+            - text: ...
+          - link "site:instagram.com \"sacramento\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e451] [cursor=pointer]:
+            - /url: https://www.instagram.com/laurencase_/
+            - img "site:instagram.com \"sacramento\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e453]
+        - generic [ref=e457]:
+          - generic [ref=e460]:
+            - link "𝐋𝐢𝐳𝐳𝐢𝐞 𝐌𝐜𝐂𝐥𝐚𝐢𝐧 (@lizzie.mcclainn) Instagram · lizzie.mcclainn 4.1K+ followers" [ref=e462] [cursor=pointer]:
+              - /url: https://www.instagram.com/lizzie.mcclainn/
+              - heading "𝐋𝐢𝐳𝐳𝐢𝐞 𝐌𝐜𝐂𝐥𝐚𝐢𝐧 (@lizzie.mcclainn)" [level=3] [ref=e463]
+              - generic [ref=e468]:
+                - generic [ref=e470]: Instagram · lizzie.mcclainn
+                - generic [ref=e472]: 4.1K+ followers
+            - button "About this result" [ref=e473] [cursor=pointer]:
+              - img [ref=e476]
+          - generic [ref=e479]:
+            - generic [ref=e480]:
+              - text: ꜱᴀᴄ, ᴄᴀʟɪꜰᴏʀɴɪᴀ. Model | 24 lizzie.mcclainn@
+              - emphasis [ref=e481]: gmail.com
+              - text: "· Yesterday's fit check @fashionnova . . . · My day 1 PC: @mindseyefoto #"
+              - emphasis [ref=e482]: sacramento
+              - text: "#california #twins ..."
+            - link "Read more" [ref=e483] [cursor=pointer]:
+              - /url: https://www.instagram.com/lizzie.mcclainn/#:~:text=%F0%9F%93%8D%EA%9C%B1%E1%B4%80%E1%B4%84%2C%20%E1%B4%84%E1%B4%80%CA%9F%C9%AA%EA%9C%B0%E1%B4%8F%CA%80%C9%B4%C9%AA%E1%B4%80,lizzie.mcclainn%40gmail.com
+      - navigation [ref=e486]:
+        - heading "Page Navigation" [level=1] [ref=e487]
+        - text: "1"
+        - link "Page 2" [ref=e490] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22sacramento%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=TLQpaqCnFPrNkPIP4LP74Ao&start=10&sa=N&sstk=AU9db-CSeRPFdI1skd_f85W-saPZA9F1CFxtcQuKD-kRPegWmmNysO1JO7PZyZJpFoV9vSpYhsuQeLR9E1YY2delLSxnR9LnLrQkGQ&ved=2ahUKEwig_Ybbrf2UAxX6JkQIHeDZHqwQ8tMDegQIOhAE
+          - text: "2"
+        - link "Page 3" [ref=e492] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22sacramento%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=TLQpaqCnFPrNkPIP4LP74Ao&start=20&sa=N&sstk=AU9db-CSeRPFdI1skd_f85W-saPZA9F1CFxtcQuKD-kRPegWmmNysO1JO7PZyZJpFoV9vSpYhsuQeLR9E1YY2delLSxnR9LnLrQkGQ&ved=2ahUKEwig_Ybbrf2UAxX6JkQIHeDZHqwQ8tMDegQIOhAG
+          - text: "3"
+        - link "Page 4" [ref=e494] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22sacramento%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=TLQpaqCnFPrNkPIP4LP74Ao&start=30&sa=N&sstk=AU9db-CSeRPFdI1skd_f85W-saPZA9F1CFxtcQuKD-kRPegWmmNysO1JO7PZyZJpFoV9vSpYhsuQeLR9E1YY2delLSxnR9LnLrQkGQ&ved=2ahUKEwig_Ybbrf2UAxX6JkQIHeDZHqwQ8tMDegQIOhAI
+          - text: "4"
+        - link "Page 5" [ref=e496] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22sacramento%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=TLQpaqCnFPrNkPIP4LP74Ao&start=40&sa=N&sstk=AU9db-CSeRPFdI1skd_f85W-saPZA9F1CFxtcQuKD-kRPegWmmNysO1JO7PZyZJpFoV9vSpYhsuQeLR9E1YY2delLSxnR9LnLrQkGQ&ved=2ahUKEwig_Ybbrf2UAxX6JkQIHeDZHqwQ8tMDegQIOhAK
+          - text: "5"
+        - link "Page 6" [ref=e498] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22sacramento%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=TLQpaqCnFPrNkPIP4LP74Ao&start=50&sa=N&sstk=AU9db-CSeRPFdI1skd_f85W-saPZA9F1CFxtcQuKD-kRPegWmmNysO1JO7PZyZJpFoV9vSpYhsuQeLR9E1YY2delLSxnR9LnLrQkGQ&ved=2ahUKEwig_Ybbrf2UAxX6JkQIHeDZHqwQ8tMDegQIOhAM
+          - text: "6"
+        - link "Page 7" [ref=e500] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22sacramento%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=TLQpaqCnFPrNkPIP4LP74Ao&start=60&sa=N&sstk=AU9db-CSeRPFdI1skd_f85W-saPZA9F1CFxtcQuKD-kRPegWmmNysO1JO7PZyZJpFoV9vSpYhsuQeLR9E1YY2delLSxnR9LnLrQkGQ&ved=2ahUKEwig_Ybbrf2UAxX6JkQIHeDZHqwQ8tMDegQIOhAO
+          - text: "7"
+        - link "Page 8" [ref=e502] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22sacramento%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=TLQpaqCnFPrNkPIP4LP74Ao&start=70&sa=N&sstk=AU9db-CSeRPFdI1skd_f85W-saPZA9F1CFxtcQuKD-kRPegWmmNysO1JO7PZyZJpFoV9vSpYhsuQeLR9E1YY2delLSxnR9LnLrQkGQ&ved=2ahUKEwig_Ybbrf2UAxX6JkQIHeDZHqwQ8tMDegQIOhAQ
+          - text: "8"
+        - link "Page 9" [ref=e504] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22sacramento%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=TLQpaqCnFPrNkPIP4LP74Ao&start=80&sa=N&sstk=AU9db-CSeRPFdI1skd_f85W-saPZA9F1CFxtcQuKD-kRPegWmmNysO1JO7PZyZJpFoV9vSpYhsuQeLR9E1YY2delLSxnR9LnLrQkGQ&ved=2ahUKEwig_Ybbrf2UAxX6JkQIHeDZHqwQ8tMDegQIOhAS
+          - text: "9"
+        - link "Page 10" [ref=e506] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22sacramento%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=TLQpaqCnFPrNkPIP4LP74Ao&start=90&sa=N&sstk=AU9db-CSeRPFdI1skd_f85W-saPZA9F1CFxtcQuKD-kRPegWmmNysO1JO7PZyZJpFoV9vSpYhsuQeLR9E1YY2delLSxnR9LnLrQkGQ&ved=2ahUKEwig_Ybbrf2UAxX6JkQIHeDZHqwQ8tMDegQIOhAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e508]:
+          - link "Next" [ref=e509] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22sacramento%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=TLQpaqCnFPrNkPIP4LP74Ao&start=10&sa=N&sstk=AU9db-CSeRPFdI1skd_f85W-saPZA9F1CFxtcQuKD-kRPegWmmNysO1JO7PZyZJpFoV9vSpYhsuQeLR9E1YY2delLSxnR9LnLrQkGQ&ved=2ahUKEwig_Ybbrf2UAxX6JkQIHeDZHqwQ8NMDegQIOhAW
+            - generic [ref=e511]: Next
+      - navigation
+    - contentinfo [ref=e512]:
+      - heading "Footer Links" [level=1] [ref=e513]
+      - generic [ref=e517]:
+        - generic [ref=e521]:
+          - button "85281, Tempe, AZ - Based on your past activity" [ref=e523] [cursor=pointer]:
+            - generic [ref=e524]: 85281, Tempe, AZ
+            - generic [ref=e526]:
+              - text: "-"
+              - generic [ref=e527]: Based on your past activity
+          - text: "-"
+          - button "Update location" [ref=e529] [cursor=pointer]: Update location
+        - generic [ref=e532]:
+          - link "Help" [ref=e533] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e534] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e535] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e536] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

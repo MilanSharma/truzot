@@ -1,0 +1,322 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwich8Srq_yUAxXIKEQIHc5CO7YQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "chiropractor" "headshot" "@gmail.com" site:instagram.com "chiropractor" "headshot" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522chiropractor%2522%2B%2522headshot%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22chiropractor%22+%22headshot%22+%22%40gmail.com%22&sca_esv=d11ba7484cdf09fb&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3sbM0Xv-BZKE_VrZb6-djVgPsTSy5UjazDfPq8BLa8BriI08eYAyMPM-9LNl6snbW15_MKDjhFctHz7rvtem8dcoY5CDVaGQk48ghVWmbsOcIDVEhJqvD_JXcVW--QR55E9ALUx6z9f1IZ4hCHVHOjL43Qw2sZ-sgQZidaMg0eQFe35jvg&aep=1&ntc=1&sa=X&ved=2ahUKEwich8Srq_yUAxXIKEQIHc5CO7YQ2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3sbM0Xv-BZKE_VrZb6-djVgPsTSy5UjazDfPq8BLa8BriI08eYAyMPM-9LNl6snbW15_MKDjhFctHz7rvtem8dcoY5CDVaGQk48ghVWmbsOcIDVEhJqvD_JXcVW--QR55E9ALUx6z9f1IZ4hCHVHOjL43Qw2sZ-sgQZidaMg0eQFe35jvg&q=site:instagram.com+%22chiropractor%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwich8Srq_yUAxXIKEQIHc5CO7YQtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "Videos" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3sbM0Xv-BZKE_VrZb6-djVgPsTSy5UjazDfPq8BLa8BriI08eYAyMPM-9LNl6snbW15_MKDjhFctHz7rvtem8dcoY5CDVaGQk48ghVWmbsOcIDVEhJqvD_JXcVW--QR55E9ALUx6z9f1IZ4hCHVHOjL43Qw2sZ-sgQZidaMg0eQFe35jvg&q=site:instagram.com+%22chiropractor%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwich8Srq_yUAxXIKEQIHc5CO7YQtKgLegQIFBAB
+              - generic [ref=e94]: Videos
+          - listitem [ref=e95]:
+            - link "Forums" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3sbM0Xv-BZKE_VrZb6-djVgPsTSy5UjazDfPq8BLa8BriI08eYAyMPM-9LNl6snbW15_MKDjhFctHz7rvtem8dcoY5CDVaGQk48ghVWmbsOcIDVEhJqvD_JXcVW--QR55E9ALUx6z9f1IZ4hCHVHOjL43Qw2sZ-sgQZidaMg0eQFe35jvg&q=site:instagram.com+%22chiropractor%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwich8Srq_yUAxXIKEQIHc5CO7YQs6gLegQIExAB
+              - generic [ref=e98]: Forums
+          - listitem [ref=e99]:
+            - link "Shopping" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3sbM0Xv-BZKE_VrZb6-djVgPsTSy5UjazDfPq8BLa8BriI08eYAyMPM-9LNl6snbW15_MKDjhFctHz7rvtem8dcoY5CDVaGQk48ghVWmbsOcIDVEhJqvD_JXcVW--QR55E9ALUx6z9f1IZ4hCHVHOjL43Qw2sZ-sgQZidaMg0eQFe35jvg&q=site:instagram.com+%22chiropractor%22+%22headshot%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e102]: Shopping
+          - listitem [ref=e103]:
+            - link "Short videos" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=39&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3sbM0Xv-BZKE_VrZb6-djVgPsTSy5UjazDfPq8BLa8BriI08eYAyMPM-9LNl6snbW15_MKDjhFctHz7rvtem8dcoY5CDVaGQk48ghVWmbsOcIDVEhJqvD_JXcVW--QR55E9ALUx6z9f1IZ4hCHVHOjL43Qw2sZ-sgQZidaMg0eQFe35jvg&q=site:instagram.com+%22chiropractor%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwich8Srq_yUAxXIKEQIHc5CO7YQs6gLegQIEhAB
+              - generic [ref=e106]: Short videos
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "Meet Dr. Brandon Messer, D.C. Dr. ... Instagram · mandarinochiropractic 8 likes · 2 months ago" [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/p/DW35AqDD6EG/
+                - heading "Meet Dr. Brandon Messer, D.C. Dr. ..." [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram · mandarinochiropractic
+                  - generic [ref=e153]: 8 likes · 2 months ago
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e160]:
+              - generic [ref=e161]:
+                - text: Brandon Messer is a
+                - emphasis [ref=e162]: chiropractor
+                - text: and healthy-living advocate from the 5 Towns in Nassau County. ... mainfamilychiro@
+                - emphasis [ref=e163]: gmail.com
+              - link "Read more" [ref=e164] [cursor=pointer]:
+                - /url: https://www.instagram.com/p/DW35AqDD6EG/#:~:text=Brandon%20Messer%20is%20a%20chiropractor,5%20Towns%20in%20Nassau%20County.&text=mainfamilychiro%40gmail.com
+            - link "site:instagram.com \"chiropractor\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e167] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DW35AqDD6EG/
+              - img "site:instagram.com \"chiropractor\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e169]
+        - generic [ref=e173]:
+          - generic [ref=e176]:
+            - link "New swag called for a new headshot. 📸 ...⁣ Follow @ ... Instagram · mikesimeoli.dc 140+ likes · 5 years ago" [ref=e178] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/CH0dQFypKSK/
+              - heading "New swag called for a new headshot. 📸 ...⁣ Follow @ ..." [level=3] [ref=e179]
+              - generic [ref=e184]:
+                - generic [ref=e186]: Instagram · mikesimeoli.dc
+                - generic [ref=e188]: 140+ likes · 5 years ago
+            - button "About this result" [ref=e189] [cursor=pointer]:
+              - img [ref=e192]
+          - generic [ref=e195]:
+            - generic [ref=e196]:
+              - text: "... likes, 4 comments - mikesimeoli.dc on November 20, 2020: \"New swag called for a new"
+              - emphasis [ref=e197]: headshot
+              - text: . ...
+              - emphasis [ref=e198]: gmail.com
+              - text: or call/text 203-928-9455!
+            - link "Read more" [ref=e199] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/CH0dQFypKSK/#:~:text=Send%20all%20inquires%20to%20achieveimprovedmotion%40gmail.com,or%20call%2Ftext%20203%2D928%2D9455!
+        - generic [ref=e203]:
+          - generic [ref=e206]:
+            - link "Meet our newest Chiropractor, Dr. Emily Bischoff ... Instagram · calgaryhealthcollective 10+ likes · 7 months ago" [ref=e208] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DQm0pcgEvH_/
+              - heading "Meet our newest Chiropractor, Dr. Emily Bischoff ..." [level=3] [ref=e209]
+              - generic [ref=e214]:
+                - generic [ref=e216]: Instagram · calgaryhealthcollective
+                - generic [ref=e218]: 10+ likes · 7 months ago
+            - button "About this result" [ref=e219] [cursor=pointer]:
+              - img [ref=e222]
+          - generic [ref=e225]:
+            - generic [ref=e226]:
+              - text: professional
+              - emphasis [ref=e227]: headshot
+              - text: · healthcare branding · back pain specialist ... alignkvwellness@
+              - emphasis [ref=e228]: gmail.com
+              - text: "(506) 848-2111 #WellnessClinic ..."
+            - link "Read more" [ref=e229] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DQm0pcgEvH_/#:~:text=professional%20headshot,back%20pain%20specialist&text=more
+        - generic [ref=e233]:
+          - generic [ref=e236]:
+            - link "Poonam Patel's recent 5-star Google review ... Instagram · globalphysio 1 week ago" [ref=e238] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DY5LDI3EyYW/
+              - heading "Poonam Patel's recent 5-star Google review ..." [level=3] [ref=e239]
+              - generic [ref=e244]:
+                - generic [ref=e246]: Instagram · globalphysio
+                - generic [ref=e248]: 1 week ago
+            - button "About this result" [ref=e249] [cursor=pointer]:
+              - img [ref=e252]
+          - generic [ref=e256]:
+            - text: Patel's recent 5-star Google review with a new artistic
+            - emphasis [ref=e257]: headshot
+            - text: "- the recent clinic theme! D.C. 4 reviews • 25 photos \"My"
+            - emphasis [ref=e258]: chiropractor
+            - text: ...
+        - generic [ref=e262]:
+          - generic [ref=e265]:
+            - link "✨ 📸 New headshots for a holistic energy healer. She's ... Instagram · prospecthillphotography 10+ likes · 1 month ago" [ref=e267] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXK4gyUDtae/
+              - heading "✨ 📸 New headshots for a holistic energy healer. She's ..." [level=3] [ref=e268]
+              - generic [ref=e273]:
+                - generic [ref=e275]: Instagram · prospecthillphotography
+                - generic [ref=e277]: 10+ likes · 1 month ago
+            - button "About this result" [ref=e278] [cursor=pointer]:
+              - img [ref=e281]
+          - generic [ref=e284]:
+            - generic [ref=e285]:
+              - emphasis [ref=e286]: Headshot
+              - text: photo session yesterday! When you're this beautiful there ... This amazing
+              - emphasis [ref=e287]: chiropractor
+              - text: in Newton brings all of that into her ...
+            - link "Read more" [ref=e288] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXK4gyUDtae/#:~:text=Headshot%20photo%20session%20yesterday!%20When,I%20love%20all%20of%20them!&text=%E2%81%A0
+        - generic [ref=e292]:
+          - generic [ref=e295]:
+            - link "*Joining the trend* Limited edition Dr. Chris Cueto, Sports ... Instagram · thestickdoc 70+ likes · 1 year ago" [ref=e297] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DIXZ7MySD2m/
+              - heading "*Joining the trend* Limited edition Dr. Chris Cueto, Sports ..." [level=3] [ref=e298]
+              - generic [ref=e303]:
+                - generic [ref=e305]: Instagram · thestickdoc
+                - generic [ref=e307]: 70+ likes · 1 year ago
+            - button "About this result" [ref=e308] [cursor=pointer]:
+              - img [ref=e311]
+          - generic [ref=e314]:
+            - generic [ref=e315]:
+              - text: ...
+              - emphasis [ref=e316]: Chiropractor
+              - text: complete in Figs scrubs which includes a spine ... So it's
+              - emphasis [ref=e317]: headshot
+              - text: here,
+              - emphasis [ref=e318]: headshot
+              - text: here, boom, slap down. One, two ...
+            - link "Read more" [ref=e319] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DIXZ7MySD2m/#:~:text=So%20it's%20headshot%20here%2C%20headshot,slap%20down.%20One%2C%20two%2C%20three.
+        - generic [ref=e323]:
+          - generic [ref=e326]:
+            - link "Dr. Joseph Carbone to NY Injury Solutions Physicians ... Instagram · nyinjurysolutionsny 3 likes · 1 year ago" [ref=e328] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DJ_2lLOTeNT/
+              - heading "Dr. Joseph Carbone to NY Injury Solutions Physicians ..." [level=3] [ref=e329]
+              - generic [ref=e334]:
+                - generic [ref=e336]: Instagram · nyinjurysolutionsny
+                - generic [ref=e338]: 3 likes · 1 year ago
+            - button "About this result" [ref=e339] [cursor=pointer]:
+              - img [ref=e342]
+          - generic [ref=e345]:
+            - generic [ref=e346]:
+              - text: ...
+              - emphasis [ref=e347]: chiropractor
+              - text: ... Professional
+              - emphasis [ref=e348]: headshot
+              - text: of a newly joined NY Injury Solutions doctor with their name displayed.
+            - link "Read more" [ref=e349] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DJ_2lLOTeNT/#:~:text=3%20likes
+        - generic [ref=e353]:
+          - generic [ref=e356]:
+            - link "Happy Monday!! It's never too early for shenanigans. ... Instagram · diamondchiropractic 20+ likes · 2 years ago" [ref=e358] [cursor=pointer]:
+              - /url: https://www.instagram.com/diamondchiropractic/p/C6EN5puu7dQ/
+              - heading "Happy Monday!! It's never too early for shenanigans. ..." [level=3] [ref=e359]
+              - generic [ref=e364]:
+                - generic [ref=e366]: Instagram · diamondchiropractic
+                - generic [ref=e368]: 20+ likes · 2 years ago
+            - button "About this result" [ref=e369] [cursor=pointer]:
+              - img [ref=e372]
+          - generic [ref=e375]:
+            - generic [ref=e376]:
+              - text: Photo by Dr.Diamond - Baby
+              - emphasis [ref=e377]: Chiropractor
+              - text: on February 04, 2026. 2 likes. diamondchiropractic. diamondchiro318@
+              - emphasis [ref=e378]: gmail.com
+              - text: 3184707516. more.
+            - link "Read more" [ref=e379] [cursor=pointer]:
+              - /url: https://www.instagram.com/diamondchiropractic/p/C6EN5puu7dQ/#:~:text=2%20likes,more
+        - generic [ref=e383]:
+          - generic [ref=e386]:
+            - link "Carla Paten is a holistic chiropractor supporting women ... Instagram · eumundivoice 6 likes · 1 month ago" [ref=e388] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXf6CH5lXbz/
+              - heading "Carla Paten is a holistic chiropractor supporting women ..." [level=3] [ref=e389]
+              - generic [ref=e394]:
+                - generic [ref=e396]: Instagram · eumundivoice
+                - generic [ref=e398]: 6 likes · 1 month ago
+            - button "About this result" [ref=e399] [cursor=pointer]:
+              - img [ref=e402]
+          - generic [ref=e405]:
+            - generic [ref=e406]:
+              - text: Carla Paten is a holistic
+              - emphasis [ref=e407]: chiropractor
+              - text: supporting women through every season of life. She offers chiropractic care, intuitive and emotional ...
+            - link "Read more" [ref=e408] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXf6CH5lXbz/#:~:text=Carla%20Paten%20is%20a%20holistic,pelvic%20floor%20and%20core%20assessments.
+        - generic [ref=e412]:
+          - generic [ref=e415]:
+            - link "Andrico Lamar | Photographer/Videographer Instagram · dricolamar 440+ likes · 1 month ago" [ref=e417] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXcWeXgFE19/?img_index=3
+              - heading "Andrico Lamar | Photographer/Videographer" [level=3] [ref=e418]
+              - generic [ref=e423]:
+                - generic [ref=e425]: Instagram · dricolamar
+                - generic [ref=e427]: 440+ likes · 1 month ago
+            - button "About this result" [ref=e428] [cursor=pointer]:
+              - img [ref=e431]
+          - generic [ref=e434]:
+            - generic [ref=e435]:
+              - text: "Email: gamepointvp@"
+              - emphasis [ref=e436]: gmail.com
+              - text: "... #headshotphotographer #personalbrandingphotographer #businessheadshots @headshotsmatter"
+              - emphasis [ref=e437]: headshot
+              - text: photographers ...
+            - link "Read more" [ref=e438] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXcWeXgFE19/?img_index=3#:~:text=%F0%9F%93%A7%20Email%3A%20gamepointvp%40gmail.com&text=%23headshotphotographer%20%23personalbrandingphotographer%20%23businessheadshots%20%40headshotsmatter%20headshot,near%20me%20corporate%20headshots%20%23jacksonvilleheadshots
+      - navigation [ref=e441]:
+        - heading "Page Navigation" [level=1] [ref=e442]
+        - text: "1"
+        - link "Page 2" [ref=e445] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22chiropractor%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=mCspapzbA8jRkPIPzoXtsQs&start=10&sa=N&sstk=AU9db-Did67KHtw5-mU6f6YT2Uf5cHQzF_T405cz8RTGzRjCVKJI83dh3UKSIG1CD_VUyE4HAvnd6IakEWrBHwQMedCePHTTDndSCw&ved=2ahUKEwich8Srq_yUAxXIKEQIHc5CO7YQ8tMDegQIJhAE
+          - text: "2"
+        - link "Page 3" [ref=e447] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22chiropractor%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=mCspapzbA8jRkPIPzoXtsQs&start=20&sa=N&sstk=AU9db-Did67KHtw5-mU6f6YT2Uf5cHQzF_T405cz8RTGzRjCVKJI83dh3UKSIG1CD_VUyE4HAvnd6IakEWrBHwQMedCePHTTDndSCw&ved=2ahUKEwich8Srq_yUAxXIKEQIHc5CO7YQ8tMDegQIJhAG
+          - text: "3"
+        - link "Page 4" [ref=e449] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22chiropractor%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=mCspapzbA8jRkPIPzoXtsQs&start=30&sa=N&sstk=AU9db-Did67KHtw5-mU6f6YT2Uf5cHQzF_T405cz8RTGzRjCVKJI83dh3UKSIG1CD_VUyE4HAvnd6IakEWrBHwQMedCePHTTDndSCw&ved=2ahUKEwich8Srq_yUAxXIKEQIHc5CO7YQ8tMDegQIJhAI
+          - text: "4"
+        - link "Page 5" [ref=e451] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22chiropractor%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=mCspapzbA8jRkPIPzoXtsQs&start=40&sa=N&sstk=AU9db-Did67KHtw5-mU6f6YT2Uf5cHQzF_T405cz8RTGzRjCVKJI83dh3UKSIG1CD_VUyE4HAvnd6IakEWrBHwQMedCePHTTDndSCw&ved=2ahUKEwich8Srq_yUAxXIKEQIHc5CO7YQ8tMDegQIJhAK
+          - text: "5"
+        - link "Page 6" [ref=e453] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22chiropractor%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=mCspapzbA8jRkPIPzoXtsQs&start=50&sa=N&sstk=AU9db-Did67KHtw5-mU6f6YT2Uf5cHQzF_T405cz8RTGzRjCVKJI83dh3UKSIG1CD_VUyE4HAvnd6IakEWrBHwQMedCePHTTDndSCw&ved=2ahUKEwich8Srq_yUAxXIKEQIHc5CO7YQ8tMDegQIJhAM
+          - text: "6"
+        - link "Page 7" [ref=e455] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22chiropractor%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=mCspapzbA8jRkPIPzoXtsQs&start=60&sa=N&sstk=AU9db-Did67KHtw5-mU6f6YT2Uf5cHQzF_T405cz8RTGzRjCVKJI83dh3UKSIG1CD_VUyE4HAvnd6IakEWrBHwQMedCePHTTDndSCw&ved=2ahUKEwich8Srq_yUAxXIKEQIHc5CO7YQ8tMDegQIJhAO
+          - text: "7"
+        - link "Page 8" [ref=e457] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22chiropractor%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=mCspapzbA8jRkPIPzoXtsQs&start=70&sa=N&sstk=AU9db-Did67KHtw5-mU6f6YT2Uf5cHQzF_T405cz8RTGzRjCVKJI83dh3UKSIG1CD_VUyE4HAvnd6IakEWrBHwQMedCePHTTDndSCw&ved=2ahUKEwich8Srq_yUAxXIKEQIHc5CO7YQ8tMDegQIJhAQ
+          - text: "8"
+        - link "Page 9" [ref=e459] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22chiropractor%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=mCspapzbA8jRkPIPzoXtsQs&start=80&sa=N&sstk=AU9db-Did67KHtw5-mU6f6YT2Uf5cHQzF_T405cz8RTGzRjCVKJI83dh3UKSIG1CD_VUyE4HAvnd6IakEWrBHwQMedCePHTTDndSCw&ved=2ahUKEwich8Srq_yUAxXIKEQIHc5CO7YQ8tMDegQIJhAS
+          - text: "9"
+        - link "Page 10" [ref=e461] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22chiropractor%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=mCspapzbA8jRkPIPzoXtsQs&start=90&sa=N&sstk=AU9db-Did67KHtw5-mU6f6YT2Uf5cHQzF_T405cz8RTGzRjCVKJI83dh3UKSIG1CD_VUyE4HAvnd6IakEWrBHwQMedCePHTTDndSCw&ved=2ahUKEwich8Srq_yUAxXIKEQIHc5CO7YQ8tMDegQIJhAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e463]:
+          - link "Next" [ref=e464] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22chiropractor%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=mCspapzbA8jRkPIPzoXtsQs&start=10&sa=N&sstk=AU9db-Did67KHtw5-mU6f6YT2Uf5cHQzF_T405cz8RTGzRjCVKJI83dh3UKSIG1CD_VUyE4HAvnd6IakEWrBHwQMedCePHTTDndSCw&ved=2ahUKEwich8Srq_yUAxXIKEQIHc5CO7YQ8NMDegQIJhAW
+            - generic [ref=e466]: Next
+      - navigation
+    - contentinfo [ref=e467]:
+      - heading "Footer Links" [level=1] [ref=e468]
+      - generic [ref=e472]:
+        - generic [ref=e476]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e478] [cursor=pointer]:
+            - generic [ref=e479]: 85281, Tempe, AZ
+            - generic [ref=e481]:
+              - text: "-"
+              - generic [ref=e482]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e484] [cursor=pointer]: Update location
+        - generic [ref=e487]:
+          - link "Help" [ref=e488] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e489] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e490] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e491] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

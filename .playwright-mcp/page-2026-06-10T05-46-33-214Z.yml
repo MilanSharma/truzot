@@ -1,0 +1,159 @@
+- generic [ref=e8]:
+  - generic [ref=e13]:
+    - generic [ref=e16]:
+      - link "Instagram" [ref=e21] [cursor=pointer]:
+        - /url: /
+        - img "Instagram" [ref=e26]
+      - generic [ref=e29]:
+        - link "Home" [ref=e34] [cursor=pointer]:
+          - /url: /
+          - img "Home" [ref=e39]
+        - link "Reels" [ref=e44] [cursor=pointer]:
+          - /url: /reels/
+          - img "Reels" [ref=e49]
+        - link "Messages" [ref=e56] [cursor=pointer]:
+          - /url: /direct/inbox/
+          - img "Messages" [ref=e61]
+        - link "Search" [ref=e67] [cursor=pointer]:
+          - /url: /explore/
+          - img "Search" [ref=e72]
+        - link "Notifications" [ref=e79] [cursor=pointer]:
+          - /url: "#"
+          - img "Notifications" [ref=e84]
+        - link "New post" [ref=e90] [cursor=pointer]:
+          - /url: "#"
+          - img "New post" [ref=e95]
+        - link "truzot's profile picture" [ref=e101] [cursor=pointer]:
+          - /url: /truzot/
+          - link "truzot's profile picture" [ref=e106]:
+            - img "truzot's profile picture" [ref=e107]
+      - generic [ref=e108]:
+        - link "Settings" [ref=e111] [cursor=pointer]:
+          - /url: "#"
+          - img "Settings" [ref=e116]
+        - link "Also from Meta" [ref=e119] [cursor=pointer]:
+          - /url: "#"
+          - img "Also from Meta" [ref=e124]
+    - generic [ref=e127]:
+      - main [ref=e128]:
+        - generic [ref=e130]:
+          - generic [ref=e131]: Sorry, this page isn't available.
+          - generic [ref=e133]:
+            - text: The link you followed may be broken, or the page may have been removed.
+            - link "Go back to Instagram." [ref=e134] [cursor=pointer]:
+              - /url: /
+      - contentinfo [ref=e135]:
+        - generic [ref=e136]:
+          - generic [ref=e138]:
+            - link "Meta" [ref=e140] [cursor=pointer]:
+              - /url: https://about.meta.com/
+              - generic [ref=e141]: Meta
+            - link "About" [ref=e143] [cursor=pointer]:
+              - /url: https://about.instagram.com/
+              - generic [ref=e144]: About
+            - link "Blog" [ref=e146] [cursor=pointer]:
+              - /url: https://about.instagram.com/blog/
+              - generic [ref=e147]: Blog
+            - link "Jobs" [ref=e149] [cursor=pointer]:
+              - /url: https://about.instagram.com/about-us/careers
+              - generic [ref=e150]: Jobs
+            - link "Help" [ref=e152] [cursor=pointer]:
+              - /url: https://help.instagram.com/
+              - generic [ref=e153]: Help
+            - link "API" [ref=e155] [cursor=pointer]:
+              - /url: https://developers.facebook.com/docs/instagram
+              - generic [ref=e156]: API
+            - link "Privacy" [ref=e158] [cursor=pointer]:
+              - /url: /legal/privacy/
+              - generic [ref=e159]: Privacy
+            - link "Consumer Health Privacy" [ref=e161] [cursor=pointer]:
+              - /url: /legal/privacy/health_privacy_policy/
+              - generic [ref=e162]: Consumer Health Privacy
+            - link "Terms" [ref=e164] [cursor=pointer]:
+              - /url: /legal/terms/
+              - generic [ref=e165]: Terms
+            - link "Locations" [ref=e167] [cursor=pointer]:
+              - /url: /explore/locations/
+              - generic [ref=e168]: Locations
+            - link "Popular" [ref=e170] [cursor=pointer]:
+              - /url: /popular/
+              - generic [ref=e171]: Popular
+            - link "Instagram Lite" [ref=e173] [cursor=pointer]:
+              - /url: /web/lite/
+              - generic [ref=e174]: Instagram Lite
+            - link "Meta AI" [ref=e176] [cursor=pointer]:
+              - /url: https://www.meta.ai/?utm_source=foa_web_footer
+              - generic [ref=e177]: Meta AI
+            - link "Threads" [ref=e179] [cursor=pointer]:
+              - /url: https://www.threads.com/
+              - generic [ref=e180]: Threads
+            - link "Contact Uploading & Non-Users" [ref=e182] [cursor=pointer]:
+              - /url: https://www.facebook.com/help/instagram/261704639352628
+              - generic [ref=e183]: Contact Uploading & Non-Users
+            - link "Meta Verified" [ref=e185] [cursor=pointer]:
+              - /url: /accounts/meta_verified/?entrypoint=web_footer
+              - generic [ref=e186]: Meta Verified
+          - generic [ref=e187]:
+            - generic [ref=e188] [cursor=pointer]:
+              - generic [ref=e189]:
+                - generic [ref=e190]: English
+                - img "Down chevron icon" [ref=e193]
+              - combobox "Switch Display Language" [ref=e195]:
+                - option "Afrikaans"
+                - option "العربية"
+                - option "Čeština"
+                - option "Dansk"
+                - option "Deutsch"
+                - option "Ελληνικά"
+                - option "English" [selected]
+                - option "English (UK)"
+                - option "Español (España)"
+                - option "Español"
+                - option "فارسی"
+                - option "Suomi"
+                - option "Français"
+                - option "עברית"
+                - option "Bahasa Indonesia"
+                - option "Italiano"
+                - option "日本語"
+                - option "한국어"
+                - option "Bahasa Melayu"
+                - option "Norsk"
+                - option "Nederlands"
+                - option "Polski"
+                - option "Português (Brasil)"
+                - option "Português (Portugal)"
+                - option "Русский"
+                - option "Svenska"
+                - option "ภาษาไทย"
+                - option "Filipino"
+                - option "Türkçe"
+                - option "中文(简体)"
+                - option "中文(台灣)"
+                - option "বাংলা"
+                - option "ગુજરાતી"
+                - option "हिन्दी"
+                - option "Hrvatski"
+                - option "Magyar"
+                - option "ಕನ್ನಡ"
+                - option "മലയാളം"
+                - option "मराठी"
+                - option "नेपाली"
+                - option "ਪੰਜਾਬੀ"
+                - option "සිංහල"
+                - option "Slovenčina"
+                - option "தமிழ்"
+                - option "తెలుగు"
+                - option "اردو"
+                - option "Tiếng Việt"
+                - option "中文(香港)"
+                - option "Български"
+                - option "Français (Canada)"
+                - option "Română"
+                - option "Српски"
+                - option "Українська"
+            - generic [ref=e197]: © 2026 Instagram from Meta
+  - button "Messages Messages" [ref=e199] [cursor=pointer]:
+    - generic [ref=e201]:
+      - img "Messages" [ref=e203]
+      - generic [ref=e206]: Messages

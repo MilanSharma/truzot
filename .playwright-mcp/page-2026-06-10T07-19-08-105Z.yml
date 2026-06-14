@@ -1,0 +1,354 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwiL4dj4kPyUAxVNmO4BHfGtNucQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "chicago" "influencer" "@gmail.com" site:instagram.com "chicago" "influencer" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522chicago%2522%2B%2522influencer%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22chicago%22+%22influencer%22+%22%40gmail.com%22&sca_esv=4a455b0f3ad2390b&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&aep=1&ntc=1&sa=X&ved=2ahUKEwiL4dj4kPyUAxVNmO4BHfGtNucQ2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22chicago%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwiL4dj4kPyUAxVNmO4BHfGtNucQtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "News" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&q=site:instagram.com+%22chicago%22+%22influencer%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&sa=X&ved=2ahUKEwiL4dj4kPyUAxVNmO4BHfGtNucQ0pQJegQIFBAB
+              - generic [ref=e94]: News
+          - listitem [ref=e95]:
+            - link "Videos" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22chicago%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwiL4dj4kPyUAxVNmO4BHfGtNucQtKgLegQIERAB
+              - generic [ref=e98]: Videos
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22chicago%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwiL4dj4kPyUAxVNmO4BHfGtNucQs6gLegQIExAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22chicago%22+%22influencer%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "Chicago Influencer (@echo_mass) - Olga Tsoi Instagram · echo_mass 38.7K+ followers" [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/echo_mass/
+                - heading "Chicago Influencer (@echo_mass) - Olga Tsoi" [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram · echo_mass
+                  - generic [ref=e153]: 38.7K+ followers
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e160]:
+              - generic [ref=e161]:
+                - text: ...
+                - emphasis [ref=e162]: gmail.com
+                - text: Founder @hexagon_chicago, co-founder @ ... Olga Tsoi |
+                - emphasis [ref=e163]: Chicago Influencer
+                - text: she/her. 38.6K followers. 6,491 following ...
+              - link "Read more" [ref=e164] [cursor=pointer]:
+                - /url: https://www.instagram.com/echo_mass/#:~:text=Olga%20Tsoi%20%7C%20Chicago%20Influencershe%2Fher,6%2C491%20following
+            - link "site:instagram.com \"chicago\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e167] [cursor=pointer]:
+              - /url: https://www.instagram.com/echo_mass/
+              - img "site:instagram.com \"chicago\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e169]
+        - generic [ref=e173]:
+          - generic [ref=e176]:
+            - link "Chicago Fashion and Travel Influencer (@olia_chicago) Instagram · olia_chicago 142.8K+ followers" [ref=e178] [cursor=pointer]:
+              - /url: https://www.instagram.com/olia_chicago/
+              - heading "Chicago Fashion and Travel Influencer (@olia_chicago)" [level=3] [ref=e179]
+              - generic [ref=e184]:
+                - generic [ref=e186]: Instagram · olia_chicago
+                - generic [ref=e188]: 142.8K+ followers
+            - button "About this result" [ref=e189] [cursor=pointer]:
+              - img [ref=e192]
+          - generic [ref=e195]:
+            - generic [ref=e196]:
+              - text: Olga Goffman |
+              - emphasis [ref=e197]: Chicago
+              - text: Fashion and Travel
+              - emphasis [ref=e198]: Influencer
+              - text: . 142K followers. 499 following. fits • couple travel •
+              - emphasis [ref=e199]: Chicago
+              - text: • dog mom oliacollab@
+              - emphasis [ref=e200]: gmail.com
+              - text: co ...
+            - link "Read more" [ref=e201] [cursor=pointer]:
+              - /url: https://www.instagram.com/olia_chicago/#:~:text=Olga%20Goffman%20%7C%20Chicago%20Fashion,co%2Dfounder%20%40oxygen_trips
+          - link "site:instagram.com \"chicago\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e204] [cursor=pointer]:
+            - /url: https://www.instagram.com/olia_chicago/
+            - img "site:instagram.com \"chicago\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e206]
+        - generic [ref=e210]:
+          - generic [ref=e213]:
+            - link "Chicago Influencer @ A Walk in the Pink Park (@thehargz) Instagram · thehargz 3.5K+ followers" [ref=e215] [cursor=pointer]:
+              - /url: https://www.instagram.com/thehargz/
+              - heading "Chicago Influencer @ A Walk in the Pink Park (@thehargz)" [level=3] [ref=e216]
+              - generic [ref=e221]:
+                - generic [ref=e223]: Instagram · thehargz
+                - generic [ref=e225]: 3.5K+ followers
+            - button "About this result" [ref=e226] [cursor=pointer]:
+              - img [ref=e229]
+          - generic [ref=e233]:
+            - text: "3.5K+ followers · 3K+ following · 1643 posts · @thehargz: “"
+            - emphasis [ref=e234]: Chicago Influencer
+            - text: "- NDLPT @pinkparkdesigns - E: harger915@"
+            - emphasis [ref=e235]: gmail.com
+            - text: "- A fashionista w/ a love ..."
+          - link "site:instagram.com \"chicago\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e238] [cursor=pointer]:
+            - /url: https://www.instagram.com/thehargz/
+            - img "site:instagram.com \"chicago\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e240]
+        - generic [ref=e244]:
+          - generic [ref=e247]:
+            - link "Jonna Newberry (@jnewberries) Instagram · jnewberries 10.1K+ followers" [ref=e249] [cursor=pointer]:
+              - /url: https://www.instagram.com/jnewberries/
+              - heading "Jonna Newberry (@jnewberries)" [level=3] [ref=e250]
+              - generic [ref=e255]:
+                - generic [ref=e257]: Instagram · jnewberries
+                - generic [ref=e259]: 10.1K+ followers
+            - button "About this result" [ref=e260] [cursor=pointer]:
+              - img [ref=e263]
+          - generic [ref=e267]:
+            - text: ...
+            - emphasis [ref=e268]: gmail.com
+            - text: ...
+            - emphasis [ref=e269]: Chicago
+            - text: ", Chicagoland eats, dinner in"
+            - emphasis [ref=e270]: Chicago
+            - text: ","
+            - emphasis [ref=e271]: Chicago
+            - text: food
+            - emphasis [ref=e272]: influencer
+            - text: ...
+          - link "site:instagram.com \"chicago\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e274] [cursor=pointer]:
+            - /url: https://www.instagram.com/jnewberries/
+        - generic [ref=e291]:
+          - generic [ref=e294]:
+            - link "Kaylee Jo Flores (@kayleejochicago) Instagram · kayleejochicago 220.8K+ followers" [ref=e296] [cursor=pointer]:
+              - /url: https://www.instagram.com/kayleejochicago/
+              - heading "Kaylee Jo Flores (@kayleejochicago)" [level=3] [ref=e297]
+              - generic [ref=e302]:
+                - generic [ref=e304]: Instagram · kayleejochicago
+                - generic [ref=e306]: 220.8K+ followers
+            - button "About this result" [ref=e307] [cursor=pointer]:
+              - img [ref=e310]
+          - generic [ref=e313]:
+            - generic [ref=e314]:
+              - emphasis [ref=e315]: Chicago
+              - text: Travel Secrets, Spilled ✨ CEO of Not Gatekeeping Windy City Gems kayleejochicago@
+              - emphasis [ref=e316]: gmail.com
+              - text: "TikTok: 104K | FB: 117K. Follow."
+            - link "Read more" [ref=e317] [cursor=pointer]:
+              - /url: https://www.instagram.com/kayleejochicago/#:~:text=%F0%9F%8C%AD%20Chicago%20Travel%20Secrets%2C%20Spilled,Follow
+          - link "site:instagram.com \"chicago\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e320] [cursor=pointer]:
+            - /url: https://www.instagram.com/kayleejochicago/
+            - img "site:instagram.com \"chicago\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e322]
+        - generic [ref=e326]:
+          - generic [ref=e329]:
+            - link "Chicago Creator + Travel Influencer (@thehonestpassport) Instagram · thehonestpassport 50.1K+ followers" [ref=e331] [cursor=pointer]:
+              - /url: https://www.instagram.com/thehonestpassport/
+              - heading "Chicago Creator + Travel Influencer (@thehonestpassport)" [level=3] [ref=e332]
+              - generic [ref=e337]:
+                - generic [ref=e339]: Instagram · thehonestpassport
+                - generic [ref=e341]: 50.1K+ followers
+            - button "About this result" [ref=e342] [cursor=pointer]:
+              - img [ref=e345]
+          - generic [ref=e348]:
+            - generic [ref=e349]:
+              - text: ...
+              - emphasis [ref=e350]: gmail.com
+              - text: "|"
+              - emphasis [ref=e351]: Chicago
+              - text: → Worldwide | thehonestpassport ... Angie Thomas |
+              - emphasis [ref=e352]: Chicago
+              - text: Creator + Travel
+              - emphasis [ref=e353]: Influencer
+              - text: . 49.9K followers. 7,632 ...
+            - link "Read more" [ref=e354] [cursor=pointer]:
+              - /url: https://www.instagram.com/thehonestpassport/#:~:text=Angie%20Thomas%20%7C%20Chicago%20Creator,7%2C632%20following
+          - link "site:instagram.com \"chicago\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e357] [cursor=pointer]:
+            - /url: https://www.instagram.com/thehonestpassport/
+            - img "site:instagram.com \"chicago\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e359]
+        - generic [ref=e363]:
+          - generic [ref=e366]:
+            - link "Influencer (@ekaterina_lovik) - UGC Creator Instagram · ekaterina_lovik 81.8K+ followers" [ref=e368] [cursor=pointer]:
+              - /url: https://www.instagram.com/ekaterina_lovik/
+              - heading "Influencer (@ekaterina_lovik) - UGC Creator" [level=3] [ref=e369]
+              - generic [ref=e374]:
+                - generic [ref=e376]: Instagram · ekaterina_lovik
+                - generic [ref=e378]: 81.8K+ followers
+            - button "About this result" [ref=e379] [cursor=pointer]:
+              - img [ref=e382]
+          - generic [ref=e385]:
+            - generic [ref=e386]:
+              - text: UGC Creator - paid collabs.
+              - emphasis [ref=e387]: Chicago influencer
+              - text: 450+ brand collabs | DM me bestugccreator@
+              - emphasis [ref=e388]: gmail.com
+              - text: · Spring Fashion Social @curioexperience @boleochicago @ ...
+            - link "Read more" [ref=e389] [cursor=pointer]:
+              - /url: https://www.instagram.com/ekaterina_lovik/#:~:text=UGC%20Creator%20%2D%20paid%20collabs,%F0%9F%93%A9%20bestugccreator%40gmail.com
+          - link "site:instagram.com \"chicago\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e392] [cursor=pointer]:
+            - /url: https://www.instagram.com/ekaterina_lovik/
+            - img "site:instagram.com \"chicago\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e394]
+        - generic [ref=e398]:
+          - generic [ref=e401]:
+            - link "Iryna Yunko UGC content creator Chicago (@ira_yunko) Instagram · ira_yunko 67.8K+ followers" [ref=e403] [cursor=pointer]:
+              - /url: https://www.instagram.com/ira_yunko/
+              - heading "Iryna Yunko UGC content creator Chicago (@ira_yunko)" [level=3] [ref=e404]
+              - generic [ref=e409]:
+                - generic [ref=e411]: Instagram · ira_yunko
+                - generic [ref=e413]: 67.8K+ followers
+            - button "About this result" [ref=e414] [cursor=pointer]:
+              - img [ref=e417]
+          - generic [ref=e421]:
+            - text: "68K followers · 1.7K+ following · 1296 posts · @ira_yunko: “UGC Content creator,"
+            - emphasis [ref=e422]: influencer Chicago
+            - text: Collab irynayunko135@
+            - emphasis [ref=e423]: gmail.com
+            - text: ”
+          - link "site:instagram.com \"chicago\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e425] [cursor=pointer]:
+            - /url: https://www.instagram.com/ira_yunko/
+        - generic [ref=e442]:
+          - generic [ref=e445]:
+            - link "Chicago Influencer (@fashionisinmyjeans) Instagram · fashionisinmyjeans 2K+ followers" [ref=e447] [cursor=pointer]:
+              - /url: https://www.instagram.com/fashionisinmyjeans/
+              - heading "Chicago Influencer (@fashionisinmyjeans)" [level=3] [ref=e448]
+              - generic [ref=e453]:
+                - generic [ref=e455]: Instagram · fashionisinmyjeans
+                - generic [ref=e457]: 2K+ followers
+            - button "About this result" [ref=e458] [cursor=pointer]:
+              - img [ref=e461]
+          - generic [ref=e464]:
+            - generic [ref=e465]:
+              - emphasis [ref=e466]: Chicago Influencer
+              - text: Fashion / Lifestyle / Travel /Beauty Streets are my Runway fashionisinmyjeans@
+              - emphasis [ref=e467]: gmail.com
+              - text: . Follow. Message ...
+            - link "Read more" [ref=e468] [cursor=pointer]:
+              - /url: https://www.instagram.com/fashionisinmyjeans/#:~:text=%F0%9F%93%8DChicago%20Influencer,Message
+        - generic [ref=e472]:
+          - generic [ref=e475]:
+            - link "moments.by.theqmom Instagram · moments.by.theqmom 89.2K+ followers" [ref=e477] [cursor=pointer]:
+              - /url: https://www.instagram.com/moments.by.theqmom/
+              - heading "moments.by.theqmom" [level=3] [ref=e478]
+              - generic [ref=e483]:
+                - generic [ref=e485]: Instagram · moments.by.theqmom
+                - generic [ref=e487]: 89.2K+ followers
+            - button "About this result" [ref=e488] [cursor=pointer]:
+              - img [ref=e491]
+          - generic [ref=e494]:
+            - generic [ref=e495]:
+              - text: ...
+              - emphasis [ref=e496]: gmail.com
+              - text: ... Carolina |
+              - emphasis [ref=e497]: Chicago
+              - text: Mom
+              - emphasis [ref=e498]: Influencer
+              - text: "& Content Creator. 89.1K followers. 5,632 ..."
+            - link "Read more" [ref=e499] [cursor=pointer]:
+              - /url: https://www.instagram.com/moments.by.theqmom/#:~:text=Carolina%20%7C%20Chicago%20Mom%20Influencer,5%2C632%20following
+          - link "site:instagram.com \"chicago\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e502] [cursor=pointer]:
+            - /url: https://www.instagram.com/moments.by.theqmom/
+            - img "site:instagram.com \"chicago\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e504]
+      - navigation [ref=e507]:
+        - heading "Page Navigation" [level=1] [ref=e508]
+        - text: "1"
+        - link "Page 2" [ref=e511] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22chicago%22+%22influencer%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=6g8paovEB82wur8P8dvauQ4&start=10&sa=N&sstk=AU9db-DNV2Bpuwsdv_UMK1F1zJtOYUPVq4AfTZpQojpTgSl3CPZrB8iuZJzVHoHYMOMatp52QkQupXWSjcmrQtGwAFe3_7Gv97Nriw&ved=2ahUKEwiL4dj4kPyUAxVNmO4BHfGtNucQ8tMDegQIOxAE
+          - text: "2"
+        - link "Page 3" [ref=e513] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22chicago%22+%22influencer%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=6g8paovEB82wur8P8dvauQ4&start=20&sa=N&sstk=AU9db-DNV2Bpuwsdv_UMK1F1zJtOYUPVq4AfTZpQojpTgSl3CPZrB8iuZJzVHoHYMOMatp52QkQupXWSjcmrQtGwAFe3_7Gv97Nriw&ved=2ahUKEwiL4dj4kPyUAxVNmO4BHfGtNucQ8tMDegQIOxAG
+          - text: "3"
+        - link "Page 4" [ref=e515] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22chicago%22+%22influencer%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=6g8paovEB82wur8P8dvauQ4&start=30&sa=N&sstk=AU9db-DNV2Bpuwsdv_UMK1F1zJtOYUPVq4AfTZpQojpTgSl3CPZrB8iuZJzVHoHYMOMatp52QkQupXWSjcmrQtGwAFe3_7Gv97Nriw&ved=2ahUKEwiL4dj4kPyUAxVNmO4BHfGtNucQ8tMDegQIOxAI
+          - text: "4"
+        - link "Page 5" [ref=e517] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22chicago%22+%22influencer%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=6g8paovEB82wur8P8dvauQ4&start=40&sa=N&sstk=AU9db-DNV2Bpuwsdv_UMK1F1zJtOYUPVq4AfTZpQojpTgSl3CPZrB8iuZJzVHoHYMOMatp52QkQupXWSjcmrQtGwAFe3_7Gv97Nriw&ved=2ahUKEwiL4dj4kPyUAxVNmO4BHfGtNucQ8tMDegQIOxAK
+          - text: "5"
+        - link "Page 6" [ref=e519] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22chicago%22+%22influencer%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=6g8paovEB82wur8P8dvauQ4&start=50&sa=N&sstk=AU9db-DNV2Bpuwsdv_UMK1F1zJtOYUPVq4AfTZpQojpTgSl3CPZrB8iuZJzVHoHYMOMatp52QkQupXWSjcmrQtGwAFe3_7Gv97Nriw&ved=2ahUKEwiL4dj4kPyUAxVNmO4BHfGtNucQ8tMDegQIOxAM
+          - text: "6"
+        - link "Page 7" [ref=e521] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22chicago%22+%22influencer%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=6g8paovEB82wur8P8dvauQ4&start=60&sa=N&sstk=AU9db-DNV2Bpuwsdv_UMK1F1zJtOYUPVq4AfTZpQojpTgSl3CPZrB8iuZJzVHoHYMOMatp52QkQupXWSjcmrQtGwAFe3_7Gv97Nriw&ved=2ahUKEwiL4dj4kPyUAxVNmO4BHfGtNucQ8tMDegQIOxAO
+          - text: "7"
+        - link "Page 8" [ref=e523] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22chicago%22+%22influencer%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=6g8paovEB82wur8P8dvauQ4&start=70&sa=N&sstk=AU9db-DNV2Bpuwsdv_UMK1F1zJtOYUPVq4AfTZpQojpTgSl3CPZrB8iuZJzVHoHYMOMatp52QkQupXWSjcmrQtGwAFe3_7Gv97Nriw&ved=2ahUKEwiL4dj4kPyUAxVNmO4BHfGtNucQ8tMDegQIOxAQ
+          - text: "8"
+        - link "Page 9" [ref=e525] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22chicago%22+%22influencer%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=6g8paovEB82wur8P8dvauQ4&start=80&sa=N&sstk=AU9db-DNV2Bpuwsdv_UMK1F1zJtOYUPVq4AfTZpQojpTgSl3CPZrB8iuZJzVHoHYMOMatp52QkQupXWSjcmrQtGwAFe3_7Gv97Nriw&ved=2ahUKEwiL4dj4kPyUAxVNmO4BHfGtNucQ8tMDegQIOxAS
+          - text: "9"
+        - link "Page 10" [ref=e527] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22chicago%22+%22influencer%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=6g8paovEB82wur8P8dvauQ4&start=90&sa=N&sstk=AU9db-DNV2Bpuwsdv_UMK1F1zJtOYUPVq4AfTZpQojpTgSl3CPZrB8iuZJzVHoHYMOMatp52QkQupXWSjcmrQtGwAFe3_7Gv97Nriw&ved=2ahUKEwiL4dj4kPyUAxVNmO4BHfGtNucQ8tMDegQIOxAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e529]:
+          - link "Next" [ref=e530] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22chicago%22+%22influencer%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=6g8paovEB82wur8P8dvauQ4&start=10&sa=N&sstk=AU9db-DNV2Bpuwsdv_UMK1F1zJtOYUPVq4AfTZpQojpTgSl3CPZrB8iuZJzVHoHYMOMatp52QkQupXWSjcmrQtGwAFe3_7Gv97Nriw&ved=2ahUKEwiL4dj4kPyUAxVNmO4BHfGtNucQ8NMDegQIOxAW
+            - generic [ref=e532]: Next
+      - navigation
+    - contentinfo [ref=e533]:
+      - heading "Footer Links" [level=1] [ref=e534]
+      - generic [ref=e538]:
+        - generic [ref=e542]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e544] [cursor=pointer]:
+            - generic [ref=e545]: 85281, Tempe, AZ
+            - generic [ref=e547]:
+              - text: "-"
+              - generic [ref=e548]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e550] [cursor=pointer]: Update location
+        - generic [ref=e553]:
+          - link "Help" [ref=e554] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e555] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e556] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e557] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

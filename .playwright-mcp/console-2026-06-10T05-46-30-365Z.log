@@ -1,0 +1,14 @@
+[    3172ms] [LOG] 
+%cStop! font-family:helvetica; font-size:20px; font-size:50px; font-weight:bold; color:red; -webkit-text-stroke:1px black; @ https://static.cdninstagram.com/rsrc.php/v4i8iB4/yg/l/en_US-j/dTApq0kA2TOv7WOcl_GyRyMFQQMTMPZfNoYfDQnsESIGTsaa6c_y1Ov0FbROOjSCWMC4fHGZPlv6rTGHskmxiWfm19JIBMpvbDr9aUyD2ha4Ta_2mxykuiW-v0MgvGFgTubtGa_18N7y_wfidQMhm2UXA2rrCxjEFdRGjiFGHh9ozlMI64oxaJD-bMV1zrNvhsc-jaOuxqSKnm9UbXofocMwkJXyIKxAiusmbNiolQ_GXCJLbUoLqllHVDFQqoHyzVzN2il_s172D1_ZhzkphhshD5-sc1yxdkJx4O5NrpKzMGU-W7GsTMMsiJC02ez.js:219
+[    3172ms] [LOG] 
+%cThis is a browser feature intended for developers. If someone told you to copy-paste something here to enable an Instagram feature or "hack" someone's account, it is a scam and will give them access to your Instagram account. font-family:helvetica; font-size:20px;  @ https://static.cdninstagram.com/rsrc.php/v4i8iB4/yg/l/en_US-j/dTApq0kA2TOv7WOcl_GyRyMFQQMTMPZfNoYfDQnsESIGTsaa6c_y1Ov0FbROOjSCWMC4fHGZPlv6rTGHskmxiWfm19JIBMpvbDr9aUyD2ha4Ta_2mxykuiW-v0MgvGFgTubtGa_18N7y_wfidQMhm2UXA2rrCxjEFdRGjiFGHh9ozlMI64oxaJD-bMV1zrNvhsc-jaOuxqSKnm9UbXofocMwkJXyIKxAiusmbNiolQ_GXCJLbUoLqllHVDFQqoHyzVzN2il_s172D1_ZhzkphhshD5-sc1yxdkJx4O5NrpKzMGU-W7GsTMMsiJC02ez.js:219
+[    3172ms] [LOG] 
+%cSee https://www.facebook.com/selfxss for more information. font-family:helvetica; font-size:20px;  @ https://static.cdninstagram.com/rsrc.php/v4i8iB4/yg/l/en_US-j/dTApq0kA2TOv7WOcl_GyRyMFQQMTMPZfNoYfDQnsESIGTsaa6c_y1Ov0FbROOjSCWMC4fHGZPlv6rTGHskmxiWfm19JIBMpvbDr9aUyD2ha4Ta_2mxykuiW-v0MgvGFgTubtGa_18N7y_wfidQMhm2UXA2rrCxjEFdRGjiFGHh9ozlMI64oxaJD-bMV1zrNvhsc-jaOuxqSKnm9UbXofocMwkJXyIKxAiusmbNiolQ_GXCJLbUoLqllHVDFQqoHyzVzN2il_s172D1_ZhzkphhshD5-sc1yxdkJx4O5NrpKzMGU-W7GsTMMsiJC02ez.js:219
+[    3172ms] [LOG] 
+%c  @ https://static.cdninstagram.com/rsrc.php/v4i8iB4/yg/l/en_US-j/dTApq0kA2TOv7WOcl_GyRyMFQQMTMPZfNoYfDQnsESIGTsaa6c_y1Ov0FbROOjSCWMC4fHGZPlv6rTGHskmxiWfm19JIBMpvbDr9aUyD2ha4Ta_2mxykuiW-v0MgvGFgTubtGa_18N7y_wfidQMhm2UXA2rrCxjEFdRGjiFGHh9ozlMI64oxaJD-bMV1zrNvhsc-jaOuxqSKnm9UbXofocMwkJXyIKxAiusmbNiolQ_GXCJLbUoLqllHVDFQqoHyzVzN2il_s172D1_ZhzkphhshD5-sc1yxdkJx4O5NrpKzMGU-W7GsTMMsiJC02ez.js:219
+[    3343ms] [ERROR] ErrorUtils caught an error:
+
+GraphQL operation responded with error 4630001: Invalid module param. (Operation: PolarisStoriesV3TrayContainerQuery)
+ [Caught in: unexpected]
+
+Subsequent non-fatal errors won't be logged; see https://fburl.com/debugjs. {column: 241, clientTime: 1781070393, extra: Object, guardList: Array(0), hash: kvyt2o} @ https://static.cdninstagram.com/rsrc.php/v4/y8/r/3h4YqOhE0YZ.js:79

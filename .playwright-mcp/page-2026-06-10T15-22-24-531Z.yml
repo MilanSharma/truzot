@@ -1,0 +1,332 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwiIkpP7_PyUAxVckO4BHcEPNCYQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "pittsburgh" "influencer" "@gmail.com" site:instagram.com "pittsburgh" "influencer" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522pittsburgh%2522%2B%2522influencer%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22pittsburgh%22+%22influencer%22+%22%40gmail.com%22&sca_esv=b310fc7f82cd21bc&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&aep=1&ntc=1&sa=X&ved=2ahUKEwiIkpP7_PyUAxVckO4BHcEPNCYQ2J8OegQIEhAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=b310fc7f82cd21bc&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22pittsburgh%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwiIkpP7_PyUAxVckO4BHcEPNCYQtKgLegQIGBAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "News" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=b310fc7f82cd21bc&q=site:instagram.com+%22pittsburgh%22+%22influencer%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&sa=X&ved=2ahUKEwiIkpP7_PyUAxVckO4BHcEPNCYQ0pQJegQIFxAB
+              - generic [ref=e94]: News
+          - listitem [ref=e95]:
+            - link "Videos" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=b310fc7f82cd21bc&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22pittsburgh%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwiIkpP7_PyUAxVckO4BHcEPNCYQtKgLegQIFhAB
+              - generic [ref=e98]: Videos
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=b310fc7f82cd21bc&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22pittsburgh%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwiIkpP7_PyUAxVckO4BHcEPNCYQs6gLegQIFBAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=b310fc7f82cd21bc&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22pittsburgh%22+%22influencer%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "Content Creator | Social Media Management (@jadiepensyl) Instagram · jadiepensyl 4.9K+ followers" [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/jadiepensyl/
+                - heading "Content Creator | Social Media Management (@jadiepensyl)" [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram · jadiepensyl
+                  - generic [ref=e153]: 4.9K+ followers
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e161]:
+              - text: "4.9K+ followers · 2K+ following · 164 posts · @jadiepensyl: “lifestyle | fashion | Beauty"
+              - emphasis [ref=e162]: Pittsburgh
+              - text: jadielpensyl@
+              - emphasis [ref=e163]: gmail.com
+              - text: ”
+            - link "site:instagram.com \"pittsburgh\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e166] [cursor=pointer]:
+              - /url: https://www.instagram.com/jadiepensyl/
+              - img "site:instagram.com \"pittsburgh\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e168]
+        - generic [ref=e172]:
+          - generic [ref=e175]:
+            - link "Pittsburgh Blogger (@dress.likelex) - Alexa Instagram · dress.likelex 3.4K+ followers" [ref=e177] [cursor=pointer]:
+              - /url: https://www.instagram.com/dress.likelex/
+              - heading "Pittsburgh Blogger (@dress.likelex) - Alexa" [level=3] [ref=e178]
+              - generic [ref=e183]:
+                - generic [ref=e185]: Instagram · dress.likelex
+                - generic [ref=e187]: 3.4K+ followers
+            - button "About this result" [ref=e188] [cursor=pointer]:
+              - img [ref=e191]
+          - generic [ref=e195]:
+            - text: ...
+            - emphasis [ref=e196]: gmail.com
+            - text: ...
+            - emphasis [ref=e197]: influencer
+            - text: "#"
+            - emphasis [ref=e198]: pittsburgh
+            - text: "#pittsburghpa #nailsofinstagram #mothersdaygiftideas #bloggersofinstagram ..."
+          - link "site:instagram.com \"pittsburgh\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e200] [cursor=pointer]:
+            - /url: https://www.instagram.com/dress.likelex/
+        - generic [ref=e217]:
+          - generic [ref=e220]:
+            - link "Aaron | Pittsburgh Food Dude Content Creator ... - Instagram Instagram · pittsburghfooddude 4.7K+ followers" [ref=e222] [cursor=pointer]:
+              - /url: https://www.instagram.com/pittsburghfooddude/
+              - heading "Aaron | Pittsburgh Food Dude Content Creator ... - Instagram" [level=3] [ref=e223]
+              - generic [ref=e228]:
+                - generic [ref=e230]: Instagram · pittsburghfooddude
+                - generic [ref=e232]: 4.7K+ followers
+            - button "About this result" [ref=e233] [cursor=pointer]:
+              - img [ref=e236]
+          - generic [ref=e240]:
+            - text: ...
+            - emphasis [ref=e241]: Pittsburgh
+            - text: pittsburghfooddude@
+            - emphasis [ref=e242]: gmail.com
+            - text: ...
+            - emphasis [ref=e243]: pittsburgh
+            - text: "#"
+            - emphasis [ref=e244]: influencer
+            - text: "#pittsburghfooddude ..."
+          - link "site:instagram.com \"pittsburgh\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e247] [cursor=pointer]:
+            - /url: https://www.instagram.com/pittsburghfooddude/
+            - img "site:instagram.com \"pittsburgh\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e249]
+        - generic [ref=e253]:
+          - generic [ref=e256]:
+            - link "Arjun Manjunath (@arjunmanjunath_) Instagram · arjunmanjunath_ 55.4K+ followers" [ref=e258] [cursor=pointer]:
+              - /url: https://www.instagram.com/arjunmanjunath_/
+              - heading "Arjun Manjunath (@arjunmanjunath_)" [level=3] [ref=e259]
+              - generic [ref=e264]:
+                - generic [ref=e266]: Instagram · arjunmanjunath_
+                - generic [ref=e268]: 55.4K+ followers
+            - button "About this result" [ref=e269] [cursor=pointer]:
+              - img [ref=e272]
+          - generic [ref=e276]:
+            - text: ...
+            - emphasis [ref=e277]: pittsburgh
+            - text: ", nyc & wherever next arjunmanjunathLLC@"
+            - emphasis [ref=e278]: gmail.com
+            - text: ...
+            - emphasis [ref=e279]: pittsburgh
+            - text: "#pgh #trending #"
+            - emphasis [ref=e280]: influencer
+            - text: "#teamptl. 10/10 would ..."
+          - link "site:instagram.com \"pittsburgh\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e282] [cursor=pointer]:
+            - /url: https://www.instagram.com/arjunmanjunath_/
+        - generic [ref=e299]:
+          - generic [ref=e302]:
+            - link "maddie ˗ˋˏ ♡'s ˎˊ˗ pittsburgh (@maddieemyers) Instagram · maddieemyers 3.4K+ followers" [ref=e304] [cursor=pointer]:
+              - /url: https://www.instagram.com/maddieemyers/
+              - heading "maddie ˗ˋˏ ♡'s ˎˊ˗ pittsburgh (@maddieemyers)" [level=3] [ref=e305]
+              - generic [ref=e310]:
+                - generic [ref=e312]: Instagram · maddieemyers
+                - generic [ref=e314]: 3.4K+ followers
+            - button "About this result" [ref=e315] [cursor=pointer]:
+              - img [ref=e318]
+          - generic [ref=e322]:
+            - text: "3.4K+ followers · 5.7K+ following · 255 posts · @maddieemyers: “if i love it, you're hearing about it ⭑.ᐟ ✉︎ madisonmyerspgh@"
+            - emphasis [ref=e323]: gmail.com
+            - text: ⚲
+            - emphasis [ref=e324]: pittsburgh
+            - text: ", pennsylvania"
+        - generic [ref=e328]:
+          - generic [ref=e331]:
+            - link "Aisha ❤️‍🔥 (@afroblisso) • Instagram photos and videos Instagram · afroblisso 11.8K+ followers" [ref=e333] [cursor=pointer]:
+              - /url: https://www.instagram.com/afroblisso/
+              - heading "Aisha ❤️‍🔥 (@afroblisso) • Instagram photos and videos" [level=3] [ref=e334]
+              - generic [ref=e339]:
+                - generic [ref=e341]: Instagram · afroblisso
+                - generic [ref=e343]: 11.8K+ followers
+            - button "About this result" [ref=e344] [cursor=pointer]:
+              - img [ref=e347]
+          - generic [ref=e350]:
+            - generic [ref=e351]:
+              - emphasis [ref=e352]: Influencer
+              - text: "& Entrepreneur ✨"
+              - emphasis [ref=e353]: Pittsburgh
+              - text: "Shop my brand @afroblisso.brand. Foodie page: @couple.of.foodiespgh afroblisso@"
+              - emphasis [ref=e354]: gmail.com
+              - text: .
+            - link "Read more" [ref=e355] [cursor=pointer]:
+              - /url: https://www.instagram.com/afroblisso/#:~:text=Influencer%20%26%20Entrepreneur%20%E2%9C%A8,%F0%9F%92%8C%20afroblisso%40gmail.com
+        - generic [ref=e359]:
+          - generic [ref=e362]:
+            - link "Content Creator | Social Media Management (@jadiepensyl) Instagram https://www.instagram.com › jadiepensyl" [ref=e364] [cursor=pointer]:
+              - /url: https://www.instagram.com/jadiepensyl/reels/
+              - heading "Content Creator | Social Media Management (@jadiepensyl)" [level=3] [ref=e365]
+              - generic [ref=e370]:
+                - generic [ref=e372]: Instagram
+                - generic [ref=e374]: https://www.instagram.com › jadiepensyl
+            - button "About this result" [ref=e375] [cursor=pointer]:
+              - img [ref=e378]
+          - generic [ref=e381]:
+            - generic [ref=e382]:
+              - text: Jadie Lee | Content Creator | Social Media Management. 4,867 followers. 1,928 following. lifestyle | fashion | Beauty
+              - emphasis [ref=e383]: Pittsburgh
+              - text: jadielpensyl@
+              - emphasis [ref=e384]: gmail.com
+              - text: .
+            - link "Read more" [ref=e385] [cursor=pointer]:
+              - /url: https://www.instagram.com/jadiepensyl/reels/#:~:text=Jadie%20Lee%20%7C%20Content%20Creator,%F0%9F%92%8Cjadielpensyl%40gmail.com
+          - link "site:instagram.com \"pittsburgh\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e388] [cursor=pointer]:
+            - /url: https://www.instagram.com/jadiepensyl/reels/
+            - img "site:instagram.com \"pittsburgh\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e390]
+        - generic [ref=e394]:
+          - generic [ref=e397]:
+            - link "caitlyn manduley (@caitmanduley) Instagram · caitmanduley 4.2K+ followers" [ref=e399] [cursor=pointer]:
+              - /url: https://www.instagram.com/caitmanduley/
+              - heading "caitlyn manduley (@caitmanduley)" [level=3] [ref=e400]
+              - generic [ref=e405]:
+                - generic [ref=e407]: Instagram · caitmanduley
+                - generic [ref=e409]: 4.2K+ followers
+            - button "About this result" [ref=e410] [cursor=pointer]:
+              - img [ref=e413]
+          - generic [ref=e417]:
+            - text: ...
+            - emphasis [ref=e418]: gmail.com
+            - text: ... My love language? Content & community Led social content execution and
+            - emphasis [ref=e419]: influencer
+            - text: marketing efforts for the 2026 @dickssportinggoods
+            - emphasis [ref=e420]: Pittsburgh
+            - text: ...
+          - link "site:instagram.com \"pittsburgh\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e422] [cursor=pointer]:
+            - /url: https://www.instagram.com/caitmanduley/
+        - generic [ref=e439]:
+          - generic [ref=e442]:
+            - link "JASMINE JONES (@jasmine_jones0608) · Pittsburgh, PA Instagram · jasmine_jones0608 2.6K+ followers" [ref=e444] [cursor=pointer]:
+              - /url: https://www.instagram.com/jasmine_jones0608/
+              - heading "JASMINE JONES (@jasmine_jones0608) · Pittsburgh, PA" [level=3] [ref=e445]
+              - generic [ref=e450]:
+                - generic [ref=e452]: Instagram · jasmine_jones0608
+                - generic [ref=e454]: 2.6K+ followers
+            - button "About this result" [ref=e455] [cursor=pointer]:
+              - img [ref=e458]
+          - generic [ref=e462]:
+            - text: "2.6K+ followers · 1.8K+ following · 122 posts · @jasmine_jones0608: “Comfort Creator | Mom of 2 ❤️ |"
+            - emphasis [ref=e463]: Pittsburgh
+            - text: Sourdough Lover jasmineejones0608@
+            - emphasis [ref=e464]: gmail.com
+            - text: 🛍️
+          - link "site:instagram.com \"pittsburgh\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e466] [cursor=pointer]:
+            - /url: https://www.instagram.com/jasmine_jones0608/
+        - generic [ref=e483]:
+          - generic [ref=e486]:
+            - link "MAYA (@mayabeatty) • Instagram photos and videos Instagram · mayabeatty 34.6K+ followers" [ref=e488] [cursor=pointer]:
+              - /url: https://www.instagram.com/mayabeatty/
+              - heading "MAYA (@mayabeatty) • Instagram photos and videos" [level=3] [ref=e489]
+              - generic [ref=e494]:
+                - generic [ref=e496]: Instagram · mayabeatty
+                - generic [ref=e498]: 34.6K+ followers
+            - button "About this result" [ref=e499] [cursor=pointer]:
+              - img [ref=e502]
+          - generic [ref=e506]:
+            - text: "35K followers · 3.8K+ following · 101 posts · @mayabeatty: “Model turned"
+            - emphasis [ref=e507]: influencer
+            - text: turned girl mom
+            - emphasis [ref=e508]: Pittsburgh
+            - text: ": beatty.maya@"
+            - emphasis [ref=e509]: gmail.com
+            - text: ”
+      - navigation [ref=e512]:
+        - heading "Page Navigation" [level=1] [ref=e513]
+        - text: "1"
+        - link "Page 2" [ref=e516] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22pittsburgh%22+%22influencer%22+%22@gmail.com%22&sca_esv=b310fc7f82cd21bc&ei=LoEpaojDEtygur8PwZ_QsQI&start=10&sa=N&sstk=AU9db-B2vO-EG-ALgBTSj3oCPhKiKUw1-dQYxx0z8174ZDLQyZAcRNxQT-Lgg-ac9k1lvSgysh7l8_A7cjLVuNluc5Ti7w4Cg3vxZw&ved=2ahUKEwiIkpP7_PyUAxVckO4BHcEPNCYQ8tMDegQILBAE
+          - text: "2"
+        - link "Page 3" [ref=e518] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22pittsburgh%22+%22influencer%22+%22@gmail.com%22&sca_esv=b310fc7f82cd21bc&ei=LoEpaojDEtygur8PwZ_QsQI&start=20&sa=N&sstk=AU9db-B2vO-EG-ALgBTSj3oCPhKiKUw1-dQYxx0z8174ZDLQyZAcRNxQT-Lgg-ac9k1lvSgysh7l8_A7cjLVuNluc5Ti7w4Cg3vxZw&ved=2ahUKEwiIkpP7_PyUAxVckO4BHcEPNCYQ8tMDegQILBAG
+          - text: "3"
+        - link "Page 4" [ref=e520] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22pittsburgh%22+%22influencer%22+%22@gmail.com%22&sca_esv=b310fc7f82cd21bc&ei=LoEpaojDEtygur8PwZ_QsQI&start=30&sa=N&sstk=AU9db-B2vO-EG-ALgBTSj3oCPhKiKUw1-dQYxx0z8174ZDLQyZAcRNxQT-Lgg-ac9k1lvSgysh7l8_A7cjLVuNluc5Ti7w4Cg3vxZw&ved=2ahUKEwiIkpP7_PyUAxVckO4BHcEPNCYQ8tMDegQILBAI
+          - text: "4"
+        - link "Page 5" [ref=e522] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22pittsburgh%22+%22influencer%22+%22@gmail.com%22&sca_esv=b310fc7f82cd21bc&ei=LoEpaojDEtygur8PwZ_QsQI&start=40&sa=N&sstk=AU9db-B2vO-EG-ALgBTSj3oCPhKiKUw1-dQYxx0z8174ZDLQyZAcRNxQT-Lgg-ac9k1lvSgysh7l8_A7cjLVuNluc5Ti7w4Cg3vxZw&ved=2ahUKEwiIkpP7_PyUAxVckO4BHcEPNCYQ8tMDegQILBAK
+          - text: "5"
+        - link "Page 6" [ref=e524] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22pittsburgh%22+%22influencer%22+%22@gmail.com%22&sca_esv=b310fc7f82cd21bc&ei=LoEpaojDEtygur8PwZ_QsQI&start=50&sa=N&sstk=AU9db-B2vO-EG-ALgBTSj3oCPhKiKUw1-dQYxx0z8174ZDLQyZAcRNxQT-Lgg-ac9k1lvSgysh7l8_A7cjLVuNluc5Ti7w4Cg3vxZw&ved=2ahUKEwiIkpP7_PyUAxVckO4BHcEPNCYQ8tMDegQILBAM
+          - text: "6"
+        - link "Page 7" [ref=e526] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22pittsburgh%22+%22influencer%22+%22@gmail.com%22&sca_esv=b310fc7f82cd21bc&ei=LoEpaojDEtygur8PwZ_QsQI&start=60&sa=N&sstk=AU9db-B2vO-EG-ALgBTSj3oCPhKiKUw1-dQYxx0z8174ZDLQyZAcRNxQT-Lgg-ac9k1lvSgysh7l8_A7cjLVuNluc5Ti7w4Cg3vxZw&ved=2ahUKEwiIkpP7_PyUAxVckO4BHcEPNCYQ8tMDegQILBAO
+          - text: "7"
+        - link "Page 8" [ref=e528] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22pittsburgh%22+%22influencer%22+%22@gmail.com%22&sca_esv=b310fc7f82cd21bc&ei=LoEpaojDEtygur8PwZ_QsQI&start=70&sa=N&sstk=AU9db-B2vO-EG-ALgBTSj3oCPhKiKUw1-dQYxx0z8174ZDLQyZAcRNxQT-Lgg-ac9k1lvSgysh7l8_A7cjLVuNluc5Ti7w4Cg3vxZw&ved=2ahUKEwiIkpP7_PyUAxVckO4BHcEPNCYQ8tMDegQILBAQ
+          - text: "8"
+        - link "Page 9" [ref=e530] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22pittsburgh%22+%22influencer%22+%22@gmail.com%22&sca_esv=b310fc7f82cd21bc&ei=LoEpaojDEtygur8PwZ_QsQI&start=80&sa=N&sstk=AU9db-B2vO-EG-ALgBTSj3oCPhKiKUw1-dQYxx0z8174ZDLQyZAcRNxQT-Lgg-ac9k1lvSgysh7l8_A7cjLVuNluc5Ti7w4Cg3vxZw&ved=2ahUKEwiIkpP7_PyUAxVckO4BHcEPNCYQ8tMDegQILBAS
+          - text: "9"
+        - link "Page 10" [ref=e532] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22pittsburgh%22+%22influencer%22+%22@gmail.com%22&sca_esv=b310fc7f82cd21bc&ei=LoEpaojDEtygur8PwZ_QsQI&start=90&sa=N&sstk=AU9db-B2vO-EG-ALgBTSj3oCPhKiKUw1-dQYxx0z8174ZDLQyZAcRNxQT-Lgg-ac9k1lvSgysh7l8_A7cjLVuNluc5Ti7w4Cg3vxZw&ved=2ahUKEwiIkpP7_PyUAxVckO4BHcEPNCYQ8tMDegQILBAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e534]:
+          - link "Next" [ref=e535] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22pittsburgh%22+%22influencer%22+%22@gmail.com%22&sca_esv=b310fc7f82cd21bc&ei=LoEpaojDEtygur8PwZ_QsQI&start=10&sa=N&sstk=AU9db-B2vO-EG-ALgBTSj3oCPhKiKUw1-dQYxx0z8174ZDLQyZAcRNxQT-Lgg-ac9k1lvSgysh7l8_A7cjLVuNluc5Ti7w4Cg3vxZw&ved=2ahUKEwiIkpP7_PyUAxVckO4BHcEPNCYQ8NMDegQILBAW
+            - generic [ref=e537]: Next
+      - navigation
+    - contentinfo [ref=e538]:
+      - heading "Footer Links" [level=1] [ref=e539]
+      - generic [ref=e543]:
+        - generic [ref=e547]:
+          - button "85281, Tempe, AZ - Based on your past activity" [ref=e549] [cursor=pointer]:
+            - generic [ref=e550]: 85281, Tempe, AZ
+            - generic [ref=e552]:
+              - text: "-"
+              - generic [ref=e553]: Based on your past activity
+          - text: "-"
+          - button "Update location" [ref=e555] [cursor=pointer]: Update location
+        - generic [ref=e558]:
+          - link "Help" [ref=e559] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e560] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e561] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e562] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

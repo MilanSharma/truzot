@@ -1,0 +1,323 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwiO3uWohfyUAxVFJ0QIHTn6G_sQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com ("AI" OR "artificial intelligence" OR "machine learning" OR "tech creator") (@gmail.com OR @outlook.com OR "email" OR "business inquiries") site:instagram.com ("AI" OR "artificial intelligence" OR "machine learning" OR "tech creator") (@gmail.com OR @outlook.com OR "email" OR "business inquiries")
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite%253Ainstagram.com%2B%2528%2522AI%2522%2BOR%2B%2522artificial%2Bintelligence%2522%2BOR%2B%2522machine%2Blearning%2522%2BOR%2B%2522tech%2Bcreator%2522%2529%2B%2528%2540gmail.com%2BOR%2B%2540outlook.com%2BOR%2B%2522email%2522%2BOR%2B%2522business%2Binquiries%2522%2529&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+(%22AI%22+OR+%22artificial+intelligence%22+OR+%22machine+learning%22+OR+%22tech+creator%22)+(%40gmail.com+OR+%40outlook.com+OR+%22email%22+OR+%22business+inquiries%22)&sca_esv=4a455b0f3ad2390b&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfv0-kmEoNx105BF7reJYpKFILRtbyXgzvgazyBRuw2a_ZzMeH9EWfsQtByjudiTpC3OIE5w92ptN1DW8WQ_K4yaxJBOEnyhdVwcmgM_mof6kzE3txg&aep=1&ntc=1&sa=X&ved=2ahUKEwiO3uWohfyUAxVFJ0QIHTn6G_sQ2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfv0-kmEoNx105BF7reJYpKFILRtbyXgzvgazyBRuw2a_ZzMeH9EWfsQtByjudiTpC3OIE5w92ptN1DW8WQ_K4yaxJBOEnyhdVwcmgM_mof6kzE3txg&q=site:instagram.com+(%22AI%22+OR+%22artificial+intelligence%22+OR+%22machine+learning%22+OR+%22tech+creator%22)+(%40gmail.com+OR+%40outlook.com+OR+%22email%22+OR+%22business+inquiries%22)&sa=X&ved=2ahUKEwiO3uWohfyUAxVFJ0QIHTn6G_sQtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "Videos" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfv0-kmEoNx105BF7reJYpKFILRtbyXgzvgazyBRuw2a_ZzMeH9EWfsQtByjudiTpC3OIE5w92ptN1DW8WQ_K4yaxJBOEnyhdVwcmgM_mof6kzE3txg&q=site:instagram.com+(%22AI%22+OR+%22artificial+intelligence%22+OR+%22machine+learning%22+OR+%22tech+creator%22)+(%40gmail.com+OR+%40outlook.com+OR+%22email%22+OR+%22business+inquiries%22)&sa=X&ved=2ahUKEwiO3uWohfyUAxVFJ0QIHTn6G_sQtKgLegQIFBAB
+              - generic [ref=e94]: Videos
+          - listitem [ref=e95]:
+            - link "News" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&q=site:instagram.com+(%22AI%22+OR+%22artificial+intelligence%22+OR+%22machine+learning%22+OR+%22tech+creator%22)+(%40gmail.com+OR+%40outlook.com+OR+%22email%22+OR+%22business+inquiries%22)&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfv0-kmEoNx105BF7reJYpKFILRtbyXgzvgazyBRuw2a_ZzMeH9EWfsQtByjudiTpC3OIE5w92ptN1DW8WQ_K4yaxJBOEnyhdVwcmgM_mof6kzE3txg&sa=X&ved=2ahUKEwiO3uWohfyUAxVFJ0QIHTn6G_sQ0pQJegQIEhAB
+              - generic [ref=e98]: News
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfv0-kmEoNx105BF7reJYpKFILRtbyXgzvgazyBRuw2a_ZzMeH9EWfsQtByjudiTpC3OIE5w92ptN1DW8WQ_K4yaxJBOEnyhdVwcmgM_mof6kzE3txg&q=site:instagram.com+(%22AI%22+OR+%22artificial+intelligence%22+OR+%22machine+learning%22+OR+%22tech+creator%22)+(%40gmail.com+OR+%40outlook.com+OR+%22email%22+OR+%22business+inquiries%22)&sa=X&ved=2ahUKEwiO3uWohfyUAxVFJ0QIHTn6G_sQs6gLegQIExAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfv0-kmEoNx105BF7reJYpKFILRtbyXgzvgazyBRuw2a_ZzMeH9EWfsQtByjudiTpC3OIE5w92ptN1DW8WQ_K4yaxJBOEnyhdVwcmgM_mof6kzE3txg&q=site:instagram.com+(%22AI%22+OR+%22artificial+intelligence%22+OR+%22machine+learning%22+OR+%22tech+creator%22)+(%40gmail.com+OR+%40outlook.com+OR+%22email%22+OR+%22business+inquiries%22)&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "Allie K. Miller - AI/ML • Tech (@alliekmiller) Instagram · alliekmiller 185.2K+ followers" [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/alliekmiller/
+                - heading "Allie K. Miller - AI/ML • Tech (@alliekmiller)" [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram · alliekmiller
+                  - generic [ref=e153]: 185.2K+ followers
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e160]:
+              - generic [ref=e161]:
+                - text: "#1 Followed Voice in"
+                - emphasis [ref=e162]: AI
+                - text: Business (2M) TIME 100 Most Influential in
+                - emphasis [ref=e163]: AI
+                - text: FREE
+                - emphasis [ref=e164]: Artificial Intelligence
+                - text: Courses ⬇️ Former Amazon, IBM. Follow.
+              - link "Read more" [ref=e165] [cursor=pointer]:
+                - /url: https://www.instagram.com/alliekmiller/#:~:text=%F0%9F%8C%8E%20%231%20Followed%20Voice%20in,Follow
+        - generic [ref=e169]:
+          - generic [ref=e172]:
+            - link "Harper Carroll | Stanford • Meta | AI Engineer → Educator ... Instagram · harpercarrollai 578.6K+ followers" [ref=e174] [cursor=pointer]:
+              - /url: https://www.instagram.com/harpercarrollai/
+              - heading "Harper Carroll | Stanford • Meta | AI Engineer → Educator ..." [level=3] [ref=e175]
+              - generic [ref=e180]:
+                - generic [ref=e182]: Instagram · harpercarrollai
+                - generic [ref=e184]: 578.6K+ followers
+            - button "About this result" [ref=e185] [cursor=pointer]:
+              - img [ref=e188]
+          - generic [ref=e191]:
+            - generic [ref=e192]:
+              - text: ...
+              - emphasis [ref=e193]: machine learning
+              - text: is
+              - emphasis [ref=e194]: AI
+              - text: but not all
+              - emphasis [ref=e195]: AI
+              - text: is
+              - emphasis [ref=e196]: machine learning
+              - text: . ⭐️An example of ...
+              - emphasis [ref=e197]: email
+              - text: Connecting
+              - emphasis [ref=e198]: email
+              - text: to any
+              - emphasis [ref=e199]: AI
+              - text: agent carries risk. Malicious actors ...
+            - link "Read more" [ref=e200] [cursor=pointer]:
+              - /url: https://www.instagram.com/harpercarrollai/#:~:text=Accounts%20you%20might%20like&text=Accounts%20you%20might%20like
+        - generic [ref=e204]:
+          - generic [ref=e207]:
+            - link "AI • Tech • Vibe Coding (@itsthatlady.dev) - Kedasha Kerr Instagram · itsthatlady.dev 57.5K+ followers" [ref=e209] [cursor=pointer]:
+              - /url: https://www.instagram.com/itsthatlady.dev/
+              - heading "AI • Tech • Vibe Coding (@itsthatlady.dev) - Kedasha Kerr" [level=3] [ref=e210]
+              - generic [ref=e215]:
+                - generic [ref=e217]: Instagram · itsthatlady.dev
+                - generic [ref=e219]: 57.5K+ followers
+            - button "About this result" [ref=e220] [cursor=pointer]:
+              - img [ref=e223]
+          - generic [ref=e227]:
+            - text: ...
+            - emphasis [ref=e228]: AI
+            - text: Agent to create the
+            - emphasis [ref=e229]: email
+            - text: campaign. By the time I open my code editor, I already have a waitlist. real people. real emails. real demand. People say build ...
+        - generic [ref=e233]:
+          - generic [ref=e236]:
+            - link "academia, AI, tech & an ambitious life (@oxforddatagirl) Instagram · oxforddatagirl 121.8K+ followers" [ref=e238] [cursor=pointer]:
+              - /url: https://www.instagram.com/oxforddatagirl/
+              - heading "academia, AI, tech & an ambitious life (@oxforddatagirl)" [level=3] [ref=e239]
+              - generic [ref=e244]:
+                - generic [ref=e246]: Instagram · oxforddatagirl
+                - generic [ref=e248]: 121.8K+ followers
+            - button "About this result" [ref=e249] [cursor=pointer]:
+              - img [ref=e252]
+          - generic [ref=e256]:
+            - emphasis [ref=e257]: AI
+            - text: is not coming for your job. Someone who knows how to use
+            - emphasis [ref=e258]: AI
+            - text: is. 21% of UK workers feel ...
+        - generic [ref=e262]:
+          - generic [ref=e265]:
+            - link "(@soravjain) • Instagram photos and videos Instagram · soravjain 546K+ followers" [ref=e267] [cursor=pointer]:
+              - /url: https://www.instagram.com/soravjain/
+              - heading "(@soravjain) • Instagram photos and videos" [level=3] [ref=e268]
+              - generic [ref=e273]:
+                - generic [ref=e275]: Instagram · soravjain
+                - generic [ref=e277]: 546K+ followers
+            - button "About this result" [ref=e278] [cursor=pointer]:
+              - img [ref=e281]
+          - generic [ref=e285]:
+            - text: "["
+            - emphasis [ref=e286]: AI
+            - text: tools, dummy
+            - emphasis [ref=e287]: email
+            - text: ", burner"
+            - emphasis [ref=e288]: email
+            - text: ", disposable"
+            - emphasis [ref=e289]: email
+            - text: ", chrome ... ["
+            - emphasis [ref=e290]: AI
+            - text: tools,
+            - emphasis [ref=e291]: artificial intelligence
+            - text: ","
+            - emphasis [ref=e292]: AI
+            - text: for content creation,
+            - emphasis [ref=e293]: AI
+            - text: for business ...
+        - generic [ref=e297]:
+          - generic [ref=e300]:
+            - link "The University of Vermont Center for Community News ... Instagram https://www.instagram.com › ..." [ref=e302] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DU092VAEeSk/
+              - heading "The University of Vermont Center for Community News ..." [level=3] [ref=e303]
+              - generic [ref=e308]:
+                - generic [ref=e310]: Instagram
+                - generic [ref=e312]: https://www.instagram.com › ...
+            - button "About this result" [ref=e313] [cursor=pointer]:
+              - img [ref=e316]
+          - generic [ref=e320]:
+            - text: ...
+            - emphasis [ref=e321]: AI
+            - text: "in Action: Exploring the Intersection of"
+            - emphasis [ref=e322]: AI
+            - text: ", Innovation and Social Impact. ..."
+            - emphasis [ref=e323]: Email
+            - text: Prof. Jeffrey ...
+            - emphasis [ref=e324]: artificial intelligence
+            - text: . RVSP link in bio. more.
+        - generic [ref=e328]:
+          - generic [ref=e331]:
+            - link "Mo Gawdat (@mo_gawdat) • Instagram photos and videos Instagram · mo_gawdat 408.2K+ followers" [ref=e333] [cursor=pointer]:
+              - /url: https://www.instagram.com/mo_gawdat/
+              - heading "Mo Gawdat (@mo_gawdat) • Instagram photos and videos" [level=3] [ref=e334]
+              - generic [ref=e339]:
+                - generic [ref=e341]: Instagram · mo_gawdat
+                - generic [ref=e343]: 408.2K+ followers
+            - button "About this result" [ref=e344] [cursor=pointer]:
+              - img [ref=e347]
+          - generic [ref=e351]:
+            - text: ...
+            - emphasis [ref=e352]: AI
+            - text: is just a tool to help write an
+            - emphasis [ref=e353]: email
+            - text: or answer a question. But in ...
+            - emphasis [ref=e354]: Artificial intelligence
+            - text: is transforming industries like medicine at an ...
+        - generic [ref=e358]:
+          - generic [ref=e361]:
+            - link "R O C K Y B A R N E S (@rocky_barnes) Instagram · rocky_barnes 3.3M+ followers" [ref=e363] [cursor=pointer]:
+              - /url: https://www.instagram.com/rocky_barnes/
+              - heading "R O C K Y B A R N E S (@rocky_barnes)" [level=3] [ref=e364]
+              - generic [ref=e369]:
+                - generic [ref=e371]: Instagram · rocky_barnes
+                - generic [ref=e373]: 3.3M+ followers
+            - button "About this result" [ref=e374] [cursor=pointer]:
+              - img [ref=e377]
+          - generic [ref=e381]:
+            - text: The
+            - emphasis [ref=e382]: AI
+            - text: revolution is here and it's not going anywhere. Like the ...
+        - generic [ref=e386]:
+          - generic [ref=e389]:
+            - link "H A L E Y B A Y L E E (@haleyybaylee) Instagram · haleyybaylee 9.8M+ followers" [ref=e391] [cursor=pointer]:
+              - /url: https://www.instagram.com/haleyybaylee/
+              - heading "H A L E Y B A Y L E E (@haleyybaylee)" [level=3] [ref=e392]
+              - generic [ref=e397]:
+                - generic [ref=e399]: Instagram · haleyybaylee
+                - generic [ref=e401]: 9.8M+ followers
+            - button "About this result" [ref=e402] [cursor=pointer]:
+              - img [ref=e405]
+          - generic [ref=e409]:
+            - text: with eyes as white as
+            - emphasis [ref=e410]: AI
+            - text: snow. Turns out ...
+        - generic [ref=e414]:
+          - generic [ref=e417]:
+            - link "Varun Mayya (@thevarunmayya) Instagram · thevarunmayya 1.3M+ followers" [ref=e419] [cursor=pointer]:
+              - /url: https://www.instagram.com/thevarunmayya/
+              - heading "Varun Mayya (@thevarunmayya)" [level=3] [ref=e420]
+              - generic [ref=e425]:
+                - generic [ref=e427]: Instagram · thevarunmayya
+                - generic [ref=e429]: 1.3M+ followers
+            - button "About this result" [ref=e430] [cursor=pointer]:
+              - img [ref=e433]
+          - generic [ref=e437]:
+            - text: Called Sinceerly, he built the tool as an anti-Grammarly using Claude after he got tired of seeing overly polished
+            - emphasis [ref=e438]: AI
+            - text: generated emails. You know the kind with ...
+      - navigation [ref=e441]:
+        - heading "Page Navigation" [level=1] [ref=e442]
+        - text: "1"
+        - link "Page 2" [ref=e445] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22AI%22+OR+%22artificial+intelligence%22+OR+%22machine+learning%22+OR+%22tech+creator%22)+(@gmail.com+OR+@outlook.com+OR+%22email%22+OR+%22business+inquiries%22)&sca_esv=4a455b0f3ad2390b&ei=uQMpas6dL8XOkPIPufTv2A8&start=10&sa=N&sstk=AU9db-CddZbjTbC9xgHhZ1ep9MsqsHHQfLPsAoKcoTqtyC_v4RbpGZ2e9EdlZVZaKx-ydnTeOKiQ--hVYVg23-UvCFT8EQMjt3TuVg&ved=2ahUKEwiO3uWohfyUAxVFJ0QIHTn6G_sQ8tMDegQINhAE
+          - text: "2"
+        - link "Page 3" [ref=e447] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22AI%22+OR+%22artificial+intelligence%22+OR+%22machine+learning%22+OR+%22tech+creator%22)+(@gmail.com+OR+@outlook.com+OR+%22email%22+OR+%22business+inquiries%22)&sca_esv=4a455b0f3ad2390b&ei=uQMpas6dL8XOkPIPufTv2A8&start=20&sa=N&sstk=AU9db-CddZbjTbC9xgHhZ1ep9MsqsHHQfLPsAoKcoTqtyC_v4RbpGZ2e9EdlZVZaKx-ydnTeOKiQ--hVYVg23-UvCFT8EQMjt3TuVg&ved=2ahUKEwiO3uWohfyUAxVFJ0QIHTn6G_sQ8tMDegQINhAG
+          - text: "3"
+        - link "Page 4" [ref=e449] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22AI%22+OR+%22artificial+intelligence%22+OR+%22machine+learning%22+OR+%22tech+creator%22)+(@gmail.com+OR+@outlook.com+OR+%22email%22+OR+%22business+inquiries%22)&sca_esv=4a455b0f3ad2390b&ei=uQMpas6dL8XOkPIPufTv2A8&start=30&sa=N&sstk=AU9db-CddZbjTbC9xgHhZ1ep9MsqsHHQfLPsAoKcoTqtyC_v4RbpGZ2e9EdlZVZaKx-ydnTeOKiQ--hVYVg23-UvCFT8EQMjt3TuVg&ved=2ahUKEwiO3uWohfyUAxVFJ0QIHTn6G_sQ8tMDegQINhAI
+          - text: "4"
+        - link "Page 5" [ref=e451] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22AI%22+OR+%22artificial+intelligence%22+OR+%22machine+learning%22+OR+%22tech+creator%22)+(@gmail.com+OR+@outlook.com+OR+%22email%22+OR+%22business+inquiries%22)&sca_esv=4a455b0f3ad2390b&ei=uQMpas6dL8XOkPIPufTv2A8&start=40&sa=N&sstk=AU9db-CddZbjTbC9xgHhZ1ep9MsqsHHQfLPsAoKcoTqtyC_v4RbpGZ2e9EdlZVZaKx-ydnTeOKiQ--hVYVg23-UvCFT8EQMjt3TuVg&ved=2ahUKEwiO3uWohfyUAxVFJ0QIHTn6G_sQ8tMDegQINhAK
+          - text: "5"
+        - link "Page 6" [ref=e453] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22AI%22+OR+%22artificial+intelligence%22+OR+%22machine+learning%22+OR+%22tech+creator%22)+(@gmail.com+OR+@outlook.com+OR+%22email%22+OR+%22business+inquiries%22)&sca_esv=4a455b0f3ad2390b&ei=uQMpas6dL8XOkPIPufTv2A8&start=50&sa=N&sstk=AU9db-CddZbjTbC9xgHhZ1ep9MsqsHHQfLPsAoKcoTqtyC_v4RbpGZ2e9EdlZVZaKx-ydnTeOKiQ--hVYVg23-UvCFT8EQMjt3TuVg&ved=2ahUKEwiO3uWohfyUAxVFJ0QIHTn6G_sQ8tMDegQINhAM
+          - text: "6"
+        - link "Page 7" [ref=e455] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22AI%22+OR+%22artificial+intelligence%22+OR+%22machine+learning%22+OR+%22tech+creator%22)+(@gmail.com+OR+@outlook.com+OR+%22email%22+OR+%22business+inquiries%22)&sca_esv=4a455b0f3ad2390b&ei=uQMpas6dL8XOkPIPufTv2A8&start=60&sa=N&sstk=AU9db-CddZbjTbC9xgHhZ1ep9MsqsHHQfLPsAoKcoTqtyC_v4RbpGZ2e9EdlZVZaKx-ydnTeOKiQ--hVYVg23-UvCFT8EQMjt3TuVg&ved=2ahUKEwiO3uWohfyUAxVFJ0QIHTn6G_sQ8tMDegQINhAO
+          - text: "7"
+        - link "Page 8" [ref=e457] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22AI%22+OR+%22artificial+intelligence%22+OR+%22machine+learning%22+OR+%22tech+creator%22)+(@gmail.com+OR+@outlook.com+OR+%22email%22+OR+%22business+inquiries%22)&sca_esv=4a455b0f3ad2390b&ei=uQMpas6dL8XOkPIPufTv2A8&start=70&sa=N&sstk=AU9db-CddZbjTbC9xgHhZ1ep9MsqsHHQfLPsAoKcoTqtyC_v4RbpGZ2e9EdlZVZaKx-ydnTeOKiQ--hVYVg23-UvCFT8EQMjt3TuVg&ved=2ahUKEwiO3uWohfyUAxVFJ0QIHTn6G_sQ8tMDegQINhAQ
+          - text: "8"
+        - link "Page 9" [ref=e459] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22AI%22+OR+%22artificial+intelligence%22+OR+%22machine+learning%22+OR+%22tech+creator%22)+(@gmail.com+OR+@outlook.com+OR+%22email%22+OR+%22business+inquiries%22)&sca_esv=4a455b0f3ad2390b&ei=uQMpas6dL8XOkPIPufTv2A8&start=80&sa=N&sstk=AU9db-CddZbjTbC9xgHhZ1ep9MsqsHHQfLPsAoKcoTqtyC_v4RbpGZ2e9EdlZVZaKx-ydnTeOKiQ--hVYVg23-UvCFT8EQMjt3TuVg&ved=2ahUKEwiO3uWohfyUAxVFJ0QIHTn6G_sQ8tMDegQINhAS
+          - text: "9"
+        - link "Page 10" [ref=e461] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22AI%22+OR+%22artificial+intelligence%22+OR+%22machine+learning%22+OR+%22tech+creator%22)+(@gmail.com+OR+@outlook.com+OR+%22email%22+OR+%22business+inquiries%22)&sca_esv=4a455b0f3ad2390b&ei=uQMpas6dL8XOkPIPufTv2A8&start=90&sa=N&sstk=AU9db-CddZbjTbC9xgHhZ1ep9MsqsHHQfLPsAoKcoTqtyC_v4RbpGZ2e9EdlZVZaKx-ydnTeOKiQ--hVYVg23-UvCFT8EQMjt3TuVg&ved=2ahUKEwiO3uWohfyUAxVFJ0QIHTn6G_sQ8tMDegQINhAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e463]:
+          - link "Next" [ref=e464] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+(%22AI%22+OR+%22artificial+intelligence%22+OR+%22machine+learning%22+OR+%22tech+creator%22)+(@gmail.com+OR+@outlook.com+OR+%22email%22+OR+%22business+inquiries%22)&sca_esv=4a455b0f3ad2390b&ei=uQMpas6dL8XOkPIPufTv2A8&start=10&sa=N&sstk=AU9db-CddZbjTbC9xgHhZ1ep9MsqsHHQfLPsAoKcoTqtyC_v4RbpGZ2e9EdlZVZaKx-ydnTeOKiQ--hVYVg23-UvCFT8EQMjt3TuVg&ved=2ahUKEwiO3uWohfyUAxVFJ0QIHTn6G_sQ8NMDegQINhAW
+            - generic [ref=e466]: Next
+      - navigation
+    - contentinfo [ref=e467]:
+      - heading "Footer Links" [level=1] [ref=e468]
+      - generic [ref=e472]:
+        - generic [ref=e476]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e478] [cursor=pointer]:
+            - generic [ref=e479]: 85281, Tempe, AZ
+            - generic [ref=e481]:
+              - text: "-"
+              - generic [ref=e482]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e484] [cursor=pointer]: Update location
+        - generic [ref=e487]:
+          - link "Help" [ref=e488] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e489] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e490] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e491] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

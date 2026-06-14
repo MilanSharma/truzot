@@ -1,0 +1,402 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwjcpbGBh_yUAxUxL0QIHevbBoYQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "micro influencer" "@gmail.com" site:instagram.com "micro influencer" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522micro%2Binfluencer%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22micro+influencer%22+%22%40gmail.com%22&sca_esv=4a455b0f3ad2390b&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&aep=1&ntc=1&sa=X&ved=2ahUKEwjcpbGBh_yUAxUxL0QIHevbBoYQ2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22micro+influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjcpbGBh_yUAxUxL0QIHevbBoYQtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "News" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&q=site:instagram.com+%22micro+influencer%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&sa=X&ved=2ahUKEwjcpbGBh_yUAxUxL0QIHevbBoYQ0pQJegQIFBAB
+              - generic [ref=e94]: News
+          - listitem [ref=e95]:
+            - link "Videos" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22micro+influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjcpbGBh_yUAxUxL0QIHevbBoYQtKgLegQIExAB
+              - generic [ref=e98]: Videos
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22micro+influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjcpbGBh_yUAxUxL0QIHevbBoYQs6gLegQIERAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22micro+influencer%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e137]:
+          - generic [ref=e139]:
+            - heading "Videos" [level=2] [ref=e140]
+            - button "About this result" [ref=e141] [cursor=pointer]:
+              - img [ref=e144]
+          - generic [ref=e147]:
+            - generic [ref=e152]:
+              - generic [ref=e153]:
+                - 'link "how to know if a pr email is a scam!! #pr #microinfluencertips ... Instagram kayla⭐️🛍️💋 Mar 23, 2026" [ref=e155] [cursor=pointer]':
+                  - /url: https://www.instagram.com/reel/DWP-SuGjMqO/
+                  - 'heading "how to know if a pr email is a scam!! #pr #microinfluencertips ... Instagram kayla⭐️🛍️💋 Mar 23, 2026" [level=3] [ref=e156]':
+                    - generic [ref=e159]: "how to know if a pr email is a scam!! #pr #microinfluencertips ..."
+                    - generic [ref=e161]:
+                      - generic [ref=e162]:
+                        - text: Instagram
+                        - generic [ref=e163]: · kayla⭐️🛍️💋
+                      - generic [ref=e164]: Mar 23, 2026
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - text: Instagram
+                          - generic: · kayla⭐️🛍️💋
+                    - button "About this result" [ref=e165] [cursor=pointer]:
+                      - img [ref=e168]
+              - 'link "how to know if a pr email is a scam!! #pr #microinfluencertips ... by kayla⭐️🛍️💋 on Instagram. Play on Instagram. 1:01" [ref=e170] [cursor=pointer]':
+                - /url: https://www.instagram.com/reel/DWP-SuGjMqO/
+                - generic [ref=e171]:
+                  - img [ref=e174]
+                  - generic [ref=e178]: 1:01
+            - generic [ref=e183]:
+              - generic [ref=e184]:
+                - link "How to receive PR packages as a microinfluencer Hey, I'm ... Instagram Cary Hobbs Jan 29, 2026" [ref=e186] [cursor=pointer]:
+                  - /url: https://www.instagram.com/reel/DUHXnpijvuX/
+                  - heading "How to receive PR packages as a microinfluencer Hey, I'm ... Instagram Cary Hobbs Jan 29, 2026" [level=3] [ref=e187]:
+                    - generic [ref=e190]: How to receive PR packages as a microinfluencer Hey, I'm ...
+                    - generic [ref=e192]:
+                      - generic [ref=e193]:
+                        - text: Instagram
+                        - generic [ref=e194]: · Cary Hobbs
+                      - generic [ref=e195]: Jan 29, 2026
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - text: Instagram
+                          - generic: · Cary Hobbs
+                    - button "About this result" [ref=e196] [cursor=pointer]:
+                      - img [ref=e199]
+              - link "How to receive PR packages as a microinfluencer Hey, I'm ... by Cary Hobbs on Instagram. Play on Instagram. 1:17" [ref=e201] [cursor=pointer]:
+                - /url: https://www.instagram.com/reel/DUHXnpijvuX/
+                - generic [ref=e202]:
+                  - img [ref=e205]
+                  - generic [ref=e209]: 1:17
+            - generic [ref=e214]:
+              - generic [ref=e215]:
+                - link "I told you… if you follow me, I'm dropping gems they usually ... Instagram Tiffany Gaines Dec 4, 2025" [ref=e217] [cursor=pointer]:
+                  - /url: https://www.instagram.com/reel/DR3GgjagTzw/
+                  - heading "I told you… if you follow me, I'm dropping gems they usually ... Instagram Tiffany Gaines Dec 4, 2025" [level=3] [ref=e218]:
+                    - generic [ref=e221]: I told you… if you follow me, I'm dropping gems they usually ...
+                    - generic [ref=e223]:
+                      - generic [ref=e224]:
+                        - text: Instagram
+                        - generic [ref=e225]: · Tiffany Gaines
+                      - generic [ref=e226]: Dec 4, 2025
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - text: Instagram
+                          - generic: · Tiffany Gaines
+                    - button "About this result" [ref=e227] [cursor=pointer]:
+                      - img [ref=e230]
+              - link "I told you… if you follow me, I'm dropping gems they usually ... by Tiffany Gaines on Instagram. Play on Instagram. 2:52" [ref=e232] [cursor=pointer]:
+                - /url: https://www.instagram.com/reel/DR3GgjagTzw/
+                - generic [ref=e233]:
+                  - img [ref=e236]
+                  - generic [ref=e240]: 2:52
+            - generic [ref=e245]:
+              - generic [ref=e246]:
+                - link "How to receive PR packages as a microinfluencer Hey, I'm ... Instagram Cary Hobbs Jan 26, 2026" [ref=e248] [cursor=pointer]:
+                  - /url: https://www.instagram.com/reel/DT-xJTTDsNK/
+                  - heading "How to receive PR packages as a microinfluencer Hey, I'm ... Instagram Cary Hobbs Jan 26, 2026" [level=3] [ref=e249]:
+                    - generic [ref=e252]: How to receive PR packages as a microinfluencer Hey, I'm ...
+                    - generic [ref=e254]:
+                      - generic [ref=e255]:
+                        - text: Instagram
+                        - generic [ref=e256]: · Cary Hobbs
+                      - generic [ref=e257]: Jan 26, 2026
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - text: Instagram
+                          - generic: · Cary Hobbs
+                    - button "About this result" [ref=e258] [cursor=pointer]:
+                      - img [ref=e261]
+              - link "How to receive PR packages as a microinfluencer Hey, I'm ... by Cary Hobbs on Instagram. Play on Instagram. 1:17" [ref=e263] [cursor=pointer]:
+                - /url: https://www.instagram.com/reel/DT-xJTTDsNK/
+                - generic [ref=e264]:
+                  - img [ref=e267]
+                  - generic [ref=e271]: 1:17
+          - link "View all videos" [ref=e274] [cursor=pointer]:
+            - /url: /search?sca_esv=4a455b0f3ad2390b&udm=7&q=site:instagram.com+%22micro+influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjcpbGBh_yUAxUxL0QIHevbBoYQ8ccDKAJ6BAgaEAQ
+            - separator [ref=e275]
+            - generic [ref=e276]:
+              - generic [ref=e277]: View all
+              - img [ref=e279]
+        - generic [ref=e283]:
+          - heading "Web results" [level=2] [ref=e284]
+          - generic [ref=e285]:
+            - generic [ref=e288]:
+              - link "isabella frango (@isabella.annaaa) Instagram · isabella.annaaa 2.6K+ followers" [ref=e290] [cursor=pointer]:
+                - /url: https://www.instagram.com/isabella.annaaa/
+                - heading "isabella frango (@isabella.annaaa)" [level=3] [ref=e291]
+                - generic [ref=e296]:
+                  - generic [ref=e298]: Instagram · isabella.annaaa
+                  - generic [ref=e300]: 2.6K+ followers
+              - button "About this result" [ref=e301] [cursor=pointer]:
+                - img [ref=e304]
+            - generic [ref=e308]:
+              - text: "2.6K+ followers · 1.3K+ following · 334 posts · @isabella.annaaa: “nyc fashion || lifestyle isabella.annaaa@"
+              - emphasis [ref=e309]: gmail.com
+              - text: ”
+            - link "site:instagram.com \"micro influencer\" \"@gmail.com\" from www.instagram.com" [ref=e312] [cursor=pointer]:
+              - /url: https://www.instagram.com/isabella.annaaa/
+              - img "site:instagram.com \"micro influencer\" \"@gmail.com\" from www.instagram.com" [ref=e314]
+        - generic [ref=e318]:
+          - generic [ref=e321]:
+            - link "micro-influencer | Social media Manager (@breee664) Instagram · breee664 960+ followers" [ref=e323] [cursor=pointer]:
+              - /url: https://www.instagram.com/breee664/
+              - heading "micro-influencer | Social media Manager (@breee664)" [level=3] [ref=e324]
+              - generic [ref=e329]:
+                - generic [ref=e331]: Instagram · breee664
+                - generic [ref=e333]: 960+ followers
+            - button "About this result" [ref=e334] [cursor=pointer]:
+              - img [ref=e337]
+          - generic [ref=e340]:
+            - generic [ref=e341]:
+              - text: ...
+              - emphasis [ref=e342]: gmail.com
+              - text: ... Breee |
+              - emphasis [ref=e343]: micro-influencer
+              - text: "| Social media Managerher/she. 971 followers. 591 following. Tech | Lifestyle Executive ..."
+            - link "Read more" [ref=e344] [cursor=pointer]:
+              - /url: https://www.instagram.com/breee664/#:~:text=Breee%20%7C%20micro%2Dinfluencer%20%7C%20Social,Executive%20VA%20%7C%20media%20Marketer
+          - link "site:instagram.com \"micro influencer\" \"@gmail.com\" from www.instagram.com" [ref=e347] [cursor=pointer]:
+            - /url: https://www.instagram.com/breee664/
+            - img "site:instagram.com \"micro influencer\" \"@gmail.com\" from www.instagram.com" [ref=e349]
+        - generic [ref=e353]:
+          - generic [ref=e356]:
+            - link "Calling all micro influencers ✨ We're looking for passionate ... Instagram · the_dravya_store 100+ likes · 2 months ago" [ref=e358] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DWYUH8WD6wU/
+              - heading "Calling all micro influencers ✨ We're looking for passionate ..." [level=3] [ref=e359]
+              - generic [ref=e364]:
+                - generic [ref=e366]: Instagram · the_dravya_store
+                - generic [ref=e368]: 100+ likes · 2 months ago
+            - button "About this result" [ref=e369] [cursor=pointer]:
+              - img [ref=e372]
+          - generic [ref=e375]:
+            - generic [ref=e376]:
+              - text: ...
+              - emphasis [ref=e377]: gmail.com
+              - text: ... creator collaboration India,
+              - emphasis [ref=e378]: micro influencer
+              - text: collaboration India, nano influencer collab, UGC creator ...
+            - link "Read more" [ref=e379] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DWYUH8WD6wU/#:~:text=more
+        - generic [ref=e383]:
+          - generic [ref=e386]:
+            - link "Erika | micro influencer 💜 (@styles_byerika) Instagram · styles_byerika 1.2K+ followers" [ref=e388] [cursor=pointer]:
+              - /url: https://www.instagram.com/styles_byerika/
+              - heading "Erika | micro influencer 💜 (@styles_byerika)" [level=3] [ref=e389]
+              - generic [ref=e394]:
+                - generic [ref=e396]: Instagram · styles_byerika
+                - generic [ref=e398]: 1.2K+ followers
+            - button "About this result" [ref=e399] [cursor=pointer]:
+              - img [ref=e402]
+          - generic [ref=e405]:
+            - generic [ref=e406]:
+              - text: "Makeup, skincare & haircare Mom sharing real beauty finds ✨ Reviews • Tutorials • Try-ons PR/Collab : stylesbyerika13@"
+              - emphasis [ref=e407]: gmail.com
+              - text: . Follow. Message ...
+            - link "Read more" [ref=e408] [cursor=pointer]:
+              - /url: https://www.instagram.com/styles_byerika/#:~:text=Makeup%2C%20skincare%20%26%20haircare%20%F0%9F%92%84,Message
+          - link "site:instagram.com \"micro influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e410] [cursor=pointer]:
+            - /url: https://www.instagram.com/styles_byerika/
+        - generic [ref=e427]:
+          - generic [ref=e430]:
+            - link "nuhvayuh Instagram · nuhvayuh 5.1K+ followers" [ref=e432] [cursor=pointer]:
+              - /url: https://www.instagram.com/nuhvayuh/
+              - heading "nuhvayuh" [level=3] [ref=e433]
+              - generic [ref=e438]:
+                - generic [ref=e440]: Instagram · nuhvayuh
+                - generic [ref=e442]: 5.1K+ followers
+            - button "About this result" [ref=e443] [cursor=pointer]:
+              - img [ref=e446]
+          - generic [ref=e449]:
+            - generic [ref=e450]:
+              - text: ...
+              - emphasis [ref=e451]: gmail.com
+              - text: ... HEAVEN ♔ San Diego Content Creator &
+              - emphasis [ref=e452]: Micro-Influencer
+              - text: she/her/hers. 5,075 followers. 1,425 following. Creating & inspiring ...
+            - link "Read more" [ref=e453] [cursor=pointer]:
+              - /url: https://www.instagram.com/nuhvayuh/#:~:text=HEAVEN%20%E2%99%94%20San%20Diego%20Content,%E2%9C%A8San%20Diego%2C%20CA%20%7C%20%F0%9F%87%B5%F0%9F%87%AD
+          - link "site:instagram.com \"micro influencer\" \"@gmail.com\" from www.instagram.com" [ref=e456] [cursor=pointer]:
+            - /url: https://www.instagram.com/nuhvayuh/
+            - img "site:instagram.com \"micro influencer\" \"@gmail.com\" from www.instagram.com" [ref=e458]
+        - generic [ref=e462]:
+          - generic [ref=e465]:
+            - link "Gabrielle Taylor (@gabztaylorr) Instagram · gabztaylorr 1.6K+ followers" [ref=e467] [cursor=pointer]:
+              - /url: https://www.instagram.com/gabztaylorr/
+              - heading "Gabrielle Taylor (@gabztaylorr)" [level=3] [ref=e468]
+              - generic [ref=e473]:
+                - generic [ref=e475]: Instagram · gabztaylorr
+                - generic [ref=e477]: 1.6K+ followers
+            - button "About this result" [ref=e478] [cursor=pointer]:
+              - img [ref=e481]
+          - generic [ref=e485]:
+            - text: "1.6K+ followers · 2.5K+ following · 15 posts · @gabztaylorr: “-50k+ on tiktok ⭐️ -gabztaylor1@"
+            - emphasis [ref=e486]: gmail.com
+            - text: "-⭐️inprintwetrust.co⭐️ UK TOP"
+            - emphasis [ref=e487]: MICRO INFLUENCER
+            - text: 2026”
+        - generic [ref=e491]:
+          - heading "Images" [level=2] [ref=e495]
+          - generic [ref=e499]:
+            - generic [ref=e503] [cursor=pointer]:
+              - link "My favorites from @cutandcropped @analuisany , want me to show off your jewelry? send me a dm or email for pr inquiries at sociallyerina@gmail.com 💌, Ugc, jewelry, pr, pr box, micro influencer, ... Instagram":
+                - /url: https://www.instagram.com/reel/DYe4LPMhVrN/
+              - button "My favorites from @cutandcropped @analuisany , want me to show off your jewelry? send me a dm or email for pr inquiries at sociallyerina@gmail.com 💌, Ugc, jewelry, pr, pr box, micro influencer, ..." [ref=e505]:
+                - img "My favorites from @cutandcropped @analuisany , want me to show off your jewelry? send me a dm or email for pr inquiries at sociallyerina@gmail.com 💌, Ugc, jewelry, pr, pr box, micro influencer, ..." [ref=e507]
+              - generic [ref=e509]:
+                - generic [ref=e511]: My favorites from @cutandcropped @analuisany , want me to show off your jewelry? send me a dm or email for pr inquiries at sociallyerina@gmail.com 💌, Ugc, jewelry, pr, pr box, micro influencer, ...
+                - generic [ref=e512]:
+                  - generic [ref=e519]: Instagram
+                  - button "About this result" [ref=e522]:
+                    - img [ref=e525]
+            - generic [ref=e530] [cursor=pointer]:
+              - 'link "How to get PR as a micro influencer. Let me know if you have any questions!, #Microlnfluencer #PR #PRUnboxing #MicrolnfluencerTips #ContentCreator #torontoinfluencer Instagram"':
+                - /url: https://www.instagram.com/reel/DP6c5uWDb5I/
+              - 'button "How to get PR as a micro influencer. Let me know if you have any questions!, #Microlnfluencer #PR #PRUnboxing #MicrolnfluencerTips #ContentCreator #torontoinfluencer" [ref=e532]':
+                - 'img "How to get PR as a micro influencer. Let me know if you have any questions!, #Microlnfluencer #PR #PRUnboxing #MicrolnfluencerTips #ContentCreator #torontoinfluencer" [ref=e534]'
+              - generic [ref=e536]:
+                - generic [ref=e538]: "How to get PR as a micro influencer. Let me know if you have any questions!, #Microlnfluencer #PR #PRUnboxing #MicrolnfluencerTips #ContentCreator #torontoinfluencer"
+                - generic [ref=e539]:
+                  - generic [ref=e546]: Instagram
+                  - button "About this result" [ref=e549]:
+                    - img [ref=e552]
+            - generic [ref=e557] [cursor=pointer]:
+              - link "the hottest marketing trend of 2026? it will be micro influencers (!!) 🩷 , we’re seeing a huge shift in the influencer marketing industry where people are no longer focused on big follower counts, but ... Instagram":
+                - /url: https://www.instagram.com/reel/DQZbqP6EU2x/
+              - button "the hottest marketing trend of 2026? it will be micro influencers (!!) 🩷 , we’re seeing a huge shift in the influencer marketing industry where people are no longer focused on big follower counts, but ..." [ref=e559]:
+                - img "the hottest marketing trend of 2026? it will be micro influencers (!!) 🩷 , we’re seeing a huge shift in the influencer marketing industry where people are no longer focused on big follower counts, but ..." [ref=e561]
+              - generic [ref=e563]:
+                - generic [ref=e565]: the hottest marketing trend of 2026? it will be micro influencers (!!) 🩷 , we’re seeing a huge shift in the influencer marketing industry where people are no longer focused on big follower counts, but ...
+                - generic [ref=e566]:
+                  - generic [ref=e573]: Instagram
+                  - button "About this result" [ref=e576]:
+                    - img [ref=e579]
+          - button "Show more images" [ref=e582] [cursor=pointer]:
+            - separator [ref=e583]
+            - generic [ref=e584]:
+              - generic [ref=e585]: Show more images
+              - img [ref=e587]
+      - navigation [ref=e591]:
+        - heading "Page Navigation" [level=1] [ref=e592]
+        - text: "1"
+        - link "Page 2" [ref=e595] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22micro+influencer%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=fwUpapzqPLHekPIP67ebsAg&start=10&sa=N&sstk=AU9db-BDyz7-NMpfd2KZaaTrfIyLiYc5ogoAnqI4U3-fIt2ty35AVga7L_iR6beemyI8qLooMnAwaRh2git1or9OwBMM-wxMs8OSag&ved=2ahUKEwjcpbGBh_yUAxUxL0QIHevbBoYQ8tMDegQILhAE
+          - text: "2"
+        - link "Page 3" [ref=e597] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22micro+influencer%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=fwUpapzqPLHekPIP67ebsAg&start=20&sa=N&sstk=AU9db-BDyz7-NMpfd2KZaaTrfIyLiYc5ogoAnqI4U3-fIt2ty35AVga7L_iR6beemyI8qLooMnAwaRh2git1or9OwBMM-wxMs8OSag&ved=2ahUKEwjcpbGBh_yUAxUxL0QIHevbBoYQ8tMDegQILhAG
+          - text: "3"
+        - link "Page 4" [ref=e599] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22micro+influencer%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=fwUpapzqPLHekPIP67ebsAg&start=30&sa=N&sstk=AU9db-BDyz7-NMpfd2KZaaTrfIyLiYc5ogoAnqI4U3-fIt2ty35AVga7L_iR6beemyI8qLooMnAwaRh2git1or9OwBMM-wxMs8OSag&ved=2ahUKEwjcpbGBh_yUAxUxL0QIHevbBoYQ8tMDegQILhAI
+          - text: "4"
+        - link "Page 5" [ref=e601] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22micro+influencer%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=fwUpapzqPLHekPIP67ebsAg&start=40&sa=N&sstk=AU9db-BDyz7-NMpfd2KZaaTrfIyLiYc5ogoAnqI4U3-fIt2ty35AVga7L_iR6beemyI8qLooMnAwaRh2git1or9OwBMM-wxMs8OSag&ved=2ahUKEwjcpbGBh_yUAxUxL0QIHevbBoYQ8tMDegQILhAK
+          - text: "5"
+        - link "Page 6" [ref=e603] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22micro+influencer%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=fwUpapzqPLHekPIP67ebsAg&start=50&sa=N&sstk=AU9db-BDyz7-NMpfd2KZaaTrfIyLiYc5ogoAnqI4U3-fIt2ty35AVga7L_iR6beemyI8qLooMnAwaRh2git1or9OwBMM-wxMs8OSag&ved=2ahUKEwjcpbGBh_yUAxUxL0QIHevbBoYQ8tMDegQILhAM
+          - text: "6"
+        - link "Page 7" [ref=e605] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22micro+influencer%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=fwUpapzqPLHekPIP67ebsAg&start=60&sa=N&sstk=AU9db-BDyz7-NMpfd2KZaaTrfIyLiYc5ogoAnqI4U3-fIt2ty35AVga7L_iR6beemyI8qLooMnAwaRh2git1or9OwBMM-wxMs8OSag&ved=2ahUKEwjcpbGBh_yUAxUxL0QIHevbBoYQ8tMDegQILhAO
+          - text: "7"
+        - link "Page 8" [ref=e607] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22micro+influencer%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=fwUpapzqPLHekPIP67ebsAg&start=70&sa=N&sstk=AU9db-BDyz7-NMpfd2KZaaTrfIyLiYc5ogoAnqI4U3-fIt2ty35AVga7L_iR6beemyI8qLooMnAwaRh2git1or9OwBMM-wxMs8OSag&ved=2ahUKEwjcpbGBh_yUAxUxL0QIHevbBoYQ8tMDegQILhAQ
+          - text: "8"
+        - link "Page 9" [ref=e609] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22micro+influencer%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=fwUpapzqPLHekPIP67ebsAg&start=80&sa=N&sstk=AU9db-BDyz7-NMpfd2KZaaTrfIyLiYc5ogoAnqI4U3-fIt2ty35AVga7L_iR6beemyI8qLooMnAwaRh2git1or9OwBMM-wxMs8OSag&ved=2ahUKEwjcpbGBh_yUAxUxL0QIHevbBoYQ8tMDegQILhAS
+          - text: "9"
+        - link "Page 10" [ref=e611] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22micro+influencer%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=fwUpapzqPLHekPIP67ebsAg&start=90&sa=N&sstk=AU9db-BDyz7-NMpfd2KZaaTrfIyLiYc5ogoAnqI4U3-fIt2ty35AVga7L_iR6beemyI8qLooMnAwaRh2git1or9OwBMM-wxMs8OSag&ved=2ahUKEwjcpbGBh_yUAxUxL0QIHevbBoYQ8tMDegQILhAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e613]:
+          - link "Next" [ref=e614] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22micro+influencer%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=fwUpapzqPLHekPIP67ebsAg&start=10&sa=N&sstk=AU9db-BDyz7-NMpfd2KZaaTrfIyLiYc5ogoAnqI4U3-fIt2ty35AVga7L_iR6beemyI8qLooMnAwaRh2git1or9OwBMM-wxMs8OSag&ved=2ahUKEwjcpbGBh_yUAxUxL0QIHevbBoYQ8NMDegQILhAW
+            - generic [ref=e616]: Next
+      - navigation
+    - contentinfo [ref=e617]:
+      - heading "Footer Links" [level=1] [ref=e618]
+      - generic [ref=e622]:
+        - generic [ref=e626]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e628] [cursor=pointer]:
+            - generic [ref=e629]: 85281, Tempe, AZ
+            - generic [ref=e631]:
+              - text: "-"
+              - generic [ref=e632]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e634] [cursor=pointer]: Update location
+        - generic [ref=e637]:
+          - link "Help" [ref=e638] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e639] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e640] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e641] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

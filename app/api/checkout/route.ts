@@ -38,6 +38,7 @@ export const POST = withContext(async (req: Request) => {
       selectedStyles,
       idempotencyKey,
       shootName,
+      coupon,
     } = parsed.data!;
 
     // Basic email domain validation
@@ -179,6 +180,32 @@ export const POST = withContext(async (req: Request) => {
       const rewardfulMatch = cookieHeader.match(/rewardful\.referral=([^;]+)/);
       const referralId = rewardfulMatch ? rewardfulMatch[1] : undefined;
 
+      let discount: Stripe.Checkout.SessionCreateParams.Discount | undefined;
+
+      if (coupon) {
+        try {
+          const stripeCoupon = await stripe.coupons.retrieve(
+            coupon.toUpperCase(),
+          );
+          if (
+            stripeCoupon.valid &&
+            (!stripeCoupon.redeem_by ||
+              stripeCoupon.redeem_by * 1000 > Date.now()) &&
+            (stripeCoupon.max_redemptions === null ||
+              stripeCoupon.times_redeemed < stripeCoupon.max_redemptions)
+          ) {
+            discount = { coupon: stripeCoupon.id };
+          } else {
+            log.warn(
+              { coupon: coupon.toUpperCase() },
+              "Invalid or expired coupon attempted",
+            );
+          }
+        } catch (err) {
+          log.warn({ coupon: coupon.toUpperCase(), err }, "Coupon not found");
+        }
+      }
+
       const sessionParams: Stripe.Checkout.SessionCreateParams = {
         payment_method_types: ["card"],
         mode: "payment",
@@ -200,9 +227,16 @@ export const POST = withContext(async (req: Request) => {
             quantity: 1,
           },
         ],
-        metadata: { orderId, plan, email, userId: userId || "" },
+        metadata: {
+          orderId,
+          plan,
+          email,
+          userId: userId || "",
+          coupon: coupon || "",
+        },
         success_url: `${baseUrl}/claim-order?order=${orderId}`,
         cancel_url: `${baseUrl}/upload?cancelled=1`,
+        ...(discount ? { discounts: [discount] } : {}),
       };
       const requestOptions: Stripe.RequestOptions = {};
       if (idempotencyKey) {

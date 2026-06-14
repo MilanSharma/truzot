@@ -1,0 +1,266 @@
+- generic [ref=e4]:
+  - generic [ref=e18]:
+    - generic [ref=e21]:
+      - link "Instagram" [ref=e26] [cursor=pointer]:
+        - /url: /
+        - img "Instagram" [ref=e31]
+      - generic [ref=e34]:
+        - link "Home" [ref=e39] [cursor=pointer]:
+          - /url: /
+          - img "Home" [ref=e44]
+        - link "Reels" [ref=e49] [cursor=pointer]:
+          - /url: /reels/
+          - img "Reels" [ref=e54]
+        - link "Messages" [ref=e61] [cursor=pointer]:
+          - /url: /direct/inbox/
+          - img "Messages" [ref=e66]
+        - link "Search" [ref=e72] [cursor=pointer]:
+          - /url: /explore/
+          - img "Search" [ref=e77]
+        - link "Notifications" [ref=e84] [cursor=pointer]:
+          - /url: "#"
+          - img "Notifications" [ref=e89]
+        - link "New post" [ref=e97] [cursor=pointer]:
+          - /url: "#"
+          - img "New post" [ref=e102]
+        - link "truzot's profile picture" [ref=e108] [cursor=pointer]:
+          - /url: /truzot/
+          - link "truzot's profile picture" [ref=e113]:
+            - img "truzot's profile picture" [ref=e114]
+      - generic [ref=e115]:
+        - link "Settings" [ref=e118] [cursor=pointer]:
+          - /url: "#"
+          - img "Settings" [ref=e123]
+        - link "Also from Meta" [ref=e126] [cursor=pointer]:
+          - /url: "#"
+          - img "Also from Meta" [ref=e131]
+    - generic [ref=e134]:
+      - main [ref=e135]:
+        - generic [ref=e137]:
+          - generic [ref=e138]:
+            - generic [ref=e139]:
+              - link "self.made.millennial's profile picture" [ref=e145] [cursor=pointer]:
+                - /url: /self.made.millennial/
+                - img "self.made.millennial's profile picture" [ref=e146]
+              - generic [ref=e148]:
+                - generic [ref=e149]:
+                  - link "self.made.millennial" [ref=e151] [cursor=pointer]:
+                    - /url: "#"
+                    - heading "self.made.millennial" [level=2] [ref=e152]:
+                      - generic [ref=e153]: self.made.millennial
+                  - button "Options" [ref=e154] [cursor=pointer]:
+                    - img "Options" [ref=e156]
+                - generic [ref=e161]: Madeline Mann - Career Coach
+                - generic [ref=e162]:
+                  - generic [ref=e164]:
+                    - generic [ref=e165]: 1,448
+                    - text: posts
+                  - link "48.9K followers" [ref=e167] [cursor=pointer]:
+                    - /url: "#"
+                    - generic [ref=e168]:
+                      - generic "48,930" [ref=e169]: 48.9K
+                      - text: followers
+                  - link "844 following" [ref=e171] [cursor=pointer]:
+                    - /url: "#"
+                    - generic [ref=e172]:
+                      - generic [ref=e173]: "844"
+                      - text: following
+            - generic [ref=e176]:
+              - generic [ref=e178]: Reel creator
+              - generic [ref=e179]:
+                - 'button "Turning Job Seekers into Job Shoppers. 🍊Ft. on @abcnews @bloombergbusiness @forbes Tiktok: 430k+ YouTube: 400k+" [ref=e180] [cursor=pointer]':
+                  - generic [ref=e181]:
+                    - text: Turning Job Seekers into Job Shoppers. 🍊Ft. on
+                    - link "@abcnews" [ref=e182]:
+                      - /url: /abcnews/
+                    - link "@bloombergbusiness" [ref=e183]:
+                      - /url: /bloombergbusiness/
+                    - link "@forbes" [ref=e184]:
+                      - /url: /forbes/
+                    - text: "Tiktok: 430k+"
+                    - text: "YouTube: 400k+"
+                - generic [ref=e185]:
+                  - text: ...
+                  - button "more" [ref=e186] [cursor=pointer]:
+                    - generic [ref=e187]: more
+              - generic [ref=e188]:
+                - generic [ref=e189]:
+                  - img "Link icon" [ref=e191]
+                  - link "lnk.bio/self.made.millennial" [ref=e195] [cursor=pointer]:
+                    - /url: https://l.instagram.com/?u=https%3A%2F%2Flnk.bio%2Fself.made.millennial%3Futm_source%3Dig%26utm_medium%3Dsocial%26utm_content%3Dlink_in_bio%26fbclid%3DPAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPOTM2NjE5NzQzMzkyNDU5AAGnqJ4uHMlZlEvzxqK3pjKHFyxZM1u1_Mnkwq1g9M1WRoQ9N4zg8x_JQgmu2_g_aem_ToDp6lKJOmb4P-uf9jcaMA&e=AUCx_bci4_XHQpotF844_U0gLRO_t9U5VGg2aQ6eNgkipG8o_D34gWV-rexv8CzeZfChVNeyeKkTgV5OFc91xJ7GfasL1t7LCnwJH2qko32-H2Xh76XqMFFEQdKh9z586VKaf3ULkKdwm1bQvuGtFU8
+                    - generic [ref=e196]: lnk.bio/self.made.millennial
+                - link "Threads self.made.millennial" [ref=e198] [cursor=pointer]:
+                  - /url: https://www.threads.com/@self.made.millennial?xmt=AQG0IRXE4up1vRSSrtfCrUoEyw59UuMHyqRloAaIWZGspOc
+                  - img "Threads" [ref=e200]
+                  - generic [ref=e203]: self.made.millennial
+            - generic [ref=e208]:
+              - status "Loading..." [ref=e210]
+              - status "Loading..." [ref=e212]
+            - menu [ref=e214]:
+              - list [ref=e218]:
+                - listitem [ref=e219]
+                - listitem [ref=e220]
+                - listitem [ref=e221]:
+                  - link "View Masterclass ✨ highlight" [ref=e224] [cursor=pointer]:
+                    - /url: /stories/highlights/18074880244235371/
+                    - button "self.made.millennial's highlight story picture Masterclass ✨" [ref=e225]:
+                      - button "self.made.millennial's highlight story picture" [ref=e226]:
+                        - img "self.made.millennial's highlight story picture" [ref=e229]
+                      - generic [ref=e232]: Masterclass ✨
+                - listitem [ref=e233]:
+                  - link "View Success Stories highlight" [ref=e236] [cursor=pointer]:
+                    - /url: /stories/highlights/17861966846109566/
+                    - button "self.made.millennial's highlight story picture Success Stories" [ref=e237]:
+                      - button "self.made.millennial's highlight story picture" [ref=e238]:
+                        - img "self.made.millennial's highlight story picture" [ref=e241]
+                      - generic [ref=e244]: Success Stories
+                - listitem [ref=e245]:
+                  - link "View YOUTUBE highlight" [ref=e248] [cursor=pointer]:
+                    - /url: /stories/highlights/17945303917114201/
+                    - button "self.made.millennial's highlight story picture YOUTUBE" [ref=e249]:
+                      - button "self.made.millennial's highlight story picture" [ref=e250]:
+                        - img "self.made.millennial's highlight story picture" [ref=e253]
+                      - generic [ref=e256]: YOUTUBE
+                - listitem [ref=e257]:
+                  - link "View Wins! highlight" [ref=e260] [cursor=pointer]:
+                    - /url: /stories/highlights/17929704817398960/
+                    - button "self.made.millennial's highlight story picture Wins!" [ref=e261]:
+                      - button "self.made.millennial's highlight story picture" [ref=e262]:
+                        - img "self.made.millennial's highlight story picture" [ref=e265]
+                      - generic [ref=e268]: Wins!
+                - listitem [ref=e269]:
+                  - link "View Q+A highlight" [ref=e272] [cursor=pointer]:
+                    - /url: /stories/highlights/17917364002419162/
+                    - button "self.made.millennial's highlight story picture Q+A" [ref=e273]:
+                      - button "self.made.millennial's highlight story picture" [ref=e274]:
+                        - img "self.made.millennial's highlight story picture" [ref=e277]
+                      - generic [ref=e280]: Q+A
+          - generic [ref=e281]:
+            - tablist [ref=e282]:
+              - link "Posts" [ref=e284] [cursor=pointer]:
+                - /url: /self.made.millennial/
+                - img "Posts" [ref=e286]
+              - link "Reels" [ref=e297] [cursor=pointer]:
+                - /url: /self.made.millennial/reels/
+                - img "Reels" [ref=e299]
+              - link "Tagged" [ref=e302] [cursor=pointer]:
+                - /url: /self.made.millennial/tagged/
+                - img "Tagged" [ref=e304]
+            - tabpanel
+          - progressbar [ref=e308]:
+            - img "Loading..." [ref=e309]
+      - contentinfo [ref=e322]:
+        - generic [ref=e323]:
+          - generic [ref=e325]:
+            - link "Meta" [ref=e327] [cursor=pointer]:
+              - /url: https://about.meta.com/
+              - generic [ref=e328]: Meta
+            - link "About" [ref=e330] [cursor=pointer]:
+              - /url: https://about.instagram.com/
+              - generic [ref=e331]: About
+            - link "Blog" [ref=e333] [cursor=pointer]:
+              - /url: https://about.instagram.com/blog/
+              - generic [ref=e334]: Blog
+            - link "Jobs" [ref=e336] [cursor=pointer]:
+              - /url: https://about.instagram.com/about-us/careers
+              - generic [ref=e337]: Jobs
+            - link "Help" [ref=e339] [cursor=pointer]:
+              - /url: https://help.instagram.com/
+              - generic [ref=e340]: Help
+            - link "API" [ref=e342] [cursor=pointer]:
+              - /url: https://developers.facebook.com/docs/instagram
+              - generic [ref=e343]: API
+            - link "Privacy" [ref=e345] [cursor=pointer]:
+              - /url: /legal/privacy/
+              - generic [ref=e346]: Privacy
+            - link "Consumer Health Privacy" [ref=e348] [cursor=pointer]:
+              - /url: /legal/privacy/health_privacy_policy/
+              - generic [ref=e349]: Consumer Health Privacy
+            - link "Terms" [ref=e351] [cursor=pointer]:
+              - /url: /legal/terms/
+              - generic [ref=e352]: Terms
+            - link "Locations" [ref=e354] [cursor=pointer]:
+              - /url: /explore/locations/
+              - generic [ref=e355]: Locations
+            - link "Popular" [ref=e357] [cursor=pointer]:
+              - /url: /popular/
+              - generic [ref=e358]: Popular
+            - link "Instagram Lite" [ref=e360] [cursor=pointer]:
+              - /url: /web/lite/
+              - generic [ref=e361]: Instagram Lite
+            - link "Meta AI" [ref=e363] [cursor=pointer]:
+              - /url: https://www.meta.ai/?utm_source=foa_web_footer
+              - generic [ref=e364]: Meta AI
+            - link "Threads" [ref=e366] [cursor=pointer]:
+              - /url: https://www.threads.com/
+              - generic [ref=e367]: Threads
+            - link "Contact Uploading & Non-Users" [ref=e369] [cursor=pointer]:
+              - /url: https://www.facebook.com/help/instagram/261704639352628
+              - generic [ref=e370]: Contact Uploading & Non-Users
+            - link "Meta Verified" [ref=e372] [cursor=pointer]:
+              - /url: /accounts/meta_verified/?entrypoint=web_footer
+              - generic [ref=e373]: Meta Verified
+          - generic [ref=e374]:
+            - generic [ref=e375] [cursor=pointer]:
+              - generic [ref=e376]:
+                - generic [ref=e377]: English
+                - img "Down chevron icon" [ref=e380]
+              - combobox "Switch Display Language" [ref=e382]:
+                - option "Afrikaans"
+                - option "العربية"
+                - option "Čeština"
+                - option "Dansk"
+                - option "Deutsch"
+                - option "Ελληνικά"
+                - option "English" [selected]
+                - option "English (UK)"
+                - option "Español (España)"
+                - option "Español"
+                - option "فارسی"
+                - option "Suomi"
+                - option "Français"
+                - option "עברית"
+                - option "Bahasa Indonesia"
+                - option "Italiano"
+                - option "日本語"
+                - option "한국어"
+                - option "Bahasa Melayu"
+                - option "Norsk"
+                - option "Nederlands"
+                - option "Polski"
+                - option "Português (Brasil)"
+                - option "Português (Portugal)"
+                - option "Русский"
+                - option "Svenska"
+                - option "ภาษาไทย"
+                - option "Filipino"
+                - option "Türkçe"
+                - option "中文(简体)"
+                - option "中文(台灣)"
+                - option "বাংলা"
+                - option "ગુજરાતી"
+                - option "हिन्दी"
+                - option "Hrvatski"
+                - option "Magyar"
+                - option "ಕನ್ನಡ"
+                - option "മലയാളം"
+                - option "मराठी"
+                - option "नेपाली"
+                - option "ਪੰਜਾਬੀ"
+                - option "සිංහල"
+                - option "Slovenčina"
+                - option "தமிழ்"
+                - option "తెలుగు"
+                - option "اردو"
+                - option "Tiếng Việt"
+                - option "中文(香港)"
+                - option "Български"
+                - option "Français (Canada)"
+                - option "Română"
+                - option "Српски"
+                - option "Українська"
+            - generic [ref=e384]: © 2026 Instagram from Meta
+  - button "Messages Messages" [ref=e10] [cursor=pointer]:
+    - generic [ref=e12]:
+      - img "Messages" [ref=e14]
+      - generic [ref=e17]: Messages

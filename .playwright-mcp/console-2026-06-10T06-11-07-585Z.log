@@ -1,0 +1,8 @@
+[    1078ms] [WARNING]  [33m[1m⚠[22m[39m Runtime config is deprecated and will be removed in Next.js 16. Please remove the usage of "next/config" from your project. @ https://assets.production.linktr.ee/profiles/_next/static/chunks/pages/_app-82efb648512ba09c.js:29
+[    3755ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://ciam.linktr.ee/v1/auth/try-refresh?dcs=f&dcr=f:0
+[    3961ms] [LOG] setting gppString to not opted out no GPC @ https://api.consentjs.datagrail.io/b8f6c3bf-2519-4023-963a-974547789e46/gpp-usnat.js:39
+[   48542ms] [WARNING] Consent Mode default command executed after other tags @ https://api.consentjs.datagrail.io/consent/b8f6c3bf-2519-4023-963a-974547789e46/a40645f8-e387-489e-9ed0-04529839540c/consent.js:0
+[   48543ms] [LOG] setting gppString to not opted out no GPC @ https://api.consentjs.datagrail.io/b8f6c3bf-2519-4023-963a-974547789e46/gpp-usnat.js:39
+[   48547ms] [WARNING] Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.
+Element with focus: <button._48mA0q_buttonUnstyled dg-header-close>
+Ancestor with aria-hidden: <aside.dg-consent-banner dg-neutral dg-left> @ https://linktr.ee/joyceguanwest:0

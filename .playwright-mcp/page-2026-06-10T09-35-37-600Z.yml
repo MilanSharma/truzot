@@ -1,0 +1,418 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwjS7-u5r_yUAxWuCbwBHYpVB-QQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "makeup artist" "headshot" "@gmail.com" site:instagram.com "makeup artist" "headshot" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522makeup%2Bartist%2522%2B%2522headshot%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22makeup+artist%22+%22headshot%22+%22%40gmail.com%22&sca_esv=d11ba7484cdf09fb&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3o6iwGk6Iv1tRbZIBNIVs-6UIUc6UR6SuJFZzmDZDaBC-m-l14a_FtSAzW6lSIO-Vqcz9ZC6DYtusd8k4HWH3k2aHG0snvtZsToUObkJl55X333mJbM-GHDELB6EkKJYiRDU_ApUa7nXsPIrINRTsJn1KhWi-jlc1N5Yi-bO5uP-v6sTbQ&aep=1&ntc=1&sa=X&ved=2ahUKEwjS7-u5r_yUAxWuCbwBHYpVB-QQ2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3o6iwGk6Iv1tRbZIBNIVs-6UIUc6UR6SuJFZzmDZDaBC-m-l14a_FtSAzW6lSIO-Vqcz9ZC6DYtusd8k4HWH3k2aHG0snvtZsToUObkJl55X333mJbM-GHDELB6EkKJYiRDU_ApUa7nXsPIrINRTsJn1KhWi-jlc1N5Yi-bO5uP-v6sTbQ&q=site:instagram.com+%22makeup+artist%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjS7-u5r_yUAxWuCbwBHYpVB-QQtKgLegQIFhAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "Shopping" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3o6iwGk6Iv1tRbZIBNIVs-6UIUc6UR6SuJFZzmDZDaBC-m-l14a_FtSAzW6lSIO-Vqcz9ZC6DYtusd8k4HWH3k2aHG0snvtZsToUObkJl55X333mJbM-GHDELB6EkKJYiRDU_ApUa7nXsPIrINRTsJn1KhWi-jlc1N5Yi-bO5uP-v6sTbQ&q=site:instagram.com+%22makeup+artist%22+%22headshot%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e94]: Shopping
+          - listitem [ref=e95]:
+            - link "Videos" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3o6iwGk6Iv1tRbZIBNIVs-6UIUc6UR6SuJFZzmDZDaBC-m-l14a_FtSAzW6lSIO-Vqcz9ZC6DYtusd8k4HWH3k2aHG0snvtZsToUObkJl55X333mJbM-GHDELB6EkKJYiRDU_ApUa7nXsPIrINRTsJn1KhWi-jlc1N5Yi-bO5uP-v6sTbQ&q=site:instagram.com+%22makeup+artist%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjS7-u5r_yUAxWuCbwBHYpVB-QQtKgLegQIExAB
+              - generic [ref=e98]: Videos
+          - listitem [ref=e99]:
+            - link "News" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&q=site:instagram.com+%22makeup+artist%22+%22headshot%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3o6iwGk6Iv1tRbZIBNIVs-6UIUc6UR6SuJFZzmDZDaBC-m-l14a_FtSAzW6lSIO-Vqcz9ZC6DYtusd8k4HWH3k2aHG0snvtZsToUObkJl55X333mJbM-GHDELB6EkKJYiRDU_ApUa7nXsPIrINRTsJn1KhWi-jlc1N5Yi-bO5uP-v6sTbQ&sa=X&ved=2ahUKEwjS7-u5r_yUAxWuCbwBHYpVB-QQ0pQJegQIEhAB
+              - generic [ref=e102]: News
+          - listitem [ref=e103]:
+            - link "Forums" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3o6iwGk6Iv1tRbZIBNIVs-6UIUc6UR6SuJFZzmDZDaBC-m-l14a_FtSAzW6lSIO-Vqcz9ZC6DYtusd8k4HWH3k2aHG0snvtZsToUObkJl55X333mJbM-GHDELB6EkKJYiRDU_ApUa7nXsPIrINRTsJn1KhWi-jlc1N5Yi-bO5uP-v6sTbQ&q=site:instagram.com+%22makeup+artist%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjS7-u5r_yUAxWuCbwBHYpVB-QQs6gLegQIERAB
+              - generic [ref=e106]: Forums
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e137]:
+          - generic [ref=e139]:
+            - heading "Videos" [level=2] [ref=e140]
+            - button "About this result" [ref=e141] [cursor=pointer]:
+              - img [ref=e144]
+          - generic [ref=e147]:
+            - generic [ref=e152]:
+              - generic [ref=e153]:
+                - 'link "Makeup Artist & Studio on Instagram: \"That''s exactly what my ... Instagram Leanne Lee • Makeup Artist & Studio 1 week ago" [ref=e155] [cursor=pointer]':
+                  - /url: https://www.instagram.com/reel/DZGgr6auiPC/
+                  - 'heading "Makeup Artist & Studio on Instagram: \"That''s exactly what my ... Instagram Leanne Lee • Makeup Artist & Studio 1 week ago" [level=3] [ref=e156]':
+                    - generic [ref=e159]: "Makeup Artist & Studio on Instagram: \"That's exactly what my ..."
+                    - generic [ref=e161]:
+                      - generic [ref=e162]:
+                        - text: Instagram
+                        - generic [ref=e163]: · Leanne Lee • Makeup Artist & Studio
+                      - generic [ref=e164]: 1 week ago
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - text: Instagram
+                          - generic: · Leanne Lee • Makeup Artist & Studio
+                    - button "About this result" [ref=e165] [cursor=pointer]:
+                      - img [ref=e168]
+              - 'link "Makeup Artist & Studio on Instagram: \"That''s exactly what my ... by Leanne Lee • Makeup Artist & Studio on Instagram. Play on Instagram. 0:08" [ref=e170] [cursor=pointer]':
+                - /url: https://www.instagram.com/reel/DZGgr6auiPC/
+                - generic [ref=e171]:
+                  - img [ref=e174]
+                  - generic [ref=e178]: 0:08
+            - generic [ref=e183]:
+              - generic [ref=e184]:
+                - link "Trying the angry salesman tactic to promote my HEADSHOT ... Instagram Canelle Vanderford 5 days ago" [ref=e186] [cursor=pointer]:
+                  - /url: https://www.instagram.com/reel/DZLR5RDTkYZ/
+                  - heading "Trying the angry salesman tactic to promote my HEADSHOT ... Instagram Canelle Vanderford 5 days ago" [level=3] [ref=e187]:
+                    - generic [ref=e190]: Trying the angry salesman tactic to promote my HEADSHOT ...
+                    - generic [ref=e192]:
+                      - generic [ref=e193]:
+                        - text: Instagram
+                        - generic [ref=e194]: · Canelle Vanderford
+                      - generic [ref=e195]: 5 days ago
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - text: Instagram
+                          - generic: · Canelle Vanderford
+                    - button "About this result" [ref=e196] [cursor=pointer]:
+                      - img [ref=e199]
+              - link "Trying the angry salesman tactic to promote my HEADSHOT ... by Canelle Vanderford on Instagram. Play on Instagram. 0:57" [ref=e201] [cursor=pointer]:
+                - /url: https://www.instagram.com/reel/DZLR5RDTkYZ/
+                - generic [ref=e202]:
+                  - img [ref=e205]
+                  - generic [ref=e209]: 0:57
+            - generic [ref=e214]:
+              - generic [ref=e215]:
+                - 'link "Makeup by Tiffany Banks on Instagram: \"A great headshot ... Instagram Makeup by Tiffany Banks 1 week ago" [ref=e217] [cursor=pointer]':
+                  - /url: https://www.instagram.com/reel/DZBVoejxuck/
+                  - 'heading "Makeup by Tiffany Banks on Instagram: \"A great headshot ... Instagram Makeup by Tiffany Banks 1 week ago" [level=3] [ref=e218]':
+                    - generic [ref=e221]: "Makeup by Tiffany Banks on Instagram: \"A great headshot ..."
+                    - generic [ref=e223]:
+                      - generic [ref=e224]:
+                        - text: Instagram
+                        - generic [ref=e225]: · Makeup by Tiffany Banks
+                      - generic [ref=e226]: 1 week ago
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - text: Instagram
+                          - generic: · Makeup by Tiffany Banks
+                    - button "About this result" [ref=e227] [cursor=pointer]:
+                      - img [ref=e230]
+              - 'link "Makeup by Tiffany Banks on Instagram: \"A great headshot ... by Makeup by Tiffany Banks on Instagram. Play on Instagram. 0:22" [ref=e232] [cursor=pointer]':
+                - /url: https://www.instagram.com/reel/DZBVoejxuck/
+                - generic [ref=e233]:
+                  - img [ref=e236]
+                  - generic [ref=e240]: 0:22
+          - link "View all videos" [ref=e243] [cursor=pointer]:
+            - /url: /search?sca_esv=d11ba7484cdf09fb&udm=7&q=site:instagram.com+%22makeup+artist%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjS7-u5r_yUAxWuCbwBHYpVB-QQ8ccDKAJ6BAgZEAQ
+            - separator [ref=e244]
+            - generic [ref=e245]:
+              - generic [ref=e246]: View all
+              - img [ref=e248]
+        - generic [ref=e252]:
+          - heading "Web results" [level=2] [ref=e253]
+          - generic [ref=e254]:
+            - generic [ref=e257]:
+              - link "killer. Email haileemorganmakeup@gmail.com to book ... Instagram · haileemorganartistry 160+ likes · 4 months ago" [ref=e259] [cursor=pointer]:
+                - /url: https://www.instagram.com/p/DTxyxfyEbVC/
+                - heading "killer. Email haileemorganmakeup@gmail.com to book ..." [level=3] [ref=e260]
+                - generic [ref=e265]:
+                  - generic [ref=e267]: Instagram · haileemorganartistry
+                  - generic [ref=e269]: 160+ likes · 4 months ago
+              - button "About this result" [ref=e270] [cursor=pointer]:
+                - img [ref=e273]
+            - generic [ref=e276]:
+              - generic [ref=e277]:
+                - text: Photo by Ana K. Moore |
+                - emphasis [ref=e278]: Makeup Artist
+                - text: • Classic • Modern Glam on May ... professional
+                - emphasis [ref=e279]: headshot
+                - text: · green sequin dress · beauty portrait photography.
+              - link "Read more" [ref=e280] [cursor=pointer]:
+                - /url: https://www.instagram.com/p/DTxyxfyEbVC/#:~:text=37%20likes&text=professional%20headshot,beauty%20portrait%20photography
+            - link "site:instagram.com \"makeup artist\" \"headshot\" \"@gmail.com\" images from www.instagram.com" [ref=e282] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DTxyxfyEbVC/
+        - generic [ref=e299]:
+          - generic [ref=e302]:
+            - link "Makeup Artist in the Boston Maine New Hampshire ... Instagram · tlc.glam 120+ likes · 6 days ago" [ref=e304] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZIIR5ilZ_N/
+              - heading "Makeup Artist in the Boston Maine New Hampshire ..." [level=3] [ref=e305]
+              - generic [ref=e310]:
+                - generic [ref=e312]: Instagram · tlc.glam
+                - generic [ref=e314]: 120+ likes · 6 days ago
+            - button "About this result" [ref=e315] [cursor=pointer]:
+              - img [ref=e318]
+          - generic [ref=e321]:
+            - generic [ref=e322]:
+              - text: Media day
+              - emphasis [ref=e323]: headshot
+              - text: glam for this @patriotscheerleaders • •
+              - emphasis [ref=e324]: Makeup Artist
+              - text: "... : natmarinellimakeup@"
+              - emphasis [ref=e325]: gmail.com
+              - text: or natmarinellimakeup.com ...
+            - link "Read more" [ref=e326] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZIIR5ilZ_N/#:~:text=Media%20day%20headshot%20glam%20for,%F0%9F%A4%8D%20%E2%80%A2%20%E2%80%A2%20Makeup%20Artist&text=%F0%9F%92%8C%3A%20natmarinellimakeup%40gmail.com,natmarinellimakeup.com
+          - link "site:instagram.com \"makeup artist\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e329] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DZIIR5ilZ_N/
+            - img "site:instagram.com \"makeup artist\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e331]
+        - generic [ref=e335]:
+          - generic [ref=e338]:
+            - link "Headshots for Miss Gia! ❤️ . Meet Gia Ange a New York ... Instagram · westelmphotography 10+ likes · 3 days ago" [ref=e340] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZQZT5eicyw/
+              - heading "Headshots for Miss Gia! ❤️ . Meet Gia Ange a New York ..." [level=3] [ref=e341]
+              - generic [ref=e346]:
+                - generic [ref=e348]: Instagram · westelmphotography
+                - generic [ref=e350]: 10+ likes · 3 days ago
+            - button "About this result" [ref=e351] [cursor=pointer]:
+              - img [ref=e354]
+          - generic [ref=e357]:
+            - generic [ref=e358]:
+              - text: Behind-the-scenes at our annual Girl Ambassador Program
+              - emphasis [ref=e359]: headshot
+              - text: day! Each year, we bring in a professional
+              - emphasis [ref=e360]: makeup artist
+              - text: and photographer to ...
+            - link "Read more" [ref=e361] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZQZT5eicyw/#:~:text=Behind%2Dthe%2Dscenes%20at%20our%20annual%20Girl,early%20in%20their%20professional%20journeys.
+          - link "site:instagram.com \"makeup artist\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e364] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DZQZT5eicyw/
+            - img "site:instagram.com \"makeup artist\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e366]
+        - generic [ref=e370]:
+          - generic [ref=e373]:
+            - link "Mindy Lynn Hair and Makeup (@mindylynnhmua) Instagram · mindylynnhmua 1.7K+ followers" [ref=e375] [cursor=pointer]:
+              - /url: https://www.instagram.com/mindylynnhmua/
+              - heading "Mindy Lynn Hair and Makeup (@mindylynnhmua)" [level=3] [ref=e376]
+              - generic [ref=e381]:
+                - generic [ref=e383]: Instagram · mindylynnhmua
+                - generic [ref=e385]: 1.7K+ followers
+            - button "About this result" [ref=e386] [cursor=pointer]:
+              - img [ref=e389]
+          - generic [ref=e393]:
+            - text: ...
+            - emphasis [ref=e394]: Makeup Artist
+            - text: Pageant | Bridal | Travel | Hair | Makeup mindylynnhm@
+            - emphasis [ref=e395]: gmail.com
+            - text: ... Safe doesn't win crowns ...
+          - link "site:instagram.com \"makeup artist\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e398] [cursor=pointer]:
+            - /url: https://www.instagram.com/mindylynnhmua/
+            - img "site:instagram.com \"makeup artist\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e400]
+        - generic [ref=e404]:
+          - generic [ref=e407]:
+            - link "Email haileemorganmakeup@gmail.com for pricing & ... Instagram · haileemorganartistry 90+ likes · 1 year ago" [ref=e409] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DHlZylIxCJg/
+              - heading "Email haileemorganmakeup@gmail.com for pricing & ..." [level=3] [ref=e410]
+              - generic [ref=e415]:
+                - generic [ref=e417]: Instagram · haileemorganartistry
+                - generic [ref=e419]: 90+ likes · 1 year ago
+            - button "About this result" [ref=e420] [cursor=pointer]:
+              - img [ref=e423]
+          - generic [ref=e426]:
+            - generic [ref=e427]:
+              - text: Photo by HAILEE MORGAN ARTISTRY -
+              - emphasis [ref=e428]: MAKEUP ARTIST
+              - text: on March 24, 2025. ... haice morgan artistry 2025
+              - emphasis [ref=e429]: HEADSHOT
+              - text: SCHEDULE March21 Columbia, MO ...
+            - link "Read more" [ref=e430] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DHlZylIxCJg/#:~:text=97%20likes&text=haice%20morgan%20artistry%202025%20HEADSHOT,SCHEDULE%20March21%20Columbia%2C%20MO
+          - link "site:instagram.com \"makeup artist\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e433] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DHlZylIxCJg/
+            - img "site:instagram.com \"makeup artist\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e435]
+        - generic [ref=e439]:
+          - generic [ref=e442]:
+            - link "Kate Byars | My Upcoming Glam Headshot Portrait Event Instagram · katebyars 8 likes · 4 months ago" [ref=e444] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DTvazIhDoko/
+              - heading "Kate Byars | My Upcoming Glam Headshot Portrait Event" [level=3] [ref=e445]
+              - generic [ref=e450]:
+                - generic [ref=e452]: Instagram · katebyars
+                - generic [ref=e454]: 8 likes · 4 months ago
+            - button "About this result" [ref=e455] [cursor=pointer]:
+              - img [ref=e458]
+          - generic [ref=e461]:
+            - generic [ref=e462]:
+              - emphasis [ref=e463]: Headshot
+              - text: "Photography Professional • Elegant • Confidence Boosting Text/Call: 985-400-0014. Email: glamgawdmua@"
+              - emphasis [ref=e464]: gmail.com
+              - text: "# ..."
+            - link "Read more" [ref=e465] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DTvazIhDoko/#:~:text=%F0%9F%93%8D%20Headshot%20Photography,BeautyPhotography%20ConfidenceCaptured%20CovingtonMUA%20GlamMakeup%20PhotoshootReady
+          - link "site:instagram.com \"makeup artist\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e468] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DTvazIhDoko/
+            - img "site:instagram.com \"makeup artist\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e470]
+        - generic [ref=e474]:
+          - generic [ref=e477]:
+            - link "PRO MAKEUP ARTIST ✧˖° METRO DETROIT BASED Instagram · mookthamua 460+ likes · 2 years ago" [ref=e479] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/C4838xyx9GD/
+              - heading "PRO MAKEUP ARTIST ✧˖° METRO DETROIT BASED" [level=3] [ref=e480]
+              - generic [ref=e485]:
+                - generic [ref=e487]: Instagram · mookthamua
+                - generic [ref=e489]: 460+ likes · 2 years ago
+            - button "About this result" [ref=e490] [cursor=pointer]:
+              - img [ref=e493]
+          - generic [ref=e496]:
+            - generic [ref=e497]:
+              - text: PRO
+              - emphasis [ref=e498]: MAKEUP ARTIST
+              - text: ✧˖° METRO DETROIT BASED |
+              - emphasis [ref=e499]: Headshot
+              - text: Session for ... March Booking Are Available - contact me mookthamua@
+              - emphasis [ref=e500]: gmail.com
+            - link "Read more" [ref=e501] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/C4838xyx9GD/#:~:text=PRO%20MAKEUP%20ARTIST%20%E2%9C%A7%CB%96%C2%B0%20METRO,BASED%20%7C%20Headshot%20Session%20for&text=March%20%F0%9F%8D%80Booking%20Are%20Available%20%2D,contact%20me%20mookthamua%40gmail.com%20%F0%9F%93%A7
+          - link "site:instagram.com \"makeup artist\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e504] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/C4838xyx9GD/
+            - img "site:instagram.com \"makeup artist\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e506]
+        - generic [ref=e510]:
+          - generic [ref=e513]:
+            - link "Face card 🖤 Headshot class by the amazing ... Instagram · michelle_gilot 170+ likes · 6 months ago" [ref=e515] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DRPc6A-DeS4/
+              - heading "Face card 🖤 Headshot class by the amazing ..." [level=3] [ref=e516]
+              - generic [ref=e521]:
+                - generic [ref=e523]: Instagram · michelle_gilot
+                - generic [ref=e525]: 170+ likes · 6 months ago
+            - button "About this result" [ref=e526] [cursor=pointer]:
+              - img [ref=e529]
+          - generic [ref=e532]:
+            - generic [ref=e533]:
+              - text: I'm offering a special
+              - emphasis [ref=e534]: headshot
+              - text: promotion this month. Feel free to reach out via DM or email at ptvlooks@
+              - emphasis [ref=e535]: gmail.com
+              - text: . I'd love to help you shine!
+            - link "Read more" [ref=e536] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DRPc6A-DeS4/#:~:text=I'm%20offering%20a%20special%20headshot,love%20to%20help%20you%20shine!
+          - link "site:instagram.com \"makeup artist\" \"headshot\" \"@gmail.com\" images from www.instagram.com" [ref=e538] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DRPc6A-DeS4/
+        - generic [ref=e555]:
+          - generic [ref=e558]:
+            - link "What do I do makeup for? Yes. Headshots ✔️ Pageants ... Instagram · katielivingston1 80+ likes · 11 months ago" [ref=e560] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DLoSNJOx_y7/
+              - heading "What do I do makeup for? Yes. Headshots ✔️ Pageants ..." [level=3] [ref=e561]
+              - generic [ref=e566]:
+                - generic [ref=e568]: Instagram · katielivingston1
+                - generic [ref=e570]: 80+ likes · 11 months ago
+            - button "About this result" [ref=e571] [cursor=pointer]:
+              - img [ref=e574]
+          - generic [ref=e577]:
+            - generic [ref=e578]:
+              - text: AANHPI, Asian makeup, Asian
+              - emphasis [ref=e579]: makeup artist
+              - text: ", mommy makeup,"
+              - emphasis [ref=e580]: headshot
+              - text: ... For more information, DM or email studioevemua@
+              - emphasis [ref=e581]: gmail.com
+              - text: . Join Katie ...
+            - link "Read more" [ref=e582] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DLoSNJOx_y7/#:~:text=AANHPI%2C%20Asian%20makeup%2C%20Asian%20makeup,artist%2C%20bethesda%20makeup%20artist%2C%20MUA&text=For%20more%20information%2C%20DM%20or,Join%20Katie%20Livingston%20on%20Instagram
+          - link "site:instagram.com \"makeup artist\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e585] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DLoSNJOx_y7/
+            - img "site:instagram.com \"makeup artist\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e587]
+      - navigation [ref=e590]:
+        - heading "Page Navigation" [level=1] [ref=e591]
+        - text: "1"
+        - link "Page 2" [ref=e594] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22makeup+artist%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=5y8papLgMa6T8L0PiqudoA4&start=10&sa=N&sstk=AU9db-CW-LIASmHvPq9vp6_2FHIfc3pM1CEBu4eIw9bzwa0pRZzDbRVzgryiLpomQQq_5S5UP1zbOQfHd5x2zPXEDwkgjao4sasUHw&ved=2ahUKEwjS7-u5r_yUAxWuCbwBHYpVB-QQ8tMDegQIMxAE
+          - text: "2"
+        - link "Page 3" [ref=e596] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22makeup+artist%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=5y8papLgMa6T8L0PiqudoA4&start=20&sa=N&sstk=AU9db-CW-LIASmHvPq9vp6_2FHIfc3pM1CEBu4eIw9bzwa0pRZzDbRVzgryiLpomQQq_5S5UP1zbOQfHd5x2zPXEDwkgjao4sasUHw&ved=2ahUKEwjS7-u5r_yUAxWuCbwBHYpVB-QQ8tMDegQIMxAG
+          - text: "3"
+        - link "Page 4" [ref=e598] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22makeup+artist%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=5y8papLgMa6T8L0PiqudoA4&start=30&sa=N&sstk=AU9db-CW-LIASmHvPq9vp6_2FHIfc3pM1CEBu4eIw9bzwa0pRZzDbRVzgryiLpomQQq_5S5UP1zbOQfHd5x2zPXEDwkgjao4sasUHw&ved=2ahUKEwjS7-u5r_yUAxWuCbwBHYpVB-QQ8tMDegQIMxAI
+          - text: "4"
+        - link "Page 5" [ref=e600] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22makeup+artist%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=5y8papLgMa6T8L0PiqudoA4&start=40&sa=N&sstk=AU9db-CW-LIASmHvPq9vp6_2FHIfc3pM1CEBu4eIw9bzwa0pRZzDbRVzgryiLpomQQq_5S5UP1zbOQfHd5x2zPXEDwkgjao4sasUHw&ved=2ahUKEwjS7-u5r_yUAxWuCbwBHYpVB-QQ8tMDegQIMxAK
+          - text: "5"
+        - link "Page 6" [ref=e602] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22makeup+artist%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=5y8papLgMa6T8L0PiqudoA4&start=50&sa=N&sstk=AU9db-CW-LIASmHvPq9vp6_2FHIfc3pM1CEBu4eIw9bzwa0pRZzDbRVzgryiLpomQQq_5S5UP1zbOQfHd5x2zPXEDwkgjao4sasUHw&ved=2ahUKEwjS7-u5r_yUAxWuCbwBHYpVB-QQ8tMDegQIMxAM
+          - text: "6"
+        - link "Page 7" [ref=e604] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22makeup+artist%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=5y8papLgMa6T8L0PiqudoA4&start=60&sa=N&sstk=AU9db-CW-LIASmHvPq9vp6_2FHIfc3pM1CEBu4eIw9bzwa0pRZzDbRVzgryiLpomQQq_5S5UP1zbOQfHd5x2zPXEDwkgjao4sasUHw&ved=2ahUKEwjS7-u5r_yUAxWuCbwBHYpVB-QQ8tMDegQIMxAO
+          - text: "7"
+        - link "Page 8" [ref=e606] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22makeup+artist%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=5y8papLgMa6T8L0PiqudoA4&start=70&sa=N&sstk=AU9db-CW-LIASmHvPq9vp6_2FHIfc3pM1CEBu4eIw9bzwa0pRZzDbRVzgryiLpomQQq_5S5UP1zbOQfHd5x2zPXEDwkgjao4sasUHw&ved=2ahUKEwjS7-u5r_yUAxWuCbwBHYpVB-QQ8tMDegQIMxAQ
+          - text: "8"
+        - link "Page 9" [ref=e608] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22makeup+artist%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=5y8papLgMa6T8L0PiqudoA4&start=80&sa=N&sstk=AU9db-CW-LIASmHvPq9vp6_2FHIfc3pM1CEBu4eIw9bzwa0pRZzDbRVzgryiLpomQQq_5S5UP1zbOQfHd5x2zPXEDwkgjao4sasUHw&ved=2ahUKEwjS7-u5r_yUAxWuCbwBHYpVB-QQ8tMDegQIMxAS
+          - text: "9"
+        - link "Page 10" [ref=e610] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22makeup+artist%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=5y8papLgMa6T8L0PiqudoA4&start=90&sa=N&sstk=AU9db-CW-LIASmHvPq9vp6_2FHIfc3pM1CEBu4eIw9bzwa0pRZzDbRVzgryiLpomQQq_5S5UP1zbOQfHd5x2zPXEDwkgjao4sasUHw&ved=2ahUKEwjS7-u5r_yUAxWuCbwBHYpVB-QQ8tMDegQIMxAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e612]:
+          - link "Next" [ref=e613] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22makeup+artist%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=5y8papLgMa6T8L0PiqudoA4&start=10&sa=N&sstk=AU9db-CW-LIASmHvPq9vp6_2FHIfc3pM1CEBu4eIw9bzwa0pRZzDbRVzgryiLpomQQq_5S5UP1zbOQfHd5x2zPXEDwkgjao4sasUHw&ved=2ahUKEwjS7-u5r_yUAxWuCbwBHYpVB-QQ8NMDegQIMxAW
+            - generic [ref=e615]: Next
+      - navigation
+    - contentinfo [ref=e616]:
+      - heading "Footer Links" [level=1] [ref=e617]
+      - generic [ref=e621]:
+        - generic [ref=e625]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e627] [cursor=pointer]:
+            - generic [ref=e628]: 85281, Tempe, AZ
+            - generic [ref=e630]:
+              - text: "-"
+              - generic [ref=e631]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e633] [cursor=pointer]: Update location
+        - generic [ref=e636]:
+          - link "Help" [ref=e637] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e638] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e639] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e640] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

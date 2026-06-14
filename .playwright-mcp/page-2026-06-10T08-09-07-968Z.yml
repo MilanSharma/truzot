@@ -1,0 +1,359 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwjT3oSPnPyUAxXWJEQIHR9hGHkQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "detroit" "influencer" "@gmail.com" site:instagram.com "detroit" "influencer" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522detroit%2522%2B%2522influencer%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22detroit%22+%22influencer%22+%22%40gmail.com%22&sca_esv=16a54cb5159ee727&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&aep=1&ntc=1&sa=X&ved=2ahUKEwjT3oSPnPyUAxXWJEQIHR9hGHkQ2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22detroit%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjT3oSPnPyUAxXWJEQIHR9hGHkQtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "News" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&q=site:instagram.com+%22detroit%22+%22influencer%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&sa=X&ved=2ahUKEwjT3oSPnPyUAxXWJEQIHR9hGHkQ0pQJegQIExAB
+              - generic [ref=e94]: News
+          - listitem [ref=e95]:
+            - link "Videos" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22detroit%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjT3oSPnPyUAxXWJEQIHR9hGHkQtKgLegQIFBAB
+              - generic [ref=e98]: Videos
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22detroit%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjT3oSPnPyUAxXWJEQIHR9hGHkQs6gLegQIERAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22detroit%22+%22influencer%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "Detroit Influencer (@detroitfinds313) - Instagram Instagram · detroitfinds313 131.6K+ followers" [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/detroitfinds313/
+                - heading "Detroit Influencer (@detroitfinds313) - Instagram" [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram · detroitfinds313
+                  - generic [ref=e153]: 131.6K+ followers
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e160]:
+              - generic [ref=e161]:
+                - text: ...
+                - emphasis [ref=e162]: gmail.com
+                - text: Fill out interest form to collab ...
+                - emphasis [ref=e163]: Detroit
+                - text: Finds |
+                - emphasis [ref=e164]: Detroit Influencer
+                - text: . 131K followers. 1,344 following.
+                - emphasis [ref=e165]: Detroit
+                - text: ...
+              - link "Read more" [ref=e166] [cursor=pointer]:
+                - /url: https://www.instagram.com/detroitfinds313/#:~:text=Detroit%20Finds%20%7C%20Detroit%20Influencer,to%20do%20in%20Detroit%20%E2%9C%A8
+            - link "site:instagram.com \"detroit\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e169] [cursor=pointer]:
+              - /url: https://www.instagram.com/detroitfinds313/
+              - img "site:instagram.com \"detroit\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e171]
+        - generic [ref=e175]:
+          - generic [ref=e178]:
+            - link "Chelsea Hollins | Detroit Influencer (@iamchelseahollins) Instagram · iamchelseahollins 6.9K+ followers" [ref=e180] [cursor=pointer]:
+              - /url: https://www.instagram.com/iamchelseahollins/
+              - heading "Chelsea Hollins | Detroit Influencer (@iamchelseahollins)" [level=3] [ref=e181]
+              - generic [ref=e186]:
+                - generic [ref=e188]: Instagram · iamchelseahollins
+                - generic [ref=e190]: 6.9K+ followers
+            - button "About this result" [ref=e191] [cursor=pointer]:
+              - img [ref=e194]
+          - generic [ref=e197]:
+            - generic [ref=e198]:
+              - text: ...
+              - emphasis [ref=e199]: Detroit
+              - text: "@chelseahollinsmedia chelseahollinsllc@"
+              - emphasis [ref=e200]: gmail.com
+              - text: ... Chelsea Hollins |
+              - emphasis [ref=e201]: Detroit Influencer
+              - text: . 6,885 followers. 2,776 following ...
+            - link "Read more" [ref=e202] [cursor=pointer]:
+              - /url: https://www.instagram.com/iamchelseahollins/#:~:text=Chelsea%20Hollins%20%7C%20Detroit%20Influencer,2%2C776%20following
+          - link "site:instagram.com \"detroit\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e205] [cursor=pointer]:
+            - /url: https://www.instagram.com/iamchelseahollins/
+            - img "site:instagram.com \"detroit\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e207]
+        - generic [ref=e211]:
+          - generic [ref=e214]:
+            - link "Detroit Finds | Detroit Influencer (@detroitfinds313) Instagram https://www.instagram.com › detroitfinds313" [ref=e216] [cursor=pointer]:
+              - /url: https://www.instagram.com/detroitfinds313/related_profiles/
+              - heading "Detroit Finds | Detroit Influencer (@detroitfinds313)" [level=3] [ref=e217]
+              - generic [ref=e222]:
+                - generic [ref=e224]: Instagram
+                - generic [ref=e226]: https://www.instagram.com › detroitfinds313
+            - button "About this result" [ref=e227] [cursor=pointer]:
+              - img [ref=e230]
+          - generic [ref=e234]:
+            - text: ...
+            - emphasis [ref=e235]: gmail.com
+            - text: Fill out interest form to collab ...
+            - emphasis [ref=e236]: Detroit
+            - text: Finds |
+            - emphasis [ref=e237]: Detroit Influencer
+            - text: . 129K followers. 1,203 following.
+            - emphasis [ref=e238]: Detroit
+            - text: ...
+        - generic [ref=e242]:
+          - generic [ref=e245]:
+            - link "Detroit Influencer (@ayeeitsmandy) - Amanda Instagram · ayeeitsmandy 5.9K+ followers" [ref=e247] [cursor=pointer]:
+              - /url: https://www.instagram.com/ayeeitsmandy/
+              - heading "Detroit Influencer (@ayeeitsmandy) - Amanda" [level=3] [ref=e248]
+              - generic [ref=e253]:
+                - generic [ref=e255]: Instagram · ayeeitsmandy
+                - generic [ref=e257]: 5.9K+ followers
+            - button "About this result" [ref=e258] [cursor=pointer]:
+              - img [ref=e261]
+          - generic [ref=e264]:
+            - generic [ref=e265]:
+              - text: ...
+              - emphasis [ref=e266]: gmail.com
+              - text: ... Amanda |
+              - emphasis [ref=e267]: Detroit Influencer
+              - text: . 5,935 followers. 383 following. Beauty | Lifestyle ...
+            - link "Read more" [ref=e268] [cursor=pointer]:
+              - /url: https://www.instagram.com/ayeeitsmandy/#:~:text=Amanda%20%7C%20Detroit%20Influencer,%7C%20Lifestyle%20%7C%20Content%20Creation
+          - link "site:instagram.com \"detroit\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e271] [cursor=pointer]:
+            - /url: https://www.instagram.com/ayeeitsmandy/
+            - img "site:instagram.com \"detroit\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e273]
+        - generic [ref=e277]:
+          - generic [ref=e280]:
+            - link "Detroit. Lifestyle. Foodie. 🎥Filmmaker. Writer. (@donnylb) Instagram · donnylb 49.5K+ followers" [ref=e282] [cursor=pointer]:
+              - /url: https://www.instagram.com/donnylb/
+              - heading "Detroit. Lifestyle. Foodie. 🎥Filmmaker. Writer. (@donnylb)" [level=3] [ref=e283]
+              - generic [ref=e288]:
+                - generic [ref=e290]: Instagram · donnylb
+                - generic [ref=e292]: 49.5K+ followers
+            - button "About this result" [ref=e293] [cursor=pointer]:
+              - img [ref=e296]
+          - generic [ref=e300]:
+            - text: "50K followers · 7.1K+ following · 4736 posts · @donnylb: “"
+            - emphasis [ref=e301]: Detroit
+            - text: ". Author. The foodie filmmaker. Lifestyle. Partnerships: DonnyLB@"
+            - emphasis [ref=e302]: gmail.com
+            - text: ”
+          - link "site:instagram.com \"detroit\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e305] [cursor=pointer]:
+            - /url: https://www.instagram.com/donnylb/
+            - img "site:instagram.com \"detroit\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e307]
+        - generic [ref=e311]:
+          - generic [ref=e314]:
+            - link "Jessica Ashford | Detroit Influencer & Marketer Instagram · jessicathepro 60+ likes · 9 months ago" [ref=e316] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DN8Cn13jzAp/
+              - heading "Jessica Ashford | Detroit Influencer & Marketer" [level=3] [ref=e317]
+              - generic [ref=e322]:
+                - generic [ref=e324]: Instagram · jessicathepro
+                - generic [ref=e326]: 60+ likes · 9 months ago
+            - button "About this result" [ref=e327] [cursor=pointer]:
+              - img [ref=e330]
+          - generic [ref=e333]:
+            - generic [ref=e334]:
+              - text: Jessica Ashford |
+              - emphasis [ref=e335]: Detroit Influencer
+              - text: "& Marketer | Life lately has ... Collabs: moecollab3@"
+              - emphasis [ref=e336]: gmail.com
+              - text: "#BrandCollab #ContentCreator ..."
+            - link "Read more" [ref=e337] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DN8Cn13jzAp/#:~:text=Jessica%20Ashford%20%7C%20Detroit%20Influencer,Marketer%20%7C%20Life%20lately%20has&text=more
+          - link "site:instagram.com \"detroit\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e340] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DN8Cn13jzAp/
+            - img "site:instagram.com \"detroit\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e342]
+        - generic [ref=e346]:
+          - generic [ref=e349]:
+            - link "Detroit Influencer (@detroitfinds313) - Instagram Instagram https://www.instagram.com › detroitfinds313" [ref=e351] [cursor=pointer]:
+              - /url: https://www.instagram.com/detroitfinds313/reels/
+              - heading "Detroit Influencer (@detroitfinds313) - Instagram" [level=3] [ref=e352]
+              - generic [ref=e357]:
+                - generic [ref=e359]: Instagram
+                - generic [ref=e361]: https://www.instagram.com › detroitfinds313
+            - button "About this result" [ref=e362] [cursor=pointer]:
+              - img [ref=e365]
+          - generic [ref=e368]:
+            - generic [ref=e369]:
+              - text: ...
+              - emphasis [ref=e370]: gmail.com
+              - text: Fill out interest form to collab ...
+              - emphasis [ref=e371]: Detroit
+              - text: Finds |
+              - emphasis [ref=e372]: Detroit Influencer
+              - text: . 131K followers. 1,293 following.
+              - emphasis [ref=e373]: Detroit
+              - text: ...
+            - link "Read more" [ref=e374] [cursor=pointer]:
+              - /url: https://www.instagram.com/detroitfinds313/reels/#:~:text=Detroit%20Finds%20%7C%20Detroit%20Influencer,to%20do%20in%20Detroit%20%E2%9C%A8
+          - link "site:instagram.com \"detroit\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e377] [cursor=pointer]:
+            - /url: https://www.instagram.com/detroitfinds313/reels/
+            - img "site:instagram.com \"detroit\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e379]
+        - generic [ref=e383]:
+          - generic [ref=e386]:
+            - link "Isabela Antelmo (@isaantelmo) - Instagram Instagram · isaantelmo 49K+ followers" [ref=e388] [cursor=pointer]:
+              - /url: https://www.instagram.com/isaantelmo/
+              - heading "Isabela Antelmo (@isaantelmo) - Instagram" [level=3] [ref=e389]
+              - generic [ref=e394]:
+                - generic [ref=e396]: Instagram · isaantelmo
+                - generic [ref=e398]: 49K+ followers
+            - button "About this result" [ref=e399] [cursor=pointer]:
+              - img [ref=e402]
+          - generic [ref=e405]:
+            - generic [ref=e406]:
+              - text: Brazilian based in metro
+              - emphasis [ref=e407]: detroit
+              - text: "• michigan all things fashion • lifestyle • beauty • travel. Benny's mom inquires: isabela.antelmo@"
+              - emphasis [ref=e408]: gmail.com
+              - text: .
+            - link "Read more" [ref=e409] [cursor=pointer]:
+              - /url: https://www.instagram.com/isaantelmo/#:~:text=Brazilian%20based%20in%20metro%20detroit,inquires%3A%20isabela.antelmo%40gmail.com
+          - link "site:instagram.com \"detroit\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e412] [cursor=pointer]:
+            - /url: https://www.instagram.com/isaantelmo/
+            - img "site:instagram.com \"detroit\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e414]
+        - generic [ref=e418]:
+          - generic [ref=e421]:
+            - link "Jessica Ashford | Detroit Influencer & Marketer Instagram · jessicathepro 150+ likes · 1 year ago" [ref=e423] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DKkBwv6MyUI/
+              - heading "Jessica Ashford | Detroit Influencer & Marketer" [level=3] [ref=e424]
+              - generic [ref=e429]:
+                - generic [ref=e431]: Instagram · jessicathepro
+                - generic [ref=e433]: 150+ likes · 1 year ago
+            - button "About this result" [ref=e434] [cursor=pointer]:
+              - img [ref=e437]
+          - generic [ref=e440]:
+            - generic [ref=e441]:
+              - text: Jessica Ashford |
+              - emphasis [ref=e442]: Detroit Influencer
+              - text: "& Marketer | 5K people have ... getoffseasonllc@"
+              - emphasis [ref=e443]: gmail.com
+              - text: . DM “LOCKED IN” if you ready to grow ...
+            - link "Read more" [ref=e444] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DKkBwv6MyUI/#:~:text=Jessica%20Ashford%20%7C%20Detroit%20Influencer,Marketer%20%7C%205K%20people%20have&text=more
+          - link "site:instagram.com \"detroit\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e447] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DKkBwv6MyUI/
+            - img "site:instagram.com \"detroit\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e449]
+        - generic [ref=e453]:
+          - generic [ref=e456]:
+            - link "Anihja (@anihjarazheem_) · Detroit, MI Instagram · anihjarazheem_ 7.5K+ followers" [ref=e458] [cursor=pointer]:
+              - /url: https://www.instagram.com/anihjarazheem_/
+              - heading "Anihja (@anihjarazheem_) · Detroit, MI" [level=3] [ref=e459]
+              - generic [ref=e464]:
+                - generic [ref=e466]: Instagram · anihjarazheem_
+                - generic [ref=e468]: 7.5K+ followers
+            - button "About this result" [ref=e469] [cursor=pointer]:
+              - img [ref=e472]
+          - generic [ref=e475]:
+            - generic [ref=e476]:
+              - text: DTX.. THAT GIRL @stayprettyapparel_. Beauty, Fitness and Lifestyle
+              - emphasis [ref=e477]: Influencer
+              - text: "Business Inquiries: bookanihja@"
+              - emphasis [ref=e478]: gmail.com
+              - text: .
+            - link "Read more" [ref=e479] [cursor=pointer]:
+              - /url: https://www.instagram.com/anihjarazheem_/#:~:text=DTX..,Business%20Inquiries%3A%20bookanihja%40gmail.com
+          - link "site:instagram.com \"detroit\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e482] [cursor=pointer]:
+            - /url: https://www.instagram.com/anihjarazheem_/
+            - img "site:instagram.com \"detroit\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e484]
+      - navigation [ref=e487]:
+        - heading "Page Navigation" [level=1] [ref=e488]
+        - text: "1"
+        - link "Page 2" [ref=e491] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22detroit%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=oRspapOKL9bJkPIPn8LhyAc&start=10&sa=N&sstk=AU9db-AJROOgOpbG5arPid_R9ITe5MlYX2WLnT6rBipeR88WXJkfsnKdVKLH6vRl21iHElFz-mR2Sm_6YxxubRqguwko0TQYO9oh0w&ved=2ahUKEwjT3oSPnPyUAxXWJEQIHR9hGHkQ8tMDegQIKRAE
+          - text: "2"
+        - link "Page 3" [ref=e493] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22detroit%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=oRspapOKL9bJkPIPn8LhyAc&start=20&sa=N&sstk=AU9db-AJROOgOpbG5arPid_R9ITe5MlYX2WLnT6rBipeR88WXJkfsnKdVKLH6vRl21iHElFz-mR2Sm_6YxxubRqguwko0TQYO9oh0w&ved=2ahUKEwjT3oSPnPyUAxXWJEQIHR9hGHkQ8tMDegQIKRAG
+          - text: "3"
+        - link "Page 4" [ref=e495] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22detroit%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=oRspapOKL9bJkPIPn8LhyAc&start=30&sa=N&sstk=AU9db-AJROOgOpbG5arPid_R9ITe5MlYX2WLnT6rBipeR88WXJkfsnKdVKLH6vRl21iHElFz-mR2Sm_6YxxubRqguwko0TQYO9oh0w&ved=2ahUKEwjT3oSPnPyUAxXWJEQIHR9hGHkQ8tMDegQIKRAI
+          - text: "4"
+        - link "Page 5" [ref=e497] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22detroit%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=oRspapOKL9bJkPIPn8LhyAc&start=40&sa=N&sstk=AU9db-AJROOgOpbG5arPid_R9ITe5MlYX2WLnT6rBipeR88WXJkfsnKdVKLH6vRl21iHElFz-mR2Sm_6YxxubRqguwko0TQYO9oh0w&ved=2ahUKEwjT3oSPnPyUAxXWJEQIHR9hGHkQ8tMDegQIKRAK
+          - text: "5"
+        - link "Page 6" [ref=e499] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22detroit%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=oRspapOKL9bJkPIPn8LhyAc&start=50&sa=N&sstk=AU9db-AJROOgOpbG5arPid_R9ITe5MlYX2WLnT6rBipeR88WXJkfsnKdVKLH6vRl21iHElFz-mR2Sm_6YxxubRqguwko0TQYO9oh0w&ved=2ahUKEwjT3oSPnPyUAxXWJEQIHR9hGHkQ8tMDegQIKRAM
+          - text: "6"
+        - link "Page 7" [ref=e501] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22detroit%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=oRspapOKL9bJkPIPn8LhyAc&start=60&sa=N&sstk=AU9db-AJROOgOpbG5arPid_R9ITe5MlYX2WLnT6rBipeR88WXJkfsnKdVKLH6vRl21iHElFz-mR2Sm_6YxxubRqguwko0TQYO9oh0w&ved=2ahUKEwjT3oSPnPyUAxXWJEQIHR9hGHkQ8tMDegQIKRAO
+          - text: "7"
+        - link "Page 8" [ref=e503] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22detroit%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=oRspapOKL9bJkPIPn8LhyAc&start=70&sa=N&sstk=AU9db-AJROOgOpbG5arPid_R9ITe5MlYX2WLnT6rBipeR88WXJkfsnKdVKLH6vRl21iHElFz-mR2Sm_6YxxubRqguwko0TQYO9oh0w&ved=2ahUKEwjT3oSPnPyUAxXWJEQIHR9hGHkQ8tMDegQIKRAQ
+          - text: "8"
+        - link "Page 9" [ref=e505] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22detroit%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=oRspapOKL9bJkPIPn8LhyAc&start=80&sa=N&sstk=AU9db-AJROOgOpbG5arPid_R9ITe5MlYX2WLnT6rBipeR88WXJkfsnKdVKLH6vRl21iHElFz-mR2Sm_6YxxubRqguwko0TQYO9oh0w&ved=2ahUKEwjT3oSPnPyUAxXWJEQIHR9hGHkQ8tMDegQIKRAS
+          - text: "9"
+        - link "Page 10" [ref=e507] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22detroit%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=oRspapOKL9bJkPIPn8LhyAc&start=90&sa=N&sstk=AU9db-AJROOgOpbG5arPid_R9ITe5MlYX2WLnT6rBipeR88WXJkfsnKdVKLH6vRl21iHElFz-mR2Sm_6YxxubRqguwko0TQYO9oh0w&ved=2ahUKEwjT3oSPnPyUAxXWJEQIHR9hGHkQ8tMDegQIKRAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e509]:
+          - link "Next" [ref=e510] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22detroit%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=oRspapOKL9bJkPIPn8LhyAc&start=10&sa=N&sstk=AU9db-AJROOgOpbG5arPid_R9ITe5MlYX2WLnT6rBipeR88WXJkfsnKdVKLH6vRl21iHElFz-mR2Sm_6YxxubRqguwko0TQYO9oh0w&ved=2ahUKEwjT3oSPnPyUAxXWJEQIHR9hGHkQ8NMDegQIKRAW
+            - generic [ref=e512]: Next
+      - navigation
+    - contentinfo [ref=e513]:
+      - heading "Footer Links" [level=1] [ref=e514]
+      - generic [ref=e518]:
+        - generic [ref=e522]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e524] [cursor=pointer]:
+            - generic [ref=e525]: 85281, Tempe, AZ
+            - generic [ref=e527]:
+              - text: "-"
+              - generic [ref=e528]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e530] [cursor=pointer]: Update location
+        - generic [ref=e533]:
+          - link "Help" [ref=e534] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e535] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e536] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e537] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

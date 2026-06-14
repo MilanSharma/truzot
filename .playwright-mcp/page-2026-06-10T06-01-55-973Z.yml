@@ -1,0 +1,100 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#content"
+  - generic [ref=e6]:
+    - link [ref=e9] [cursor=pointer]:
+      - /url: https://madelinemann.com
+    - generic [ref=e12]:
+      - text:  
+      - list [ref=e14]:
+        - listitem [ref=e15] [cursor=pointer]:
+          - link "Home" [ref=e16]:
+            - /url: https://madelinemann.com/
+        - listitem [ref=e17] [cursor=pointer]:
+          - link "About" [ref=e18]:
+            - /url: https://madelinemann.com/about/
+            - text: About
+            - generic [ref=e19]: 
+        - listitem [ref=e20] [cursor=pointer]:
+          - link "Coaching" [ref=e21]:
+            - /url: https://madelinemann.com/coaching/
+        - listitem [ref=e22] [cursor=pointer]:
+          - link "Shop" [ref=e23]:
+            - /url: https://madelinemann.com/shop/
+        - listitem [ref=e24] [cursor=pointer]:
+          - link "Free Resources" [ref=e25]:
+            - /url: https://madelinemann.com/free-resources/
+        - listitem [ref=e26] [cursor=pointer]:
+          - link "Contact" [ref=e27]:
+            - /url: https://madelinemann.com/contact/
+  - generic [ref=e28]:
+    - heading "Contact Us" [level=3] [ref=e35]:
+      - text: Contact
+      - generic [ref=e36]:
+        - generic [ref=e37]: Us
+        - img [ref=e38]
+    - generic [ref=e42]:
+      - heading "Send us a message" [level=3] [ref=e45]:
+        - text: Send us
+        - generic [ref=e47]: a message
+      - paragraph [ref=e51]:
+        - generic [ref=e52]:
+          - text: Looking to get in contact with me and my team?
+          - text: We’d love to hear from you! Use the email below for all inquiries.
+      - generic [ref=e55]:
+        - img [ref=e58]
+        - generic [ref=e60]:
+          - heading "E-mail" [level=3] [ref=e61]
+          - paragraph [ref=e62]:
+            - link "hi@selfmadeway.com" [ref=e63] [cursor=pointer]:
+              - /url: mailto:hi@selfmadeway.com
+  - generic [ref=e68]:
+    - generic [ref=e72]:
+      - list [ref=e80]:
+        - listitem [ref=e81]:
+          - link "Youtube" [ref=e82] [cursor=pointer]:
+            - /url: http://www.youtube.com/selfmademillennial
+            - generic [ref=e83]: Youtube
+            - img [ref=e84]
+        - listitem [ref=e86]:
+          - link "Linkedin" [ref=e87] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/madelinemann/
+            - generic [ref=e88]: Linkedin
+            - img [ref=e89]
+        - listitem [ref=e91]:
+          - link "Tiktok" [ref=e92] [cursor=pointer]:
+            - /url: https://www.tiktok.com/@selfmademillennial
+            - generic [ref=e93]: Tiktok
+            - img [ref=e94]
+        - listitem [ref=e96]:
+          - link "Instagram" [ref=e97] [cursor=pointer]:
+            - /url: https://www.instagram.com/self.made.millennial/%20
+            - generic [ref=e98]: Instagram
+            - img [ref=e99]
+      - list [ref=e107]:
+        - listitem [ref=e108]:
+          - link "Home" [ref=e109] [cursor=pointer]:
+            - /url: https://madelinemann.com/
+            - generic [ref=e110]: Home
+        - listitem [ref=e111]:
+          - link "About" [ref=e112] [cursor=pointer]:
+            - /url: https://madelinemann.com/about/
+            - generic [ref=e113]: About
+        - listitem [ref=e114]:
+          - link "Coaching" [ref=e115] [cursor=pointer]:
+            - /url: https://madelinemann.com/coaching/
+            - generic [ref=e116]: Coaching
+        - listitem [ref=e117]:
+          - link "Shop" [ref=e118] [cursor=pointer]:
+            - /url: https://madelinemann.com/shop/
+            - generic [ref=e119]: Shop
+        - listitem [ref=e120]:
+          - link "Free Resources" [ref=e121] [cursor=pointer]:
+            - /url: https://madelinemann.com/free-resources/
+            - generic [ref=e122]: Free Resources
+        - listitem [ref=e123]:
+          - link "Contact" [ref=e124] [cursor=pointer]:
+            - /url: https://madelinemann.com/contact/
+            - generic [ref=e125]: Contact
+    - paragraph [ref=e131]: Copyright 2026 © All Right Reserved
+  - generic [ref=e132]: desktop

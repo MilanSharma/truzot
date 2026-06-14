@@ -1,0 +1,334 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwjIq5CxufyUAxXIKkQIHTXKL5EQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "boston" "influencer" "@gmail.com" site:instagram.com "boston" "influencer" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522boston%2522%2B%2522influencer%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22boston%22+%22influencer%22+%22%40gmail.com%22&sca_esv=1eed3fc2a4e4618d&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&aep=1&ntc=1&sa=X&ved=2ahUKEwjIq5CxufyUAxXIKkQIHTXKL5EQ2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22boston%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjIq5CxufyUAxXIKkQIHTXKL5EQtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "News" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&q=site:instagram.com+%22boston%22+%22influencer%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&sa=X&ved=2ahUKEwjIq5CxufyUAxXIKkQIHTXKL5EQ0pQJegQIFBAB
+              - generic [ref=e94]: News
+          - listitem [ref=e95]:
+            - link "Videos" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22boston%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjIq5CxufyUAxXIKkQIHTXKL5EQtKgLegQIExAB
+              - generic [ref=e98]: Videos
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22boston%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjIq5CxufyUAxXIKkQIHTXKL5EQs6gLegQIERAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22boston%22+%22influencer%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "Katherine Casaletto (@prepofboston) Instagram · prepofboston 34.8K+ followers" [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/prepofboston/
+                - heading "Katherine Casaletto (@prepofboston)" [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram · prepofboston
+                  - generic [ref=e153]: 34.8K+ followers
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e161]:
+              - text: ...
+              - emphasis [ref=e162]: gmail.com
+              - text: ... The best time with @bostonmagevents last night at ...
+            - link "site:instagram.com \"boston\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e165] [cursor=pointer]:
+              - /url: https://www.instagram.com/prepofboston/
+              - img "site:instagram.com \"boston\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e167]
+        - generic [ref=e171]:
+          - generic [ref=e174]:
+            - link "Ayanna | Boston Travel Creator (@ayanna_moise) Instagram · ayanna_moise 28.5K+ followers" [ref=e176] [cursor=pointer]:
+              - /url: https://www.instagram.com/ayanna_moise/
+              - heading "Ayanna | Boston Travel Creator (@ayanna_moise)" [level=3] [ref=e177]
+              - generic [ref=e182]:
+                - generic [ref=e184]: Instagram · ayanna_moise
+                - generic [ref=e186]: 28.5K+ followers
+            - button "About this result" [ref=e187] [cursor=pointer]:
+              - img [ref=e190]
+          - generic [ref=e193]:
+            - generic [ref=e194]:
+              - emphasis [ref=e195]: Boston
+              - text: Food, Hotels & Unique Activities contributor of @bostonbside & @letsmeetboston ayannam2000@
+              - emphasis [ref=e196]: gmail.com
+              - text: .
+            - link "Read more" [ref=e197] [cursor=pointer]:
+              - /url: https://www.instagram.com/ayanna_moise/#:~:text=%F0%9F%93%8DBoston,%F0%9F%92%8C%20ayannam2000%40gmail.com
+          - link "site:instagram.com \"boston\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e199] [cursor=pointer]:
+            - /url: https://www.instagram.com/ayanna_moise/
+        - generic [ref=e216]:
+          - generic [ref=e219]:
+            - link "Beadymar (@therealbeady_) · Boston, MA Instagram · therealbeady_ 7.3K+ followers" [ref=e221] [cursor=pointer]:
+              - /url: https://www.instagram.com/therealbeady_/
+              - heading "Beadymar (@therealbeady_) · Boston, MA" [level=3] [ref=e222]
+              - generic [ref=e227]:
+                - generic [ref=e229]: Instagram · therealbeady_
+                - generic [ref=e231]: 7.3K+ followers
+            - button "About this result" [ref=e232] [cursor=pointer]:
+              - img [ref=e235]
+          - generic [ref=e239]:
+            - text: ...
+            - emphasis [ref=e240]: gmail.com
+            - text: ...
+            - emphasis [ref=e241]: Boston
+            - text: ontent creator, therealbeady,
+            - emphasis [ref=e242]: Boston influencer
+            - text: ", marketing, ontent marketing."
+          - link "site:instagram.com \"boston\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e245] [cursor=pointer]:
+            - /url: https://www.instagram.com/therealbeady_/
+            - img "site:instagram.com \"boston\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e247]
+        - generic [ref=e251]:
+          - generic [ref=e254]:
+            - link "Pierrelene Instagram · pierrelene 1.3K+ followers" [ref=e256] [cursor=pointer]:
+              - /url: https://www.instagram.com/pierrelene/
+              - heading "Pierrelene" [level=3] [ref=e257]
+              - generic [ref=e262]:
+                - generic [ref=e264]: Instagram · pierrelene
+                - generic [ref=e266]: 1.3K+ followers
+            - button "About this result" [ref=e267] [cursor=pointer]:
+              - img [ref=e270]
+          - generic [ref=e274]:
+            - text: "1.3K+ followers · 1.3K+ following · 593 posts · @pierrelene: “"
+            - emphasis [ref=e275]: Boston
+            - text: Lifestyle & Beauty UGC, Collabs pierrelene@
+            - emphasis [ref=e276]: gmail.com
+            - text: "@poppedbypenny”"
+          - link "site:instagram.com \"boston\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e278] [cursor=pointer]:
+            - /url: https://www.instagram.com/pierrelene/
+        - generic [ref=e295]:
+          - generic [ref=e298]:
+            - link "Boston Influencer Network (@bostonmaginfluencers) Instagram · bostonmaginfluencers 70+ followers" [ref=e300] [cursor=pointer]:
+              - /url: https://www.instagram.com/bostonmaginfluencers/
+              - heading "Boston Influencer Network (@bostonmaginfluencers)" [level=3] [ref=e301]
+              - generic [ref=e306]:
+                - generic [ref=e308]: Instagram · bostonmaginfluencers
+                - generic [ref=e310]: 70+ followers
+            - button "About this result" [ref=e311] [cursor=pointer]:
+              - img [ref=e314]
+          - generic [ref=e317]:
+            - generic [ref=e318]:
+              - emphasis [ref=e319]: Boston Influencer
+              - text: Network. 70 followers. 256 following. Connecting influencers ... bosmagevents@
+              - emphasis [ref=e320]: gmail.com
+              - text: . Follow. Message. This profile is private. Follow ...
+            - link "Read more" [ref=e321] [cursor=pointer]:
+              - /url: https://www.instagram.com/bostonmaginfluencers/#:~:text=Boston%20Influencer%20Network,one%20event%20at%20a%20time.&text=%F0%9F%93%A7%20bosmagevents%40gmail.com,see%20their%20photos%20and%20videos.
+        - generic [ref=e325]:
+          - generic [ref=e328]:
+            - link "Charuta | Boston content creator (@charuta_arvind) Instagram · charuta_arvind 22.8K+ followers" [ref=e330] [cursor=pointer]:
+              - /url: https://www.instagram.com/charuta_arvind/
+              - heading "Charuta | Boston content creator (@charuta_arvind)" [level=3] [ref=e331]
+              - generic [ref=e336]:
+                - generic [ref=e338]: Instagram · charuta_arvind
+                - generic [ref=e340]: 22.8K+ followers
+            - button "About this result" [ref=e341] [cursor=pointer]:
+              - img [ref=e344]
+          - generic [ref=e347]:
+            - generic [ref=e348]:
+              - text: Crafty susty fashion girlie bopping around
+              - emphasis [ref=e349]: Boston
+              - text: June 2026 Bride ✨ 3x DIY
+              - emphasis [ref=e350]: influencer
+              - text: "✉️: content.charuta@"
+              - emphasis [ref=e351]: gmail.com
+              - text: .
+            - link "Read more" [ref=e352] [cursor=pointer]:
+              - /url: https://www.instagram.com/charuta_arvind/#:~:text=Crafty%20susty%20fashion%20girlie%20bopping,%E2%9C%89%EF%B8%8F%3A%20content.charuta%40gmail.com
+          - link "site:instagram.com \"boston\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e355] [cursor=pointer]:
+            - /url: https://www.instagram.com/charuta_arvind/
+            - img "site:instagram.com \"boston\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e357]
+        - generic [ref=e361]:
+          - generic [ref=e364]:
+            - link "Maddie Graves-Witherell (@itsmaddiegw) Instagram · itsmaddiegw 42.1K+ followers" [ref=e366] [cursor=pointer]:
+              - /url: https://www.instagram.com/itsmaddiegw/
+              - heading "Maddie Graves-Witherell (@itsmaddiegw)" [level=3] [ref=e367]
+              - generic [ref=e372]:
+                - generic [ref=e374]: Instagram · itsmaddiegw
+                - generic [ref=e376]: 42.1K+ followers
+            - button "About this result" [ref=e377] [cursor=pointer]:
+              - img [ref=e380]
+          - generic [ref=e384]:
+            - text: ...
+            - emphasis [ref=e385]: gmail.com
+            - text: "@ ... The chronicals of being a future bride #bride ..."
+          - link "site:instagram.com \"boston\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e388] [cursor=pointer]:
+            - /url: https://www.instagram.com/itsmaddiegw/
+            - img "site:instagram.com \"boston\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e390]
+        - generic [ref=e394]:
+          - generic [ref=e397]:
+            - link "shell ♡ (@shell_rodd) • Instagram photos and videos Instagram · shell_rodd 9.1K+ followers" [ref=e399] [cursor=pointer]:
+              - /url: https://www.instagram.com/shell_rodd/
+              - heading "shell ♡ (@shell_rodd) • Instagram photos and videos" [level=3] [ref=e400]
+              - generic [ref=e405]:
+                - generic [ref=e407]: Instagram · shell_rodd
+                - generic [ref=e409]: 9.1K+ followers
+            - button "About this result" [ref=e410] [cursor=pointer]:
+              - img [ref=e413]
+          - generic [ref=e417]:
+            - text: "... K+ followers · 2.1K+ following · 504 posts · @shell_rodd: “food, lifestyle, whatever."
+            - emphasis [ref=e418]: boston
+            - text: ", ma : shellxrodd@"
+            - emphasis [ref=e419]: gmail.com
+            - text: more stuff ...
+            - emphasis [ref=e420]: influencer
+            - text: ...
+          - link "site:instagram.com \"boston\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e423] [cursor=pointer]:
+            - /url: https://www.instagram.com/shell_rodd/
+            - img "site:instagram.com \"boston\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e425]
+        - generic [ref=e429]:
+          - generic [ref=e432]:
+            - link "Olivia Taylor (@olivitaylor) Instagram · olivitaylor 28.3K+ followers" [ref=e434] [cursor=pointer]:
+              - /url: https://www.instagram.com/olivitaylor/
+              - heading "Olivia Taylor (@olivitaylor)" [level=3] [ref=e435]
+              - generic [ref=e440]:
+                - generic [ref=e442]: Instagram · olivitaylor
+                - generic [ref=e444]: 28.3K+ followers
+            - button "About this result" [ref=e445] [cursor=pointer]:
+              - img [ref=e448]
+          - generic [ref=e452]:
+            - text: ...
+            - emphasis [ref=e453]: gmail.com
+            - text: ...
+            - emphasis [ref=e454]: boston
+            - text: ", Dedham,"
+            - emphasis [ref=e455]: influencer
+            - text: ","
+            - emphasis [ref=e456]: boston
+            - text: ", social media manager ..."
+          - link "site:instagram.com \"boston\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e459] [cursor=pointer]:
+            - /url: https://www.instagram.com/olivitaylor/
+            - img "site:instagram.com \"boston\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e461]
+        - generic [ref=e465]:
+          - generic [ref=e468]:
+            - link "Ariana (@ariana_margios) • Instagram photos and videos Instagram · ariana_margios 12.7K+ followers" [ref=e470] [cursor=pointer]:
+              - /url: https://www.instagram.com/ariana_margios/
+              - heading "Ariana (@ariana_margios) • Instagram photos and videos" [level=3] [ref=e471]
+              - generic [ref=e476]:
+                - generic [ref=e478]: Instagram · ariana_margios
+                - generic [ref=e480]: 12.7K+ followers
+            - button "About this result" [ref=e481] [cursor=pointer]:
+              - img [ref=e484]
+          - generic [ref=e488]:
+            - text: ...
+            - emphasis [ref=e489]: 𝚐𝚖𝚊𝚒𝚕.𝚌𝚘𝚖
+            - text: Owner of @ ...
+            - emphasis [ref=e490]: Boston
+            - text: content creator | micro
+            - emphasis [ref=e491]: influencer
+            - text: . // sorry I'm busy ☎️✨ ps can ...
+          - link "site:instagram.com \"boston\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e494] [cursor=pointer]:
+            - /url: https://www.instagram.com/ariana_margios/
+            - img "site:instagram.com \"boston\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e496]
+      - navigation [ref=e499]:
+        - heading "Page Navigation" [level=1] [ref=e500]
+        - text: "1"
+        - link "Page 2" [ref=e503] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22boston%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=UTopaoi_NsjVkPIPtZS_iQk&start=10&sa=N&sstk=AU9db-AufaH6bUJkG92WgCLoaAUvvT7AXW7KOvdXNUUu_8iVSb9cfzSBMkgpBnOf_9_t22jYRrO1YatpZg5iMSXK4F-zqWTsa21S3g&ved=2ahUKEwjIq5CxufyUAxXIKkQIHTXKL5EQ8tMDegQIOhAE
+          - text: "2"
+        - link "Page 3" [ref=e505] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22boston%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=UTopaoi_NsjVkPIPtZS_iQk&start=20&sa=N&sstk=AU9db-AufaH6bUJkG92WgCLoaAUvvT7AXW7KOvdXNUUu_8iVSb9cfzSBMkgpBnOf_9_t22jYRrO1YatpZg5iMSXK4F-zqWTsa21S3g&ved=2ahUKEwjIq5CxufyUAxXIKkQIHTXKL5EQ8tMDegQIOhAG
+          - text: "3"
+        - link "Page 4" [ref=e507] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22boston%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=UTopaoi_NsjVkPIPtZS_iQk&start=30&sa=N&sstk=AU9db-AufaH6bUJkG92WgCLoaAUvvT7AXW7KOvdXNUUu_8iVSb9cfzSBMkgpBnOf_9_t22jYRrO1YatpZg5iMSXK4F-zqWTsa21S3g&ved=2ahUKEwjIq5CxufyUAxXIKkQIHTXKL5EQ8tMDegQIOhAI
+          - text: "4"
+        - link "Page 5" [ref=e509] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22boston%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=UTopaoi_NsjVkPIPtZS_iQk&start=40&sa=N&sstk=AU9db-AufaH6bUJkG92WgCLoaAUvvT7AXW7KOvdXNUUu_8iVSb9cfzSBMkgpBnOf_9_t22jYRrO1YatpZg5iMSXK4F-zqWTsa21S3g&ved=2ahUKEwjIq5CxufyUAxXIKkQIHTXKL5EQ8tMDegQIOhAK
+          - text: "5"
+        - link "Page 6" [ref=e511] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22boston%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=UTopaoi_NsjVkPIPtZS_iQk&start=50&sa=N&sstk=AU9db-AufaH6bUJkG92WgCLoaAUvvT7AXW7KOvdXNUUu_8iVSb9cfzSBMkgpBnOf_9_t22jYRrO1YatpZg5iMSXK4F-zqWTsa21S3g&ved=2ahUKEwjIq5CxufyUAxXIKkQIHTXKL5EQ8tMDegQIOhAM
+          - text: "6"
+        - link "Page 7" [ref=e513] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22boston%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=UTopaoi_NsjVkPIPtZS_iQk&start=60&sa=N&sstk=AU9db-AufaH6bUJkG92WgCLoaAUvvT7AXW7KOvdXNUUu_8iVSb9cfzSBMkgpBnOf_9_t22jYRrO1YatpZg5iMSXK4F-zqWTsa21S3g&ved=2ahUKEwjIq5CxufyUAxXIKkQIHTXKL5EQ8tMDegQIOhAO
+          - text: "7"
+        - link "Page 8" [ref=e515] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22boston%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=UTopaoi_NsjVkPIPtZS_iQk&start=70&sa=N&sstk=AU9db-AufaH6bUJkG92WgCLoaAUvvT7AXW7KOvdXNUUu_8iVSb9cfzSBMkgpBnOf_9_t22jYRrO1YatpZg5iMSXK4F-zqWTsa21S3g&ved=2ahUKEwjIq5CxufyUAxXIKkQIHTXKL5EQ8tMDegQIOhAQ
+          - text: "8"
+        - link "Page 9" [ref=e517] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22boston%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=UTopaoi_NsjVkPIPtZS_iQk&start=80&sa=N&sstk=AU9db-AufaH6bUJkG92WgCLoaAUvvT7AXW7KOvdXNUUu_8iVSb9cfzSBMkgpBnOf_9_t22jYRrO1YatpZg5iMSXK4F-zqWTsa21S3g&ved=2ahUKEwjIq5CxufyUAxXIKkQIHTXKL5EQ8tMDegQIOhAS
+          - text: "9"
+        - link "Page 10" [ref=e519] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22boston%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=UTopaoi_NsjVkPIPtZS_iQk&start=90&sa=N&sstk=AU9db-AufaH6bUJkG92WgCLoaAUvvT7AXW7KOvdXNUUu_8iVSb9cfzSBMkgpBnOf_9_t22jYRrO1YatpZg5iMSXK4F-zqWTsa21S3g&ved=2ahUKEwjIq5CxufyUAxXIKkQIHTXKL5EQ8tMDegQIOhAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e521]:
+          - link "Next" [ref=e522] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22boston%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=UTopaoi_NsjVkPIPtZS_iQk&start=10&sa=N&sstk=AU9db-AufaH6bUJkG92WgCLoaAUvvT7AXW7KOvdXNUUu_8iVSb9cfzSBMkgpBnOf_9_t22jYRrO1YatpZg5iMSXK4F-zqWTsa21S3g&ved=2ahUKEwjIq5CxufyUAxXIKkQIHTXKL5EQ8NMDegQIOhAW
+            - generic [ref=e524]: Next
+      - navigation
+    - contentinfo [ref=e525]:
+      - heading "Footer Links" [level=1] [ref=e526]
+      - generic [ref=e530]:
+        - generic [ref=e534]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e536] [cursor=pointer]:
+            - generic [ref=e537]: 85281, Tempe, AZ
+            - generic [ref=e539]:
+              - text: "-"
+              - generic [ref=e540]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e542] [cursor=pointer]: Update location
+        - generic [ref=e545]:
+          - link "Help" [ref=e546] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e547] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e548] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e549] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

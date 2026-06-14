@@ -1,0 +1,278 @@
+- generic [ref=e2]:
+  - generic [ref=e4]:
+    - link "logo" [ref=e5] [cursor=pointer]:
+      - /url: /
+      - img "logo" [ref=e6]
+    - navigation [ref=e7]:
+      - list [ref=e8]:
+        - listitem [ref=e9]:
+          - generic [ref=e11]: Product
+        - listitem [ref=e12]:
+          - generic [ref=e14]: Free Tools
+        - listitem [ref=e15]:
+          - link "Blog" [ref=e16] [cursor=pointer]:
+            - /url: /public/blog
+        - listitem [ref=e17]:
+          - link "Pricing" [ref=e18] [cursor=pointer]:
+            - /url: /pricing
+    - generic [ref=e19]:
+      - link "Log in" [ref=e20] [cursor=pointer]:
+        - /url: /sign-in
+      - link "Free Trial" [ref=e21] [cursor=pointer]:
+        - /url: /sign-up
+      - link "Book a demo" [ref=e22] [cursor=pointer]:
+        - /url: https://calendly.com/iqfluence-io/30min
+  - main [ref=e23]:
+    - generic [ref=e25]:
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - 'heading "Free Instagram bio search: Find creators your buyers actually trust" [level=1] [ref=e30]'
+          - paragraph [ref=e32]: Tired of manual scrolling and «maybe» creators? Search Instagram by bio, apply 13+ filters, and get a shortlist that’s ready to send straight to approvals.
+        - generic [ref=e34]:
+          - generic [ref=e35]:
+            - generic [ref=e36]:
+              - generic [ref=e38] [cursor=pointer]: Location
+              - generic [ref=e40] [cursor=pointer]: Language
+              - generic [ref=e42] [cursor=pointer]: Brands
+              - generic [ref=e44] [cursor=pointer]: Partnerships
+              - generic [ref=e46] [cursor=pointer]: Interests
+              - generic [ref=e48] [cursor=pointer]: Gender
+              - generic [ref=e50] [cursor=pointer]: Age
+            - generic [ref=e51]:
+              - generic [ref=e53] [cursor=pointer]: Lookalikes
+              - generic [ref=e55] [cursor=pointer]: Bio
+              - generic [ref=e57] [cursor=pointer]: Keywords
+              - generic [ref=e59] [cursor=pointer]: Followers
+              - generic [ref=e61] [cursor=pointer]: Engagements
+              - generic [ref=e63] [cursor=pointer]: Fake Followers
+              - generic [ref=e65] [cursor=pointer]: Reels Plays
+            - generic [ref=e66]:
+              - generic [ref=e68] [cursor=pointer]: Contacts
+              - generic [ref=e70] [cursor=pointer]: Last Post
+              - generic [ref=e72] [cursor=pointer]: Account Type
+              - generic [ref=e74] [cursor=pointer]: Growing
+              - generic [ref=e76] [cursor=pointer]: Blacklists
+          - generic [ref=e78]:
+            - img "Instagram" [ref=e82]
+            - combobox "Search by topic..." [ref=e83]
+            - button "Find creators" [ref=e84] [cursor=pointer]:
+              - generic [ref=e85]: Find creators
+      - generic [ref=e86]:
+        - generic [ref=e88]:
+          - heading "How to search by Instagram bio in IQFluence" [level=2] [ref=e90]
+          - list [ref=e91]:
+            - listitem [ref=e92]:
+              - img "screenshot" [ref=e94]
+              - generic [ref=e95]:
+                - heading "Find Instagram influencers in your niche" [level=3] [ref=e96]
+                - paragraph [ref=e98]: The first step to search Instagram bios is to add the niche to pull the obvious matches — beauty, finance, travel, gaming. Then switch on “Keywords” so IQFluence list creators who talk about the same niche in totally different words, by reading patterns across captions, hashtags, and bio themes in our 357M+ influencers database.
+            - listitem [ref=e99]:
+              - img "screenshot" [ref=e101]
+              - generic [ref=e102]:
+                - heading "Find creators where you actually sell" [level=3] [ref=e103]
+                - paragraph [ref=e105]: Filter by geography in the Instagram account finder to surface creators whose audience matches your target markets — right language, right references, right buyers. Searching Instagram by bio + geo is great for brands with limited shipping, localized promos, regulated claims, or different pricing by country.
+            - listitem [ref=e106]:
+              - img "screenshot" [ref=e108]
+              - generic [ref=e109]:
+                - heading "Search Instagram bio by lookalike pipeline" [level=3] [ref=e110]
+                - paragraph [ref=e112]: Use your strongest creator as the seed, switch on Lookalikes, and find Instagram account matches with similar topics, posting style, and audience fit. That’s how you scale the playbook that already works.
+            - listitem [ref=e113]:
+              - img "screenshot" [ref=e115]
+              - generic [ref=e116]:
+                - heading "Performance filters that save budget" [level=3] [ref=e117]
+                - paragraph [ref=e119]: Kick off with engagement rate to remove dead reach, validate with recent average views, then refine by account size to protect CPM/CPE efficiency when you search Instagram users.
+        - generic [ref=e122]:
+          - generic [ref=e123]:
+            - heading "Go beyond Instagram bio search — audit influencers before you approve spend" [level=2] [ref=e124]
+            - generic [ref=e125]:
+              - paragraph [ref=e126]: "IQFluence helps you make the call with clarity:"
+              - list [ref=e127]:
+                - listitem [ref=e128]:
+                  - strong [ref=e129]: "Consistency check:"
+                  - text: sustained growth vs. sudden spike
+                - listitem [ref=e130]:
+                  - strong [ref=e131]: "Market fit:"
+                  - text: audience geo aligned with where you sell
+                - listitem [ref=e132]:
+                  - strong [ref=e133]: "Brand safety:"
+                  - text: topics/hashtags you’re ok putting money behind
+                - listitem [ref=e134]:
+                  - strong [ref=e135]: "Visibility estimate:"
+                  - text: "% of audience who'll see your post"
+            - link "Start 7-day trial" [ref=e137] [cursor=pointer]:
+              - /url: /sign-up
+          - img "banner picture" [ref=e139]
+        - generic [ref=e141]:
+          - heading "More tools to save time and boost results" [level=2] [ref=e142]
+          - list [ref=e143]:
+            - listitem [ref=e144]:
+              - img "Screenshot" [ref=e146]
+              - generic [ref=e148]:
+                - link "Influencer Search" [ref=e149] [cursor=pointer]:
+                  - /url: /public/influencer-search
+                - generic [ref=e150]: Discover creators on Instagram, TikTok, and YouTube using 13+ advanced filters — niche/topic, geo, language, followers count, ER, views, posting frequency. So your shortlist is targeted from the start.
+            - listitem [ref=e151]:
+              - img "Screenshot" [ref=e153]
+              - generic [ref=e155]:
+                - link "Influencer Analysis" [ref=e156] [cursor=pointer]:
+                  - /url: /public/influencer-analysis
+                - generic [ref=e157]: "Analyze creator’s profile and audience in one view: recent performance (avg likes, shares, views, ER), post-level patterns and content themes, plus audience breakdowns like age, gender, and top locations."
+            - listitem [ref=e158]:
+              - img "Screenshot" [ref=e160]
+              - generic [ref=e162]:
+                - link "Campaign Monitoring" [ref=e163] [cursor=pointer]:
+                  - /url: /public/influencer-campaign-reporting
+                - generic [ref=e164]: Automate your influencer performance tracking — we pull the data, crunch conversions, and package a share-ready report your boss will love.
+            - listitem [ref=e165]:
+              - img "Screenshot" [ref=e167]
+              - generic [ref=e169]:
+                - link "Audience Overlap" [ref=e170] [cursor=pointer]:
+                  - /url: /public/audience-overlap
+                - generic [ref=e171]: IQFluence’s audience overlap tool instantly analyzes your influencers' audiences and maps the % of shared followers vs. unique ones across Instagram, TikTok, and YouTube.
+        - generic [ref=e173]:
+          - heading "Find more free tools like Instagram bio search" [level=2] [ref=e174]
+          - list [ref=e175]:
+            - listitem [ref=e176]:
+              - link "item icon YouTube Engagement Rate Calculator Try our YouTube engagement rate calculator to find out the engagement of any account." [ref=e177] [cursor=pointer]:
+                - /url: /public/youtube-engagement-rate-calculator
+                - img "item icon" [ref=e179]
+                - generic [ref=e180]: YouTube Engagement Rate Calculator
+                - generic [ref=e181]: Try our YouTube engagement rate calculator to find out the engagement of any account.
+            - listitem [ref=e182]:
+              - link "item icon Instagram Engagement Rate Calculator Check the IG engagement of any account with a single click." [ref=e183] [cursor=pointer]:
+                - /url: /public/instagram-engagement-rate-calculator
+                - img "item icon" [ref=e185]
+                - generic [ref=e186]: Instagram Engagement Rate Calculator
+                - generic [ref=e187]: Check the IG engagement of any account with a single click.
+            - listitem [ref=e188]:
+              - link "item icon Free TikTok Engagement Rate Calculator Check the TikTok engagements of any account with a single click." [ref=e189] [cursor=pointer]:
+                - /url: /public/tiktok-engagement-rate-calculator
+                - img "item icon" [ref=e191]
+                - generic [ref=e192]: Free TikTok Engagement Rate Calculator
+                - generic [ref=e193]: Check the TikTok engagements of any account with a single click.
+        - generic [ref=e195]:
+          - heading "FAQs on the Instagram bio search" [level=2] [ref=e196]
+          - generic [ref=e197]:
+            - generic [ref=e198]:
+              - generic [ref=e199] [cursor=pointer]: Is IQFluence’s Instagram bio search search free?
+              - paragraph [ref=e202]:
+                - text: Yes. You can use it for free, but searches are capped. If you need deeper vetting (more results, more digging), unlock it with a
+                - link "7-day free trial" [ref=e203] [cursor=pointer]:
+                  - /url: https://iqfluence.io/sign-up
+                - text: .
+            - generic [ref=e204]:
+              - generic [ref=e205] [cursor=pointer]: How do I find a specific Instagram user by bio in IQFluence?
+              - paragraph [ref=e208]: If you have a handle, paste it in and pull the profile + recent performance signals + audience basics. If you don’t, start with a niche query, then filter by location, language, follower range, engagement rate, and recency so you’re not approving “big numbers, dead audience.”
+            - generic [ref=e209]:
+              - generic [ref=e210] [cursor=pointer]: How to find someone’s Instagram bio?
+              - paragraph [ref=e213]: "If you already know the handle, open their profile in IQFluence and you’ll see the bio text in the profile overview. If you don’t know the handle, use search Instagram by bio: type a niche phrase (like “UGC skincare” or “fitness coach”), then filter by location, language, and size to surface the right accounts—and open profiles to confirm the exact bio lines before you shortlist."
+            - generic [ref=e214]:
+              - generic [ref=e215] [cursor=pointer]: Can I search creators by what they wrote in their bio?
+              - paragraph [ref=e218]: Yes — that’s exactly what Instagram bio search is for. Type the phrases your ideal creators use (job titles, niches, formats, creator “roles”), then filter down to the ones that match your market.
+            - generic [ref=e219]:
+              - generic [ref=e220] [cursor=pointer]: How do I search Instagram creators by niche?
+              - paragraph [ref=e223]: Use search Instagram bios when you’re hunting creators by intent, not just aesthetics. Think “UGC creator,” “derm,” “budget travel,” “meal prep,” then refine by geo/language/size so your shortlist is actually sellable.
+            - generic [ref=e224]:
+              - generic [ref=e225] [cursor=pointer]: How do I exclude creators we already worked with?
+              - paragraph [ref=e228]: Run a search, select past partners, add them to a blacklist, then apply that blacklist in your next search. That keeps results net-new, not “the same 20 accounts again.”
+            - generic [ref=e229]:
+              - generic [ref=e230] [cursor=pointer]: Can I find lookalike creators?
+              - paragraph [ref=e233]: Yes. Drop in a creator you already like, enable Lookalikes, and IQFluence will surface similar formats, topic clusters, and audience patterns—so you scale what already worked.
+            - generic [ref=e234]:
+              - generic [ref=e235] [cursor=pointer]: Can I export results?
+              - paragraph [ref=e238]: Yes — once your list is clean, export it as CSV for outreach, reporting, or media planning.
+            - generic [ref=e239]:
+              - generic [ref=e240] [cursor=pointer]: Can I filter by language and region?
+              - paragraph [ref=e243]: Absolutely. Filter by location + language so you’re not paying for audiences in markets you can’t ship to, support, or legally target.
+            - generic [ref=e244]:
+              - generic [ref=e245] [cursor=pointer]: How do I find smaller creators (nano/micro)?
+              - paragraph [ref=e248]: Use search Instagram bio to pull niche-relevant accounts, then filter to smaller follower ranges and validate with steady recent engagement. That’s how you avoid “small account, inflated vanity stats.”
+            - generic [ref=e249]:
+              - generic [ref=e250] [cursor=pointer]: Do you provide emails for every Instagram account?
+              - paragraph [ref=e253]: No — Instagram doesn’t provide a universal email directory, and many creators don’t publish one. IQFluence helps you shortlist, then use whatever contact paths they do share in bio (email, link-in-bio, management, etc.)
+        - generic [ref=e256]:
+          - heading "Find & analyze influencers for your next collaboration" [level=2] [ref=e257]
+          - generic [ref=e258]: Whether you need YouTube, Instagram or TikTok influencer analysis — IQFluence does it all. Get all the data you need for a collaboration decision in one report.
+          - generic [ref=e259]:
+            - link "Start 7-day trial" [ref=e260] [cursor=pointer]:
+              - /url: /sign-up
+            - link "Book a demo" [ref=e261] [cursor=pointer]:
+              - /url: https://calendly.com/iqfluence-io/30min
+        - generic [ref=e263]:
+          - heading "Read also" [level=2] [ref=e264]
+          - generic [ref=e265]:
+            - generic [ref=e266]:
+              - link "Post thumbnail" [ref=e267] [cursor=pointer]:
+                - /url: /public/blog/best-time-to-post-on-instagram
+                - img "Post thumbnail" [ref=e268]
+              - generic [ref=e269]:
+                - paragraph [ref=e271]:
+                  - link "The Best Time to Post on Instagram" [ref=e272] [cursor=pointer]:
+                    - /url: /public/blog/best-time-to-post-on-instagram
+                  - text: in 2026 for Brands
+                - generic [ref=e273]: December 25, 2025 · 07:21
+            - generic [ref=e274]:
+              - link "Post thumbnail" [ref=e275] [cursor=pointer]:
+                - /url: /public/blog/instagram-analytics-software
+                - img "Post thumbnail" [ref=e276]
+              - generic [ref=e277]:
+                - paragraph [ref=e279]:
+                  - text: Top 13
+                  - link "Instagram Analytics Tools" [ref=e280] [cursor=pointer]:
+                    - /url: /public/blog/instagram-analytics-software
+                  - text: for 2025
+                - generic [ref=e281]: January 28, 2025 · 07:20
+            - generic [ref=e282]:
+              - link "Post thumbnail" [ref=e283] [cursor=pointer]:
+                - /url: /public/blog/instagram-influencer-marketing
+                - img "Post thumbnail" [ref=e284]
+              - generic [ref=e285]:
+                - paragraph [ref=e287]:
+                  - text: How
+                  - link "Instagram Influencer Marketing" [ref=e288] [cursor=pointer]:
+                    - /url: /public/blog/instagram-influencer-marketing
+                  - text: Enhances Your ROI
+                - generic [ref=e289]: June 13, 2025 · 03:30
+  - generic [ref=e291]:
+    - generic [ref=e292]:
+      - navigation [ref=e294]:
+        - list [ref=e295]:
+          - listitem [ref=e296]:
+            - link "Blog" [ref=e297] [cursor=pointer]:
+              - /url: /public/blog
+          - listitem [ref=e298]:
+            - link "Pricing" [ref=e299] [cursor=pointer]:
+              - /url: /pricing
+          - listitem [ref=e300]:
+            - link "Find Influencers" [ref=e301] [cursor=pointer]:
+              - /url: /public/find-influencers
+          - listitem [ref=e302]:
+            - link "Best TikTok Influencers" [ref=e303] [cursor=pointer]:
+              - /url: /public/top-tiktok-influencers
+          - listitem [ref=e304]:
+            - link "Best YouTube Influencers" [ref=e305] [cursor=pointer]:
+              - /url: /public/top-youtube-influencers
+          - listitem [ref=e306]:
+            - link "Best Instagram Influencers" [ref=e307] [cursor=pointer]:
+              - /url: /public/top-instagram-influencers
+          - listitem [ref=e308]:
+            - link "Top influencers" [ref=e309] [cursor=pointer]:
+              - /url: /public/top-influencers
+      - generic [ref=e310]:
+        - link "contact@iqfluence.io" [ref=e311] [cursor=pointer]:
+          - /url: mailto:contact@iqfluence.io
+          - generic [ref=e313]: contact@iqfluence.io
+        - link "LinkedIn" [ref=e314] [cursor=pointer]:
+          - /url: https://www.linkedin.com/company/iqfluence/
+          - generic [ref=e316]: LinkedIn
+    - generic [ref=e317]:
+      - link "logo" [ref=e318] [cursor=pointer]:
+        - /url: /
+        - img "logo" [ref=e319]
+      - generic [ref=e320]:
+        - generic [ref=e321]: © IQFluence 2026. Ritmos Austeros — Unipessoal LDA, Avenida Infante D Henrique 808 1C Cascais 2750-168
+        - generic [ref=e322]:
+          - link "Terms of Service" [ref=e323] [cursor=pointer]:
+            - /url: /public/terms
+          - link "Privacy Policy" [ref=e324] [cursor=pointer]:
+            - /url: /public/privacy-policy

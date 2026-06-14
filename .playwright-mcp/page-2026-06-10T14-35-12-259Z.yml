@@ -1,0 +1,340 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwj6p9C08vyUAxVwI0QIHatQJCcQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "new york" "influencer" "@gmail.com" site:instagram.com "new york" "influencer" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522new%2Byork%2522%2B%2522influencer%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22new+york%22+%22influencer%22+%22%40gmail.com%22&sca_esv=5c97ab3475bd08d5&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&aep=1&ntc=1&sa=X&ved=2ahUKEwj6p9C08vyUAxVwI0QIHatQJCcQ2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=5c97ab3475bd08d5&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22new+york%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwj6p9C08vyUAxVwI0QIHatQJCcQtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "News" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=5c97ab3475bd08d5&q=site:instagram.com+%22new+york%22+%22influencer%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&sa=X&ved=2ahUKEwj6p9C08vyUAxVwI0QIHatQJCcQ0pQJegQIFBAB
+              - generic [ref=e94]: News
+          - listitem [ref=e95]:
+            - link "Videos" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=5c97ab3475bd08d5&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22new+york%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwj6p9C08vyUAxVwI0QIHatQJCcQtKgLegQIExAB
+              - generic [ref=e98]: Videos
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=5c97ab3475bd08d5&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22new+york%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwj6p9C08vyUAxVwI0QIHatQJCcQs6gLegQIEhAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=5c97ab3475bd08d5&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22new+york%22+%22influencer%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "nyc Influencer (@annetadyshe) - Aneta Instagram · annetadyshe 6.4K+ followers" [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/annetadyshe/
+                - heading "nyc Influencer (@annetadyshe) - Aneta" [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram · annetadyshe
+                  - generic [ref=e153]: 6.4K+ followers
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e160]:
+              - generic [ref=e161]:
+                - text: Aneta | nyc
+                - emphasis [ref=e162]: Influencer
+                - text: . 6,418 followers. 594 following.
+                - emphasis [ref=e163]: New York
+                - text: content creator anetadyshe@
+                - emphasis [ref=e164]: gmail.com
+                - text: ... Dear
+                - emphasis [ref=e165]: New York
+                - text: ", I love you but…"
+              - link "Read more" [ref=e166] [cursor=pointer]:
+                - /url: https://www.instagram.com/annetadyshe/#:~:text=Aneta%20%7C%20nyc%20Influencer,%F0%9F%92%8Canetadyshe%40gmail.com
+            - link "site:instagram.com \"new york\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e169] [cursor=pointer]:
+              - /url: https://www.instagram.com/annetadyshe/
+              - img "site:instagram.com \"new york\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e171]
+        - generic [ref=e175]:
+          - generic [ref=e178]:
+            - link "Jelena Weir (@jelena.nyc) • Instagram photos and videos Instagram · jelena.nyc 397.2K+ followers" [ref=e180] [cursor=pointer]:
+              - /url: https://www.instagram.com/jelena.nyc/
+              - heading "Jelena Weir (@jelena.nyc) • Instagram photos and videos" [level=3] [ref=e181]
+              - generic [ref=e186]:
+                - generic [ref=e188]: Instagram · jelena.nyc
+                - generic [ref=e190]: 397.2K+ followers
+            - button "About this result" [ref=e191] [cursor=pointer]:
+              - img [ref=e194]
+          - generic [ref=e198]:
+            - text: "397K followers · 2.3K+ following · 2990 posts · @jelena.nyc: “"
+            - emphasis [ref=e199]: new york
+            - text: "- fashion, beauty, skincare & mom life Founder of @abeona.nyc JelenaWeir@"
+            - emphasis [ref=e200]: gmail.com
+            - text: ”
+          - link "site:instagram.com \"new york\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e202] [cursor=pointer]:
+            - /url: https://www.instagram.com/jelena.nyc/
+        - generic [ref=e219]:
+          - generic [ref=e222]:
+            - link "New York Influencer / Content Creator (@timelessxbeautyy) Instagram · timelessxbeautyy 2.2K+ followers" [ref=e224] [cursor=pointer]:
+              - /url: https://www.instagram.com/timelessxbeautyy/
+              - heading "New York Influencer / Content Creator (@timelessxbeautyy)" [level=3] [ref=e225]
+              - generic [ref=e230]:
+                - generic [ref=e232]: Instagram · timelessxbeautyy
+                - generic [ref=e234]: 2.2K+ followers
+            - button "About this result" [ref=e235] [cursor=pointer]:
+              - img [ref=e238]
+          - generic [ref=e241]:
+            - generic [ref=e242]:
+              - text: Maddie |
+              - emphasis [ref=e243]: New York Influencer
+              - text: "/ Content Creator. 2,185 followers. 2,395 following. NYC Beauty Makeup Lifestyle : timelessxmanagement@"
+              - emphasis [ref=e244]: gmail.com
+              - text: . Follow.
+            - link "Read more" [ref=e245] [cursor=pointer]:
+              - /url: https://www.instagram.com/timelessxbeautyy/#:~:text=Maddie%20%7C%20New%20York%20Influencer,Follow
+          - link "site:instagram.com \"new york\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e248] [cursor=pointer]:
+            - /url: https://www.instagram.com/timelessxbeautyy/
+            - img "site:instagram.com \"new york\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e250]
+        - generic [ref=e254]:
+          - generic [ref=e257]:
+            - link "Lisa (@lisamillerinreallife) • Instagram photos and videos Instagram · lisamillerinreallife 65K+ followers" [ref=e259] [cursor=pointer]:
+              - /url: https://www.instagram.com/lisamillerinreallife/
+              - heading "Lisa (@lisamillerinreallife) • Instagram photos and videos" [level=3] [ref=e260]
+              - generic [ref=e265]:
+                - generic [ref=e267]: Instagram · lisamillerinreallife
+                - generic [ref=e269]: 65K+ followers
+            - button "About this result" [ref=e270] [cursor=pointer]:
+              - img [ref=e273]
+          - generic [ref=e276]:
+            - generic [ref=e277]:
+              - text: Moved my fam from TN to NYC. Millennial mama w/CPTSD + charisma + dance 140k on TT Lisamillerinreallife@
+              - emphasis [ref=e278]: gmail.com
+              - text: writing my memoir.
+            - link "Read more" [ref=e279] [cursor=pointer]:
+              - /url: https://www.instagram.com/lisamillerinreallife/#:~:text=Moved%20my%20fam%20from%20TN,%F0%9F%93%9A%20writing%20my%20memoir
+          - link "site:instagram.com \"new york\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e281] [cursor=pointer]:
+            - /url: https://www.instagram.com/lisamillerinreallife/
+        - generic [ref=e298]:
+          - generic [ref=e301]:
+            - link "Fashion & NYC Travel (@aureate_soul) - Ankita Instagram · aureate_soul 8.8K+ followers" [ref=e303] [cursor=pointer]:
+              - /url: https://www.instagram.com/aureate_soul/
+              - heading "Fashion & NYC Travel (@aureate_soul) - Ankita" [level=3] [ref=e304]
+              - generic [ref=e309]:
+                - generic [ref=e311]: Instagram · aureate_soul
+                - generic [ref=e313]: 8.8K+ followers
+            - button "About this result" [ref=e314] [cursor=pointer]:
+              - img [ref=e317]
+          - generic [ref=e321]:
+            - text: ...
+            - emphasis [ref=e322]: gmail.com
+            - text: Shop my looks ⤵️ ...
+            - emphasis [ref=e323]: influencer
+            - text: ","
+            - emphasis [ref=e324]: New York
+            - text: content creator ...
+          - link "site:instagram.com \"new york\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e327] [cursor=pointer]:
+            - /url: https://www.instagram.com/aureate_soul/
+            - img "site:instagram.com \"new york\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e329]
+        - generic [ref=e333]:
+          - generic [ref=e336]:
+            - link "NYC Beauty&Fashion Influencer UGC Creator (@silasqiu) Instagram · silasqiu 13.4K+ followers" [ref=e338] [cursor=pointer]:
+              - /url: https://www.instagram.com/silasqiu/
+              - heading "NYC Beauty&Fashion Influencer UGC Creator (@silasqiu)" [level=3] [ref=e339]
+              - generic [ref=e344]:
+                - generic [ref=e346]: Instagram · silasqiu
+                - generic [ref=e348]: 13.4K+ followers
+            - button "About this result" [ref=e349] [cursor=pointer]:
+              - img [ref=e352]
+          - generic [ref=e355]:
+            - generic [ref=e356]:
+              - text: "#lifestyle #motherhood #beauty #nycinfluencer #nycmom #nyceats YouTube: SilasQiu Collabs/PR: DiannaQiu@"
+              - emphasis [ref=e357]: gmail.com
+              - text: Latest Video . Follow.
+            - link "Read more" [ref=e358] [cursor=pointer]:
+              - /url: https://www.instagram.com/silasqiu/#:~:text=%23lifestyle%20%23motherhood%20%23beauty%20%23nycinfluencer%20%23nycmom,Follow
+          - link "site:instagram.com \"new york\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e361] [cursor=pointer]:
+            - /url: https://www.instagram.com/silasqiu/
+            - img "site:instagram.com \"new york\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e363]
+        - generic [ref=e367]:
+          - generic [ref=e370]:
+            - link "Just_Avri (@just_avrii) · New York City, NY Instagram · just_avrii 8.3K+ followers" [ref=e372] [cursor=pointer]:
+              - /url: https://www.instagram.com/just_avrii/
+              - heading "Just_Avri (@just_avrii) · New York City, NY" [level=3] [ref=e373]
+              - generic [ref=e378]:
+                - generic [ref=e380]: Instagram · just_avrii
+                - generic [ref=e382]: 8.3K+ followers
+            - button "About this result" [ref=e383] [cursor=pointer]:
+              - img [ref=e386]
+          - generic [ref=e390]:
+            - text: ...
+            - emphasis [ref=e391]: gmail.com
+            - text: "... Micro influencers: can you relate? Being a micro"
+            - emphasis [ref=e392]: influencer
+            - text: /creator has ...
+          - link "site:instagram.com \"new york\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e395] [cursor=pointer]:
+            - /url: https://www.instagram.com/just_avrii/
+            - img "site:instagram.com \"new york\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e397]
+        - generic [ref=e401]:
+          - generic [ref=e404]:
+            - link "Janet 📍NYC 💄 Influencer (@jbeautifymakeup) Instagram · jbeautifymakeup 9.9K+ followers" [ref=e406] [cursor=pointer]:
+              - /url: https://www.instagram.com/jbeautifymakeup/
+              - heading "Janet 📍NYC 💄 Influencer (@jbeautifymakeup)" [level=3] [ref=e407]
+              - generic [ref=e412]:
+                - generic [ref=e414]: Instagram · jbeautifymakeup
+                - generic [ref=e416]: 9.9K+ followers
+            - button "About this result" [ref=e417] [cursor=pointer]:
+              - img [ref=e420]
+          - generic [ref=e423]:
+            - generic [ref=e424]:
+              - text: Janet NYC
+              - emphasis [ref=e425]: Influencer
+              - text: . 9,915 followers. 1,139 following. Beauty
+              - emphasis [ref=e426]: Influencer
+              - text: Collabs + Things to do (NYC) Love for Vegan/Clean Brands jbeautify@
+              - emphasis [ref=e427]: gmail.com
+              - text: .
+            - link "Read more" [ref=e428] [cursor=pointer]:
+              - /url: https://www.instagram.com/jbeautifymakeup/#:~:text=Janet%20%F0%9F%93%8DNYC%20%F0%9F%92%84%20Influencer,%F0%9F%91%8B%F0%9F%8F%BD%20jbeautify%40gmail.com
+          - link "site:instagram.com \"new york\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e431] [cursor=pointer]:
+            - /url: https://www.instagram.com/jbeautifymakeup/
+            - img "site:instagram.com \"new york\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e433]
+        - generic [ref=e437]:
+          - generic [ref=e440]:
+            - link "New York Influencers!! Invites to our June 20-21st Pop Up ... Instagram · sipshopeat 10+ likes · 2 weeks ago" [ref=e442] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DY0LocNkp8m/
+              - heading "New York Influencers!! Invites to our June 20-21st Pop Up ..." [level=3] [ref=e443]
+              - generic [ref=e448]:
+                - generic [ref=e450]: Instagram · sipshopeat
+                - generic [ref=e452]: 10+ likes · 2 weeks ago
+            - button "About this result" [ref=e453] [cursor=pointer]:
+              - img [ref=e456]
+          - generic [ref=e459]:
+            - generic [ref=e460]:
+              - emphasis [ref=e461]: New York
+              - text: Influencers!! Invites to our June 20-21st Pop Up are going out! Become a featured
+              - emphasis [ref=e462]: influencer
+              - text: by signing up at ...
+            - link "Read more" [ref=e463] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DY0LocNkp8m/#:~:text=New%20York%20Influencers!!%20Invites%20to,by%20signing%20up%20at%20sipshopeat.com%2Finfluencer%2Devent%2Dcollaborations!!
+          - link "site:instagram.com \"new york\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e466] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DY0LocNkp8m/
+            - img "site:instagram.com \"new york\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e468]
+        - generic [ref=e472]:
+          - generic [ref=e475]:
+            - link "Ira Pachashynska influencer (@i.pachashynska) Instagram · i.pachashynska 8.6K+ followers" [ref=e477] [cursor=pointer]:
+              - /url: https://www.instagram.com/i.pachashynska/
+              - heading "Ira Pachashynska influencer (@i.pachashynska)" [level=3] [ref=e478]
+              - generic [ref=e483]:
+                - generic [ref=e485]: Instagram · i.pachashynska
+                - generic [ref=e487]: 8.6K+ followers
+            - button "About this result" [ref=e488] [cursor=pointer]:
+              - img [ref=e491]
+          - generic [ref=e495]:
+            - text: 8.6K+ followers · 268 posts · Ukrainian in NYC Fashion| Travel @ip_photographer_studio I.pachashynska.collab@
+            - emphasis [ref=e496]: gmail.com
+            - text: .
+          - link "site:instagram.com \"new york\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e498] [cursor=pointer]:
+            - /url: https://www.instagram.com/i.pachashynska/
+      - navigation [ref=e514]:
+        - heading "Page Navigation" [level=1] [ref=e515]
+        - text: "1"
+        - link "Page 2" [ref=e518] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22new+york%22+%22influencer%22+%22@gmail.com%22&sca_esv=5c97ab3475bd08d5&ei=HnYpavqgA_DGkPIPq6GRuQI&start=10&sa=N&sstk=AU9db-DZdmjWHIBIwDIpMU9kmsk_vzSz34gqs-v-DjGNwZ5JvAebqZEU2B_apAm4f2gF67q466QEKTEix0-MesalBtdzeGs9X7ecNw&ved=2ahUKEwj6p9C08vyUAxVwI0QIHatQJCcQ8tMDegQIKhAE
+          - text: "2"
+        - link "Page 3" [ref=e520] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22new+york%22+%22influencer%22+%22@gmail.com%22&sca_esv=5c97ab3475bd08d5&ei=HnYpavqgA_DGkPIPq6GRuQI&start=20&sa=N&sstk=AU9db-DZdmjWHIBIwDIpMU9kmsk_vzSz34gqs-v-DjGNwZ5JvAebqZEU2B_apAm4f2gF67q466QEKTEix0-MesalBtdzeGs9X7ecNw&ved=2ahUKEwj6p9C08vyUAxVwI0QIHatQJCcQ8tMDegQIKhAG
+          - text: "3"
+        - link "Page 4" [ref=e522] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22new+york%22+%22influencer%22+%22@gmail.com%22&sca_esv=5c97ab3475bd08d5&ei=HnYpavqgA_DGkPIPq6GRuQI&start=30&sa=N&sstk=AU9db-DZdmjWHIBIwDIpMU9kmsk_vzSz34gqs-v-DjGNwZ5JvAebqZEU2B_apAm4f2gF67q466QEKTEix0-MesalBtdzeGs9X7ecNw&ved=2ahUKEwj6p9C08vyUAxVwI0QIHatQJCcQ8tMDegQIKhAI
+          - text: "4"
+        - link "Page 5" [ref=e524] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22new+york%22+%22influencer%22+%22@gmail.com%22&sca_esv=5c97ab3475bd08d5&ei=HnYpavqgA_DGkPIPq6GRuQI&start=40&sa=N&sstk=AU9db-DZdmjWHIBIwDIpMU9kmsk_vzSz34gqs-v-DjGNwZ5JvAebqZEU2B_apAm4f2gF67q466QEKTEix0-MesalBtdzeGs9X7ecNw&ved=2ahUKEwj6p9C08vyUAxVwI0QIHatQJCcQ8tMDegQIKhAK
+          - text: "5"
+        - link "Page 6" [ref=e526] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22new+york%22+%22influencer%22+%22@gmail.com%22&sca_esv=5c97ab3475bd08d5&ei=HnYpavqgA_DGkPIPq6GRuQI&start=50&sa=N&sstk=AU9db-DZdmjWHIBIwDIpMU9kmsk_vzSz34gqs-v-DjGNwZ5JvAebqZEU2B_apAm4f2gF67q466QEKTEix0-MesalBtdzeGs9X7ecNw&ved=2ahUKEwj6p9C08vyUAxVwI0QIHatQJCcQ8tMDegQIKhAM
+          - text: "6"
+        - link "Page 7" [ref=e528] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22new+york%22+%22influencer%22+%22@gmail.com%22&sca_esv=5c97ab3475bd08d5&ei=HnYpavqgA_DGkPIPq6GRuQI&start=60&sa=N&sstk=AU9db-DZdmjWHIBIwDIpMU9kmsk_vzSz34gqs-v-DjGNwZ5JvAebqZEU2B_apAm4f2gF67q466QEKTEix0-MesalBtdzeGs9X7ecNw&ved=2ahUKEwj6p9C08vyUAxVwI0QIHatQJCcQ8tMDegQIKhAO
+          - text: "7"
+        - link "Page 8" [ref=e530] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22new+york%22+%22influencer%22+%22@gmail.com%22&sca_esv=5c97ab3475bd08d5&ei=HnYpavqgA_DGkPIPq6GRuQI&start=70&sa=N&sstk=AU9db-DZdmjWHIBIwDIpMU9kmsk_vzSz34gqs-v-DjGNwZ5JvAebqZEU2B_apAm4f2gF67q466QEKTEix0-MesalBtdzeGs9X7ecNw&ved=2ahUKEwj6p9C08vyUAxVwI0QIHatQJCcQ8tMDegQIKhAQ
+          - text: "8"
+        - link "Page 9" [ref=e532] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22new+york%22+%22influencer%22+%22@gmail.com%22&sca_esv=5c97ab3475bd08d5&ei=HnYpavqgA_DGkPIPq6GRuQI&start=80&sa=N&sstk=AU9db-DZdmjWHIBIwDIpMU9kmsk_vzSz34gqs-v-DjGNwZ5JvAebqZEU2B_apAm4f2gF67q466QEKTEix0-MesalBtdzeGs9X7ecNw&ved=2ahUKEwj6p9C08vyUAxVwI0QIHatQJCcQ8tMDegQIKhAS
+          - text: "9"
+        - link "Page 10" [ref=e534] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22new+york%22+%22influencer%22+%22@gmail.com%22&sca_esv=5c97ab3475bd08d5&ei=HnYpavqgA_DGkPIPq6GRuQI&start=90&sa=N&sstk=AU9db-DZdmjWHIBIwDIpMU9kmsk_vzSz34gqs-v-DjGNwZ5JvAebqZEU2B_apAm4f2gF67q466QEKTEix0-MesalBtdzeGs9X7ecNw&ved=2ahUKEwj6p9C08vyUAxVwI0QIHatQJCcQ8tMDegQIKhAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e536]:
+          - link "Next" [ref=e537] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22new+york%22+%22influencer%22+%22@gmail.com%22&sca_esv=5c97ab3475bd08d5&ei=HnYpavqgA_DGkPIPq6GRuQI&start=10&sa=N&sstk=AU9db-DZdmjWHIBIwDIpMU9kmsk_vzSz34gqs-v-DjGNwZ5JvAebqZEU2B_apAm4f2gF67q466QEKTEix0-MesalBtdzeGs9X7ecNw&ved=2ahUKEwj6p9C08vyUAxVwI0QIHatQJCcQ8NMDegQIKhAW
+            - generic [ref=e539]: Next
+      - navigation
+    - contentinfo [ref=e540]:
+      - heading "Footer Links" [level=1] [ref=e541]
+      - generic [ref=e545]:
+        - generic [ref=e549]:
+          - button "85281, Tempe, AZ - Based on your past activity" [ref=e551] [cursor=pointer]:
+            - generic [ref=e552]: 85281, Tempe, AZ
+            - generic [ref=e554]:
+              - text: "-"
+              - generic [ref=e555]: Based on your past activity
+          - text: "-"
+          - button "Update location" [ref=e557] [cursor=pointer]: Update location
+        - generic [ref=e560]:
+          - link "Help" [ref=e561] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e562] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e563] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e564] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

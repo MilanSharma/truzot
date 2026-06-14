@@ -1,0 +1,334 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwiLr6OYvPyUAxWfLkQIHVpjC_AQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "seattle" "influencer" "@gmail.com" site:instagram.com "seattle" "influencer" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522seattle%2522%2B%2522influencer%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22seattle%22+%22influencer%22+%22%40gmail.com%22&sca_esv=1eed3fc2a4e4618d&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&aep=1&ntc=1&sa=X&ved=2ahUKEwiLr6OYvPyUAxWfLkQIHVpjC_AQ2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22seattle%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwiLr6OYvPyUAxWfLkQIHVpjC_AQtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "News" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&q=site:instagram.com+%22seattle%22+%22influencer%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&sa=X&ved=2ahUKEwiLr6OYvPyUAxWfLkQIHVpjC_AQ0pQJegQIFBAB
+              - generic [ref=e94]: News
+          - listitem [ref=e95]:
+            - link "Videos" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22seattle%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwiLr6OYvPyUAxWfLkQIHVpjC_AQtKgLegQIERAB
+              - generic [ref=e98]: Videos
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22seattle%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwiLr6OYvPyUAxWfLkQIHVpjC_AQs6gLegQIEhAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22seattle%22+%22influencer%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "DIYDAN LÓPEZ | Seattle Influencer (@officialdiydan) Instagram · officialdiydan 254.8K+ followers" [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/officialdiydan/
+                - heading "DIYDAN LÓPEZ | Seattle Influencer (@officialdiydan)" [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram · officialdiydan
+                  - generic [ref=e153]: 254.8K+ followers
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e160]:
+              - generic [ref=e161]:
+                - text: ...
+                - emphasis [ref=e162]: gmail.com
+                - text: 400K+ on TikTok ... DIYDAN LÓPEZ |
+                - emphasis [ref=e163]: Seattle Influencer
+                - text: . 254K followers. 1,028 following. (DYE·den) ...
+              - link "Read more" [ref=e164] [cursor=pointer]:
+                - /url: https://www.instagram.com/officialdiydan/#:~:text=DIYDAN%20L%C3%93PEZ%20%7C%20Seattle%20Influencer,Listed%20Top%20Seattle%20Creator%20%F0%9F%A5%87
+            - link "site:instagram.com \"seattle\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e167] [cursor=pointer]:
+              - /url: https://www.instagram.com/officialdiydan/
+              - img "site:instagram.com \"seattle\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e169]
+        - generic [ref=e173]:
+          - generic [ref=e176]:
+            - link "Seattle Content Creator (@sakshi.dewan) Instagram · sakshi.dewan 20K+ followers" [ref=e178] [cursor=pointer]:
+              - /url: https://www.instagram.com/sakshi.dewan/
+              - heading "Seattle Content Creator (@sakshi.dewan)" [level=3] [ref=e179]
+              - generic [ref=e184]:
+                - generic [ref=e186]: Instagram · sakshi.dewan
+                - generic [ref=e188]: 20K+ followers
+            - button "About this result" [ref=e189] [cursor=pointer]:
+              - img [ref=e192]
+          - generic [ref=e196]:
+            - text: ...
+            - emphasis [ref=e197]: gmail.com Seattle
+            - text: ",USA ..."
+            - emphasis [ref=e198]: influencer
+            - text: ","
+            - emphasis [ref=e199]: Seattle influencer
+            - text: ", food and lifestyle, lifestyle blogger, family friendly restaurants ..."
+          - link "site:instagram.com \"seattle\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e202] [cursor=pointer]:
+            - /url: https://www.instagram.com/sakshi.dewan/
+            - img "site:instagram.com \"seattle\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e204]
+        - generic [ref=e208]:
+          - generic [ref=e211]:
+            - link "Food, Fashion, Travel & UGC (@travelwithtrishaa) • ... Instagram · travelwithtrishaa 30.5K+ followers" [ref=e213] [cursor=pointer]:
+              - /url: https://www.instagram.com/travelwithtrishaa/
+              - heading "Food, Fashion, Travel & UGC (@travelwithtrishaa) • ..." [level=3] [ref=e214]
+              - generic [ref=e219]:
+                - generic [ref=e221]: Instagram · travelwithtrishaa
+                - generic [ref=e223]: 30.5K+ followers
+            - button "About this result" [ref=e224] [cursor=pointer]:
+              - img [ref=e227]
+          - generic [ref=e230]:
+            - generic [ref=e231]:
+              - emphasis [ref=e232]: Seattle's
+              - text: Top 40 Travel & Fashion
+              - emphasis [ref=e233]: Influencer
+              - text: "⭐️Travel, Fashion, Food & Lifestyle Email: travelwithtrishaaa@"
+              - emphasis [ref=e234]: gmail.com
+              - text: for collabs.
+            - link "Read more" [ref=e235] [cursor=pointer]:
+              - /url: https://www.instagram.com/travelwithtrishaa/#:~:text=%F0%9F%8F%86Seattle's%20Top%2040%20Travel%20%26,%F0%9F%93%A7Email%3A%20travelwithtrishaaa%40gmail.com%20for%20collabs
+          - link "site:instagram.com \"seattle\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e238] [cursor=pointer]:
+            - /url: https://www.instagram.com/travelwithtrishaa/
+            - img "site:instagram.com \"seattle\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e240]
+        - generic [ref=e244]:
+          - generic [ref=e247]:
+            - link "Seattle Content Creator (@lisii.aa) - Alisia Instagram · lisii.aa 4.3K+ followers" [ref=e249] [cursor=pointer]:
+              - /url: https://www.instagram.com/lisii.aa/
+              - heading "Seattle Content Creator (@lisii.aa) - Alisia" [level=3] [ref=e250]
+              - generic [ref=e255]:
+                - generic [ref=e257]: Instagram · lisii.aa
+                - generic [ref=e259]: 4.3K+ followers
+            - button "About this result" [ref=e260] [cursor=pointer]:
+              - img [ref=e263]
+          - generic [ref=e267]:
+            - text: ...
+            - emphasis [ref=e268]: gmail.com
+            - text: ...
+            - emphasis [ref=e269]: influencer
+            - text: suite at the burna boy concert in
+            - emphasis [ref=e270]: seattle
+            - text: "!! thank you again to ..."
+        - generic [ref=e274]:
+          - generic [ref=e277]:
+            - link "2SG 🍒 | Seattle Content Creators (@twoseattlegirls) Instagram · twoseattlegirls 61.6K+ followers" [ref=e279] [cursor=pointer]:
+              - /url: https://www.instagram.com/twoseattlegirls/
+              - heading "2SG 🍒 | Seattle Content Creators (@twoseattlegirls)" [level=3] [ref=e280]
+              - generic [ref=e285]:
+                - generic [ref=e287]: Instagram · twoseattlegirls
+                - generic [ref=e289]: 61.6K+ followers
+            - button "About this result" [ref=e290] [cursor=pointer]:
+              - img [ref=e293]
+          - generic [ref=e296]:
+            - generic [ref=e297]:
+              - text: 2SG - two
+              - emphasis [ref=e298]: seattle
+              - text: girls, emma & shirley (@emma_ueda & @shirleyxpeng) twoseattlegirls206@
+              - emphasis [ref=e299]: gmail.com
+              - text: ⬇️ join our
+              - emphasis [ref=e300]: seattle
+              - text: besties discord (5k+).
+            - link "Read more" [ref=e301] [cursor=pointer]:
+              - /url: https://www.instagram.com/twoseattlegirls/#:~:text=2SG%20%2D%20two%20seattle%20girls%2C,our%20seattle%20besties%20discord%20(5k%2B)
+        - generic [ref=e305]:
+          - generic [ref=e308]:
+            - link "Nicole 🇮🇳 | Seattle Influencer (@nicoleanjalii) Instagram · nicoleanjalii 1.5K+ followers" [ref=e310] [cursor=pointer]:
+              - /url: https://www.instagram.com/nicoleanjalii/
+              - heading "Nicole 🇮🇳 | Seattle Influencer (@nicoleanjalii)" [level=3] [ref=e311]
+              - generic [ref=e316]:
+                - generic [ref=e318]: Instagram · nicoleanjalii
+                - generic [ref=e320]: 1.5K+ followers
+            - button "About this result" [ref=e321] [cursor=pointer]:
+              - img [ref=e324]
+          - generic [ref=e327]:
+            - generic [ref=e328]:
+              - text: ...
+              - emphasis [ref=e329]: gmail.com
+              - text: Find me on TikTok ⬇️ ... Nicole |
+              - emphasis [ref=e330]: Seattle Influencer
+              - text: . 1,464 followers. 1,202 following. Fashionable ...
+            - link "Read more" [ref=e331] [cursor=pointer]:
+              - /url: https://www.instagram.com/nicoleanjalii/#:~:text=Nicole%20%F0%9F%87%AE%F0%9F%87%B3%20%7C%20Seattle%20Influencer,Fashionable%20Wife%20in%20Seattle%F0%9F%93%8D
+        - generic [ref=e335]:
+          - generic [ref=e338]:
+            - link "amy nguyen (@ilikeamy_) Instagram · ilikeamy_ 9.9K+ followers" [ref=e340] [cursor=pointer]:
+              - /url: https://www.instagram.com/ilikeamy_/
+              - heading "amy nguyen (@ilikeamy_)" [level=3] [ref=e341]
+              - generic [ref=e346]:
+                - generic [ref=e348]: Instagram · ilikeamy_
+                - generic [ref=e350]: 9.9K+ followers
+            - button "About this result" [ref=e351] [cursor=pointer]:
+              - img [ref=e354]
+          - generic [ref=e358]:
+            - text: ...
+            - emphasis [ref=e359]: seattle
+            - text: / bellevue hello.ilikeamy@
+            - emphasis [ref=e360]: gmail.com
+            - text: ...
+            - emphasis [ref=e361]: Seattle influencer
+            - text: ","
+            - emphasis [ref=e362]: Seattle
+            - text: "creator #lifelately #ᴘʜᴏᴛᴏᴅᴜᴍᴘ #seattleblogger #seattlecreatives #seattleinfluencer ..."
+        - generic [ref=e366]:
+          - generic [ref=e369]:
+            - link "Michelle Villafuerte (@michellevillafuerte) Instagram · michellevillafuerte 31.3K+ followers" [ref=e371] [cursor=pointer]:
+              - /url: https://www.instagram.com/michellevillafuerte/
+              - heading "Michelle Villafuerte (@michellevillafuerte)" [level=3] [ref=e372]
+              - generic [ref=e377]:
+                - generic [ref=e379]: Instagram · michellevillafuerte
+                - generic [ref=e381]: 31.3K+ followers
+            - button "About this result" [ref=e382] [cursor=pointer]:
+              - img [ref=e385]
+          - generic [ref=e389]:
+            - text: ...
+            - emphasis [ref=e390]: seattle
+            - text: ☻ @pleaseholdonshow @laroncoffee michellelaronvillafuerte@
+            - emphasis [ref=e391]: gmail.com
+            - text: "... #"
+            - emphasis [ref=e392]: influencer
+            - text: "#Fanatics #soccer #worldcup #Sounders. how long can you dead ..."
+        - generic [ref=e396]:
+          - generic [ref=e399]:
+            - link "Nelva santos (@nelvaa.santos) - Instagram Instagram · nelvaa.santos 3.2K+ followers" [ref=e401] [cursor=pointer]:
+              - /url: https://www.instagram.com/nelvaa.santos/
+              - heading "Nelva santos (@nelvaa.santos) - Instagram" [level=3] [ref=e402]
+              - generic [ref=e407]:
+                - generic [ref=e409]: Instagram · nelvaa.santos
+                - generic [ref=e411]: 3.2K+ followers
+            - button "About this result" [ref=e412] [cursor=pointer]:
+              - img [ref=e415]
+          - generic [ref=e419]:
+            - text: "3.1K+ followers · 802 following · 85 posts · @nelvaa.santos: “"
+            - emphasis [ref=e420]: Seattle
+            - text: Life, but make it aesthetic prnelvasantos@
+            - emphasis [ref=e421]: gmail.com
+            - text: ”
+          - link "site:instagram.com \"seattle\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e424] [cursor=pointer]:
+            - /url: https://www.instagram.com/nelvaa.santos/
+            - img "site:instagram.com \"seattle\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e426]
+        - generic [ref=e430]:
+          - generic [ref=e433]:
+            - link "Sarah Morales (@fromsarahsleeve) Instagram · fromsarahsleeve 457K+ followers" [ref=e435] [cursor=pointer]:
+              - /url: https://www.instagram.com/fromsarahsleeve/
+              - heading "Sarah Morales (@fromsarahsleeve)" [level=3] [ref=e436]
+              - generic [ref=e441]:
+                - generic [ref=e443]: Instagram · fromsarahsleeve
+                - generic [ref=e445]: 457K+ followers
+            - button "About this result" [ref=e446] [cursor=pointer]:
+              - img [ref=e449]
+          - generic [ref=e453]:
+            - text: ...
+            - emphasis [ref=e454]: Seattle
+            - text: ", Washington : fromsarahsleeve@"
+            - emphasis [ref=e455]: gmail.com
+            - text: Shop My Outfits ... The ...
+          - link "site:instagram.com \"seattle\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e458] [cursor=pointer]:
+            - /url: https://www.instagram.com/fromsarahsleeve/
+            - img "site:instagram.com \"seattle\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e460]
+      - navigation [ref=e463]:
+        - heading "Page Navigation" [level=1] [ref=e464]
+        - text: "1"
+        - link "Page 2" [ref=e467] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22seattle%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=Qz0pasuBBZ_dkPIP2satgA8&start=10&sa=N&sstk=AU9db-CNOeLjnnNoYrd-0cwGwsI4aSomR6Mn_O2qVB59cqusk9tnT7zNxFu63uHE9pJ8-WmHw5bljIwvNUfpbcEligf8doICtBBN7A&ved=2ahUKEwiLr6OYvPyUAxWfLkQIHVpjC_AQ8tMDegQIORAE
+          - text: "2"
+        - link "Page 3" [ref=e469] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22seattle%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=Qz0pasuBBZ_dkPIP2satgA8&start=20&sa=N&sstk=AU9db-CNOeLjnnNoYrd-0cwGwsI4aSomR6Mn_O2qVB59cqusk9tnT7zNxFu63uHE9pJ8-WmHw5bljIwvNUfpbcEligf8doICtBBN7A&ved=2ahUKEwiLr6OYvPyUAxWfLkQIHVpjC_AQ8tMDegQIORAG
+          - text: "3"
+        - link "Page 4" [ref=e471] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22seattle%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=Qz0pasuBBZ_dkPIP2satgA8&start=30&sa=N&sstk=AU9db-CNOeLjnnNoYrd-0cwGwsI4aSomR6Mn_O2qVB59cqusk9tnT7zNxFu63uHE9pJ8-WmHw5bljIwvNUfpbcEligf8doICtBBN7A&ved=2ahUKEwiLr6OYvPyUAxWfLkQIHVpjC_AQ8tMDegQIORAI
+          - text: "4"
+        - link "Page 5" [ref=e473] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22seattle%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=Qz0pasuBBZ_dkPIP2satgA8&start=40&sa=N&sstk=AU9db-CNOeLjnnNoYrd-0cwGwsI4aSomR6Mn_O2qVB59cqusk9tnT7zNxFu63uHE9pJ8-WmHw5bljIwvNUfpbcEligf8doICtBBN7A&ved=2ahUKEwiLr6OYvPyUAxWfLkQIHVpjC_AQ8tMDegQIORAK
+          - text: "5"
+        - link "Page 6" [ref=e475] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22seattle%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=Qz0pasuBBZ_dkPIP2satgA8&start=50&sa=N&sstk=AU9db-CNOeLjnnNoYrd-0cwGwsI4aSomR6Mn_O2qVB59cqusk9tnT7zNxFu63uHE9pJ8-WmHw5bljIwvNUfpbcEligf8doICtBBN7A&ved=2ahUKEwiLr6OYvPyUAxWfLkQIHVpjC_AQ8tMDegQIORAM
+          - text: "6"
+        - link "Page 7" [ref=e477] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22seattle%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=Qz0pasuBBZ_dkPIP2satgA8&start=60&sa=N&sstk=AU9db-CNOeLjnnNoYrd-0cwGwsI4aSomR6Mn_O2qVB59cqusk9tnT7zNxFu63uHE9pJ8-WmHw5bljIwvNUfpbcEligf8doICtBBN7A&ved=2ahUKEwiLr6OYvPyUAxWfLkQIHVpjC_AQ8tMDegQIORAO
+          - text: "7"
+        - link "Page 8" [ref=e479] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22seattle%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=Qz0pasuBBZ_dkPIP2satgA8&start=70&sa=N&sstk=AU9db-CNOeLjnnNoYrd-0cwGwsI4aSomR6Mn_O2qVB59cqusk9tnT7zNxFu63uHE9pJ8-WmHw5bljIwvNUfpbcEligf8doICtBBN7A&ved=2ahUKEwiLr6OYvPyUAxWfLkQIHVpjC_AQ8tMDegQIORAQ
+          - text: "8"
+        - link "Page 9" [ref=e481] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22seattle%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=Qz0pasuBBZ_dkPIP2satgA8&start=80&sa=N&sstk=AU9db-CNOeLjnnNoYrd-0cwGwsI4aSomR6Mn_O2qVB59cqusk9tnT7zNxFu63uHE9pJ8-WmHw5bljIwvNUfpbcEligf8doICtBBN7A&ved=2ahUKEwiLr6OYvPyUAxWfLkQIHVpjC_AQ8tMDegQIORAS
+          - text: "9"
+        - link "Page 10" [ref=e483] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22seattle%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=Qz0pasuBBZ_dkPIP2satgA8&start=90&sa=N&sstk=AU9db-CNOeLjnnNoYrd-0cwGwsI4aSomR6Mn_O2qVB59cqusk9tnT7zNxFu63uHE9pJ8-WmHw5bljIwvNUfpbcEligf8doICtBBN7A&ved=2ahUKEwiLr6OYvPyUAxWfLkQIHVpjC_AQ8tMDegQIORAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e485]:
+          - link "Next" [ref=e486] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22seattle%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=Qz0pasuBBZ_dkPIP2satgA8&start=10&sa=N&sstk=AU9db-CNOeLjnnNoYrd-0cwGwsI4aSomR6Mn_O2qVB59cqusk9tnT7zNxFu63uHE9pJ8-WmHw5bljIwvNUfpbcEligf8doICtBBN7A&ved=2ahUKEwiLr6OYvPyUAxWfLkQIHVpjC_AQ8NMDegQIORAW
+            - generic [ref=e488]: Next
+      - navigation
+    - contentinfo [ref=e489]:
+      - heading "Footer Links" [level=1] [ref=e490]
+      - generic [ref=e494]:
+        - generic [ref=e498]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e500] [cursor=pointer]:
+            - generic [ref=e501]: 85281, Tempe, AZ
+            - generic [ref=e503]:
+              - text: "-"
+              - generic [ref=e504]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e506] [cursor=pointer]: Update location
+        - generic [ref=e509]:
+          - link "Help" [ref=e510] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e511] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e512] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e513] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

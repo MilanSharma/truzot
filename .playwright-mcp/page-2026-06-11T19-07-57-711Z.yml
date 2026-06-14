@@ -1,0 +1,8 @@
+- iframe [ref=e2]:
+  - generic [active] [ref=f44e1]:
+    - generic [ref=f44e2]:
+      - img [ref=f44e4]
+      - heading "Verifying the device..." [level=1] [ref=f44e5]
+      - status [ref=f44e6]:
+        - generic [ref=f44e8]: Verification successful
+    - paragraph [ref=f44e10]: The requested content will be available after verification.

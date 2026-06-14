@@ -1,0 +1,407 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwjLppvIkPyUAxUeL0QIHWFTIg0QPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "ugc creator" "gmail.com" site:instagram.com "ugc creator" "gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522ugc%2Bcreator%2522%2B%2522gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22ugc+creator%22+%22gmail.com%22&sca_esv=4a455b0f3ad2390b&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3sbM0Xv-BZKE_VrZb6-djVg-3W0FTREgXoBewgW5Mu3-9l1bI_L6XMAQFwQTRfQ0BRLPAKDExBTM-7z15y5XXxdjBKmw6h05Z8LnIGWZXQrAXpvWOwfAQj4i4rbHM-_7oY3-m22vQm6Mdw4vebvmSn9iCGrB3GOZbnH__dclFRWKblOdeA&aep=1&ntc=1&sa=X&ved=2ahUKEwjLppvIkPyUAxUeL0QIHWFTIg0Q2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3sbM0Xv-BZKE_VrZb6-djVg-3W0FTREgXoBewgW5Mu3-9l1bI_L6XMAQFwQTRfQ0BRLPAKDExBTM-7z15y5XXxdjBKmw6h05Z8LnIGWZXQrAXpvWOwfAQj4i4rbHM-_7oY3-m22vQm6Mdw4vebvmSn9iCGrB3GOZbnH__dclFRWKblOdeA&q=site:instagram.com+%22ugc+creator%22+%22gmail.com%22&sa=X&ved=2ahUKEwjLppvIkPyUAxUeL0QIHWFTIg0QtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "Videos" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3sbM0Xv-BZKE_VrZb6-djVg-3W0FTREgXoBewgW5Mu3-9l1bI_L6XMAQFwQTRfQ0BRLPAKDExBTM-7z15y5XXxdjBKmw6h05Z8LnIGWZXQrAXpvWOwfAQj4i4rbHM-_7oY3-m22vQm6Mdw4vebvmSn9iCGrB3GOZbnH__dclFRWKblOdeA&q=site:instagram.com+%22ugc+creator%22+%22gmail.com%22&sa=X&ved=2ahUKEwjLppvIkPyUAxUeL0QIHWFTIg0QtKgLegQIFBAB
+              - generic [ref=e94]: Videos
+          - listitem [ref=e95]:
+            - link "Forums" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3sbM0Xv-BZKE_VrZb6-djVg-3W0FTREgXoBewgW5Mu3-9l1bI_L6XMAQFwQTRfQ0BRLPAKDExBTM-7z15y5XXxdjBKmw6h05Z8LnIGWZXQrAXpvWOwfAQj4i4rbHM-_7oY3-m22vQm6Mdw4vebvmSn9iCGrB3GOZbnH__dclFRWKblOdeA&q=site:instagram.com+%22ugc+creator%22+%22gmail.com%22&sa=X&ved=2ahUKEwjLppvIkPyUAxUeL0QIHWFTIg0Qs6gLegQIExAB
+              - generic [ref=e98]: Forums
+          - listitem [ref=e99]:
+            - link "News" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&q=site:instagram.com+%22ugc+creator%22+%22gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3sbM0Xv-BZKE_VrZb6-djVg-3W0FTREgXoBewgW5Mu3-9l1bI_L6XMAQFwQTRfQ0BRLPAKDExBTM-7z15y5XXxdjBKmw6h05Z8LnIGWZXQrAXpvWOwfAQj4i4rbHM-_7oY3-m22vQm6Mdw4vebvmSn9iCGrB3GOZbnH__dclFRWKblOdeA&sa=X&ved=2ahUKEwjLppvIkPyUAxUeL0QIHWFTIg0Q0pQJegQIEhAB
+              - generic [ref=e102]: News
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3sbM0Xv-BZKE_VrZb6-djVg-3W0FTREgXoBewgW5Mu3-9l1bI_L6XMAQFwQTRfQ0BRLPAKDExBTM-7z15y5XXxdjBKmw6h05Z8LnIGWZXQrAXpvWOwfAQj4i4rbHM-_7oY3-m22vQm6Mdw4vebvmSn9iCGrB3GOZbnH__dclFRWKblOdeA&q=site:instagram.com+%22ugc+creator%22+%22gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e137]:
+          - generic [ref=e139]:
+            - heading "Videos" [level=2] [ref=e140]
+            - button "About this result" [ref=e141] [cursor=pointer]:
+              - img [ref=e144]
+          - generic [ref=e147]:
+            - generic [ref=e152]:
+              - generic [ref=e153]:
+                - link "Getting scammed as a UGC creator is crazy @gmail brands ... Instagram Bryce | Life + UGC Mar 26, 2026" [ref=e155] [cursor=pointer]:
+                  - /url: https://www.instagram.com/reel/DWW83S3iTvg/
+                  - heading "Getting scammed as a UGC creator is crazy @gmail brands ... Instagram Bryce | Life + UGC Mar 26, 2026" [level=3] [ref=e156]:
+                    - generic [ref=e159]: Getting scammed as a UGC creator is crazy @gmail brands ...
+                    - generic [ref=e161]:
+                      - generic [ref=e162]:
+                        - text: Instagram
+                        - generic [ref=e163]: · Bryce | Life + UGC
+                      - generic [ref=e164]: Mar 26, 2026
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - text: Instagram
+                          - generic: · Bryce | Life + UGC
+                    - button "About this result" [ref=e165] [cursor=pointer]:
+                      - img [ref=e168]
+              - link "Getting scammed as a UGC creator is crazy @gmail brands ... by Bryce | Life + UGC on Instagram. Play on Instagram. 0:44" [ref=e170] [cursor=pointer]:
+                - /url: https://www.instagram.com/reel/DWW83S3iTvg/
+                - generic [ref=e171]:
+                  - img [ref=e174]
+                  - generic [ref=e178]: 0:44
+            - generic [ref=e183]:
+              - generic [ref=e184]:
+                - 'link "Avoid UGC Brand Scams! #ugc Instagram Myles Youngblood Dec 16, 2025" [ref=e186] [cursor=pointer]':
+                  - /url: https://www.instagram.com/reel/DSWDesojWOh/
+                  - 'heading "Avoid UGC Brand Scams! #ugc Instagram Myles Youngblood Dec 16, 2025" [level=3] [ref=e187]':
+                    - generic [ref=e190]: "Avoid UGC Brand Scams! #ugc"
+                    - generic [ref=e192]:
+                      - generic [ref=e193]:
+                        - text: Instagram
+                        - generic [ref=e194]: · Myles Youngblood
+                      - generic [ref=e195]: Dec 16, 2025
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - text: Instagram
+                          - generic: · Myles Youngblood
+                    - button "About this result" [ref=e196] [cursor=pointer]:
+                      - img [ref=e199]
+              - 'link "Avoid UGC Brand Scams! #ugc by Myles Youngblood on Instagram. Play on Instagram. 1:04" [ref=e201] [cursor=pointer]':
+                - /url: https://www.instagram.com/reel/DSWDesojWOh/
+                - generic [ref=e202]:
+                  - img [ref=e205]
+                  - generic [ref=e209]: 1:04
+            - generic [ref=e214]:
+              - generic [ref=e215]:
+                - link "Pinch me brands I've had the pleasure of working with as a ... Instagram Charli | Melbourne Content Creator UGC 3 days ago" [ref=e217] [cursor=pointer]:
+                  - /url: https://www.instagram.com/reel/DZQxsYeh9y6/
+                  - heading "Pinch me brands I've had the pleasure of working with as a ... Instagram Charli | Melbourne Content Creator UGC 3 days ago" [level=3] [ref=e218]:
+                    - generic [ref=e221]: Pinch me brands I've had the pleasure of working with as a ...
+                    - generic [ref=e223]:
+                      - generic [ref=e224]:
+                        - text: Instagram
+                        - generic [ref=e225]: · Charli | Melbourne Content Creator UGC
+                      - generic [ref=e226]: 3 days ago
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - text: Instagram
+                          - generic: · Charli | Melbourne Content Creator UGC
+                    - button "About this result" [ref=e227] [cursor=pointer]:
+                      - img [ref=e230]
+              - link "Pinch me brands I've had the pleasure of working with as a ... by Charli | Melbourne Content Creator UGC on Instagram. Play on Instagram. 0:10" [ref=e232] [cursor=pointer]:
+                - /url: https://www.instagram.com/reel/DZQxsYeh9y6/
+                - generic [ref=e233]:
+                  - img [ref=e236]
+                  - generic [ref=e240]: 0:10
+          - link "View all videos" [ref=e243] [cursor=pointer]:
+            - /url: /search?sca_esv=4a455b0f3ad2390b&udm=7&q=site:instagram.com+%22ugc+creator%22+%22gmail.com%22&sa=X&ved=2ahUKEwjLppvIkPyUAxUeL0QIHWFTIg0Q8ccDKAJ6BAgYEAQ
+            - separator [ref=e244]
+            - generic [ref=e245]:
+              - generic [ref=e246]: View all
+              - img [ref=e248]
+        - generic [ref=e252]:
+          - heading "Web results" [level=2] [ref=e253]
+          - generic [ref=e254]:
+            - generic [ref=e257]:
+              - link "Sanam | UGC Creator (@ugcbyyourstruly) Instagram · ugcbyyourstruly 1.5K+ followers" [ref=e259] [cursor=pointer]:
+                - /url: https://www.instagram.com/ugcbyyourstruly/
+                - heading "Sanam | UGC Creator (@ugcbyyourstruly)" [level=3] [ref=e260]
+                - generic [ref=e265]:
+                  - generic [ref=e267]: Instagram · ugcbyyourstruly
+                  - generic [ref=e269]: 1.5K+ followers
+              - button "About this result" [ref=e270] [cursor=pointer]:
+                - img [ref=e273]
+            - generic [ref=e276]:
+              - generic [ref=e277]:
+                - emphasis [ref=e278]: UGC Creator
+                - text: "& Creative Strategist ‍ | Seattle, WA Creating high-converting ads for brands 200+ brand collaborations ugcbyyourstruly@"
+                - emphasis [ref=e279]: gmail.com
+                - text: .
+              - link "Read more" [ref=e280] [cursor=pointer]:
+                - /url: https://www.instagram.com/ugcbyyourstruly/#:~:text=UGC%20Creator%20%26%20Creative%20Strategist%F0%9F%91%A9%F0%9F%8F%BD%E2%80%8D%F0%9F%92%BB,%F0%9F%93%A9%20ugcbyyourstruly%40gmail.com
+            - link "site:instagram.com \"ugc creator\" \"gmail.com\" from www.instagram.com" [ref=e283] [cursor=pointer]:
+              - /url: https://www.instagram.com/ugcbyyourstruly/
+              - img "site:instagram.com \"ugc creator\" \"gmail.com\" from www.instagram.com" [ref=e285]
+        - generic [ref=e289]:
+          - generic [ref=e292]:
+            - 'link "Let''s chat about Gmail inbounds and scams ☕ #ugc ... Instagram · ugc_melleedunn 6 likes · 5 months ago" [ref=e294] [cursor=pointer]':
+              - /url: https://www.instagram.com/reel/DTNwu3FkS77/
+              - 'heading "Let''s chat about Gmail inbounds and scams ☕ #ugc ..." [level=3] [ref=e295]'
+              - generic [ref=e300]:
+                - generic [ref=e302]: Instagram · ugc_melleedunn
+                - generic [ref=e304]: 6 likes · 5 months ago
+            - button "About this result" [ref=e305] [cursor=pointer]:
+              - img [ref=e308]
+          - generic [ref=e311]:
+            - generic [ref=e312]:
+              - text: Rhode hello@rhodeskin.com Ellie Lockard
+              - emphasis [ref=e313]: UGC CREATOR
+              - text: Signed in as ellielockardugc@
+              - emphasis [ref=e314]: gmail.com
+              - text: ... Are you a
+              - emphasis [ref=e315]: UGC creator
+              - text: or do you want to be a
+              - emphasis [ref=e316]: UGC
+              - text: ...
+            - link "Read more" [ref=e317] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DTNwu3FkS77/#:~:text=Rhode%20hello%40rhodeskin.com%20Ellie%20Lockard%20UGC,CREATOR%20Signed%20in%20as%20ellielockardugc%40gmail.com&text=Are%20you%20a%20UGC%20creator,to%20be%20a%20UGC%20creator%3F
+        - generic [ref=e321]:
+          - generic [ref=e324]:
+            - link "Shay • Ugc Creator (@ugcwithshay) Instagram · ugcwithshay 930+ followers" [ref=e326] [cursor=pointer]:
+              - /url: https://www.instagram.com/ugcwithshay/
+              - heading "Shay • Ugc Creator (@ugcwithshay)" [level=3] [ref=e327]
+              - generic [ref=e332]:
+                - generic [ref=e334]: Instagram · ugcwithshay
+                - generic [ref=e336]: 930+ followers
+            - button "About this result" [ref=e337] [cursor=pointer]:
+              - img [ref=e340]
+          - generic [ref=e344]:
+            - text: ...
+            - emphasis [ref=e345]: gmail.com
+            - text: ... Influencer vs.
+            - emphasis [ref=e346]: UGC creator
+            - text: — not the same ...
+          - link "site:instagram.com \"ugc creator\" \"gmail.com\" from www.instagram.com" [ref=e349] [cursor=pointer]:
+            - /url: https://www.instagram.com/ugcwithshay/
+            - img "site:instagram.com \"ugc creator\" \"gmail.com\" from www.instagram.com" [ref=e351]
+        - generic [ref=e355]:
+          - generic [ref=e358]:
+            - link "Gabby I UGC Creator (@ugcbygabby_) Instagram · ugcbygabby_ 1.3K+ followers" [ref=e360] [cursor=pointer]:
+              - /url: https://www.instagram.com/ugcbygabby_/
+              - heading "Gabby I UGC Creator (@ugcbygabby_)" [level=3] [ref=e361]
+              - generic [ref=e366]:
+                - generic [ref=e368]: Instagram · ugcbygabby_
+                - generic [ref=e370]: 1.3K+ followers
+            - button "About this result" [ref=e371] [cursor=pointer]:
+              - img [ref=e374]
+          - generic [ref=e377]:
+            - generic [ref=e378]:
+              - emphasis [ref=e379]: UGC Creator
+              - text: "& Strategist 3+ years of creating content for brands ✉️ ugcbygabby@"
+              - emphasis [ref=e380]: gmail.com
+              - text: ✨View my portfolio below⬇️. Follow. Message ...
+            - link "Read more" [ref=e381] [cursor=pointer]:
+              - /url: https://www.instagram.com/ugcbygabby_/#:~:text=%F0%9F%A4%B3UGC%20Creator%20%26%20Strategist,Message
+          - link "site:instagram.com \"ugc creator\" \"gmail.com\" images from www.instagram.com" [ref=e383] [cursor=pointer]:
+            - /url: https://www.instagram.com/ugcbygabby_/
+        - generic [ref=e400]:
+          - generic [ref=e403]:
+            - 'link "UGC Creator on Instagram: \"I always strive for these ... Instagram · ugcwithcarolinee 1 like · 1 month ago" [ref=e405] [cursor=pointer]':
+              - /url: https://www.instagram.com/p/DXwfqQQFmio/
+              - 'heading "UGC Creator on Instagram: \"I always strive for these ..." [level=3] [ref=e406]'
+              - generic [ref=e411]:
+                - generic [ref=e413]: Instagram · ugcwithcarolinee
+                - generic [ref=e415]: 1 like · 1 month ago
+            - button "About this result" [ref=e416] [cursor=pointer]:
+              - img [ref=e419]
+          - generic [ref=e422]:
+            - generic [ref=e423]:
+              - text: Holly.m.ugc.212@
+              - emphasis [ref=e424]: gmail.com
+              - text: "#ugc #ugccreator #ugccommunity #contentcreator #ugcvideo"
+              - emphasis [ref=e425]: ugc creator
+              - text: "| ugc content creator | ugc community | ugc ..."
+            - link "Read more" [ref=e426] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXwfqQQFmio/#:~:text=Holly.m.ugc.212%40gmail.com,%7C%20ugc%20community%20%7C%20ugc
+          - link "site:instagram.com \"ugc creator\" \"gmail.com\" from www.instagram.com" [ref=e429] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DXwfqQQFmio/
+            - img "site:instagram.com \"ugc creator\" \"gmail.com\" from www.instagram.com" [ref=e431]
+        - generic [ref=e435]:
+          - generic [ref=e438]:
+            - link "your Gmail address might be costing you paid UGC deals. ... Instagram · shelbyelizabethforman 10+ likes · 4 months ago" [ref=e440] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DUB4fqPD6Lq/
+              - heading "your Gmail address might be costing you paid UGC deals. ..." [level=3] [ref=e441]
+              - generic [ref=e446]:
+                - generic [ref=e448]: Instagram · shelbyelizabethforman
+                - generic [ref=e450]: 10+ likes · 4 months ago
+            - button "About this result" [ref=e451] [cursor=pointer]:
+              - img [ref=e454]
+          - generic [ref=e457]:
+            - generic [ref=e458]:
+              - text: ...
+              - emphasis [ref=e459]: ugc creator
+              - text: ", ugc strategy, ugc income,"
+              - emphasis [ref=e460]: ugc creator
+              - text: education ... You don't want the email address to be Cindy Lou@
+              - emphasis [ref=e461]: Gmail. com
+              - text: . Because you ...
+            - link "Read more" [ref=e462] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DUB4fqPD6Lq/#:~:text=You%20don't%20want%20the%20email,don't%20look%20professional%20or%20credible.
+        - generic [ref=e466]:
+          - generic [ref=e469]:
+            - link "Chelsey | UGC Creator (@ugcwithchelsey) Instagram · ugcwithchelsey 1.2K+ followers" [ref=e471] [cursor=pointer]:
+              - /url: https://www.instagram.com/ugcwithchelsey/
+              - heading "Chelsey | UGC Creator (@ugcwithchelsey)" [level=3] [ref=e472]
+              - generic [ref=e477]:
+                - generic [ref=e479]: Instagram · ugcwithchelsey
+                - generic [ref=e481]: 1.2K+ followers
+            - button "About this result" [ref=e482] [cursor=pointer]:
+              - img [ref=e485]
+          - generic [ref=e488]:
+            - generic [ref=e489]:
+              - emphasis [ref=e490]: UGC Creator
+              - text: "& TTS Affiliate Creating short form content in tech & lifestyle Louisiana ugcwithchelseya@"
+              - emphasis [ref=e491]: gmail.com
+              - text: · My Mini UGC Portfolio ✨ Hi i'm Chelsey and ...
+            - link "Read more" [ref=e492] [cursor=pointer]:
+              - /url: https://www.instagram.com/ugcwithchelsey/#:~:text=UGC%20Creator%20%26%20TTS%20Affiliate,%F0%9F%93%A7%20ugcwithchelseya%40gmail.com
+          - link "site:instagram.com \"ugc creator\" \"gmail.com\" from www.instagram.com" [ref=e495] [cursor=pointer]:
+            - /url: https://www.instagram.com/ugcwithchelsey/
+            - img "site:instagram.com \"ugc creator\" \"gmail.com\" from www.instagram.com" [ref=e497]
+        - generic [ref=e501]:
+          - generic [ref=e504]:
+            - link "Joana | UGC creator (@ugcwithjoana) Instagram · ugcwithjoana 5.8K+ followers" [ref=e506] [cursor=pointer]:
+              - /url: https://www.instagram.com/ugcwithjoana/
+              - heading "Joana | UGC creator (@ugcwithjoana)" [level=3] [ref=e507]
+              - generic [ref=e512]:
+                - generic [ref=e514]: Instagram · ugcwithjoana
+                - generic [ref=e516]: 5.8K+ followers
+            - button "About this result" [ref=e517] [cursor=pointer]:
+              - img [ref=e520]
+          - generic [ref=e524]:
+            - text: ...
+            - emphasis [ref=e525]: gmail.com
+            - text: ⬇️ resources and portfolio ... the perks of being ...
+          - link "site:instagram.com \"ugc creator\" \"gmail.com\" from www.instagram.com" [ref=e528] [cursor=pointer]:
+            - /url: https://www.instagram.com/ugcwithjoana/
+            - img "site:instagram.com \"ugc creator\" \"gmail.com\" from www.instagram.com" [ref=e530]
+        - generic [ref=e534]:
+          - generic [ref=e537]:
+            - link "Thought I introduce myself! 💭✨ Hi I'm Nikki! l'm a UGC ... Instagram · nikki__ugc 20+ likes · 6 months ago" [ref=e539] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DRThiSIDbGU/
+              - heading "Thought I introduce myself! 💭✨ Hi I'm Nikki! l'm a UGC ..." [level=3] [ref=e540]
+              - generic [ref=e545]:
+                - generic [ref=e547]: Instagram · nikki__ugc
+                - generic [ref=e549]: 20+ likes · 6 months ago
+            - button "About this result" [ref=e550] [cursor=pointer]:
+              - img [ref=e553]
+          - generic [ref=e556]:
+            - generic [ref=e557]:
+              - text: If you are looking for a
+              - emphasis [ref=e558]: UGC creator
+              - text: please reach out! Id love to work with you! Send me a DM or email me if interested sonia.lowrie2@
+              - emphasis [ref=e559]: gmail.com
+              - text: .
+            - link "Read more" [ref=e560] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DRThiSIDbGU/#:~:text=If%20you%20are%20looking%20for,%F0%9F%92%8Csonia.lowrie2%40gmail.com
+          - link "site:instagram.com \"ugc creator\" \"gmail.com\" from www.instagram.com" [ref=e563] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DRThiSIDbGU/
+            - img "site:instagram.com \"ugc creator\" \"gmail.com\" from www.instagram.com" [ref=e565]
+      - navigation [ref=e568]:
+        - heading "Page Navigation" [level=1] [ref=e569]
+        - text: "1"
+        - link "Page 2" [ref=e572] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22ugc+creator%22+%22gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=hA8pasvUG57ekPIP4aaJaQ&start=10&sa=N&sstk=AU9db-ALQ0v8NZfRXwOdMihVZxa5rwWVs6d6Ct9jt-rXF34N_BrlwZkafcmrd0Y5IjtqCIvVcbi8XI8t97vF7_pg7r56QNPf1VzFhw&ved=2ahUKEwjLppvIkPyUAxUeL0QIHWFTIg0Q8tMDegQIMhAE
+          - text: "2"
+        - link "Page 3" [ref=e574] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22ugc+creator%22+%22gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=hA8pasvUG57ekPIP4aaJaQ&start=20&sa=N&sstk=AU9db-ALQ0v8NZfRXwOdMihVZxa5rwWVs6d6Ct9jt-rXF34N_BrlwZkafcmrd0Y5IjtqCIvVcbi8XI8t97vF7_pg7r56QNPf1VzFhw&ved=2ahUKEwjLppvIkPyUAxUeL0QIHWFTIg0Q8tMDegQIMhAG
+          - text: "3"
+        - link "Page 4" [ref=e576] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22ugc+creator%22+%22gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=hA8pasvUG57ekPIP4aaJaQ&start=30&sa=N&sstk=AU9db-ALQ0v8NZfRXwOdMihVZxa5rwWVs6d6Ct9jt-rXF34N_BrlwZkafcmrd0Y5IjtqCIvVcbi8XI8t97vF7_pg7r56QNPf1VzFhw&ved=2ahUKEwjLppvIkPyUAxUeL0QIHWFTIg0Q8tMDegQIMhAI
+          - text: "4"
+        - link "Page 5" [ref=e578] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22ugc+creator%22+%22gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=hA8pasvUG57ekPIP4aaJaQ&start=40&sa=N&sstk=AU9db-ALQ0v8NZfRXwOdMihVZxa5rwWVs6d6Ct9jt-rXF34N_BrlwZkafcmrd0Y5IjtqCIvVcbi8XI8t97vF7_pg7r56QNPf1VzFhw&ved=2ahUKEwjLppvIkPyUAxUeL0QIHWFTIg0Q8tMDegQIMhAK
+          - text: "5"
+        - link "Page 6" [ref=e580] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22ugc+creator%22+%22gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=hA8pasvUG57ekPIP4aaJaQ&start=50&sa=N&sstk=AU9db-ALQ0v8NZfRXwOdMihVZxa5rwWVs6d6Ct9jt-rXF34N_BrlwZkafcmrd0Y5IjtqCIvVcbi8XI8t97vF7_pg7r56QNPf1VzFhw&ved=2ahUKEwjLppvIkPyUAxUeL0QIHWFTIg0Q8tMDegQIMhAM
+          - text: "6"
+        - link "Page 7" [ref=e582] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22ugc+creator%22+%22gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=hA8pasvUG57ekPIP4aaJaQ&start=60&sa=N&sstk=AU9db-ALQ0v8NZfRXwOdMihVZxa5rwWVs6d6Ct9jt-rXF34N_BrlwZkafcmrd0Y5IjtqCIvVcbi8XI8t97vF7_pg7r56QNPf1VzFhw&ved=2ahUKEwjLppvIkPyUAxUeL0QIHWFTIg0Q8tMDegQIMhAO
+          - text: "7"
+        - link "Page 8" [ref=e584] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22ugc+creator%22+%22gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=hA8pasvUG57ekPIP4aaJaQ&start=70&sa=N&sstk=AU9db-ALQ0v8NZfRXwOdMihVZxa5rwWVs6d6Ct9jt-rXF34N_BrlwZkafcmrd0Y5IjtqCIvVcbi8XI8t97vF7_pg7r56QNPf1VzFhw&ved=2ahUKEwjLppvIkPyUAxUeL0QIHWFTIg0Q8tMDegQIMhAQ
+          - text: "8"
+        - link "Page 9" [ref=e586] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22ugc+creator%22+%22gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=hA8pasvUG57ekPIP4aaJaQ&start=80&sa=N&sstk=AU9db-ALQ0v8NZfRXwOdMihVZxa5rwWVs6d6Ct9jt-rXF34N_BrlwZkafcmrd0Y5IjtqCIvVcbi8XI8t97vF7_pg7r56QNPf1VzFhw&ved=2ahUKEwjLppvIkPyUAxUeL0QIHWFTIg0Q8tMDegQIMhAS
+          - text: "9"
+        - link "Page 10" [ref=e588] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22ugc+creator%22+%22gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=hA8pasvUG57ekPIP4aaJaQ&start=90&sa=N&sstk=AU9db-ALQ0v8NZfRXwOdMihVZxa5rwWVs6d6Ct9jt-rXF34N_BrlwZkafcmrd0Y5IjtqCIvVcbi8XI8t97vF7_pg7r56QNPf1VzFhw&ved=2ahUKEwjLppvIkPyUAxUeL0QIHWFTIg0Q8tMDegQIMhAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e590]:
+          - link "Next" [ref=e591] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22ugc+creator%22+%22gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=hA8pasvUG57ekPIP4aaJaQ&start=10&sa=N&sstk=AU9db-ALQ0v8NZfRXwOdMihVZxa5rwWVs6d6Ct9jt-rXF34N_BrlwZkafcmrd0Y5IjtqCIvVcbi8XI8t97vF7_pg7r56QNPf1VzFhw&ved=2ahUKEwjLppvIkPyUAxUeL0QIHWFTIg0Q8NMDegQIMhAW
+            - generic [ref=e593]: Next
+      - navigation
+    - contentinfo [ref=e594]:
+      - heading "Footer Links" [level=1] [ref=e595]
+      - generic [ref=e599]:
+        - generic [ref=e603]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e605] [cursor=pointer]:
+            - generic [ref=e606]: 85281, Tempe, AZ
+            - generic [ref=e608]:
+              - text: "-"
+              - generic [ref=e609]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e611] [cursor=pointer]: Update location
+        - generic [ref=e614]:
+          - link "Help" [ref=e615] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e616] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e617] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e618] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

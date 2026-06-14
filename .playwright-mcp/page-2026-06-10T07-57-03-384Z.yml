@@ -1,0 +1,329 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwissLu1mfyUAxUoIkQIHcEqFS4QPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "raleigh" "influencer" "@gmail.com" site:instagram.com "raleigh" "influencer" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522raleigh%2522%2B%2522influencer%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22raleigh%22+%22influencer%22+%22%40gmail.com%22&sca_esv=16a54cb5159ee727&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&aep=1&ntc=1&sa=X&ved=2ahUKEwissLu1mfyUAxUoIkQIHcEqFS4Q2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&q=site:instagram.com+%22raleigh%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwissLu1mfyUAxUoIkQIHcEqFS4QtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "Videos" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&q=site:instagram.com+%22raleigh%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwissLu1mfyUAxUoIkQIHcEqFS4QtKgLegQIFBAB
+              - generic [ref=e94]: Videos
+          - listitem [ref=e95]:
+            - link "News" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&q=site:instagram.com+%22raleigh%22+%22influencer%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&sa=X&ved=2ahUKEwissLu1mfyUAxUoIkQIHcEqFS4Q0pQJegQIExAB
+              - generic [ref=e98]: News
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&q=site:instagram.com+%22raleigh%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwissLu1mfyUAxUoIkQIHcEqFS4Qs6gLegQIEhAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&q=site:instagram.com+%22raleigh%22+%22influencer%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "Raleigh Estelle Koritz🦋🍒 (@raleighkoritz) Instagram · raleighkoritz 3.7K+ followers" [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/raleighkoritz/
+                - heading "Raleigh Estelle Koritz🦋🍒 (@raleighkoritz)" [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram · raleighkoritz
+                  - generic [ref=e153]: 3.7K+ followers
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e160]:
+              - generic [ref=e161]:
+                - emphasis [ref=e162]: Raleigh
+                - text: Estelle Koritz she/her. 3,703 followers. 2,752 following. AZ x MN | raleighkoritzpr@
+                - emphasis [ref=e163]: gmail.com
+                - text: "| @gemsbyrags | 🖇️ Linktree. Follow. Message ..."
+              - link "Read more" [ref=e164] [cursor=pointer]:
+                - /url: https://www.instagram.com/raleighkoritz/#:~:text=Raleigh%20Estelle%20Koritz%F0%9F%A6%8B%F0%9F%8D%92she%2Fher,Message
+            - link "site:instagram.com \"raleigh\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e167] [cursor=pointer]:
+              - /url: https://www.instagram.com/raleighkoritz/
+              - img "site:instagram.com \"raleigh\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e169]
+        - generic [ref=e173]:
+          - generic [ref=e176]:
+            - link "Raleigh Influencers (@megansdesignedlife) - Instagram Instagram · megansdesignedlife 3.2K+ followers" [ref=e178] [cursor=pointer]:
+              - /url: https://www.instagram.com/megansdesignedlife/
+              - heading "Raleigh Influencers (@megansdesignedlife) - Instagram" [level=3] [ref=e179]
+              - generic [ref=e184]:
+                - generic [ref=e186]: Instagram · megansdesignedlife
+                - generic [ref=e188]: 3.2K+ followers
+            - button "About this result" [ref=e189] [cursor=pointer]:
+              - img [ref=e192]
+          - generic [ref=e196]:
+            - text: 3.2K+ followers · 2.5K+ posts ·
+            - emphasis [ref=e197]: Raleigh
+            - text: Based Fashion & Lifestyle
+            - emphasis [ref=e198]: Influencer
+            - text: "Collabs: Megansdesignedlife@"
+            - emphasis [ref=e199]: gmail.com
+            - text: .
+          - link "site:instagram.com \"raleigh\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e202] [cursor=pointer]:
+            - /url: https://www.instagram.com/megansdesignedlife/
+            - img "site:instagram.com \"raleigh\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e204]
+        - generic [ref=e208]:
+          - generic [ref=e211]:
+            - link "NC Content Creator | This Raleigh influencer is more than just a ... Instagram https://www.instagram.com › reel" [ref=e213] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DUI_GIwDl2w/
+              - heading "NC Content Creator | This Raleigh influencer is more than just a ..." [level=3] [ref=e214]
+              - generic [ref=e219]:
+                - generic [ref=e221]: Instagram
+                - generic [ref=e223]: https://www.instagram.com › reel
+            - button "About this result" [ref=e224] [cursor=pointer]:
+              - img [ref=e227]
+          - generic [ref=e231]:
+            - text: This
+            - emphasis [ref=e232]: Raleigh influencer
+            - text: is more than just a pretty face… she's an educator, a Detroit native, a Soror and a content creator who's been boldly building ...
+        - generic [ref=e236]:
+          - generic [ref=e239]:
+            - link "NC Food & Fun (@raleighfoodtrap) - Instagram Instagram · raleighfoodtrap 214.5K+ followers" [ref=e241] [cursor=pointer]:
+              - /url: https://www.instagram.com/raleighfoodtrap/
+              - heading "NC Food & Fun (@raleighfoodtrap) - Instagram" [level=3] [ref=e242]
+              - generic [ref=e247]:
+                - generic [ref=e249]: Instagram · raleighfoodtrap
+                - generic [ref=e251]: 214.5K+ followers
+            - button "About this result" [ref=e252] [cursor=pointer]:
+              - img [ref=e255]
+          - generic [ref=e258]:
+            - generic [ref=e259]:
+              - text: 3X WRAL
+              - emphasis [ref=e260]: Influencer
+              - text: of the YEAR WakeLiving BEST Social Media Acct 23' RaleighFoodTrap@
+              - emphasis [ref=e261]: gmail.com
+              - text: "#TrustTheTrap NC. Follow. Message."
+            - link "Read more" [ref=e262] [cursor=pointer]:
+              - /url: https://www.instagram.com/raleighfoodtrap/#:~:text=%F0%9F%8F%86%203X%20%F0%9D%99%92%F0%9D%99%8D%F0%9D%98%BC%F0%9D%99%87%20%F0%9D%99%84%F0%9D%99%A3%F0%9D%99%9B%F0%9D%99%A1%F0%9D%99%AA%F0%9D%99%9A%F0%9D%99%A3%F0%9D%99%98%F0%9D%99%9A%F0%9D%99%A7%20%F0%9D%99%A4%F0%9D%99%9B,Message
+          - link "site:instagram.com \"raleigh\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e265] [cursor=pointer]:
+            - /url: https://www.instagram.com/raleighfoodtrap/
+            - img "site:instagram.com \"raleigh\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e267]
+        - generic [ref=e271]:
+          - generic [ref=e274]:
+            - link "marissa michelle (@rissaamichellee) Instagram · rissaamichellee 3.7K+ followers" [ref=e276] [cursor=pointer]:
+              - /url: https://www.instagram.com/rissaamichellee/
+              - heading "marissa michelle (@rissaamichellee)" [level=3] [ref=e277]
+              - generic [ref=e282]:
+                - generic [ref=e284]: Instagram · rissaamichellee
+                - generic [ref=e286]: 3.7K+ followers
+            - button "About this result" [ref=e287] [cursor=pointer]:
+              - img [ref=e290]
+          - generic [ref=e294]:
+            - text: ...
+            - emphasis [ref=e295]: Raleigh
+            - text: ", NC Brand Strategist @ambiencetheacademync : rissadrew21@"
+            - emphasis [ref=e296]: gmail.com
+            - text: "... @cerave girlie #GiftedByCeraVeMoisturizer #skincare ..."
+          - link "site:instagram.com \"raleigh\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e299] [cursor=pointer]:
+            - /url: https://www.instagram.com/rissaamichellee/
+            - img "site:instagram.com \"raleigh\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e301]
+        - generic [ref=e307]:
+          - generic [ref=e310]:
+            - link "If you know Raleigh, you know Shannon Cox (@eviltwinn ... Instagram · bluewatersparaleigh 100+ likes · 6 months ago" [ref=e312] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DSGAefUgra3/
+              - heading "If you know Raleigh, you know Shannon Cox (@eviltwinn ..." [level=3] [ref=e313]
+              - generic [ref=e318]:
+                - generic [ref=e320]: Instagram · bluewatersparaleigh
+                - generic [ref=e322]: 100+ likes · 6 months ago
+            - button "About this result" [ref=e323] [cursor=pointer]:
+              - img [ref=e326]
+          - generic [ref=e328]:
+            - 'link "If you know Raleigh, you know Shannon Cox (@eviltwinn ... by Blue Water Spa | #1 Raleigh Medical Spa on Instagram. Play on Instagram. 1:23" [ref=e329] [cursor=pointer]':
+              - /url: https://www.instagram.com/reel/DSGAefUgra3/
+              - generic [ref=e331]:
+                - img [ref=e334]
+                - generic [ref=e338]: 1:23
+            - generic [ref=e340]: "Raleigh didn't just find an influencer… it found a standout leader ... ✉︎ scrantonsocialco@gmail.com #ScrantonSocialCo #SocialMedia ..."
+        - generic [ref=e344]:
+          - generic [ref=e347]:
+            - link "Lena Moriarty (@lenamoriarty) · Raleigh, NC Instagram · lenamoriarty 5.2K+ followers" [ref=e349] [cursor=pointer]:
+              - /url: https://www.instagram.com/lenamoriarty/
+              - heading "Lena Moriarty (@lenamoriarty) · Raleigh, NC" [level=3] [ref=e350]
+              - generic [ref=e355]:
+                - generic [ref=e357]: Instagram · lenamoriarty
+                - generic [ref=e359]: 5.2K+ followers
+            - button "About this result" [ref=e360] [cursor=pointer]:
+              - img [ref=e363]
+          - generic [ref=e367]:
+            - text: ...
+            - emphasis [ref=e368]: Raleigh
+            - text: "↔️ New York : lblena28@"
+            - emphasis [ref=e369]: gmail.com
+            - text: ... At least I'm trying ...
+          - link "site:instagram.com \"raleigh\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e372] [cursor=pointer]:
+            - /url: https://www.instagram.com/lenamoriarty/
+            - img "site:instagram.com \"raleigh\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e374]
+        - generic [ref=e378]:
+          - generic [ref=e381]:
+            - link "Bobbie Denise Cole📍Raleigh, NC Lifestyle Creator ... Instagram https://www.instagram.com › bdenisecole" [ref=e383] [cursor=pointer]:
+              - /url: https://www.instagram.com/bdenisecole/reels/
+              - heading "Bobbie Denise Cole📍Raleigh, NC Lifestyle Creator ..." [level=3] [ref=e384]
+              - generic [ref=e389]:
+                - generic [ref=e391]: Instagram
+                - generic [ref=e393]: https://www.instagram.com › bdenisecole
+            - button "About this result" [ref=e394] [cursor=pointer]:
+              - img [ref=e397]
+          - generic [ref=e401]:
+            - text: ...
+            - emphasis [ref=e402]: gmail.com
+            - text: AKA @ivystorehouse Ambassador
+            - emphasis [ref=e403]: Raleigh
+            - text: ", NC ..."
+            - emphasis [ref=e404]: influencer
+            - text: "! Free, thoughtful, and full of vibes. Saving this spot for my ..."
+          - link "site:instagram.com \"raleigh\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e407] [cursor=pointer]:
+            - /url: https://www.instagram.com/bdenisecole/reels/
+            - img "site:instagram.com \"raleigh\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e409]
+        - generic [ref=e413]:
+          - generic [ref=e416]:
+            - link "North Carolina Influencer (@north_carolina_adventure) Instagram · north_carolina_adventure 4.1K+ followers" [ref=e418] [cursor=pointer]:
+              - /url: https://www.instagram.com/north_carolina_adventure/
+              - heading "North Carolina Influencer (@north_carolina_adventure)" [level=3] [ref=e419]
+              - generic [ref=e424]:
+                - generic [ref=e426]: Instagram · north_carolina_adventure
+                - generic [ref=e428]: 4.1K+ followers
+            - button "About this result" [ref=e429] [cursor=pointer]:
+              - img [ref=e432]
+          - generic [ref=e436]:
+            - text: ...
+            - emphasis [ref=e437]: gmail.com
+            - text: ... Taverna Agora in
+            - emphasis [ref=e438]: Raleigh
+            - text: ", NC 326 Hillsborough St,"
+            - emphasis [ref=e439]: Raleigh
+            - text: ", NC 27603 ..."
+          - link "site:instagram.com \"raleigh\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e442] [cursor=pointer]:
+            - /url: https://www.instagram.com/north_carolina_adventure/
+            - img "site:instagram.com \"raleigh\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e444]
+        - generic [ref=e448]:
+          - generic [ref=e451]:
+            - link "The Raleigh-Durham Girl (@theraleighdurhamgirl) Instagram · theraleighdurhamgirl 9.9K+ followers" [ref=e453] [cursor=pointer]:
+              - /url: https://www.instagram.com/theraleighdurhamgirl/
+              - heading "The Raleigh-Durham Girl (@theraleighdurhamgirl)" [level=3] [ref=e454]
+              - generic [ref=e459]:
+                - generic [ref=e461]: Instagram · theraleighdurhamgirl
+                - generic [ref=e463]: 9.9K+ followers
+            - button "About this result" [ref=e464] [cursor=pointer]:
+              - img [ref=e467]
+          - generic [ref=e471]:
+            - text: ...
+            - emphasis [ref=e472]: gmail.com
+            - text: ... (Shared from the
+            - emphasis [ref=e473]: Raleigh
+            - text: "-Durham"
+            - emphasis [ref=e474]: Influencer
+            - text: Network). Wanna be in a movie ...
+          - link "site:instagram.com \"raleigh\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e476] [cursor=pointer]:
+            - /url: https://www.instagram.com/theraleighdurhamgirl/
+      - navigation [ref=e492]:
+        - heading "Page Navigation" [level=1] [ref=e493]
+        - text: "1"
+        - link "Page 2" [ref=e496] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22raleigh%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=zRgpauyVA6jEkPIPwdXU8AI&start=10&sa=N&sstk=AU9db-DoI1B22kJ6uPAMr30isK--d3ka6De8fymlLwuzPkOqK4HKveUnBjK9VQI2vGQ0NwKgOWWRU2aehDQ8cFrbyrI3rI0Bqeiykw&ved=2ahUKEwissLu1mfyUAxUoIkQIHcEqFS4Q8tMDegQIORAE
+          - text: "2"
+        - link "Page 3" [ref=e498] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22raleigh%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=zRgpauyVA6jEkPIPwdXU8AI&start=20&sa=N&sstk=AU9db-DoI1B22kJ6uPAMr30isK--d3ka6De8fymlLwuzPkOqK4HKveUnBjK9VQI2vGQ0NwKgOWWRU2aehDQ8cFrbyrI3rI0Bqeiykw&ved=2ahUKEwissLu1mfyUAxUoIkQIHcEqFS4Q8tMDegQIORAG
+          - text: "3"
+        - link "Page 4" [ref=e500] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22raleigh%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=zRgpauyVA6jEkPIPwdXU8AI&start=30&sa=N&sstk=AU9db-DoI1B22kJ6uPAMr30isK--d3ka6De8fymlLwuzPkOqK4HKveUnBjK9VQI2vGQ0NwKgOWWRU2aehDQ8cFrbyrI3rI0Bqeiykw&ved=2ahUKEwissLu1mfyUAxUoIkQIHcEqFS4Q8tMDegQIORAI
+          - text: "4"
+        - link "Page 5" [ref=e502] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22raleigh%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=zRgpauyVA6jEkPIPwdXU8AI&start=40&sa=N&sstk=AU9db-DoI1B22kJ6uPAMr30isK--d3ka6De8fymlLwuzPkOqK4HKveUnBjK9VQI2vGQ0NwKgOWWRU2aehDQ8cFrbyrI3rI0Bqeiykw&ved=2ahUKEwissLu1mfyUAxUoIkQIHcEqFS4Q8tMDegQIORAK
+          - text: "5"
+        - link "Page 6" [ref=e504] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22raleigh%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=zRgpauyVA6jEkPIPwdXU8AI&start=50&sa=N&sstk=AU9db-DoI1B22kJ6uPAMr30isK--d3ka6De8fymlLwuzPkOqK4HKveUnBjK9VQI2vGQ0NwKgOWWRU2aehDQ8cFrbyrI3rI0Bqeiykw&ved=2ahUKEwissLu1mfyUAxUoIkQIHcEqFS4Q8tMDegQIORAM
+          - text: "6"
+        - link "Page 7" [ref=e506] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22raleigh%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=zRgpauyVA6jEkPIPwdXU8AI&start=60&sa=N&sstk=AU9db-DoI1B22kJ6uPAMr30isK--d3ka6De8fymlLwuzPkOqK4HKveUnBjK9VQI2vGQ0NwKgOWWRU2aehDQ8cFrbyrI3rI0Bqeiykw&ved=2ahUKEwissLu1mfyUAxUoIkQIHcEqFS4Q8tMDegQIORAO
+          - text: "7"
+        - link "Page 8" [ref=e508] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22raleigh%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=zRgpauyVA6jEkPIPwdXU8AI&start=70&sa=N&sstk=AU9db-DoI1B22kJ6uPAMr30isK--d3ka6De8fymlLwuzPkOqK4HKveUnBjK9VQI2vGQ0NwKgOWWRU2aehDQ8cFrbyrI3rI0Bqeiykw&ved=2ahUKEwissLu1mfyUAxUoIkQIHcEqFS4Q8tMDegQIORAQ
+          - text: "8"
+        - link "Page 9" [ref=e510] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22raleigh%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=zRgpauyVA6jEkPIPwdXU8AI&start=80&sa=N&sstk=AU9db-DoI1B22kJ6uPAMr30isK--d3ka6De8fymlLwuzPkOqK4HKveUnBjK9VQI2vGQ0NwKgOWWRU2aehDQ8cFrbyrI3rI0Bqeiykw&ved=2ahUKEwissLu1mfyUAxUoIkQIHcEqFS4Q8tMDegQIORAS
+          - text: "9"
+        - link "Page 10" [ref=e512] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22raleigh%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=zRgpauyVA6jEkPIPwdXU8AI&start=90&sa=N&sstk=AU9db-DoI1B22kJ6uPAMr30isK--d3ka6De8fymlLwuzPkOqK4HKveUnBjK9VQI2vGQ0NwKgOWWRU2aehDQ8cFrbyrI3rI0Bqeiykw&ved=2ahUKEwissLu1mfyUAxUoIkQIHcEqFS4Q8tMDegQIORAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e514]:
+          - link "Next" [ref=e515] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22raleigh%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=zRgpauyVA6jEkPIPwdXU8AI&start=10&sa=N&sstk=AU9db-DoI1B22kJ6uPAMr30isK--d3ka6De8fymlLwuzPkOqK4HKveUnBjK9VQI2vGQ0NwKgOWWRU2aehDQ8cFrbyrI3rI0Bqeiykw&ved=2ahUKEwissLu1mfyUAxUoIkQIHcEqFS4Q8NMDegQIORAW
+            - generic [ref=e517]: Next
+      - navigation
+    - contentinfo [ref=e518]:
+      - heading "Footer Links" [level=1] [ref=e519]
+      - generic [ref=e523]:
+        - generic [ref=e527]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e529] [cursor=pointer]:
+            - generic [ref=e530]: 85281, Tempe, AZ
+            - generic [ref=e532]:
+              - text: "-"
+              - generic [ref=e533]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e535] [cursor=pointer]: Update location
+        - generic [ref=e538]:
+          - link "Help" [ref=e539] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e540] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e541] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e542] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

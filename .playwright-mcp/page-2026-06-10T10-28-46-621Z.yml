@@ -1,0 +1,344 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwjL7requ_yUAxWDH0QIHVdMIX4QPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "san francisco" "influencer" "@gmail.com" site:instagram.com "san francisco" "influencer" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522san%2Bfrancisco%2522%2B%2522influencer%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22san+francisco%22+%22influencer%22+%22%40gmail.com%22&sca_esv=1eed3fc2a4e4618d&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6phFf8U1aWAryveA6Pgbo-LgeOXpHJIRgaqNDLrfQLUS_xlm4HrWDdkym5AUCV48EoPD-DXiIpJbrFnY5NIwBfttjrgitsfSrfhUgsz5uB0tNTYszg&aep=1&ntc=1&sa=X&ved=2ahUKEwjL7requ_yUAxWDH0QIHVdMIX4Q2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6phFf8U1aWAryveA6Pgbo-LgeOXpHJIRgaqNDLrfQLUS_xlm4HrWDdkym5AUCV48EoPD-DXiIpJbrFnY5NIwBfttjrgitsfSrfhUgsz5uB0tNTYszg&q=site:instagram.com+%22san+francisco%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjL7requ_yUAxWDH0QIHVdMIX4QtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "News" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&q=site:instagram.com+%22san+francisco%22+%22influencer%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6phFf8U1aWAryveA6Pgbo-LgeOXpHJIRgaqNDLrfQLUS_xlm4HrWDdkym5AUCV48EoPD-DXiIpJbrFnY5NIwBfttjrgitsfSrfhUgsz5uB0tNTYszg&sa=X&ved=2ahUKEwjL7requ_yUAxWDH0QIHVdMIX4Q0pQJegQIFBAB
+              - generic [ref=e94]: News
+          - listitem [ref=e95]:
+            - link "Videos" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6phFf8U1aWAryveA6Pgbo-LgeOXpHJIRgaqNDLrfQLUS_xlm4HrWDdkym5AUCV48EoPD-DXiIpJbrFnY5NIwBfttjrgitsfSrfhUgsz5uB0tNTYszg&q=site:instagram.com+%22san+francisco%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjL7requ_yUAxWDH0QIHVdMIX4QtKgLegQIExAB
+              - generic [ref=e98]: Videos
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6phFf8U1aWAryveA6Pgbo-LgeOXpHJIRgaqNDLrfQLUS_xlm4HrWDdkym5AUCV48EoPD-DXiIpJbrFnY5NIwBfttjrgitsfSrfhUgsz5uB0tNTYszg&q=site:instagram.com+%22san+francisco%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjL7requ_yUAxWDH0QIHVdMIX4Qs6gLegQIEhAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6phFf8U1aWAryveA6Pgbo-LgeOXpHJIRgaqNDLrfQLUS_xlm4HrWDdkym5AUCV48EoPD-DXiIpJbrFnY5NIwBfttjrgitsfSrfhUgsz5uB0tNTYszg&q=site:instagram.com+%22san+francisco%22+%22influencer%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "Blogger| San Francisco SF (@julienshah ... Instagram · julienshah 47.6K+ followers" [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/julienshah/
+                - heading "Blogger| San Francisco SF (@julienshah ..." [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram · julienshah
+                  - generic [ref=e153]: 47.6K+ followers
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e160]:
+              - generic [ref=e161]:
+                - text: ...
+                - emphasis [ref=e162]: gmail.com
+                - text: ... Juli Nathwani | Bay Area
+                - emphasis [ref=e163]: Influencer
+                - text: "| Blogger|"
+                - emphasis [ref=e164]: San Francisco
+                - text: SF. 47.6K ...
+              - link "Read more" [ref=e165] [cursor=pointer]:
+                - /url: https://www.instagram.com/julienshah/#:~:text=Juli%20Nathwani%20%7C%20Bay%20Area,47.6K%20followers
+        - generic [ref=e169]:
+          - generic [ref=e172]:
+            - link "soniabegoniablog Instagram · soniabegoniablog 176.4K+ followers" [ref=e174] [cursor=pointer]:
+              - /url: https://www.instagram.com/soniabegoniablog/
+              - heading "soniabegoniablog" [level=3] [ref=e175]
+              - generic [ref=e180]:
+                - generic [ref=e182]: Instagram · soniabegoniablog
+                - generic [ref=e184]: 176.4K+ followers
+            - button "About this result" [ref=e185] [cursor=pointer]:
+              - img [ref=e188]
+          - generic [ref=e191]:
+            - generic [ref=e192]:
+              - emphasis [ref=e193]: San Francisco
+              - text: Creator (also Beverly Hills) ‍ Silicon Valley techie by day, Bay Area
+              - emphasis [ref=e194]: influencer
+              - text: by night. soniabegoniablog@
+              - emphasis [ref=e195]: gmail.com
+              - text: .
+            - link "Read more" [ref=e196] [cursor=pointer]:
+              - /url: https://www.instagram.com/soniabegoniablog/#:~:text=%F0%9F%93%8DSan%20Francisco%20Creator%20(also%20Beverly,%F0%9F%93%A7%20soniabegoniablog%40gmail.com
+          - link "site:instagram.com \"san francisco\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e199] [cursor=pointer]:
+            - /url: https://www.instagram.com/soniabegoniablog/
+            - img "site:instagram.com \"san francisco\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e201]
+        - generic [ref=e205]:
+          - generic [ref=e208]:
+            - link "steffanie tran (@thesteffanietran) Instagram · thesteffanietran 10.4K+ followers" [ref=e210] [cursor=pointer]:
+              - /url: https://www.instagram.com/thesteffanietran/
+              - heading "steffanie tran (@thesteffanietran)" [level=3] [ref=e211]
+              - generic [ref=e216]:
+                - generic [ref=e218]: Instagram · thesteffanietran
+                - generic [ref=e220]: 10.4K+ followers
+            - button "About this result" [ref=e221] [cursor=pointer]:
+              - img [ref=e224]
+          - generic [ref=e228]:
+            - text: ...
+            - emphasis [ref=e229]: San Francisco
+            - text: "collabs: thesteffanietran@"
+            - emphasis [ref=e230]: gmail.com
+            - text: ...
+            - emphasis [ref=e231]: san francisco
+            - text: ","
+            - emphasis [ref=e232]: san francisco influencer
+            - text: ","
+            - emphasis [ref=e233]: san francisco
+            - text: "fashion #everydayoutfit #sanfrancisco ..."
+          - link "site:instagram.com \"san francisco\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e235] [cursor=pointer]:
+            - /url: https://www.instagram.com/thesteffanietran/
+        - generic [ref=e252]:
+          - generic [ref=e255]:
+            - link "Kimi Ellie | LA / SF (@kimiellie) Instagram · kimiellie 182.2K+ followers" [ref=e257] [cursor=pointer]:
+              - /url: https://www.instagram.com/kimiellie/
+              - heading "Kimi Ellie | LA / SF (@kimiellie)" [level=3] [ref=e258]
+              - generic [ref=e263]:
+                - generic [ref=e265]: Instagram · kimiellie
+                - generic [ref=e267]: 182.2K+ followers
+            - button "About this result" [ref=e268] [cursor=pointer]:
+              - img [ref=e271]
+          - generic [ref=e275]:
+            - text: "182K followers · 2.4K+ following · 166 posts · @kimiellie: “Hapa✌ Kimi.ellie@"
+            - emphasis [ref=e276]: gmail.com
+            - text: Los Angeles /
+            - emphasis [ref=e277]: San Francisco
+            - text: ...
+            - emphasis [ref=e278]: influencer
+            - text: "#influencers #hapa # ..."
+          - link "site:instagram.com \"san francisco\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e280] [cursor=pointer]:
+            - /url: https://www.instagram.com/kimiellie/
+        - generic [ref=e297]:
+          - generic [ref=e300]:
+            - link "Mattias Blanco | San Francisco (@mattiasblanco) Instagram · mattiasblanco 18.5K+ followers" [ref=e302] [cursor=pointer]:
+              - /url: https://www.instagram.com/mattiasblanco/
+              - heading "Mattias Blanco | San Francisco (@mattiasblanco)" [level=3] [ref=e303]
+              - generic [ref=e308]:
+                - generic [ref=e310]: Instagram · mattiasblanco
+                - generic [ref=e312]: 18.5K+ followers
+            - button "About this result" [ref=e313] [cursor=pointer]:
+              - img [ref=e316]
+          - generic [ref=e320]:
+            - text: yes they were an LA
+            - emphasis [ref=e321]: influencer
+            - text: LOL part 4 of cheap eats in
+            - emphasis [ref=e322]: San Francisco
+            - text: "! love ..."
+          - link "site:instagram.com \"san francisco\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e325] [cursor=pointer]:
+            - /url: https://www.instagram.com/mattiasblanco/
+            - img "site:instagram.com \"san francisco\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e327]
+        - generic [ref=e331]:
+          - generic [ref=e334]:
+            - link "Kelsie (@kelsieanne__) • Instagram photos and videos Instagram · kelsieanne__ 9.2K+ followers" [ref=e336] [cursor=pointer]:
+              - /url: https://www.instagram.com/kelsieanne__/
+              - heading "Kelsie (@kelsieanne__) • Instagram photos and videos" [level=3] [ref=e337]
+              - generic [ref=e342]:
+                - generic [ref=e344]: Instagram · kelsieanne__
+                - generic [ref=e346]: 9.2K+ followers
+            - button "About this result" [ref=e347] [cursor=pointer]:
+              - img [ref=e350]
+          - generic [ref=e354]:
+            - text: ...
+            - emphasis [ref=e355]: San Francisco
+            - text: "& always in Napa Valley traveling & sharing the best recs kelsie.anne.m@"
+            - emphasis [ref=e356]: gmail.com
+            - text: Links + travel guides ↓ ...
+            - emphasis [ref=e357]: influencer
+            - text: "#travelinfluencer ..."
+          - link "site:instagram.com \"san francisco\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e360] [cursor=pointer]:
+            - /url: https://www.instagram.com/kelsieanne__/
+            - img "site:instagram.com \"san francisco\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e362]
+        - generic [ref=e366]:
+          - generic [ref=e369]:
+            - link "content creator | influencer (@alesia_patotskayaa) Instagram · alesia_patotskayaa 5K+ followers" [ref=e371] [cursor=pointer]:
+              - /url: https://www.instagram.com/alesia_patotskayaa/
+              - heading "content creator | influencer (@alesia_patotskayaa)" [level=3] [ref=e372]
+              - generic [ref=e377]:
+                - generic [ref=e379]: Instagram · alesia_patotskayaa
+                - generic [ref=e381]: 5K+ followers
+            - button "About this result" [ref=e382] [cursor=pointer]:
+              - img [ref=e385]
+          - generic [ref=e388]:
+            - generic [ref=e389]:
+              - text: SF-based content creator &
+              - emphasis [ref=e390]: influencer
+              - text: "be your own muse @museful.garden romanticizing adult life pr: aestheticsinsf@"
+              - emphasis [ref=e391]: gmail.com
+              - text: · 9 years in
+              - emphasis [ref=e392]: San Francisco
+              - text: ": ..."
+            - link "Read more" [ref=e393] [cursor=pointer]:
+              - /url: https://www.instagram.com/alesia_patotskayaa/#:~:text=SF%2Dbased%20content%20creator%20%26%20influencer,%F0%9F%92%8C%20pr%3A%20aestheticsinsf%40gmail.com
+          - link "site:instagram.com \"san francisco\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e395] [cursor=pointer]:
+            - /url: https://www.instagram.com/alesia_patotskayaa/
+        - generic [ref=e412]:
+          - generic [ref=e415]:
+            - link "Emily Gordon (@brokeadultgirl) Instagram · brokeadultgirl 14.9K+ followers" [ref=e417] [cursor=pointer]:
+              - /url: https://www.instagram.com/brokeadultgirl/
+              - heading "Emily Gordon (@brokeadultgirl)" [level=3] [ref=e418]
+              - generic [ref=e423]:
+                - generic [ref=e425]: Instagram · brokeadultgirl
+                - generic [ref=e427]: 14.9K+ followers
+            - button "About this result" [ref=e428] [cursor=pointer]:
+              - img [ref=e431]
+          - generic [ref=e435]:
+            - text: "15K followers · 913 following · 895 posts · @brokeadultgirl: “"
+            - emphasis [ref=e436]: San Francisco
+            - text: Bay Area 2026 Bride ✉️ emilyylouissee@
+            - emphasis [ref=e437]: gmail.com
+            - text: SHOP MY LOOKS ”
+          - link "site:instagram.com \"san francisco\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e439] [cursor=pointer]:
+            - /url: https://www.instagram.com/brokeadultgirl/
+        - generic [ref=e456]:
+          - generic [ref=e459]:
+            - link "SF + California Travel Photographer (@sarowly) - Sarah Instagram · sarowly 43.4K+ followers" [ref=e461] [cursor=pointer]:
+              - /url: https://www.instagram.com/sarowly/
+              - heading "SF + California Travel Photographer (@sarowly) - Sarah" [level=3] [ref=e462]
+              - generic [ref=e467]:
+                - generic [ref=e469]: Instagram · sarowly
+                - generic [ref=e471]: 43.4K+ followers
+            - button "About this result" [ref=e472] [cursor=pointer]:
+              - img [ref=e475]
+          - generic [ref=e478]:
+            - generic [ref=e479]:
+              - text: Travel stories from all around the world. Based in
+              - emphasis [ref=e480]: San Francisco
+              - text: ", CA. Beautiful places & hotels. sarowlyphoto@"
+              - emphasis [ref=e481]: gmail.com
+              - text: blog, presets, guides.
+            - link "Read more" [ref=e482] [cursor=pointer]:
+              - /url: https://www.instagram.com/sarowly/#:~:text=%E2%86%A0%20travel%20stories%20from%20all,%E2%A4%B5%20blog%2C%20presets%2C%20guides
+          - link "site:instagram.com \"san francisco\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e484] [cursor=pointer]:
+            - /url: https://www.instagram.com/sarowly/
+        - generic [ref=e501]:
+          - generic [ref=e504]:
+            - link "Disha (@_disha_s) • Instagram photos and videos Instagram · _disha_s 14.1K+ followers" [ref=e506] [cursor=pointer]:
+              - /url: https://www.instagram.com/_disha_s/
+              - heading "Disha (@_disha_s) • Instagram photos and videos" [level=3] [ref=e507]
+              - generic [ref=e512]:
+                - generic [ref=e514]: Instagram · _disha_s
+                - generic [ref=e516]: 14.1K+ followers
+            - button "About this result" [ref=e517] [cursor=pointer]:
+              - img [ref=e520]
+          - generic [ref=e524]:
+            - text: "14K followers · 1.3K+ following · 163 posts · @_disha_s: “"
+            - emphasis [ref=e525]: San Francisco
+            - text: Pretty Bags @disha_tl 2dishasblog@
+            - emphasis [ref=e526]: gmail.com
+            - text: ...
+            - emphasis [ref=e527]: influencer
+            - text: ", lifestyle"
+            - emphasis [ref=e528]: influencer
+            - text: "] ..."
+      - navigation [ref=e531]:
+        - heading "Page Navigation" [level=1] [ref=e532]
+        - text: "1"
+        - link "Page 2" [ref=e535] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22san+francisco%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=XDwpasvQLIO_kPIP15iF8Qc&start=10&sa=N&sstk=AU9db-CTlb4DDG4n8svhsorCPpQ-jfvYlSqDifWCB_QkbbDBD6eibOeKeJ6zW8BOPu_nZCWf9RMM-jCe9uifqLq6R_ahZaglgoWIPQ&ved=2ahUKEwjL7requ_yUAxWDH0QIHVdMIX4Q8tMDegQIOhAE
+          - text: "2"
+        - link "Page 3" [ref=e537] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22san+francisco%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=XDwpasvQLIO_kPIP15iF8Qc&start=20&sa=N&sstk=AU9db-CTlb4DDG4n8svhsorCPpQ-jfvYlSqDifWCB_QkbbDBD6eibOeKeJ6zW8BOPu_nZCWf9RMM-jCe9uifqLq6R_ahZaglgoWIPQ&ved=2ahUKEwjL7requ_yUAxWDH0QIHVdMIX4Q8tMDegQIOhAG
+          - text: "3"
+        - link "Page 4" [ref=e539] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22san+francisco%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=XDwpasvQLIO_kPIP15iF8Qc&start=30&sa=N&sstk=AU9db-CTlb4DDG4n8svhsorCPpQ-jfvYlSqDifWCB_QkbbDBD6eibOeKeJ6zW8BOPu_nZCWf9RMM-jCe9uifqLq6R_ahZaglgoWIPQ&ved=2ahUKEwjL7requ_yUAxWDH0QIHVdMIX4Q8tMDegQIOhAI
+          - text: "4"
+        - link "Page 5" [ref=e541] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22san+francisco%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=XDwpasvQLIO_kPIP15iF8Qc&start=40&sa=N&sstk=AU9db-CTlb4DDG4n8svhsorCPpQ-jfvYlSqDifWCB_QkbbDBD6eibOeKeJ6zW8BOPu_nZCWf9RMM-jCe9uifqLq6R_ahZaglgoWIPQ&ved=2ahUKEwjL7requ_yUAxWDH0QIHVdMIX4Q8tMDegQIOhAK
+          - text: "5"
+        - link "Page 6" [ref=e543] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22san+francisco%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=XDwpasvQLIO_kPIP15iF8Qc&start=50&sa=N&sstk=AU9db-CTlb4DDG4n8svhsorCPpQ-jfvYlSqDifWCB_QkbbDBD6eibOeKeJ6zW8BOPu_nZCWf9RMM-jCe9uifqLq6R_ahZaglgoWIPQ&ved=2ahUKEwjL7requ_yUAxWDH0QIHVdMIX4Q8tMDegQIOhAM
+          - text: "6"
+        - link "Page 7" [ref=e545] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22san+francisco%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=XDwpasvQLIO_kPIP15iF8Qc&start=60&sa=N&sstk=AU9db-CTlb4DDG4n8svhsorCPpQ-jfvYlSqDifWCB_QkbbDBD6eibOeKeJ6zW8BOPu_nZCWf9RMM-jCe9uifqLq6R_ahZaglgoWIPQ&ved=2ahUKEwjL7requ_yUAxWDH0QIHVdMIX4Q8tMDegQIOhAO
+          - text: "7"
+        - link "Page 8" [ref=e547] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22san+francisco%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=XDwpasvQLIO_kPIP15iF8Qc&start=70&sa=N&sstk=AU9db-CTlb4DDG4n8svhsorCPpQ-jfvYlSqDifWCB_QkbbDBD6eibOeKeJ6zW8BOPu_nZCWf9RMM-jCe9uifqLq6R_ahZaglgoWIPQ&ved=2ahUKEwjL7requ_yUAxWDH0QIHVdMIX4Q8tMDegQIOhAQ
+          - text: "8"
+        - link "Page 9" [ref=e549] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22san+francisco%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=XDwpasvQLIO_kPIP15iF8Qc&start=80&sa=N&sstk=AU9db-CTlb4DDG4n8svhsorCPpQ-jfvYlSqDifWCB_QkbbDBD6eibOeKeJ6zW8BOPu_nZCWf9RMM-jCe9uifqLq6R_ahZaglgoWIPQ&ved=2ahUKEwjL7requ_yUAxWDH0QIHVdMIX4Q8tMDegQIOhAS
+          - text: "9"
+        - link "Page 10" [ref=e551] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22san+francisco%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=XDwpasvQLIO_kPIP15iF8Qc&start=90&sa=N&sstk=AU9db-CTlb4DDG4n8svhsorCPpQ-jfvYlSqDifWCB_QkbbDBD6eibOeKeJ6zW8BOPu_nZCWf9RMM-jCe9uifqLq6R_ahZaglgoWIPQ&ved=2ahUKEwjL7requ_yUAxWDH0QIHVdMIX4Q8tMDegQIOhAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e553]:
+          - link "Next" [ref=e554] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22san+francisco%22+%22influencer%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=XDwpasvQLIO_kPIP15iF8Qc&start=10&sa=N&sstk=AU9db-CTlb4DDG4n8svhsorCPpQ-jfvYlSqDifWCB_QkbbDBD6eibOeKeJ6zW8BOPu_nZCWf9RMM-jCe9uifqLq6R_ahZaglgoWIPQ&ved=2ahUKEwjL7requ_yUAxWDH0QIHVdMIX4Q8NMDegQIOhAW
+            - generic [ref=e556]: Next
+      - navigation
+    - contentinfo [ref=e557]:
+      - heading "Footer Links" [level=1] [ref=e558]
+      - generic [ref=e562]:
+        - generic [ref=e566]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e568] [cursor=pointer]:
+            - generic [ref=e569]: 85281, Tempe, AZ
+            - generic [ref=e571]:
+              - text: "-"
+              - generic [ref=e572]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e574] [cursor=pointer]: Update location
+        - generic [ref=e577]:
+          - link "Help" [ref=e578] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e579] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e580] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e581] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

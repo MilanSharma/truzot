@@ -1,0 +1,340 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwicz9bht_yUAxXUJkQIHfcEISIQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "ux designer" "headshot" "@gmail.com" site:instagram.com "ux designer" "headshot" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522ux%2Bdesigner%2522%2B%2522headshot%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22ux+designer%22+%22headshot%22+%22%40gmail.com%22&sca_esv=1eed3fc2a4e4618d&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3sbM0Xv-BZKE_VrZb6-djVg-3W0FTREgXoBewgW5Mu3-9l1bI_L6XMAQFwQTRfQ0BRLPAKDExBTM-7z15y5XXxdjBKmw6h05Z8LnIGWZXQrAXpvWOwfAQj4i4rbHM-_7oY3-m22vQm6Mdw4vebvmSn9iCGrB3GOZbnH__dclFRWKblOdeA&aep=1&ntc=1&sa=X&ved=2ahUKEwicz9bht_yUAxXUJkQIHfcEISIQ2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3sbM0Xv-BZKE_VrZb6-djVg-3W0FTREgXoBewgW5Mu3-9l1bI_L6XMAQFwQTRfQ0BRLPAKDExBTM-7z15y5XXxdjBKmw6h05Z8LnIGWZXQrAXpvWOwfAQj4i4rbHM-_7oY3-m22vQm6Mdw4vebvmSn9iCGrB3GOZbnH__dclFRWKblOdeA&q=site:instagram.com+%22ux+designer%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwicz9bht_yUAxXUJkQIHfcEISIQtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "Videos" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3sbM0Xv-BZKE_VrZb6-djVg-3W0FTREgXoBewgW5Mu3-9l1bI_L6XMAQFwQTRfQ0BRLPAKDExBTM-7z15y5XXxdjBKmw6h05Z8LnIGWZXQrAXpvWOwfAQj4i4rbHM-_7oY3-m22vQm6Mdw4vebvmSn9iCGrB3GOZbnH__dclFRWKblOdeA&q=site:instagram.com+%22ux+designer%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwicz9bht_yUAxXUJkQIHfcEISIQtKgLegQIFBAB
+              - generic [ref=e94]: Videos
+          - listitem [ref=e95]:
+            - link "Forums" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3sbM0Xv-BZKE_VrZb6-djVg-3W0FTREgXoBewgW5Mu3-9l1bI_L6XMAQFwQTRfQ0BRLPAKDExBTM-7z15y5XXxdjBKmw6h05Z8LnIGWZXQrAXpvWOwfAQj4i4rbHM-_7oY3-m22vQm6Mdw4vebvmSn9iCGrB3GOZbnH__dclFRWKblOdeA&q=site:instagram.com+%22ux+designer%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwicz9bht_yUAxXUJkQIHfcEISIQs6gLegQIExAB
+              - generic [ref=e98]: Forums
+          - listitem [ref=e99]:
+            - link "News" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&q=site:instagram.com+%22ux+designer%22+%22headshot%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3sbM0Xv-BZKE_VrZb6-djVg-3W0FTREgXoBewgW5Mu3-9l1bI_L6XMAQFwQTRfQ0BRLPAKDExBTM-7z15y5XXxdjBKmw6h05Z8LnIGWZXQrAXpvWOwfAQj4i4rbHM-_7oY3-m22vQm6Mdw4vebvmSn9iCGrB3GOZbnH__dclFRWKblOdeA&sa=X&ved=2ahUKEwicz9bht_yUAxXUJkQIHfcEISIQ0pQJegQIEhAB
+              - generic [ref=e102]: News
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3sbM0Xv-BZKE_VrZb6-djVg-3W0FTREgXoBewgW5Mu3-9l1bI_L6XMAQFwQTRfQ0BRLPAKDExBTM-7z15y5XXxdjBKmw6h05Z8LnIGWZXQrAXpvWOwfAQj4i4rbHM-_7oY3-m22vQm6Mdw4vebvmSn9iCGrB3GOZbnH__dclFRWKblOdeA&q=site:instagram.com+%22ux+designer%22+%22headshot%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "Welcome to our new Senior UX/UI Designer, Jae! With ... Instagram · daylight_nz 20+ likes · 1 month ago" [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/p/DXNpNkCk2xf/
+                - heading "Welcome to our new Senior UX/UI Designer, Jae! With ..." [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram · daylight_nz
+                  - generic [ref=e153]: 20+ likes · 1 month ago
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e160]:
+              - generic [ref=e161]:
+                - text: Hear from our goated head of UX research @jasminduong09 about her experience as a
+                - emphasis [ref=e162]: ux designer
+                - text: ‍ !! ... jesorise.tech@
+                - emphasis [ref=e163]: gmail.com
+              - link "Read more" [ref=e164] [cursor=pointer]:
+                - /url: https://www.instagram.com/p/DXNpNkCk2xf/#:~:text=%F0%9F%8E%89%F0%9F%8E%89%20Hear%20from%20our%20goated,a%20ux%20designer%20%F0%9F%A7%91%E2%80%8D%F0%9F%8E%A8%20!!&text=%F0%9F%93%A9%20jesorise.tech%40gmail.com
+            - link "site:instagram.com \"ux designer\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e167] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXNpNkCk2xf/
+              - img "site:instagram.com \"ux designer\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e169]
+        - generic [ref=e173]:
+          - generic [ref=e176]:
+            - link "Product design portfolio design (and headshot!) for the ... Instagram · sunday.souvenir 100+ likes · 2 months ago" [ref=e178] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DWb3W0QAs0U/?img_index=2
+              - heading "Product design portfolio design (and headshot!) for the ..." [level=3] [ref=e179]
+              - generic [ref=e184]:
+                - generic [ref=e186]: Instagram · sunday.souvenir
+                - generic [ref=e188]: 100+ likes · 2 months ago
+            - button "About this result" [ref=e189] [cursor=pointer]:
+              - img [ref=e192]
+          - generic [ref=e195]:
+            - generic [ref=e196]:
+              - text: Brand & UI/
+              - emphasis [ref=e197]: UX Designer
+              - text: "@designerrashid Portfolio Behance RASHID MALLICK 22.01.2026 A Delhi-based designer with a strong focus on creating ..."
+            - link "Read more" [ref=e198] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DWb3W0QAs0U/?img_index=2#:~:text=Brand%20%26%20UI%2FUX%20Designer%20%40designerrashid,creating%20thoughtful%2C%20impactful%20visual%20experiences.
+          - link "site:instagram.com \"ux designer\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e201] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DWb3W0QAs0U/?img_index=2
+            - img "site:instagram.com \"ux designer\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e203]
+        - generic [ref=e207]:
+          - generic [ref=e210]:
+            - link "Yobi • UX Designer (@yobi321) - Instagram Instagram · yobi321 5.5K+ followers" [ref=e212] [cursor=pointer]:
+              - /url: https://www.instagram.com/yobi321/
+              - heading "Yobi • UX Designer (@yobi321) - Instagram" [level=3] [ref=e213]
+              - generic [ref=e218]:
+                - generic [ref=e220]: Instagram · yobi321
+                - generic [ref=e222]: 5.5K+ followers
+            - button "About this result" [ref=e223] [cursor=pointer]:
+              - img [ref=e226]
+          - generic [ref=e230]:
+            - text: "5.5K+ followers · 253 following · 246 posts · @yobi321: “✨ AI × Design tips"
+            - emphasis [ref=e231]: UX designer
+            - text: YouTube 180K+ @Yobi321 yobi321info@
+            - emphasis [ref=e232]: gmail.com
+            - text: ”
+          - link "site:instagram.com \"ux designer\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e235] [cursor=pointer]:
+            - /url: https://www.instagram.com/yobi321/
+            - img "site:instagram.com \"ux designer\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e237]
+        - generic [ref=e241]:
+          - generic [ref=e244]:
+            - link "1:30pm 📍St. Alphonsa (Downstairs) ... Instagram · syrophilly 50+ likes · 1 month ago" [ref=e246] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXcJrSKDmHZ/
+              - heading "1:30pm 📍St. Alphonsa (Downstairs) ..." [level=3] [ref=e247]
+              - generic [ref=e252]:
+                - generic [ref=e254]: Instagram · syrophilly
+                - generic [ref=e256]: 50+ likes · 1 month ago
+            - button "About this result" [ref=e257] [cursor=pointer]:
+              - img [ref=e260]
+          - generic [ref=e263]:
+            - generic [ref=e264]:
+              - text: Bring a physical copy of your resume Or email your resume to us at syrophilly@
+              - emphasis [ref=e265]: gmail.com
+              - text: MAX JOHNSON
+              - emphasis [ref=e266]: UX Designer
+              - text: Get Your Professional
+              - emphasis [ref=e267]: Headshot
+              - text: ...
+            - link "Read more" [ref=e268] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXcJrSKDmHZ/#:~:text=Bring%20a%20physical%20copy%20of,Get%20Your%20Professional%20Headshot%20Taken!
+        - generic [ref=e272]:
+          - generic [ref=e275]:
+            - link "Krystal Hsiung (@krystal_hsiung) Instagram · krystal_hsiung 3.2K+ followers" [ref=e277] [cursor=pointer]:
+              - /url: https://www.instagram.com/krystal_hsiung/
+              - heading "Krystal Hsiung (@krystal_hsiung)" [level=3] [ref=e278]
+              - generic [ref=e283]:
+                - generic [ref=e285]: Instagram · krystal_hsiung
+                - generic [ref=e287]: 3.2K+ followers
+            - button "About this result" [ref=e288] [cursor=pointer]:
+              - img [ref=e291]
+          - generic [ref=e295]:
+            - text: "... K+ followers · 3.3K+ following · 133 posts · @krystal_hsiung: “"
+            - emphasis [ref=e296]: UX Designer
+            - text: ‍ // Dancer | Dallas Krystalhsiung@
+            - emphasis [ref=e297]: gmail.com
+            - text: •Pom mom @ ...
+            - emphasis [ref=e298]: headshot
+            - text: ...
+        - generic [ref=e302]:
+          - generic [ref=e305]:
+            - link "First impressions matter. Get a polished headshot AND ... Instagram · slcc_careerservices 1 month ago" [ref=e307] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXE2aD5FHqA/
+              - heading "First impressions matter. Get a polished headshot AND ..." [level=3] [ref=e308]
+              - generic [ref=e313]:
+                - generic [ref=e315]: Instagram · slcc_careerservices
+                - generic [ref=e317]: 1 month ago
+            - button "About this result" [ref=e318] [cursor=pointer]:
+              - img [ref=e321]
+          - generic [ref=e324]:
+            - generic [ref=e325]:
+              - text: Bring a physical copy of your resume Or email your resume to us at syrophilly@
+              - emphasis [ref=e326]: gmail.com
+              - text: MAX JOHNSON
+              - emphasis [ref=e327]: UX Designer
+              - text: Get Your Professional
+              - emphasis [ref=e328]: Headshot
+              - text: ...
+            - link "Read more" [ref=e329] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXE2aD5FHqA/#:~:text=Bring%20a%20physical%20copy%20of,Get%20Your%20Professional%20Headshot%20Taken!
+        - generic [ref=e333]:
+          - generic [ref=e336]:
+            - link "4–5 PM 👔 Wear business professional for headshots (not ... Instagram · purduensbe 30+ likes · 2 months ago" [ref=e338] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DWO7BGiEZyS/
+              - heading "4–5 PM 👔 Wear business professional for headshots (not ..." [level=3] [ref=e339]
+              - generic [ref=e344]:
+                - generic [ref=e346]: Instagram · purduensbe
+                - generic [ref=e348]: 30+ likes · 2 months ago
+            - button "About this result" [ref=e349] [cursor=pointer]:
+              - img [ref=e352]
+          - generic [ref=e355]:
+            - generic [ref=e356]:
+              - text: Bring a physical copy of your resume Or email your resume to us at syrophilly@
+              - emphasis [ref=e357]: gmail.com
+              - text: MAX JOHNSON
+              - emphasis [ref=e358]: UX Designer
+              - text: Get Your Professional
+              - emphasis [ref=e359]: Headshot
+              - text: ...
+            - link "Read more" [ref=e360] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DWO7BGiEZyS/#:~:text=Bring%20a%20physical%20copy%20of,Get%20Your%20Professional%20Headshot%20Taken!
+          - link "site:instagram.com \"ux designer\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e363] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DWO7BGiEZyS/
+            - img "site:instagram.com \"ux designer\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e365]
+        - generic [ref=e369]:
+          - generic [ref=e372]:
+            - link "elaine (@design.laine) • Instagram photos and videos Instagram · design.laine 62.4K+ followers" [ref=e374] [cursor=pointer]:
+              - /url: https://www.instagram.com/design.laine/
+              - heading "elaine (@design.laine) • Instagram photos and videos" [level=3] [ref=e375]
+              - generic [ref=e380]:
+                - generic [ref=e382]: Instagram · design.laine
+                - generic [ref=e384]: 62.4K+ followers
+            - button "About this result" [ref=e385] [cursor=pointer]:
+              - img [ref=e388]
+          - generic [ref=e392]:
+            - text: ...
+            - emphasis [ref=e393]: gmail.com
+            - text: ... round 2 of chatgpt-ing my
+            - emphasis [ref=e394]: headshot
+            - text: but i'm still not ...
+          - link "site:instagram.com \"ux designer\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e397] [cursor=pointer]:
+            - /url: https://www.instagram.com/design.laine/
+            - img "site:instagram.com \"ux designer\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e399]
+        - generic [ref=e403]:
+          - generic [ref=e406]:
+            - link "UX designer? Here are some tips for you. Swipe ... Instagram · joshopaleke 70+ likes · 3 years ago" [ref=e408] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/CjQNiezjCao/
+              - heading "UX designer? Here are some tips for you. Swipe ..." [level=3] [ref=e409]
+              - generic [ref=e414]:
+                - generic [ref=e416]: Instagram · joshopaleke
+                - generic [ref=e418]: 70+ likes · 3 years ago
+            - button "About this result" [ref=e419] [cursor=pointer]:
+              - img [ref=e422]
+          - generic [ref=e425]:
+            - generic [ref=e426]:
+              - text: ...
+              - emphasis [ref=e427]: UX designer
+              - text: "? Here are some tips for you. Swipe ▶️ Kindly repost ..."
+              - emphasis [ref=e428]: gmail.com
+              - text: JOSHUA OPALEKE . Designing with Purpose! JOSHUA OPALEKE ...
+            - link "Read more" [ref=e429] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/CjQNiezjCao/#:~:text=Window%20Help%20%5B%ED%8B%B0%20(Buttom%2C%20RGB%2FB),with%20Purpose!%20JOSHUA%20OPALEKE%20.
+        - generic [ref=e433]:
+          - generic [ref=e436]:
+            - link "𝘀𝘁𝗶𝗹𝗹 𝗼𝗻 𝘁𝗵𝗲 𝗲𝗱𝗴𝗲? Take a peak behind the ... Instagram · cusvm 40+ likes · 1 year ago" [ref=e438] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DJ8xRPWxC5_/
+              - heading "𝘀𝘁𝗶𝗹𝗹 𝗼𝗻 𝘁𝗵𝗲 𝗲𝗱𝗴𝗲? Take a peak behind the ..." [level=3] [ref=e439]
+              - generic [ref=e444]:
+                - generic [ref=e446]: Instagram · cusvm
+                - generic [ref=e448]: 40+ likes · 1 year ago
+            - button "About this result" [ref=e449] [cursor=pointer]:
+              - img [ref=e452]
+          - generic [ref=e455]:
+            - generic [ref=e456]:
+              - text: Bring a physical copy of your resume Or email your resume to us at syrophilly@
+              - emphasis [ref=e457]: gmail.com
+              - text: MAX JOHNSON
+              - emphasis [ref=e458]: UX Designer
+              - text: Get Your Professional
+              - emphasis [ref=e459]: Headshot
+              - text: ...
+            - link "Read more" [ref=e460] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DJ8xRPWxC5_/#:~:text=Bring%20a%20physical%20copy%20of,Get%20Your%20Professional%20Headshot%20Taken!
+          - link "site:instagram.com \"ux designer\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e463] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DJ8xRPWxC5_/
+            - img "site:instagram.com \"ux designer\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e465]
+      - navigation [ref=e468]:
+        - heading "Page Navigation" [level=1] [ref=e469]
+        - text: "1"
+        - link "Page 2" [ref=e472] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22ux+designer%22+%22headshot%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=njgpapyIM9TNkPIP94mEkQI&start=10&sa=N&sstk=AU9db-AYIQWG_YaoROJHOulfRfju4p6iQvMgp3E_fs_9iUhyP8eaQWqqgxeTuzhNgdo0YHf80pd2bcX9LYWCW980N5Sd0OZFofbpsg&ved=2ahUKEwicz9bht_yUAxXUJkQIHfcEISIQ8tMDegQIORAE
+          - text: "2"
+        - link "Page 3" [ref=e474] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22ux+designer%22+%22headshot%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=njgpapyIM9TNkPIP94mEkQI&start=20&sa=N&sstk=AU9db-AYIQWG_YaoROJHOulfRfju4p6iQvMgp3E_fs_9iUhyP8eaQWqqgxeTuzhNgdo0YHf80pd2bcX9LYWCW980N5Sd0OZFofbpsg&ved=2ahUKEwicz9bht_yUAxXUJkQIHfcEISIQ8tMDegQIORAG
+          - text: "3"
+        - link "Page 4" [ref=e476] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22ux+designer%22+%22headshot%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=njgpapyIM9TNkPIP94mEkQI&start=30&sa=N&sstk=AU9db-AYIQWG_YaoROJHOulfRfju4p6iQvMgp3E_fs_9iUhyP8eaQWqqgxeTuzhNgdo0YHf80pd2bcX9LYWCW980N5Sd0OZFofbpsg&ved=2ahUKEwicz9bht_yUAxXUJkQIHfcEISIQ8tMDegQIORAI
+          - text: "4"
+        - link "Page 5" [ref=e478] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22ux+designer%22+%22headshot%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=njgpapyIM9TNkPIP94mEkQI&start=40&sa=N&sstk=AU9db-AYIQWG_YaoROJHOulfRfju4p6iQvMgp3E_fs_9iUhyP8eaQWqqgxeTuzhNgdo0YHf80pd2bcX9LYWCW980N5Sd0OZFofbpsg&ved=2ahUKEwicz9bht_yUAxXUJkQIHfcEISIQ8tMDegQIORAK
+          - text: "5"
+        - link "Page 6" [ref=e480] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22ux+designer%22+%22headshot%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=njgpapyIM9TNkPIP94mEkQI&start=50&sa=N&sstk=AU9db-AYIQWG_YaoROJHOulfRfju4p6iQvMgp3E_fs_9iUhyP8eaQWqqgxeTuzhNgdo0YHf80pd2bcX9LYWCW980N5Sd0OZFofbpsg&ved=2ahUKEwicz9bht_yUAxXUJkQIHfcEISIQ8tMDegQIORAM
+          - text: "6"
+        - link "Page 7" [ref=e482] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22ux+designer%22+%22headshot%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=njgpapyIM9TNkPIP94mEkQI&start=60&sa=N&sstk=AU9db-AYIQWG_YaoROJHOulfRfju4p6iQvMgp3E_fs_9iUhyP8eaQWqqgxeTuzhNgdo0YHf80pd2bcX9LYWCW980N5Sd0OZFofbpsg&ved=2ahUKEwicz9bht_yUAxXUJkQIHfcEISIQ8tMDegQIORAO
+          - text: "7"
+        - link "Page 8" [ref=e484] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22ux+designer%22+%22headshot%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=njgpapyIM9TNkPIP94mEkQI&start=70&sa=N&sstk=AU9db-AYIQWG_YaoROJHOulfRfju4p6iQvMgp3E_fs_9iUhyP8eaQWqqgxeTuzhNgdo0YHf80pd2bcX9LYWCW980N5Sd0OZFofbpsg&ved=2ahUKEwicz9bht_yUAxXUJkQIHfcEISIQ8tMDegQIORAQ
+          - text: "8"
+        - link "Page 9" [ref=e486] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22ux+designer%22+%22headshot%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=njgpapyIM9TNkPIP94mEkQI&start=80&sa=N&sstk=AU9db-AYIQWG_YaoROJHOulfRfju4p6iQvMgp3E_fs_9iUhyP8eaQWqqgxeTuzhNgdo0YHf80pd2bcX9LYWCW980N5Sd0OZFofbpsg&ved=2ahUKEwicz9bht_yUAxXUJkQIHfcEISIQ8tMDegQIORAS
+          - text: "9"
+        - link "Page 10" [ref=e488] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22ux+designer%22+%22headshot%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=njgpapyIM9TNkPIP94mEkQI&start=90&sa=N&sstk=AU9db-AYIQWG_YaoROJHOulfRfju4p6iQvMgp3E_fs_9iUhyP8eaQWqqgxeTuzhNgdo0YHf80pd2bcX9LYWCW980N5Sd0OZFofbpsg&ved=2ahUKEwicz9bht_yUAxXUJkQIHfcEISIQ8tMDegQIORAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e490]:
+          - link "Next" [ref=e491] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22ux+designer%22+%22headshot%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=njgpapyIM9TNkPIP94mEkQI&start=10&sa=N&sstk=AU9db-AYIQWG_YaoROJHOulfRfju4p6iQvMgp3E_fs_9iUhyP8eaQWqqgxeTuzhNgdo0YHf80pd2bcX9LYWCW980N5Sd0OZFofbpsg&ved=2ahUKEwicz9bht_yUAxXUJkQIHfcEISIQ8NMDegQIORAW
+            - generic [ref=e493]: Next
+      - navigation
+    - contentinfo [ref=e494]:
+      - heading "Footer Links" [level=1] [ref=e495]
+      - generic [ref=e499]:
+        - generic [ref=e503]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e505] [cursor=pointer]:
+            - generic [ref=e506]: 85281, Tempe, AZ
+            - generic [ref=e508]:
+              - text: "-"
+              - generic [ref=e509]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e511] [cursor=pointer]: Update location
+        - generic [ref=e514]:
+          - link "Help" [ref=e515] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e516] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e517] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e518] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

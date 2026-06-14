@@ -1,0 +1,336 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwjQsYygpv2UAxWCle4BHc-0BhkQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "albuquerque" "influencer" "@gmail.com" site:instagram.com "albuquerque" "influencer" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522albuquerque%2522%2B%2522influencer%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22albuquerque%22+%22influencer%22+%22%40gmail.com%22&sca_esv=112a2bccbf037f13&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&aep=1&ntc=1&sa=X&ved=2ahUKEwjQsYygpv2UAxWCle4BHc-0BhkQ2J8OegQIEhAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=112a2bccbf037f13&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&q=site:instagram.com+%22albuquerque%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjQsYygpv2UAxWCle4BHc-0BhkQtKgLegQIGBAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "Videos" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=112a2bccbf037f13&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&q=site:instagram.com+%22albuquerque%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjQsYygpv2UAxWCle4BHc-0BhkQtKgLegQIFxAB
+              - generic [ref=e94]: Videos
+          - listitem [ref=e95]:
+            - link "News" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=112a2bccbf037f13&q=site:instagram.com+%22albuquerque%22+%22influencer%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&sa=X&ved=2ahUKEwjQsYygpv2UAxWCle4BHc-0BhkQ0pQJegQIFhAB
+              - generic [ref=e98]: News
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=112a2bccbf037f13&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&q=site:instagram.com+%22albuquerque%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjQsYygpv2UAxWCle4BHc-0BhkQs6gLegQIFBAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=112a2bccbf037f13&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&q=site:instagram.com+%22albuquerque%22+%22influencer%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "and I truly love Albuquerque, so I'm ... Instagram · alex.nicolette 1.9K+ likes · 3 months ago" [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/p/DVr1PhEjYCe/?img_index=2
+                - heading "and I truly love Albuquerque, so I'm ..." [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram · alex.nicolette
+                  - generic [ref=e153]: 1.9K+ likes · 3 months ago
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e160]:
+              - generic [ref=e161]:
+                - text: ...
+                - emphasis [ref=e162]: Albuquerque
+                - text: Instagrammer (2023), Best
+                - emphasis [ref=e163]: Albuquerque Influencer
+                - text: "(2024 & 2025). ... Email: railyardsmarket@"
+                - emphasis [ref=e164]: gmail.com
+                - text: "Phone: (505) 600-1109 Time ..."
+              - link "Read more" [ref=e165] [cursor=pointer]:
+                - /url: https://www.instagram.com/p/DVr1PhEjYCe/?img_index=2#:~:text=I've%20been%20recognized%20locally%20as%3A,Albuquerque%20Influencer%20(2024%20%26%202025).&text=Email%3A%20railyardsmarket%40gmail.com%20Phone%3A%20(505)%20600%2D1109,ROUTE%2066%20CENTENNIAL%20TRAVELING%20EXHIBIT.
+            - link "site:instagram.com \"albuquerque\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e168] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DVr1PhEjYCe/?img_index=2
+              - img "site:instagram.com \"albuquerque\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e170]
+        - generic [ref=e174]:
+          - generic [ref=e177]:
+            - link "Alyssa 🎀 (@stylemybonez) • Instagram photos and videos Instagram · stylemybonez 13.1K+ followers" [ref=e179] [cursor=pointer]:
+              - /url: https://www.instagram.com/stylemybonez/
+              - heading "Alyssa 🎀 (@stylemybonez) • Instagram photos and videos" [level=3] [ref=e180]
+              - generic [ref=e185]:
+                - generic [ref=e187]: Instagram · stylemybonez
+                - generic [ref=e189]: 13.1K+ followers
+            - button "About this result" [ref=e190] [cursor=pointer]:
+              - img [ref=e193]
+          - generic [ref=e197]:
+            - text: ...
+            - emphasis [ref=e198]: gmail.com
+            - text: ...
+            - emphasis [ref=e199]: Albuquerque
+            - text: ", date night"
+            - emphasis [ref=e200]: Albuquerque
+            - text: ","
+            - emphasis [ref=e201]: Albuquerque
+            - text: dining, where to eat ABQ ...
+          - link "site:instagram.com \"albuquerque\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e204] [cursor=pointer]:
+            - /url: https://www.instagram.com/stylemybonez/
+            - img "site:instagram.com \"albuquerque\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e206]
+        - generic [ref=e210]:
+          - generic [ref=e213]:
+            - link "☀️ Meet Payten, one of our gorgeous Senior Influencer ... Instagram · mazie_may_photography 190+ likes · 10 months ago" [ref=e215] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DM7_i57x927/?hl=fa
+              - heading "☀️ Meet Payten, one of our gorgeous Senior Influencer ..." [level=3] [ref=e216]
+              - generic [ref=e221]:
+                - generic [ref=e223]: Instagram · mazie_may_photography
+                - generic [ref=e225]: 190+ likes · 10 months ago
+            - button "About this result" [ref=e226] [cursor=pointer]:
+              - img [ref=e229]
+          - generic [ref=e232]:
+            - generic [ref=e233]:
+              - text: laurencheriephotography@
+              - emphasis [ref=e234]: gmail.com
+              - text: . Plus, gift cards ... New Mexico senior photographer,
+              - emphasis [ref=e235]: Albuquerque
+              - text: senior photos, Old Town
+              - emphasis [ref=e236]: Albuquerque
+              - text: ...
+            - link "Read more" [ref=e237] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DM7_i57x927/?hl=fa#:~:text=%D8%A8%DB%8C%D8%B4%D8%AA%D8%B1&text=%D8%A8%DB%8C%D8%B4%D8%AA%D8%B1
+          - link "site:instagram.com \"albuquerque\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e240] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DM7_i57x927/?hl=fa
+            - img "site:instagram.com \"albuquerque\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e242]
+        - generic [ref=e246]:
+          - generic [ref=e249]:
+            - link "abq foodie | fun | & more (@lifew.dest) Instagram · lifew.dest 1.4K+ followers" [ref=e251] [cursor=pointer]:
+              - /url: https://www.instagram.com/lifew.dest/
+              - heading "abq foodie | fun | & more (@lifew.dest)" [level=3] [ref=e252]
+              - generic [ref=e257]:
+                - generic [ref=e259]: Instagram · lifew.dest
+                - generic [ref=e261]: 1.4K+ followers
+            - button "About this result" [ref=e262] [cursor=pointer]:
+              - img [ref=e265]
+          - generic [ref=e269]:
+            - text: ...
+            - emphasis [ref=e270]: gmail.com
+            - text: "... POV: you just found your favorite açaí bowl spot in"
+            - emphasis [ref=e271]: Albuquerque
+            - text: Recently checked out ...
+        - generic [ref=e275]:
+          - generic [ref=e278]:
+            - link "AngelEyezzMUA Instagram · angeleyezzmua 1.8K+ followers" [ref=e280] [cursor=pointer]:
+              - /url: https://www.instagram.com/angeleyezzmua/
+              - heading "AngelEyezzMUA" [level=3] [ref=e281]
+              - generic [ref=e286]:
+                - generic [ref=e288]: Instagram · angeleyezzmua
+                - generic [ref=e290]: 1.8K+ followers
+            - button "About this result" [ref=e291] [cursor=pointer]:
+              - img [ref=e294]
+          - generic [ref=e298]:
+            - text: ...
+            - emphasis [ref=e299]: gmail.com
+            - text: . ...
+            - emphasis [ref=e300]: influencer
+            - text: "#influencerswanted #beautyreview #reviews #ritualsofdao #zen #texturetuesday #watershot #water #relaxing ..."
+        - generic [ref=e304]:
+          - generic [ref=e307]:
+            - link "currently romanticizing everything ... Instagram · mazie_may_photography 270+ likes · 7 months ago" [ref=e309] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DQO8nghETW8/
+              - heading "currently romanticizing everything ..." [level=3] [ref=e310]
+              - generic [ref=e315]:
+                - generic [ref=e317]: Instagram · mazie_may_photography
+                - generic [ref=e319]: 270+ likes · 7 months ago
+            - button "About this result" [ref=e320] [cursor=pointer]:
+              - img [ref=e323]
+          - generic [ref=e326]:
+            - generic [ref=e327]:
+              - text: ...
+              - emphasis [ref=e328]: Influencer
+              - text: Team… the waitlist is open and things are about to get ... laurencheriephotography@
+              - emphasis [ref=e329]: gmail.com
+              - text: . Plus, gift cards are ...
+            - link "Read more" [ref=e330] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DQO8nghETW8/#:~:text=more
+          - link "site:instagram.com \"albuquerque\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e332] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DQO8nghETW8/
+        - generic [ref=e349]:
+          - generic [ref=e352]:
+            - link "Edgar Campos (@edgar_mua) Instagram · edgar_mua 720+ followers" [ref=e354] [cursor=pointer]:
+              - /url: https://www.instagram.com/edgar_mua/
+              - heading "Edgar Campos (@edgar_mua)" [level=3] [ref=e355]
+              - generic [ref=e360]:
+                - generic [ref=e362]: Instagram · edgar_mua
+                - generic [ref=e364]: 720+ followers
+            - button "About this result" [ref=e365] [cursor=pointer]:
+              - img [ref=e368]
+          - generic [ref=e372]:
+            - text: "722 followers · 589 following · 1921 posts · @edgar_mua: “"
+            - emphasis [ref=e373]: Albuquerque
+            - text: NM is home 🏔️ Freelance Makeup Artist Business Inquiries ➡️ Beautybyedgar@
+            - emphasis [ref=e374]: gmail.com
+            - text: ”
+        - generic [ref=e378]:
+          - generic [ref=e381]:
+            - link "✨ oh hi there ✨ Did you miss me? 👀 I know I've ... Instagram · mazie_may_photography 220+ likes · 7 months ago" [ref=e383] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DQMyl1nEd6-/
+              - heading "✨ oh hi there ✨ Did you miss me? 👀 I know I've ..." [level=3] [ref=e384]
+              - generic [ref=e389]:
+                - generic [ref=e391]: Instagram · mazie_may_photography
+                - generic [ref=e393]: 220+ likes · 7 months ago
+            - button "About this result" [ref=e394] [cursor=pointer]:
+              - img [ref=e397]
+          - generic [ref=e400]:
+            - generic [ref=e401]:
+              - text: ...
+              - emphasis [ref=e402]: Influencer
+              - text: Team waitlist is officially OPEN. Applications drop ... laurencheriephotography@
+              - emphasis [ref=e403]: gmail.com
+              - text: . Plus, gift cards are ...
+            - link "Read more" [ref=e404] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DQMyl1nEd6-/#:~:text=more
+          - link "site:instagram.com \"albuquerque\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e406] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DQMyl1nEd6-/
+        - generic [ref=e423]:
+          - generic [ref=e426]:
+            - link "Mrs. Sprinkles on Instagram Instagram · mrssprinklesicecream 130+ likes · 1 week ago" [ref=e428] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DY4pxgnkdZ0/?img_index=4
+              - heading "Mrs. Sprinkles on Instagram" [level=3] [ref=e429]
+              - generic [ref=e434]:
+                - generic [ref=e436]: Instagram · mrssprinklesicecream
+                - generic [ref=e438]: 130+ likes · 1 week ago
+            - button "About this result" [ref=e439] [cursor=pointer]:
+              - img [ref=e442]
+          - generic [ref=e445]:
+            - generic [ref=e446]:
+              - text: "#"
+              - emphasis [ref=e447]: Albuquerque
+              - text: "#ABQ #NewMexico #505 #"
+              - emphasis [ref=e448]: influencer
+              - text: · View all 6 comments ... PRESENTS biliejopresents@
+              - emphasis [ref=e449]: gmail.com
+              - text: "Text:928-279-0814 Text: 928 ..."
+            - link "Read more" [ref=e450] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DY4pxgnkdZ0/?img_index=4#:~:text=%23Albuquerque%20%23ABQ%20%23NewMexico%20%23505%20%23influencer,View%20all%206%20comments&text=PRESENTS%20biliejopresents%40gmail.com%20Text%3A928%2D279%2D0814%20Text%3A%20928%2D279%2D0814
+          - link "site:instagram.com \"albuquerque\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e453] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DY4pxgnkdZ0/?img_index=4
+            - img "site:instagram.com \"albuquerque\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e455]
+        - generic [ref=e461]:
+          - generic [ref=e464]:
+            - 'link "Who wants to collab in ABQ? ‍♂️ Video Credit: Lucy Little ... Instagram · dannydorito23 6.4K+ likes · 5 months ago" [ref=e466] [cursor=pointer]':
+              - /url: https://www.instagram.com/reel/DTOnm8yCao-/
+              - 'heading "Who wants to collab in ABQ? ‍♂️ Video Credit: Lucy Little ..." [level=3] [ref=e467]'
+              - generic [ref=e472]:
+                - generic [ref=e474]: Instagram · dannydorito23
+                - generic [ref=e476]: 6.4K+ likes · 5 months ago
+            - button "About this result" [ref=e477] [cursor=pointer]:
+              - img [ref=e480]
+          - generic [ref=e482]:
+            - 'link "Who wants to collab in ABQ? ‍♂️ Video Credit: Lucy Little ... by Derek J. Bauder on Instagram. Play on Instagram. 0:33" [ref=e483] [cursor=pointer]':
+              - /url: https://www.instagram.com/reel/DTOnm8yCao-/
+              - generic [ref=e485]:
+                - img [ref=e488]
+                - generic [ref=e492]: 0:33
+            - generic [ref=e494]: "... albuquerque #newmexico #influencer #ABQ ... gmail.com #albuquerque #newmexico #abqnm #santafenm #newmexicotrue."
+      - navigation [ref=e497]:
+        - heading "Page Navigation" [level=1] [ref=e498]
+        - text: "1"
+        - link "Page 2" [ref=e501] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22albuquerque%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=eawpapCRJ4Krur8Pz-mayAE&start=10&sa=N&sstk=AU9db-BRLwopI3ebEMSn3mFyi5oYTSzTeH48TZtoYCPVWydSGVfvmPSWQTCm9Wk2kbYGUf3azUpz_7ZoSmVMU1hrfe001TAISAAyqw&ved=2ahUKEwjQsYygpv2UAxWCle4BHc-0BhkQ8tMDegQIKxAE
+          - text: "2"
+        - link "Page 3" [ref=e503] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22albuquerque%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=eawpapCRJ4Krur8Pz-mayAE&start=20&sa=N&sstk=AU9db-BRLwopI3ebEMSn3mFyi5oYTSzTeH48TZtoYCPVWydSGVfvmPSWQTCm9Wk2kbYGUf3azUpz_7ZoSmVMU1hrfe001TAISAAyqw&ved=2ahUKEwjQsYygpv2UAxWCle4BHc-0BhkQ8tMDegQIKxAG
+          - text: "3"
+        - link "Page 4" [ref=e505] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22albuquerque%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=eawpapCRJ4Krur8Pz-mayAE&start=30&sa=N&sstk=AU9db-BRLwopI3ebEMSn3mFyi5oYTSzTeH48TZtoYCPVWydSGVfvmPSWQTCm9Wk2kbYGUf3azUpz_7ZoSmVMU1hrfe001TAISAAyqw&ved=2ahUKEwjQsYygpv2UAxWCle4BHc-0BhkQ8tMDegQIKxAI
+          - text: "4"
+        - link "Page 5" [ref=e507] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22albuquerque%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=eawpapCRJ4Krur8Pz-mayAE&start=40&sa=N&sstk=AU9db-BRLwopI3ebEMSn3mFyi5oYTSzTeH48TZtoYCPVWydSGVfvmPSWQTCm9Wk2kbYGUf3azUpz_7ZoSmVMU1hrfe001TAISAAyqw&ved=2ahUKEwjQsYygpv2UAxWCle4BHc-0BhkQ8tMDegQIKxAK
+          - text: "5"
+        - link "Page 6" [ref=e509] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22albuquerque%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=eawpapCRJ4Krur8Pz-mayAE&start=50&sa=N&sstk=AU9db-BRLwopI3ebEMSn3mFyi5oYTSzTeH48TZtoYCPVWydSGVfvmPSWQTCm9Wk2kbYGUf3azUpz_7ZoSmVMU1hrfe001TAISAAyqw&ved=2ahUKEwjQsYygpv2UAxWCle4BHc-0BhkQ8tMDegQIKxAM
+          - text: "6"
+        - link "Page 7" [ref=e511] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22albuquerque%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=eawpapCRJ4Krur8Pz-mayAE&start=60&sa=N&sstk=AU9db-BRLwopI3ebEMSn3mFyi5oYTSzTeH48TZtoYCPVWydSGVfvmPSWQTCm9Wk2kbYGUf3azUpz_7ZoSmVMU1hrfe001TAISAAyqw&ved=2ahUKEwjQsYygpv2UAxWCle4BHc-0BhkQ8tMDegQIKxAO
+          - text: "7"
+        - link "Page 8" [ref=e513] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22albuquerque%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=eawpapCRJ4Krur8Pz-mayAE&start=70&sa=N&sstk=AU9db-BRLwopI3ebEMSn3mFyi5oYTSzTeH48TZtoYCPVWydSGVfvmPSWQTCm9Wk2kbYGUf3azUpz_7ZoSmVMU1hrfe001TAISAAyqw&ved=2ahUKEwjQsYygpv2UAxWCle4BHc-0BhkQ8tMDegQIKxAQ
+          - text: "8"
+        - link "Page 9" [ref=e515] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22albuquerque%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=eawpapCRJ4Krur8Pz-mayAE&start=80&sa=N&sstk=AU9db-BRLwopI3ebEMSn3mFyi5oYTSzTeH48TZtoYCPVWydSGVfvmPSWQTCm9Wk2kbYGUf3azUpz_7ZoSmVMU1hrfe001TAISAAyqw&ved=2ahUKEwjQsYygpv2UAxWCle4BHc-0BhkQ8tMDegQIKxAS
+          - text: "9"
+        - link "Page 10" [ref=e517] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22albuquerque%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=eawpapCRJ4Krur8Pz-mayAE&start=90&sa=N&sstk=AU9db-BRLwopI3ebEMSn3mFyi5oYTSzTeH48TZtoYCPVWydSGVfvmPSWQTCm9Wk2kbYGUf3azUpz_7ZoSmVMU1hrfe001TAISAAyqw&ved=2ahUKEwjQsYygpv2UAxWCle4BHc-0BhkQ8tMDegQIKxAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e519]:
+          - link "Next" [ref=e520] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22albuquerque%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=eawpapCRJ4Krur8Pz-mayAE&start=10&sa=N&sstk=AU9db-BRLwopI3ebEMSn3mFyi5oYTSzTeH48TZtoYCPVWydSGVfvmPSWQTCm9Wk2kbYGUf3azUpz_7ZoSmVMU1hrfe001TAISAAyqw&ved=2ahUKEwjQsYygpv2UAxWCle4BHc-0BhkQ8NMDegQIKxAW
+            - generic [ref=e522]: Next
+      - navigation
+    - contentinfo [ref=e523]:
+      - heading "Footer Links" [level=1] [ref=e524]
+      - generic [ref=e528]:
+        - generic [ref=e532]:
+          - button "85281, Tempe, AZ - Based on your past activity" [ref=e534] [cursor=pointer]:
+            - generic [ref=e535]: 85281, Tempe, AZ
+            - generic [ref=e537]:
+              - text: "-"
+              - generic [ref=e538]: Based on your past activity
+          - text: "-"
+          - button "Update location" [ref=e540] [cursor=pointer]: Update location
+        - generic [ref=e543]:
+          - link "Help" [ref=e544] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e545] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e546] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e547] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

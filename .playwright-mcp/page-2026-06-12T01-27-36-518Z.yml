@@ -1,0 +1,40 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - generic:
+          - generic:
+            - generic:
+              - img
+        - link "World Cup 2026 Begins!" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&ictx=2&sa=X&ved=0ahUKEwi2_76OxoCVAxWWEEQIHYumGO4QPQgL
+          - img "World Cup 2026 Begins!" [ref=e14]
+        - generic [ref=e15]:
+          - link:
+            - /url: https://www.google.com/webhp?hl=en&ictx=0&sa=X&ved=0ahUKEwi2_76OxoCVAxWWEEQIHYumGO4QpYkNCA0
+          - generic [ref=e16]:
+            - combobox "Search" [ref=e19]: site:instagram.com "@gmail.com" "DM for collab" "fitness coach" site:instagram.com "@gmail.com" "DM for collab" "fitness coach"
+            - generic [ref=e20]:
+              - button "Clear" [ref=e22] [cursor=pointer]:
+                - img [ref=e24]
+              - generic [ref=e27]:
+                - button "Search by voice" [ref=e28] [cursor=pointer]:
+                  - img [ref=e29]
+                - button "Search by image" [ref=e31] [cursor=pointer]:
+                  - img [ref=e32]
+          - button "Search" [ref=e34] [cursor=pointer]:
+            - img [ref=e37]
+    - generic [ref=e39]:
+      - button "Settings" [ref=e41] [cursor=pointer]
+      - button "Share" [ref=e42] [cursor=pointer]:
+        - img [ref=e46]
+      - generic [ref=e48]:
+        - button "Google apps" [ref=e50] [cursor=pointer]:
+          - img [ref=e51]
+        - link "Sign in" [ref=e55] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite%253Ainstagram.com%2B%2522%2540gmail.com%2522%2B%2522DM%2Bfor%2Bcollab%2522%2B%2522fitness%2Bcoach%2522%26sca_esv%3De266cabde4f9b998%26source%3Dhp%26ei%3DZWArarziGbnIkPIPp93U2Q4%26iflsig%3DAFdpzrgAAAAAaitudQwxAEvoh_zdNYP9k2U5O09aHxH3%26ved%3D0ahUKEwj8qI79xYCVAxU5JEQIHacuNesQ4dUDCDE%26uact%3D5%26oq%3Dsite%253Ainstagram.com%2B%2522%2540gmail.com%2522%2B%2522DM%2Bfor%2Bcollab%2522%2B%2522fitness%2Bcoach%2522%26gs_lp%3DEgdnd3Mtd2l6Ij9zaXRlOmluc3RhZ3JhbS5jb20gIkBnbWFpbC5jb20iICJETSBmb3IgY29sbGFiIiAiZml0bmVzcyBjb2FjaCJIp3ZQAFgAcAB4AJABAJgBiAGgAYgBqgEDMC4xuAEDyAEA-AEBmAIAoAIAmAMAkgcAoAcMsgcAuAcAwgcAyAcAgAgB%26sclient%3Dgws-wiz&ec=futura_srp_og_si_72236_p

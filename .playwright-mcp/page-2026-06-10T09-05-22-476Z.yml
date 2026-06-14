@@ -1,0 +1,344 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwjn46XYqPyUAxV3EEQIHfBCGWUQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "edmonton" "influencer" "@gmail.com" site:instagram.com "edmonton" "influencer" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522edmonton%2522%2B%2522influencer%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22edmonton%22+%22influencer%22+%22%40gmail.com%22&sca_esv=d11ba7484cdf09fb&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&aep=1&ntc=1&sa=X&ved=2ahUKEwjn46XYqPyUAxV3EEQIHfBCGWUQ2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22edmonton%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjn46XYqPyUAxV3EEQIHfBCGWUQtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "News" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&q=site:instagram.com+%22edmonton%22+%22influencer%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&sa=X&ved=2ahUKEwjn46XYqPyUAxV3EEQIHfBCGWUQ0pQJegQIFBAB
+              - generic [ref=e94]: News
+          - listitem [ref=e95]:
+            - link "Videos" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22edmonton%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjn46XYqPyUAxV3EEQIHfBCGWUQtKgLegQIERAB
+              - generic [ref=e98]: Videos
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22edmonton%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjn46XYqPyUAxV3EEQIHfBCGWUQs6gLegQIExAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22edmonton%22+%22influencer%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "KSENIA | EDMONTON 🇨🇦 | Influencer (@xiiusha) Instagram · xiiusha 7.2K+ followers" [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/xiiusha/
+                - heading "KSENIA | EDMONTON 🇨🇦 | Influencer (@xiiusha)" [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram · xiiusha
+                  - generic [ref=e153]: 7.2K+ followers
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e160]:
+              - generic [ref=e161]:
+                - text: ...
+                - emphasis [ref=e162]: gmail.com
+                - text: ... KSENIA |
+                - emphasis [ref=e163]: EDMONTON
+                - text: "|"
+                - emphasis [ref=e164]: Influencer
+                - text: . 7,166 followers. 352 following. Ksenia ...
+              - link "Read more" [ref=e165] [cursor=pointer]:
+                - /url: https://www.instagram.com/xiiusha/#:~:text=KSENIA%20%7C%20EDMONTON%20%F0%9F%87%A8%F0%9F%87%A6%20%7C,Ksenia%20%7C%20Edmonton%20%F0%9F%87%A8%F0%9F%87%A6%20%F0%9F%8E%80
+            - link "site:instagram.com \"edmonton\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e167] [cursor=pointer]:
+              - /url: https://www.instagram.com/xiiusha/
+        - generic [ref=e184]:
+          - generic [ref=e187]:
+            - link "ˏˋ hayls ˊˎ˗ faith•food•fashion❤️‍🔥 ... - Instagram Instagram · hayleyjordan5 2.9K+ followers" [ref=e189] [cursor=pointer]:
+              - /url: https://www.instagram.com/hayleyjordan5/
+              - heading "ˏˋ hayls ˊˎ˗ faith•food•fashion❤️‍🔥 ... - Instagram" [level=3] [ref=e190]
+              - generic [ref=e195]:
+                - generic [ref=e197]: Instagram · hayleyjordan5
+                - generic [ref=e199]: 2.9K+ followers
+            - button "About this result" [ref=e200] [cursor=pointer]:
+              - img [ref=e203]
+          - generic [ref=e207]:
+            - text: ...
+            - emphasis [ref=e208]: gmail.com
+            - text: ...
+            - emphasis [ref=e209]: influencer
+            - text: ","
+            - emphasis [ref=e210]: influencer
+            - text: growth, faaah, faaaah trend, social media growth ...
+          - link "site:instagram.com \"edmonton\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e213] [cursor=pointer]:
+            - /url: https://www.instagram.com/hayleyjordan5/
+            - img "site:instagram.com \"edmonton\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e215]
+        - generic [ref=e219]:
+          - generic [ref=e222]:
+            - link "Kira Paran (@northern_style) Instagram · northern_style 45.1K+ followers" [ref=e224] [cursor=pointer]:
+              - /url: https://www.instagram.com/northern_style/
+              - heading "Kira Paran (@northern_style)" [level=3] [ref=e225]
+              - generic [ref=e230]:
+                - generic [ref=e232]: Instagram · northern_style
+                - generic [ref=e234]: 45.1K+ followers
+            - button "About this result" [ref=e235] [cursor=pointer]:
+              - img [ref=e238]
+          - generic [ref=e241]:
+            - generic [ref=e242]:
+              - emphasis [ref=e243]: Edmonton
+              - text: :Canadian:Mom of✌ ✉️ northernstyleblog@
+              - emphasis [ref=e244]: gmail.com
+              - text: . PIH Ambassador, Oilers 50/50 & Disneyland area hotel discount in links ⬇️.
+            - link "Read more" [ref=e245] [cursor=pointer]:
+              - /url: https://www.instagram.com/northern_style/#:~:text=%F0%9F%93%8DEdmonton%3ACanadian%3AMom%20of%E2%9C%8C%F0%9F%8F%BB,hotel%20discount%20in%20links%20%E2%AC%87%EF%B8%8F
+        - generic [ref=e249]:
+          - generic [ref=e252]:
+            - link "Ms. Hangry Foodie (@mshangryfoodie) Instagram · mshangryfoodie 65.3K+ followers" [ref=e254] [cursor=pointer]:
+              - /url: https://www.instagram.com/mshangryfoodie/
+              - heading "Ms. Hangry Foodie (@mshangryfoodie)" [level=3] [ref=e255]
+              - generic [ref=e260]:
+                - generic [ref=e262]: Instagram · mshangryfoodie
+                - generic [ref=e264]: 65.3K+ followers
+            - button "About this result" [ref=e265] [cursor=pointer]:
+              - img [ref=e268]
+          - generic [ref=e272]:
+            - text: "65K followers · 243 following · 1749 posts · @mshangryfoodie: “ my"
+            - emphasis [ref=e273]: edmonton
+            - text: "food diary tiktok: mshangryfoodie mshangryfoodie@"
+            - emphasis [ref=e274]: gmail.com
+            - text: ”
+          - link "site:instagram.com \"edmonton\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e277] [cursor=pointer]:
+            - /url: https://www.instagram.com/mshangryfoodie/
+            - img "site:instagram.com \"edmonton\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e279]
+        - generic [ref=e283]:
+          - generic [ref=e286]:
+            - link "Sahila🌸 (@sahilakarra) • Instagram photos and videos Instagram · sahilakarra 2.8K+ followers" [ref=e288] [cursor=pointer]:
+              - /url: https://www.instagram.com/sahilakarra/
+              - heading "Sahila🌸 (@sahilakarra) • Instagram photos and videos" [level=3] [ref=e289]
+              - generic [ref=e294]:
+                - generic [ref=e296]: Instagram · sahilakarra
+                - generic [ref=e298]: 2.8K+ followers
+            - button "About this result" [ref=e299] [cursor=pointer]:
+              - img [ref=e302]
+          - generic [ref=e306]:
+            - text: ...
+            - emphasis [ref=e307]: gmail.com Edmonton
+            - text: ...
+            - emphasis [ref=e308]: influencer
+            - text: "#explorepage #reelsinstagram ..."
+          - link "site:instagram.com \"edmonton\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e311] [cursor=pointer]:
+            - /url: https://www.instagram.com/sahilakarra/
+            - img "site:instagram.com \"edmonton\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e313]
+        - generic [ref=e317]:
+          - generic [ref=e320]:
+            - link "Mikayla | EDMONTON CREATOR (@muamikaylac) Instagram · muamikaylac 2.5K+ followers" [ref=e322] [cursor=pointer]:
+              - /url: https://www.instagram.com/muamikaylac/
+              - heading "Mikayla | EDMONTON CREATOR (@muamikaylac)" [level=3] [ref=e323]
+              - generic [ref=e328]:
+                - generic [ref=e330]: Instagram · muamikaylac
+                - generic [ref=e332]: 2.5K+ followers
+            - button "About this result" [ref=e333] [cursor=pointer]:
+              - img [ref=e336]
+          - generic [ref=e339]:
+            - generic [ref=e340]:
+              - text: "Hey Edmontonians! Email or dm for Collab: Muamikaylac@"
+              - emphasis [ref=e341]: gmail.com
+              - text: TikTok 22k+ YouTube 6k+
+              - emphasis [ref=e342]: Edmonton
+              - text: "#yeg #"
+              - emphasis [ref=e343]: edmonton
+              - text: "#yeginfluencer. Follow. Message ..."
+            - link "Read more" [ref=e344] [cursor=pointer]:
+              - /url: https://www.instagram.com/muamikaylac/#:~:text=Hey%20Edmontonians!%20%F0%9F%87%A8%F0%9F%87%A6,Message
+          - link "site:instagram.com \"edmonton\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e346] [cursor=pointer]:
+            - /url: https://www.instagram.com/muamikaylac/
+        - generic [ref=e363]:
+          - generic [ref=e366]:
+            - link "Marie ♡ (@mariekmra) • Instagram photos and videos Instagram · mariekmra 2K+ followers" [ref=e368] [cursor=pointer]:
+              - /url: https://www.instagram.com/mariekmra/
+              - heading "Marie ♡ (@mariekmra) • Instagram photos and videos" [level=3] [ref=e369]
+              - generic [ref=e374]:
+                - generic [ref=e376]: Instagram · mariekmra
+                - generic [ref=e378]: 2K+ followers
+            - button "About this result" [ref=e379] [cursor=pointer]:
+              - img [ref=e382]
+          - generic [ref=e385]:
+            - generic [ref=e386]:
+              - emphasis [ref=e387]: Edmonton
+              - text: ", AB Inquiries/ PR:info.mariekamara@"
+              - emphasis [ref=e388]: gmail.com
+              - text: ". I like jewelry @kadiatuofficial · Post cards from DR & Turks 🏖️ #explorepage #"
+              - emphasis [ref=e389]: influencer
+              - text: "# ..."
+            - link "Read more" [ref=e390] [cursor=pointer]:
+              - /url: https://www.instagram.com/mariekmra/#:~:text=%F0%9F%93%8DEdmonton%2C%20AB,I%20like%20jewelry%20%F0%9F%A4%8D%20%40kadiatuofficial
+          - link "site:instagram.com \"edmonton\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e393] [cursor=pointer]:
+            - /url: https://www.instagram.com/mariekmra/
+            - img "site:instagram.com \"edmonton\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e395]
+        - generic [ref=e399]:
+          - generic [ref=e402]:
+            - link "Mehak Garcha (CA UGC Creator 💌) (@mehakjotsidhuu) Instagram · mehakjotsidhuu 14.7K+ followers" [ref=e404] [cursor=pointer]:
+              - /url: https://www.instagram.com/mehakjotsidhuu/
+              - heading "Mehak Garcha (CA UGC Creator 💌) (@mehakjotsidhuu)" [level=3] [ref=e405]
+              - generic [ref=e410]:
+                - generic [ref=e412]: Instagram · mehakjotsidhuu
+                - generic [ref=e414]: 14.7K+ followers
+            - button "About this result" [ref=e415] [cursor=pointer]:
+              - img [ref=e418]
+          - generic [ref=e421]:
+            - generic [ref=e422]:
+              - emphasis [ref=e423]: Edmonton
+              - text: mjsidhu34@
+              - emphasis [ref=e424]: gmail.com
+              - text: "· #trending #trendingpost #couplephoto #"
+              - emphasis [ref=e425]: edmonton
+              - text: "#"
+              - emphasis [ref=e426]: influencer
+              - text: ...
+            - link "Read more" [ref=e427] [cursor=pointer]:
+              - /url: https://www.instagram.com/mehakjotsidhuu/#:~:text=Edmonton,%F0%9F%92%8C%20mjsidhu34%40gmail.com
+          - link "site:instagram.com \"edmonton\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e429] [cursor=pointer]:
+            - /url: https://www.instagram.com/mehakjotsidhuu/
+        - generic [ref=e446]:
+          - generic [ref=e449]:
+            - link "Alisha | Lifestyle & Travel (@alishaoostenbrink) Instagram · alishaoostenbrink 10.5K+ followers" [ref=e451] [cursor=pointer]:
+              - /url: https://www.instagram.com/alishaoostenbrink/
+              - heading "Alisha | Lifestyle & Travel (@alishaoostenbrink)" [level=3] [ref=e452]
+              - generic [ref=e457]:
+                - generic [ref=e459]: Instagram · alishaoostenbrink
+                - generic [ref=e461]: 10.5K+ followers
+            - button "About this result" [ref=e462] [cursor=pointer]:
+              - img [ref=e465]
+          - generic [ref=e469]:
+            - text: ...
+            - emphasis [ref=e470]: gmail.com
+            - text: . ...
+            - emphasis [ref=e471]: Edmonton's
+            - text: Best Kept Secret ✨ ‍ ‍ ‍ family ...
+          - link "site:instagram.com \"edmonton\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e474] [cursor=pointer]:
+            - /url: https://www.instagram.com/alishaoostenbrink/
+            - img "site:instagram.com \"edmonton\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e476]
+        - generic [ref=e480]:
+          - generic [ref=e483]:
+            - link "Over 40 style ideas (@whatcharwore2) Instagram · whatcharwore2 203.8K+ followers" [ref=e485] [cursor=pointer]:
+              - /url: https://www.instagram.com/whatcharwore2/
+              - heading "Over 40 style ideas (@whatcharwore2)" [level=3] [ref=e486]
+              - generic [ref=e491]:
+                - generic [ref=e493]: Instagram · whatcharwore2
+                - generic [ref=e495]: 203.8K+ followers
+            - button "About this result" [ref=e496] [cursor=pointer]:
+              - img [ref=e499]
+          - generic [ref=e503]:
+            - text: ...
+            - emphasis [ref=e504]: gmail.com
+            - text: Shop my looks here ... Put yourself out there;
+            - emphasis [ref=e505]: Edmonton
+            - text: has an incredible
+            - emphasis [ref=e506]: influencer
+            - text: community! @mr ...
+          - link "site:instagram.com \"edmonton\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e509] [cursor=pointer]:
+            - /url: https://www.instagram.com/whatcharwore2/
+            - img "site:instagram.com \"edmonton\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e511]
+      - navigation [ref=e514]:
+        - heading "Page Navigation" [level=1] [ref=e515]
+        - text: "1"
+        - link "Page 2" [ref=e518] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22edmonton%22+%22influencer%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=0Cgpaue7JvegkPIP8IXlqAY&start=10&sa=N&sstk=AU9db-DhSuwa0--7WrzSXbbrJKHZNmKedJdlG-UAtolLMW58gLKWPLy_DbH7g9ZCET2WPWsPjkaC0X3JUZy-fwUTdPVCzUM7AV_ffQ&ved=2ahUKEwjn46XYqPyUAxV3EEQIHfBCGWUQ8tMDegQIOhAE
+          - text: "2"
+        - link "Page 3" [ref=e520] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22edmonton%22+%22influencer%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=0Cgpaue7JvegkPIP8IXlqAY&start=20&sa=N&sstk=AU9db-DhSuwa0--7WrzSXbbrJKHZNmKedJdlG-UAtolLMW58gLKWPLy_DbH7g9ZCET2WPWsPjkaC0X3JUZy-fwUTdPVCzUM7AV_ffQ&ved=2ahUKEwjn46XYqPyUAxV3EEQIHfBCGWUQ8tMDegQIOhAG
+          - text: "3"
+        - link "Page 4" [ref=e522] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22edmonton%22+%22influencer%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=0Cgpaue7JvegkPIP8IXlqAY&start=30&sa=N&sstk=AU9db-DhSuwa0--7WrzSXbbrJKHZNmKedJdlG-UAtolLMW58gLKWPLy_DbH7g9ZCET2WPWsPjkaC0X3JUZy-fwUTdPVCzUM7AV_ffQ&ved=2ahUKEwjn46XYqPyUAxV3EEQIHfBCGWUQ8tMDegQIOhAI
+          - text: "4"
+        - link "Page 5" [ref=e524] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22edmonton%22+%22influencer%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=0Cgpaue7JvegkPIP8IXlqAY&start=40&sa=N&sstk=AU9db-DhSuwa0--7WrzSXbbrJKHZNmKedJdlG-UAtolLMW58gLKWPLy_DbH7g9ZCET2WPWsPjkaC0X3JUZy-fwUTdPVCzUM7AV_ffQ&ved=2ahUKEwjn46XYqPyUAxV3EEQIHfBCGWUQ8tMDegQIOhAK
+          - text: "5"
+        - link "Page 6" [ref=e526] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22edmonton%22+%22influencer%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=0Cgpaue7JvegkPIP8IXlqAY&start=50&sa=N&sstk=AU9db-DhSuwa0--7WrzSXbbrJKHZNmKedJdlG-UAtolLMW58gLKWPLy_DbH7g9ZCET2WPWsPjkaC0X3JUZy-fwUTdPVCzUM7AV_ffQ&ved=2ahUKEwjn46XYqPyUAxV3EEQIHfBCGWUQ8tMDegQIOhAM
+          - text: "6"
+        - link "Page 7" [ref=e528] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22edmonton%22+%22influencer%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=0Cgpaue7JvegkPIP8IXlqAY&start=60&sa=N&sstk=AU9db-DhSuwa0--7WrzSXbbrJKHZNmKedJdlG-UAtolLMW58gLKWPLy_DbH7g9ZCET2WPWsPjkaC0X3JUZy-fwUTdPVCzUM7AV_ffQ&ved=2ahUKEwjn46XYqPyUAxV3EEQIHfBCGWUQ8tMDegQIOhAO
+          - text: "7"
+        - link "Page 8" [ref=e530] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22edmonton%22+%22influencer%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=0Cgpaue7JvegkPIP8IXlqAY&start=70&sa=N&sstk=AU9db-DhSuwa0--7WrzSXbbrJKHZNmKedJdlG-UAtolLMW58gLKWPLy_DbH7g9ZCET2WPWsPjkaC0X3JUZy-fwUTdPVCzUM7AV_ffQ&ved=2ahUKEwjn46XYqPyUAxV3EEQIHfBCGWUQ8tMDegQIOhAQ
+          - text: "8"
+        - link "Page 9" [ref=e532] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22edmonton%22+%22influencer%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=0Cgpaue7JvegkPIP8IXlqAY&start=80&sa=N&sstk=AU9db-DhSuwa0--7WrzSXbbrJKHZNmKedJdlG-UAtolLMW58gLKWPLy_DbH7g9ZCET2WPWsPjkaC0X3JUZy-fwUTdPVCzUM7AV_ffQ&ved=2ahUKEwjn46XYqPyUAxV3EEQIHfBCGWUQ8tMDegQIOhAS
+          - text: "9"
+        - link "Page 10" [ref=e534] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22edmonton%22+%22influencer%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=0Cgpaue7JvegkPIP8IXlqAY&start=90&sa=N&sstk=AU9db-DhSuwa0--7WrzSXbbrJKHZNmKedJdlG-UAtolLMW58gLKWPLy_DbH7g9ZCET2WPWsPjkaC0X3JUZy-fwUTdPVCzUM7AV_ffQ&ved=2ahUKEwjn46XYqPyUAxV3EEQIHfBCGWUQ8tMDegQIOhAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e536]:
+          - link "Next" [ref=e537] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22edmonton%22+%22influencer%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=0Cgpaue7JvegkPIP8IXlqAY&start=10&sa=N&sstk=AU9db-DhSuwa0--7WrzSXbbrJKHZNmKedJdlG-UAtolLMW58gLKWPLy_DbH7g9ZCET2WPWsPjkaC0X3JUZy-fwUTdPVCzUM7AV_ffQ&ved=2ahUKEwjn46XYqPyUAxV3EEQIHfBCGWUQ8NMDegQIOhAW
+            - generic [ref=e539]: Next
+      - navigation
+    - contentinfo [ref=e540]:
+      - heading "Footer Links" [level=1] [ref=e541]
+      - generic [ref=e545]:
+        - generic [ref=e549]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e551] [cursor=pointer]:
+            - generic [ref=e552]: 85281, Tempe, AZ
+            - generic [ref=e554]:
+              - text: "-"
+              - generic [ref=e555]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e557] [cursor=pointer]: Update location
+        - generic [ref=e560]:
+          - link "Help" [ref=e561] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e562] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e563] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e564] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

@@ -1,0 +1,338 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwjByqaCqP2UAxXTlu4BHbHIDn8QPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "greensboro" "influencer" "@gmail.com" site:instagram.com "greensboro" "influencer" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522greensboro%2522%2B%2522influencer%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22greensboro%22+%22influencer%22+%22%40gmail.com%22&sca_esv=112a2bccbf037f13&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&aep=1&ntc=1&sa=X&ved=2ahUKEwjByqaCqP2UAxXTlu4BHbHIDn8Q2J8OegQIEhAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=112a2bccbf037f13&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&q=site:instagram.com+%22greensboro%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjByqaCqP2UAxXTlu4BHbHIDn8QtKgLegQIGBAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "Videos" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=112a2bccbf037f13&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&q=site:instagram.com+%22greensboro%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjByqaCqP2UAxXTlu4BHbHIDn8QtKgLegQIFxAB
+              - generic [ref=e94]: Videos
+          - listitem [ref=e95]:
+            - link "News" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=112a2bccbf037f13&q=site:instagram.com+%22greensboro%22+%22influencer%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&sa=X&ved=2ahUKEwjByqaCqP2UAxXTlu4BHbHIDn8Q0pQJegQIFBAB
+              - generic [ref=e98]: News
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=112a2bccbf037f13&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&q=site:instagram.com+%22greensboro%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjByqaCqP2UAxXTlu4BHbHIDn8Qs6gLegQIFhAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=112a2bccbf037f13&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&q=site:instagram.com+%22greensboro%22+%22influencer%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "JESSICA FORD | NC CONTENT CREATOR (@_jessicaleeford) Instagram https://secure.instagram.com › _jessicaleeford" [ref=e143] [cursor=pointer]:
+                - /url: https://secure.instagram.com/_jessicaleeford/
+                - heading "JESSICA FORD | NC CONTENT CREATOR (@_jessicaleeford)" [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram
+                  - generic [ref=e153]: https://secure.instagram.com › _jessicaleeford
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e160]:
+              - generic [ref=e161]:
+                - text: Media Personality
+                - emphasis [ref=e162]: Greensboro
+                - text: "& Winston Salem Food, Activities & Interviews As seen on @abc45news Triad Trending jessicafordpartnerships@"
+                - emphasis [ref=e163]: gmail.com
+                - text: .
+              - link "Read more" [ref=e164] [cursor=pointer]:
+                - /url: https://secure.instagram.com/_jessicaleeford/#:~:text=Media%20Personality%F0%9F%8E%A4,%F0%9F%92%8C%20jessicafordpartnerships%40gmail.com
+        - generic [ref=e168]:
+          - generic [ref=e171]:
+            - link "Guilty for being the BEST content creator in Greensboro Instagram · _jessicaleeford 1.3K+ likes · 4 months ago" [ref=e173] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DUQVEOHkV9k/
+              - heading "Guilty for being the BEST content creator in Greensboro" [level=3] [ref=e174]
+              - generic [ref=e179]:
+                - generic [ref=e181]: Instagram · _jessicaleeford
+                - generic [ref=e183]: 1.3K+ likes · 4 months ago
+            - button "About this result" [ref=e184] [cursor=pointer]:
+              - img [ref=e187]
+          - generic [ref=e190]:
+            - generic [ref=e191]:
+              - text: Okay, bye. OCR.
+              - emphasis [ref=e192]: Greensboro
+              - text: Mini FAM Tour x
+              - emphasis [ref=e193]: Greensboro
+              - text: CVB
+              - emphasis [ref=e194]: greensboro
+              - text: "... #explorepage #reels #columbuseats #columbuscreator #"
+              - emphasis [ref=e195]: influencer
+              - text: . more.
+            - link "Read more" [ref=e196] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DUQVEOHkV9k/#:~:text=Okay%2C%20bye.,PIZZERIA%20PROXIMITY%20HOTEL%20O.HENRY%20HOTEL&text=more
+          - link "site:instagram.com \"greensboro\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e199] [cursor=pointer]:
+            - /url: https://www.instagram.com/reel/DUQVEOHkV9k/
+            - img "site:instagram.com \"greensboro\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e201]
+        - generic [ref=e205]:
+          - generic [ref=e208]:
+            - link "Ty Gibson (@yeahitstyg) Instagram · yeahitstyg 936.1K+ followers" [ref=e210] [cursor=pointer]:
+              - /url: https://www.instagram.com/yeahitstyg/
+              - heading "Ty Gibson (@yeahitstyg)" [level=3] [ref=e211]
+              - generic [ref=e216]:
+                - generic [ref=e218]: Instagram · yeahitstyg
+                - generic [ref=e220]: 936.1K+ followers
+            - button "About this result" [ref=e221] [cursor=pointer]:
+              - img [ref=e224]
+          - generic [ref=e227]:
+            - generic [ref=e228]:
+              - text: ": MGMT/COLLAB: Yeahitstygmgmt@"
+              - emphasis [ref=e229]: gmail.com
+              - text: ": P.O Box 13041"
+              - emphasis [ref=e230]: Greensboro
+              - text: NC, 27415 ...
+              - emphasis [ref=e231]: influencer
+              - text: ...
+            - link "Read more" [ref=e232] [cursor=pointer]:
+              - /url: https://www.instagram.com/yeahitstyg/#:~:text=%F0%9F%92%8C%3A%20MGMT%2FCOLLAB%3A%20Yeahitstygmgmt%40gmail.com,Box%2013041%20Greensboro%20NC%2C%2027415
+          - link "site:instagram.com \"greensboro\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e234] [cursor=pointer]:
+            - /url: https://www.instagram.com/yeahitstyg/
+        - generic [ref=e251]:
+          - generic [ref=e254]:
+            - link "Myra Diggs (@myr.avictoria) · Greensboro, NC Instagram · myr.avictoria 38K+ followers" [ref=e256] [cursor=pointer]:
+              - /url: https://www.instagram.com/myr.avictoria/
+              - heading "Myra Diggs (@myr.avictoria) · Greensboro, NC" [level=3] [ref=e257]
+              - generic [ref=e262]:
+                - generic [ref=e264]: Instagram · myr.avictoria
+                - generic [ref=e266]: 38K+ followers
+            - button "About this result" [ref=e267] [cursor=pointer]:
+              - img [ref=e270]
+          - generic [ref=e274]:
+            - text: 38K followers · 128 posts ·
+            - emphasis [ref=e275]: Influencer
+            - text: ✨ Youtuber ~ TikTok 100k+ Myra.Victoria2021@
+            - emphasis [ref=e276]: gmail.com
+            - text: .
+          - link "site:instagram.com \"greensboro\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e278] [cursor=pointer]:
+            - /url: https://www.instagram.com/myr.avictoria/
+        - generic [ref=e295]:
+          - generic [ref=e298]:
+            - link "Kaci Kay (@kacikay__) · Greensboro, NC Instagram · kacikay__ 3.1K+ followers" [ref=e300] [cursor=pointer]:
+              - /url: https://www.instagram.com/kacikay__/
+              - heading "Kaci Kay (@kacikay__) · Greensboro, NC" [level=3] [ref=e301]
+              - generic [ref=e306]:
+                - generic [ref=e308]: Instagram · kacikay__
+                - generic [ref=e310]: 3.1K+ followers
+            - button "About this result" [ref=e311] [cursor=pointer]:
+              - img [ref=e314]
+          - generic [ref=e317]:
+            - generic [ref=e318]:
+              - text: ✨ Young mama chasing big dreams Raising my little sonshine
+              - emphasis [ref=e319]: Greensboro
+              - text: ",NC"
+              - emphasis [ref=e320]: INFLUENCER
+              - text: "| Collabs → makmcc56@"
+              - emphasis [ref=e321]: gmail.com
+              - text: · ✨ Sweet treat alert in
+              - emphasis [ref=e322]: Greensboro
+              - text: "!"
+            - link "Read more" [ref=e323] [cursor=pointer]:
+              - /url: https://www.instagram.com/kacikay__/#:~:text=%E2%9C%A8%20Young%20mama%20chasing%20big,%7C%20%F0%9F%93%A9%20Collabs%20%E2%86%92%20makmcc56%40gmail.com
+          - link "site:instagram.com \"greensboro\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e326] [cursor=pointer]:
+            - /url: https://www.instagram.com/kacikay__/
+            - img "site:instagram.com \"greensboro\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e328]
+        - generic [ref=e332]:
+          - generic [ref=e335]:
+            - link "Alexus B. | Greensboro, NC Photographer (@alexusbphoto) Instagram · alexusbphoto 49.3K+ followers" [ref=e337] [cursor=pointer]:
+              - /url: https://www.instagram.com/alexusbphoto/
+              - heading "Alexus B. | Greensboro, NC Photographer (@alexusbphoto)" [level=3] [ref=e338]
+              - generic [ref=e343]:
+                - generic [ref=e345]: Instagram · alexusbphoto
+                - generic [ref=e347]: 49.3K+ followers
+            - button "About this result" [ref=e348] [cursor=pointer]:
+              - img [ref=e351]
+          - generic [ref=e355]:
+            - text: a new campaign + partnership and it's our very first
+            - emphasis [ref=e356]: influencer
+            - text: collab! Big ... Email us if you need to reschedule at alexusbphoto@
+            - emphasis [ref=e357]: gmail.com
+            - text: ...
+          - link "site:instagram.com \"greensboro\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e360] [cursor=pointer]:
+            - /url: https://www.instagram.com/alexusbphoto/
+            - img "site:instagram.com \"greensboro\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e362]
+        - generic [ref=e366]:
+          - generic [ref=e369]:
+            - link "Fashion Influencer (@jill_will) - Jillian Instagram · jill_will 3.5K+ followers" [ref=e371] [cursor=pointer]:
+              - /url: https://www.instagram.com/jill_will/
+              - heading "Fashion Influencer (@jill_will) - Jillian" [level=3] [ref=e372]
+              - generic [ref=e377]:
+                - generic [ref=e379]: Instagram · jill_will
+                - generic [ref=e381]: 3.5K+ followers
+            - button "About this result" [ref=e382] [cursor=pointer]:
+              - img [ref=e385]
+          - generic [ref=e389]:
+            - text: Photo by Jillian - Fashion
+            - emphasis [ref=e390]: Influencer
+            - text: in
+            - emphasis [ref=e391]: Greensboro
+            - text: ", North Carolina. THAT GIRL {Dat / gal} She is on a journey to realising her purpose. She prioritises her ..."
+        - generic [ref=e395]:
+          - generic [ref=e398]:
+            - link "preezy (@theofficialpree) • Instagram photos and videos Instagram · theofficialpree 27.8K+ followers" [ref=e400] [cursor=pointer]:
+              - /url: https://www.instagram.com/theofficialpree/
+              - heading "preezy (@theofficialpree) • Instagram photos and videos" [level=3] [ref=e401]
+              - generic [ref=e406]:
+                - generic [ref=e408]: Instagram · theofficialpree
+                - generic [ref=e410]: 27.8K+ followers
+            - button "About this result" [ref=e411] [cursor=pointer]:
+              - img [ref=e414]
+          - generic [ref=e417]:
+            - generic [ref=e418]:
+              - text: NYC | NC Food/Travel 50k+ TikTok Filmmaker preeproductionsmedia@
+              - emphasis [ref=e419]: gmail.com
+              - text: Seen on @todayfood @myfox8 @abc45news @wxii12news @ourwstoday. Follow.
+            - link "Read more" [ref=e420] [cursor=pointer]:
+              - /url: https://www.instagram.com/theofficialpree/#:~:text=%F0%9F%93%8DNYC%20%7C%20NC,Follow
+        - generic [ref=e424]:
+          - generic [ref=e427]:
+            - link "WE'RE BACK, GREENSBORO 💫 The Ladies Lifestyle ... Instagram · ladieslifestylenetworkgso 190+ likes · 1 month ago" [ref=e429] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXcXOn4AkRR/
+              - heading "WE'RE BACK, GREENSBORO 💫 The Ladies Lifestyle ..." [level=3] [ref=e430]
+              - generic [ref=e435]:
+                - generic [ref=e437]: Instagram · ladieslifestylenetworkgso
+                - generic [ref=e439]: 190+ likes · 1 month ago
+            - button "About this result" [ref=e440] [cursor=pointer]:
+              - img [ref=e443]
+          - generic [ref=e446]:
+            - generic [ref=e447]:
+              - text: ...
+              - emphasis [ref=e448]: gmail.com
+              - text: or DM me for info on getting eyes on your brand and ...
+              - emphasis [ref=e449]: influencer
+              - text: "or whatever. OCR. Another Love is Blind Divorce: Chelsea ..."
+            - link "Read more" [ref=e450] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXcXOn4AkRR/#:~:text=influencer%20or%20whatever.,marked%20our%20fourth%20wedding%20anniversary...
+          - link "site:instagram.com \"greensboro\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e453] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DXcXOn4AkRR/
+            - img "site:instagram.com \"greensboro\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e455]
+        - generic [ref=e459]:
+          - generic [ref=e462]:
+            - link "Emma Keys (@emmakeysgso) · Greensboro, NC Instagram · emmakeysgso 2.6K+ followers" [ref=e464] [cursor=pointer]:
+              - /url: https://www.instagram.com/emmakeysgso/
+              - heading "Emma Keys (@emmakeysgso) · Greensboro, NC" [level=3] [ref=e465]
+              - generic [ref=e470]:
+                - generic [ref=e472]: Instagram · emmakeysgso
+                - generic [ref=e474]: 2.6K+ followers
+            - button "About this result" [ref=e475] [cursor=pointer]:
+              - img [ref=e478]
+          - generic [ref=e482]:
+            - text: ... K+ followers · 207 posts · Burgers & Dogs ✨ 2206 Walker Ave.
+            - emphasis [ref=e483]: Greensboro
+            - text: ", NC 27403 Order take out through our website for ..."
+            - emphasis [ref=e484]: influencer
+            - text: "#triadfoodies."
+          - link "site:instagram.com \"greensboro\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e486] [cursor=pointer]:
+            - /url: https://www.instagram.com/emmakeysgso/
+      - navigation [ref=e502]:
+        - heading "Page Navigation" [level=1] [ref=e503]
+        - text: "1"
+        - link "Page 2" [ref=e506] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22greensboro%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=VK4pasHQAdOtur8PsZG7-Ac&start=10&sa=N&sstk=AU9db-AAbvNww3L2t_iWMVCgZZ5_EmPEo_m9Zb6_yGEBz5enwu2Ho0IK0tIMnB9XB_ZxIpe4nUM8SNPaARHJr4LdCuIAitH9xK7gTw&ved=2ahUKEwjByqaCqP2UAxXTlu4BHbHIDn8Q8tMDegQILBAE
+          - text: "2"
+        - link "Page 3" [ref=e508] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22greensboro%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=VK4pasHQAdOtur8PsZG7-Ac&start=20&sa=N&sstk=AU9db-AAbvNww3L2t_iWMVCgZZ5_EmPEo_m9Zb6_yGEBz5enwu2Ho0IK0tIMnB9XB_ZxIpe4nUM8SNPaARHJr4LdCuIAitH9xK7gTw&ved=2ahUKEwjByqaCqP2UAxXTlu4BHbHIDn8Q8tMDegQILBAG
+          - text: "3"
+        - link "Page 4" [ref=e510] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22greensboro%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=VK4pasHQAdOtur8PsZG7-Ac&start=30&sa=N&sstk=AU9db-AAbvNww3L2t_iWMVCgZZ5_EmPEo_m9Zb6_yGEBz5enwu2Ho0IK0tIMnB9XB_ZxIpe4nUM8SNPaARHJr4LdCuIAitH9xK7gTw&ved=2ahUKEwjByqaCqP2UAxXTlu4BHbHIDn8Q8tMDegQILBAI
+          - text: "4"
+        - link "Page 5" [ref=e512] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22greensboro%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=VK4pasHQAdOtur8PsZG7-Ac&start=40&sa=N&sstk=AU9db-AAbvNww3L2t_iWMVCgZZ5_EmPEo_m9Zb6_yGEBz5enwu2Ho0IK0tIMnB9XB_ZxIpe4nUM8SNPaARHJr4LdCuIAitH9xK7gTw&ved=2ahUKEwjByqaCqP2UAxXTlu4BHbHIDn8Q8tMDegQILBAK
+          - text: "5"
+        - link "Page 6" [ref=e514] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22greensboro%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=VK4pasHQAdOtur8PsZG7-Ac&start=50&sa=N&sstk=AU9db-AAbvNww3L2t_iWMVCgZZ5_EmPEo_m9Zb6_yGEBz5enwu2Ho0IK0tIMnB9XB_ZxIpe4nUM8SNPaARHJr4LdCuIAitH9xK7gTw&ved=2ahUKEwjByqaCqP2UAxXTlu4BHbHIDn8Q8tMDegQILBAM
+          - text: "6"
+        - link "Page 7" [ref=e516] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22greensboro%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=VK4pasHQAdOtur8PsZG7-Ac&start=60&sa=N&sstk=AU9db-AAbvNww3L2t_iWMVCgZZ5_EmPEo_m9Zb6_yGEBz5enwu2Ho0IK0tIMnB9XB_ZxIpe4nUM8SNPaARHJr4LdCuIAitH9xK7gTw&ved=2ahUKEwjByqaCqP2UAxXTlu4BHbHIDn8Q8tMDegQILBAO
+          - text: "7"
+        - link "Page 8" [ref=e518] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22greensboro%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=VK4pasHQAdOtur8PsZG7-Ac&start=70&sa=N&sstk=AU9db-AAbvNww3L2t_iWMVCgZZ5_EmPEo_m9Zb6_yGEBz5enwu2Ho0IK0tIMnB9XB_ZxIpe4nUM8SNPaARHJr4LdCuIAitH9xK7gTw&ved=2ahUKEwjByqaCqP2UAxXTlu4BHbHIDn8Q8tMDegQILBAQ
+          - text: "8"
+        - link "Page 9" [ref=e520] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22greensboro%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=VK4pasHQAdOtur8PsZG7-Ac&start=80&sa=N&sstk=AU9db-AAbvNww3L2t_iWMVCgZZ5_EmPEo_m9Zb6_yGEBz5enwu2Ho0IK0tIMnB9XB_ZxIpe4nUM8SNPaARHJr4LdCuIAitH9xK7gTw&ved=2ahUKEwjByqaCqP2UAxXTlu4BHbHIDn8Q8tMDegQILBAS
+          - text: "9"
+        - link "Page 10" [ref=e522] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22greensboro%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=VK4pasHQAdOtur8PsZG7-Ac&start=90&sa=N&sstk=AU9db-AAbvNww3L2t_iWMVCgZZ5_EmPEo_m9Zb6_yGEBz5enwu2Ho0IK0tIMnB9XB_ZxIpe4nUM8SNPaARHJr4LdCuIAitH9xK7gTw&ved=2ahUKEwjByqaCqP2UAxXTlu4BHbHIDn8Q8tMDegQILBAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e524]:
+          - link "Next" [ref=e525] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22greensboro%22+%22influencer%22+%22@gmail.com%22&sca_esv=112a2bccbf037f13&ei=VK4pasHQAdOtur8PsZG7-Ac&start=10&sa=N&sstk=AU9db-AAbvNww3L2t_iWMVCgZZ5_EmPEo_m9Zb6_yGEBz5enwu2Ho0IK0tIMnB9XB_ZxIpe4nUM8SNPaARHJr4LdCuIAitH9xK7gTw&ved=2ahUKEwjByqaCqP2UAxXTlu4BHbHIDn8Q8NMDegQILBAW
+            - generic [ref=e527]: Next
+      - navigation
+    - contentinfo [ref=e528]:
+      - heading "Footer Links" [level=1] [ref=e529]
+      - generic [ref=e533]:
+        - generic [ref=e537]:
+          - button "85281, Tempe, AZ - Based on your past activity" [ref=e539] [cursor=pointer]:
+            - generic [ref=e540]: 85281, Tempe, AZ
+            - generic [ref=e542]:
+              - text: "-"
+              - generic [ref=e543]: Based on your past activity
+          - text: "-"
+          - button "Update location" [ref=e545] [cursor=pointer]: Update location
+        - generic [ref=e548]:
+          - link "Help" [ref=e549] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e550] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e551] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e552] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

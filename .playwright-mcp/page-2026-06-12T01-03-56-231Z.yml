@@ -1,0 +1,471 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - generic:
+          - generic:
+            - generic:
+              - img
+        - link "World Cup 2026 Begins!" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&ictx=2&sa=X&ved=0ahUKEwiCuKrowICVAxVamO4BHTvpMz4QPQgL
+          - img "World Cup 2026 Begins!" [ref=e14]
+        - generic [ref=e15]:
+          - generic [ref=e16]:
+            - combobox "Search" [ref=e19]: site:instagram.com ("UGC creator" OR "content creator" OR "micro influencer" OR "digital creator") ("@gmail.com" OR "@outlook.com" OR "email:" OR "business inquiries" OR "collabs:") site:instagram.com ("UGC creator" OR "content creator" OR "micro influencer" OR "digital creator") ("@gmail.com" OR "@outlook.com" OR "email:" OR "business inquiries" OR "collabs:")
+            - generic [ref=e20]:
+              - button "Clear" [ref=e22] [cursor=pointer]:
+                - img [ref=e24]
+              - generic [ref=e27]:
+                - button "Search by voice" [ref=e28] [cursor=pointer]:
+                  - img [ref=e29]
+                - button "Search by image" [ref=e31] [cursor=pointer]:
+                  - img [ref=e32]
+          - button "Search" [ref=e34] [cursor=pointer]:
+            - img [ref=e37]
+    - generic [ref=e39]:
+      - button "Settings" [ref=e41] [cursor=pointer]:
+        - img [ref=e44]
+      - button "Share" [ref=e47] [cursor=pointer]:
+        - img [ref=e51]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite%253Ainstagram.com%2B%2528%2522UGC%2Bcreator%2522%2BOR%2B%2522content%2Bcreator%2522%2BOR%2B%2522micro%2Binfluencer%2522%2BOR%2B%2522digital%2Bcreator%2522%2529%2B%2528%2522%2540gmail.com%2522%2BOR%2B%2522%2540outlook.com%2522%2BOR%2B%2522email%253A%2522%2BOR%2B%2522business%2Binquiries%2522%2BOR%2B%2522collabs%253A%2522%2529&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "All" [disabled] [ref=e77]:
+              - generic [ref=e79]: All
+          - listitem [ref=e80]:
+            - link "Videos" [ref=e81] [cursor=pointer]:
+              - /url: /search?sca_esv=e266cabde4f9b998&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpmAsnXCN5UBx17opt8eaTX-kA7ovRmAIYWC70eULDzbpnQTYs94Mq8g6LHC3WhbQOljuR5mw9iVoN_pQSpe3kL2QziRKFPk1GwRfvEqRWO0ACO0L-tqEa3BA5gVm988p0zNX3UrQfTrxRo8ENOo0Ili3W4S8YJGewh6QgvUm7KNUixjmxV3hSS8SG4CbEtObVYWqwNA&q=site:instagram.com+(%22UGC+creator%22+OR+%22content+creator%22+OR+%22micro+influencer%22+OR+%22digital+creator%22)+(%22%40gmail.com%22+OR+%22%40outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22+OR+%22collabs:%22)&sa=X&ved=2ahUKEwiCuKrowICVAxVamO4BHTvpMz4QtKgLegQIFRAB
+              - generic [ref=e83]: Videos
+          - listitem [ref=e84]:
+            - link "Images" [ref=e85] [cursor=pointer]:
+              - /url: /search?sca_esv=e266cabde4f9b998&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpmAsnXCN5UBx17opt8eaTX-kA7ovRmAIYWC70eULDzbpnQTYs94Mq8g6LHC3WhbQOljuR5mw9iVoN_pQSpe3kL2QziRKFPk1GwRfvEqRWO0ACO0L-tqEa3BA5gVm988p0zNX3UrQfTrxRo8ENOo0Ili3W4S8YJGewh6QgvUm7KNUixjmxV3hSS8SG4CbEtObVYWqwNA&q=site:instagram.com+(%22UGC+creator%22+OR+%22content+creator%22+OR+%22micro+influencer%22+OR+%22digital+creator%22)+(%22%40gmail.com%22+OR+%22%40outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22+OR+%22collabs:%22)&sa=X&ved=2ahUKEwiCuKrowICVAxVamO4BHTvpMz4QtKgLegQIFBAB
+              - generic [ref=e87]: Images
+          - listitem [ref=e88]:
+            - link "Forums" [ref=e89] [cursor=pointer]:
+              - /url: /search?sca_esv=e266cabde4f9b998&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpmAsnXCN5UBx17opt8eaTX-kA7ovRmAIYWC70eULDzbpnQTYs94Mq8g6LHC3WhbQOljuR5mw9iVoN_pQSpe3kL2QziRKFPk1GwRfvEqRWO0ACO0L-tqEa3BA5gVm988p0zNX3UrQfTrxRo8ENOo0Ili3W4S8YJGewh6QgvUm7KNUixjmxV3hSS8SG4CbEtObVYWqwNA&q=site:instagram.com+(%22UGC+creator%22+OR+%22content+creator%22+OR+%22micro+influencer%22+OR+%22digital+creator%22)+(%22%40gmail.com%22+OR+%22%40outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22+OR+%22collabs:%22)&sa=X&ved=2ahUKEwiCuKrowICVAxVamO4BHTvpMz4Qs6gLegQIExAB
+              - generic [ref=e91]: Forums
+          - listitem [ref=e92]:
+            - link "Shopping" [ref=e93] [cursor=pointer]:
+              - /url: /search?sca_esv=e266cabde4f9b998&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpmAsnXCN5UBx17opt8eaTX-kA7ovRmAIYWC70eULDzbpnQTYs94Mq8g6LHC3WhbQOljuR5mw9iVoN_pQSpe3kL2QziRKFPk1GwRfvEqRWO0ACO0L-tqEa3BA5gVm988p0zNX3UrQfTrxRo8ENOo0Ili3W4S8YJGewh6QgvUm7KNUixjmxV3hSS8SG4CbEtObVYWqwNA&q=site:instagram.com+(%22UGC+creator%22+OR+%22content+creator%22+OR+%22micro+influencer%22+OR+%22digital+creator%22)+(%22%40gmail.com%22+OR+%22%40outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22+OR+%22collabs:%22)&ved=1t:220175&ictx=111
+              - generic [ref=e95]: Shopping
+          - listitem [ref=e96]:
+            - link "News" [ref=e97] [cursor=pointer]:
+              - /url: /search?sca_esv=e266cabde4f9b998&q=site:instagram.com+(%22UGC+creator%22+OR+%22content+creator%22+OR+%22micro+influencer%22+OR+%22digital+creator%22)+(%22%40gmail.com%22+OR+%22%40outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22+OR+%22collabs:%22)&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpmAsnXCN5UBx17opt8eaTX-kA7ovRmAIYWC70eULDzbpnQTYs94Mq8g6LHC3WhbQOljuR5mw9iVoN_pQSpe3kL2QziRKFPk1GwRfvEqRWO0ACO0L-tqEa3BA5gVm988p0zNX3UrQfTrxRo8ENOo0Ili3W4S8YJGewh6QgvUm7KNUixjmxV3hSS8SG4CbEtObVYWqwNA&sa=X&ved=2ahUKEwiCuKrowICVAxVamO4BHTvpMz4Q0pQJegQIERAB
+              - generic [ref=e99]: News
+          - listitem [ref=e100]:
+            - button "More filters" [ref=e101] [cursor=pointer]:
+              - generic "More filters" [ref=e102]:
+                - generic [ref=e103]:
+                  - generic [ref=e104]: More
+                  - img [ref=e106]
+        - button "Tools" [ref=e109] [cursor=pointer]:
+          - generic [ref=e111]:
+            - generic [ref=e112]: Tools
+            - img [ref=e114]
+    - heading "Search Results" [level=1] [ref=e116]
+    - main [ref=e122]:
+      - generic [ref=e126]:
+        - generic [ref=e130]:
+          - generic [ref=e132]:
+            - heading "Videos" [level=2] [ref=e133]
+            - button "About this result" [ref=e134] [cursor=pointer]:
+              - img [ref=e137]
+          - generic [ref=e140]:
+            - generic [ref=e145]:
+              - generic [ref=e146]:
+                - 'link "UGC Creator on Instagram: \"Posting this feels superrrrr ... Instagram Beth Brookfield | UGC Creator 12 hours ago" [ref=e148] [cursor=pointer]':
+                  - /url: https://www.instagram.com/reel/DZcnhD4iUqz/
+                  - 'heading "UGC Creator on Instagram: \"Posting this feels superrrrr ... Instagram Beth Brookfield | UGC Creator 12 hours ago" [level=3] [ref=e149]':
+                    - generic [ref=e152]: "UGC Creator on Instagram: \"Posting this feels superrrrr ..."
+                    - generic [ref=e154]:
+                      - generic [ref=e155]:
+                        - text: Instagram
+                        - generic [ref=e156]: · Beth Brookfield | UGC Creator
+                      - generic [ref=e157]: 12 hours ago
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - text: Instagram
+                          - generic: · Beth Brookfield | UGC Creator
+                    - button "About this result" [ref=e158] [cursor=pointer]:
+                      - img [ref=e161]
+              - 'link "UGC Creator on Instagram: \"Posting this feels superrrrr ... by Beth Brookfield | UGC Creator on Instagram. Play on Instagram. 0:40" [ref=e163] [cursor=pointer]':
+                - /url: https://www.instagram.com/reel/DZcnhD4iUqz/
+                - generic [ref=e164]:
+                  - img [ref=e167]
+                  - generic [ref=e171]: 0:40
+            - generic [ref=e176]:
+              - generic [ref=e177]:
+                - link "This is your sign to start your creator journey. Every PR ... Instagram Tanya Chawla | UGC Creator 2 days ago" [ref=e179] [cursor=pointer]:
+                  - /url: https://www.instagram.com/reel/DZX3XttBCGG/
+                  - heading "This is your sign to start your creator journey. Every PR ... Instagram Tanya Chawla | UGC Creator 2 days ago" [level=3] [ref=e180]:
+                    - generic [ref=e183]: This is your sign to start your creator journey. Every PR ...
+                    - generic [ref=e185]:
+                      - generic [ref=e186]:
+                        - text: Instagram
+                        - generic [ref=e187]: · Tanya Chawla | UGC Creator
+                      - generic [ref=e188]: 2 days ago
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - text: Instagram
+                          - generic: · Tanya Chawla | UGC Creator
+                    - button "About this result" [ref=e189] [cursor=pointer]:
+                      - img [ref=e192]
+              - link "This is your sign to start your creator journey. Every PR ... by Tanya Chawla | UGC Creator on Instagram. Play on Instagram. 0:55" [ref=e194] [cursor=pointer]:
+                - /url: https://www.instagram.com/reel/DZX3XttBCGG/
+                - generic [ref=e195]:
+                  - img [ref=e198]
+                  - generic [ref=e202]: 0:55
+            - generic [ref=e207]:
+              - generic [ref=e208]:
+                - 'link "POV: You get a brand email saying they “love your content” ... Instagram Nicole Marie Feb 25, 2026" [ref=e210] [cursor=pointer]':
+                  - /url: https://www.instagram.com/reel/DVMiK9UDn22/
+                  - 'heading "POV: You get a brand email saying they “love your content” ... Instagram Nicole Marie Feb 25, 2026" [level=3] [ref=e211]':
+                    - generic [ref=e214]: "POV: You get a brand email saying they “love your content” ..."
+                    - generic [ref=e216]:
+                      - generic [ref=e217]:
+                        - text: Instagram
+                        - generic [ref=e218]: · Nicole Marie
+                      - generic [ref=e219]: Feb 25, 2026
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - text: Instagram
+                          - generic: · Nicole Marie
+                    - button "About this result" [ref=e220] [cursor=pointer]:
+                      - img [ref=e223]
+              - 'link "POV: You get a brand email saying they “love your content” ... by Nicole Marie on Instagram. Play on Instagram. 2:47" [ref=e225] [cursor=pointer]':
+                - /url: https://www.instagram.com/reel/DVMiK9UDn22/
+                - generic [ref=e226]:
+                  - img [ref=e229]
+                  - generic [ref=e233]: 2:47
+            - generic [ref=e238]:
+              - generic [ref=e239]:
+                - link "Pinch me brands I've had the pleasure of working with as a ... Instagram Charli | Melbourne Content Creator UGC 5 days ago" [ref=e241] [cursor=pointer]:
+                  - /url: https://www.instagram.com/reel/DZQxsYeh9y6/
+                  - heading "Pinch me brands I've had the pleasure of working with as a ... Instagram Charli | Melbourne Content Creator UGC 5 days ago" [level=3] [ref=e242]:
+                    - generic [ref=e245]: Pinch me brands I've had the pleasure of working with as a ...
+                    - generic [ref=e247]:
+                      - generic [ref=e248]:
+                        - text: Instagram
+                        - generic [ref=e249]: · Charli | Melbourne Content Creator UGC
+                      - generic [ref=e250]: 5 days ago
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - text: Instagram
+                          - generic: · Charli | Melbourne Content Creator UGC
+                    - button "About this result" [ref=e251] [cursor=pointer]:
+                      - img [ref=e254]
+              - link "Pinch me brands I've had the pleasure of working with as a ... by Charli | Melbourne Content Creator UGC on Instagram. Play on Instagram. 0:10" [ref=e256] [cursor=pointer]:
+                - /url: https://www.instagram.com/reel/DZQxsYeh9y6/
+                - generic [ref=e257]:
+                  - img [ref=e260]
+                  - generic [ref=e264]: 0:10
+          - link "View all videos" [ref=e267] [cursor=pointer]:
+            - /url: /search?sca_esv=e266cabde4f9b998&udm=7&q=site:instagram.com+(%22UGC+creator%22+OR+%22content+creator%22+OR+%22micro+influencer%22+OR+%22digital+creator%22)+(%22%40gmail.com%22+OR+%22%40outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22+OR+%22collabs:%22)&sa=X&ved=2ahUKEwiCuKrowICVAxVamO4BHTvpMz4Q8ccDKAJ6BAgaEAQ
+            - separator [ref=e268]
+            - generic [ref=e269]:
+              - generic [ref=e270]: View all
+              - img [ref=e272]
+        - generic [ref=e276]:
+          - heading "Web results" [level=2] [ref=e277]
+          - generic [ref=e278]:
+            - generic [ref=e281]:
+              - link "proof you CAN get collabs / PR as a micro influencer ... Instagram · lilacraindrops98 870+ likes · 3 weeks ago" [ref=e283] [cursor=pointer]:
+                - /url: https://www.instagram.com/p/DYXIYglkeoJ/
+                - heading "proof you CAN get collabs / PR as a micro influencer ..." [level=3] [ref=e284]
+                - generic [ref=e290]:
+                  - generic [ref=e292]: Instagram · lilacraindrops98
+                  - generic [ref=e294]: 870+ likes · 3 weeks ago
+              - button "About this result" [ref=e295] [cursor=pointer]:
+                - img [ref=e298]
+            - generic [ref=e301]:
+              - generic [ref=e302]:
+                - text: "[brand"
+                - emphasis [ref=e303]: collabs
+                - text: ", ugc"
+                - emphasis [ref=e304]: content creator
+                - text: ","
+                - emphasis [ref=e305]: content creator
+                - text: "]. more. May 6. OCR ..."
+                - emphasis [ref=e306]: email
+                - text: for
+                - emphasis [ref=e307]: collabs
+                - text: "cori@lyn-house.com #ugccreator ..."
+              - link "Read more" [ref=e308] [cursor=pointer]:
+                - /url: https://www.instagram.com/p/DYXIYglkeoJ/#:~:text=more,OCR&text=more
+            - link "site:instagram.com (\"UGC creator\" OR \"content creator\" OR \"micro influencer\" OR \"digital creator\") (\"@gmail.com\" OR \"@outlook.com\" OR \"email:\" OR \"business inquiries\" OR \"collabs:\") from www.instagram.com" [ref=e311] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DYXIYglkeoJ/
+              - img "site:instagram.com (\"UGC creator\" OR \"content creator\" OR \"micro influencer\" OR \"digital creator\") (\"@gmail.com\" OR \"@outlook.com\" OR \"email:\" OR \"business inquiries\" OR \"collabs:\") from www.instagram.com" [ref=e313]
+        - generic [ref=e317]:
+          - generic [ref=e320]:
+            - link "🧸welcome to my mini UGC creator portfolio! ⭐️ 💌 ... Instagram · stephaniejmagno 30+ likes · 1 month ago" [ref=e322] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXv2pe7kYn_/
+              - heading "🧸welcome to my mini UGC creator portfolio! ⭐️ 💌 ..." [level=3] [ref=e323]
+              - generic [ref=e329]:
+                - generic [ref=e331]: Instagram · stephaniejmagno
+                - generic [ref=e333]: 30+ likes · 1 month ago
+            - button "About this result" [ref=e334] [cursor=pointer]:
+              - img [ref=e337]
+          - generic [ref=e340]:
+            - generic [ref=e341]:
+              - text: For
+              - emphasis [ref=e342]: collabs
+              - text: ", DM or"
+              - emphasis [ref=e343]: email
+              - text: me at stephaniejmagno@
+              - emphasis [ref=e344]: gmail.com
+              - text: .
+              - emphasis [ref=e345]: UGC
+              - text: ... Brands I've Collaborated With as a
+              - emphasis [ref=e346]: Content Creator
+              - text: (
+              - emphasis [ref=e347]: UGC Creator
+              - text: Edition)
+            - link "Read more" [ref=e348] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXv2pe7kYn_/#:~:text=more&text=Brands%20I've%20Collaborated%20With%20as,Creator%20(UGC%20Creator%20Edition)%20%F0%9F%A4%8D
+        - generic [ref=e352]:
+          - generic [ref=e355]:
+            - link "Gifted collabs helped me build experience in the beginning ... Instagram · yangsamantha_ 400+ likes · 3 weeks ago" [ref=e357] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DYkdfwulROC/
+              - heading "Gifted collabs helped me build experience in the beginning ..." [level=3] [ref=e358]
+              - generic [ref=e364]:
+                - generic [ref=e366]: Instagram · yangsamantha_
+                - generic [ref=e368]: 400+ likes · 3 weeks ago
+            - button "About this result" [ref=e369] [cursor=pointer]:
+              - img [ref=e372]
+          - generic [ref=e375]:
+            - generic [ref=e376]:
+              - text: ": gsmontoya4@"
+              - emphasis [ref=e377]: gmail.com
+              - text: stay at home mom creator |
+              - emphasis [ref=e378]: ugc creator
+              - text: journey | motherhood
+              - emphasis [ref=e379]: content creator
+              - text: "| mom"
+              - emphasis [ref=e380]: content creator
+              - text: "| ugc for ..."
+            - link "Read more" [ref=e381] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DYkdfwulROC/#:~:text=%F0%9F%93%A7%3A%20gsmontoya4%40gmail.com,content%20creator%20%7C%20ugc%20for
+        - generic [ref=e385]:
+          - generic [ref=e388]:
+            - 'link "💚🧚‍♀️ . . #content #creator #ugccreator Instagram · kesougc 370+ likes · 1 day ago" [ref=e390] [cursor=pointer]':
+              - /url: https://www.instagram.com/p/DZaNBxACBVs/
+              - 'heading "💚🧚‍♀️ . . #content #creator #ugccreator" [level=3] [ref=e391]'
+              - generic [ref=e397]:
+                - generic [ref=e399]: Instagram · kesougc
+                - generic [ref=e401]: 370+ likes · 1 day ago
+            - button "About this result" [ref=e402] [cursor=pointer]:
+              - img [ref=e405]
+          - generic [ref=e408]:
+            - generic [ref=e409]:
+              - text: ...
+              - emphasis [ref=e410]: UGC Creator
+              - text: to create converting content for your brand, send me an
+              - emphasis [ref=e411]: email
+              - text: ": laura.ugcbusiness@"
+              - emphasis [ref=e412]: gmail.com
+              - text: "#ugc #ugccreator #ugccommunity ..."
+            - link "Read more" [ref=e413] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZaNBxACBVs/#:~:text=If%20you're%20a%20brand%20looking,%23ugc%20%23ugccreator%20%23ugccommunity%20%23ugccreator%20%23ugcjourney
+        - generic [ref=e417]:
+          - generic [ref=e420]:
+            - link "Fully embracing my content creator era 💛 Hey Brands, are ... Instagram · socialsbymarina 30+ likes · 10 months ago" [ref=e422] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DMcyJaVoWhj/
+              - heading "Fully embracing my content creator era 💛 Hey Brands, are ..." [level=3] [ref=e423]
+              - generic [ref=e429]:
+                - generic [ref=e431]: Instagram · socialsbymarina
+                - generic [ref=e433]: 30+ likes · 10 months ago
+            - button "About this result" [ref=e434] [cursor=pointer]:
+              - img [ref=e437]
+          - generic [ref=e441]:
+            - text: ...
+            - emphasis [ref=e442]: content creator
+            - text: era Hey Brands, are you looking for your next
+            - emphasis [ref=e443]: UGC creator
+            - text: "? ✨ Let's chat! DM or"
+            - emphasis [ref=e444]: email
+            - text: ": ugc.content.marina@"
+            - emphasis [ref=e445]: gmail.com
+            - text: ...
+        - generic [ref=e449]:
+          - generic [ref=e452]:
+            - link "Should you offer free/gifted collabs as a UGC creator? 🤔 ... Instagram · mummymyhill 4 likes · 4 months ago" [ref=e454] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DUWVPiEjFc6/
+              - heading "Should you offer free/gifted collabs as a UGC creator? 🤔 ..." [level=3] [ref=e455]
+              - generic [ref=e461]:
+                - generic [ref=e463]: Instagram · mummymyhill
+                - generic [ref=e465]: 4 likes · 4 months ago
+            - button "About this result" [ref=e466] [cursor=pointer]:
+              - img [ref=e469]
+          - generic [ref=e472]:
+            - generic [ref=e473]:
+              - text: ...
+              - emphasis [ref=e474]: collabs
+              - text: as a
+              - emphasis [ref=e475]: UGC creator
+              - text: ...
+              - emphasis [ref=e476]: ugc creator
+              - text: tips ·
+              - emphasis [ref=e477]: content creator
+              - text: growth · nellakirtley's profile picture · nellakirtley. •. Follow. 1 like.
+            - link "Read more" [ref=e478] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DUWVPiEjFc6/#:~:text=Should%20you%20offer%20free%2Fgifted%20collabs,as%20a%20UGC%20creator&text=ugc%20creator%20tips,1%20like
+        - generic [ref=e482]:
+          - generic [ref=e485]:
+            - link "What's your take on gifted collabs? 👀 I think they can be a ... Instagram · itsrachaelmarissa 20+ likes · 1 month ago" [ref=e487] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXfFs75CP-O/
+              - heading "What's your take on gifted collabs? 👀 I think they can be a ..." [level=3] [ref=e488]
+              - generic [ref=e494]:
+                - generic [ref=e496]: Instagram · itsrachaelmarissa
+                - generic [ref=e498]: 20+ likes · 1 month ago
+            - button "About this result" [ref=e499] [cursor=pointer]:
+              - img [ref=e502]
+          - generic [ref=e505]:
+            - generic [ref=e506]:
+              - text: ...
+              - emphasis [ref=e507]: UGC creator
+              - text: "| What's your take on gifted"
+              - emphasis [ref=e508]: collabs
+              - text: "? I think ..."
+              - emphasis [ref=e509]: ugc creator
+              - text: life · brand deals · user generated
+              - emphasis [ref=e510]: content · creator
+              - text: income
+            - link "Read more" [ref=e511] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXfFs75CP-O/#:~:text=Rachael%20%2D%20motherhood%20%2B%20lifestyle,saying%20yes%20to...%20%7C%20Instagram&text=more
+        - generic [ref=e517]:
+          - generic [ref=e520]:
+            - link "Scam alert for UGC creators! I've been seeing too many ... Instagram · ielainenunesofficial 10+ likes · 7 months ago" [ref=e522] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DQ4fYjRCWdd/
+              - heading "Scam alert for UGC creators! I've been seeing too many ..." [level=3] [ref=e523]
+              - generic [ref=e529]:
+                - generic [ref=e531]: Instagram · ielainenunesofficial
+                - generic [ref=e533]: 10+ likes · 7 months ago
+            - button "About this result" [ref=e534] [cursor=pointer]:
+              - img [ref=e537]
+          - generic [ref=e539]:
+            - link "Scam alert for UGC creators! I've been seeing too many ... by ielaine | UGC Content & Digital Creator on Instagram. Play on Instagram. 2:36" [ref=e540] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DQ4fYjRCWdd/
+              - generic [ref=e542]:
+                - img [ref=e548]
+                - generic [ref=e552]: 2:36
+            - generic [ref=e554]: They're using a @gmail.com email. Most real brands usually contact ... UGC creator, personal brand, content creator, brand deals ...
+        - generic [ref=e558]:
+          - heading "Images" [level=2] [ref=e562]
+          - generic [ref=e566]:
+            - generic [ref=e570] [cursor=pointer]:
+              - link "circle of brand collabs 🫠, (content creator, influencer, micro content creator, brand deals, how to make money, how much i earn as a content creator, fyp, content equipment , paid collabs, influencer ... Instagram":
+                - /url: https://www.instagram.com/reel/DVqgNc1M34u/
+              - button "circle of brand collabs 🫠, (content creator, influencer, micro content creator, brand deals, how to make money, how much i earn as a content creator, fyp, content equipment , paid collabs, influencer ..." [ref=e572]:
+                - img "circle of brand collabs 🫠, (content creator, influencer, micro content creator, brand deals, how to make money, how much i earn as a content creator, fyp, content equipment , paid collabs, influencer ..." [ref=e574]
+              - generic [ref=e576]:
+                - generic [ref=e578]: circle of brand collabs 🫠, (content creator, influencer, micro content creator, brand deals, how to make money, how much i earn as a content creator, fyp, content equipment , paid collabs, influencer ...
+                - generic [ref=e579]:
+                  - generic [ref=e586]: Instagram
+                  - button "About this result" [ref=e589]:
+                    - img [ref=e592]
+            - generic [ref=e597] [cursor=pointer]:
+              - 'link "content creator tips on getting more paid collabs & pr gifting 📝📸🤳🏼💸, @statusphere, #statusphere, #contentcreatortips, #brandcollabs, #gifted Instagram"':
+                - /url: https://www.instagram.com/reel/DUUIB2dDQLH/
+              - 'button "content creator tips on getting more paid collabs & pr gifting 📝📸🤳🏼💸, @statusphere, #statusphere, #contentcreatortips, #brandcollabs, #gifted" [ref=e599]':
+                - 'img "content creator tips on getting more paid collabs & pr gifting 📝📸🤳🏼💸, @statusphere, #statusphere, #contentcreatortips, #brandcollabs, #gifted" [ref=e601]'
+              - generic [ref=e603]:
+                - generic [ref=e605]: "content creator tips on getting more paid collabs & pr gifting 📝📸🤳🏼💸, @statusphere, #statusphere, #contentcreatortips, #brandcollabs, #gifted"
+                - generic [ref=e606]:
+                  - generic [ref=e613]: Instagram
+                  - button "About this result" [ref=e616]:
+                    - img [ref=e619]
+            - generic [ref=e624] [cursor=pointer]:
+              - 'link "UGC Series 4: Gifted Collaboration to Paid Collaborations, Don’t always take the first no as the final decision. Negotiation is key. , Need UGC?! , Email: Jahtoya.Rodriquez@gmail.com, ... Instagram"':
+                - /url: https://www.instagram.com/reel/DZHXSHpt2tR/
+              - 'button "UGC Series 4: Gifted Collaboration to Paid Collaborations, Don’t always take the first no as the final decision. Negotiation is key. , Need UGC?! , Email: Jahtoya.Rodriquez@gmail.com, ..." [ref=e626]':
+                - 'img "UGC Series 4: Gifted Collaboration to Paid Collaborations, Don’t always take the first no as the final decision. Negotiation is key. , Need UGC?! , Email: Jahtoya.Rodriquez@gmail.com, ..." [ref=e628]'
+              - generic [ref=e630]:
+                - generic [ref=e632]: "UGC Series 4: Gifted Collaboration to Paid Collaborations, Don’t always take the first no as the final decision. Negotiation is key. , Need UGC?! , Email: Jahtoya.Rodriquez@gmail.com, ..."
+                - generic [ref=e633]:
+                  - generic [ref=e640]: Instagram
+                  - button "About this result" [ref=e643]:
+                    - img [ref=e646]
+          - button "Show more images" [ref=e649] [cursor=pointer]:
+            - separator [ref=e650]
+            - generic [ref=e651]:
+              - generic [ref=e652]: Show more images
+              - img [ref=e654]
+      - navigation [ref=e658]:
+        - heading "Page Navigation" [level=1] [ref=e659]
+        - text: "1"
+        - link "Page 2" [ref=e662] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22UGC+creator%22+OR+%22content+creator%22+OR+%22micro+influencer%22+OR+%22digital+creator%22)+(%22@gmail.com%22+OR+%22@outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22+OR+%22collabs:%22)&sca_esv=e266cabde4f9b998&ei=-1orasLOKNqwur8Pu9LP8QM&start=10&sa=N&sstk=AU9db-ADKKWx9ejw8s1dk42zwbCEBZp5AoCbQJwVRTe6T_ipNy86E-v6iMsQx3Y0f1OEM3zhWp0qCnesvWzGeBhjCSkhDJOdFWMBlQ&ved=2ahUKEwiCuKrowICVAxVamO4BHTvpMz4Q8tMDegQIHxAE
+          - text: "2"
+        - link "Page 3" [ref=e664] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22UGC+creator%22+OR+%22content+creator%22+OR+%22micro+influencer%22+OR+%22digital+creator%22)+(%22@gmail.com%22+OR+%22@outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22+OR+%22collabs:%22)&sca_esv=e266cabde4f9b998&ei=-1orasLOKNqwur8Pu9LP8QM&start=20&sa=N&sstk=AU9db-ADKKWx9ejw8s1dk42zwbCEBZp5AoCbQJwVRTe6T_ipNy86E-v6iMsQx3Y0f1OEM3zhWp0qCnesvWzGeBhjCSkhDJOdFWMBlQ&ved=2ahUKEwiCuKrowICVAxVamO4BHTvpMz4Q8tMDegQIHxAG
+          - text: "3"
+        - link "Page 4" [ref=e666] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22UGC+creator%22+OR+%22content+creator%22+OR+%22micro+influencer%22+OR+%22digital+creator%22)+(%22@gmail.com%22+OR+%22@outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22+OR+%22collabs:%22)&sca_esv=e266cabde4f9b998&ei=-1orasLOKNqwur8Pu9LP8QM&start=30&sa=N&sstk=AU9db-ADKKWx9ejw8s1dk42zwbCEBZp5AoCbQJwVRTe6T_ipNy86E-v6iMsQx3Y0f1OEM3zhWp0qCnesvWzGeBhjCSkhDJOdFWMBlQ&ved=2ahUKEwiCuKrowICVAxVamO4BHTvpMz4Q8tMDegQIHxAI
+          - text: "4"
+        - link "Page 5" [ref=e668] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22UGC+creator%22+OR+%22content+creator%22+OR+%22micro+influencer%22+OR+%22digital+creator%22)+(%22@gmail.com%22+OR+%22@outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22+OR+%22collabs:%22)&sca_esv=e266cabde4f9b998&ei=-1orasLOKNqwur8Pu9LP8QM&start=40&sa=N&sstk=AU9db-ADKKWx9ejw8s1dk42zwbCEBZp5AoCbQJwVRTe6T_ipNy86E-v6iMsQx3Y0f1OEM3zhWp0qCnesvWzGeBhjCSkhDJOdFWMBlQ&ved=2ahUKEwiCuKrowICVAxVamO4BHTvpMz4Q8tMDegQIHxAK
+          - text: "5"
+        - link "Page 6" [ref=e670] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22UGC+creator%22+OR+%22content+creator%22+OR+%22micro+influencer%22+OR+%22digital+creator%22)+(%22@gmail.com%22+OR+%22@outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22+OR+%22collabs:%22)&sca_esv=e266cabde4f9b998&ei=-1orasLOKNqwur8Pu9LP8QM&start=50&sa=N&sstk=AU9db-ADKKWx9ejw8s1dk42zwbCEBZp5AoCbQJwVRTe6T_ipNy86E-v6iMsQx3Y0f1OEM3zhWp0qCnesvWzGeBhjCSkhDJOdFWMBlQ&ved=2ahUKEwiCuKrowICVAxVamO4BHTvpMz4Q8tMDegQIHxAM
+          - text: "6"
+        - link "Page 7" [ref=e672] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22UGC+creator%22+OR+%22content+creator%22+OR+%22micro+influencer%22+OR+%22digital+creator%22)+(%22@gmail.com%22+OR+%22@outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22+OR+%22collabs:%22)&sca_esv=e266cabde4f9b998&ei=-1orasLOKNqwur8Pu9LP8QM&start=60&sa=N&sstk=AU9db-ADKKWx9ejw8s1dk42zwbCEBZp5AoCbQJwVRTe6T_ipNy86E-v6iMsQx3Y0f1OEM3zhWp0qCnesvWzGeBhjCSkhDJOdFWMBlQ&ved=2ahUKEwiCuKrowICVAxVamO4BHTvpMz4Q8tMDegQIHxAO
+          - text: "7"
+        - link "Page 8" [ref=e674] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22UGC+creator%22+OR+%22content+creator%22+OR+%22micro+influencer%22+OR+%22digital+creator%22)+(%22@gmail.com%22+OR+%22@outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22+OR+%22collabs:%22)&sca_esv=e266cabde4f9b998&ei=-1orasLOKNqwur8Pu9LP8QM&start=70&sa=N&sstk=AU9db-ADKKWx9ejw8s1dk42zwbCEBZp5AoCbQJwVRTe6T_ipNy86E-v6iMsQx3Y0f1OEM3zhWp0qCnesvWzGeBhjCSkhDJOdFWMBlQ&ved=2ahUKEwiCuKrowICVAxVamO4BHTvpMz4Q8tMDegQIHxAQ
+          - text: "8"
+        - link "Page 9" [ref=e676] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22UGC+creator%22+OR+%22content+creator%22+OR+%22micro+influencer%22+OR+%22digital+creator%22)+(%22@gmail.com%22+OR+%22@outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22+OR+%22collabs:%22)&sca_esv=e266cabde4f9b998&ei=-1orasLOKNqwur8Pu9LP8QM&start=80&sa=N&sstk=AU9db-ADKKWx9ejw8s1dk42zwbCEBZp5AoCbQJwVRTe6T_ipNy86E-v6iMsQx3Y0f1OEM3zhWp0qCnesvWzGeBhjCSkhDJOdFWMBlQ&ved=2ahUKEwiCuKrowICVAxVamO4BHTvpMz4Q8tMDegQIHxAS
+          - text: "9"
+        - link "Page 10" [ref=e678] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22UGC+creator%22+OR+%22content+creator%22+OR+%22micro+influencer%22+OR+%22digital+creator%22)+(%22@gmail.com%22+OR+%22@outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22+OR+%22collabs:%22)&sca_esv=e266cabde4f9b998&ei=-1orasLOKNqwur8Pu9LP8QM&start=90&sa=N&sstk=AU9db-ADKKWx9ejw8s1dk42zwbCEBZp5AoCbQJwVRTe6T_ipNy86E-v6iMsQx3Y0f1OEM3zhWp0qCnesvWzGeBhjCSkhDJOdFWMBlQ&ved=2ahUKEwiCuKrowICVAxVamO4BHTvpMz4Q8tMDegQIHxAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e680]:
+          - link "Next" [ref=e681] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+(%22UGC+creator%22+OR+%22content+creator%22+OR+%22micro+influencer%22+OR+%22digital+creator%22)+(%22@gmail.com%22+OR+%22@outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22+OR+%22collabs:%22)&sca_esv=e266cabde4f9b998&ei=-1orasLOKNqwur8Pu9LP8QM&start=10&sa=N&sstk=AU9db-ADKKWx9ejw8s1dk42zwbCEBZp5AoCbQJwVRTe6T_ipNy86E-v6iMsQx3Y0f1OEM3zhWp0qCnesvWzGeBhjCSkhDJOdFWMBlQ&ved=2ahUKEwiCuKrowICVAxVamO4BHTvpMz4Q8NMDegQIHxAW
+            - generic [ref=e683]: Next
+      - navigation
+    - contentinfo [ref=e684]:
+      - heading "Footer Links" [level=1] [ref=e685]
+      - generic [ref=e689]:
+        - generic [ref=e693]:
+          - button "85288, Tempe, AZ - From your IP address" [ref=e695] [cursor=pointer]:
+            - generic [ref=e696]: 85288, Tempe, AZ
+            - generic [ref=e698]:
+              - text: "-"
+              - generic [ref=e699]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e701] [cursor=pointer]: Update location
+        - generic [ref=e704]:
+          - link "Help" [ref=e705] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e706] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e707] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e708] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

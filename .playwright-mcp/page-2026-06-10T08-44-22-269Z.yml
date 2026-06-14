@@ -1,0 +1,335 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwiaqIX_o_yUAxUTJkQIHacuGtMQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "doctor" "headshot" "@gmail.com" site:instagram.com "doctor" "headshot" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522doctor%2522%2B%2522headshot%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22doctor%22+%22headshot%22+%22%40gmail.com%22&sca_esv=16a54cb5159ee727&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3p-ML-906rRL_m6h4jR-tdCH-vUIlZq9RzugLEcfjf51tr9alKJEUrIxLwKVr7l76Au_q3EffIYRCnmXOfCpNqrYZeaSIZHJjR2Q-yFTLl70SDlZkeCmUGCT31CgBeSX_rSyzrDksbw95kmMFTtNYQYJl6x3e4n2p62A2__KcqnpFriA3A&aep=1&ntc=1&sa=X&ved=2ahUKEwiaqIX_o_yUAxUTJkQIHacuGtMQ2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3p-ML-906rRL_m6h4jR-tdCH-vUIlZq9RzugLEcfjf51tr9alKJEUrIxLwKVr7l76Au_q3EffIYRCnmXOfCpNqrYZeaSIZHJjR2Q-yFTLl70SDlZkeCmUGCT31CgBeSX_rSyzrDksbw95kmMFTtNYQYJl6x3e4n2p62A2__KcqnpFriA3A&q=site:instagram.com+%22doctor%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwiaqIX_o_yUAxUTJkQIHacuGtMQtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "Videos" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3p-ML-906rRL_m6h4jR-tdCH-vUIlZq9RzugLEcfjf51tr9alKJEUrIxLwKVr7l76Au_q3EffIYRCnmXOfCpNqrYZeaSIZHJjR2Q-yFTLl70SDlZkeCmUGCT31CgBeSX_rSyzrDksbw95kmMFTtNYQYJl6x3e4n2p62A2__KcqnpFriA3A&q=site:instagram.com+%22doctor%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwiaqIX_o_yUAxUTJkQIHacuGtMQtKgLegQIFBAB
+              - generic [ref=e94]: Videos
+          - listitem [ref=e95]:
+            - link "Shopping" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3p-ML-906rRL_m6h4jR-tdCH-vUIlZq9RzugLEcfjf51tr9alKJEUrIxLwKVr7l76Au_q3EffIYRCnmXOfCpNqrYZeaSIZHJjR2Q-yFTLl70SDlZkeCmUGCT31CgBeSX_rSyzrDksbw95kmMFTtNYQYJl6x3e4n2p62A2__KcqnpFriA3A&q=site:instagram.com+%22doctor%22+%22headshot%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e98]: Shopping
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3p-ML-906rRL_m6h4jR-tdCH-vUIlZq9RzugLEcfjf51tr9alKJEUrIxLwKVr7l76Au_q3EffIYRCnmXOfCpNqrYZeaSIZHJjR2Q-yFTLl70SDlZkeCmUGCT31CgBeSX_rSyzrDksbw95kmMFTtNYQYJl6x3e4n2p62A2__KcqnpFriA3A&q=site:instagram.com+%22doctor%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwiaqIX_o_yUAxUTJkQIHacuGtMQs6gLegQIEhAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "News" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&q=site:instagram.com+%22doctor%22+%22headshot%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3p-ML-906rRL_m6h4jR-tdCH-vUIlZq9RzugLEcfjf51tr9alKJEUrIxLwKVr7l76Au_q3EffIYRCnmXOfCpNqrYZeaSIZHJjR2Q-yFTLl70SDlZkeCmUGCT31CgBeSX_rSyzrDksbw95kmMFTtNYQYJl6x3e4n2p62A2__KcqnpFriA3A&sa=X&ved=2ahUKEwiaqIX_o_yUAxUTJkQIHacuGtMQ0pQJegQIERAB
+              - generic [ref=e106]: News
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - 'link "Doctor/nurse headshot #televisionactor #castingcall ... Instagram · chasetm20 4 likes · 1 week ago" [ref=e143] [cursor=pointer]':
+                - /url: https://www.instagram.com/p/DZEJNFOCQTM/
+                - 'heading "Doctor/nurse headshot #televisionactor #castingcall ..." [level=3] [ref=e144]'
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram · chasetm20
+                  - generic [ref=e153]: 4 likes · 1 week ago
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e160]:
+              - generic [ref=e161]:
+                - emphasis [ref=e162]: Doctor
+                - text: /nurse
+                - emphasis [ref=e163]: headshot
+                - text: "#televisionactor #castingcall #losangelesactor #tvactor ... DM or Email greggywawaphotography@"
+                - emphasis [ref=e164]: gmail.com
+              - link "Read more" [ref=e165] [cursor=pointer]:
+                - /url: https://www.instagram.com/p/DZEJNFOCQTM/#:~:text=Doctor%2Fnurse%20headshot%20%23televisionactor%20%23castingcall%20%23losangelesactor,%23tvactor&text=more
+            - link "site:instagram.com \"doctor\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e168] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZEJNFOCQTM/
+              - img "site:instagram.com \"doctor\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e170]
+        - generic [ref=e174]:
+          - generic [ref=e177]:
+            - link "Loving these new headshots of our gorgeous and talented ... Instagram · joannadegeneres 40+ likes · 3 weeks ago" [ref=e179] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DYfV4LjGcBk/?img_index=4
+              - heading "Loving these new headshots of our gorgeous and talented ..." [level=3] [ref=e180]
+              - generic [ref=e185]:
+                - generic [ref=e187]: Instagram · joannadegeneres
+                - generic [ref=e189]: 40+ likes · 3 weeks ago
+            - button "About this result" [ref=e190] [cursor=pointer]:
+              - img [ref=e193]
+          - generic [ref=e196]:
+            - generic [ref=e197]:
+              - text: Brilliant
+              - emphasis [ref=e198]: doctor
+              - text: / consultant. Calm ... There's a difference between a beautiful
+              - emphasis [ref=e199]: headshot
+              - text: and a
+              - emphasis [ref=e200]: headshot
+              - text: that actually works for an actor.
+            - link "Read more" [ref=e201] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DYfV4LjGcBk/?img_index=4#:~:text=Brilliant%20doctor%20%2F%20consultant.,Calm%20authority.&text=There's%20a%20difference%20between%20a,actually%20works%20for%20an%20actor.
+          - link "site:instagram.com \"doctor\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e204] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DYfV4LjGcBk/?img_index=4
+            - img "site:instagram.com \"doctor\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e206]
+        - generic [ref=e210]:
+          - generic [ref=e213]:
+            - link "AUDITIONS FOR LITTLE RADICAL THEATRICS ... Instagram · littleradicaltheatrics 80+ likes · 2 weeks ago" [ref=e215] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DYuh9gjR_OE/
+              - heading "AUDITIONS FOR LITTLE RADICAL THEATRICS ..." [level=3] [ref=e216]
+              - generic [ref=e221]:
+                - generic [ref=e223]: Instagram · littleradicaltheatrics
+                - generic [ref=e225]: 80+ likes · 2 weeks ago
+            - button "About this result" [ref=e226] [cursor=pointer]:
+              - img [ref=e229]
+          - generic [ref=e232]:
+            - generic [ref=e233]:
+              - text: ...
+              - emphasis [ref=e234]: Doctor
+              - text: Phillips Center for the Performing Arts in Orlando FL TO MAKE ... Please email littleradicaltheatrics@
+              - emphasis [ref=e235]: gmail.com
+              - text: with your
+              - emphasis [ref=e236]: headshot
+              - text: ...
+            - link "Read more" [ref=e237] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DYuh9gjR_OE/#:~:text=Please%20email%20littleradicaltheatrics%40gmail.com%20with%20your,11%20PM%20MONDAY%20MAY%2025th!
+        - generic [ref=e241]:
+          - generic [ref=e244]:
+            - link "Headshot Photography in Buffalo New York by Mark Duggan Instagram · nickelcityheadshots 10+ likes · 12 months ago" [ref=e246] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DKxjmhNSNdo/
+              - heading "Headshot Photography in Buffalo New York by Mark Duggan" [level=3] [ref=e247]
+              - generic [ref=e252]:
+                - generic [ref=e254]: Instagram · nickelcityheadshots
+                - generic [ref=e256]: 10+ likes · 12 months ago
+            - button "About this result" [ref=e257] [cursor=pointer]:
+              - img [ref=e260]
+          - generic [ref=e263]:
+            - generic [ref=e264]:
+              - emphasis [ref=e265]: Doctor headshot
+              - text: with natural lighting.
+            - link "Read more" [ref=e266] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DKxjmhNSNdo/#:~:text=merakisocial_smm
+          - link "site:instagram.com \"doctor\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e269] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DKxjmhNSNdo/
+            - img "site:instagram.com \"doctor\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e271]
+        - generic [ref=e275]:
+          - generic [ref=e278]:
+            - link "Jon captured my personality and style. That's the kind of ... Instagram · sovane_photography 4 likes · 5 months ago" [ref=e280] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DTQQLioDdeI/
+              - heading "Jon captured my personality and style. That's the kind of ..." [level=3] [ref=e281]
+              - generic [ref=e286]:
+                - generic [ref=e288]: Instagram · sovane_photography
+                - generic [ref=e290]: 4 likes · 5 months ago
+            - button "About this result" [ref=e291] [cursor=pointer]:
+              - img [ref=e294]
+          - generic [ref=e297]:
+            - generic [ref=e298]:
+              - text: If you want to book an affordable, quality,
+              - emphasis [ref=e299]: headshot
+              - text: session please. DM or Email greggywawaphotography@
+              - emphasis [ref=e300]: gmail.com
+              - text: ". . . #headshotsnyc #headshots ..."
+            - link "Read more" [ref=e301] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DTQQLioDdeI/#:~:text=If%20you%20want%20to%20book,%23headshotsnyc%20%23headshots
+          - link "site:instagram.com \"doctor\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e304] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DTQQLioDdeI/
+            - img "site:instagram.com \"doctor\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e306]
+        - generic [ref=e312]:
+          - generic [ref=e315]:
+            - 'link "#photography #ttc #fertility whoever you are and whatever you ... Instagram · angiebeltsosmd_fertility 40+ likes · 2 months ago" [ref=e317] [cursor=pointer]':
+              - /url: https://www.instagram.com/reel/DWEv9ppDsTM/
+              - 'heading "#photography #ttc #fertility whoever you are and whatever you ..." [level=3] [ref=e318]'
+              - generic [ref=e323]:
+                - generic [ref=e325]: Instagram · angiebeltsosmd_fertility
+                - generic [ref=e327]: 40+ likes · 2 months ago
+            - button "About this result" [ref=e328] [cursor=pointer]:
+              - img [ref=e331]
+          - generic [ref=e333]:
+            - 'link "#photography #ttc #fertility whoever you are and whatever you ... by Angie Beltsos MD on Instagram. Play on Instagram. 1:30" [ref=e334] [cursor=pointer]':
+              - /url: https://www.instagram.com/reel/DWEv9ppDsTM/
+              - generic [ref=e336]:
+                - img [ref=e339]
+                - generic [ref=e343]: 1:30
+            - generic [ref=e345]: When you think of a doctor's headshot, you probably picture a ... cherylkimbroughphotos@gmail.com www.cherylkimbroughphotography ...
+        - generic [ref=e349]:
+          - generic [ref=e352]:
+            - link "✨Headshots✨🤩 I love hearing the stories about the goals ... Instagram · sara_touchet_photography 20+ likes · 1 year ago" [ref=e354] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DCpA_rwvyzi/
+              - heading "✨Headshots✨🤩 I love hearing the stories about the goals ..." [level=3] [ref=e355]
+              - generic [ref=e360]:
+                - generic [ref=e362]: Instagram · sara_touchet_photography
+                - generic [ref=e364]: 20+ likes · 1 year ago
+            - button "About this result" [ref=e365] [cursor=pointer]:
+              - img [ref=e368]
+          - generic [ref=e371]:
+            - generic [ref=e372]:
+              - text: ...
+              - emphasis [ref=e373]: headshot
+              - text: is needed because of a new business venture, promotion, new ... The
+              - emphasis [ref=e374]: doctor
+              - text: last night diagnosed me with extreme exhaustion…I ...
+            - link "Read more" [ref=e375] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DCpA_rwvyzi/#:~:text=The%20doctor%20last%20night%20diagnosed,all%20night%20with%20my%20kid.
+          - link "site:instagram.com \"doctor\" \"headshot\" \"@gmail.com\" images from www.instagram.com" [ref=e377] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DCpA_rwvyzi/
+        - generic [ref=e396]:
+          - generic [ref=e399]:
+            - 'link "Iris Booth on Instagram: \"Headshots for winter grads? Yes ... Instagram · irisbooth 2 likes · 5 months ago" [ref=e401] [cursor=pointer]':
+              - /url: https://www.instagram.com/reel/DTN9nMNDEBa/
+              - 'heading "Iris Booth on Instagram: \"Headshots for winter grads? Yes ..." [level=3] [ref=e402]'
+              - generic [ref=e407]:
+                - generic [ref=e409]: Instagram · irisbooth
+                - generic [ref=e411]: 2 likes · 5 months ago
+            - button "About this result" [ref=e412] [cursor=pointer]:
+              - img [ref=e415]
+          - generic [ref=e417]:
+            - 'link "Iris Booth on Instagram: \"Headshots for winter grads? Yes ... by Iris Booth on Instagram. Play on Instagram. 0:35" [ref=e418] [cursor=pointer]':
+              - /url: https://www.instagram.com/reel/DTN9nMNDEBa/
+              - generic [ref=e420]:
+                - img [ref=e423]
+                - generic [ref=e427]: 0:35
+            - generic [ref=e429]: p m @ com @asu.edu @gmail.com agree to the Terms of Service The ... headshot using the Iris Photo Booth. It is quick, easy and takes ...
+        - generic [ref=e433]:
+          - generic [ref=e436]:
+            - link "It's always a good time to update your headshot or get new ... Instagram · elleqclicks 8 likes · 1 week ago" [ref=e438] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZDkHnxINjC/
+              - heading "It's always a good time to update your headshot or get new ..." [level=3] [ref=e439]
+              - generic [ref=e444]:
+                - generic [ref=e446]: Instagram · elleqclicks
+                - generic [ref=e448]: 8 likes · 1 week ago
+            - button "About this result" [ref=e449] [cursor=pointer]:
+              - img [ref=e452]
+          - generic [ref=e455]:
+            - generic [ref=e456]:
+              - text: ☀️ bookautumnlee@
+              - emphasis [ref=e457]: gmail.com
+              - text: . more. View all 2 comments · amyharkerrosskopf ...
+              - emphasis [ref=e458]: Doctor headshot
+              - text: with natural lighting.
+            - link "Read more" [ref=e459] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZDkHnxINjC/#:~:text=more,amyharkerrosskopf&text=merakisocial_smm
+        - generic [ref=e463]:
+          - generic [ref=e466]:
+            - link "Illinois Portrait & Wedding Photographer on Instagram Instagram · kathleenmillerphotography 30+ likes · 4 weeks ago" [ref=e468] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DYS9ULoH8Rs/
+              - heading "Illinois Portrait & Wedding Photographer on Instagram" [level=3] [ref=e469]
+              - generic [ref=e474]:
+                - generic [ref=e476]: Instagram · kathleenmillerphotography
+                - generic [ref=e478]: 30+ likes · 4 weeks ago
+            - button "About this result" [ref=e479] [cursor=pointer]:
+              - img [ref=e482]
+          - generic [ref=e485]:
+            - generic [ref=e486]:
+              - emphasis [ref=e487]: Doctor headshot
+              - text: with natural lighting.
+            - link "Read more" [ref=e488] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DYS9ULoH8Rs/#:~:text=merakisocial_smm
+          - link "site:instagram.com \"doctor\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e491] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DYS9ULoH8Rs/
+            - img "site:instagram.com \"doctor\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e493]
+      - navigation [ref=e496]:
+        - heading "Page Navigation" [level=1] [ref=e497]
+        - text: "1"
+        - link "Page 2" [ref=e500] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22doctor%22+%22headshot%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=4yMpatqqK5PMkPIPp93omA0&start=10&sa=N&sstk=AU9db-DVQ91ceICrM2fk3ABTyu_jxqY56sbD4tPtv9RTNz5A_CRzSN6Tjn3hZ6NT2dkj9i5JXGWsuGyPGa6uMjWP-Kjrb1fVO4OksA&ved=2ahUKEwiaqIX_o_yUAxUTJkQIHacuGtMQ8tMDegQIKRAE
+          - text: "2"
+        - link "Page 3" [ref=e502] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22doctor%22+%22headshot%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=4yMpatqqK5PMkPIPp93omA0&start=20&sa=N&sstk=AU9db-DVQ91ceICrM2fk3ABTyu_jxqY56sbD4tPtv9RTNz5A_CRzSN6Tjn3hZ6NT2dkj9i5JXGWsuGyPGa6uMjWP-Kjrb1fVO4OksA&ved=2ahUKEwiaqIX_o_yUAxUTJkQIHacuGtMQ8tMDegQIKRAG
+          - text: "3"
+        - link "Page 4" [ref=e504] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22doctor%22+%22headshot%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=4yMpatqqK5PMkPIPp93omA0&start=30&sa=N&sstk=AU9db-DVQ91ceICrM2fk3ABTyu_jxqY56sbD4tPtv9RTNz5A_CRzSN6Tjn3hZ6NT2dkj9i5JXGWsuGyPGa6uMjWP-Kjrb1fVO4OksA&ved=2ahUKEwiaqIX_o_yUAxUTJkQIHacuGtMQ8tMDegQIKRAI
+          - text: "4"
+        - link "Page 5" [ref=e506] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22doctor%22+%22headshot%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=4yMpatqqK5PMkPIPp93omA0&start=40&sa=N&sstk=AU9db-DVQ91ceICrM2fk3ABTyu_jxqY56sbD4tPtv9RTNz5A_CRzSN6Tjn3hZ6NT2dkj9i5JXGWsuGyPGa6uMjWP-Kjrb1fVO4OksA&ved=2ahUKEwiaqIX_o_yUAxUTJkQIHacuGtMQ8tMDegQIKRAK
+          - text: "5"
+        - link "Page 6" [ref=e508] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22doctor%22+%22headshot%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=4yMpatqqK5PMkPIPp93omA0&start=50&sa=N&sstk=AU9db-DVQ91ceICrM2fk3ABTyu_jxqY56sbD4tPtv9RTNz5A_CRzSN6Tjn3hZ6NT2dkj9i5JXGWsuGyPGa6uMjWP-Kjrb1fVO4OksA&ved=2ahUKEwiaqIX_o_yUAxUTJkQIHacuGtMQ8tMDegQIKRAM
+          - text: "6"
+        - link "Page 7" [ref=e510] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22doctor%22+%22headshot%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=4yMpatqqK5PMkPIPp93omA0&start=60&sa=N&sstk=AU9db-DVQ91ceICrM2fk3ABTyu_jxqY56sbD4tPtv9RTNz5A_CRzSN6Tjn3hZ6NT2dkj9i5JXGWsuGyPGa6uMjWP-Kjrb1fVO4OksA&ved=2ahUKEwiaqIX_o_yUAxUTJkQIHacuGtMQ8tMDegQIKRAO
+          - text: "7"
+        - link "Page 8" [ref=e512] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22doctor%22+%22headshot%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=4yMpatqqK5PMkPIPp93omA0&start=70&sa=N&sstk=AU9db-DVQ91ceICrM2fk3ABTyu_jxqY56sbD4tPtv9RTNz5A_CRzSN6Tjn3hZ6NT2dkj9i5JXGWsuGyPGa6uMjWP-Kjrb1fVO4OksA&ved=2ahUKEwiaqIX_o_yUAxUTJkQIHacuGtMQ8tMDegQIKRAQ
+          - text: "8"
+        - link "Page 9" [ref=e514] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22doctor%22+%22headshot%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=4yMpatqqK5PMkPIPp93omA0&start=80&sa=N&sstk=AU9db-DVQ91ceICrM2fk3ABTyu_jxqY56sbD4tPtv9RTNz5A_CRzSN6Tjn3hZ6NT2dkj9i5JXGWsuGyPGa6uMjWP-Kjrb1fVO4OksA&ved=2ahUKEwiaqIX_o_yUAxUTJkQIHacuGtMQ8tMDegQIKRAS
+          - text: "9"
+        - link "Page 10" [ref=e516] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22doctor%22+%22headshot%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=4yMpatqqK5PMkPIPp93omA0&start=90&sa=N&sstk=AU9db-DVQ91ceICrM2fk3ABTyu_jxqY56sbD4tPtv9RTNz5A_CRzSN6Tjn3hZ6NT2dkj9i5JXGWsuGyPGa6uMjWP-Kjrb1fVO4OksA&ved=2ahUKEwiaqIX_o_yUAxUTJkQIHacuGtMQ8tMDegQIKRAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e518]:
+          - link "Next" [ref=e519] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22doctor%22+%22headshot%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=4yMpatqqK5PMkPIPp93omA0&start=10&sa=N&sstk=AU9db-DVQ91ceICrM2fk3ABTyu_jxqY56sbD4tPtv9RTNz5A_CRzSN6Tjn3hZ6NT2dkj9i5JXGWsuGyPGa6uMjWP-Kjrb1fVO4OksA&ved=2ahUKEwiaqIX_o_yUAxUTJkQIHacuGtMQ8NMDegQIKRAW
+            - generic [ref=e521]: Next
+      - navigation
+    - contentinfo [ref=e522]:
+      - heading "Footer Links" [level=1] [ref=e523]
+      - generic [ref=e527]:
+        - generic [ref=e531]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e533] [cursor=pointer]:
+            - generic [ref=e534]: 85281, Tempe, AZ
+            - generic [ref=e536]:
+              - text: "-"
+              - generic [ref=e537]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e539] [cursor=pointer]: Update location
+        - generic [ref=e542]:
+          - link "Help" [ref=e543] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e544] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e545] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e546] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

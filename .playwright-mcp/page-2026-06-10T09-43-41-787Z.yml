@@ -1,0 +1,327 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwjRwt-gsfyUAxVvKUQIHUciHGwQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "yoga teacher" "headshot" "@gmail.com" site:instagram.com "yoga teacher" "headshot" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522yoga%2Bteacher%2522%2B%2522headshot%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22yoga+teacher%22+%22headshot%22+%22%40gmail.com%22&sca_esv=d11ba7484cdf09fb&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3p-ML-906rRL_m6h4jR-tdCH-vUIlZq9RzugLEcfjf51b4dfDKizXS4hTwRCZW2TydVcnv1RUVx0SX0axPgL6aA1y5lH4oIQTHc9n3as9K40uq1ucVlSq7hphXixGrVbAHaxl4xbaQRNq-TBoJwkyHSzWgD1m8zRB8KZ0lvZ8gcgw8mFAQ&aep=1&ntc=1&sa=X&ved=2ahUKEwjRwt-gsfyUAxVvKUQIHUciHGwQ2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3p-ML-906rRL_m6h4jR-tdCH-vUIlZq9RzugLEcfjf51b4dfDKizXS4hTwRCZW2TydVcnv1RUVx0SX0axPgL6aA1y5lH4oIQTHc9n3as9K40uq1ucVlSq7hphXixGrVbAHaxl4xbaQRNq-TBoJwkyHSzWgD1m8zRB8KZ0lvZ8gcgw8mFAQ&q=site:instagram.com+%22yoga+teacher%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjRwt-gsfyUAxVvKUQIHUciHGwQtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "Videos" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3p-ML-906rRL_m6h4jR-tdCH-vUIlZq9RzugLEcfjf51b4dfDKizXS4hTwRCZW2TydVcnv1RUVx0SX0axPgL6aA1y5lH4oIQTHc9n3as9K40uq1ucVlSq7hphXixGrVbAHaxl4xbaQRNq-TBoJwkyHSzWgD1m8zRB8KZ0lvZ8gcgw8mFAQ&q=site:instagram.com+%22yoga+teacher%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjRwt-gsfyUAxVvKUQIHUciHGwQtKgLegQIFBAB
+              - generic [ref=e94]: Videos
+          - listitem [ref=e95]:
+            - link "Shopping" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3p-ML-906rRL_m6h4jR-tdCH-vUIlZq9RzugLEcfjf51b4dfDKizXS4hTwRCZW2TydVcnv1RUVx0SX0axPgL6aA1y5lH4oIQTHc9n3as9K40uq1ucVlSq7hphXixGrVbAHaxl4xbaQRNq-TBoJwkyHSzWgD1m8zRB8KZ0lvZ8gcgw8mFAQ&q=site:instagram.com+%22yoga+teacher%22+%22headshot%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e98]: Shopping
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3p-ML-906rRL_m6h4jR-tdCH-vUIlZq9RzugLEcfjf51b4dfDKizXS4hTwRCZW2TydVcnv1RUVx0SX0axPgL6aA1y5lH4oIQTHc9n3as9K40uq1ucVlSq7hphXixGrVbAHaxl4xbaQRNq-TBoJwkyHSzWgD1m8zRB8KZ0lvZ8gcgw8mFAQ&q=site:instagram.com+%22yoga+teacher%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjRwt-gsfyUAxVvKUQIHUciHGwQs6gLegQIERAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "Short videos" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=39&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3p-ML-906rRL_m6h4jR-tdCH-vUIlZq9RzugLEcfjf51b4dfDKizXS4hTwRCZW2TydVcnv1RUVx0SX0axPgL6aA1y5lH4oIQTHc9n3as9K40uq1ucVlSq7hphXixGrVbAHaxl4xbaQRNq-TBoJwkyHSzWgD1m8zRB8KZ0lvZ8gcgw8mFAQ&q=site:instagram.com+%22yoga+teacher%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjRwt-gsfyUAxVvKUQIHUciHGwQs6gLegQIExAB
+              - generic [ref=e106]: Short videos
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "Sophia ✿ Doula ✿ Yoga Teacher on ... Instagram · lemonblossombirthyoga 160+ likes · 3 years ago" [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/p/Cqb1UpqLim1/
+                - heading "Sophia ✿ Doula ✿ Yoga Teacher on ..." [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram · lemonblossombirthyoga
+                  - generic [ref=e153]: 160+ likes · 3 years ago
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e160]:
+              - generic [ref=e161]:
+                - text: ...
+                - emphasis [ref=e162]: headshot
+                - text: ". ✨ Photo credit: @ ... Please DM me or email sophialemonphillips@"
+                - emphasis [ref=e163]: gmail.com
+                - text: to register! If ...
+              - link "Read more" [ref=e164] [cursor=pointer]:
+                - /url: https://www.instagram.com/p/Cqb1UpqLim1/#:~:text=more
+        - generic [ref=e168]:
+          - generic [ref=e171]:
+            - link "Therapist, yoga teacher, cellist, dog mom extraordinaire. ... Instagram · darabankole_photo 10+ likes · 1 month ago" [ref=e173] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXHonypkW6e/
+              - heading "Therapist, yoga teacher, cellist, dog mom extraordinaire. ..." [level=3] [ref=e174]
+              - generic [ref=e179]:
+                - generic [ref=e181]: Instagram · darabankole_photo
+                - generic [ref=e183]: 10+ likes · 1 month ago
+            - button "About this result" [ref=e184] [cursor=pointer]:
+              - img [ref=e187]
+          - generic [ref=e190]:
+            - generic [ref=e191]:
+              - text: "DM me or send me an email to book a session: photosbyaarohir@"
+              - emphasis [ref=e192]: gmail.com
+              - text: ...
+              - emphasis [ref=e193]: headshot
+              - text: isn't just a photo. It's the first thing your future ...
+            - link "Read more" [ref=e194] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXHonypkW6e/#:~:text=DM%20me%20or%20send%20me,to%20book%20a%20session%3A%20photosbyaarohir%40gmail.com&text=Whether%20you're%20building%20your%20studio%2C,ever%20step%20onto%20the%20mat.
+          - link "site:instagram.com \"yoga teacher\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e197] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DXHonypkW6e/
+            - img "site:instagram.com \"yoga teacher\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e199]
+        - generic [ref=e203]:
+          - generic [ref=e206]:
+            - link "yoga branding photo session Instagram · laurenanzevino 40+ likes · 3 months ago" [ref=e208] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DVqoA3kkdZd/
+              - heading "yoga branding photo session" [level=3] [ref=e209]
+              - generic [ref=e214]:
+                - generic [ref=e216]: Instagram · laurenanzevino
+                - generic [ref=e218]: 40+ likes · 3 months ago
+            - button "About this result" [ref=e219] [cursor=pointer]:
+              - img [ref=e222]
+          - generic [ref=e225]:
+            - generic [ref=e226]:
+              - text: Certified
+              - emphasis [ref=e227]: Yoga teacher
+              - text: Amy is getting her yoga photos as well as a professional
+              - emphasis [ref=e228]: headshot
+              - text: "! This was fun - thanks to everyone this studio ..."
+            - link "Read more" [ref=e229] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DVqoA3kkdZd/#:~:text=Certified%20Yoga%20teacher%20Amy%20is,studio%20wouldn't%20function%20without%20yall!
+          - link "site:instagram.com \"yoga teacher\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e232] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DVqoA3kkdZd/
+            - img "site:instagram.com \"yoga teacher\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e234]
+        - generic [ref=e238]:
+          - generic [ref=e241]:
+            - link "Adaptive & Accessible Yoga Teacher (@allihopayoga) Instagram · allihopayoga 17.6K+ followers" [ref=e243] [cursor=pointer]:
+              - /url: https://www.instagram.com/allihopayoga/
+              - heading "Adaptive & Accessible Yoga Teacher (@allihopayoga)" [level=3] [ref=e244]
+              - generic [ref=e249]:
+                - generic [ref=e251]: Instagram · allihopayoga
+                - generic [ref=e253]: 17.6K+ followers
+            - button "About this result" [ref=e254] [cursor=pointer]:
+              - img [ref=e257]
+          - generic [ref=e261]:
+            - text: ...
+            - emphasis [ref=e262]: headshot
+            - text: .] We are living in a time where yoga has become an image. “Perfect” bodies ...
+          - link "site:instagram.com \"yoga teacher\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e265] [cursor=pointer]:
+            - /url: https://www.instagram.com/allihopayoga/
+            - img "site:instagram.com \"yoga teacher\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e267]
+        - generic [ref=e271]:
+          - generic [ref=e274]:
+            - link "hello and happy friday lovely people! ☀️ It's been a full on ... Instagram · alxdyle 8 likes · 1 week ago" [ref=e276] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DY71Dk5gljY/
+              - heading "hello and happy friday lovely people! ☀️ It's been a full on ..." [level=3] [ref=e277]
+              - generic [ref=e282]:
+                - generic [ref=e284]: Instagram · alxdyle
+                - generic [ref=e286]: 8 likes · 1 week ago
+            - button "About this result" [ref=e287] [cursor=pointer]:
+              - img [ref=e290]
+          - generic [ref=e293]:
+            - generic [ref=e294]:
+              - text: ...
+              - emphasis [ref=e295]: headshot
+              - text: "#yogateacher #yogalife ... theyogashalaa@"
+              - emphasis [ref=e296]: gmail.com
+              - text: ". . . #photographer #yoga #student #edinburgh. more. View all 3 comments."
+            - link "Read more" [ref=e297] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DY71Dk5gljY/#:~:text=headshot%20%23yogateacher%20%23yogalife&text=more,View%20all%203%20comments
+          - link "site:instagram.com \"yoga teacher\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e300] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DY71Dk5gljY/
+            - img "site:instagram.com \"yoga teacher\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e302]
+        - generic [ref=e306]:
+          - generic [ref=e309]:
+            - link "Jasmine ☾𖤓 Yoga Teacher (@jasminelilyyoga) Instagram · jasminelilyyoga 1.7K+ followers" [ref=e311] [cursor=pointer]:
+              - /url: https://www.instagram.com/jasminelilyyoga/
+              - heading "Jasmine ☾𖤓 Yoga Teacher (@jasminelilyyoga)" [level=3] [ref=e312]
+              - generic [ref=e317]:
+                - generic [ref=e319]: Instagram · jasminelilyyoga
+                - generic [ref=e321]: 1.7K+ followers
+            - button "About this result" [ref=e322] [cursor=pointer]:
+              - img [ref=e325]
+          - generic [ref=e329]:
+            - text: "... K+ followers · 957 following · 102 posts · @jasminelilyyoga: “ૐ 600hr Hatha, Ashtanga & Rocket®"
+            - emphasis [ref=e330]: Yoga Teacher
+            - text: ...
+            - emphasis [ref=e331]: gmail.com
+            - text: ) or WhatsApp (07588393974) ...
+        - generic [ref=e335]:
+          - generic [ref=e338]:
+            - link "Sorcha Finch (@sorchafinchyoga) Instagram · sorchafinchyoga 3.7K+ followers" [ref=e340] [cursor=pointer]:
+              - /url: https://www.instagram.com/sorchafinchyoga/
+              - heading "Sorcha Finch (@sorchafinchyoga)" [level=3] [ref=e341]
+              - generic [ref=e346]:
+                - generic [ref=e348]: Instagram · sorchafinchyoga
+                - generic [ref=e350]: 3.7K+ followers
+            - button "About this result" [ref=e351] [cursor=pointer]:
+              - img [ref=e354]
+          - generic [ref=e357]:
+            - generic [ref=e358]:
+              - text: Sorcha Finch · ⛓️
+              - emphasis [ref=e359]: Yoga Teacher
+              - text: + Handbalance Bespoke 1-2-1 coaching 🗡️ Senior Teacher w/ Yoga Pros ⚙️ TT March 28-June 21 sorchafinchyoga@
+              - emphasis [ref=e360]: gmail.com
+              - text: .
+            - link "Read more" [ref=e361] [cursor=pointer]:
+              - /url: https://www.instagram.com/sorchafinchyoga/#:~:text=Sorcha%20Finch&text=%E2%9B%93%EF%B8%8F%20Yoga%20Teacher%20%2B%20Handbalance,%F0%9F%92%8C%20sorchafinchyoga%40gmail.com
+        - generic [ref=e365]:
+          - generic [ref=e368]:
+            - link "Thanks for the new headshot @little_camera_photography ... Instagram · roz_hammond 80+ likes · 6 months ago" [ref=e370] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DRyYgAhEZFu/
+              - heading "Thanks for the new headshot @little_camera_photography ..." [level=3] [ref=e371]
+              - generic [ref=e376]:
+                - generic [ref=e378]: Instagram · roz_hammond
+                - generic [ref=e380]: 80+ likes · 6 months ago
+            - button "About this result" [ref=e381] [cursor=pointer]:
+              - img [ref=e384]
+          - generic [ref=e387]:
+            - generic [ref=e388]:
+              - text: ...
+              - emphasis [ref=e389]: yoga teacher
+              - text: for over decade, passionate EFT (tapping) advocate and ... WORKSHOPS RETURNING 2026 rozhammond@
+              - emphasis [ref=e390]: gmail.com
+              - text: www.rozhammond.com ...
+            - link "Read more" [ref=e391] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DRyYgAhEZFu/#:~:text=ROZ%20HAMMOND%20About%20Me%20I've,LONG%20TIME%20friend%20of%20anxiety.&text=WORKSHOPS%20RETURNING%202026%20rozhammond%40gmail.com%20www.rozhammond.com
+        - generic [ref=e395]:
+          - generic [ref=e398]:
+            - link "Larissa Pinkham (@larissapinkham_photography) Instagram · larissapinkham_photography 620+ followers" [ref=e400] [cursor=pointer]:
+              - /url: https://www.instagram.com/larissapinkham_photography/
+              - heading "Larissa Pinkham (@larissapinkham_photography)" [level=3] [ref=e401]
+              - generic [ref=e406]:
+                - generic [ref=e408]: Instagram · larissapinkham_photography
+                - generic [ref=e410]: 620+ followers
+            - button "About this result" [ref=e411] [cursor=pointer]:
+              - img [ref=e414]
+          - generic [ref=e418]:
+            - text: ...
+            - emphasis [ref=e419]: gmail.com
+            - text: ... I have two styles of
+            - emphasis [ref=e420]: headshot
+            - text: shoots in ...
+        - generic [ref=e424]:
+          - generic [ref=e427]:
+            - link "JEFFREY'S BACK! @jeffreyduvalyoga I'll cut to the good ... Instagram · sonicyoga 80+ likes · 1 year ago" [ref=e429] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DFeJClRvn94/
+              - heading "JEFFREY'S BACK! @jeffreyduvalyoga I'll cut to the good ..." [level=3] [ref=e430]
+              - generic [ref=e435]:
+                - generic [ref=e437]: Instagram · sonicyoga
+                - generic [ref=e439]: 80+ likes · 1 year ago
+            - button "About this result" [ref=e440] [cursor=pointer]:
+              - img [ref=e443]
+          - generic [ref=e446]:
+            - generic [ref=e447]:
+              - text: ...
+              - emphasis [ref=e448]: yoga teacher
+              - text: . A guy who taught me. A pillar of this family and a ... Professional
+              - emphasis [ref=e449]: Headshot
+              - text: / Portrait Session Exclusive Member & TT ...
+            - link "Read more" [ref=e450] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DFeJClRvn94/#:~:text=Professional%20Headshot%20%2F%20Portrait%20Session,Exclusive%20Member%20%26%20TT%20Rate
+          - link "site:instagram.com \"yoga teacher\" \"headshot\" \"@gmail.com\" images from www.instagram.com" [ref=e452] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DFeJClRvn94/
+      - navigation [ref=e468]:
+        - heading "Page Navigation" [level=1] [ref=e469]
+        - text: "1"
+        - link "Page 2" [ref=e472] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22yoga+teacher%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=zDEpatGsA-_SkPIPx8Tw4AY&start=10&sa=N&sstk=AU9db-Cpazy0tihZjOG8tcENm53lAwfXaX9O5iBxMBsHBpNPibTN0rsi0YEDHRroEsXoaQT3CEaylwJcSKv7E-1VaBYvqcy7gGAFtg&ved=2ahUKEwjRwt-gsfyUAxVvKUQIHUciHGwQ8tMDegQIOhAE
+          - text: "2"
+        - link "Page 3" [ref=e474] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22yoga+teacher%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=zDEpatGsA-_SkPIPx8Tw4AY&start=20&sa=N&sstk=AU9db-Cpazy0tihZjOG8tcENm53lAwfXaX9O5iBxMBsHBpNPibTN0rsi0YEDHRroEsXoaQT3CEaylwJcSKv7E-1VaBYvqcy7gGAFtg&ved=2ahUKEwjRwt-gsfyUAxVvKUQIHUciHGwQ8tMDegQIOhAG
+          - text: "3"
+        - link "Page 4" [ref=e476] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22yoga+teacher%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=zDEpatGsA-_SkPIPx8Tw4AY&start=30&sa=N&sstk=AU9db-Cpazy0tihZjOG8tcENm53lAwfXaX9O5iBxMBsHBpNPibTN0rsi0YEDHRroEsXoaQT3CEaylwJcSKv7E-1VaBYvqcy7gGAFtg&ved=2ahUKEwjRwt-gsfyUAxVvKUQIHUciHGwQ8tMDegQIOhAI
+          - text: "4"
+        - link "Page 5" [ref=e478] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22yoga+teacher%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=zDEpatGsA-_SkPIPx8Tw4AY&start=40&sa=N&sstk=AU9db-Cpazy0tihZjOG8tcENm53lAwfXaX9O5iBxMBsHBpNPibTN0rsi0YEDHRroEsXoaQT3CEaylwJcSKv7E-1VaBYvqcy7gGAFtg&ved=2ahUKEwjRwt-gsfyUAxVvKUQIHUciHGwQ8tMDegQIOhAK
+          - text: "5"
+        - link "Page 6" [ref=e480] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22yoga+teacher%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=zDEpatGsA-_SkPIPx8Tw4AY&start=50&sa=N&sstk=AU9db-Cpazy0tihZjOG8tcENm53lAwfXaX9O5iBxMBsHBpNPibTN0rsi0YEDHRroEsXoaQT3CEaylwJcSKv7E-1VaBYvqcy7gGAFtg&ved=2ahUKEwjRwt-gsfyUAxVvKUQIHUciHGwQ8tMDegQIOhAM
+          - text: "6"
+        - link "Page 7" [ref=e482] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22yoga+teacher%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=zDEpatGsA-_SkPIPx8Tw4AY&start=60&sa=N&sstk=AU9db-Cpazy0tihZjOG8tcENm53lAwfXaX9O5iBxMBsHBpNPibTN0rsi0YEDHRroEsXoaQT3CEaylwJcSKv7E-1VaBYvqcy7gGAFtg&ved=2ahUKEwjRwt-gsfyUAxVvKUQIHUciHGwQ8tMDegQIOhAO
+          - text: "7"
+        - link "Page 8" [ref=e484] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22yoga+teacher%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=zDEpatGsA-_SkPIPx8Tw4AY&start=70&sa=N&sstk=AU9db-Cpazy0tihZjOG8tcENm53lAwfXaX9O5iBxMBsHBpNPibTN0rsi0YEDHRroEsXoaQT3CEaylwJcSKv7E-1VaBYvqcy7gGAFtg&ved=2ahUKEwjRwt-gsfyUAxVvKUQIHUciHGwQ8tMDegQIOhAQ
+          - text: "8"
+        - link "Page 9" [ref=e486] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22yoga+teacher%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=zDEpatGsA-_SkPIPx8Tw4AY&start=80&sa=N&sstk=AU9db-Cpazy0tihZjOG8tcENm53lAwfXaX9O5iBxMBsHBpNPibTN0rsi0YEDHRroEsXoaQT3CEaylwJcSKv7E-1VaBYvqcy7gGAFtg&ved=2ahUKEwjRwt-gsfyUAxVvKUQIHUciHGwQ8tMDegQIOhAS
+          - text: "9"
+        - link "Page 10" [ref=e488] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22yoga+teacher%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=zDEpatGsA-_SkPIPx8Tw4AY&start=90&sa=N&sstk=AU9db-Cpazy0tihZjOG8tcENm53lAwfXaX9O5iBxMBsHBpNPibTN0rsi0YEDHRroEsXoaQT3CEaylwJcSKv7E-1VaBYvqcy7gGAFtg&ved=2ahUKEwjRwt-gsfyUAxVvKUQIHUciHGwQ8tMDegQIOhAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e490]:
+          - link "Next" [ref=e491] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22yoga+teacher%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=zDEpatGsA-_SkPIPx8Tw4AY&start=10&sa=N&sstk=AU9db-Cpazy0tihZjOG8tcENm53lAwfXaX9O5iBxMBsHBpNPibTN0rsi0YEDHRroEsXoaQT3CEaylwJcSKv7E-1VaBYvqcy7gGAFtg&ved=2ahUKEwjRwt-gsfyUAxVvKUQIHUciHGwQ8NMDegQIOhAW
+            - generic [ref=e493]: Next
+      - navigation
+    - contentinfo [ref=e494]:
+      - heading "Footer Links" [level=1] [ref=e495]
+      - generic [ref=e499]:
+        - generic [ref=e503]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e505] [cursor=pointer]:
+            - generic [ref=e506]: 85281, Tempe, AZ
+            - generic [ref=e508]:
+              - text: "-"
+              - generic [ref=e509]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e511] [cursor=pointer]: Update location
+        - generic [ref=e514]:
+          - link "Help" [ref=e515] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e516] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e517] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e518] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

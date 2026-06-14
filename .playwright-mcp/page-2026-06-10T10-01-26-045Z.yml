@@ -1,0 +1,339 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwji9Z-ctfyUAxUXI0QIHdfgIZQQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "virtual assistant" "headshot" "@gmail.com" site:instagram.com "virtual assistant" "headshot" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522virtual%2Bassistant%2522%2B%2522headshot%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22virtual+assistant%22+%22headshot%22+%22%40gmail.com%22&sca_esv=1eed3fc2a4e4618d&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfv0-kmEoNx105BF7reJYpKFILRtbyXgzvgazyBRuw2a_ZzMeH9EWfsQtByjudiTpC3OIE5w92ptN1DW8WQ_K4yaxJBOEnyhdVwcmgM_mof6kzE3txg&aep=1&ntc=1&sa=X&ved=2ahUKEwji9Z-ctfyUAxUXI0QIHdfgIZQQ2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfv0-kmEoNx105BF7reJYpKFILRtbyXgzvgazyBRuw2a_ZzMeH9EWfsQtByjudiTpC3OIE5w92ptN1DW8WQ_K4yaxJBOEnyhdVwcmgM_mof6kzE3txg&q=site:instagram.com+%22virtual+assistant%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwji9Z-ctfyUAxUXI0QIHdfgIZQQtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "Videos" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfv0-kmEoNx105BF7reJYpKFILRtbyXgzvgazyBRuw2a_ZzMeH9EWfsQtByjudiTpC3OIE5w92ptN1DW8WQ_K4yaxJBOEnyhdVwcmgM_mof6kzE3txg&q=site:instagram.com+%22virtual+assistant%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwji9Z-ctfyUAxUXI0QIHdfgIZQQtKgLegQIFBAB
+              - generic [ref=e94]: Videos
+          - listitem [ref=e95]:
+            - link "News" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&q=site:instagram.com+%22virtual+assistant%22+%22headshot%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfv0-kmEoNx105BF7reJYpKFILRtbyXgzvgazyBRuw2a_ZzMeH9EWfsQtByjudiTpC3OIE5w92ptN1DW8WQ_K4yaxJBOEnyhdVwcmgM_mof6kzE3txg&sa=X&ved=2ahUKEwji9Z-ctfyUAxUXI0QIHdfgIZQQ0pQJegQIExAB
+              - generic [ref=e98]: News
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfv0-kmEoNx105BF7reJYpKFILRtbyXgzvgazyBRuw2a_ZzMeH9EWfsQtByjudiTpC3OIE5w92ptN1DW8WQ_K4yaxJBOEnyhdVwcmgM_mof6kzE3txg&q=site:instagram.com+%22virtual+assistant%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwji9Z-ctfyUAxUXI0QIHdfgIZQQs6gLegQIEhAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=1eed3fc2a4e4618d&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfv0-kmEoNx105BF7reJYpKFILRtbyXgzvgazyBRuw2a_ZzMeH9EWfsQtByjudiTpC3OIE5w92ptN1DW8WQ_K4yaxJBOEnyhdVwcmgM_mof6kzE3txg&q=site:instagram.com+%22virtual+assistant%22+%22headshot%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "Headshots for this virtual assistant to have branding images that ... Instagram https://www.instagram.com › Post" [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/p/DKFcqvGRqZU/?hl=nb
+                - heading "Headshots for this virtual assistant to have branding images that ..." [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram
+                  - generic [ref=e153]: https://www.instagram.com › Post
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e161]:
+              - text: "... likes, 2 comments - tiadawnphotographyokc May 25, 2025: \"Headshots for this"
+              - emphasis [ref=e162]: virtual assistant
+              - text: ... photosbyirinaortiz@
+              - emphasis [ref=e163]: gmail.com
+              - text: "#portraits ... If your"
+              - emphasis [ref=e164]: headshot
+              - text: ...
+        - generic [ref=e168]:
+          - generic [ref=e171]:
+            - link "She did the thing. Jennie recently launched her virtual ... Instagram · jessicafeelyphotography 10+ likes · 1 week ago" [ref=e173] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZF4cL1Gr0m/
+              - heading "She did the thing. Jennie recently launched her virtual ..." [level=3] [ref=e174]
+              - generic [ref=e179]:
+                - generic [ref=e181]: Instagram · jessicafeelyphotography
+                - generic [ref=e183]: 10+ likes · 1 week ago
+            - button "About this result" [ref=e184] [cursor=pointer]:
+              - img [ref=e187]
+          - generic [ref=e190]:
+            - generic [ref=e191]:
+              - text: Photo by Jill Hadden |
+              - emphasis [ref=e192]: Virtual Assistant
+              - text: on June 01, 2026. May be an.
+            - link "Read more" [ref=e193] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZF4cL1Gr0m/#:~:text=28%20likes
+          - link "site:instagram.com \"virtual assistant\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e196] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DZF4cL1Gr0m/
+            - img "site:instagram.com \"virtual assistant\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e198]
+        - generic [ref=e202]:
+          - generic [ref=e205]:
+            - link "Zoe Rall | Chicago Photographer (@zoerallcreative) Instagram · zoerallcreative 130+ followers" [ref=e207] [cursor=pointer]:
+              - /url: https://www.instagram.com/zoerallcreative/
+              - heading "Zoe Rall | Chicago Photographer (@zoerallcreative)" [level=3] [ref=e208]
+              - generic [ref=e213]:
+                - generic [ref=e215]: Instagram · zoerallcreative
+                - generic [ref=e217]: 130+ followers
+            - button "About this result" [ref=e218] [cursor=pointer]:
+              - img [ref=e221]
+          - generic [ref=e224]:
+            - generic [ref=e225]:
+              - emphasis [ref=e226]: Headshot
+              - text: Photographer
+              - emphasis [ref=e227]: Virtual Assistant
+              - text: "Freelance Copywriter Send inquiries to: ZoeRallCreative@"
+              - emphasis [ref=e228]: gmail.com
+              - text: · Golden hour, crunchy leaves, and the sweetest ...
+            - link "Read more" [ref=e229] [cursor=pointer]:
+              - /url: https://www.instagram.com/zoerallcreative/#:~:text=%F0%9F%93%B8Headshot%20Photographer%20%F0%9F%92%BB%20Virtual%20Assistant,Send%20inquiries%20to%3A%20ZoeRallCreative%40gmail.com
+          - link "site:instagram.com \"virtual assistant\" \"headshot\" \"@gmail.com\" images from www.instagram.com" [ref=e231] [cursor=pointer]:
+            - /url: https://www.instagram.com/zoerallcreative/
+        - generic [ref=e248]:
+          - generic [ref=e251]:
+            - link "Your headshot or portrait is one of the hardest working ... Instagram · tamrynlowephotography 5 likes · 6 months ago" [ref=e253] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DRPWGPVjZpH/
+              - heading "Your headshot or portrait is one of the hardest working ..." [level=3] [ref=e254]
+              - generic [ref=e259]:
+                - generic [ref=e261]: Instagram · tamrynlowephotography
+                - generic [ref=e263]: 5 likes · 6 months ago
+            - button "About this result" [ref=e264] [cursor=pointer]:
+              - img [ref=e267]
+          - generic [ref=e270]:
+            - generic [ref=e271]:
+              - text: Let's be honest, does your current corporate
+              - emphasis [ref=e272]: headshot
+              - text: actually look like you, or is it a time capsule from five years ago?
+            - link "Read more" [ref=e273] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DRPWGPVjZpH/#:~:text=%E2%80%8BLet's%20be%20honest%2C%20does%20your,from%20five%20years%20ago%3F%20%F0%9F%98%85
+          - link "site:instagram.com \"virtual assistant\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e276] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DRPWGPVjZpH/
+            - img "site:instagram.com \"virtual assistant\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e278]
+        - generic [ref=e282]:
+          - generic [ref=e285]:
+            - link "Personal or corporate, update your headshot with me. DM ... Instagram · olyatheva 10+ likes · 2 weeks ago" [ref=e287] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DY17EXADLH6/
+              - heading "Personal or corporate, update your headshot with me. DM ..." [level=3] [ref=e288]
+              - generic [ref=e293]:
+                - generic [ref=e295]: Instagram · olyatheva
+                - generic [ref=e297]: 10+ likes · 2 weeks ago
+            - button "About this result" [ref=e298] [cursor=pointer]:
+              - img [ref=e301]
+          - generic [ref=e304]:
+            - generic [ref=e305]:
+              - text: STONE WOLF MEDIA YOUR
+              - emphasis [ref=e306]: HEADSHOT
+              - text: IS YOUR FIRST IMPRESSION. THE PROBLEM. MOST CORPORATE HEADSHOTS LOOK LIKE AN AFTERTHOUGHT. Blurry. Badly lit.
+            - link "Read more" [ref=e307] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DY17EXADLH6/#:~:text=STONE%20WOLF%20MEDIA%20YOUR%20HEADSHOT,AN%20AFTERTHOUGHT.%20Blurry.%20Badly%20lit.
+        - generic [ref=e311]:
+          - generic [ref=e314]:
+            - link "After uploading just a few selfies, this agent received a full ... Instagram · thestudiorealestate 1 like · 5 days ago" [ref=e316] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZL3KXXFOjp/
+              - heading "After uploading just a few selfies, this agent received a full ..." [level=3] [ref=e317]
+              - generic [ref=e322]:
+                - generic [ref=e324]: Instagram · thestudiorealestate
+                - generic [ref=e326]: 1 like · 5 days ago
+            - button "About this result" [ref=e327] [cursor=pointer]:
+              - img [ref=e330]
+          - generic [ref=e333]:
+            - generic [ref=e334]:
+              - text: My Agent Lens
+              - emphasis [ref=e335]: Headshot
+              - text: Generator Real Estate Agents 크결 GENERATE GENERATEYOUR YOUR PROFESSIONAL
+              - emphasis [ref=e336]: HEADSHOT
+              - text: NOW ... kristinbushnell@
+              - emphasis [ref=e337]: gmail.com
+              - text: .
+            - link "Read more" [ref=e338] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZL3KXXFOjp/#:~:text=My%20Agent%20Lens%20Headshot%20Generator,GENERATEYOUR%20YOUR%20PROFESSIONAL%20HEADSHOT%20NOW&text=%F0%9F%93%A7%20kristinbushnell%40gmail.com
+          - link "site:instagram.com \"virtual assistant\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e341] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DZL3KXXFOjp/
+            - img "site:instagram.com \"virtual assistant\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e343]
+        - generic [ref=e347]:
+          - generic [ref=e350]:
+            - link "Let's hear it for Arielle Cecil, Virtual Assistant. ... Instagram · redefiningyourbiz 10+ likes · 10 months ago" [ref=e352] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DMLYe66uqe6/
+              - heading "Let's hear it for Arielle Cecil, Virtual Assistant. ..." [level=3] [ref=e353]
+              - generic [ref=e358]:
+                - generic [ref=e360]: Instagram · redefiningyourbiz
+                - generic [ref=e362]: 10+ likes · 10 months ago
+            - button "About this result" [ref=e363] [cursor=pointer]:
+              - img [ref=e366]
+          - generic [ref=e369]:
+            - generic [ref=e370]:
+              - text: ...
+              - emphasis [ref=e371]: gmail.com
+              - text: I'm always proud to help her put her best face forward ... If you are an entrepreneur, founder, or solo professional, a single
+              - emphasis [ref=e372]: headshot
+              - text: ...
+            - link "Read more" [ref=e373] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DMLYe66uqe6/#:~:text=If%20you%20are%20an%20entrepreneur%2C,single%20headshot%20is%20rarely%20enough.
+          - link "site:instagram.com \"virtual assistant\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e376] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DMLYe66uqe6/
+            - img "site:instagram.com \"virtual assistant\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e378]
+        - generic [ref=e382]:
+          - generic [ref=e385]:
+            - link "A headshot isn't meant to do the job of brand photography ... Instagram · jill_neil 70+ likes · 4 months ago" [ref=e387] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DTlWNaUiUs8/
+              - heading "A headshot isn't meant to do the job of brand photography ..." [level=3] [ref=e388]
+              - generic [ref=e393]:
+                - generic [ref=e395]: Instagram · jill_neil
+                - generic [ref=e397]: 70+ likes · 4 months ago
+            - button "About this result" [ref=e398] [cursor=pointer]:
+              - img [ref=e401]
+          - generic [ref=e404]:
+            - generic [ref=e405]:
+              - text: ...
+              - emphasis [ref=e406]: Virtual assistant
+              - text: "@elevated_workflow Wholistic dentist ... cherylkimbroughphotos@"
+              - emphasis [ref=e407]: gmail.com
+              - text: www.cherylkimbroughphotography.com
+            - link "Read more" [ref=e408] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DTlWNaUiUs8/#:~:text=%F0%9F%93%A7%20cherylkimbroughphotos%40gmail.com,%F0%9F%8C%90%20www.cherylkimbroughphotography.com
+          - link "site:instagram.com \"virtual assistant\" \"headshot\" \"@gmail.com\" images from www.instagram.com" [ref=e410] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DTlWNaUiUs8/
+        - generic [ref=e427]:
+          - generic [ref=e430]:
+            - link "Not your regular Virtual Assistant. Instagram · theprincess_tee 7 likes · 2 months ago" [ref=e432] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DWrjjdniNXN/
+              - heading "Not your regular Virtual Assistant." [level=3] [ref=e433]
+              - generic [ref=e438]:
+                - generic [ref=e440]: Instagram · theprincess_tee
+                - generic [ref=e442]: 7 likes · 2 months ago
+            - button "About this result" [ref=e443] [cursor=pointer]:
+              - img [ref=e446]
+          - generic [ref=e449]:
+            - generic [ref=e450]:
+              - text: ...
+              - emphasis [ref=e451]: headshot
+              - text: in the second picture ... In need of a dedicated
+              - emphasis [ref=e452]: Virtual Assistant
+              - text: today we're a Dm away prosperodinaka32@
+              - emphasis [ref=e453]: gmail.com
+              - text: "# ..."
+            - link "Read more" [ref=e454] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DWrjjdniNXN/#:~:text=more&text=In%20need%20of%20a%20dedicated,a%20Dm%20away%20%F0%9F%91%87%20prosperodinaka32%40gmail.com
+          - link "site:instagram.com \"virtual assistant\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e457] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DWrjjdniNXN/
+            - img "site:instagram.com \"virtual assistant\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e459]
+        - generic [ref=e463]:
+          - generic [ref=e466]:
+            - link "#professinalheadshots Instagram · lozaphotography 1 week ago" [ref=e468] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZA7Zt1AISa/
+              - heading "#professinalheadshots" [level=3] [ref=e469]
+              - generic [ref=e474]:
+                - generic [ref=e476]: Instagram · lozaphotography
+                - generic [ref=e478]: 1 week ago
+            - button "About this result" [ref=e479] [cursor=pointer]:
+              - img [ref=e482]
+          - generic [ref=e485]:
+            - generic [ref=e486]:
+              - text: Professional
+              - emphasis [ref=e487]: headshot
+              - text: photography captures confidence, personality, and professionalism Perfect Linkedin orporate SHOW YOUR CONFIDENCE .
+            - link "Read more" [ref=e488] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZA7Zt1AISa/#:~:text=Professional%20headshot%20photography%20captures%20confidence%2C,customized%20tylean%20goals%20RESULTS%20finish.
+      - navigation [ref=e491]:
+        - heading "Page Navigation" [level=1] [ref=e492]
+        - text: "1"
+        - link "Page 2" [ref=e495] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22virtual+assistant%22+%22headshot%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=9DUpauKrFpfGkPIP18GHoQk&start=10&sa=N&sstk=AU9db-ABhpDxaP2pxuTRSJOEA1gqu18OrbI41f3WlTcytYJLrbPXuUJQGz4fo67CZUbJXzhmu0SkM-TSGG0QgcKfPPFvuARXgbPJTg&ved=2ahUKEwji9Z-ctfyUAxUXI0QIHdfgIZQQ8tMDegQIORAE
+          - text: "2"
+        - link "Page 3" [ref=e497] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22virtual+assistant%22+%22headshot%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=9DUpauKrFpfGkPIP18GHoQk&start=20&sa=N&sstk=AU9db-ABhpDxaP2pxuTRSJOEA1gqu18OrbI41f3WlTcytYJLrbPXuUJQGz4fo67CZUbJXzhmu0SkM-TSGG0QgcKfPPFvuARXgbPJTg&ved=2ahUKEwji9Z-ctfyUAxUXI0QIHdfgIZQQ8tMDegQIORAG
+          - text: "3"
+        - link "Page 4" [ref=e499] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22virtual+assistant%22+%22headshot%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=9DUpauKrFpfGkPIP18GHoQk&start=30&sa=N&sstk=AU9db-ABhpDxaP2pxuTRSJOEA1gqu18OrbI41f3WlTcytYJLrbPXuUJQGz4fo67CZUbJXzhmu0SkM-TSGG0QgcKfPPFvuARXgbPJTg&ved=2ahUKEwji9Z-ctfyUAxUXI0QIHdfgIZQQ8tMDegQIORAI
+          - text: "4"
+        - link "Page 5" [ref=e501] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22virtual+assistant%22+%22headshot%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=9DUpauKrFpfGkPIP18GHoQk&start=40&sa=N&sstk=AU9db-ABhpDxaP2pxuTRSJOEA1gqu18OrbI41f3WlTcytYJLrbPXuUJQGz4fo67CZUbJXzhmu0SkM-TSGG0QgcKfPPFvuARXgbPJTg&ved=2ahUKEwji9Z-ctfyUAxUXI0QIHdfgIZQQ8tMDegQIORAK
+          - text: "5"
+        - link "Page 6" [ref=e503] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22virtual+assistant%22+%22headshot%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=9DUpauKrFpfGkPIP18GHoQk&start=50&sa=N&sstk=AU9db-ABhpDxaP2pxuTRSJOEA1gqu18OrbI41f3WlTcytYJLrbPXuUJQGz4fo67CZUbJXzhmu0SkM-TSGG0QgcKfPPFvuARXgbPJTg&ved=2ahUKEwji9Z-ctfyUAxUXI0QIHdfgIZQQ8tMDegQIORAM
+          - text: "6"
+        - link "Page 7" [ref=e505] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22virtual+assistant%22+%22headshot%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=9DUpauKrFpfGkPIP18GHoQk&start=60&sa=N&sstk=AU9db-ABhpDxaP2pxuTRSJOEA1gqu18OrbI41f3WlTcytYJLrbPXuUJQGz4fo67CZUbJXzhmu0SkM-TSGG0QgcKfPPFvuARXgbPJTg&ved=2ahUKEwji9Z-ctfyUAxUXI0QIHdfgIZQQ8tMDegQIORAO
+          - text: "7"
+        - link "Page 8" [ref=e507] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22virtual+assistant%22+%22headshot%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=9DUpauKrFpfGkPIP18GHoQk&start=70&sa=N&sstk=AU9db-ABhpDxaP2pxuTRSJOEA1gqu18OrbI41f3WlTcytYJLrbPXuUJQGz4fo67CZUbJXzhmu0SkM-TSGG0QgcKfPPFvuARXgbPJTg&ved=2ahUKEwji9Z-ctfyUAxUXI0QIHdfgIZQQ8tMDegQIORAQ
+          - text: "8"
+        - link "Page 9" [ref=e509] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22virtual+assistant%22+%22headshot%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=9DUpauKrFpfGkPIP18GHoQk&start=80&sa=N&sstk=AU9db-ABhpDxaP2pxuTRSJOEA1gqu18OrbI41f3WlTcytYJLrbPXuUJQGz4fo67CZUbJXzhmu0SkM-TSGG0QgcKfPPFvuARXgbPJTg&ved=2ahUKEwji9Z-ctfyUAxUXI0QIHdfgIZQQ8tMDegQIORAS
+          - text: "9"
+        - link "Page 10" [ref=e511] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22virtual+assistant%22+%22headshot%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=9DUpauKrFpfGkPIP18GHoQk&start=90&sa=N&sstk=AU9db-ABhpDxaP2pxuTRSJOEA1gqu18OrbI41f3WlTcytYJLrbPXuUJQGz4fo67CZUbJXzhmu0SkM-TSGG0QgcKfPPFvuARXgbPJTg&ved=2ahUKEwji9Z-ctfyUAxUXI0QIHdfgIZQQ8tMDegQIORAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e513]:
+          - link "Next" [ref=e514] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22virtual+assistant%22+%22headshot%22+%22@gmail.com%22&sca_esv=1eed3fc2a4e4618d&ei=9DUpauKrFpfGkPIP18GHoQk&start=10&sa=N&sstk=AU9db-ABhpDxaP2pxuTRSJOEA1gqu18OrbI41f3WlTcytYJLrbPXuUJQGz4fo67CZUbJXzhmu0SkM-TSGG0QgcKfPPFvuARXgbPJTg&ved=2ahUKEwji9Z-ctfyUAxUXI0QIHdfgIZQQ8NMDegQIORAW
+            - generic [ref=e516]: Next
+      - navigation
+    - contentinfo [ref=e517]:
+      - heading "Footer Links" [level=1] [ref=e518]
+      - generic [ref=e522]:
+        - generic [ref=e526]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e528] [cursor=pointer]:
+            - generic [ref=e529]: 85281, Tempe, AZ
+            - generic [ref=e531]:
+              - text: "-"
+              - generic [ref=e532]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e534] [cursor=pointer]: Update location
+        - generic [ref=e537]:
+          - link "Help" [ref=e538] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e539] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e540] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e541] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

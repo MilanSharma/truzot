@@ -1,0 +1,316 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwjWgILAj_yUAxXIl-4BHYVqKssQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "for collab" "@gmail.com" site:instagram.com "for collab" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522for%2Bcollab%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22for+collab%22+%22%40gmail.com%22&sca_esv=4a455b0f3ad2390b&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-Qg9gdZYJriKd9fBMKKfwqZlI558rPhYXCT0gQlVOCz7ncTmte5IkI5ng3u-U0U74DHVEVg4QuOG-Zvk3-dq_yYiV_mqZcuLGMcGLaEOPJFkj9sZmw4Sz113Yf64vuAA42KV-LQyyl8DfLYiauVkPN0w2Sgfw&aep=1&ntc=1&sa=X&ved=2ahUKEwjWgILAj_yUAxXIl-4BHYVqKssQ2J8OegQIEhAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-Qg9gdZYJriKd9fBMKKfwqZlI558rPhYXCT0gQlVOCz7ncTmte5IkI5ng3u-U0U74DHVEVg4QuOG-Zvk3-dq_yYiV_mqZcuLGMcGLaEOPJFkj9sZmw4Sz113Yf64vuAA42KV-LQyyl8DfLYiauVkPN0w2Sgfw&q=site:instagram.com+%22for+collab%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjWgILAj_yUAxXIl-4BHYVqKssQtKgLegQIGBAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "Videos" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-Qg9gdZYJriKd9fBMKKfwqZlI558rPhYXCT0gQlVOCz7ncTmte5IkI5ng3u-U0U74DHVEVg4QuOG-Zvk3-dq_yYiV_mqZcuLGMcGLaEOPJFkj9sZmw4Sz113Yf64vuAA42KV-LQyyl8DfLYiauVkPN0w2Sgfw&q=site:instagram.com+%22for+collab%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjWgILAj_yUAxXIl-4BHYVqKssQtKgLegQIFBAB
+              - generic [ref=e94]: Videos
+          - listitem [ref=e95]:
+            - link "News" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&q=site:instagram.com+%22for+collab%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-Qg9gdZYJriKd9fBMKKfwqZlI558rPhYXCT0gQlVOCz7ncTmte5IkI5ng3u-U0U74DHVEVg4QuOG-Zvk3-dq_yYiV_mqZcuLGMcGLaEOPJFkj9sZmw4Sz113Yf64vuAA42KV-LQyyl8DfLYiauVkPN0w2Sgfw&sa=X&ved=2ahUKEwjWgILAj_yUAxXIl-4BHYVqKssQ0pQJegQIFxAB
+              - generic [ref=e98]: News
+          - listitem [ref=e99]:
+            - link "Shopping" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-Qg9gdZYJriKd9fBMKKfwqZlI558rPhYXCT0gQlVOCz7ncTmte5IkI5ng3u-U0U74DHVEVg4QuOG-Zvk3-dq_yYiV_mqZcuLGMcGLaEOPJFkj9sZmw4Sz113Yf64vuAA42KV-LQyyl8DfLYiauVkPN0w2Sgfw&q=site:instagram.com+%22for+collab%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e102]: Shopping
+          - listitem [ref=e103]:
+            - link "Forums" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-Qg9gdZYJriKd9fBMKKfwqZlI558rPhYXCT0gQlVOCz7ncTmte5IkI5ng3u-U0U74DHVEVg4QuOG-Zvk3-dq_yYiV_mqZcuLGMcGLaEOPJFkj9sZmw4Sz113Yf64vuAA42KV-LQyyl8DfLYiauVkPN0w2Sgfw&q=site:instagram.com+%22for+collab%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjWgILAj_yUAxXIl-4BHYVqKssQs6gLegQIFhAB
+              - generic [ref=e106]: Forums
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - 'link "For collab gmail : marketing.info.ayeshanazar@gmail.com Instagram · _ayeshanazar.an_ 10+ likes · 5 months ago" [ref=e143] [cursor=pointer]':
+                - /url: https://www.instagram.com/p/DScfYDeDJWS/
+                - 'heading "For collab gmail : marketing.info.ayeshanazar@gmail.com" [level=3] [ref=e144]'
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram · _ayeshanazar.an_
+                  - generic [ref=e153]: 10+ likes · 5 months ago
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e160]:
+              - generic [ref=e161]:
+                - emphasis [ref=e162]: For collab
+                - text: "gmail : marketing.info.ayeshanazar@"
+                - emphasis [ref=e163]: gmail.com
+                - text: . more. View all 3 comments · hamster.923822.
+              - link "Read more" [ref=e164] [cursor=pointer]:
+                - /url: https://www.instagram.com/p/DScfYDeDJWS/#:~:text=For%20collab%20gmail%20%3A%20marketing.info.ayeshanazar%40gmail.com,hamster.923822
+            - link "site:instagram.com \"for collab\" \"@gmail.com\" from www.instagram.com" [ref=e167] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DScfYDeDJWS/
+              - img "site:instagram.com \"for collab\" \"@gmail.com\" from www.instagram.com" [ref=e169]
+        - generic [ref=e173]:
+          - generic [ref=e176]:
+            - 'link "for collab💌 ananoshka.anano@gmail.com #ugcwork # ... Instagram · ugc.by_ana 3.7K+ likes · 7 months ago" [ref=e178] [cursor=pointer]':
+              - /url: https://www.instagram.com/p/DQroQjjCLnw/
+              - 'heading "for collab💌 ananoshka.anano@gmail.com #ugcwork # ..." [level=3] [ref=e179]'
+              - generic [ref=e184]:
+                - generic [ref=e186]: Instagram · ugc.by_ana
+                - generic [ref=e188]: 3.7K+ likes · 7 months ago
+            - button "About this result" [ref=e189] [cursor=pointer]:
+              - img [ref=e192]
+          - generic [ref=e196]:
+            - text: "3705 likes, 51 comments - ugc.by_ana on November 5, 2025: \""
+            - emphasis [ref=e197]: for collab
+            - text: ananoshka.anano@
+            - emphasis [ref=e198]: gmail.com
+            - text: "#ugcwork #ugccontentcreator #ugccommunity\"."
+        - generic [ref=e202]:
+          - generic [ref=e205]:
+            - link "📩For collab DM & Mail eleonoraysfv@gmail.com | ❤️ Instagram · eleonora_gym_club 50+ likes · 1 year ago" [ref=e207] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DAHHdKGO7_j/
+              - heading "📩For collab DM & Mail eleonoraysfv@gmail.com | ❤️" [level=3] [ref=e208]
+              - generic [ref=e213]:
+                - generic [ref=e215]: Instagram · eleonora_gym_club
+                - generic [ref=e217]: 50+ likes · 1 year ago
+            - button "About this result" [ref=e218] [cursor=pointer]:
+              - img [ref=e221]
+          - generic [ref=e224]:
+            - generic [ref=e225]:
+              - text: Photo by
+              - emphasis [ref=e226]: For collab
+              - text: DM & Mail eleonoraysfv@
+              - emphasis [ref=e227]: gmail.com
+              - text: on September 19.
+            - link "Read more" [ref=e228] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DAHHdKGO7_j/#:~:text=50%20likes
+        - generic [ref=e232]:
+          - generic [ref=e235]:
+            - link "I started as the influencer, now we're both on the PR list 🥹✨ ... Instagram · anjali_159 50+ likes · 2 days ago" [ref=e237] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DZSdrJTAWNf/
+              - heading "I started as the influencer, now we're both on the PR list 🥹✨ ..." [level=3] [ref=e238]
+              - generic [ref=e243]:
+                - generic [ref=e245]: Instagram · anjali_159
+                - generic [ref=e247]: 50+ likes · 2 days ago
+            - button "About this result" [ref=e248] [cursor=pointer]:
+              - img [ref=e251]
+          - generic [ref=e254]:
+            - generic [ref=e255]:
+              - text: I started as the influencer, now we're both on the PR list ✨
+              - emphasis [ref=e256]: For collab
+              - text: ": DM or email anjali15289@"
+              - emphasis [ref=e257]: gmail.com
+              - text: "#collab #influencer #prpackage # ..."
+            - link "Read more" [ref=e258] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DZSdrJTAWNf/#:~:text=I%20started%20as%20the%20influencer%2C,%23collab%20%23influencer%20%23prpackage%20%23collabration%20%23unboxing
+        - generic [ref=e262]:
+          - generic [ref=e265]:
+            - link "Let's collab Instagram · arvindtells 20+ likes · 7 months ago" [ref=e267] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DQijNRnExGS/
+              - heading "Let's collab" [level=3] [ref=e268]
+              - generic [ref=e273]:
+                - generic [ref=e275]: Instagram · arvindtells
+                - generic [ref=e277]: 20+ likes · 7 months ago
+            - button "About this result" [ref=e278] [cursor=pointer]:
+              - img [ref=e281]
+          - generic [ref=e284]:
+            - generic [ref=e285]:
+              - text: ...
+              - emphasis [ref=e286]: gmail.com
+              - text: ၁ www.youtube.com/c/Arvind... and at more G arvindtells O ... Brands DM/Comment
+              - emphasis [ref=e287]: for collab
+              - text: .... 1,00,000 views This is ...
+            - link "Read more" [ref=e288] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DQijNRnExGS/#:~:text=gmail.com%20%E1%81%81%20www.youtube.com%2Fc%2FArvind...%20and%20at,O%20Chaand%20Taare%20(From%20%22...&text=Brands%20DM%2FComment%20for%20collab....
+        - generic [ref=e294]:
+          - generic [ref=e297]:
+            - link "For collab DM or mail me at Priyapoddar.vlog@gmail.com ... Instagram · storiesbypriya_ 30+ likes · 2 weeks ago" [ref=e299] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DY1Q8o2PMRf/
+              - heading "For collab DM or mail me at Priyapoddar.vlog@gmail.com ..." [level=3] [ref=e300]
+              - generic [ref=e305]:
+                - generic [ref=e307]: Instagram · storiesbypriya_
+                - generic [ref=e309]: 30+ likes · 2 weeks ago
+            - button "About this result" [ref=e310] [cursor=pointer]:
+              - img [ref=e313]
+          - generic [ref=e315]:
+            - link "For collab DM or mail me at Priyapoddar.vlog@gmail.com ... by Priya🌻 on Instagram. Play on Instagram. 0:10" [ref=e316] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DY1Q8o2PMRf/
+              - generic [ref=e318]:
+                - img [ref=e321]
+                - generic [ref=e325]: 0:10
+            - generic [ref=e327]: "For collab DM or mail me at. Priyapoddar.vlog@gmail.com - - #reelitfeelit #reelkarofeelkaro #fyp #trending #trendingreels. more."
+        - generic [ref=e331]:
+          - generic [ref=e334]:
+            - link "Design by | @mykonosarchitects Visualization | @havlini.arh . . ... Instagram https://www.instagram.com › reel" [ref=e336] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DFYsu5fNpY3/
+              - heading "Design by | @mykonosarchitects Visualization | @havlini.arh . . ..." [level=3] [ref=e337]
+              - generic [ref=e342]:
+                - generic [ref=e344]: Instagram
+                - generic [ref=e346]: https://www.instagram.com › reel
+            - button "About this result" [ref=e347] [cursor=pointer]:
+              - img [ref=e350]
+          - generic [ref=e354]:
+            - text: Design by | @mykonosarchitects. Visualization | @havlini.arh . . havliniarh@
+            - emphasis [ref=e355]: gmail.com for collab
+            - text: . . . ➡️ FOLLOW US FOR MORE
+        - generic [ref=e359]:
+          - generic [ref=e362]:
+            - link "DM For Collab Email at@ priyaverma7440@gmail.com Instagram · priya_verma7440 10+ likes" [ref=e364] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DYEdtV6pt84/
+              - heading "DM For Collab Email at@ priyaverma7440@gmail.com" [level=3] [ref=e365]
+              - generic [ref=e370]:
+                - generic [ref=e372]: Instagram · priya_verma7440
+                - generic [ref=e374]: 10+ likes
+            - button "About this result" [ref=e375] [cursor=pointer]:
+              - img [ref=e378]
+          - generic [ref=e381]:
+            - generic [ref=e382]:
+              - text: DM
+              - emphasis [ref=e383]: For Collab
+              - text: Email at@ priyaverma7440@
+              - emphasis [ref=e384]: gmail.com
+              - text: . more. May 8. OCR. Priya Verma 4,169 posts 26.7K followers Wish me 2 October
+              - emphasis [ref=e385]: for Collab
+              - text: dm email id- ...
+            - link "Read more" [ref=e386] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DYEdtV6pt84/#:~:text=DM%20For%20Collab,in%20the%20last%2030%20days.
+        - generic [ref=e390]:
+          - generic [ref=e393]:
+            - link "Michele| Fashion & Lifestyle (@mich_ele) Instagram · mich_ele 7.5K+ followers" [ref=e395] [cursor=pointer]:
+              - /url: https://www.instagram.com/mich_ele/
+              - heading "Michele| Fashion & Lifestyle (@mich_ele)" [level=3] [ref=e396]
+              - generic [ref=e401]:
+                - generic [ref=e403]: Instagram · mich_ele
+                - generic [ref=e405]: 7.5K+ followers
+            - button "About this result" [ref=e406] [cursor=pointer]:
+              - img [ref=e409]
+          - generic [ref=e412]:
+            - generic [ref=e413]:
+              - text: Colorado Sharing places to go and food to try! Poshmark/Mercari/Ebay Vintage Seller DM/Email
+              - emphasis [ref=e414]: for collab
+              - text: "! coloradomichelepr@"
+              - emphasis [ref=e415]: gmail.com
+              - text: .
+            - link "Read more" [ref=e416] [cursor=pointer]:
+              - /url: https://www.instagram.com/mich_ele/#:~:text=%F0%9F%93%8DColorado,DM%2FEmail%20for%20collab!%20coloradomichelepr%40gmail.com
+        - generic [ref=e422]:
+          - generic [ref=e425]:
+            - link "Mail us at Collab.business10@gmail.com and tell us about ... Instagram · handflys 160+ likes · 3 weeks ago" [ref=e427] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DYetNTetjnR/
+              - heading "Mail us at Collab.business10@gmail.com and tell us about ..." [level=3] [ref=e428]
+              - generic [ref=e433]:
+                - generic [ref=e435]: Instagram · handflys
+                - generic [ref=e437]: 160+ likes · 3 weeks ago
+            - button "About this result" [ref=e438] [cursor=pointer]:
+              - img [ref=e441]
+          - generic [ref=e443]:
+            - link "Mail us at Collab.business10@gmail.com and tell us about ... by Handflys on Instagram. Play on Instagram. 0:19" [ref=e444] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DYetNTetjnR/
+              - generic [ref=e446]:
+                - img [ref=e449]
+                - generic [ref=e453]: 0:19
+            - generic [ref=e455]: "... likes, 70 comments - handflys on May 18, 2026: \"Mail us at Collab.business10@gmail.com ... Dm for collab . . . . . . . . (collab, branddeals, ..."
+      - navigation [ref=e458]:
+        - heading "Page Navigation" [level=1] [ref=e459]
+        - text: "1"
+        - link "Page 2" [ref=e462] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22for+collab%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=Zg4pata1Msivur8PhdWp2Qw&start=10&sa=N&sstk=AU9db-BRsEzMzKxNGu3Y_-R4PioFa1End0casPOk920Wv3GVD2p1IVbjk-vokiIZrAYHeJOmeoQ4wkEqeUD4rJVQWYDJLtex_-LFkw&ved=2ahUKEwjWgILAj_yUAxXIl-4BHYVqKssQ8tMDegQIKRAE
+          - text: "2"
+        - link "Page 3" [ref=e464] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22for+collab%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=Zg4pata1Msivur8PhdWp2Qw&start=20&sa=N&sstk=AU9db-BRsEzMzKxNGu3Y_-R4PioFa1End0casPOk920Wv3GVD2p1IVbjk-vokiIZrAYHeJOmeoQ4wkEqeUD4rJVQWYDJLtex_-LFkw&ved=2ahUKEwjWgILAj_yUAxXIl-4BHYVqKssQ8tMDegQIKRAG
+          - text: "3"
+        - link "Page 4" [ref=e466] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22for+collab%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=Zg4pata1Msivur8PhdWp2Qw&start=30&sa=N&sstk=AU9db-BRsEzMzKxNGu3Y_-R4PioFa1End0casPOk920Wv3GVD2p1IVbjk-vokiIZrAYHeJOmeoQ4wkEqeUD4rJVQWYDJLtex_-LFkw&ved=2ahUKEwjWgILAj_yUAxXIl-4BHYVqKssQ8tMDegQIKRAI
+          - text: "4"
+        - link "Page 5" [ref=e468] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22for+collab%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=Zg4pata1Msivur8PhdWp2Qw&start=40&sa=N&sstk=AU9db-BRsEzMzKxNGu3Y_-R4PioFa1End0casPOk920Wv3GVD2p1IVbjk-vokiIZrAYHeJOmeoQ4wkEqeUD4rJVQWYDJLtex_-LFkw&ved=2ahUKEwjWgILAj_yUAxXIl-4BHYVqKssQ8tMDegQIKRAK
+          - text: "5"
+        - link "Page 6" [ref=e470] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22for+collab%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=Zg4pata1Msivur8PhdWp2Qw&start=50&sa=N&sstk=AU9db-BRsEzMzKxNGu3Y_-R4PioFa1End0casPOk920Wv3GVD2p1IVbjk-vokiIZrAYHeJOmeoQ4wkEqeUD4rJVQWYDJLtex_-LFkw&ved=2ahUKEwjWgILAj_yUAxXIl-4BHYVqKssQ8tMDegQIKRAM
+          - text: "6"
+        - link "Page 7" [ref=e472] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22for+collab%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=Zg4pata1Msivur8PhdWp2Qw&start=60&sa=N&sstk=AU9db-BRsEzMzKxNGu3Y_-R4PioFa1End0casPOk920Wv3GVD2p1IVbjk-vokiIZrAYHeJOmeoQ4wkEqeUD4rJVQWYDJLtex_-LFkw&ved=2ahUKEwjWgILAj_yUAxXIl-4BHYVqKssQ8tMDegQIKRAO
+          - text: "7"
+        - link "Page 8" [ref=e474] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22for+collab%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=Zg4pata1Msivur8PhdWp2Qw&start=70&sa=N&sstk=AU9db-BRsEzMzKxNGu3Y_-R4PioFa1End0casPOk920Wv3GVD2p1IVbjk-vokiIZrAYHeJOmeoQ4wkEqeUD4rJVQWYDJLtex_-LFkw&ved=2ahUKEwjWgILAj_yUAxXIl-4BHYVqKssQ8tMDegQIKRAQ
+          - text: "8"
+        - link "Page 9" [ref=e476] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22for+collab%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=Zg4pata1Msivur8PhdWp2Qw&start=80&sa=N&sstk=AU9db-BRsEzMzKxNGu3Y_-R4PioFa1End0casPOk920Wv3GVD2p1IVbjk-vokiIZrAYHeJOmeoQ4wkEqeUD4rJVQWYDJLtex_-LFkw&ved=2ahUKEwjWgILAj_yUAxXIl-4BHYVqKssQ8tMDegQIKRAS
+          - text: "9"
+        - link "Page 10" [ref=e478] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22for+collab%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=Zg4pata1Msivur8PhdWp2Qw&start=90&sa=N&sstk=AU9db-BRsEzMzKxNGu3Y_-R4PioFa1End0casPOk920Wv3GVD2p1IVbjk-vokiIZrAYHeJOmeoQ4wkEqeUD4rJVQWYDJLtex_-LFkw&ved=2ahUKEwjWgILAj_yUAxXIl-4BHYVqKssQ8tMDegQIKRAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e480]:
+          - link "Next" [ref=e481] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22for+collab%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=Zg4pata1Msivur8PhdWp2Qw&start=10&sa=N&sstk=AU9db-BRsEzMzKxNGu3Y_-R4PioFa1End0casPOk920Wv3GVD2p1IVbjk-vokiIZrAYHeJOmeoQ4wkEqeUD4rJVQWYDJLtex_-LFkw&ved=2ahUKEwjWgILAj_yUAxXIl-4BHYVqKssQ8NMDegQIKRAW
+            - generic [ref=e483]: Next
+      - navigation
+    - contentinfo [ref=e484]:
+      - heading "Footer Links" [level=1] [ref=e485]
+      - generic [ref=e489]:
+        - generic [ref=e493]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e495] [cursor=pointer]:
+            - generic [ref=e496]: 85281, Tempe, AZ
+            - generic [ref=e498]:
+              - text: "-"
+              - generic [ref=e499]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e501] [cursor=pointer]: Update location
+        - generic [ref=e504]:
+          - link "Help" [ref=e505] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e506] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e507] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e508] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

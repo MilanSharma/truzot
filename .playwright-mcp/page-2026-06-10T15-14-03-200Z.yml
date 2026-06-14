@@ -1,0 +1,335 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwjG84yM-_yUAxXKIUQIHe43GQgQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "minneapolis" "influencer" "@gmail.com" site:instagram.com "minneapolis" "influencer" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522minneapolis%2522%2B%2522influencer%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22minneapolis%22+%22influencer%22+%22%40gmail.com%22&sca_esv=b310fc7f82cd21bc&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKp0UJuhqwKhR0QUhF54-6jIYFfWbU_Clyew-1Wh7zkL7EUcewkj-Y5mEXWvVf2-8S7Q9JzmuMHBTnAM1FBTEpBAA6ghZXslcE6dJxwMWTLgGoAr4vYGCqFp1bqwX9pdu1VtM8TVsK2QpWIASBYKEiS5XGwgKc6E7Dp3ilRZxQId1C2H3zqV-Yekj5Y5u09hyXTQo1fKw&aep=1&ntc=1&sa=X&ved=2ahUKEwjG84yM-_yUAxXKIUQIHe43GQgQ2J8OegQIEhAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "News" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=b310fc7f82cd21bc&q=site:instagram.com+%22minneapolis%22+%22influencer%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKp0UJuhqwKhR0QUhF54-6jIYFfWbU_Clyew-1Wh7zkL7EUcewkj-Y5mEXWvVf2-8S7Q9JzmuMHBTnAM1FBTEpBAA6ghZXslcE6dJxwMWTLgGoAr4vYGCqFp1bqwX9pdu1VtM8TVsK2QpWIASBYKEiS5XGwgKc6E7Dp3ilRZxQId1C2H3zqV-Yekj5Y5u09hyXTQo1fKw&sa=X&ved=2ahUKEwjG84yM-_yUAxXKIUQIHe43GQgQ0pQJegQIGBAB
+              - generic [ref=e90]: News
+          - listitem [ref=e91]:
+            - link "Images" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=b310fc7f82cd21bc&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKp0UJuhqwKhR0QUhF54-6jIYFfWbU_Clyew-1Wh7zkL7EUcewkj-Y5mEXWvVf2-8S7Q9JzmuMHBTnAM1FBTEpBAA6ghZXslcE6dJxwMWTLgGoAr4vYGCqFp1bqwX9pdu1VtM8TVsK2QpWIASBYKEiS5XGwgKc6E7Dp3ilRZxQId1C2H3zqV-Yekj5Y5u09hyXTQo1fKw&q=site:instagram.com+%22minneapolis%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjG84yM-_yUAxXKIUQIHe43GQgQtKgLegQIFxAB
+              - generic [ref=e94]: Images
+          - listitem [ref=e95]:
+            - link "Videos" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=b310fc7f82cd21bc&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKp0UJuhqwKhR0QUhF54-6jIYFfWbU_Clyew-1Wh7zkL7EUcewkj-Y5mEXWvVf2-8S7Q9JzmuMHBTnAM1FBTEpBAA6ghZXslcE6dJxwMWTLgGoAr4vYGCqFp1bqwX9pdu1VtM8TVsK2QpWIASBYKEiS5XGwgKc6E7Dp3ilRZxQId1C2H3zqV-Yekj5Y5u09hyXTQo1fKw&q=site:instagram.com+%22minneapolis%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjG84yM-_yUAxXKIUQIHe43GQgQtKgLegQIFhAB
+              - generic [ref=e98]: Videos
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=b310fc7f82cd21bc&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKp0UJuhqwKhR0QUhF54-6jIYFfWbU_Clyew-1Wh7zkL7EUcewkj-Y5mEXWvVf2-8S7Q9JzmuMHBTnAM1FBTEpBAA6ghZXslcE6dJxwMWTLgGoAr4vYGCqFp1bqwX9pdu1VtM8TVsK2QpWIASBYKEiS5XGwgKc6E7Dp3ilRZxQId1C2H3zqV-Yekj5Y5u09hyXTQo1fKw&q=site:instagram.com+%22minneapolis%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjG84yM-_yUAxXKIUQIHe43GQgQs6gLegQIFBAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=b310fc7f82cd21bc&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKp0UJuhqwKhR0QUhF54-6jIYFfWbU_Clyew-1Wh7zkL7EUcewkj-Y5mEXWvVf2-8S7Q9JzmuMHBTnAM1FBTEpBAA6ghZXslcE6dJxwMWTLgGoAr4vYGCqFp1bqwX9pdu1VtM8TVsK2QpWIASBYKEiS5XGwgKc6E7Dp3ilRZxQId1C2H3zqV-Yekj5Y5u09hyXTQo1fKw&q=site:instagram.com+%22minneapolis%22+%22influencer%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "Kierra Miller (@therealkierralinn_) Instagram · therealkierralinn_ 40.7K+ followers" [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/therealkierralinn_/
+                - heading "Kierra Miller (@therealkierralinn_)" [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram · therealkierralinn_
+                  - generic [ref=e153]: 40.7K+ followers
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e160]:
+              - generic [ref=e161]:
+                - text: "Kierra Miller · Fashion | Beauty | Lifestyle : thekierral@"
+                - emphasis [ref=e162]: gmail.com Minneapolis
+                - text: ", Mn Makeup artist @influentialbeautyco. Hustle & Heels podcast @hustleandheelss."
+              - link "Read more" [ref=e163] [cursor=pointer]:
+                - /url: https://www.instagram.com/therealkierralinn_/#:~:text=Kierra%20Miller&text=Fashion%20%7C%20Beauty%20%7C%20Lifestyle,%F0%9F%93%A7%3A%20thekierral%40gmail.com&text=%E2%80%A2Minneapolis%2C%20Mn%20Makeup%20artist,Hustle%20%26%20Heels%20podcast%20%40hustleandheelss
+            - link "site:instagram.com \"minneapolis\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e166] [cursor=pointer]:
+              - /url: https://www.instagram.com/therealkierralinn_/
+              - img "site:instagram.com \"minneapolis\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e168]
+        - generic [ref=e172]:
+          - generic [ref=e175]:
+            - link "ARI ✰ | MN INFLUENCER (@ariyannazhane) Instagram · ariyannazhane 19.2K+ followers" [ref=e177] [cursor=pointer]:
+              - /url: https://www.instagram.com/ariyannazhane/
+              - heading "ARI ✰ | MN INFLUENCER (@ariyannazhane)" [level=3] [ref=e178]
+              - generic [ref=e183]:
+                - generic [ref=e185]: Instagram · ariyannazhane
+                - generic [ref=e187]: 19.2K+ followers
+            - button "About this result" [ref=e188] [cursor=pointer]:
+              - img [ref=e191]
+          - generic [ref=e195]:
+            - text: ...
+            - emphasis [ref=e196]: gmail.com
+            - text: "TikTok: ariyannazhane ( ..."
+            - emphasis [ref=e197]: minneapolis
+            - text: "#"
+            - emphasis [ref=e198]: influencer
+            - text: "#contentcreator #dayinthelife #explore #mallofamerica ..."
+          - link "site:instagram.com \"minneapolis\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e201] [cursor=pointer]:
+            - /url: https://www.instagram.com/ariyannazhane/
+            - img "site:instagram.com \"minneapolis\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e203]
+        - generic [ref=e207]:
+          - generic [ref=e210]:
+            - link "Minneapolis Content Creator (@stacieraye.mn) - Instagram Instagram · stacieraye.mn 5K+ followers" [ref=e212] [cursor=pointer]:
+              - /url: https://www.instagram.com/stacieraye.mn/
+              - heading "Minneapolis Content Creator (@stacieraye.mn) - Instagram" [level=3] [ref=e213]
+              - generic [ref=e218]:
+                - generic [ref=e220]: Instagram · stacieraye.mn
+                - generic [ref=e222]: 5K+ followers
+            - button "About this result" [ref=e223] [cursor=pointer]:
+              - img [ref=e226]
+          - generic [ref=e230]:
+            - text: ...
+            - emphasis [ref=e231]: gmail.com
+            - text: ...
+            - emphasis [ref=e232]: Influencer
+            - text: event at @mallofamerica Had a lovely lunch @peoplesorganiccafe in @southdalecenter Hope you are ...
+          - link "site:instagram.com \"minneapolis\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e235] [cursor=pointer]:
+            - /url: https://www.instagram.com/stacieraye.mn/
+            - img "site:instagram.com \"minneapolis\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e237]
+        - generic [ref=e241]:
+          - generic [ref=e244]:
+            - link "IamMariya (@missm_foodie) • Instagram photos and videos Instagram · missm_foodie 560+ followers" [ref=e246] [cursor=pointer]:
+              - /url: https://www.instagram.com/missm_foodie/
+              - heading "IamMariya (@missm_foodie) • Instagram photos and videos" [level=3] [ref=e247]
+              - generic [ref=e252]:
+                - generic [ref=e254]: Instagram · missm_foodie
+                - generic [ref=e256]: 560+ followers
+            - button "About this result" [ref=e257] [cursor=pointer]:
+              - img [ref=e260]
+          - generic [ref=e264]:
+            - text: ...
+            - emphasis [ref=e265]: gmail.com
+            - text: "Tik Tok: Mari.ya.Ya ... #"
+            - emphasis [ref=e266]: influencer
+            - text: "#foodie #contentcreator #"
+            - emphasis [ref=e267]: influencer
+            - text: "#asian #"
+            - emphasis [ref=e268]: minneapolis
+            - text: ...
+        - generic [ref=e272]:
+          - generic [ref=e275]:
+            - link "FeedSpot BEST MINNEAPOLIS BEAUTY ... Instagram · klineartistry 70+ likes · 9 months ago" [ref=e277] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DNmBF3exuJI/
+              - heading "FeedSpot BEST MINNEAPOLIS BEAUTY ..." [level=3] [ref=e278]
+              - generic [ref=e283]:
+                - generic [ref=e285]: Instagram · klineartistry
+                - generic [ref=e287]: 70+ likes · 9 months ago
+            - button "About this result" [ref=e288] [cursor=pointer]:
+              - img [ref=e291]
+          - generic [ref=e294]:
+            - generic [ref=e295]:
+              - text: FeedSpot BEST
+              - emphasis [ref=e296]: MINNEAPOLIS
+              - text: BEAUTY INSTAGRAM
+              - emphasis [ref=e297]: INFLUENCER
+              - text: . thegemyapp's ...
+              - emphasis [ref=e298]: gmail.com
+              - text: Thank You FOR YOUR ATTENTION. esmecosmetics77's profile ...
+            - link "Read more" [ref=e299] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DNmBF3exuJI/#:~:text=FeedSpot%20BEST%20MINNEAPOLIS%20BEAUTY%20INSTAGRAM,INFLUENCER&text=gmail.com%20Thank%20You%20FOR%20YOUR,ATTENTION
+        - generic [ref=e303]:
+          - generic [ref=e306]:
+            - link "Kierra Miller (@therealkierralinn_) Instagram https://www.instagram.com › therealkierralinn_" [ref=e308] [cursor=pointer]:
+              - /url: https://www.instagram.com/therealkierralinn_/reels/
+              - heading "Kierra Miller (@therealkierralinn_)" [level=3] [ref=e309]
+              - generic [ref=e314]:
+                - generic [ref=e316]: Instagram
+                - generic [ref=e318]: https://www.instagram.com › therealkierralinn_
+            - button "About this result" [ref=e319] [cursor=pointer]:
+              - img [ref=e322]
+          - generic [ref=e326]:
+            - text: ...
+            - emphasis [ref=e327]: gmail.com
+            - text: •
+            - emphasis [ref=e328]: Minneapolis
+            - text: ", Mn Makeup artist @ ..."
+            - emphasis [ref=e329]: influencer
+            - text: "#brandambassador #"
+            - emphasis [ref=e330]: influencer
+            - text: "#fashionnovababe #viralpost #explorepageready ..."
+          - link "site:instagram.com \"minneapolis\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e333] [cursor=pointer]:
+            - /url: https://www.instagram.com/therealkierralinn_/reels/
+            - img "site:instagram.com \"minneapolis\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e335]
+        - generic [ref=e339]:
+          - generic [ref=e342]:
+            - link "🖤🦇𝕬𝖏 🕸️🕷️ (@redrumgirlll) • Instagram photos and videos Instagram · redrumgirlll 50+ followers" [ref=e344] [cursor=pointer]:
+              - /url: https://www.instagram.com/redrumgirlll/
+              - heading "🖤🦇𝕬𝖏 🕸️🕷️ (@redrumgirlll) • Instagram photos and videos" [level=3] [ref=e345]
+              - generic [ref=e350]:
+                - generic [ref=e352]: Instagram · redrumgirlll
+                - generic [ref=e354]: 50+ followers
+            - button "About this result" [ref=e355] [cursor=pointer]:
+              - img [ref=e358]
+          - generic [ref=e362]:
+            - text: ...
+            - emphasis [ref=e363]: gmail.com
+            - text: ...
+            - emphasis [ref=e364]: minneapolis
+            - text: "#"
+            - emphasis [ref=e365]: influencer
+            - text: "#gothaesthetic ..."
+          - link "site:instagram.com \"minneapolis\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e368] [cursor=pointer]:
+            - /url: https://www.instagram.com/redrumgirlll/
+            - img "site:instagram.com \"minneapolis\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e370]
+        - generic [ref=e374]:
+          - generic [ref=e377]:
+            - link "Leesa | Travel & Lifestlye (@leesalives) Instagram · leesalives 1.5K+ followers" [ref=e379] [cursor=pointer]:
+              - /url: https://www.instagram.com/leesalives/
+              - heading "Leesa | Travel & Lifestlye (@leesalives)" [level=3] [ref=e380]
+              - generic [ref=e385]:
+                - generic [ref=e387]: Instagram · leesalives
+                - generic [ref=e389]: 1.5K+ followers
+            - button "About this result" [ref=e390] [cursor=pointer]:
+              - img [ref=e393]
+          - generic [ref=e397]:
+            - text: ...
+            - emphasis [ref=e398]: gmail.com
+            - text: ... ✨Vlogmas Day 6✨ My sister flew to ...
+          - link "site:instagram.com \"minneapolis\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e401] [cursor=pointer]:
+            - /url: https://www.instagram.com/leesalives/
+            - img "site:instagram.com \"minneapolis\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e403]
+        - generic [ref=e407]:
+          - generic [ref=e410]:
+            - link "What are the best things about Minneapolis? If someone ... Instagram · theminneapolisedit 20+ likes · 2 weeks ago" [ref=e412] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DYpOQz4xR8h/?__d=dist
+              - heading "What are the best things about Minneapolis? If someone ..." [level=3] [ref=e413]
+              - generic [ref=e418]:
+                - generic [ref=e420]: Instagram · theminneapolisedit
+                - generic [ref=e422]: 20+ likes · 2 weeks ago
+            - button "About this result" [ref=e423] [cursor=pointer]:
+              - img [ref=e426]
+          - generic [ref=e429]:
+            - generic [ref=e430]:
+              - text: "#"
+              - emphasis [ref=e431]: minneapolis
+              - text: "#stpaulmn #minnesota #contentcreator #"
+              - emphasis [ref=e432]: influencer
+              - text: · May 3 ... August 28–31, 2026
+              - emphasis [ref=e433]: Minneapolis
+              - text: AddisonGreyTravel@
+              - emphasis [ref=e434]: gmail.com
+              - text: THE LOFTON ...
+            - link "Read more" [ref=e435] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DYpOQz4xR8h/?__d=dist#:~:text=%23minneapolis%20%23stpaulmn%20%23minnesota%20%23contentcreator%20%23influencer,May%203&text=August%2028%E2%80%9331%2C%202026%20Minneapolis%20AddisonGreyTravel%40gmail.com,THE%20LOFTON%20HOTEL%20COSMOS%20RESTAURANT
+        - generic [ref=e439]:
+          - generic [ref=e442]:
+            - link "kate glavan (@kateglavan) Instagram · kateglavan 51.1K+ followers" [ref=e444] [cursor=pointer]:
+              - /url: https://www.instagram.com/kateglavan/
+              - heading "kate glavan (@kateglavan)" [level=3] [ref=e445]
+              - generic [ref=e450]:
+                - generic [ref=e452]: Instagram · kateglavan
+                - generic [ref=e454]: 51.1K+ followers
+            - button "About this result" [ref=e455] [cursor=pointer]:
+              - img [ref=e458]
+          - generic [ref=e462]:
+            - text: "51K followers · 1.7K+ following · 1410 posts · @kateglavan: “nyc / london ❣️ meme maker + host @seamossgirlies katherine.glavan@"
+            - emphasis [ref=e463]: gmail.com
+            - text: ”
+          - link "site:instagram.com \"minneapolis\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e465] [cursor=pointer]:
+            - /url: https://www.instagram.com/kateglavan/
+      - navigation [ref=e481]:
+        - heading "Page Navigation" [level=1] [ref=e482]
+        - text: "1"
+        - link "Page 2" [ref=e485] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22minneapolis%22+%22influencer%22+%22@gmail.com%22&sca_esv=b310fc7f82cd21bc&ei=OH8pasb3O8rDkPIP7u_kQA&start=10&sa=N&sstk=AU9db-CTZWId0fnmDko8XVfkXbS2Onk_KikKpONpGW-LQXHLIkw0MYqDkCvVJ0vl8LpGclqwOgC8KBLIjkX6bshVyOO6AsM-GDMNGg&ved=2ahUKEwjG84yM-_yUAxXKIUQIHe43GQgQ8tMDegQIKxAE
+          - text: "2"
+        - link "Page 3" [ref=e487] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22minneapolis%22+%22influencer%22+%22@gmail.com%22&sca_esv=b310fc7f82cd21bc&ei=OH8pasb3O8rDkPIP7u_kQA&start=20&sa=N&sstk=AU9db-CTZWId0fnmDko8XVfkXbS2Onk_KikKpONpGW-LQXHLIkw0MYqDkCvVJ0vl8LpGclqwOgC8KBLIjkX6bshVyOO6AsM-GDMNGg&ved=2ahUKEwjG84yM-_yUAxXKIUQIHe43GQgQ8tMDegQIKxAG
+          - text: "3"
+        - link "Page 4" [ref=e489] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22minneapolis%22+%22influencer%22+%22@gmail.com%22&sca_esv=b310fc7f82cd21bc&ei=OH8pasb3O8rDkPIP7u_kQA&start=30&sa=N&sstk=AU9db-CTZWId0fnmDko8XVfkXbS2Onk_KikKpONpGW-LQXHLIkw0MYqDkCvVJ0vl8LpGclqwOgC8KBLIjkX6bshVyOO6AsM-GDMNGg&ved=2ahUKEwjG84yM-_yUAxXKIUQIHe43GQgQ8tMDegQIKxAI
+          - text: "4"
+        - link "Page 5" [ref=e491] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22minneapolis%22+%22influencer%22+%22@gmail.com%22&sca_esv=b310fc7f82cd21bc&ei=OH8pasb3O8rDkPIP7u_kQA&start=40&sa=N&sstk=AU9db-CTZWId0fnmDko8XVfkXbS2Onk_KikKpONpGW-LQXHLIkw0MYqDkCvVJ0vl8LpGclqwOgC8KBLIjkX6bshVyOO6AsM-GDMNGg&ved=2ahUKEwjG84yM-_yUAxXKIUQIHe43GQgQ8tMDegQIKxAK
+          - text: "5"
+        - link "Page 6" [ref=e493] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22minneapolis%22+%22influencer%22+%22@gmail.com%22&sca_esv=b310fc7f82cd21bc&ei=OH8pasb3O8rDkPIP7u_kQA&start=50&sa=N&sstk=AU9db-CTZWId0fnmDko8XVfkXbS2Onk_KikKpONpGW-LQXHLIkw0MYqDkCvVJ0vl8LpGclqwOgC8KBLIjkX6bshVyOO6AsM-GDMNGg&ved=2ahUKEwjG84yM-_yUAxXKIUQIHe43GQgQ8tMDegQIKxAM
+          - text: "6"
+        - link "Page 7" [ref=e495] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22minneapolis%22+%22influencer%22+%22@gmail.com%22&sca_esv=b310fc7f82cd21bc&ei=OH8pasb3O8rDkPIP7u_kQA&start=60&sa=N&sstk=AU9db-CTZWId0fnmDko8XVfkXbS2Onk_KikKpONpGW-LQXHLIkw0MYqDkCvVJ0vl8LpGclqwOgC8KBLIjkX6bshVyOO6AsM-GDMNGg&ved=2ahUKEwjG84yM-_yUAxXKIUQIHe43GQgQ8tMDegQIKxAO
+          - text: "7"
+        - link "Page 8" [ref=e497] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22minneapolis%22+%22influencer%22+%22@gmail.com%22&sca_esv=b310fc7f82cd21bc&ei=OH8pasb3O8rDkPIP7u_kQA&start=70&sa=N&sstk=AU9db-CTZWId0fnmDko8XVfkXbS2Onk_KikKpONpGW-LQXHLIkw0MYqDkCvVJ0vl8LpGclqwOgC8KBLIjkX6bshVyOO6AsM-GDMNGg&ved=2ahUKEwjG84yM-_yUAxXKIUQIHe43GQgQ8tMDegQIKxAQ
+          - text: "8"
+        - link "Page 9" [ref=e499] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22minneapolis%22+%22influencer%22+%22@gmail.com%22&sca_esv=b310fc7f82cd21bc&ei=OH8pasb3O8rDkPIP7u_kQA&start=80&sa=N&sstk=AU9db-CTZWId0fnmDko8XVfkXbS2Onk_KikKpONpGW-LQXHLIkw0MYqDkCvVJ0vl8LpGclqwOgC8KBLIjkX6bshVyOO6AsM-GDMNGg&ved=2ahUKEwjG84yM-_yUAxXKIUQIHe43GQgQ8tMDegQIKxAS
+          - text: "9"
+        - link "Page 10" [ref=e501] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22minneapolis%22+%22influencer%22+%22@gmail.com%22&sca_esv=b310fc7f82cd21bc&ei=OH8pasb3O8rDkPIP7u_kQA&start=90&sa=N&sstk=AU9db-CTZWId0fnmDko8XVfkXbS2Onk_KikKpONpGW-LQXHLIkw0MYqDkCvVJ0vl8LpGclqwOgC8KBLIjkX6bshVyOO6AsM-GDMNGg&ved=2ahUKEwjG84yM-_yUAxXKIUQIHe43GQgQ8tMDegQIKxAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e503]:
+          - link "Next" [ref=e504] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22minneapolis%22+%22influencer%22+%22@gmail.com%22&sca_esv=b310fc7f82cd21bc&ei=OH8pasb3O8rDkPIP7u_kQA&start=10&sa=N&sstk=AU9db-CTZWId0fnmDko8XVfkXbS2Onk_KikKpONpGW-LQXHLIkw0MYqDkCvVJ0vl8LpGclqwOgC8KBLIjkX6bshVyOO6AsM-GDMNGg&ved=2ahUKEwjG84yM-_yUAxXKIUQIHe43GQgQ8NMDegQIKxAW
+            - generic [ref=e506]: Next
+      - navigation
+    - contentinfo [ref=e507]:
+      - heading "Footer Links" [level=1] [ref=e508]
+      - generic [ref=e512]:
+        - generic [ref=e516]:
+          - button "85281, Tempe, AZ - Based on your past activity" [ref=e518] [cursor=pointer]:
+            - generic [ref=e519]: 85281, Tempe, AZ
+            - generic [ref=e521]:
+              - text: "-"
+              - generic [ref=e522]: Based on your past activity
+          - text: "-"
+          - button "Update location" [ref=e524] [cursor=pointer]: Update location
+        - generic [ref=e527]:
+          - link "Help" [ref=e528] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e529] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e530] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e531] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

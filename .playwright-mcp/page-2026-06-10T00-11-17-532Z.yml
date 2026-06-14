@@ -1,0 +1,367 @@
+- generic [ref=e4]:
+  - generic [ref=e9]:
+    - generic [ref=e12]:
+      - link "Instagram" [ref=e17] [cursor=pointer]:
+        - /url: /
+        - img "Instagram" [ref=e22]
+      - generic [ref=e25]:
+        - link "Home" [ref=e30] [cursor=pointer]:
+          - /url: /
+          - img "Home" [ref=e35]
+        - link "Reels" [ref=e40] [cursor=pointer]:
+          - /url: /reels/
+          - img "Reels" [ref=e45]
+        - link "Messages" [ref=e52] [cursor=pointer]:
+          - /url: /direct/inbox/
+          - img "Messages" [ref=e57]
+        - link "Search" [ref=e63] [cursor=pointer]:
+          - /url: /explore/
+          - img "Search" [ref=e68]
+        - link "Notifications" [ref=e75] [cursor=pointer]:
+          - /url: "#"
+          - img "Notifications" [ref=e80]
+        - link "New post" [ref=e86] [cursor=pointer]:
+          - /url: "#"
+          - img "New post" [ref=e91]
+        - link "truzot's profile picture" [ref=e97] [cursor=pointer]:
+          - /url: /truzot/
+          - link "truzot's profile picture" [ref=e102]:
+            - img "truzot's profile picture" [ref=e103]
+      - generic [ref=e104]:
+        - link "Settings" [ref=e107] [cursor=pointer]:
+          - /url: "#"
+          - img "Settings" [ref=e112]
+        - link "Also from Meta" [ref=e115] [cursor=pointer]:
+          - /url: "#"
+          - img "Also from Meta" [ref=e120]
+    - generic [ref=e123]:
+      - main [ref=e124]:
+        - generic [ref=e127]:
+          - generic [ref=e132]:
+            - list [ref=e134]:
+              - listitem [ref=e135]
+              - listitem [ref=e136]:
+                - generic [ref=e137]:
+                  - link "trappernate1925's profile picture trappernate1925" [ref=e138] [cursor=pointer]:
+                    - /url: /trappernate1925/
+                    - link "trappernate1925's profile picture" [ref=e140]:
+                      - img "trappernate1925's profile picture" [ref=e141]
+                    - generic [ref=e144]: trappernate1925
+                  - button "Follow" [ref=e145]:
+                    - img [ref=e147]
+              - listitem [ref=e150]:
+                - generic [ref=e151]:
+                  - link "cristallecarey's profile picture cristallecarey" [ref=e152] [cursor=pointer]:
+                    - /url: /cristallecarey/
+                    - link "cristallecarey's profile picture" [ref=e154]:
+                      - img "cristallecarey's profile picture" [ref=e155]
+                    - generic [ref=e158]: cristallecarey
+                  - button "Follow" [ref=e159]:
+                    - img [ref=e161]
+              - listitem [ref=e164]:
+                - generic [ref=e165]:
+                  - link "jadyn_fife_'s profile picture jadyn_fife_" [ref=e166] [cursor=pointer]:
+                    - /url: /jadyn_fife_/
+                    - link "jadyn_fife_'s profile picture" [ref=e168]:
+                      - img "jadyn_fife_'s profile picture" [ref=e169]
+                    - generic [ref=e172]: jadyn_fife_
+                  - button "Follow" [ref=e173]:
+                    - img [ref=e175]
+              - listitem [ref=e178]:
+                - generic [ref=e179]:
+                  - link "jstix82's profile picture jstix82" [ref=e180] [cursor=pointer]:
+                    - /url: /jstix82/
+                    - link "jstix82's profile picture" [ref=e182]:
+                      - img "jstix82's profile picture" [ref=e183]
+                    - generic [ref=e186]: jstix82
+                  - button "Follow" [ref=e187]:
+                    - img [ref=e189]
+              - listitem [ref=e192]:
+                - generic [ref=e193]:
+                  - link "mphs.lucky17's profile picture mphs.lucky17" [ref=e194] [cursor=pointer]:
+                    - /url: /mphs.lucky17/
+                    - link "mphs.lucky17's profile picture" [ref=e196]:
+                      - img "mphs.lucky17's profile picture" [ref=e197]
+                    - generic [ref=e200]: mphs.lucky17
+                  - button "Follow" [ref=e201]:
+                    - img [ref=e203]
+              - listitem [ref=e206]:
+                - generic [ref=e207]:
+                  - link "cvntty.archives's profile picture cvntty.archives" [ref=e208] [cursor=pointer]:
+                    - /url: /cvntty.archives/
+                    - link "cvntty.archives's profile picture" [ref=e210]:
+                      - img "cvntty.archives's profile picture" [ref=e211]
+                    - generic [ref=e214]: cvntty.archives
+                  - button "Follow" [ref=e215]:
+                    - img [ref=e217]
+              - listitem [ref=e220]:
+                - generic [ref=e221]:
+                  - link "2.sparkly's profile picture 2.sparkly" [ref=e222] [cursor=pointer]:
+                    - /url: /2.sparkly/
+                    - link "2.sparkly's profile picture" [ref=e224]:
+                      - img "2.sparkly's profile picture" [ref=e225]
+                    - generic [ref=e228]: 2.sparkly
+                  - button "Follow" [ref=e229]:
+                    - img [ref=e231]
+              - listitem [ref=e234]:
+                - generic [ref=e235]:
+                  - link "chofichipcookie's profile picture chofichipcookie" [ref=e236] [cursor=pointer]:
+                    - /url: /chofichipcookie/
+                    - link "chofichipcookie's profile picture" [ref=e238]:
+                      - img "chofichipcookie's profile picture" [ref=e239]
+                    - generic [ref=e242]: chofichipcookie
+                  - button "Follow" [ref=e243]:
+                    - img [ref=e245]
+              - listitem [ref=e248]:
+                - generic [ref=e249]:
+                  - link "milbourn_zech's profile picture milbourn_zech" [ref=e250] [cursor=pointer]:
+                    - /url: /milbourn_zech/
+                    - link "milbourn_zech's profile picture" [ref=e252]:
+                      - img "milbourn_zech's profile picture" [ref=e253]
+                    - generic [ref=e256]: milbourn_zech
+                  - button "Follow" [ref=e257]:
+                    - img [ref=e259]
+              - listitem [ref=e262]:
+                - generic [ref=e263]:
+                  - link "l.una1g's profile picture l.una1g" [ref=e264] [cursor=pointer]:
+                    - /url: /l.una1g/
+                    - link "l.una1g's profile picture" [ref=e266]:
+                      - img "l.una1g's profile picture" [ref=e267]
+                    - generic [ref=e270]: l.una1g
+                  - button "Follow" [ref=e271]:
+                    - img [ref=e273]
+              - listitem [ref=e276]:
+                - generic [ref=e277]:
+                  - link "chetanjat221's profile picture chetanjat221" [ref=e278] [cursor=pointer]:
+                    - /url: /chetanjat221/
+                    - link "chetanjat221's profile picture" [ref=e280]:
+                      - img "chetanjat221's profile picture" [ref=e281]
+                    - generic [ref=e284]: chetanjat221
+                  - button "Follow" [ref=e285]:
+                    - img [ref=e287]
+            - button "Next" [ref=e290] [cursor=pointer]:
+              - img "Next" [ref=e291]
+          - generic [ref=e294]:
+            - generic [ref=e296]:
+              - article [ref=e297]:
+                - generic [ref=e298]:
+                  - generic [ref=e300]:
+                    - button "hns_cff's profile picture" [ref=e305] [cursor=pointer]:
+                      - link "hns_cff's profile picture" [ref=e307]:
+                        - img "hns_cff's profile picture" [ref=e308]
+                    - generic [ref=e311]:
+                      - generic [ref=e313]:
+                        - generic [ref=e315]:
+                          - link "hns_cff" [ref=e321] [cursor=pointer]:
+                            - /url: /hns_cff/
+                            - generic [ref=e324]: hns_cff
+                          - img "Verified" [ref=e326]
+                        - generic [ref=e328]:
+                          - generic [ref=e330]: •
+                          - link "2h" [ref=e332] [cursor=pointer]:
+                            - /url: /p/DZYVTczCFIk/
+                            - time [ref=e334]: 2h
+                      - button "Follow" [ref=e336] [cursor=pointer]
+                    - button "More options" [ref=e339] [cursor=pointer]:
+                      - img "More options" [ref=e342]
+                  - generic [ref=e353] [cursor=pointer]:
+                    - button "Photo shared by Hrvatski nogometni savez on June 09, 2026 tagging @fifaworldcup. May be an image of airplane and text." [ref=e354]:
+                      - img "Photo shared by Hrvatski nogometni savez on June 09, 2026 tagging @fifaworldcup. May be an image of airplane and text." [ref=e356]
+                    - button "Tags" [ref=e359]:
+                      - img "Tags" [ref=e361]
+                    - generic:
+                      - link "fifaworldcup":
+                        - /url: /fifaworldcup/
+                        - generic:
+                          - generic: fifaworldcup
+                  - generic [ref=e365]:
+                    - generic [ref=e366]:
+                      - generic [ref=e367]:
+                        - button "Like" [ref=e370] [cursor=pointer]:
+                          - img "Like" [ref=e373]
+                        - button "12.3K" [ref=e375] [cursor=pointer]
+                        - button "Comment" [ref=e377] [cursor=pointer]:
+                          - img "Comment" [ref=e379]
+                        - button "114" [ref=e381] [cursor=pointer]
+                        - button "Share" [ref=e382] [cursor=pointer]:
+                          - img "Share" [ref=e383]
+                      - button "Save" [ref=e388] [cursor=pointer]:
+                        - button "Save" [ref=e389]:
+                          - img "Save" [ref=e391]
+                    - generic [ref=e393]:
+                      - link "hns_cff Verified" [ref=e398] [cursor=pointer]:
+                        - /url: /hns_cff/
+                        - generic [ref=e400]:
+                          - generic [ref=e401]: hns_cff
+                          - img "Verified" [ref=e403]
+                      - generic [ref=e405]:
+                        - generic [ref=e407]:
+                          - text: 👋
+                          - link "@fifaworldcup" [ref=e408] [cursor=pointer]:
+                            - /url: /fifaworldcup/
+                          - text: ","
+                          - link "#Croatia" [ref=e409] [cursor=pointer]:
+                            - /url: /explore/tags/croatia/
+                          - text: is here! 🇭🇷🛬☑️
+                          - link "#W" [ref=e410] [cursor=pointer]:
+                            - /url: /explore/tags/w/
+                        - generic [ref=e411]:
+                          - text: ...
+                          - button "more" [ref=e412] [cursor=pointer]:
+                            - generic [ref=e413]: more
+              - article [ref=e414]:
+                - generic [ref=e415]:
+                  - generic [ref=e417]:
+                    - button "numanuk's profile picture" [ref=e422] [cursor=pointer]:
+                      - link "numanuk's profile picture" [ref=e424]:
+                        - img "numanuk's profile picture" [ref=e425]
+                    - generic [ref=e428]:
+                      - generic [ref=e429]:
+                        - generic [ref=e430]:
+                          - generic [ref=e432]:
+                            - link "numanuk" [ref=e438] [cursor=pointer]:
+                              - /url: /numanuk/
+                              - generic [ref=e441]: numanuk
+                            - img "Verified" [ref=e443]
+                          - generic [ref=e445]:
+                            - generic [ref=e447]: •
+                            - link "6d" [ref=e449] [cursor=pointer]:
+                              - /url: /p/DZIOhDPInQs/
+                              - time [ref=e451]: 6d
+                        - link "Manchester, United Kingdom" [ref=e455] [cursor=pointer]:
+                          - /url: /explore/locations/114629675219759/manchester-united-kingdom/
+                      - button "Follow" [ref=e457] [cursor=pointer]
+                    - button "More options" [ref=e460] [cursor=pointer]:
+                      - img "More options" [ref=e463]
+                  - img "Photo by Numan Khan in Manchester, United Kingdom. May be an image of street and text." [ref=e476]
+                  - generic [ref=e481]:
+                    - generic [ref=e482]:
+                      - button "Like" [ref=e485] [cursor=pointer]:
+                        - img "Like" [ref=e488]
+                      - button "4.9M" [ref=e490] [cursor=pointer]
+                      - button "Comment" [ref=e492] [cursor=pointer]:
+                        - img "Comment" [ref=e494]
+                      - button "10.7K" [ref=e496] [cursor=pointer]
+                      - button "Share" [ref=e497] [cursor=pointer]:
+                        - img "Share" [ref=e498]
+                    - button "Save" [ref=e503] [cursor=pointer]:
+                      - button "Save" [ref=e504]:
+                        - img "Save" [ref=e506]
+            - progressbar [ref=e509]:
+              - img "Loading..." [ref=e510]
+            - img [ref=e523]
+      - contentinfo [ref=e524]:
+        - generic [ref=e525]:
+          - generic [ref=e527]:
+            - link "Meta" [ref=e529] [cursor=pointer]:
+              - /url: https://about.meta.com/
+              - generic [ref=e530]: Meta
+            - link "About" [ref=e532] [cursor=pointer]:
+              - /url: https://about.instagram.com/
+              - generic [ref=e533]: About
+            - link "Blog" [ref=e535] [cursor=pointer]:
+              - /url: https://about.instagram.com/blog/
+              - generic [ref=e536]: Blog
+            - link "Jobs" [ref=e538] [cursor=pointer]:
+              - /url: https://about.instagram.com/about-us/careers
+              - generic [ref=e539]: Jobs
+            - link "Help" [ref=e541] [cursor=pointer]:
+              - /url: https://help.instagram.com/
+              - generic [ref=e542]: Help
+            - link "API" [ref=e544] [cursor=pointer]:
+              - /url: https://developers.facebook.com/docs/instagram
+              - generic [ref=e545]: API
+            - link "Privacy" [ref=e547] [cursor=pointer]:
+              - /url: /legal/privacy/
+              - generic [ref=e548]: Privacy
+            - link "Consumer Health Privacy" [ref=e550] [cursor=pointer]:
+              - /url: /legal/privacy/health_privacy_policy/
+              - generic [ref=e551]: Consumer Health Privacy
+            - link "Terms" [ref=e553] [cursor=pointer]:
+              - /url: /legal/terms/
+              - generic [ref=e554]: Terms
+            - link "Locations" [ref=e556] [cursor=pointer]:
+              - /url: /explore/locations/
+              - generic [ref=e557]: Locations
+            - link "Popular" [ref=e559] [cursor=pointer]:
+              - /url: /popular/
+              - generic [ref=e560]: Popular
+            - link "Instagram Lite" [ref=e562] [cursor=pointer]:
+              - /url: /web/lite/
+              - generic [ref=e563]: Instagram Lite
+            - link "Meta AI" [ref=e565] [cursor=pointer]:
+              - /url: https://www.meta.ai/?utm_source=foa_web_footer
+              - generic [ref=e566]: Meta AI
+            - link "Threads" [ref=e568] [cursor=pointer]:
+              - /url: https://www.threads.com/
+              - generic [ref=e569]: Threads
+            - link "Contact Uploading & Non-Users" [ref=e571] [cursor=pointer]:
+              - /url: https://www.facebook.com/help/instagram/261704639352628
+              - generic [ref=e572]: Contact Uploading & Non-Users
+            - link "Meta Verified" [ref=e574] [cursor=pointer]:
+              - /url: /accounts/meta_verified/?entrypoint=web_footer
+              - generic [ref=e575]: Meta Verified
+          - generic [ref=e576]:
+            - generic [ref=e577] [cursor=pointer]:
+              - generic [ref=e578]:
+                - generic [ref=e579]: English
+                - img "Down chevron icon" [ref=e582]
+              - combobox "Switch Display Language" [ref=e584]:
+                - option "Afrikaans"
+                - option "العربية"
+                - option "Čeština"
+                - option "Dansk"
+                - option "Deutsch"
+                - option "Ελληνικά"
+                - option "English" [selected]
+                - option "English (UK)"
+                - option "Español (España)"
+                - option "Español"
+                - option "فارسی"
+                - option "Suomi"
+                - option "Français"
+                - option "עברית"
+                - option "Bahasa Indonesia"
+                - option "Italiano"
+                - option "日本語"
+                - option "한국어"
+                - option "Bahasa Melayu"
+                - option "Norsk"
+                - option "Nederlands"
+                - option "Polski"
+                - option "Português (Brasil)"
+                - option "Português (Portugal)"
+                - option "Русский"
+                - option "Svenska"
+                - option "ภาษาไทย"
+                - option "Filipino"
+                - option "Türkçe"
+                - option "中文(简体)"
+                - option "中文(台灣)"
+                - option "বাংলা"
+                - option "ગુજરાતી"
+                - option "हिन्दी"
+                - option "Hrvatski"
+                - option "Magyar"
+                - option "ಕನ್ನಡ"
+                - option "മലയാളം"
+                - option "मराठी"
+                - option "नेपाली"
+                - option "ਪੰਜਾਬੀ"
+                - option "සිංහල"
+                - option "Slovenčina"
+                - option "தமிழ்"
+                - option "తెలుగు"
+                - option "اردو"
+                - option "Tiếng Việt"
+                - option "中文(香港)"
+                - option "Български"
+                - option "Français (Canada)"
+                - option "Română"
+                - option "Српски"
+                - option "Українська"
+            - generic [ref=e586]: © 2026 Instagram from Meta
+  - button "Messages Messages" [ref=e588] [cursor=pointer]:
+    - generic [ref=e590]:
+      - img "Messages" [ref=e592]
+      - generic [ref=e595]: Messages

@@ -1,0 +1,352 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwj91frepvyUAxVeH0QIHUG_EJwQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "toronto" "influencer" "@gmail.com" site:instagram.com "toronto" "influencer" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522toronto%2522%2B%2522influencer%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22toronto%22+%22influencer%22+%22%40gmail.com%22&sca_esv=16a54cb5159ee727&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&aep=1&ntc=1&sa=X&ved=2ahUKEwj91frepvyUAxVeH0QIHUG_EJwQ2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22toronto%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwj91frepvyUAxVeH0QIHUG_EJwQtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "News" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&q=site:instagram.com+%22toronto%22+%22influencer%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&sa=X&ved=2ahUKEwj91frepvyUAxVeH0QIHUG_EJwQ0pQJegQIFBAB
+              - generic [ref=e94]: News
+          - listitem [ref=e95]:
+            - link "Videos" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22toronto%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwj91frepvyUAxVeH0QIHUG_EJwQtKgLegQIERAB
+              - generic [ref=e98]: Videos
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22toronto%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwj91frepvyUAxVeH0QIHUG_EJwQs6gLegQIEhAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6op4K1f-9omm4nqI6dtF1NWNqrLgE2q7WKnT8tmiJ1_2q07yaH-5rr-zaU0ZbgyLc7KYK29-3ZznnsryPf4JXOsgrXDY3JfkHzHn0Jfi1wYSRRx2NA&q=site:instagram.com+%22toronto%22+%22influencer%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "Veena Rawte | Toronto Influencer🇨🇦 (@veenaxoxo) Instagram · veenaxoxo 44.8K+ followers" [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/veenaxoxo/
+                - heading "Veena Rawte | Toronto Influencer🇨🇦 (@veenaxoxo)" [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram · veenaxoxo
+                  - generic [ref=e153]: 44.8K+ followers
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e161]:
+              - text: cheat code (
+              - emphasis [ref=e162]: Toronto influencer
+              - text: ...
+            - link "site:instagram.com \"toronto\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e165] [cursor=pointer]:
+              - /url: https://www.instagram.com/veenaxoxo/
+              - img "site:instagram.com \"toronto\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e167]
+        - generic [ref=e171]:
+          - generic [ref=e174]:
+            - link "YW Evie Liu | Toronto Influencer (@evie.officially) Instagram · evie.officially 13.4K+ followers" [ref=e176] [cursor=pointer]:
+              - /url: https://www.instagram.com/evie.officially/
+              - heading "YW Evie Liu | Toronto Influencer (@evie.officially)" [level=3] [ref=e177]
+              - generic [ref=e182]:
+                - generic [ref=e184]: Instagram · evie.officially
+                - generic [ref=e186]: 13.4K+ followers
+            - button "About this result" [ref=e187] [cursor=pointer]:
+              - img [ref=e190]
+          - generic [ref=e194]:
+            - text: ...
+            - emphasis [ref=e195]: gmail.com
+            - text: ...
+            - emphasis [ref=e196]: Toronto
+            - text: weekend|
+            - emphasis [ref=e197]: Toronto
+            - text: content creator | North York |
+            - emphasis [ref=e198]: Toronto
+            - text: photography |
+            - emphasis [ref=e199]: Toronto influencer
+            - text: ...
+          - link "site:instagram.com \"toronto\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e202] [cursor=pointer]:
+            - /url: https://www.instagram.com/evie.officially/
+            - img "site:instagram.com \"toronto\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e204]
+        - generic [ref=e208]:
+          - generic [ref=e211]:
+            - link "Be Well With Adiel ✨ | Toronto Influencer (@bewellwithadiel) Instagram · bewellwithadiel 23.2K+ followers" [ref=e213] [cursor=pointer]:
+              - /url: https://www.instagram.com/bewellwithadiel/
+              - heading "Be Well With Adiel ✨ | Toronto Influencer (@bewellwithadiel)" [level=3] [ref=e214]
+              - generic [ref=e219]:
+                - generic [ref=e221]: Instagram · bewellwithadiel
+                - generic [ref=e223]: 23.2K+ followers
+            - button "About this result" [ref=e224] [cursor=pointer]:
+              - img [ref=e227]
+          - generic [ref=e230]:
+            - generic [ref=e231]:
+              - text: Be Well With Adiel ✨ |
+              - emphasis [ref=e232]: Toronto Influencer
+              - text: . 23.2K followers. 255 following. main @adielgrech bewellwithadiel@
+              - emphasis [ref=e233]: gmail.com toronto
+              - text: mindset & manifestation ...
+            - link "Read more" [ref=e234] [cursor=pointer]:
+              - /url: https://www.instagram.com/bewellwithadiel/#:~:text=Be%20Well%20With%20Adiel%20%E2%9C%A8,manifestation%20%F0%9F%91%87%F0%9F%8F%BB%20for%20the%20girls
+          - link "site:instagram.com \"toronto\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e236] [cursor=pointer]:
+            - /url: https://www.instagram.com/bewellwithadiel/
+        - generic [ref=e253]:
+          - generic [ref=e256]:
+            - link "UGC | Toronto Influencer (@harnoor.kapoor) Instagram · harnoor.kapoor 53.1K+ followers" [ref=e258] [cursor=pointer]:
+              - /url: https://www.instagram.com/harnoor.kapoor/
+              - heading "UGC | Toronto Influencer (@harnoor.kapoor)" [level=3] [ref=e259]
+              - generic [ref=e264]:
+                - generic [ref=e266]: Instagram · harnoor.kapoor
+                - generic [ref=e268]: 53.1K+ followers
+            - button "About this result" [ref=e269] [cursor=pointer]:
+              - img [ref=e272]
+          - generic [ref=e275]:
+            - generic [ref=e276]:
+              - text: ...
+              - emphasis [ref=e277]: gmail.com
+              - text: Proof that pretty girls have brains too ... HarnoorKaurKapoor | UGC |
+              - emphasis [ref=e278]: Toronto Influencer
+              - text: . 53.1K followers. 1,552 following ...
+            - link "Read more" [ref=e279] [cursor=pointer]:
+              - /url: https://www.instagram.com/harnoor.kapoor/#:~:text=HarnoorKaurKapoor%20%7C%20UGC%20%7C%20Toronto,1%2C552%20following
+          - link "site:instagram.com \"toronto\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e282] [cursor=pointer]:
+            - /url: https://www.instagram.com/harnoor.kapoor/
+            - img "site:instagram.com \"toronto\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e284]
+        - generic [ref=e288]:
+          - generic [ref=e291]:
+            - link "Toronto Lifestyle Blogger (@theniveditabhalla) Instagram · theniveditabhalla 34.1K+ followers" [ref=e293] [cursor=pointer]:
+              - /url: https://www.instagram.com/theniveditabhalla/
+              - heading "Toronto Lifestyle Blogger (@theniveditabhalla)" [level=3] [ref=e294]
+              - generic [ref=e299]:
+                - generic [ref=e301]: Instagram · theniveditabhalla
+                - generic [ref=e303]: 34.1K+ followers
+            - button "About this result" [ref=e304] [cursor=pointer]:
+              - img [ref=e307]
+          - generic [ref=e310]:
+            - generic [ref=e311]:
+              - text: serving daily aesthetics✨ beauty | skincare | fashion 🎖️top 20
+              - emphasis [ref=e312]: toronto
+              - text: ugc
+              - emphasis [ref=e313]: influencer
+              - text: "2025 pr/collab: theniveditabhalla@"
+              - emphasis [ref=e314]: gmail.com toronto
+              - text: ", canada."
+            - link "Read more" [ref=e315] [cursor=pointer]:
+              - /url: https://www.instagram.com/theniveditabhalla/#:~:text=serving%20daily%20aesthetics%E2%9C%A8,%F0%9F%93%8Dtoronto%2C%20canada
+        - generic [ref=e319]:
+          - generic [ref=e322]:
+            - link "Tiera Singh | Toronto Influencer (@tieradee24) Instagram · tieradee24 2.9K+ followers" [ref=e324] [cursor=pointer]:
+              - /url: https://www.instagram.com/tieradee24/
+              - heading "Tiera Singh | Toronto Influencer (@tieradee24)" [level=3] [ref=e325]
+              - generic [ref=e330]:
+                - generic [ref=e332]: Instagram · tieradee24
+                - generic [ref=e334]: 2.9K+ followers
+            - button "About this result" [ref=e335] [cursor=pointer]:
+              - img [ref=e338]
+          - generic [ref=e341]:
+            - generic [ref=e342]:
+              - text: Tiera Singh |
+              - emphasis [ref=e343]: Toronto Influencer
+              - text: she/her. 2,934 followers. 534 following. tierad28@
+              - emphasis [ref=e344]: gmail.com
+              - text: . Beauty & Luxury Experiences Founder of @paintedbytd @ugc.by ...
+            - link "Read more" [ref=e345] [cursor=pointer]:
+              - /url: https://www.instagram.com/tieradee24/#:~:text=Tiera%20Singh%20%7C%20Toronto%20Influencershe%2Fher,of%20%40paintedbytd%20%40ugc.by.td%20%F0%9F%93%8D%20Toronto
+          - link "site:instagram.com \"toronto\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e348] [cursor=pointer]:
+            - /url: https://www.instagram.com/tieradee24/
+            - img "site:instagram.com \"toronto\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e350]
+        - generic [ref=e354]:
+          - generic [ref=e357]:
+            - link "Sarah De Los Santos (@approvedbysarita) Instagram · approvedbysarita 19.8K+ followers" [ref=e359] [cursor=pointer]:
+              - /url: https://www.instagram.com/approvedbysarita/
+              - heading "Sarah De Los Santos (@approvedbysarita)" [level=3] [ref=e360]
+              - generic [ref=e365]:
+                - generic [ref=e367]: Instagram · approvedbysarita
+                - generic [ref=e369]: 19.8K+ followers
+            - button "About this result" [ref=e370] [cursor=pointer]:
+              - img [ref=e373]
+          - generic [ref=e377]:
+            - text: ...
+            - emphasis [ref=e378]: gmail.com
+            - text: ...
+            - emphasis [ref=e379]: toronto
+            - text: ","
+            - emphasis [ref=e380]: toronto
+            - text: content creator,
+            - emphasis [ref=e381]: toronto influencer
+            - text: ","
+            - emphasis [ref=e382]: toronto
+            - text: beauty,
+            - emphasis [ref=e383]: toronto
+            - text: girlies ...
+          - link "site:instagram.com \"toronto\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e385] [cursor=pointer]:
+            - /url: https://www.instagram.com/approvedbysarita/
+        - generic [ref=e402]:
+          - generic [ref=e405]:
+            - link "Ashley | fashion & lifestyle (@scashleyyoo) Instagram · scashleyyoo 41.9K+ followers" [ref=e407] [cursor=pointer]:
+              - /url: https://www.instagram.com/scashleyyoo/
+              - heading "Ashley | fashion & lifestyle (@scashleyyoo)" [level=3] [ref=e408]
+              - generic [ref=e413]:
+                - generic [ref=e415]: Instagram · scashleyyoo
+                - generic [ref=e417]: 41.9K+ followers
+            - button "About this result" [ref=e418] [cursor=pointer]:
+              - img [ref=e421]
+          - generic [ref=e425]:
+            - text: ...
+            - emphasis [ref=e426]: gmail.com
+            - text: My corgi @ ...
+            - emphasis [ref=e427]: Toronto influencer
+            - text: event,
+            - emphasis [ref=e428]: Toronto
+            - text: "content creators . . . #saveyourshave ..."
+          - link "site:instagram.com \"toronto\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e430] [cursor=pointer]:
+            - /url: https://www.instagram.com/scashleyyoo/
+        - generic [ref=e447]:
+          - generic [ref=e450]:
+            - link "Shivdeep | fashion and beauty (@shivvykk) Instagram · shivvykk 2K+ followers" [ref=e452] [cursor=pointer]:
+              - /url: https://www.instagram.com/shivvykk/
+              - heading "Shivdeep | fashion and beauty (@shivvykk)" [level=3] [ref=e453]
+              - generic [ref=e458]:
+                - generic [ref=e460]: Instagram · shivvykk
+                - generic [ref=e462]: 2K+ followers
+            - button "About this result" [ref=e463] [cursor=pointer]:
+              - img [ref=e466]
+          - generic [ref=e470]:
+            - text: ...
+            - emphasis [ref=e471]: gmail.com
+            - text: ...
+            - emphasis [ref=e472]: Toronto
+            - text: events, ugc creator,
+            - emphasis [ref=e473]: Toronto
+            - text: creator,
+            - emphasis [ref=e474]: Toronto influencer
+            - text: ","
+            - emphasis [ref=e475]: Toronto
+            - text: ...
+          - link "site:instagram.com \"toronto\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e478] [cursor=pointer]:
+            - /url: https://www.instagram.com/shivvykk/
+            - img "site:instagram.com \"toronto\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e480]
+        - generic [ref=e484]:
+          - generic [ref=e487]:
+            - link "Ramandeep Kaur | Toronto Influencer (@kaur.rxmxn) Instagram · kaur.rxmxn 20.6K+ followers" [ref=e489] [cursor=pointer]:
+              - /url: https://www.instagram.com/kaur.rxmxn/
+              - heading "Ramandeep Kaur | Toronto Influencer (@kaur.rxmxn)" [level=3] [ref=e490]
+              - generic [ref=e495]:
+                - generic [ref=e497]: Instagram · kaur.rxmxn
+                - generic [ref=e499]: 20.6K+ followers
+            - button "About this result" [ref=e500] [cursor=pointer]:
+              - img [ref=e503]
+          - generic [ref=e506]:
+            - generic [ref=e507]:
+              - text: Ramandeep Kaur |
+              - emphasis [ref=e508]: Toronto Influencer
+              - text: . 20.6K followers. 1,364 following. Fashion | Beauty | Punjabi MUA @glamby.gunjan ramandeep.web17@
+              - emphasis [ref=e509]: gmail.com
+              - text: (Collab/PR).
+            - link "Read more" [ref=e510] [cursor=pointer]:
+              - /url: https://www.instagram.com/kaur.rxmxn/#:~:text=Ramandeep%20Kaur%20%7C%20Toronto%20Influencer,%F0%9F%92%8C%20ramandeep.web17%40gmail.com%20(Collab%2FPR)
+      - navigation [ref=e513]:
+        - heading "Page Navigation" [level=1] [ref=e514]
+        - text: "1"
+        - link "Page 2" [ref=e517] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22toronto%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=xSYpar3fLN6-kPIPwf7C4Ak&start=10&sa=N&sstk=AU9db-DsWUpHgdi1zWyj5PwqbMECYFGBBnSNWCwY81mAgIPrXCbWq5A4cINdQmcjvat099cunDncnLfGkECw4FhZ-yGu8y3D4oQS_w&ved=2ahUKEwj91frepvyUAxVeH0QIHUG_EJwQ8tMDegQIOhAE
+          - text: "2"
+        - link "Page 3" [ref=e519] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22toronto%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=xSYpar3fLN6-kPIPwf7C4Ak&start=20&sa=N&sstk=AU9db-DsWUpHgdi1zWyj5PwqbMECYFGBBnSNWCwY81mAgIPrXCbWq5A4cINdQmcjvat099cunDncnLfGkECw4FhZ-yGu8y3D4oQS_w&ved=2ahUKEwj91frepvyUAxVeH0QIHUG_EJwQ8tMDegQIOhAG
+          - text: "3"
+        - link "Page 4" [ref=e521] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22toronto%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=xSYpar3fLN6-kPIPwf7C4Ak&start=30&sa=N&sstk=AU9db-DsWUpHgdi1zWyj5PwqbMECYFGBBnSNWCwY81mAgIPrXCbWq5A4cINdQmcjvat099cunDncnLfGkECw4FhZ-yGu8y3D4oQS_w&ved=2ahUKEwj91frepvyUAxVeH0QIHUG_EJwQ8tMDegQIOhAI
+          - text: "4"
+        - link "Page 5" [ref=e523] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22toronto%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=xSYpar3fLN6-kPIPwf7C4Ak&start=40&sa=N&sstk=AU9db-DsWUpHgdi1zWyj5PwqbMECYFGBBnSNWCwY81mAgIPrXCbWq5A4cINdQmcjvat099cunDncnLfGkECw4FhZ-yGu8y3D4oQS_w&ved=2ahUKEwj91frepvyUAxVeH0QIHUG_EJwQ8tMDegQIOhAK
+          - text: "5"
+        - link "Page 6" [ref=e525] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22toronto%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=xSYpar3fLN6-kPIPwf7C4Ak&start=50&sa=N&sstk=AU9db-DsWUpHgdi1zWyj5PwqbMECYFGBBnSNWCwY81mAgIPrXCbWq5A4cINdQmcjvat099cunDncnLfGkECw4FhZ-yGu8y3D4oQS_w&ved=2ahUKEwj91frepvyUAxVeH0QIHUG_EJwQ8tMDegQIOhAM
+          - text: "6"
+        - link "Page 7" [ref=e527] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22toronto%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=xSYpar3fLN6-kPIPwf7C4Ak&start=60&sa=N&sstk=AU9db-DsWUpHgdi1zWyj5PwqbMECYFGBBnSNWCwY81mAgIPrXCbWq5A4cINdQmcjvat099cunDncnLfGkECw4FhZ-yGu8y3D4oQS_w&ved=2ahUKEwj91frepvyUAxVeH0QIHUG_EJwQ8tMDegQIOhAO
+          - text: "7"
+        - link "Page 8" [ref=e529] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22toronto%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=xSYpar3fLN6-kPIPwf7C4Ak&start=70&sa=N&sstk=AU9db-DsWUpHgdi1zWyj5PwqbMECYFGBBnSNWCwY81mAgIPrXCbWq5A4cINdQmcjvat099cunDncnLfGkECw4FhZ-yGu8y3D4oQS_w&ved=2ahUKEwj91frepvyUAxVeH0QIHUG_EJwQ8tMDegQIOhAQ
+          - text: "8"
+        - link "Page 9" [ref=e531] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22toronto%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=xSYpar3fLN6-kPIPwf7C4Ak&start=80&sa=N&sstk=AU9db-DsWUpHgdi1zWyj5PwqbMECYFGBBnSNWCwY81mAgIPrXCbWq5A4cINdQmcjvat099cunDncnLfGkECw4FhZ-yGu8y3D4oQS_w&ved=2ahUKEwj91frepvyUAxVeH0QIHUG_EJwQ8tMDegQIOhAS
+          - text: "9"
+        - link "Page 10" [ref=e533] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22toronto%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=xSYpar3fLN6-kPIPwf7C4Ak&start=90&sa=N&sstk=AU9db-DsWUpHgdi1zWyj5PwqbMECYFGBBnSNWCwY81mAgIPrXCbWq5A4cINdQmcjvat099cunDncnLfGkECw4FhZ-yGu8y3D4oQS_w&ved=2ahUKEwj91frepvyUAxVeH0QIHUG_EJwQ8tMDegQIOhAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e535]:
+          - link "Next" [ref=e536] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22toronto%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=xSYpar3fLN6-kPIPwf7C4Ak&start=10&sa=N&sstk=AU9db-DsWUpHgdi1zWyj5PwqbMECYFGBBnSNWCwY81mAgIPrXCbWq5A4cINdQmcjvat099cunDncnLfGkECw4FhZ-yGu8y3D4oQS_w&ved=2ahUKEwj91frepvyUAxVeH0QIHUG_EJwQ8NMDegQIOhAW
+            - generic [ref=e538]: Next
+      - navigation
+    - contentinfo [ref=e539]:
+      - heading "Footer Links" [level=1] [ref=e540]
+      - generic [ref=e544]:
+        - generic [ref=e548]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e550] [cursor=pointer]:
+            - generic [ref=e551]: 85281, Tempe, AZ
+            - generic [ref=e553]:
+              - text: "-"
+              - generic [ref=e554]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e556] [cursor=pointer]: Update location
+        - generic [ref=e559]:
+          - link "Help" [ref=e560] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e561] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e562] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e563] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

@@ -1,0 +1,70 @@
+- generic [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - banner [ref=e4]:
+    - banner [ref=e5]:
+      - link "Go to Google home" [ref=e7] [cursor=pointer]:
+        - /url: https://www.google.com/webhp?hl=en&ictx=0&sa=X&ved=0ahUKEwjEvfj8hfyUAxWJJUQIHXkjN2YQPAgH
+        - img [ref=e8]
+  - generic [ref=e14]:
+    - generic [ref=e15]:
+      - generic [ref=e16]:
+        - navigation [ref=e20]:
+          - list [ref=e22]:
+            - listitem [ref=e23]:
+              - link "AI Mode" [disabled] [ref=e27] [cursor=pointer]:
+                - generic [ref=e29]: AI Mode
+            - listitem [ref=e30]:
+              - link "All" [ref=e31] [cursor=pointer]:
+                - /url: /search?q=darya_museai+instagram+email+gmail&sca_esv=4a455b0f3ad2390b&prmd=ivns&source=lnms&sa=X&ved=2ahUKEwjEvfj8hfyUAxWJJUQIHXkjN2YQ0pQJegQIBhAF
+                - generic [ref=e33]: All
+            - listitem [ref=e34]:
+              - link "Images" [ref=e35] [cursor=pointer]:
+                - /url: /search?q=darya_museai+instagram+email+gmail&sca_esv=4a455b0f3ad2390b&udm=2&prmd=ivns&source=lnms&sa=X&ved=2ahUKEwjEvfj8hfyUAxWJJUQIHXkjN2YQ0pQJegQIBhAH
+                - generic [ref=e37]: Images
+            - listitem [ref=e38]:
+              - link "Videos" [ref=e39] [cursor=pointer]:
+                - /url: /search?q=darya_museai+instagram+email+gmail&sca_esv=4a455b0f3ad2390b&udm=7&prmd=ivns&source=lnms&sa=X&ved=2ahUKEwjEvfj8hfyUAxWJJUQIHXkjN2YQ0pQJegQIBhAJ
+                - generic [ref=e41]: Videos
+            - listitem [ref=e42]:
+              - link "News" [ref=e43] [cursor=pointer]:
+                - /url: /search?q=darya_museai+instagram+email+gmail&sca_esv=4a455b0f3ad2390b&tbm=nws&prmd=ivns&source=lnms&sa=X&ved=2ahUKEwjEvfj8hfyUAxWJJUQIHXkjN2YQ0pQJegQIBhAL
+                - generic [ref=e45]: News
+            - listitem [ref=e46]:
+              - button "More filters" [ref=e47] [cursor=pointer]:
+                - generic "More filters" [ref=e48]:
+                  - generic [ref=e49]: More
+                  - img [ref=e51]
+        - generic [ref=e53]:
+          - button "Settings" [ref=e55] [cursor=pointer]:
+            - img [ref=e58]
+          - generic [ref=e61]:
+            - button "Google apps" [ref=e63] [cursor=pointer]:
+              - img [ref=e64]
+            - link "Sign in" [ref=e68] [cursor=pointer]:
+              - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Ddarya_museai%2Binstagram%2Bemail%2Bgmail%26udm%3D50&ec=futura_srp_og_si_72236_p
+      - separator [ref=e69]
+    - heading "Search Results" [level=1] [ref=e70]
+    - generic [ref=e78]:
+      - generic [ref=e80]:
+        - button "AI Mode history" [ref=e81]
+        - generic [ref=e82]:
+          - button [ref=e84] [cursor=pointer]:
+            - img [ref=e86]
+          - button "New thread" [ref=e89] [cursor=pointer]:
+            - img [ref=e91]
+      - generic [ref=e96]:
+        - 'heading "You said: darya_museai instagram email gmail" [level=2] [ref=e102]':
+          - generic [ref=e103]: "You said:"
+          - text: darya_museai instagram email gmail
+        - generic [ref=e132]: Searching
+      - generic [ref=e134]:
+        - textbox "Ask anything" [active] [ref=e136]
+        - button "More input options" [ref=e139] [cursor=pointer]:
+          - img [ref=e141]
+        - button "Microphone" [ref=e158] [cursor=pointer]:
+          - img [ref=e160]
+    - contentinfo

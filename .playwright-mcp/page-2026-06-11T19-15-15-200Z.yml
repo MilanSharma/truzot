@@ -1,0 +1,383 @@
+- generic [active] [ref=e1]:
+  - dialog "Your privacy is important to us!" [ref=e2]:
+    - document [ref=e3]:
+      - generic [ref=e5]:
+        - heading "Your privacy is important to us!" [level=1] [ref=e6]
+        - generic [ref=e7]:
+          - text: We use cookies and other tracking technologies on our site, through which Dice and other third parties may collect information about your visit. By clicking "Accept All" you agree to our use of these technologies. For details, including how to opt-out of certain categories, please see Cookie Settings.
+          - paragraph [ref=e8]: Privacy Policy and Terms & Conditions.
+      - form [ref=e9]:
+        - button "Cookie settings" [ref=e11] [cursor=pointer]
+        - button "Reject all" [ref=e13] [cursor=pointer]:
+          - generic [ref=e14]: Reject all
+        - button "Accept all" [ref=e16] [cursor=pointer]:
+          - generic [ref=e17]: Accept all
+    - link "Close" [ref=e19] [cursor=pointer]:
+      - /url: "#"
+  - generic [ref=e22]:
+    - generic [ref=e23]:
+      - banner [ref=e24]:
+        - generic [ref=e25]:
+          - link "Dice Home" [ref=e26] [cursor=pointer]:
+            - /url: https://www.dice.com
+            - img "Dice Logo" [ref=e28]
+          - navigation "Main navigation" [ref=e31]:
+            - link "Job Search" [ref=e33] [cursor=pointer]:
+              - /url: https://www.dice.com/jobs
+              - generic [ref=e34]:
+                - generic [ref=e37]:
+                  - img [ref=e39]
+                  - img [ref=e42]
+                - text: Job Search
+            - link "Companies" [ref=e46] [cursor=pointer]:
+              - /url: https://www.dice.com/companies
+              - generic [ref=e47]: Companies
+            - button "Career Resources" [ref=e50] [cursor=pointer]:
+              - generic [ref=e51]: Career Resources
+              - img [ref=e52]
+            - link "Why Dice" [ref=e55] [cursor=pointer]:
+              - /url: https://www.dice.com/why-join-dice
+              - generic [ref=e56]: Why Dice
+          - navigation "Secondary navigation" [ref=e58]:
+            - button "I'm an Employer" [ref=e61] [cursor=pointer]:
+              - generic [ref=e62]: I'm an Employer
+              - img [ref=e63]
+            - link "Request a Demo" [ref=e66] [cursor=pointer]:
+              - /url: https://www.dice.com/hiring/demo
+              - generic [ref=e67]: Request a Demo
+            - link "Login" [ref=e69] [cursor=pointer]:
+              - /url: https://www.dice.com/dashboard/login
+              - generic [ref=e70]:
+                - generic [ref=e73]:
+                  - img [ref=e75]
+                  - img [ref=e78]
+                - text: Login
+      - generic [ref=e81]:
+        - navigation [ref=e83]:
+          - list [ref=e84]:
+            - listitem [ref=e85]:
+              - link "Search Jobs" [ref=e86] [cursor=pointer]:
+                - /url: /jobs
+                - generic [ref=e87]:
+                  - img [ref=e88]
+                  - text: Search Jobs
+            - listitem [ref=e90]:
+              - link "Recommended Jobs" [ref=e91] [cursor=pointer]:
+                - /url: /recommended-jobs
+                - generic [ref=e92]: Recommended Jobs
+        - generic [ref=e93]:
+          - region "Search bar" [ref=e98]:
+            - group [ref=e100]:
+              - combobox "Job title, skill, company, keyword" [ref=e101]: software engineer H1B sponsorship
+            - separator [ref=e102]
+            - group [ref=e104]:
+              - combobox "Location Field" [ref=e105]: United States
+            - button "Search" [ref=e106] [cursor=pointer]:
+              - img [ref=e108]
+          - generic [ref=e112]:
+            - generic [ref=e113]:
+              - button "All filters" [ref=e115] [cursor=pointer]:
+                - generic [ref=e116]:
+                  - img [ref=e117]
+                  - text: All filters
+              - button "Set Job Alert" [ref=e124] [cursor=pointer]:
+                - generic [ref=e125]:
+                  - text: Set Job Alert
+                  - img [ref=e126]
+            - generic:
+              - button "drawer-background"
+              - generic [ref=e129]:
+                - button "Close" [ref=e131] [cursor=pointer]:
+                  - img [ref=e132]
+                  - generic [ref=e134]: Close
+                - heading "Filter Results" [level=2] [ref=e136]
+                - region "Drawer content" [ref=e137]:
+                  - generic [ref=e138]:
+                    - generic [ref=e140]:
+                      - generic [ref=e141] [cursor=pointer]:
+                        - heading [level=3] [ref=e142]:
+                          - img [ref=e143]
+                          - text: Job post features
+                        - img [ref=e145]
+                      - generic [ref=e147]:
+                        - paragraph [ref=e148]: Selecting these options will only show you job post results that have these features.
+                        - generic [ref=e149]:
+                          - checkbox "Easy apply (0)" [disabled] [ref=e151]
+                          - img [ref=e153]
+                          - text: Easy apply (0)
+                    - generic [ref=e156]:
+                      - generic [ref=e157] [cursor=pointer]:
+                        - heading [level=3] [ref=e158]:
+                          - img [ref=e159]
+                          - text: Posted date
+                        - img [ref=e171]
+                      - generic [ref=e173]:
+                        - paragraph [ref=e174]: This is the date the job was posted by a recruiter or employer. Select one.
+                        - radiogroup "This is the date the job was posted by a recruiter or employer. Select one." [ref=e175]:
+                          - generic [ref=e176]:
+                            - generic [ref=e177]:
+                              - radio "No preference" [checked] [ref=e179]
+                              - img [ref=e181] [cursor=pointer]
+                              - text: No preference
+                            - generic [ref=e184]:
+                              - radio "Today (0)" [disabled] [ref=e186]
+                              - img [ref=e188]
+                              - text: Today (0)
+                            - generic [ref=e190]:
+                              - radio "Last 3 days (0)" [disabled] [ref=e192]
+                              - img [ref=e194]
+                              - text: Last 3 days (0)
+                            - generic [ref=e196]:
+                              - radio "Last 7 days (0)" [disabled] [ref=e198]
+                              - img [ref=e200]
+                              - text: Last 7 days (0)
+                    - generic [ref=e203]:
+                      - generic [ref=e204] [cursor=pointer]:
+                        - heading [level=3] [ref=e205]:
+                          - img [ref=e206]
+                          - text: Work settings
+                        - img [ref=e209]
+                      - generic [ref=e211]:
+                        - paragraph [ref=e212]: Are you thinking jammies or something more formal? You can select multiple options.
+                        - generic "Are you thinking jammies or something more formal? You can select multiple options." [ref=e213]:
+                          - generic [ref=e214]:
+                            - generic [ref=e215]:
+                              - checkbox "Remote" [disabled] [ref=e217]
+                              - img [ref=e219]
+                              - text: Remote
+                            - text: Work from anywhere (exceptions may apply)
+                          - generic [ref=e221]:
+                            - generic [ref=e222]:
+                              - checkbox "Hybrid" [disabled] [ref=e224]
+                              - img [ref=e226]
+                              - text: Hybrid
+                            - text: Divide your time between the office and home
+                          - generic [ref=e228]:
+                            - generic [ref=e229]:
+                              - checkbox "On-Site" [disabled] [ref=e231]
+                              - img [ref=e233]
+                              - text: On-Site
+                            - text: Work in person at an office
+                    - generic [ref=e236]:
+                      - generic [ref=e237] [cursor=pointer]:
+                        - heading [level=3] [ref=e238]:
+                          - img [ref=e239]
+                          - text: Employment type
+                        - img [ref=e242]
+                      - generic [ref=e244]:
+                        - paragraph [ref=e245]: Tell us the type of work you’re looking for. You can select multiple options.
+                        - generic [ref=e246]:
+                          - checkbox "Full time (0)" [disabled] [ref=e248]
+                          - img [ref=e250]
+                          - text: Full time (0)
+                        - generic [ref=e252]:
+                          - checkbox "Part time (0)" [disabled] [ref=e254]
+                          - img [ref=e256]
+                          - text: Part time (0)
+                        - generic [ref=e258]:
+                          - checkbox "Contract (0)" [disabled] [ref=e260]
+                          - img [ref=e262]
+                          - text: Contract (0)
+                        - generic [ref=e264]:
+                          - checkbox "Third Party (0)" [disabled] [ref=e266]
+                          - img [ref=e268]
+                          - text: Third Party (0)
+                        - generic [ref=e270]:
+                          - checkbox "Internship (0)" [disabled] [ref=e272]
+                          - img [ref=e274]
+                          - text: Internship (0)
+                    - generic [ref=e277]:
+                      - generic [ref=e278] [cursor=pointer]:
+                        - heading [level=3] [ref=e279]:
+                          - img [ref=e280]
+                          - text: Employer type
+                        - img [ref=e285]
+                      - generic [ref=e287]:
+                        - paragraph [ref=e288]: This is the source of the job post. You can select multiple options.
+                        - generic [ref=e289]:
+                          - checkbox "Direct hire (0)" [disabled] [ref=e291]
+                          - img [ref=e293]
+                          - text: Direct hire (0)
+                        - generic [ref=e295]:
+                          - checkbox "Recruiter (0)" [disabled] [ref=e297]
+                          - img [ref=e299]
+                          - text: Recruiter (0)
+                        - generic [ref=e301]:
+                          - checkbox "Other (0)" [disabled] [ref=e303]
+                          - img [ref=e305]
+                          - text: Other (0)
+                    - generic [ref=e308]:
+                      - generic [ref=e309] [cursor=pointer]:
+                        - heading [level=3] [ref=e310]:
+                          - img [ref=e311]
+                          - text: Work authorization
+                        - img [ref=e314]
+                      - generic [ref=e316]:
+                        - paragraph [ref=e317]:
+                          - text: Are you looking for an employer who is willing to provide sponsorship?
+                          - link "What does this mean?" [ref=e318] [cursor=pointer]:
+                            - /url: https://www.dice.com/support/candidate-help/finding-a-job/what-does-willing-to-sponsor-mean-on-dice.html
+                        - generic [ref=e320]:
+                          - checkbox "Willing to sponsor (0)" [disabled] [ref=e322]
+                          - img [ref=e324]
+                          - text: Willing to sponsor (0)
+                - generic [ref=e326]:
+                  - button "Clear filters" [ref=e327] [cursor=pointer]:
+                    - generic [ref=e328]: Clear filters
+                  - button "Apply filters" [ref=e329] [cursor=pointer]:
+                    - generic [ref=e330]: Apply filters
+        - generic [ref=e331]:
+          - paragraph [ref=e332]: 0 results (0 new)
+          - generic [ref=e334]:
+            - heading "No results found" [level=2] [ref=e335]
+            - generic [ref=e336]: We weren't able to find any jobs for "software engineer H1B sponsorship" in United States. Please try refining your search terms.
+        - generic [ref=e338]:
+          - img "Neutron" [ref=e339]
+          - generic [ref=e340]:
+            - paragraph [ref=e341]: Receive personalized job alerts!
+            - paragraph [ref=e342]: Get our best jobs and opportunities, personalized to your profile and delivered fresh to your inbox.
+          - generic [ref=e343]:
+            - button "Sign me up!" [ref=e344] [cursor=pointer]:
+              - generic [ref=e345]:
+                - text: Sign me up!
+                - img [ref=e346]
+            - button "Dismiss recommended job alerts" [ref=e348] [cursor=pointer]:
+              - generic [ref=e349]:
+                - generic [ref=e350]: Dismiss
+                - img [ref=e351]
+    - contentinfo [ref=e353]:
+      - generic [ref=e355]:
+        - link "Dice Home" [ref=e356] [cursor=pointer]:
+          - /url: https://www.dice.com
+          - img "Dice Logo" [ref=e358]
+        - navigation "Social media" [ref=e361]:
+          - list [ref=e362]:
+            - listitem [ref=e363]:
+              - link "LinkedIn" [ref=e364] [cursor=pointer]:
+                - /url: https://www.linkedin.com/company/dice
+                - img [ref=e365]
+            - listitem [ref=e367]:
+              - link "YouTube" [ref=e368] [cursor=pointer]:
+                - /url: https://www.youtube.com/Dice
+                - img [ref=e369]
+            - listitem [ref=e371]:
+              - link "Instagram" [ref=e372] [cursor=pointer]:
+                - /url: https://www.instagram.com/dicedotcom
+                - img [ref=e373]
+            - listitem [ref=e376]:
+              - link "TikTok" [ref=e377] [cursor=pointer]:
+                - /url: https://www.tiktok.com/@dicetechjobs
+                - img [ref=e378]
+      - generic [ref=e381]:
+        - navigation "Technology Professionals" [ref=e383]:
+          - heading "Technology Professionals" [level=2] [ref=e384]
+          - list [ref=e385]:
+            - listitem [ref=e386]:
+              - link "Search for Jobs" [ref=e387] [cursor=pointer]:
+                - /url: https://www.dice.com/jobs
+            - listitem [ref=e388]:
+              - link "Jobs Directory" [ref=e389] [cursor=pointer]:
+                - /url: https://www.dice.com/jobs/browse-jobs
+            - listitem [ref=e390]:
+              - link "Search for Companies" [ref=e391] [cursor=pointer]:
+                - /url: https://www.dice.com/companies
+            - listitem [ref=e392]:
+              - link "Company Directory" [ref=e393] [cursor=pointer]:
+                - /url: https://www.dice.com/company-profile/browse
+            - listitem [ref=e394]:
+              - link "Career Advice" [ref=e395] [cursor=pointer]:
+                - /url: https://www.dice.com/career-advice
+        - navigation "Employers and Recruiters" [ref=e397]:
+          - heading "Employers and Recruiters" [level=2] [ref=e398]
+          - list [ref=e399]:
+            - listitem [ref=e400]:
+              - link "Post Jobs" [ref=e401] [cursor=pointer]:
+                - /url: https://www.dice.com/hiring/post-jobs
+            - listitem [ref=e402]:
+              - link "Find Candidates" [ref=e403] [cursor=pointer]:
+                - /url: https://www.dice.com/hiring/find-candidates
+            - listitem [ref=e404]:
+              - link "Build Employer Brand" [ref=e405] [cursor=pointer]:
+                - /url: https://www.dice.com/hiring/employer-brand
+            - listitem [ref=e406]:
+              - link "Explore Talent Solutions" [ref=e407] [cursor=pointer]:
+                - /url: https://www.dice.com/hiring/talent-solutions
+            - listitem [ref=e408]:
+              - link "View Integrations" [ref=e409] [cursor=pointer]:
+                - /url: https://www.dice.com/hiring/integrations
+            - listitem [ref=e410]:
+              - link "Recruiting Advice" [ref=e411] [cursor=pointer]:
+                - /url: https://www.dice.com/hiring/recruitment
+            - listitem [ref=e412]:
+              - link "Hiring Resources" [ref=e413] [cursor=pointer]:
+                - /url: https://www.dice.com/hiring/employer-resources
+        - navigation "Company Information" [ref=e415]:
+          - heading "Company Information" [level=2] [ref=e416]
+          - list [ref=e417]:
+            - listitem [ref=e418]:
+              - link "About Us" [ref=e419] [cursor=pointer]:
+                - /url: https://dhigroupinc.com
+            - listitem [ref=e420]:
+              - link "Media" [ref=e421] [cursor=pointer]:
+                - /url: https://www.dice.com/media
+            - listitem [ref=e422]:
+              - link "Work at Dice" [ref=e423] [cursor=pointer]:
+                - /url: https://dhigroupinc.com/careers/default.aspx
+        - generic [ref=e424]:
+          - navigation "Contact Us" [ref=e425]:
+            - heading "Contact Us" [level=2] [ref=e426]
+            - list [ref=e427]:
+              - listitem [ref=e428]:
+                - link "Request a Demo" [ref=e429] [cursor=pointer]:
+                  - /url: https://www.dice.com/hiring/demo
+          - navigation "Support" [ref=e430]:
+            - heading "Support" [level=2] [ref=e431]
+            - list [ref=e432]:
+              - listitem [ref=e433]:
+                - link "Knowledge Center" [ref=e434] [cursor=pointer]:
+                  - /url: https://www.dice.com/support
+              - listitem [ref=e435]:
+                - link "Privacy & Trust Center" [ref=e436] [cursor=pointer]:
+                  - /url: https://www.dice.com/privacy-center
+              - listitem [ref=e437]:
+                - link "Contact Support" [ref=e438] [cursor=pointer]:
+                  - /url: https://www.dice.com/about/contact-us
+      - generic [ref=e441]:
+        - heading "Get the Dice app." [level=2] [ref=e442]
+        - paragraph [ref=e443]: Unlock your tech potential.
+        - list [ref=e444]:
+          - listitem [ref=e445]:
+            - link "Download on the Apple App Store" [ref=e446] [cursor=pointer]:
+              - /url: https://apps.apple.com/app/id794201100
+              - img "Apple App Store" [ref=e447]
+          - listitem [ref=e458]:
+            - link "Get it on Google Play" [ref=e459] [cursor=pointer]:
+              - /url: https://play.google.com/store/apps/details?id=com.dice.app.jobs&referrer=trackingcode%3DDI_OS_UN_MA_UP&utm_campaign%3DDice%2520Universal%2520Header%2520and%2520Footer&utm_source%3DDice&utm_medium%3DOnsite&utm_content%3DUniversal&utm_term%3DUnpaid
+              - img "Google Play" [ref=e460]
+      - generic [ref=e473]:
+        - paragraph [ref=e475]:
+          - text: Copyright © 1990 - 2026 Dice. All Rights Reserved.
+          - link "Dice" [ref=e476] [cursor=pointer]:
+            - /url: https://www.dice.com
+          - text: is a
+          - link "DHI" [ref=e477] [cursor=pointer]:
+            - /url: https://dhigroupinc.com
+          - text: service.
+        - navigation "Legal and policies" [ref=e478]:
+          - list [ref=e479]:
+            - listitem [ref=e480]:
+              - link "Terms & Conditions" [ref=e481] [cursor=pointer]:
+                - /url: https://www.dice.com/about/terms-and-conditions
+              - text: "|"
+            - listitem [ref=e482]:
+              - link "Privacy Policy" [ref=e483] [cursor=pointer]:
+                - /url: https://www.dice.com/about/privacy-policy
+              - text: "|"
+            - listitem [ref=e484]:
+              - link "End User License Agreement" [ref=e485] [cursor=pointer]:
+                - /url: https://www.dice.com/about/eula
+              - text: "|"
+            - listitem [ref=e486]:
+              - link "Do Not Sell or Share My Personal Information" [ref=e487] [cursor=pointer]:
+                - /url: https://www.dice.com/about/ccpa#ccpa-form-anchor
+  - alert [ref=e488]

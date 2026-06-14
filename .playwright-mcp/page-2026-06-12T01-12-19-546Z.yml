@@ -1,0 +1,317 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - generic:
+          - generic:
+            - generic:
+              - img
+        - link "World Cup 2026 Begins!" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&ictx=2&sa=X&ved=0ahUKEwjF0NTYwoCVAxVbJkQIHQxLLVgQPQgL
+          - img "World Cup 2026 Begins!" [ref=e14]
+        - generic [ref=e15]:
+          - generic [ref=e16]:
+            - combobox "Search" [ref=e19]: site:instagram.com ("AI tools" OR "AI headshots" OR "AI photography" OR "AI generator" OR "AI influencer") ("@gmail.com" OR "@outlook.com" OR "email:" OR "business inquiries") site:instagram.com ("AI tools" OR "AI headshots" OR "AI photography" OR "AI generator" OR "AI influencer") ("@gmail.com" OR "@outlook.com" OR "email:" OR "business inquiries")
+            - generic [ref=e20]:
+              - button "Clear" [ref=e22] [cursor=pointer]:
+                - img [ref=e24]
+              - generic [ref=e27]:
+                - button "Search by voice" [ref=e28] [cursor=pointer]:
+                  - img [ref=e29]
+                - button "Search by image" [ref=e31] [cursor=pointer]:
+                  - img [ref=e32]
+          - button "Search" [ref=e34] [cursor=pointer]:
+            - img [ref=e37]
+    - generic [ref=e39]:
+      - button "Settings" [ref=e41] [cursor=pointer]:
+        - img [ref=e44]
+      - button "Share" [ref=e47] [cursor=pointer]:
+        - img [ref=e51]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite%253Ainstagram.com%2B%2528%2522AI%2Btools%2522%2BOR%2B%2522AI%2Bheadshots%2522%2BOR%2B%2522AI%2Bphotography%2522%2BOR%2B%2522AI%2Bgenerator%2522%2BOR%2B%2522AI%2Binfluencer%2522%2529%2B%2528%2522%2540gmail.com%2522%2BOR%2B%2522%2540outlook.com%2522%2BOR%2B%2522email%253A%2522%2BOR%2B%2522business%2Binquiries%2522%2529&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "All" [disabled] [ref=e77]:
+              - generic [ref=e79]: All
+          - listitem [ref=e80]:
+            - link "Images" [ref=e81] [cursor=pointer]:
+              - /url: /search?sca_esv=e266cabde4f9b998&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3lu5bo-x-eoA2sZT4vVUz9yLyki37Rkwixf4DIY3bvxQPsV1FQOBzakzQTE0Rrxy_PfmdCnjkkK7Qa8xhJBJpprd3QIElkuukIlcI5eD4bVl6hXdZsPGeL-ZSNpS6gv-lUStxJFI3b_3Nw2BDwPuQd2NN6NiOjnFuZ-uqt-BsUpwvw1TbQ&q=site:instagram.com+(%22AI+tools%22+OR+%22AI+headshots%22+OR+%22AI+photography%22+OR+%22AI+generator%22+OR+%22AI+influencer%22)+(%22%40gmail.com%22+OR+%22%40outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22)&sa=X&ved=2ahUKEwjF0NTYwoCVAxVbJkQIHQxLLVgQtKgLegQIFRAB
+              - generic [ref=e83]: Images
+          - listitem [ref=e84]:
+            - link "News" [ref=e85] [cursor=pointer]:
+              - /url: /search?sca_esv=e266cabde4f9b998&q=site:instagram.com+(%22AI+tools%22+OR+%22AI+headshots%22+OR+%22AI+photography%22+OR+%22AI+generator%22+OR+%22AI+influencer%22)+(%22%40gmail.com%22+OR+%22%40outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22)&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3lu5bo-x-eoA2sZT4vVUz9yLyki37Rkwixf4DIY3bvxQPsV1FQOBzakzQTE0Rrxy_PfmdCnjkkK7Qa8xhJBJpprd3QIElkuukIlcI5eD4bVl6hXdZsPGeL-ZSNpS6gv-lUStxJFI3b_3Nw2BDwPuQd2NN6NiOjnFuZ-uqt-BsUpwvw1TbQ&sa=X&ved=2ahUKEwjF0NTYwoCVAxVbJkQIHQxLLVgQ0pQJegQIFBAB
+              - generic [ref=e87]: News
+          - listitem [ref=e88]:
+            - link "Forums" [ref=e89] [cursor=pointer]:
+              - /url: /search?sca_esv=e266cabde4f9b998&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3lu5bo-x-eoA2sZT4vVUz9yLyki37Rkwixf4DIY3bvxQPsV1FQOBzakzQTE0Rrxy_PfmdCnjkkK7Qa8xhJBJpprd3QIElkuukIlcI5eD4bVl6hXdZsPGeL-ZSNpS6gv-lUStxJFI3b_3Nw2BDwPuQd2NN6NiOjnFuZ-uqt-BsUpwvw1TbQ&q=site:instagram.com+(%22AI+tools%22+OR+%22AI+headshots%22+OR+%22AI+photography%22+OR+%22AI+generator%22+OR+%22AI+influencer%22)+(%22%40gmail.com%22+OR+%22%40outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22)&sa=X&ved=2ahUKEwjF0NTYwoCVAxVbJkQIHQxLLVgQs6gLegQIERAB
+              - generic [ref=e91]: Forums
+          - listitem [ref=e92]:
+            - link "Videos" [ref=e93] [cursor=pointer]:
+              - /url: /search?sca_esv=e266cabde4f9b998&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3lu5bo-x-eoA2sZT4vVUz9yLyki37Rkwixf4DIY3bvxQPsV1FQOBzakzQTE0Rrxy_PfmdCnjkkK7Qa8xhJBJpprd3QIElkuukIlcI5eD4bVl6hXdZsPGeL-ZSNpS6gv-lUStxJFI3b_3Nw2BDwPuQd2NN6NiOjnFuZ-uqt-BsUpwvw1TbQ&q=site:instagram.com+(%22AI+tools%22+OR+%22AI+headshots%22+OR+%22AI+photography%22+OR+%22AI+generator%22+OR+%22AI+influencer%22)+(%22%40gmail.com%22+OR+%22%40outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22)&sa=X&ved=2ahUKEwjF0NTYwoCVAxVbJkQIHQxLLVgQtKgLegQIEhAB
+              - generic [ref=e95]: Videos
+          - listitem [ref=e96]:
+            - link "Shopping" [ref=e97] [cursor=pointer]:
+              - /url: /search?sca_esv=e266cabde4f9b998&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3lu5bo-x-eoA2sZT4vVUz9yLyki37Rkwixf4DIY3bvxQPsV1FQOBzakzQTE0Rrxy_PfmdCnjkkK7Qa8xhJBJpprd3QIElkuukIlcI5eD4bVl6hXdZsPGeL-ZSNpS6gv-lUStxJFI3b_3Nw2BDwPuQd2NN6NiOjnFuZ-uqt-BsUpwvw1TbQ&q=site:instagram.com+(%22AI+tools%22+OR+%22AI+headshots%22+OR+%22AI+photography%22+OR+%22AI+generator%22+OR+%22AI+influencer%22)+(%22%40gmail.com%22+OR+%22%40outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22)&ved=1t:220175&ictx=111
+              - generic [ref=e99]: Shopping
+          - listitem [ref=e100]:
+            - button "More filters" [ref=e101] [cursor=pointer]:
+              - generic "More filters" [ref=e102]:
+                - generic [ref=e103]:
+                  - generic [ref=e104]: More
+                  - img [ref=e106]
+        - button "Tools" [ref=e109] [cursor=pointer]:
+          - generic [ref=e111]:
+            - generic [ref=e112]: Tools
+            - img [ref=e114]
+    - heading "Search Results" [level=1] [ref=e116]
+    - main [ref=e122]:
+      - generic [ref=e126]:
+        - generic [ref=e129]:
+          - heading "Web results" [level=2] [ref=e130]
+          - generic [ref=e131]:
+            - generic [ref=e134]:
+              - link "Create your own AI influencer and start making content ... Instagram · digitaljourneywithmags 30+ likes · 1 month ago" [ref=e136] [cursor=pointer]:
+                - /url: https://www.instagram.com/p/DXY7q70DZF6/
+                - heading "Create your own AI influencer and start making content ..." [level=3] [ref=e137]
+                - generic [ref=e143]:
+                  - generic [ref=e145]: Instagram · digitaljourneywithmags
+                  - generic [ref=e147]: 30+ likes · 1 month ago
+              - button "About this result" [ref=e148] [cursor=pointer]:
+                - img [ref=e151]
+            - generic [ref=e154]:
+              - generic [ref=e155]:
+                - text: ...
+                - emphasis [ref=e156]: email
+                - text: I've used to land deals. All of it. It's on Gumroad for $15 ... You can give 1,000 people the exact same
+                - emphasis [ref=e157]: AI tools
+                - text: today and 999 of them will ...
+              - link "Read more" [ref=e158] [cursor=pointer]:
+                - /url: https://www.instagram.com/p/DXY7q70DZF6/#:~:text=email%20I've%20used%20to%20land,for%20%2415%2C%20link%20in%20bio.&text=You%20can%20give%201%2C000%20people,them%20will%20never%20go%20viral.
+        - generic [ref=e162]:
+          - generic [ref=e165]:
+            - link "All Free AI Tools in 1 Website! 🤯 . . @explore_aitech . . ... Instagram · explore_aitech 10+ likes · 12 hours ago" [ref=e167] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZcg0RJPRTf/
+              - heading "All Free AI Tools in 1 Website! 🤯 . . @explore_aitech . . ..." [level=3] [ref=e168]
+              - generic [ref=e174]:
+                - generic [ref=e176]: Instagram · explore_aitech
+                - generic [ref=e178]: 10+ likes · 12 hours ago
+            - button "About this result" [ref=e179] [cursor=pointer]:
+              - img [ref=e182]
+          - generic [ref=e185]:
+            - generic [ref=e186]:
+              - text: free
+              - emphasis [ref=e187]: ai tools
+              - text: for video editing text to video free ai image to video
+              - emphasis [ref=e188]: ai generator
+              - text: free ai video generator without watermark free
+              - emphasis [ref=e189]: ai tools
+              - text: list ...
+            - link "Read more" [ref=e190] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZcg0RJPRTf/#:~:text=free%20ai%20tools%20for%20video,ai%20tools%20list%20with%20link
+        - generic [ref=e194]:
+          - generic [ref=e197]:
+            - 'link "AI tools are literally popping up everywhere: email, ... Instagram · dietitian.drew 10+ likes · 1 month ago" [ref=e199] [cursor=pointer]':
+              - /url: https://www.instagram.com/p/DYQVszMSkh9/
+              - 'heading "AI tools are literally popping up everywhere: email, ..." [level=3] [ref=e200]'
+              - generic [ref=e206]:
+                - generic [ref=e208]: Instagram · dietitian.drew
+                - generic [ref=e210]: 10+ likes · 1 month ago
+            - button "About this result" [ref=e211] [cursor=pointer]:
+              - img [ref=e214]
+          - generic [ref=e217]:
+            - generic [ref=e218]:
+              - emphasis [ref=e219]: AI tools
+              - text: "are literally popping up everywhere:"
+              - emphasis [ref=e220]: email
+              - text: ", browsers, docs, meeting platforms + the systems people already use every day."
+            - link "Read more" [ref=e221] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DYQVszMSkh9/#:~:text=AI%20tools%20are%20literally%20popping,people%20already%20use%20every%20day.
+        - generic [ref=e225]:
+          - generic [ref=e228]:
+            - link "Phil Pallen • Branding & AI Tools (@philpallen) Instagram · philpallen 27.8K+ followers" [ref=e230] [cursor=pointer]:
+              - /url: https://www.instagram.com/philpallen/
+              - heading "Phil Pallen • Branding & AI Tools (@philpallen)" [level=3] [ref=e231]
+              - generic [ref=e237]:
+                - generic [ref=e239]: Instagram · philpallen
+                - generic [ref=e241]: 27.8K+ followers
+            - button "About this result" [ref=e242] [cursor=pointer]:
+              - img [ref=e245]
+          - generic [ref=e249]:
+            - text: AI is changing how teams schedule, train, and communicate. Connecteam and Deputy take two very different approaches. I break down what their
+            - emphasis [ref=e250]: AI tools
+            - text: actually ...
+        - generic [ref=e254]:
+          - generic [ref=e257]:
+            - link "Top 20 AI TOOLS for Professionals (FREE Seminar) Online ... Instagram · durgajobsinfo 15 hours ago" [ref=e259] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZcK6IuExyZ/
+              - heading "Top 20 AI TOOLS for Professionals (FREE Seminar) Online ..." [level=3] [ref=e260]
+              - generic [ref=e266]:
+                - generic [ref=e268]: Instagram · durgajobsinfo
+                - generic [ref=e270]: 15 hours ago
+            - button "About this result" [ref=e271] [cursor=pointer]:
+              - img [ref=e274]
+          - generic [ref=e277]:
+            - generic [ref=e278]:
+              - emphasis [ref=e279]: Email
+              - text: ": durgasoftonlinetraining@"
+              - emphasis [ref=e280]: gmail.com
+              - text: ". Phone: +91 - 8885252627 ... Online Training DURGA Software Solutions® LEARN"
+              - emphasis [ref=e281]: AI TOOLS
+              - text: "-NO CODING, NO ..."
+            - link "Read more" [ref=e282] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZcK6IuExyZ/#:~:text=Email%3A%20durgasoftonlinetraining%40gmail.com,Phone%3A%20%2B91%20%2D%208885252627%2C%207207212427%2F28&text=Online%20Training%20DURGA%20Software%20Solutions%C2%AE,NEEDED%20AI%20TOOLS%20By%20Mrs.
+        - generic [ref=e286]:
+          - generic [ref=e289]:
+            - link "Have you tried any of these AI tools yet? Let me know in ... Instagram · ferdie.dev 110+ likes · 1 day ago" [ref=e291] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZY82jbEQfe/
+              - heading "Have you tried any of these AI tools yet? Let me know in ..." [level=3] [ref=e292]
+              - generic [ref=e298]:
+                - generic [ref=e300]: Instagram · ferdie.dev
+                - generic [ref=e302]: 110+ likes · 1 day ago
+            - button "About this result" [ref=e303] [cursor=pointer]:
+              - img [ref=e306]
+          - generic [ref=e309]:
+            - generic [ref=e310]:
+              - text: "... likes, 23 comments - ferdie.dev on June 9, 2026: \"Have you tried any of these"
+              - emphasis [ref=e311]: AI tools
+              - text: ...
+              - emphasis [ref=e312]: Email
+              - text: Phone Location Lead Score Reason Fit 12. Add rate ...
+            - link "Read more" [ref=e313] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZY82jbEQfe/#:~:text=Email,rate%2Dlimit%20protection%20and%20error%20handling.
+        - generic [ref=e319]:
+          - generic [ref=e322]:
+            - link "10 most useful AI tools for creators Follow for more ... Instagram · itsmodernmillie 1.6K+ likes · 1 month ago" [ref=e324] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DYFB7LFEclf/
+              - heading "10 most useful AI tools for creators Follow for more ..." [level=3] [ref=e325]
+              - generic [ref=e331]:
+                - generic [ref=e333]: Instagram · itsmodernmillie
+                - generic [ref=e335]: 1.6K+ likes · 1 month ago
+            - button "About this result" [ref=e336] [cursor=pointer]:
+              - img [ref=e339]
+          - generic [ref=e341]:
+            - link "10 most useful AI tools for creators Follow for more ... by Camille Adrian | Content Creator Tips on Instagram. Play on Instagram. 0:42" [ref=e342] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DYFB7LFEclf/
+              - generic [ref=e344]:
+                - img [ref=e347]
+                - generic [ref=e351]: 0:42
+            - generic [ref=e353]: "Creators are using AI tools for: ✨ content ideas ✨ captions and hooks ✨ video editing ✨ email marketing ✨ graphics and carousels ✨ scripting ✨ ..."
+        - generic [ref=e357]:
+          - generic [ref=e360]:
+            - link "wisdarnet | We've listed 5 free AI tools that every ... Instagram · wisdarnet 1 week ago" [ref=e362] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZK-uPujZFe/
+              - heading "wisdarnet | We've listed 5 free AI tools that every ..." [level=3] [ref=e363]
+              - generic [ref=e369]:
+                - generic [ref=e371]: Instagram · wisdarnet
+                - generic [ref=e373]: 1 week ago
+            - button "About this result" [ref=e374] [cursor=pointer]:
+              - img [ref=e377]
+          - generic [ref=e380]:
+            - generic [ref=e381]:
+              - text: "... likes, 0 comments - wisdarnet on June 4, 2026: \"We've listed 5 free"
+              - emphasis [ref=e382]: AI tools
+              - text: ...
+              - emphasis [ref=e383]: email
+              - text: variations, reports, and structured updates automatically.
+            - link "Read more" [ref=e384] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DZK-uPujZFe/#:~:text=email%20variations%2C%20reports%2C%20and%20structured,updates%20automatically.
+        - generic [ref=e390]:
+          - generic [ref=e393]:
+            - 'link "My favorite AI tools in 2026 Writing: Claude Typing ... Instagram · advicewithjean 270+ likes · 4 days ago" [ref=e395] [cursor=pointer]':
+              - /url: https://www.instagram.com/reel/DZQDN3dTBWI/
+              - 'heading "My favorite AI tools in 2026 Writing: Claude Typing ..." [level=3] [ref=e396]'
+              - generic [ref=e402]:
+                - generic [ref=e404]: Instagram · advicewithjean
+                - generic [ref=e406]: 270+ likes · 4 days ago
+            - button "About this result" [ref=e407] [cursor=pointer]:
+              - img [ref=e410]
+          - generic [ref=e412]:
+            - 'link "My favorite AI tools in 2026 Writing: Claude Typing ... by Jean Kang | Tech & AI on Instagram. Play on Instagram. 0:28" [ref=e413] [cursor=pointer]':
+              - /url: https://www.instagram.com/reel/DZQDN3dTBWI/
+              - generic [ref=e415]:
+                - img [ref=e418]
+                - generic [ref=e422]: 0:28
+            - generic [ref=e424]: Follow me for AI content. OCR. Best AI Tools For Every Task In 2026 Writing Email Real time Trend Image and Video Generation Planning Your Day ...
+        - generic [ref=e430]:
+          - generic [ref=e433]:
+            - link "the best AI tools right now (Comment 'BEST' to get them all) Instagram · chriswinfield 1.2K+ likes · 4 weeks ago" [ref=e435] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DYVWF-vtmuq/
+              - heading "the best AI tools right now (Comment 'BEST' to get them all)" [level=3] [ref=e436]
+              - generic [ref=e442]:
+                - generic [ref=e444]: Instagram · chriswinfield
+                - generic [ref=e446]: 1.2K+ likes · 4 weeks ago
+            - button "About this result" [ref=e447] [cursor=pointer]:
+              - img [ref=e450]
+          - generic [ref=e452]:
+            - link "the best AI tools right now (Comment 'BEST' to get them all) by Chris Winfield on Instagram. Play on Instagram. 0:49" [ref=e453] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DYVWF-vtmuq/
+              - generic [ref=e455]:
+                - img [ref=e458]
+                - generic [ref=e462]: 0:49
+            - generic [ref=e464]: AI TOOLS YOU NEED 11 AI tools that feel illegal to know 92F 01 ... Email newsletter Notion AI Organise anything Resemble AI The All-In ...
+      - navigation [ref=e467]:
+        - heading "Page Navigation" [level=1] [ref=e468]
+        - text: "1"
+        - link "Page 2" [ref=e471] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22AI+tools%22+OR+%22AI+headshots%22+OR+%22AI+photography%22+OR+%22AI+generator%22+OR+%22AI+influencer%22)+(%22@gmail.com%22+OR+%22@outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22)&sca_esv=e266cabde4f9b998&ei=81wraoWLKdvMkPIPjJa1wQU&start=10&sa=N&sstk=AU9db-BP47xirtZkfwO-lWAj9ZWhHVjo5cLMXqEMIlUd8IU998eG8zA3B10hd2BT5u1aboXEpSWA1PiXwI6FqHAMvT2iZQAvkRwkxA&ved=2ahUKEwjF0NTYwoCVAxVbJkQIHQxLLVgQ8tMDegQIJRAE
+          - text: "2"
+        - link "Page 3" [ref=e473] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22AI+tools%22+OR+%22AI+headshots%22+OR+%22AI+photography%22+OR+%22AI+generator%22+OR+%22AI+influencer%22)+(%22@gmail.com%22+OR+%22@outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22)&sca_esv=e266cabde4f9b998&ei=81wraoWLKdvMkPIPjJa1wQU&start=20&sa=N&sstk=AU9db-BP47xirtZkfwO-lWAj9ZWhHVjo5cLMXqEMIlUd8IU998eG8zA3B10hd2BT5u1aboXEpSWA1PiXwI6FqHAMvT2iZQAvkRwkxA&ved=2ahUKEwjF0NTYwoCVAxVbJkQIHQxLLVgQ8tMDegQIJRAG
+          - text: "3"
+        - link "Page 4" [ref=e475] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22AI+tools%22+OR+%22AI+headshots%22+OR+%22AI+photography%22+OR+%22AI+generator%22+OR+%22AI+influencer%22)+(%22@gmail.com%22+OR+%22@outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22)&sca_esv=e266cabde4f9b998&ei=81wraoWLKdvMkPIPjJa1wQU&start=30&sa=N&sstk=AU9db-BP47xirtZkfwO-lWAj9ZWhHVjo5cLMXqEMIlUd8IU998eG8zA3B10hd2BT5u1aboXEpSWA1PiXwI6FqHAMvT2iZQAvkRwkxA&ved=2ahUKEwjF0NTYwoCVAxVbJkQIHQxLLVgQ8tMDegQIJRAI
+          - text: "4"
+        - link "Page 5" [ref=e477] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22AI+tools%22+OR+%22AI+headshots%22+OR+%22AI+photography%22+OR+%22AI+generator%22+OR+%22AI+influencer%22)+(%22@gmail.com%22+OR+%22@outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22)&sca_esv=e266cabde4f9b998&ei=81wraoWLKdvMkPIPjJa1wQU&start=40&sa=N&sstk=AU9db-BP47xirtZkfwO-lWAj9ZWhHVjo5cLMXqEMIlUd8IU998eG8zA3B10hd2BT5u1aboXEpSWA1PiXwI6FqHAMvT2iZQAvkRwkxA&ved=2ahUKEwjF0NTYwoCVAxVbJkQIHQxLLVgQ8tMDegQIJRAK
+          - text: "5"
+        - link "Page 6" [ref=e479] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22AI+tools%22+OR+%22AI+headshots%22+OR+%22AI+photography%22+OR+%22AI+generator%22+OR+%22AI+influencer%22)+(%22@gmail.com%22+OR+%22@outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22)&sca_esv=e266cabde4f9b998&ei=81wraoWLKdvMkPIPjJa1wQU&start=50&sa=N&sstk=AU9db-BP47xirtZkfwO-lWAj9ZWhHVjo5cLMXqEMIlUd8IU998eG8zA3B10hd2BT5u1aboXEpSWA1PiXwI6FqHAMvT2iZQAvkRwkxA&ved=2ahUKEwjF0NTYwoCVAxVbJkQIHQxLLVgQ8tMDegQIJRAM
+          - text: "6"
+        - link "Page 7" [ref=e481] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22AI+tools%22+OR+%22AI+headshots%22+OR+%22AI+photography%22+OR+%22AI+generator%22+OR+%22AI+influencer%22)+(%22@gmail.com%22+OR+%22@outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22)&sca_esv=e266cabde4f9b998&ei=81wraoWLKdvMkPIPjJa1wQU&start=60&sa=N&sstk=AU9db-BP47xirtZkfwO-lWAj9ZWhHVjo5cLMXqEMIlUd8IU998eG8zA3B10hd2BT5u1aboXEpSWA1PiXwI6FqHAMvT2iZQAvkRwkxA&ved=2ahUKEwjF0NTYwoCVAxVbJkQIHQxLLVgQ8tMDegQIJRAO
+          - text: "7"
+        - link "Page 8" [ref=e483] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22AI+tools%22+OR+%22AI+headshots%22+OR+%22AI+photography%22+OR+%22AI+generator%22+OR+%22AI+influencer%22)+(%22@gmail.com%22+OR+%22@outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22)&sca_esv=e266cabde4f9b998&ei=81wraoWLKdvMkPIPjJa1wQU&start=70&sa=N&sstk=AU9db-BP47xirtZkfwO-lWAj9ZWhHVjo5cLMXqEMIlUd8IU998eG8zA3B10hd2BT5u1aboXEpSWA1PiXwI6FqHAMvT2iZQAvkRwkxA&ved=2ahUKEwjF0NTYwoCVAxVbJkQIHQxLLVgQ8tMDegQIJRAQ
+          - text: "8"
+        - link "Page 9" [ref=e485] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22AI+tools%22+OR+%22AI+headshots%22+OR+%22AI+photography%22+OR+%22AI+generator%22+OR+%22AI+influencer%22)+(%22@gmail.com%22+OR+%22@outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22)&sca_esv=e266cabde4f9b998&ei=81wraoWLKdvMkPIPjJa1wQU&start=80&sa=N&sstk=AU9db-BP47xirtZkfwO-lWAj9ZWhHVjo5cLMXqEMIlUd8IU998eG8zA3B10hd2BT5u1aboXEpSWA1PiXwI6FqHAMvT2iZQAvkRwkxA&ved=2ahUKEwjF0NTYwoCVAxVbJkQIHQxLLVgQ8tMDegQIJRAS
+          - text: "9"
+        - link "Page 10" [ref=e487] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+(%22AI+tools%22+OR+%22AI+headshots%22+OR+%22AI+photography%22+OR+%22AI+generator%22+OR+%22AI+influencer%22)+(%22@gmail.com%22+OR+%22@outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22)&sca_esv=e266cabde4f9b998&ei=81wraoWLKdvMkPIPjJa1wQU&start=90&sa=N&sstk=AU9db-BP47xirtZkfwO-lWAj9ZWhHVjo5cLMXqEMIlUd8IU998eG8zA3B10hd2BT5u1aboXEpSWA1PiXwI6FqHAMvT2iZQAvkRwkxA&ved=2ahUKEwjF0NTYwoCVAxVbJkQIHQxLLVgQ8tMDegQIJRAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e489]:
+          - link "Next" [ref=e490] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+(%22AI+tools%22+OR+%22AI+headshots%22+OR+%22AI+photography%22+OR+%22AI+generator%22+OR+%22AI+influencer%22)+(%22@gmail.com%22+OR+%22@outlook.com%22+OR+%22email:%22+OR+%22business+inquiries%22)&sca_esv=e266cabde4f9b998&ei=81wraoWLKdvMkPIPjJa1wQU&start=10&sa=N&sstk=AU9db-BP47xirtZkfwO-lWAj9ZWhHVjo5cLMXqEMIlUd8IU998eG8zA3B10hd2BT5u1aboXEpSWA1PiXwI6FqHAMvT2iZQAvkRwkxA&ved=2ahUKEwjF0NTYwoCVAxVbJkQIHQxLLVgQ8NMDegQIJRAW
+            - generic [ref=e492]: Next
+      - navigation
+    - contentinfo [ref=e493]:
+      - heading "Footer Links" [level=1] [ref=e494]
+      - generic [ref=e498]:
+        - generic [ref=e502]:
+          - button "85288, Tempe, AZ - From your IP address" [ref=e504] [cursor=pointer]:
+            - generic [ref=e505]: 85288, Tempe, AZ
+            - generic [ref=e507]:
+              - text: "-"
+              - generic [ref=e508]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e510] [cursor=pointer]: Update location
+        - generic [ref=e513]:
+          - link "Help" [ref=e514] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e515] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e516] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e517] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

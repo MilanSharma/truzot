@@ -1,0 +1,269 @@
+- generic [ref=e1]:
+  - generic [ref=e8]:
+    - generic [ref=e10]:
+      - link [ref=e13] [cursor=pointer]:
+        - /url: /
+        - img [ref=e16]
+      - generic [ref=e21]:
+        - link [ref=e23] [cursor=pointer]:
+          - /url: /accounts/login/?next=%2Fkaranmourya__%2F&source=desktop_nav
+          - text: Log In
+        - link [ref=e25] [cursor=pointer]:
+          - /url: /accounts/emailsignup/
+          - text: Sign Up
+    - main [ref=e26]:
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - button [ref=e31] [cursor=pointer]:
+            - link [ref=e33]:
+              - img [ref=e34]
+          - generic [ref=e35]:
+            - generic [ref=e36]:
+              - heading [level=2] [ref=e38]: karanmourya__
+              - button [ref=e40] [cursor=pointer]:
+                - img [ref=e42]
+            - generic [ref=e47]: Karan Mourya
+            - list [ref=e49]:
+              - listitem [ref=e50]:
+                - link [ref=e52] [cursor=pointer]:
+                  - /url: "#"
+                  - generic [ref=e53]:
+                    - generic [ref=e54]: "176"
+                    - text: posts
+              - listitem [ref=e55]:
+                - link [ref=e57] [cursor=pointer]:
+                  - /url: "#"
+                  - generic [ref=e58]:
+                    - generic [ref=e59]: 1,242
+                    - text: followers
+              - listitem [ref=e60]:
+                - link [ref=e62] [cursor=pointer]:
+                  - /url: "#"
+                  - generic [ref=e63]:
+                    - generic [ref=e64]: "662"
+                    - text: following
+            - generic [ref=e66]:
+              - generic [ref=e68]: Athlete
+              - generic [ref=e70]:
+                - generic [ref=e72]: Certified Fitness coach | Personal trainer| Online coaching
+                - generic [ref=e73]:
+                  - text: ...
+                  - button [ref=e74] [cursor=pointer]:
+                    - generic [ref=e75]: more
+        - menu [ref=e76]:
+          - generic [ref=e78]:
+            - list [ref=e80]:
+              - listitem [ref=e81]
+              - listitem [ref=e82]
+              - listitem [ref=e83]:
+                - menuitem [ref=e85] [cursor=pointer]:
+                  - link [ref=e86]:
+                    - /url: /stories/highlights/18084362584625753/
+                    - button [disabled] [ref=e87]:
+                      - img [ref=e90]
+                  - generic [ref=e93]: 💪
+              - listitem [ref=e94]:
+                - menuitem [ref=e96] [cursor=pointer]:
+                  - link [ref=e97]:
+                    - /url: /stories/highlights/17862376386625413/
+                    - button [disabled] [ref=e98]:
+                      - img [ref=e101]
+                  - generic [ref=e104]: Me👀
+              - listitem [ref=e105]:
+                - menuitem [ref=e107] [cursor=pointer]:
+                  - link [ref=e108]:
+                    - /url: /stories/highlights/18026064326473176/
+                    - button [disabled] [ref=e109]:
+                      - img [ref=e112]
+                  - generic [ref=e115]: 🏎️
+              - listitem [ref=e116]:
+                - menuitem [ref=e118] [cursor=pointer]:
+                  - link [ref=e119]:
+                    - /url: /stories/highlights/17902447281204372/
+                    - button [disabled] [ref=e120]:
+                      - img [ref=e123]
+                  - generic [ref=e126]: C350🖤
+              - listitem [ref=e127]:
+                - menuitem [ref=e129] [cursor=pointer]:
+                  - link [ref=e130]:
+                    - /url: /stories/highlights/17972313608699771/
+                    - button [disabled] [ref=e131]:
+                      - img [ref=e134]
+                  - generic [ref=e137]: 🏏
+              - listitem [ref=e138]:
+                - menuitem [ref=e140] [cursor=pointer]:
+                  - link [ref=e141]:
+                    - /url: /stories/highlights/18041444930416381/
+                    - button [disabled] [ref=e142]:
+                      - img [ref=e145]
+                  - generic [ref=e148]: Certification
+              - listitem [ref=e149]:
+                - menuitem [ref=e151] [cursor=pointer]:
+                  - link [ref=e152]:
+                    - /url: /stories/highlights/17866284279105959/
+                    - button [disabled] [ref=e153]:
+                      - img [ref=e156]
+                  - generic [ref=e159]: Gym 💪
+            - button [ref=e160] [cursor=pointer]
+        - tablist [ref=e163]:
+          - link [ref=e165] [cursor=pointer]:
+            - /url: /karanmourya__/
+            - img [ref=e167]
+          - link [ref=e178] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e180]
+          - link [ref=e183] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e185]
+        - article [ref=e189]:
+          - generic [ref=e191]:
+            - generic [ref=e192]:
+              - link [ref=e194] [cursor=pointer]:
+                - /url: /karanmourya__/reel/DU7fKz1jjgP/
+                - img [ref=e197]
+                - generic:
+                  - generic:
+                    - img
+              - link [ref=e200] [cursor=pointer]:
+                - /url: /karanmourya__/reel/DUkd1-hiJZc/
+                - img [ref=e203]
+                - generic:
+                  - generic:
+                    - img
+              - link [ref=e206] [cursor=pointer]:
+                - /url: /karanmourya__/p/DSScGZKCLqz/
+                - img [ref=e209]
+                - generic:
+                  - generic:
+                    - img
+            - generic [ref=e211]:
+              - link [ref=e213] [cursor=pointer]:
+                - /url: /karanmourya__/reel/DZcoUKmNU5e/
+                - img [ref=e216]
+                - generic:
+                  - generic:
+                    - img
+              - link [ref=e219] [cursor=pointer]:
+                - /url: /karanmourya__/reel/DZaDd_uhEOI/
+                - img [ref=e222]
+                - generic:
+                  - generic:
+                    - img
+              - link [ref=e225] [cursor=pointer]:
+                - /url: /karanmourya__/reel/DZXfPPGt-pE/
+                - img [ref=e228]
+                - generic:
+                  - generic:
+                    - img
+            - generic [ref=e230]:
+              - link [ref=e232] [cursor=pointer]:
+                - /url: /karanmourya__/reel/DZU545ZtxrV/
+                - img [ref=e235]
+                - generic:
+                  - generic:
+                    - img
+              - link [ref=e238] [cursor=pointer]:
+                - /url: /karanmourya__/reel/DZUReEbMgPE/
+                - img [ref=e241]
+                - generic:
+                  - generic:
+                    - img
+              - link [ref=e244] [cursor=pointer]:
+                - /url: /karanmourya__/reel/DZPwWOttGgj/
+                - img [ref=e247]
+                - generic:
+                  - generic:
+                    - img
+            - generic [ref=e249]:
+              - link [ref=e251] [cursor=pointer]:
+                - /url: /karanmourya__/reel/DZPH7bGM15q/
+                - img [ref=e254]
+                - generic:
+                  - generic:
+                    - img
+              - link [ref=e257] [cursor=pointer]:
+                - /url: /karanmourya__/reel/DZKvFDFIQqT/
+                - img [ref=e260]
+                - generic:
+                  - generic:
+                    - img
+              - link [ref=e263] [cursor=pointer]:
+                - /url: /karanmourya__/reel/DZFc3iko5fu/
+                - img [ref=e266]
+                - generic:
+                  - generic:
+                    - img
+          - progressbar [ref=e269]:
+            - img [ref=e270]
+    - contentinfo [ref=e283]:
+      - generic [ref=e284]:
+        - generic [ref=e286]:
+          - link [ref=e288] [cursor=pointer]:
+            - /url: https://about.meta.com/
+            - generic [ref=e289]: Meta
+          - link [ref=e291] [cursor=pointer]:
+            - /url: https://about.instagram.com/
+            - generic [ref=e292]: About
+          - link [ref=e294] [cursor=pointer]:
+            - /url: https://about.instagram.com/blog/
+            - generic [ref=e295]: Blog
+          - link [ref=e297] [cursor=pointer]:
+            - /url: https://about.instagram.com/about-us/careers
+            - generic [ref=e298]: Jobs
+          - link [ref=e300] [cursor=pointer]:
+            - /url: https://help.instagram.com/
+            - generic [ref=e301]: Help
+          - link [ref=e303] [cursor=pointer]:
+            - /url: https://developers.facebook.com/docs/instagram
+            - generic [ref=e304]: API
+          - link [ref=e306] [cursor=pointer]:
+            - /url: /legal/privacy/
+            - generic [ref=e307]: Privacy
+          - link [ref=e309] [cursor=pointer]:
+            - /url: /legal/privacy/health_privacy_policy/
+            - generic [ref=e310]: Consumer Health Privacy
+          - link [ref=e312] [cursor=pointer]:
+            - /url: /legal/terms/
+            - generic [ref=e313]: Terms
+          - link [ref=e315] [cursor=pointer]:
+            - /url: /explore/locations/
+            - generic [ref=e316]: Locations
+          - link [ref=e318] [cursor=pointer]:
+            - /url: /popular/
+            - generic [ref=e319]: Popular
+          - link [ref=e321] [cursor=pointer]:
+            - /url: /web/lite/
+            - generic [ref=e322]: Instagram Lite
+          - link [ref=e324] [cursor=pointer]:
+            - /url: https://www.meta.ai/?utm_source=foa_web_footer
+            - generic [ref=e325]: Meta AI
+          - link [ref=e327] [cursor=pointer]:
+            - /url: https://www.threads.com/
+            - generic [ref=e328]: Threads
+          - link [ref=e330] [cursor=pointer]:
+            - /url: https://www.facebook.com/help/instagram/261704639352628
+            - generic [ref=e331]: Contact Uploading & Non-Users
+          - link [ref=e333] [cursor=pointer]:
+            - /url: /accounts/meta_verified/?entrypoint=web_footer
+            - generic [ref=e334]: Meta Verified
+        - generic [ref=e335]:
+          - generic [ref=e336] [cursor=pointer]:
+            - generic [ref=e337]:
+              - generic [ref=e338]: English
+              - img [ref=e341]
+            - combobox [ref=e343]
+          - generic [ref=e345]: © 2026 Instagram from Meta
+  - dialog [ref=e357]:
+    - generic [ref=e358]:
+      - button "Close" [active] [ref=e360] [cursor=pointer]:
+        - img "Close" [ref=e362]
+      - generic [ref=e366]:
+        - generic [ref=e367]:
+          - link "karanmourya__'s profile picture" [ref=e369] [cursor=pointer]:
+            - img "karanmourya__'s profile picture" [ref=e370]
+          - generic [ref=e372]:
+            - generic [ref=e373]: See photos, videos and more from karanmourya__
+            - generic [ref=e375]: Sign up and never miss a post from karanmourya__.
+        - generic [ref=e376]:
+          - button "Sign up" [ref=e379] [cursor=pointer]
+          - button "Log in" [ref=e382] [cursor=pointer]

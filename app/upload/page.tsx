@@ -146,6 +146,9 @@ function UploadContent() {
       ? (saved.consentChecked as boolean)
       : true;
   });
+  const [coupon, setCoupon] = useState(
+    () => (getSavedState()?.coupon as string) || "",
+  );
   const [storagePath, setStoragePath] = useState(
     () => (getSavedState()?.storagePath as string) || "",
   );
@@ -768,6 +771,7 @@ function UploadContent() {
         selectedStyles,
         idempotencyKey,
         shootName: shootName || defaultShootName,
+        coupon,
       };
       if (userId) checkoutPayload.userId = userId;
 
@@ -794,6 +798,7 @@ function UploadContent() {
           plan,
           email,
           consentChecked,
+          coupon,
           gender,
           eyeColor,
           hairColor,
@@ -1356,6 +1361,24 @@ function UploadContent() {
                         placeholder="you@example.com"
                         className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900 outline-none transition font-medium"
                       />
+                    </div>
+
+                    <div className="mb-5">
+                      <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                        Coupon Code (optional)
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          value={coupon}
+                          onChange={(e) =>
+                            setCoupon(e.target.value.toUpperCase())
+                          }
+                          placeholder="SAVE20"
+                          maxLength={20}
+                          className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900 outline-none transition font-medium text-center uppercase tracking-wider"
+                        />
+                      </div>
                     </div>
 
                     <div className="flex items-start gap-3 mb-6 bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700">

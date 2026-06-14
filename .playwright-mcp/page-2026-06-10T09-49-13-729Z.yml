@@ -1,0 +1,328 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwjQm5S_svyUAxUiI0QIHSIAEngQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "life coach" "headshot" "@gmail.com" site:instagram.com "life coach" "headshot" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522life%2Bcoach%2522%2B%2522headshot%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22life+coach%22+%22headshot%22+%22%40gmail.com%22&sca_esv=d11ba7484cdf09fb&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3p-ML-906rRL_m6h4jR-tdCH-vUIlZq9RzugLEcfjf51tr9alKJEUrIxLwKVr7l76Nw7x30iB-Ripb51OuwxGbZSkuoU2d5YdiZ4tRMB1vi5HFkxidX9sFIVWWrSRGXFJrLPGf2zzGg7GYfl_03f6fSGRRhhN1lWBv03YeIGTDkLf4fPdA&aep=1&ntc=1&sa=X&ved=2ahUKEwjQm5S_svyUAxUiI0QIHSIAEngQ2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3p-ML-906rRL_m6h4jR-tdCH-vUIlZq9RzugLEcfjf51tr9alKJEUrIxLwKVr7l76Nw7x30iB-Ripb51OuwxGbZSkuoU2d5YdiZ4tRMB1vi5HFkxidX9sFIVWWrSRGXFJrLPGf2zzGg7GYfl_03f6fSGRRhhN1lWBv03YeIGTDkLf4fPdA&q=site:instagram.com+%22life+coach%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjQm5S_svyUAxUiI0QIHSIAEngQtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "Videos" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3p-ML-906rRL_m6h4jR-tdCH-vUIlZq9RzugLEcfjf51tr9alKJEUrIxLwKVr7l76Nw7x30iB-Ripb51OuwxGbZSkuoU2d5YdiZ4tRMB1vi5HFkxidX9sFIVWWrSRGXFJrLPGf2zzGg7GYfl_03f6fSGRRhhN1lWBv03YeIGTDkLf4fPdA&q=site:instagram.com+%22life+coach%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjQm5S_svyUAxUiI0QIHSIAEngQtKgLegQIFBAB
+              - generic [ref=e94]: Videos
+          - listitem [ref=e95]:
+            - link "Shopping" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3p-ML-906rRL_m6h4jR-tdCH-vUIlZq9RzugLEcfjf51tr9alKJEUrIxLwKVr7l76Nw7x30iB-Ripb51OuwxGbZSkuoU2d5YdiZ4tRMB1vi5HFkxidX9sFIVWWrSRGXFJrLPGf2zzGg7GYfl_03f6fSGRRhhN1lWBv03YeIGTDkLf4fPdA&q=site:instagram.com+%22life+coach%22+%22headshot%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e98]: Shopping
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3p-ML-906rRL_m6h4jR-tdCH-vUIlZq9RzugLEcfjf51tr9alKJEUrIxLwKVr7l76Nw7x30iB-Ripb51OuwxGbZSkuoU2d5YdiZ4tRMB1vi5HFkxidX9sFIVWWrSRGXFJrLPGf2zzGg7GYfl_03f6fSGRRhhN1lWBv03YeIGTDkLf4fPdA&q=site:instagram.com+%22life+coach%22+%22headshot%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjQm5S_svyUAxUiI0QIHSIAEngQs6gLegQIExAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "News" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=d11ba7484cdf09fb&q=site:instagram.com+%22life+coach%22+%22headshot%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3p-ML-906rRL_m6h4jR-tdCH-vUIlZq9RzugLEcfjf51tr9alKJEUrIxLwKVr7l76Nw7x30iB-Ripb51OuwxGbZSkuoU2d5YdiZ4tRMB1vi5HFkxidX9sFIVWWrSRGXFJrLPGf2zzGg7GYfl_03f6fSGRRhhN1lWBv03YeIGTDkLf4fPdA&sa=X&ved=2ahUKEwjQm5S_svyUAxUiI0QIHSIAEngQ0pQJegQIERAB
+              - generic [ref=e106]: News
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "Inspiration/Public Speaker | Corporate Career/Life Coach, Kevin ... Instagram https://www.instagram.com › DMpSpjvMv_n" [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/p/DMpSpjvMv_n/
+                - heading "Inspiration/Public Speaker | Corporate Career/Life Coach, Kevin ..." [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram
+                  - generic [ref=e153]: https://www.instagram.com › DMpSpjvMv_n
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e161]:
+              - text: "... on July 28, 2025: \"Inspiration/Public Speaker | Corporate Career/"
+              - emphasis [ref=e162]: Life Coach
+              - text: ... Your corporate
+              - emphasis [ref=e163]: headshot
+              - text: is no longer just a ...
+              - emphasis [ref=e164]: gmail.com
+              - text: "#headshots # ..."
+        - generic [ref=e168]:
+          - generic [ref=e171]:
+            - link "Time to update your professional headshot! Get in on our ... Instagram · kimberlywoodscreate 60+ likes · 3 years ago" [ref=e173] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/CovJ7R2vKAN/?img_index=2
+              - heading "Time to update your professional headshot! Get in on our ..." [level=3] [ref=e174]
+              - generic [ref=e179]:
+                - generic [ref=e181]: Instagram · kimberlywoodscreate
+                - generic [ref=e183]: 60+ likes · 3 years ago
+            - button "About this result" [ref=e184] [cursor=pointer]:
+              - img [ref=e187]
+          - generic [ref=e190]:
+            - generic [ref=e191]:
+              - text: As a business and
+              - emphasis [ref=e192]: life coach
+              - text: ", I'm here to help you create systems ... Send us your resume asap @ kwpcareers22@"
+              - emphasis [ref=e193]: gmail.com
+            - link "Read more" [ref=e194] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/CovJ7R2vKAN/?img_index=2#:~:text=As%20a%20business%20and%20life,to%20thrive%2C%20not%20just%20survive.&text=Send%20us%20your%20resume%20asap,%40%20kwpcareers22%40gmail.com
+        - generic [ref=e198]:
+          - generic [ref=e201]:
+            - link "Julie Tanner Reichle (@juliereichle_photo) Instagram · juliereichle_photo 410+ followers" [ref=e203] [cursor=pointer]:
+              - /url: https://www.instagram.com/juliereichle_photo/
+              - heading "Julie Tanner Reichle (@juliereichle_photo)" [level=3] [ref=e204]
+              - generic [ref=e209]:
+                - generic [ref=e211]: Instagram · juliereichle_photo
+                - generic [ref=e213]: 410+ followers
+            - button "About this result" [ref=e214] [cursor=pointer]:
+              - img [ref=e217]
+          - generic [ref=e221]:
+            - text: A recent
+            - emphasis [ref=e222]: headshot
+            - text: and branding session for Michelle, a
+            - emphasis [ref=e223]: life coach
+            - text: ". We shot this beautiful series safely outdoors. #headshots #portraitphotography # ..."
+        - generic [ref=e227]:
+          - generic [ref=e230]:
+            - link "Sneak peek into my lovely headshot session with Vanessa ... Instagram · kelliekayphotos 20+ likes · 6 months ago" [ref=e232] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DRSCjuBgI18/
+              - heading "Sneak peek into my lovely headshot session with Vanessa ..." [level=3] [ref=e233]
+              - generic [ref=e238]:
+                - generic [ref=e240]: Instagram · kelliekayphotos
+                - generic [ref=e242]: 20+ likes · 6 months ago
+            - button "About this result" [ref=e243] [cursor=pointer]:
+              - img [ref=e246]
+          - generic [ref=e249]:
+            - generic [ref=e250]:
+              - text: I'm offering a special
+              - emphasis [ref=e251]: headshot
+              - text: promotion this month. Feel free to reach out via DM or email at ptvlooks@
+              - emphasis [ref=e252]: gmail.com
+              - text: . I'd love to help you ...
+            - link "Read more" [ref=e253] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DRSCjuBgI18/#:~:text=I'm%20offering%20a%20special%20headshot,love%20to%20help%20you%20shine!
+          - link "site:instagram.com \"life coach\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e256] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DRSCjuBgI18/
+            - img "site:instagram.com \"life coach\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e258]
+        - generic [ref=e262]:
+          - generic [ref=e265]:
+            - link "Your headshot is your first impression — and most people ... Instagram · jamarhutcheson 1 like · 1 week ago" [ref=e267] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DY5H825lEwX/?img_index=2
+              - heading "Your headshot is your first impression — and most people ..." [level=3] [ref=e268]
+              - generic [ref=e273]:
+                - generic [ref=e275]: Instagram · jamarhutcheson
+                - generic [ref=e277]: 1 like · 1 week ago
+            - button "About this result" [ref=e278] [cursor=pointer]:
+              - img [ref=e281]
+          - generic [ref=e284]:
+            - generic [ref=e285]:
+              - text: Whether you need a clean corporate
+              - emphasis [ref=e286]: headshot
+              - text: or a branded lifestyle portrait session, we've got you. Serving the DMV — DC, Maryland & Virginia
+            - link "Read more" [ref=e287] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DY5H825lEwX/?img_index=2#:~:text=more
+          - link "site:instagram.com \"life coach\" \"headshot\" \"@gmail.com\" images from www.instagram.com" [ref=e289] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DY5H825lEwX/?img_index=2
+        - generic [ref=e308]:
+          - generic [ref=e311]:
+            - link "Just 1 of almost 100 Headshots for the good folk of ... Instagram · righttimesolutions 90+ likes · 4 weeks ago" [ref=e313] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DYPxsDJqyoA/
+              - heading "Just 1 of almost 100 Headshots for the good folk of ..." [level=3] [ref=e314]
+              - generic [ref=e319]:
+                - generic [ref=e321]: Instagram · righttimesolutions
+                - generic [ref=e323]: 90+ likes · 4 weeks ago
+            - button "About this result" [ref=e324] [cursor=pointer]:
+              - img [ref=e327]
+          - generic [ref=e329]:
+            - link "Just 1 of almost 100 Headshots for the good folk of ... by Houston Branding Videographer & Photographer on Instagram. Play on Instagram. 0:35" [ref=e330] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DYPxsDJqyoA/
+              - generic [ref=e332]:
+                - img [ref=e335]
+                - generic [ref=e339]: 0:35
+            - generic [ref=e341]: Headshot of lady in black suit by saskatoon headshot photographer ... Inspiration/Public Speaker | Corporate Career/Life Coach, Kevin Dada ...
+        - generic [ref=e345]:
+          - generic [ref=e348]:
+            - link "Here are some recent favorite branding photos ... - Instagram Instagram · monnetteco 80+ likes · 10 months ago" [ref=e350] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DNAxMaBAj74/?hl=zh-cn
+              - heading "Here are some recent favorite branding photos ... - Instagram" [level=3] [ref=e351]
+              - generic [ref=e356]:
+                - generic [ref=e358]: Instagram · monnetteco
+                - generic [ref=e360]: 80+ likes · 10 months ago
+            - button "About this result" [ref=e361] [cursor=pointer]:
+              - img [ref=e364]
+          - generic [ref=e367]:
+            - generic [ref=e368]:
+              - text: From your
+              - emphasis [ref=e369]: headshot
+              - text: to your website visuals, every image tells a story about your professionalism, confidence, and attention to detail. The ...
+            - link "Read more" [ref=e370] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DNAxMaBAj74/?hl=zh-cn#:~:text=From%20your%20headshot%20to%20your,The%20question%20is%3A
+          - link "site:instagram.com \"life coach\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e373] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DNAxMaBAj74/?hl=zh-cn
+            - img "site:instagram.com \"life coach\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e375]
+        - generic [ref=e379]:
+          - generic [ref=e382]:
+            - link "A fresh set of professional headshots can change how the ... Instagram · kevinjayphotography 70+ likes · 7 months ago" [ref=e384] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DQ48T2jiV5X/
+              - heading "A fresh set of professional headshots can change how the ..." [level=3] [ref=e385]
+              - generic [ref=e390]:
+                - generic [ref=e392]: Instagram · kevinjayphotography
+                - generic [ref=e394]: 70+ likes · 7 months ago
+            - button "About this result" [ref=e395] [cursor=pointer]:
+              - img [ref=e398]
+          - generic [ref=e401]:
+            - generic [ref=e402]:
+              - text: ...
+              - emphasis [ref=e403]: headshot
+              - text: "sessions! Click the link in my bio to invest in your future ... Email: t.tuckerstudio@"
+              - emphasis [ref=e404]: gmail.com
+              - text: ✨ Professional Headshots
+            - link "Read more" [ref=e405] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DQ48T2jiV5X/#:~:text=%F0%9F%93%A7%20Email%3A%20t.tuckerstudio%40gmail.com,%E2%9C%A8%20Professional%20Headshots
+          - link "site:instagram.com \"life coach\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e408] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DQ48T2jiV5X/
+            - img "site:instagram.com \"life coach\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e410]
+        - generic [ref=e414]:
+          - generic [ref=e417]:
+            - link "Zoomed in… The Headshots Series ©2026 Inspiration ... Instagram · chyder5 60+ likes · 3 weeks ago" [ref=e419] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DYhE6LBAocZ/?img_index=2
+              - heading "Zoomed in… The Headshots Series ©2026 Inspiration ..." [level=3] [ref=e420]
+              - generic [ref=e425]:
+                - generic [ref=e427]: Instagram · chyder5
+                - generic [ref=e429]: 60+ likes · 3 weeks ago
+            - button "About this result" [ref=e430] [cursor=pointer]:
+              - img [ref=e433]
+          - generic [ref=e436]:
+            - generic [ref=e437]:
+              - text: Inspiration/Public Speaker | Corporate Career/
+              - emphasis [ref=e438]: Life Coach
+              - text: ", Kevin Dada @kev_dada @chyder5 @chyder5studios. Book your professional headshots ..."
+            - link "Read more" [ref=e439] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DYhE6LBAocZ/?img_index=2#:~:text=Inspiration%2FPublic%20Speaker%20%7C%20Corporate%20Career%2FLife,session%20and%20Personal%20Branding%20Portraits.
+          - link "site:instagram.com \"life coach\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e442] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DYhE6LBAocZ/?img_index=2
+            - img "site:instagram.com \"life coach\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e444]
+        - generic [ref=e448]:
+          - generic [ref=e451]:
+            - link "The Headshots Series ©2026 Inspiration/Public Speaker Instagram · chyder5 40+ likes · 1 month ago" [ref=e453] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXgn8pHAs9L/
+              - heading "The Headshots Series ©2026 Inspiration/Public Speaker" [level=3] [ref=e454]
+              - generic [ref=e459]:
+                - generic [ref=e461]: Instagram · chyder5
+                - generic [ref=e463]: 40+ likes · 1 month ago
+            - button "About this result" [ref=e464] [cursor=pointer]:
+              - img [ref=e467]
+          - generic [ref=e470]:
+            - generic [ref=e471]:
+              - text: "... on April 24, 2026: \"The Headshots Series ©2026 Inspiration/Public Speaker | Corporate Career/"
+              - emphasis [ref=e472]: Life Coach
+              - text: ... Corporate
+              - emphasis [ref=e473]: Headshot
+              - text: of @yinka_great ...
+            - link "Read more" [ref=e474] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DXgn8pHAs9L/#:~:text=Corporate%20Headshot%20of%20%40yinka_great%20photographed,by%20me
+          - link "site:instagram.com \"life coach\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e477] [cursor=pointer]:
+            - /url: https://www.instagram.com/p/DXgn8pHAs9L/
+            - img "site:instagram.com \"life coach\" \"headshot\" \"@gmail.com\" from www.instagram.com" [ref=e479]
+      - navigation [ref=e482]:
+        - heading "Page Navigation" [level=1] [ref=e483]
+        - text: "1"
+        - link "Page 2" [ref=e486] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22life+coach%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=GDMpatCvEKLGkPIPooDIwAc&start=10&sa=N&sstk=AU9db-Bol0iU6cdIE6fbL2fPUg24WQt5pK8eCjmt4kpXw7QVY1naYo1D8-zUOlRCankt2pkSnzu8dXWFoOWsLmbsYGnoLij0lTx3SQ&ved=2ahUKEwjQm5S_svyUAxUiI0QIHSIAEngQ8tMDegQIJxAE
+          - text: "2"
+        - link "Page 3" [ref=e488] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22life+coach%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=GDMpatCvEKLGkPIPooDIwAc&start=20&sa=N&sstk=AU9db-Bol0iU6cdIE6fbL2fPUg24WQt5pK8eCjmt4kpXw7QVY1naYo1D8-zUOlRCankt2pkSnzu8dXWFoOWsLmbsYGnoLij0lTx3SQ&ved=2ahUKEwjQm5S_svyUAxUiI0QIHSIAEngQ8tMDegQIJxAG
+          - text: "3"
+        - link "Page 4" [ref=e490] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22life+coach%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=GDMpatCvEKLGkPIPooDIwAc&start=30&sa=N&sstk=AU9db-Bol0iU6cdIE6fbL2fPUg24WQt5pK8eCjmt4kpXw7QVY1naYo1D8-zUOlRCankt2pkSnzu8dXWFoOWsLmbsYGnoLij0lTx3SQ&ved=2ahUKEwjQm5S_svyUAxUiI0QIHSIAEngQ8tMDegQIJxAI
+          - text: "4"
+        - link "Page 5" [ref=e492] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22life+coach%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=GDMpatCvEKLGkPIPooDIwAc&start=40&sa=N&sstk=AU9db-Bol0iU6cdIE6fbL2fPUg24WQt5pK8eCjmt4kpXw7QVY1naYo1D8-zUOlRCankt2pkSnzu8dXWFoOWsLmbsYGnoLij0lTx3SQ&ved=2ahUKEwjQm5S_svyUAxUiI0QIHSIAEngQ8tMDegQIJxAK
+          - text: "5"
+        - link "Page 6" [ref=e494] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22life+coach%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=GDMpatCvEKLGkPIPooDIwAc&start=50&sa=N&sstk=AU9db-Bol0iU6cdIE6fbL2fPUg24WQt5pK8eCjmt4kpXw7QVY1naYo1D8-zUOlRCankt2pkSnzu8dXWFoOWsLmbsYGnoLij0lTx3SQ&ved=2ahUKEwjQm5S_svyUAxUiI0QIHSIAEngQ8tMDegQIJxAM
+          - text: "6"
+        - link "Page 7" [ref=e496] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22life+coach%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=GDMpatCvEKLGkPIPooDIwAc&start=60&sa=N&sstk=AU9db-Bol0iU6cdIE6fbL2fPUg24WQt5pK8eCjmt4kpXw7QVY1naYo1D8-zUOlRCankt2pkSnzu8dXWFoOWsLmbsYGnoLij0lTx3SQ&ved=2ahUKEwjQm5S_svyUAxUiI0QIHSIAEngQ8tMDegQIJxAO
+          - text: "7"
+        - link "Page 8" [ref=e498] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22life+coach%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=GDMpatCvEKLGkPIPooDIwAc&start=70&sa=N&sstk=AU9db-Bol0iU6cdIE6fbL2fPUg24WQt5pK8eCjmt4kpXw7QVY1naYo1D8-zUOlRCankt2pkSnzu8dXWFoOWsLmbsYGnoLij0lTx3SQ&ved=2ahUKEwjQm5S_svyUAxUiI0QIHSIAEngQ8tMDegQIJxAQ
+          - text: "8"
+        - link "Page 9" [ref=e500] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22life+coach%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=GDMpatCvEKLGkPIPooDIwAc&start=80&sa=N&sstk=AU9db-Bol0iU6cdIE6fbL2fPUg24WQt5pK8eCjmt4kpXw7QVY1naYo1D8-zUOlRCankt2pkSnzu8dXWFoOWsLmbsYGnoLij0lTx3SQ&ved=2ahUKEwjQm5S_svyUAxUiI0QIHSIAEngQ8tMDegQIJxAS
+          - text: "9"
+        - link "Page 10" [ref=e502] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22life+coach%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=GDMpatCvEKLGkPIPooDIwAc&start=90&sa=N&sstk=AU9db-Bol0iU6cdIE6fbL2fPUg24WQt5pK8eCjmt4kpXw7QVY1naYo1D8-zUOlRCankt2pkSnzu8dXWFoOWsLmbsYGnoLij0lTx3SQ&ved=2ahUKEwjQm5S_svyUAxUiI0QIHSIAEngQ8tMDegQIJxAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e504]:
+          - link "Next" [ref=e505] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22life+coach%22+%22headshot%22+%22@gmail.com%22&sca_esv=d11ba7484cdf09fb&ei=GDMpatCvEKLGkPIPooDIwAc&start=10&sa=N&sstk=AU9db-Bol0iU6cdIE6fbL2fPUg24WQt5pK8eCjmt4kpXw7QVY1naYo1D8-zUOlRCankt2pkSnzu8dXWFoOWsLmbsYGnoLij0lTx3SQ&ved=2ahUKEwjQm5S_svyUAxUiI0QIHSIAEngQ8NMDegQIJxAW
+            - generic [ref=e507]: Next
+      - navigation
+    - contentinfo [ref=e508]:
+      - heading "Footer Links" [level=1] [ref=e509]
+      - generic [ref=e513]:
+        - generic [ref=e517]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e519] [cursor=pointer]:
+            - generic [ref=e520]: 85281, Tempe, AZ
+            - generic [ref=e522]:
+              - text: "-"
+              - generic [ref=e523]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e525] [cursor=pointer]: Update location
+        - generic [ref=e528]:
+          - link "Help" [ref=e529] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e530] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e531] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e532] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

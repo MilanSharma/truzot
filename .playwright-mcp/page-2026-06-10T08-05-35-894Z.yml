@@ -1,0 +1,322 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwj1j4Cqm_yUAxWFIEQIHcL6N8oQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "charlotte" "influencer" "@gmail.com" site:instagram.com "charlotte" "influencer" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522charlotte%2522%2B%2522influencer%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22charlotte%22+%22influencer%22+%22%40gmail.com%22&sca_esv=16a54cb5159ee727&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&aep=1&ntc=1&sa=X&ved=2ahUKEwj1j4Cqm_yUAxWFIEQIHcL6N8oQ2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&q=site:instagram.com+%22charlotte%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwj1j4Cqm_yUAxWFIEQIHcL6N8oQtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "Videos" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&q=site:instagram.com+%22charlotte%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwj1j4Cqm_yUAxWFIEQIHcL6N8oQtKgLegQIFBAB
+              - generic [ref=e94]: Videos
+          - listitem [ref=e95]:
+            - link "News" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&q=site:instagram.com+%22charlotte%22+%22influencer%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&sa=X&ved=2ahUKEwj1j4Cqm_yUAxWFIEQIHcL6N8oQ0pQJegQIEhAB
+              - generic [ref=e98]: News
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&q=site:instagram.com+%22charlotte%22+%22influencer%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwj1j4Cqm_yUAxWFIEQIHcL6N8oQs6gLegQIERAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=16a54cb5159ee727&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3jljrY5CkLlk8Dq3IvwBz-R5R-93bnJN-gfJetFY0A5MdV8u1lb0qHJqJA7ZNBEWfqFiSgbG3hpGEJP4iTKxgv7NALvdASc6PtO2CH-YhyzBFUmKYJjoeqhYJg3X5-miGzLK-8u8O_FsCo7XrkyeELLdRXLEUER9a_8dJYCn6fVLgvcqjg&q=site:instagram.com+%22charlotte%22+%22influencer%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "Charlotte (@charlottethesedays) Instagram · charlottethesedays 9.1K+ followers" [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/charlottethesedays/
+                - heading "Charlotte (@charlottethesedays)" [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram · charlottethesedays
+                  - generic [ref=e153]: 9.1K+ followers
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e161]:
+              - text: ...
+              - emphasis [ref=e162]: gmail.com
+              - text: ...
+              - emphasis [ref=e163]: Charlotte influencer
+              - text: ", plus size clothing, plus size outfit ..."
+            - link "site:instagram.com \"charlotte\" \"influencer\" \"@gmail.com\" images from www.instagram.com" [ref=e165] [cursor=pointer]:
+              - /url: https://www.instagram.com/charlottethesedays/
+        - generic [ref=e182]:
+          - generic [ref=e185]:
+            - link "Influence CLT 📸 Charlotte, NC (@ ... Instagram · influence.clt 790+ followers" [ref=e187] [cursor=pointer]:
+              - /url: https://www.instagram.com/influence.clt/
+              - heading "Influence CLT 📸 Charlotte, NC (@ ..." [level=3] [ref=e188]
+              - generic [ref=e193]:
+                - generic [ref=e195]: Instagram · influence.clt
+                - generic [ref=e197]: 790+ followers
+            - button "About this result" [ref=e198] [cursor=pointer]:
+              - img [ref=e201]
+          - generic [ref=e205]:
+            - text: ...
+            - emphasis [ref=e206]: gmail.com
+            - text: ... Are you a
+            - emphasis [ref=e207]: Charlotte influencer
+            - text: interested in joining us next time? DM ...
+          - link "site:instagram.com \"charlotte\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e210] [cursor=pointer]:
+            - /url: https://www.instagram.com/influence.clt/
+            - img "site:instagram.com \"charlotte\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e212]
+        - generic [ref=e216]:
+          - generic [ref=e219]:
+            - link "Over 40 style ideas (@whatcharwore2) Instagram · whatcharwore2 203.8K+ followers" [ref=e221] [cursor=pointer]:
+              - /url: https://www.instagram.com/whatcharwore2/
+              - heading "Over 40 style ideas (@whatcharwore2)" [level=3] [ref=e222]
+              - generic [ref=e227]:
+                - generic [ref=e229]: Instagram · whatcharwore2
+                - generic [ref=e231]: 203.8K+ followers
+            - button "About this result" [ref=e232] [cursor=pointer]:
+              - img [ref=e235]
+          - generic [ref=e239]:
+            - text: ...
+            - emphasis [ref=e240]: gmail.com
+            - text: Shop my looks here ...
+            - emphasis [ref=e241]: influencer
+            - text: summit. That jersey ❤️ What would you start doing if there was no reason not to ...
+          - link "site:instagram.com \"charlotte\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e244] [cursor=pointer]:
+            - /url: https://www.instagram.com/whatcharwore2/
+            - img "site:instagram.com \"charlotte\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e246]
+        - generic [ref=e250]:
+          - generic [ref=e253]:
+            - link "Keepingupwithkellsonline Instagram · keepingupwithkellsonline 10.5K+ followers" [ref=e255] [cursor=pointer]:
+              - /url: https://www.instagram.com/keepingupwithkellsonline/
+              - heading "Keepingupwithkellsonline" [level=3] [ref=e256]
+              - generic [ref=e261]:
+                - generic [ref=e263]: Instagram · keepingupwithkellsonline
+                - generic [ref=e265]: 10.5K+ followers
+            - button "About this result" [ref=e266] [cursor=pointer]:
+              - img [ref=e269]
+          - generic [ref=e273]:
+            - text: ...
+            - emphasis [ref=e274]: gmail.com
+            - text: ... Come with me to
+            - emphasis [ref=e275]: influencer
+            - text: night for Kristy's Creole Kitchen in
+            - emphasis [ref=e276]: Charlotte
+            - text: NC!
+        - generic [ref=e280]:
+          - generic [ref=e283]:
+            - link "Charlotte Blogger (@xoxozaiiinab) - Zainab Lakhany Instagram · xoxozaiiinab 56.9K+ followers" [ref=e285] [cursor=pointer]:
+              - /url: https://www.instagram.com/xoxozaiiinab/
+              - heading "Charlotte Blogger (@xoxozaiiinab) - Zainab Lakhany" [level=3] [ref=e286]
+              - generic [ref=e291]:
+                - generic [ref=e293]: Instagram · xoxozaiiinab
+                - generic [ref=e295]: 56.9K+ followers
+            - button "About this result" [ref=e296] [cursor=pointer]:
+              - img [ref=e299]
+          - generic [ref=e303]:
+            - text: "57K followers · 5.8K+ following · 614 posts · @xoxozaiiinab: “"
+            - emphasis [ref=e304]: Charlotte
+            - text: ", NC Sharing life, outfits & little moments ✨ zainab.lakhany@"
+            - emphasis [ref=e305]: gmail.com
+            - text: ”
+        - generic [ref=e309]:
+          - generic [ref=e312]:
+            - link "Nick | Just Life (@nickjustlife) Instagram · nickjustlife 10.1K+ followers" [ref=e314] [cursor=pointer]:
+              - /url: https://www.instagram.com/nickjustlife/
+              - heading "Nick | Just Life (@nickjustlife)" [level=3] [ref=e315]
+              - generic [ref=e320]:
+                - generic [ref=e322]: Instagram · nickjustlife
+                - generic [ref=e324]: 10.1K+ followers
+            - button "About this result" [ref=e325] [cursor=pointer]:
+              - img [ref=e328]
+          - generic [ref=e331]:
+            - generic [ref=e332]:
+              - text: A Chicago transplant in
+              - emphasis [ref=e333]: Charlotte
+              - text: . Day in the Life | My Takes | Fitness | Travel Follow for daily drops Nickjustlife@
+              - emphasis [ref=e334]: gmail.com
+              - text: .
+            - link "Read more" [ref=e335] [cursor=pointer]:
+              - /url: https://www.instagram.com/nickjustlife/#:~:text=A%20Chicago%20transplant%20in%20Charlotte.,%F0%9F%93%A7%20Nickjustlife%40gmail.com
+        - generic [ref=e341]:
+          - generic [ref=e344]:
+            - link "The Truth About Being an Influencer in Charlotte Charlotte ... Instagram · mariahsvibeguide 70+ likes · 1 week ago" [ref=e346] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DZGeFQptnR8/
+              - heading "The Truth About Being an Influencer in Charlotte Charlotte ..." [level=3] [ref=e347]
+              - generic [ref=e352]:
+                - generic [ref=e354]: Instagram · mariahsvibeguide
+                - generic [ref=e356]: 70+ likes · 1 week ago
+            - button "About this result" [ref=e357] [cursor=pointer]:
+              - img [ref=e360]
+          - generic [ref=e362]:
+            - link "The Truth About Being an Influencer in Charlotte Charlotte ... by Mariah | Food Scene & Vibe Creator on Instagram. Play on Instagram. 2:15" [ref=e363] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DZGeFQptnR8/
+              - generic [ref=e365]:
+                - img [ref=e368]
+                - generic [ref=e372]: 2:15
+            - generic [ref=e374]: "... on June 2, 2026: \"The Truth About Being an Influencer in Charlotte Charlotte influencers... this ... gmail.com and we'll ..."
+        - generic [ref=e378]:
+          - generic [ref=e381]:
+            - link "Kylie | Charlotte Content Creator (@kylievarneyy) Instagram · kylievarneyy 2.7K+ followers" [ref=e383] [cursor=pointer]:
+              - /url: https://www.instagram.com/kylievarneyy/
+              - heading "Kylie | Charlotte Content Creator (@kylievarneyy)" [level=3] [ref=e384]
+              - generic [ref=e389]:
+                - generic [ref=e391]: Instagram · kylievarneyy
+                - generic [ref=e393]: 2.7K+ followers
+            - button "About this result" [ref=e394] [cursor=pointer]:
+              - img [ref=e397]
+          - generic [ref=e401]:
+            - text: "2.7K+ followers · 1.2K+ following · 215 posts · @kylievarneyy: “Don't take life so seriously ! 24 | Daily Life |"
+            - emphasis [ref=e402]: Charlotte
+            - text: ", NC kvarneybusiness@"
+            - emphasis [ref=e403]: gmail.com
+            - text: ...
+          - link "site:instagram.com \"charlotte\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e406] [cursor=pointer]:
+            - /url: https://www.instagram.com/kylievarneyy/
+            - img "site:instagram.com \"charlotte\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e408]
+        - generic [ref=e412]:
+          - generic [ref=e415]:
+            - link "Charlotte Briggs (@charlottexaxaa) Instagram · charlottexaxaa 581.2K+ followers" [ref=e417] [cursor=pointer]:
+              - /url: https://www.instagram.com/charlottexaxaa/
+              - heading "Charlotte Briggs (@charlottexaxaa)" [level=3] [ref=e418]
+              - generic [ref=e423]:
+                - generic [ref=e425]: Instagram · charlottexaxaa
+                - generic [ref=e427]: 581.2K+ followers
+            - button "About this result" [ref=e428] [cursor=pointer]:
+              - img [ref=e431]
+          - generic [ref=e434]:
+            - generic [ref=e435]:
+              - emphasis [ref=e436]: Influencer
+              - text: Licensed in UAE Permit 4662467 ⭐️ Concierge Dubai ⚡️ Model Fit Mom
+              - emphasis [ref=e437]: charlotte
+              - text: .briggs21@
+              - emphasis [ref=e438]: gmail.com
+              - text: .
+            - link "Read more" [ref=e439] [cursor=pointer]:
+              - /url: https://www.instagram.com/charlottexaxaa/#:~:text=%F0%9F%87%A6%F0%9F%87%AA%20Influencer%20Licensed%20in%20UAE,%F0%9F%93%A9%20charlotte.briggs21%40gmail.com
+          - link "site:instagram.com \"charlotte\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e442] [cursor=pointer]:
+            - /url: https://www.instagram.com/charlottexaxaa/
+            - img "site:instagram.com \"charlotte\" \"influencer\" \"@gmail.com\" from www.instagram.com" [ref=e444]
+        - generic [ref=e448]:
+          - generic [ref=e451]:
+            - link "Sadie (@sadiedoodleclt) • Instagram photos and videos Instagram · sadiedoodleclt 17.7K+ followers" [ref=e453] [cursor=pointer]:
+              - /url: https://www.instagram.com/sadiedoodleclt/
+              - heading "Sadie (@sadiedoodleclt) • Instagram photos and videos" [level=3] [ref=e454]
+              - generic [ref=e459]:
+                - generic [ref=e461]: Instagram · sadiedoodleclt
+                - generic [ref=e463]: 17.7K+ followers
+            - button "About this result" [ref=e464] [cursor=pointer]:
+              - img [ref=e467]
+          - generic [ref=e470]:
+            - generic [ref=e471]:
+              - text: F1B Goldendoodle.
+              - emphasis [ref=e472]: Charlotte
+              - text: ", NC. Retired"
+              - emphasis [ref=e473]: Influencer
+              - text: ", fetch aficionado, chow hound, brewery queen. sadiegdoodle@"
+              - emphasis [ref=e474]: gmail.com
+            - link "Read more" [ref=e475] [cursor=pointer]:
+              - /url: https://www.instagram.com/sadiedoodleclt/#:~:text=%F0%9F%90%A9%20F1B%20Goldendoodle,%F0%9F%92%8C%20sadiegdoodle%40gmail.com
+      - navigation [ref=e478]:
+        - heading "Page Navigation" [level=1] [ref=e479]
+        - text: "1"
+        - link "Page 2" [ref=e482] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22charlotte%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=zRoparX1NYXBkPIPwvXf0Qw&start=10&sa=N&sstk=AU9db-Cyu0V9wbz5szcYEjpRFAPtUe4eNRCJnKrOwxbIM6XXHj4uN2KXXFU6UjGDJwbu2RSiBd0oqIPTQ7x-6HMt7guhjpPV-Hv46A&ved=2ahUKEwj1j4Cqm_yUAxWFIEQIHcL6N8oQ8tMDegQIOBAE
+          - text: "2"
+        - link "Page 3" [ref=e484] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22charlotte%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=zRoparX1NYXBkPIPwvXf0Qw&start=20&sa=N&sstk=AU9db-Cyu0V9wbz5szcYEjpRFAPtUe4eNRCJnKrOwxbIM6XXHj4uN2KXXFU6UjGDJwbu2RSiBd0oqIPTQ7x-6HMt7guhjpPV-Hv46A&ved=2ahUKEwj1j4Cqm_yUAxWFIEQIHcL6N8oQ8tMDegQIOBAG
+          - text: "3"
+        - link "Page 4" [ref=e486] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22charlotte%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=zRoparX1NYXBkPIPwvXf0Qw&start=30&sa=N&sstk=AU9db-Cyu0V9wbz5szcYEjpRFAPtUe4eNRCJnKrOwxbIM6XXHj4uN2KXXFU6UjGDJwbu2RSiBd0oqIPTQ7x-6HMt7guhjpPV-Hv46A&ved=2ahUKEwj1j4Cqm_yUAxWFIEQIHcL6N8oQ8tMDegQIOBAI
+          - text: "4"
+        - link "Page 5" [ref=e488] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22charlotte%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=zRoparX1NYXBkPIPwvXf0Qw&start=40&sa=N&sstk=AU9db-Cyu0V9wbz5szcYEjpRFAPtUe4eNRCJnKrOwxbIM6XXHj4uN2KXXFU6UjGDJwbu2RSiBd0oqIPTQ7x-6HMt7guhjpPV-Hv46A&ved=2ahUKEwj1j4Cqm_yUAxWFIEQIHcL6N8oQ8tMDegQIOBAK
+          - text: "5"
+        - link "Page 6" [ref=e490] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22charlotte%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=zRoparX1NYXBkPIPwvXf0Qw&start=50&sa=N&sstk=AU9db-Cyu0V9wbz5szcYEjpRFAPtUe4eNRCJnKrOwxbIM6XXHj4uN2KXXFU6UjGDJwbu2RSiBd0oqIPTQ7x-6HMt7guhjpPV-Hv46A&ved=2ahUKEwj1j4Cqm_yUAxWFIEQIHcL6N8oQ8tMDegQIOBAM
+          - text: "6"
+        - link "Page 7" [ref=e492] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22charlotte%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=zRoparX1NYXBkPIPwvXf0Qw&start=60&sa=N&sstk=AU9db-Cyu0V9wbz5szcYEjpRFAPtUe4eNRCJnKrOwxbIM6XXHj4uN2KXXFU6UjGDJwbu2RSiBd0oqIPTQ7x-6HMt7guhjpPV-Hv46A&ved=2ahUKEwj1j4Cqm_yUAxWFIEQIHcL6N8oQ8tMDegQIOBAO
+          - text: "7"
+        - link "Page 8" [ref=e494] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22charlotte%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=zRoparX1NYXBkPIPwvXf0Qw&start=70&sa=N&sstk=AU9db-Cyu0V9wbz5szcYEjpRFAPtUe4eNRCJnKrOwxbIM6XXHj4uN2KXXFU6UjGDJwbu2RSiBd0oqIPTQ7x-6HMt7guhjpPV-Hv46A&ved=2ahUKEwj1j4Cqm_yUAxWFIEQIHcL6N8oQ8tMDegQIOBAQ
+          - text: "8"
+        - link "Page 9" [ref=e496] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22charlotte%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=zRoparX1NYXBkPIPwvXf0Qw&start=80&sa=N&sstk=AU9db-Cyu0V9wbz5szcYEjpRFAPtUe4eNRCJnKrOwxbIM6XXHj4uN2KXXFU6UjGDJwbu2RSiBd0oqIPTQ7x-6HMt7guhjpPV-Hv46A&ved=2ahUKEwj1j4Cqm_yUAxWFIEQIHcL6N8oQ8tMDegQIOBAS
+          - text: "9"
+        - link "Page 10" [ref=e498] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22charlotte%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=zRoparX1NYXBkPIPwvXf0Qw&start=90&sa=N&sstk=AU9db-Cyu0V9wbz5szcYEjpRFAPtUe4eNRCJnKrOwxbIM6XXHj4uN2KXXFU6UjGDJwbu2RSiBd0oqIPTQ7x-6HMt7guhjpPV-Hv46A&ved=2ahUKEwj1j4Cqm_yUAxWFIEQIHcL6N8oQ8tMDegQIOBAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e500]:
+          - link "Next" [ref=e501] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22charlotte%22+%22influencer%22+%22@gmail.com%22&sca_esv=16a54cb5159ee727&ei=zRoparX1NYXBkPIPwvXf0Qw&start=10&sa=N&sstk=AU9db-Cyu0V9wbz5szcYEjpRFAPtUe4eNRCJnKrOwxbIM6XXHj4uN2KXXFU6UjGDJwbu2RSiBd0oqIPTQ7x-6HMt7guhjpPV-Hv46A&ved=2ahUKEwj1j4Cqm_yUAxWFIEQIHcL6N8oQ8NMDegQIOBAW
+            - generic [ref=e503]: Next
+      - navigation
+    - contentinfo [ref=e504]:
+      - heading "Footer Links" [level=1] [ref=e505]
+      - generic [ref=e509]:
+        - generic [ref=e513]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e515] [cursor=pointer]:
+            - generic [ref=e516]: 85281, Tempe, AZ
+            - generic [ref=e518]:
+              - text: "-"
+              - generic [ref=e519]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e521] [cursor=pointer]: Update location
+        - generic [ref=e524]:
+          - link "Help" [ref=e525] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e526] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e527] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e528] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

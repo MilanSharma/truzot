@@ -1,0 +1,98 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "BL🌸SSOM" [ref=e4] [cursor=pointer]:
+        - /url: /maindashboard
+        - img [ref=e5]
+        - generic [ref=e7]: BL🌸SSOM
+      - navigation [ref=e8]:
+        - link "Mission" [ref=e9] [cursor=pointer]:
+          - /url: /about#mission
+        - link "What we do" [ref=e10] [cursor=pointer]:
+          - /url: /about#what
+        - link "Story" [ref=e11] [cursor=pointer]:
+          - /url: /about#story
+        - link "Impact" [ref=e12] [cursor=pointer]:
+          - /url: /about#impact
+        - link "Team" [ref=e13] [cursor=pointer]:
+          - /url: /about#team
+        - link "Careers" [ref=e14] [cursor=pointer]:
+          - /url: /about#careers
+        - link "About" [ref=e15] [cursor=pointer]:
+          - /url: /about
+        - link "Talent Community" [ref=e16] [cursor=pointer]:
+          - /url: /talentcommunity
+        - link "Support" [ref=e17] [cursor=pointer]:
+          - /url: /support
+  - generic [ref=e21]:
+    - generic [ref=e22]: Support
+    - heading "We make cancellations clear and easy." [level=1] [ref=e23]
+    - paragraph [ref=e24]: Blossom follows “Click-to-Cancel” guidance—cancellation is at least as simple as sign-up, and key terms are disclosed up front.
+    - generic [ref=e25]:
+      - link "Manage or Cancel" [ref=e26] [cursor=pointer]:
+        - /url: https://billing.stripe.com/p/login/14AcN5aZd5j2asw77YgMw00
+      - link "Email billing" [ref=e27] [cursor=pointer]:
+        - /url: mailto:info@blossom-careers.com?subject=Refund%20request
+  - main [ref=e29]:
+    - generic [ref=e30]:
+      - article [ref=e31]:
+        - generic [ref=e32]: Policy Update
+        - heading "Blossom Cancellation & Refund Policy" [level=2] [ref=e33]
+        - paragraph [ref=e34]: "Last updated: November 2025"
+        - heading "Refund Policy" [level=3] [ref=e35]
+        - paragraph [ref=e36]: Canceling your subscription does not automatically issue a refund.
+        - paragraph [ref=e37]:
+          - text: If you’re not satisfied with your purchase or believe you were billed in error, request a refund by emailing
+          - link "info@blossom-careers.com" [ref=e38] [cursor=pointer]:
+            - /url: mailto:info@blossom-careers.com
+          - text: "and include:"
+        - list [ref=e39]:
+          - listitem [ref=e40]: The reason for your request
+          - listitem [ref=e41]: The email associated with your Blossom account
+        - paragraph [ref=e42]: Submitting a refund request does not guarantee approval. Refunds are granted based on the eligibility criteria below.
+        - heading "Eligibility Window" [level=3] [ref=e43]
+        - paragraph [ref=e44]:
+          - text: Refund requests must be submitted within
+          - strong [ref=e45]: 3 calendar days
+          - text: of your subscription’s monthly or quarterly rebill date. Outside of this 3-day window, the purchase is ineligible for a refund.
+        - list [ref=e46]:
+          - listitem [ref=e47]:
+            - strong [ref=e48]: "Monthly Plan:"
+            - text: request within 3 calendar days of the rebill date.
+          - listitem [ref=e49]:
+            - strong [ref=e50]: "Quarterly Plan:"
+            - text: request within 3 calendar days of the rebill date.
+        - heading "Subscription Cancellations" [level=3] [ref=e51]
+        - paragraph [ref=e52]: When you cancel your Blossom subscription, the cancellation takes effect at the end of your current billing cycle. Canceling stops future charges, but previous payments aren’t refunded automatically—submit a refund request if eligible.
+        - heading "Customer Responsibility" [level=3] [ref=e53]
+        - paragraph [ref=e54]: Blossom isn’t responsible for continued charges if a member fails to cancel before the next billing date. Customers are responsible for managing their plan, confirming cancellation, and requesting a refund (if eligible) within the permitted window.
+      - complementary [ref=e55]
+    - generic [ref=e56]:
+      - generic [ref=e57]:
+        - heading "Frequently Asked Questions" [level=2] [ref=e58]
+        - paragraph [ref=e59]: Quick answers about managing your Blossom plan.
+      - generic [ref=e60]:
+        - group [ref=e62]:
+          - generic "How do I cancel online?" [ref=e63] [cursor=pointer]
+        - group [ref=e65]:
+          - generic "How do I contact support?" [ref=e66] [cursor=pointer]
+  - contentinfo [ref=e67]:
+    - generic [ref=e68]:
+      - paragraph [ref=e69]: © 2025 Blossom Careers. All rights reserved.
+      - navigation [ref=e70]:
+        - link "Privacy" [ref=e71] [cursor=pointer]:
+          - /url: /privacy
+        - link "Terms" [ref=e72] [cursor=pointer]:
+          - /url: /terms
+        - link "Do Not Sell" [ref=e73] [cursor=pointer]:
+          - /url: /do-not-sell
+        - link "Earnings" [ref=e74] [cursor=pointer]:
+          - /url: /earnings-disclaimer
+        - link "Disclaimer" [ref=e75] [cursor=pointer]:
+          - /url: /disclaimer
+        - link "Support" [ref=e76] [cursor=pointer]:
+          - /url: /support
+        - link "Blog" [ref=e77] [cursor=pointer]:
+          - /url: /blog
+        - link "Comparison" [ref=e78] [cursor=pointer]:
+          - /url: /comparison

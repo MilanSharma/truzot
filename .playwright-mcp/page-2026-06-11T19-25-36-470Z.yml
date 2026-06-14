@@ -1,0 +1,577 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - banner [ref=e4]:
+        - generic [ref=e5]:
+          - link "Dice Home" [ref=e6] [cursor=pointer]:
+            - /url: https://www.dice.com
+            - img "Dice Logo" [ref=e8]
+          - navigation "Main navigation" [ref=e11]:
+            - link "Job Search" [ref=e13] [cursor=pointer]:
+              - /url: https://www.dice.com/jobs
+              - generic [ref=e14]:
+                - generic [ref=e17]:
+                  - img [ref=e19]
+                  - img [ref=e22]
+                - text: Job Search
+            - link "Companies" [ref=e26] [cursor=pointer]:
+              - /url: https://www.dice.com/companies
+              - generic [ref=e27]: Companies
+            - button "Career Resources" [ref=e30] [cursor=pointer]:
+              - generic [ref=e31]: Career Resources
+              - img [ref=e32]
+            - link "Why Dice" [ref=e35] [cursor=pointer]:
+              - /url: https://www.dice.com/why-join-dice
+              - generic [ref=e36]: Why Dice
+          - navigation "Secondary navigation" [ref=e38]:
+            - button "I'm an Employer" [ref=e41] [cursor=pointer]:
+              - generic [ref=e42]: I'm an Employer
+              - img [ref=e43]
+            - link "Request a Demo" [ref=e46] [cursor=pointer]:
+              - /url: https://www.dice.com/hiring/demo
+              - generic [ref=e47]: Request a Demo
+            - link "Login" [ref=e49] [cursor=pointer]:
+              - /url: https://www.dice.com/dashboard/login
+              - generic [ref=e50]:
+                - generic [ref=e53]:
+                  - img [ref=e55]
+                  - img [ref=e58]
+                - text: Login
+      - main [ref=e61]:
+        - generic [ref=e63]:
+          - generic [ref=e64]:
+            - generic [ref=e66]:
+              - generic [ref=e67]:
+                - img "Zions Bancorporation, N.A." [ref=e70]
+                - link "Zions Bancorporation, N.A." [ref=e71] [cursor=pointer]:
+                  - /url: https://www.dice.com/company-profile/3981d58e-3b73-5ffa-9705-540d71afeed2
+              - generic [ref=e72]:
+                - generic [ref=e73]:
+                  - button "Save Job" [ref=e74] [cursor=pointer]:
+                    - img [ref=e76]
+                  - button "More options" [ref=e78] [cursor=pointer]:
+                    - img [ref=e80]
+                - link "Apply Now" [ref=e84] [cursor=pointer]:
+                  - /url: /dashboard/login?redirectUrl=%2Fjob-applications%2F09b88736-b90a-4210-8228-b7e87f1d1f8a%2Fstart-apply
+                  - generic [ref=e85]: Apply Now
+              - heading "Senior CIAM Software Engineer" [level=1] [ref=e87]
+              - generic [ref=e88]:
+                - text: Midvale, UT, US
+                - generic [ref=e89]: • Posted 7 days ago
+                - generic [ref=e90]: • Updated 7 hours ago
+              - generic [ref=e91]:
+                - generic [ref=e93]: Full Time
+                - generic [ref=e95]: On-site
+            - generic [ref=e96]:
+              - img "Company Branding Image" [ref=e97]
+              - generic [ref=e98]:
+                - img "Company Logo" [ref=e99]
+                - heading "Zions Bancorporation, N.A." [level=4] [ref=e100]
+            - generic [ref=e101]:
+              - generic [ref=e104]:
+                - text: Fitment
+                - heading "Dice Job Match Score™" [level=3] [ref=e105]
+              - generic [ref=e108]:
+                - paragraph [ref=e109]:
+                  - text: To see how well you match this job, please
+                  - link "log in" [ref=e110] [cursor=pointer]:
+                    - /url: /dashboard/login?redirectUrl=%2Fjob-detail%2F09b88736-b90a-4210-8228-b7e87f1d1f8a
+                  - text: or
+                  - link "create an account" [ref=e111] [cursor=pointer]:
+                    - /url: /register
+                  - text: .
+                - paragraph [ref=e112]: Once logged in, be sure to complete your profile to get the most accurate match score.
+            - generic [ref=e114]:
+              - heading "Job Details" [level=2] [ref=e115]
+              - generic [ref=e116]:
+                - heading "Skills" [level=3] [ref=e117]
+                - list [ref=e118]:
+                  - listitem [ref=e119]:
+                    - generic [ref=e121]: Finance
+                  - listitem [ref=e122]:
+                    - generic [ref=e124]: Identity Management
+                  - listitem [ref=e125]:
+                    - generic [ref=e127]: Innovation
+                  - listitem [ref=e128]:
+                    - generic [ref=e130]: IT Operations
+                  - listitem [ref=e131]:
+                    - generic [ref=e133]: DevOps
+                  - listitem [ref=e134]:
+                    - generic [ref=e136]: Lean Methodology
+                  - listitem [ref=e137]:
+                    - generic [ref=e139]: Banking Software
+                  - listitem [ref=e140]:
+                    - generic [ref=e142]: Technical Analysis
+                  - listitem [ref=e143]:
+                    - generic [ref=e145]: Software Configuration
+                  - listitem [ref=e146]:
+                    - generic [ref=e148]: Incident Management
+                  - listitem [ref=e149]:
+                    - generic [ref=e151]: Agile
+                  - listitem [ref=e152]:
+                    - generic [ref=e154]: Requirements Analysis
+                  - listitem [ref=e155]:
+                    - generic [ref=e157]: IT Management
+                  - listitem [ref=e158]:
+                    - generic [ref=e160]: Software Design
+                  - listitem [ref=e161]:
+                    - generic [ref=e163]: Debugging
+                  - listitem [ref=e164]:
+                    - generic [ref=e166]: Business Process
+                  - listitem [ref=e167]:
+                    - generic [ref=e169]: Management
+                  - listitem [ref=e170]:
+                    - generic [ref=e172]: Version Control
+                  - listitem [ref=e173]:
+                    - generic [ref=e175]: Unit Testing
+                  - listitem [ref=e176]:
+                    - generic [ref=e178]: System Documentation
+                  - listitem [ref=e179]:
+                    - generic [ref=e181]: Database
+                  - listitem [ref=e182]:
+                    - generic [ref=e184]: Application Development
+                  - listitem [ref=e185]:
+                    - generic [ref=e187]: Testing
+                  - listitem [ref=e188]:
+                    - generic [ref=e190]: Java
+                  - listitem [ref=e191]:
+                    - generic [ref=e193]: JavaScript
+                  - listitem [ref=e194]:
+                    - generic [ref=e196]: Groovy
+                  - listitem [ref=e197]:
+                    - generic [ref=e199]: Linux
+                  - listitem [ref=e200]:
+                    - generic [ref=e202]: Computer Networking
+                  - listitem [ref=e203]:
+                    - generic [ref=e205]: SQL
+                  - listitem [ref=e206]:
+                    - generic [ref=e208]: Web Services
+                  - listitem [ref=e209]:
+                    - generic [ref=e211]: API
+                  - listitem [ref=e212]:
+                    - generic [ref=e214]: Application Servers
+                  - listitem [ref=e215]:
+                    - generic [ref=e217]: Apache Tomcat
+                  - listitem [ref=e218]:
+                    - generic [ref=e220]: Cloud Computing
+                  - listitem [ref=e221]:
+                    - generic [ref=e223]: SAML
+                  - listitem [ref=e224]:
+                    - generic [ref=e226]: SSO
+                  - listitem [ref=e227]:
+                    - generic [ref=e229]: OIDC
+                  - listitem [ref=e230]:
+                    - generic [ref=e232]: OAuth
+                  - listitem [ref=e233]:
+                    - generic [ref=e235]: Bash
+                  - listitem [ref=e236]:
+                    - generic [ref=e238]: YAML
+                  - listitem [ref=e239]:
+                    - generic [ref=e241]: Software Development
+                  - listitem [ref=e242]:
+                    - generic [ref=e244]: Mentorship
+                  - listitem [ref=e245]:
+                    - generic [ref=e247]: Computer Science
+                  - listitem [ref=e248]:
+                    - generic [ref=e250]: Information Systems
+                  - listitem [ref=e251]:
+                    - generic [ref=e253]: Energy
+                  - listitem [ref=e254]:
+                    - generic [ref=e256]: NATURAL
+                  - listitem [ref=e257]:
+                    - generic [ref=e259]: Adobe AIR
+                  - listitem [ref=e260]:
+                    - generic [ref=e262]: LEED
+                  - listitem [ref=e263]:
+                    - generic [ref=e265]: Voice Of The Customer
+                  - listitem [ref=e266]:
+                    - generic [ref=e268]: Insurance
+                  - listitem [ref=e269]:
+                    - generic [ref=e271]: FSA
+                  - listitem [ref=e272]:
+                    - generic [ref=e274]: Training
+                  - listitem [ref=e275]:
+                    - generic [ref=e277]: Coaching
+                  - listitem [ref=e278]:
+                    - generic [ref=e280]: Banking
+                  - listitem [ref=e281]:
+                    - generic [ref=e283]: DICE
+                - separator [ref=e284]
+                - heading "Summary" [level=3] [ref=e285]
+                - generic [ref=e286]:
+                  - generic [ref=e287]:
+                    - text: Zions Bancorporation's Enterprise Technology and Operations (ETO) team is transforming what it means to work for a financial institution. With a commitment to technology and innovation, we have been providing our community, clients and colleagues the best experience possible for over 150 years. Help us transform our workforce of the future, today.
+                    - text: We are seeking a
+                    - strong [ref=e288]: Senior CIAM
+                    - strong [ref=e289]: Software Engineer
+                    - text: in Salt Lake City to join our CIAM team to help support and enhance our Customer Identity and Access Management platform. CIAM is a critical system that provides identity and access management services for customer access to important business applications.
+                    - text: The Engineering and Core Services organization is at the heart of innovation at Zions Bancorporation. We continually modernize on many of Zions' key banking applications and its banking core. In addition to application development, we manage the key platforms, services, and processes which enable modernized engineering and IT operations and delivery through DevOps and lean principles. Ensuring scalable, quality, innovative solutions for our teams and our customers is integral to what we do. Come join us in transforming engineering and banking software!
+                    - text: This
+                    - strong [ref=e290]: Software Engineer
+                    - text: will be responsible for maintenance as well as development of new capabilities for managing customer identities and providing security and enhanced experience.
+                    - text: The
+                    - strong [ref=e291]: Software Engineer
+                    - text: "will:"
+                    - list [ref=e292]:
+                      - listitem [ref=e293]: Provide support and maintenance of various systems.
+                      - listitem [ref=e294]: Be responsible for technical analysis, application development, application configuration, incident response and resolution, troubleshooting, testing, source code management and executing and managing change processes.
+                      - listitem [ref=e295]: Work as a member of Agile team, develop software solutions by studying requirements analysis and information needs; conferring with stakeholders and IT Management; studying systems flow, data usage, and work processes; perform software design using software development fundamentals and processes, debug, test, and deploy software solutions.
+                      - listitem [ref=e296]: Review, analyze, evaluate business processes, procedures, systems and make recommendations for improvements and changes.
+                      - listitem [ref=e297]: Manage source code version control system artifacts.
+                      - listitem [ref=e298]: Work with Business Analysts to design technical requirements and perform application changes.
+                      - listitem [ref=e299]: Conduct unit testing, provide input for feasibility, and prepare systems documentation.
+                      - listitem [ref=e300]: Work On-Call Rotation and After-Hours that is required to support responsibilities.
+                      - listitem [ref=e301]: Perform other duties as assigned.
+                    - strong [ref=e302]: "Qualifications:"
+                    - list [ref=e303]:
+                      - listitem [ref=e304]: 6+ years experience with software and/or application development using multiple technologies, languages, databases, integrations, frameworks, systems, application development, testing and troubleshooting or other directly related experience.
+                    - list [ref=e305]:
+                      - listitem [ref=e306]: Extensive knowledge of Ping/ForgeRock, Java and Java programming tools, JavaScript, Groovy, Linux, Networking, SQL, Webservices/API, Secure Software Development Lifecycle, using application servers such as Tomcat, containers, cloud computing, SAML, SSO, OIDC/OAuth. Bash and yaml are nice to have.
+                    - list [ref=e307]:
+                      - listitem [ref=e308]: Work within an environment with changing technologies and priorities, along with effectively prioritizing and handling multiple concurrent projects
+                      - listitem [ref=e309]: Ability to come up to speed quickly, utilize advanced software development skillsets, work independently and effectively in a team environment, and ultimately mentor and support those attempting to reach your level of expertise and beyond.
+                      - listitem [ref=e310]:
+                        - text: Bachelor's degree in Computer Science, Information Systems or a related field.
+                        - list [ref=e311]:
+                          - listitem [ref=e312]: Please consider applying even if you feel you don't meet 100% of the requirements
+                    - text: A combination of education and experience may meet requirements.
+                    - strong [ref=e313]: "Location:"
+                    - text: This position has a hybrid work from home schedule with a minimum of three days per week in the office at the new Zions Technology Center in Midvale, UT.
+                    - text: "The Zions Technology Center is a 400,000-square-foot technology campus in Midvale, Utah. Located on the former Sharon Steel Mill superfund site, the sustainably built campus will be the company's primary technology and operations center. This modern and environmentally friendly technology center will enable Zions to continue to compete for the best technology talent in the state while providing team members with an exceptional work environment with features such as:"
+                    - list [ref=e314]:
+                      - listitem [ref=e315]: Electric vehicle charging stations and close proximity to Historic Gardner Village UTA TRAX station.
+                      - listitem [ref=e316]: At least 75% of the building is powered by on-site renewable solar energy.
+                      - listitem [ref=e317]: Access to outdoor recreation, parks, trails, shareable bikes and locker rooms.
+                      - listitem [ref=e318]: Large modern cafe with a healthy and diverse menu.
+                      - listitem [ref=e319]: Healthy indoor environment with ample natural light and fresh air.
+                      - listitem [ref=e320]: LEED-certified sustainable building that features include the use of low VOC-emitting construction materials.
+                    - strong [ref=e321]: "Benefits:"
+                    - list [ref=e322]:
+                      - listitem [ref=e323]: Medical, Dental and Vision Insurance - START DAY ONE!
+                      - listitem [ref=e324]: Life and Disability Insurance, Paid Parental Leave and Adoption Assistance
+                      - listitem [ref=e325]: Health Savings (HSA), Flexible Spending (FSA) and dependent care accounts
+                      - listitem [ref=e326]: Paid Training, Paid Time Off (PTO) and 11 Paid Federal Holidays
+                      - listitem [ref=e327]: 401(k) plan with company match, Profit Sharing, competitive compensation in line with work experience
+                      - listitem [ref=e328]: Mental health benefits including coaching and therapy sessions
+                      - listitem [ref=e329]: Tuition Reimbursement for qualifying employees
+                      - listitem [ref=e330]: Employee Ambassador preferred banking products
+                    - strong [ref=e331]: Apply now if you have a passion for impactful outcomes, enjoy working collaboratively with co-workers, and want to make a difference for the clients and communities we serve.
+                    - text: "#dice"
+                  - generic [ref=e332]:
+                    - text: Employers have access to artificial intelligence language tools (“AI”) that help generate and enhance job descriptions and AI may have been used to create this description. The position description has been reviewed for accuracy and Dice believes it to correctly reflect the job opportunity.
+                    - separator [ref=e333]
+                    - list [ref=e334]:
+                      - listitem [ref=e335]: "Dice Id: 10113943"
+                      - listitem [ref=e336]: "Position Id: 070220"
+                      - listitem [ref=e337]: Posted 7 days ago
+            - generic [ref=e338]:
+              - heading "Company Info" [level=2] [ref=e339]
+              - heading "About Zions Bancorporation, N.A." [level=3] [ref=e341]
+              - generic [ref=e342]:
+                - generic [ref=e343]:
+                  - paragraph [ref=e344]: Zions Bancorporation is comprised of a collection of extraordinary, locally led and community-focused banks serving businesses, households and local governments in some of the best growth markets in the nation. We’re determined to help build strong, successful communities, create economic opportunity and help our clients achieve greater financial strength through the relationships we develop and the services we provide.
+                  - paragraph [ref=e345]
+                  - paragraph [ref=e346]: "Zions Bancorporation, N.A. is one of the nation's premier financial services companies with approximately $89 billion of total assets at December 31, 2024, and annual net revenue of $3.1 billion in 2024. Zions operates under local management teams and distinct brands in 11 western states: Arizona, California, Colorado, Idaho, Nevada, New Mexico, Oregon, Texas, Utah, Washington and Wyoming. The bank is a national leader in Small Business Administration lending and public finance advisory services, and has been recognized by Coalition Greenwich with 233 Excellence awards for small business and middle market banking over the past 15 years."
+                  - paragraph [ref=e347]
+                  - paragraph [ref=e348]: Zions Bancorporation is transforming what it means to work for a financial institution. With a commitment to technology and innovation, we have been providing our community, clients and colleagues the best experience possible for over 150 years. Help us transform our workforce of the future, today.
+                - iframe [ref=e350]:
+                  - generic [active] [ref=f74e1]:
+                    - generic "YouTube Video Player" [ref=f74e3]
+                    - generic [ref=f74e5]:
+                      - generic:
+                        - generic:
+                          - button "Play video" [ref=f74e10] [cursor=pointer]:
+                            - generic [ref=f74e13]:
+                              - img
+                          - button "Hide player controls" [ref=f74e14] [cursor=pointer]
+                          - generic [ref=f74e16]:
+                            - generic [ref=f74e21]:
+                              - generic [ref=f74e22]:
+                                - link "150 Years in 150 Seconds" [ref=f74e23] [cursor=pointer]:
+                                  - /url: https://www.youtube.com/watch?v=NH7lnF-Gk00
+                                - link "ZionsBank" [ref=f74e24] [cursor=pointer]:
+                                  - /url: /channel/UC3hcSpCu7WglQ6vOGZdEOFA
+                                  - generic [ref=f74e25]: ZionsBank
+                              - generic [ref=f74e26]:
+                                - button [ref=f74e27] [cursor=pointer]
+                                - generic [ref=f74e29]:
+                                  - generic: ZionsBank
+                                  - generic: 1.62K subscribers
+                            - generic [ref=f74e30]:
+                              - button "Share" [ref=f74e33] [cursor=pointer]:
+                                - generic [ref=f74e37]:
+                                  - img
+                              - link "Watch on YouTube" [ref=f74e44] [cursor=pointer]:
+                                - /url: https://www.youtube.com/watch?v=NH7lnF-Gk00
+                                - generic [ref=f74e47]:
+                                  - text: Watch on
+                                  - img [ref=f74e49]:
+                                    - generic [ref=f74e51]:
+                                      - img
+              - link "Go to company profile" [ref=e352] [cursor=pointer]:
+                - /url: https://www.dice.com/company-profile/3981d58e-3b73-5ffa-9705-540d71afeed2
+                - text: Go to company profile
+                - img [ref=e353]
+          - generic [ref=e355]:
+            - generic [ref=e357]:
+              - generic [ref=e360]: Create job alert
+              - generic [ref=e361]:
+                - img "Set job alert" [ref=e362]
+                - text: Never miss an opportunity! Create an alert based on the job you applied for.
+              - button "Create alert" [ref=e364] [cursor=pointer]:
+                - generic [ref=e365]:
+                  - img [ref=e366]
+                  - text: Create alert
+            - generic [ref=e369]:
+              - heading "Similar Jobs" [level=2] [ref=e371]
+              - generic [ref=e372]:
+                - list "Job search results" [ref=e374]:
+                  - listitem [ref=e375]:
+                    - article [ref=e378]:
+                      - generic [ref=e379]:
+                        - link "View Details for AI Engineer - Innovation Lab (302d457f0da42aeb4092b003ecb1f8b7)" [ref=e380] [cursor=pointer]:
+                          - /url: https://www.dice.com/job-detail/35919dca-a2cd-4d4f-a421-a431f7c6b32f
+                        - generic [ref=e381]:
+                          - generic [ref=e382]:
+                            - link "Company Logo" [ref=e383] [cursor=pointer]:
+                              - /url: /company-profile/3981d58e-3b73-5ffa-9705-540d71afeed2?companyname=Zions%20Bancorporation%2C%20N.A.
+                              - img "Zions Bancorporation, N.A." [ref=e386]
+                            - link "Zions Bancorporation, N.A." [ref=e387] [cursor=pointer]:
+                              - /url: /company-profile/3981d58e-3b73-5ffa-9705-540d71afeed2?companyname=Zions%20Bancorporation%2C%20N.A.
+                              - paragraph [ref=e388]: Zions Bancorporation, N.A.
+                          - button "Add" [ref=e391] [cursor=pointer]:
+                            - img [ref=e393]
+                        - main "Details for AI Engineer - Innovation Lab position" [ref=e395]:
+                          - link "AI Engineer - Innovation Lab" [ref=e398] [cursor=pointer]:
+                            - /url: https://www.dice.com/job-detail/35919dca-a2cd-4d4f-a421-a431f7c6b32f
+                          - generic [ref=e400]:
+                            - paragraph [ref=e403]: Midvale, Utah
+                            - generic [ref=e404]:
+                              - paragraph [ref=e406]: •
+                              - paragraph [ref=e408]: Today
+                          - paragraph [ref=e411]: Zions Bancorporation's Enterprise Technology and Operations (ETO) team is transforming what it means to work for a financial institution. With a commitment to technology and innovation, we have been providing our community, clients and colleagues the best experience possible for over 150 years. Help us transform our workforce of the future, today. We are seeking a dynamic and visionary AI Engineer to join our newly established Innovation Lab. In this pivotal role, you will combine core software
+                          - generic "Full-time" [ref=e413]:
+                            - paragraph [ref=e414]: Full-time
+                  - listitem [ref=e415]:
+                    - article [ref=e418]:
+                      - generic [ref=e419]:
+                        - link "View Details for Enterprise Architecture Manager - Business and Application (cd44c30ee785b07de80d60e68b4af3e4)" [ref=e420] [cursor=pointer]:
+                          - /url: https://www.dice.com/job-detail/8a38a0ed-ee48-455d-8237-3b9a7076a207
+                        - generic [ref=e421]:
+                          - generic [ref=e422]:
+                            - link "Company Logo" [ref=e423] [cursor=pointer]:
+                              - /url: /company-profile/3981d58e-3b73-5ffa-9705-540d71afeed2?companyname=Zions%20Bancorporation%2C%20N.A.
+                              - img "Zions Bancorporation, N.A." [ref=e426]
+                            - link "Zions Bancorporation, N.A." [ref=e427] [cursor=pointer]:
+                              - /url: /company-profile/3981d58e-3b73-5ffa-9705-540d71afeed2?companyname=Zions%20Bancorporation%2C%20N.A.
+                              - paragraph [ref=e428]: Zions Bancorporation, N.A.
+                          - button "Add" [ref=e431] [cursor=pointer]:
+                            - img [ref=e433]
+                        - main "Details for Enterprise Architecture Manager - Business and Application position" [ref=e435]:
+                          - link "Enterprise Architecture Manager - Business and Application" [ref=e438] [cursor=pointer]:
+                            - /url: https://www.dice.com/job-detail/8a38a0ed-ee48-455d-8237-3b9a7076a207
+                          - generic [ref=e440]:
+                            - paragraph [ref=e443]: Midvale, Utah
+                            - generic [ref=e444]:
+                              - paragraph [ref=e446]: •
+                              - paragraph [ref=e448]: Today
+                          - paragraph [ref=e451]: Zions Bancorporation's Enterprise Technology and Operations (ETO) team is transforming what it means to work for a financial institution. With a commitment to technology and innovation, we have been providing our community, clients and colleagues the best experience possible for over 150 years. Help us transform our workforce of the future, today. We are seeking an Enterprise Architecture Manager (Business and Application) to join Zions Bancorporation. As the Enterprise Architecture Manager, you
+                          - generic "Full-time" [ref=e453]:
+                            - paragraph [ref=e454]: Full-time
+                  - listitem [ref=e455]:
+                    - article [ref=e458]:
+                      - generic [ref=e459]:
+                        - link "View Details for Software Engineer - AI Integration - Midvale, UT (fadd06585ed292ee300e6e59b5d68976)" [ref=e460] [cursor=pointer]:
+                          - /url: https://www.dice.com/job-detail/8ebf69b8-9c6a-4826-8c70-8f9dad18c683
+                        - generic [ref=e461]:
+                          - generic [ref=e462]:
+                            - link "Company Logo" [ref=e463] [cursor=pointer]:
+                              - /url: /company-profile/3981d58e-3b73-5ffa-9705-540d71afeed2?companyname=Zions%20Bancorporation%2C%20N.A.
+                              - img "Zions Bancorporation, N.A." [ref=e466]
+                            - link "Zions Bancorporation, N.A." [ref=e467] [cursor=pointer]:
+                              - /url: /company-profile/3981d58e-3b73-5ffa-9705-540d71afeed2?companyname=Zions%20Bancorporation%2C%20N.A.
+                              - paragraph [ref=e468]: Zions Bancorporation, N.A.
+                          - button "Add" [ref=e471] [cursor=pointer]:
+                            - img [ref=e473]
+                        - main "Details for Software Engineer - AI Integration - Midvale, UT position" [ref=e475]:
+                          - link "Software Engineer - AI Integration - Midvale, UT" [ref=e478] [cursor=pointer]:
+                            - /url: https://www.dice.com/job-detail/8ebf69b8-9c6a-4826-8c70-8f9dad18c683
+                          - generic [ref=e480]:
+                            - paragraph [ref=e483]: Midvale, Utah
+                            - generic [ref=e484]:
+                              - paragraph [ref=e486]: •
+                              - paragraph [ref=e488]: Today
+                          - paragraph [ref=e491]: Zions Bancorporation's Enterprise Technology and Operations (ETO) team is transforming what it means to work for a financial institution. With a commitment to technology and innovation, we have been providing our community, clients and colleagues with the best experience possible for over 150 years. Help us transform our workforce of the future, today. We are seeking a Software Engineer to join our Enterprise Architecture Governance team at Zions Bancorporation. As a Software Engineer, you will
+                          - generic "Full-time" [ref=e493]:
+                            - paragraph [ref=e494]: Full-time
+                  - listitem [ref=e495]:
+                    - article [ref=e498]:
+                      - generic [ref=e499]:
+                        - link "View Details for Enterprise Architect - Application Architecture (a9c26c5fa27b9f4b8d9e6f9fa5a6375f)" [ref=e500] [cursor=pointer]:
+                          - /url: https://www.dice.com/job-detail/fdc49837-2880-4991-8782-f758789d5d0d
+                        - generic [ref=e501]:
+                          - generic [ref=e502]:
+                            - link "Company Logo" [ref=e503] [cursor=pointer]:
+                              - /url: /company-profile/3981d58e-3b73-5ffa-9705-540d71afeed2?companyname=Zions%20Bancorporation%2C%20N.A.
+                              - img "Zions Bancorporation, N.A." [ref=e506]
+                            - link "Zions Bancorporation, N.A." [ref=e507] [cursor=pointer]:
+                              - /url: /company-profile/3981d58e-3b73-5ffa-9705-540d71afeed2?companyname=Zions%20Bancorporation%2C%20N.A.
+                              - paragraph [ref=e508]: Zions Bancorporation, N.A.
+                          - button "Add" [ref=e511] [cursor=pointer]:
+                            - img [ref=e513]
+                        - main "Details for Enterprise Architect - Application Architecture position" [ref=e515]:
+                          - link "Enterprise Architect - Application Architecture" [ref=e518] [cursor=pointer]:
+                            - /url: https://www.dice.com/job-detail/fdc49837-2880-4991-8782-f758789d5d0d
+                          - generic [ref=e520]:
+                            - paragraph [ref=e523]: Midvale, Utah
+                            - generic [ref=e524]:
+                              - paragraph [ref=e526]: •
+                              - paragraph [ref=e528]: Today
+                          - paragraph [ref=e531]: Zions Bancorporation's Enterprise Technology and Operations (ETO) team is transforming what it means to work for a financial institution. With a commitment to technology and innovation, we have been providing our community, clients and colleagues the best experience possible for over 150 years. Help us transform our workforce of the future, today. We are seeking an Enterprise Architect (Application Architect) to join Zions Bancorporation. As an Architect focused on Application Architecture, you
+                          - generic "Full-time" [ref=e533]:
+                            - paragraph [ref=e534]: Full-time
+                - link "Search all similar jobs" [ref=e535] [cursor=pointer]:
+                  - /url: https://www.dice.com/jobs?q=Senior+CIAM+Software+Engineer&location=Midvale%2C+UT
+                  - text: Search all similar jobs
+                  - img [ref=e536]
+    - contentinfo [ref=e538]:
+      - generic [ref=e540]:
+        - link "Dice Home" [ref=e541] [cursor=pointer]:
+          - /url: https://www.dice.com
+          - img "Dice Logo" [ref=e543]
+        - navigation "Social media" [ref=e546]:
+          - list [ref=e547]:
+            - listitem [ref=e548]:
+              - link "LinkedIn" [ref=e549] [cursor=pointer]:
+                - /url: https://www.linkedin.com/company/dice
+                - img [ref=e550]
+            - listitem [ref=e552]:
+              - link "YouTube" [ref=e553] [cursor=pointer]:
+                - /url: https://www.youtube.com/Dice
+                - img [ref=e554]
+            - listitem [ref=e556]:
+              - link "Instagram" [ref=e557] [cursor=pointer]:
+                - /url: https://www.instagram.com/dicedotcom
+                - img [ref=e558]
+            - listitem [ref=e561]:
+              - link "TikTok" [ref=e562] [cursor=pointer]:
+                - /url: https://www.tiktok.com/@dicetechjobs
+                - img [ref=e563]
+      - generic [ref=e566]:
+        - navigation "Technology Professionals" [ref=e568]:
+          - heading "Technology Professionals" [level=2] [ref=e569]
+          - list [ref=e570]:
+            - listitem [ref=e571]:
+              - link "Search for Jobs" [ref=e572] [cursor=pointer]:
+                - /url: https://www.dice.com/jobs
+            - listitem [ref=e573]:
+              - link "Jobs Directory" [ref=e574] [cursor=pointer]:
+                - /url: https://www.dice.com/jobs/browse-jobs
+            - listitem [ref=e575]:
+              - link "Search for Companies" [ref=e576] [cursor=pointer]:
+                - /url: https://www.dice.com/companies
+            - listitem [ref=e577]:
+              - link "Company Directory" [ref=e578] [cursor=pointer]:
+                - /url: https://www.dice.com/company-profile/browse
+            - listitem [ref=e579]:
+              - link "Career Advice" [ref=e580] [cursor=pointer]:
+                - /url: https://www.dice.com/career-advice
+        - navigation "Employers and Recruiters" [ref=e582]:
+          - heading "Employers and Recruiters" [level=2] [ref=e583]
+          - list [ref=e584]:
+            - listitem [ref=e585]:
+              - link "Post Jobs" [ref=e586] [cursor=pointer]:
+                - /url: https://www.dice.com/hiring/post-jobs
+            - listitem [ref=e587]:
+              - link "Find Candidates" [ref=e588] [cursor=pointer]:
+                - /url: https://www.dice.com/hiring/find-candidates
+            - listitem [ref=e589]:
+              - link "Build Employer Brand" [ref=e590] [cursor=pointer]:
+                - /url: https://www.dice.com/hiring/employer-brand
+            - listitem [ref=e591]:
+              - link "Explore Talent Solutions" [ref=e592] [cursor=pointer]:
+                - /url: https://www.dice.com/hiring/talent-solutions
+            - listitem [ref=e593]:
+              - link "View Integrations" [ref=e594] [cursor=pointer]:
+                - /url: https://www.dice.com/hiring/integrations
+            - listitem [ref=e595]:
+              - link "Recruiting Advice" [ref=e596] [cursor=pointer]:
+                - /url: https://www.dice.com/hiring/recruitment
+            - listitem [ref=e597]:
+              - link "Hiring Resources" [ref=e598] [cursor=pointer]:
+                - /url: https://www.dice.com/hiring/employer-resources
+        - navigation "Company Information" [ref=e600]:
+          - heading "Company Information" [level=2] [ref=e601]
+          - list [ref=e602]:
+            - listitem [ref=e603]:
+              - link "About Us" [ref=e604] [cursor=pointer]:
+                - /url: https://dhigroupinc.com
+            - listitem [ref=e605]:
+              - link "Media" [ref=e606] [cursor=pointer]:
+                - /url: https://www.dice.com/media
+            - listitem [ref=e607]:
+              - link "Work at Dice" [ref=e608] [cursor=pointer]:
+                - /url: https://dhigroupinc.com/careers/default.aspx
+        - generic [ref=e609]:
+          - navigation "Contact Us" [ref=e610]:
+            - heading "Contact Us" [level=2] [ref=e611]
+            - list [ref=e612]:
+              - listitem [ref=e613]:
+                - link "Request a Demo" [ref=e614] [cursor=pointer]:
+                  - /url: https://www.dice.com/hiring/demo
+          - navigation "Support" [ref=e615]:
+            - heading "Support" [level=2] [ref=e616]
+            - list [ref=e617]:
+              - listitem [ref=e618]:
+                - link "Knowledge Center" [ref=e619] [cursor=pointer]:
+                  - /url: https://www.dice.com/support
+              - listitem [ref=e620]:
+                - link "Privacy & Trust Center" [ref=e621] [cursor=pointer]:
+                  - /url: https://www.dice.com/privacy-center
+              - listitem [ref=e622]:
+                - link "Contact Support" [ref=e623] [cursor=pointer]:
+                  - /url: https://www.dice.com/about/contact-us
+      - generic [ref=e626]:
+        - heading "Get the Dice app." [level=2] [ref=e627]
+        - paragraph [ref=e628]: Unlock your tech potential.
+        - list [ref=e629]:
+          - listitem [ref=e630]:
+            - link "Download on the Apple App Store" [ref=e631] [cursor=pointer]:
+              - /url: https://apps.apple.com/app/id794201100
+              - img "Apple App Store" [ref=e632]
+          - listitem [ref=e643]:
+            - link "Get it on Google Play" [ref=e644] [cursor=pointer]:
+              - /url: https://play.google.com/store/apps/details?id=com.dice.app.jobs&referrer=trackingcode%3DDI_OS_UN_MA_UP&utm_campaign%3DDice%2520Universal%2520Header%2520and%2520Footer&utm_source%3DDice&utm_medium%3DOnsite&utm_content%3DUniversal&utm_term%3DUnpaid
+              - img "Google Play" [ref=e645]
+      - generic [ref=e658]:
+        - paragraph [ref=e660]:
+          - text: Copyright © 1990 - 2026 Dice. All Rights Reserved.
+          - link "Dice" [ref=e661] [cursor=pointer]:
+            - /url: https://www.dice.com
+          - text: is a
+          - link "DHI" [ref=e662] [cursor=pointer]:
+            - /url: https://dhigroupinc.com
+          - text: service.
+        - navigation "Legal and policies" [ref=e663]:
+          - list [ref=e664]:
+            - listitem [ref=e665]:
+              - link "Terms & Conditions" [ref=e666] [cursor=pointer]:
+                - /url: https://www.dice.com/about/terms-and-conditions
+              - text: "|"
+            - listitem [ref=e667]:
+              - link "Privacy Policy" [ref=e668] [cursor=pointer]:
+                - /url: https://www.dice.com/about/privacy-policy
+              - text: "|"
+            - listitem [ref=e669]:
+              - link "End User License Agreement" [ref=e670] [cursor=pointer]:
+                - /url: https://www.dice.com/about/eula
+              - text: "|"
+            - listitem [ref=e671]:
+              - link "Do Not Sell or Share My Personal Information" [ref=e672] [cursor=pointer]:
+                - /url: https://www.dice.com/about/ccpa#ccpa-form-anchor
+  - alert [ref=e673]
+  - button "Feedback" [ref=e674] [cursor=pointer]:
+    - iframe [ref=e675]:
+      - img [ref=f78e2] [cursor=pointer]
+  - iframe [ref=e676]:
+    

@@ -1,0 +1,316 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwjChfzShvyUAxWNIEQIHVIcEvkQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:instagram.com "B2B" "@gmail.com" site:instagram.com "B2B" "@gmail.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite:instagram.com%2B%2522B2B%2522%2B%2522%40gmail.com%2522&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "AI Mode" [ref=e79] [cursor=pointer]:
+              - /url: /search?q=site:instagram.com+%22B2B%22+%22%40gmail.com%22&sca_esv=4a455b0f3ad2390b&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6nUPLLDWPuoTmHe0G0B0oij00aFYqcSZfapqMiWddGj1MZt7QqrEbK3k9MNZTnDqTdCFVZEof2DbDKnWtyDgTl3l0vM1ScJGVFD4knuqe3tEn5sRYA&aep=1&ntc=1&sa=X&ved=2ahUKEwjChfzShvyUAxWNIEQIHVIcEvkQ2J8OegQIDxAD
+              - generic [ref=e82]: AI Mode
+          - listitem [ref=e83]:
+            - link "All" [disabled] [ref=e84]:
+              - generic [ref=e86]: All
+          - listitem [ref=e87]:
+            - link "Images" [ref=e88] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6nUPLLDWPuoTmHe0G0B0oij00aFYqcSZfapqMiWddGj1MZt7QqrEbK3k9MNZTnDqTdCFVZEof2DbDKnWtyDgTl3l0vM1ScJGVFD4knuqe3tEn5sRYA&q=site:instagram.com+%22B2B%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjChfzShvyUAxWNIEQIHVIcEvkQtKgLegQIFRAB
+              - generic [ref=e90]: Images
+          - listitem [ref=e91]:
+            - link "News" [ref=e92] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&q=site:instagram.com+%22B2B%22+%22%40gmail.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6nUPLLDWPuoTmHe0G0B0oij00aFYqcSZfapqMiWddGj1MZt7QqrEbK3k9MNZTnDqTdCFVZEof2DbDKnWtyDgTl3l0vM1ScJGVFD4knuqe3tEn5sRYA&sa=X&ved=2ahUKEwjChfzShvyUAxWNIEQIHVIcEvkQ0pQJegQIFBAB
+              - generic [ref=e94]: News
+          - listitem [ref=e95]:
+            - link "Videos" [ref=e96] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6nUPLLDWPuoTmHe0G0B0oij00aFYqcSZfapqMiWddGj1MZt7QqrEbK3k9MNZTnDqTdCFVZEof2DbDKnWtyDgTl3l0vM1ScJGVFD4knuqe3tEn5sRYA&q=site:instagram.com+%22B2B%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjChfzShvyUAxWNIEQIHVIcEvkQtKgLegQIExAB
+              - generic [ref=e98]: Videos
+          - listitem [ref=e99]:
+            - link "Forums" [ref=e100] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6nUPLLDWPuoTmHe0G0B0oij00aFYqcSZfapqMiWddGj1MZt7QqrEbK3k9MNZTnDqTdCFVZEof2DbDKnWtyDgTl3l0vM1ScJGVFD4knuqe3tEn5sRYA&q=site:instagram.com+%22B2B%22+%22%40gmail.com%22&sa=X&ved=2ahUKEwjChfzShvyUAxWNIEQIHVIcEvkQs6gLegQIEhAB
+              - generic [ref=e102]: Forums
+          - listitem [ref=e103]:
+            - link "Shopping" [ref=e104] [cursor=pointer]:
+              - /url: /search?sca_esv=4a455b0f3ad2390b&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3ppPEReeCOS7s1VbbZz2TLutTM8bcskdZ5Z5EWAFJPjTghF9mS0qmGrv36U8kfuC6nUPLLDWPuoTmHe0G0B0oij00aFYqcSZfapqMiWddGj1MZt7QqrEbK3k9MNZTnDqTdCFVZEof2DbDKnWtyDgTl3l0vM1ScJGVFD4knuqe3tEn5sRYA&q=site:instagram.com+%22B2B%22+%22%40gmail.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e106]: Shopping
+          - listitem [ref=e107]:
+            - button "More filters" [ref=e108] [cursor=pointer]:
+              - generic "More filters" [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: More
+                  - img [ref=e113]
+        - button "Tools" [ref=e116] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Tools
+            - img [ref=e121]
+    - heading "Search Results" [level=1] [ref=e123]
+    - main [ref=e129]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Web results" [level=2] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e141]:
+              - link "+971 52 929 9755/44 sami.b2b@gmail.com tabish. ... Instagram https://www.instagram.com › ..." [ref=e143] [cursor=pointer]:
+                - /url: https://www.instagram.com/p/C9RdV5hPhBW/
+                - heading "+971 52 929 9755/44 sami.b2b@gmail.com tabish. ..." [level=3] [ref=e144]
+                - generic [ref=e149]:
+                  - generic [ref=e151]: Instagram
+                  - generic [ref=e153]: https://www.instagram.com › ...
+              - button "About this result" [ref=e154] [cursor=pointer]:
+                - img [ref=e157]
+            - generic [ref=e161]:
+              - emphasis [ref=e162]: B2B
+              - text: Documents Clearing, Special Offer - Golden Visa Starting from AED5,000. Contact +97143259550 WhatsApp +971529299744/55 Email tabish.
+              - emphasis [ref=e163]: b2b
+              - text: "@"
+              - emphasis [ref=e164]: gmail.com
+              - text: Website ...
+        - generic [ref=e168]:
+          - generic [ref=e171]:
+            - link "SIEGEL (@siegelofc) • Instagram photos and videos Instagram · siegelofc 11.2K+ followers" [ref=e173] [cursor=pointer]:
+              - /url: https://www.instagram.com/siegelofc/
+              - heading "SIEGEL (@siegelofc) • Instagram photos and videos" [level=3] [ref=e174]
+              - generic [ref=e179]:
+                - generic [ref=e181]: Instagram · siegelofc
+                - generic [ref=e183]: 11.2K+ followers
+            - button "About this result" [ref=e184] [cursor=pointer]:
+              - img [ref=e187]
+          - generic [ref=e191]:
+            - text: ...
+            - emphasis [ref=e192]: gmail.com
+            - text: ... Last weekend at @hocuspocusmiami I got to play an extended set, doing two
+            - emphasis [ref=e193]: b2b's
+            - text: with my brothas @richiehellmusic ...
+        - generic [ref=e197]:
+          - generic [ref=e200]:
+            - link "jake adaway (@adawaymusic) Instagram · adawaymusic 2.1K+ followers" [ref=e202] [cursor=pointer]:
+              - /url: https://www.instagram.com/adawaymusic/
+              - heading "jake adaway (@adawaymusic)" [level=3] [ref=e203]
+              - generic [ref=e208]:
+                - generic [ref=e210]: Instagram · adawaymusic
+                - generic [ref=e212]: 2.1K+ followers
+            - button "About this result" [ref=e213] [cursor=pointer]:
+              - img [ref=e216]
+          - generic [ref=e219]:
+            - generic [ref=e220]:
+              - text: ... theresurrectionnola all inquiries to jake.amped@
+              - emphasis [ref=e221]: gmail.com
+              - text: . Follow. Message. AMPED
+              - emphasis [ref=e222]: B2B
+              - text: ...
+            - link "Read more" [ref=e223] [cursor=pointer]:
+              - /url: https://www.instagram.com/adawaymusic/#:~:text=owner%2C%20agent%2C%20artist%20mgmt%20%40amped.productions,Message
+        - generic [ref=e227]:
+          - generic [ref=e230]:
+            - link "Contact Now. +971 43259550 sami.b2b@gmail.com www.b2bre. ... Instagram https://www.instagram.com › Post" [ref=e232] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/C9pvn6LBD3_/?__d=1utm_sourceig_embed
+              - heading "Contact Now. +971 43259550 sami.b2b@gmail.com www.b2bre. ..." [level=3] [ref=e233]
+              - generic [ref=e238]:
+                - generic [ref=e240]: Instagram
+                - generic [ref=e242]: https://www.instagram.com › Post
+            - button "About this result" [ref=e243] [cursor=pointer]:
+              - img [ref=e246]
+          - generic [ref=e250]:
+            - text: Contact Now. +971 43259550 +971 52 929 9755/44 sami.
+            - emphasis [ref=e251]: b2b
+            - text: "@"
+            - emphasis [ref=e252]: gmail.com
+            - text: tabish.
+            - emphasis [ref=e253]: b2b
+            - text: "@"
+            - emphasis [ref=e254]: gmail.com
+            - text: www.b2bre.ae.
+        - generic [ref=e258]:
+          - generic [ref=e261]:
+            - link "Our USA Business Email List – 100K+ Verified B2B ... Instagram · leadsdatabase142003 2 months ago" [ref=e263] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DWgYvgjjEAe/
+              - heading "Our USA Business Email List – 100K+ Verified B2B ..." [level=3] [ref=e264]
+              - generic [ref=e269]:
+                - generic [ref=e271]: Instagram · leadsdatabase142003
+                - generic [ref=e273]: 2 months ago
+            - button "About this result" [ref=e274] [cursor=pointer]:
+              - img [ref=e277]
+          - generic [ref=e280]:
+            - generic [ref=e281]:
+              - text: USA Business Email List – 100K+ Verified
+              - emphasis [ref=e282]: B2B
+              - text: Contacts Database
+            - link "Read more" [ref=e283] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DWgYvgjjEAe/#:~:text=USA%20Business%20Email%20List%20%E2%80%93,100K%2B%20Verified%20B2B%20Contacts%20Database
+        - generic [ref=e287]:
+          - generic [ref=e290]:
+            - link "Helena Lauwaert (@helenalauwaert) Instagram · helenalauwaert 18.6K+ followers" [ref=e292] [cursor=pointer]:
+              - /url: https://www.instagram.com/helenalauwaert/
+              - heading "Helena Lauwaert (@helenalauwaert)" [level=3] [ref=e293]
+              - generic [ref=e298]:
+                - generic [ref=e300]: Instagram · helenalauwaert
+                - generic [ref=e302]: 18.6K+ followers
+            - button "About this result" [ref=e303] [cursor=pointer]:
+              - img [ref=e306]
+          - generic [ref=e310]:
+            - text: "Presenting: The"
+            - emphasis [ref=e311]: B2B
+            - text: Tour 2025 definitely the year of the
+            - emphasis [ref=e312]: b2b's
+            - text: can't wait ...
+        - generic [ref=e316]:
+          - generic [ref=e319]:
+            - link "Meeting friends @holltmusic @jorisvoorn ✅ B2B with @ ... Instagram · aviraaudio 150+ likes · 7 months ago" [ref=e321] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DQU0vJ3EdZe/?img_index=4
+              - heading "Meeting friends @holltmusic @jorisvoorn ✅ B2B with @ ..." [level=3] [ref=e322]
+              - generic [ref=e327]:
+                - generic [ref=e329]: Instagram · aviraaudio
+                - generic [ref=e331]: 150+ likes · 7 months ago
+            - button "About this result" [ref=e332] [cursor=pointer]:
+              - img [ref=e335]
+          - generic [ref=e338]:
+            - generic [ref=e339]:
+              - text: "... likes, 19 comments - aviraaudio on October 27, 2025: \"Meeting friends @holltmusic @jorisvoorn ✓"
+              - emphasis [ref=e340]: B2B
+              - text: ... jerraubookings@
+              - emphasis [ref=e341]: gmail.com
+              - text: . View all 9 ...
+            - link "Read more" [ref=e342] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DQU0vJ3EdZe/?img_index=4#:~:text=jerraubookings%40gmail.com,View%20all%209%20comments
+        - generic [ref=e346]:
+          - generic [ref=e349]:
+            - link "We're hiring a B2B Email Marketing Expert (Full- ... Instagram · my_virtual_mate 1 like · 3 months ago" [ref=e351] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DU95q3ykz5v/
+              - heading "We're hiring a B2B Email Marketing Expert (Full- ..." [level=3] [ref=e352]
+              - generic [ref=e357]:
+                - generic [ref=e359]: Instagram · my_virtual_mate
+                - generic [ref=e361]: 1 like · 3 months ago
+            - button "About this result" [ref=e362] [cursor=pointer]:
+              - img [ref=e365]
+          - generic [ref=e368]:
+            - generic [ref=e369]:
+              - text: "... likes, 0 comments - my_virtual_mate on February 19, 2026: \"We're hiring a"
+              - emphasis [ref=e370]: B2B
+              - text: ... v6hrservices@
+              - emphasis [ref=e371]: gmail.com
+              - text: "Contact: Mr. Rakesh Ranjan – ..."
+            - link "Read more" [ref=e372] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DU95q3ykz5v/#:~:text=more
+        - generic [ref=e376]:
+          - generic [ref=e379]:
+            - link "👉Grow Your Business With Us! 👔 Dm Ties B2B Fashion ... Instagram · dmties_italy 6 likes · 2 weeks ago" [ref=e381] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DYu3wg6jTMh/
+              - heading "👉Grow Your Business With Us! 👔 Dm Ties B2B Fashion ..." [level=3] [ref=e382]
+              - generic [ref=e387]:
+                - generic [ref=e389]: Instagram · dmties_italy
+                - generic [ref=e391]: 6 likes · 2 weeks ago
+            - button "About this result" [ref=e392] [cursor=pointer]:
+              - img [ref=e395]
+          - generic [ref=e398]:
+            - generic [ref=e399]:
+              - text: ...
+              - emphasis [ref=e400]: b2b
+              - text: ".dmties.it #dmties #"
+              - emphasis [ref=e401]: b2b
+              - text: "#b2bfromitaly #fashiondistribution #madeinitaly ... ✉️ thechoicetrima21@"
+              - emphasis [ref=e402]: gmail.com
+              - text: ceo.thechoicetrima@
+              - emphasis [ref=e403]: gmail.com
+            - link "Read more" [ref=e404] [cursor=pointer]:
+              - /url: https://www.instagram.com/p/DYu3wg6jTMh/#:~:text=b2b.dmties.it%20%23dmties%20%23b2b%20%23b2bfromitaly%20%23fashiondistribution,%23madeinitaly&text=%E2%9C%89%EF%B8%8F%20thechoicetrima21%40gmail.com,%F0%9F%93%A8%20ceo.thechoicetrima%40gmail.com
+        - generic [ref=e410]:
+          - generic [ref=e413]:
+            - link "B2B Email Outreach & Lead Generation Specialist Scaled ... Instagram · founder.imopshub 1 like · 3 months ago" [ref=e415] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DVIQ-4AE2gQ/
+              - heading "B2B Email Outreach & Lead Generation Specialist Scaled ..." [level=3] [ref=e416]
+              - generic [ref=e421]:
+                - generic [ref=e423]: Instagram · founder.imopshub
+                - generic [ref=e425]: 1 like · 3 months ago
+            - button "About this result" [ref=e426] [cursor=pointer]:
+              - img [ref=e429]
+          - generic [ref=e431]:
+            - link "B2B Email Outreach & Lead Generation Specialist Scaled ... by Muhammad Tayyab | Founder @imopshub.com on Instagram. Play on Instagram. 0:11" [ref=e432] [cursor=pointer]:
+              - /url: https://www.instagram.com/reel/DVIQ-4AE2gQ/
+              - generic [ref=e434]:
+                - img [ref=e437]
+                - generic [ref=e441]: 0:11
+            - generic [ref=e443]: "... likes, 0 comments - founder.imopshub on February 23, 2026: \"B2B ... com Send Sajin Seethi sajinseethi@gmail com John Stovold johnstovold@gmail."
+      - navigation [ref=e446]:
+        - heading "Page Navigation" [level=1] [ref=e447]
+        - text: "1"
+        - link "Page 2" [ref=e450] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22B2B%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=HgUpasL-J43BkPIP0rjIyA8&start=10&sa=N&sstk=AU9db-AVfUxj-vmFj-FUVrmZatVWdX2-hbOyS-a287kyBDuFrNJgbMQKdI4QIXX6szlhhOpJzWyPRlbbcz2rrZkPSBY0rfainK5PEA&ved=2ahUKEwjChfzShvyUAxWNIEQIHVIcEvkQ8tMDegQIJRAE
+          - text: "2"
+        - link "Page 3" [ref=e452] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22B2B%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=HgUpasL-J43BkPIP0rjIyA8&start=20&sa=N&sstk=AU9db-AVfUxj-vmFj-FUVrmZatVWdX2-hbOyS-a287kyBDuFrNJgbMQKdI4QIXX6szlhhOpJzWyPRlbbcz2rrZkPSBY0rfainK5PEA&ved=2ahUKEwjChfzShvyUAxWNIEQIHVIcEvkQ8tMDegQIJRAG
+          - text: "3"
+        - link "Page 4" [ref=e454] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22B2B%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=HgUpasL-J43BkPIP0rjIyA8&start=30&sa=N&sstk=AU9db-AVfUxj-vmFj-FUVrmZatVWdX2-hbOyS-a287kyBDuFrNJgbMQKdI4QIXX6szlhhOpJzWyPRlbbcz2rrZkPSBY0rfainK5PEA&ved=2ahUKEwjChfzShvyUAxWNIEQIHVIcEvkQ8tMDegQIJRAI
+          - text: "4"
+        - link "Page 5" [ref=e456] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22B2B%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=HgUpasL-J43BkPIP0rjIyA8&start=40&sa=N&sstk=AU9db-AVfUxj-vmFj-FUVrmZatVWdX2-hbOyS-a287kyBDuFrNJgbMQKdI4QIXX6szlhhOpJzWyPRlbbcz2rrZkPSBY0rfainK5PEA&ved=2ahUKEwjChfzShvyUAxWNIEQIHVIcEvkQ8tMDegQIJRAK
+          - text: "5"
+        - link "Page 6" [ref=e458] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22B2B%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=HgUpasL-J43BkPIP0rjIyA8&start=50&sa=N&sstk=AU9db-AVfUxj-vmFj-FUVrmZatVWdX2-hbOyS-a287kyBDuFrNJgbMQKdI4QIXX6szlhhOpJzWyPRlbbcz2rrZkPSBY0rfainK5PEA&ved=2ahUKEwjChfzShvyUAxWNIEQIHVIcEvkQ8tMDegQIJRAM
+          - text: "6"
+        - link "Page 7" [ref=e460] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22B2B%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=HgUpasL-J43BkPIP0rjIyA8&start=60&sa=N&sstk=AU9db-AVfUxj-vmFj-FUVrmZatVWdX2-hbOyS-a287kyBDuFrNJgbMQKdI4QIXX6szlhhOpJzWyPRlbbcz2rrZkPSBY0rfainK5PEA&ved=2ahUKEwjChfzShvyUAxWNIEQIHVIcEvkQ8tMDegQIJRAO
+          - text: "7"
+        - link "Page 8" [ref=e462] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22B2B%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=HgUpasL-J43BkPIP0rjIyA8&start=70&sa=N&sstk=AU9db-AVfUxj-vmFj-FUVrmZatVWdX2-hbOyS-a287kyBDuFrNJgbMQKdI4QIXX6szlhhOpJzWyPRlbbcz2rrZkPSBY0rfainK5PEA&ved=2ahUKEwjChfzShvyUAxWNIEQIHVIcEvkQ8tMDegQIJRAQ
+          - text: "8"
+        - link "Page 9" [ref=e464] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22B2B%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=HgUpasL-J43BkPIP0rjIyA8&start=80&sa=N&sstk=AU9db-AVfUxj-vmFj-FUVrmZatVWdX2-hbOyS-a287kyBDuFrNJgbMQKdI4QIXX6szlhhOpJzWyPRlbbcz2rrZkPSBY0rfainK5PEA&ved=2ahUKEwjChfzShvyUAxWNIEQIHVIcEvkQ8tMDegQIJRAS
+          - text: "9"
+        - link "Page 10" [ref=e466] [cursor=pointer]:
+          - /url: /search?q=site:instagram.com+%22B2B%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=HgUpasL-J43BkPIP0rjIyA8&start=90&sa=N&sstk=AU9db-AVfUxj-vmFj-FUVrmZatVWdX2-hbOyS-a287kyBDuFrNJgbMQKdI4QIXX6szlhhOpJzWyPRlbbcz2rrZkPSBY0rfainK5PEA&ved=2ahUKEwjChfzShvyUAxWNIEQIHVIcEvkQ8tMDegQIJRAU
+          - text: "10"
+        - heading "Next" [level=2] [ref=e468]:
+          - link "Next" [ref=e469] [cursor=pointer]:
+            - /url: /search?q=site:instagram.com+%22B2B%22+%22@gmail.com%22&sca_esv=4a455b0f3ad2390b&ei=HgUpasL-J43BkPIP0rjIyA8&start=10&sa=N&sstk=AU9db-AVfUxj-vmFj-FUVrmZatVWdX2-hbOyS-a287kyBDuFrNJgbMQKdI4QIXX6szlhhOpJzWyPRlbbcz2rrZkPSBY0rfainK5PEA&ved=2ahUKEwjChfzShvyUAxWNIEQIHVIcEvkQ8NMDegQIJRAW
+            - generic [ref=e471]: Next
+      - navigation
+    - contentinfo [ref=e472]:
+      - heading "Footer Links" [level=1] [ref=e473]
+      - generic [ref=e477]:
+        - generic [ref=e481]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e483] [cursor=pointer]:
+            - generic [ref=e484]: 85281, Tempe, AZ
+            - generic [ref=e486]:
+              - text: "-"
+              - generic [ref=e487]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e489] [cursor=pointer]: Update location
+        - generic [ref=e492]:
+          - link "Help" [ref=e493] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e494] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e495] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e496] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

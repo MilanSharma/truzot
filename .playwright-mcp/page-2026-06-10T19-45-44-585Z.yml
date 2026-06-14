@@ -1,0 +1,395 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - link "Skip to main content" [ref=e2] [cursor=pointer]
+      - link "Accessibility help" [ref=e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=en
+  - generic [ref=e8]:
+    - search [ref=e9]:
+      - generic [ref=e11]:
+        - link "Go to Google Home" [ref=e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwjM3o_ot_2UAxWKkO4BHVnwK3YQPAgI
+          - img [ref=e14]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - combobox "Search" [ref=e25]: site:linkedin.com "software engineer" "New York" "@gmail.com" OR "@yahoo.com" OR "@outlook.com" site:linkedin.com "software engineer" "New York" "@gmail.com" OR "@yahoo.com" OR "@outlook.com"
+            - generic [ref=e26]:
+              - button "Clear" [ref=e28] [cursor=pointer]:
+                - img [ref=e30]
+              - generic [ref=e33]:
+                - button "Search by voice" [ref=e34] [cursor=pointer]:
+                  - img [ref=e35]
+                - button "Search by image" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+          - button "Search" [ref=e40] [cursor=pointer]:
+            - img [ref=e43]
+    - generic [ref=e45]:
+      - button "Settings" [ref=e47] [cursor=pointer]:
+        - img [ref=e50]
+      - generic [ref=e53]:
+        - button "Google apps" [ref=e55] [cursor=pointer]:
+          - img [ref=e56]
+        - link "Sign in" [ref=e60] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3Dsite%253Alinkedin.com%2B%2522software%2Bengineer%2522%2B%2522New%2BYork%2522%2B%2522%2540gmail.com%2522%2BOR%2B%2522%2540yahoo.com%2522%2BOR%2B%2522%2540outlook.com%2522%26sca_esv%3Da5f6b3e87b7fb004%26source%3Dhp%26ei%3Dnb4paoT3CrfSkPIPyfuv4Ag%26iflsig%3DAFdpzrgAAAAAainMrUh6VznX5EAX282otC77YLYLPV4s%26ved%3D0ahUKEwjEuafGt_2UAxU3KUQIHcn9C4wQ4dUDCB0%26uact%3D5%26oq%3Dsite%253Alinkedin.com%2B%2522software%2Bengineer%2522%2B%2522New%2BYork%2522%2B%2522%2540gmail.com%2522%2BOR%2B%2522%2540yahoo.com%2522%2BOR%2B%2522%2540outlook.com%2522%26gs_lp%3DEgdnd3Mtd2l6Il9zaXRlOmxpbmtlZGluLmNvbSAic29mdHdhcmUgZW5naW5lZXIiICJOZXcgWW9yayIgIkBnbWFpbC5jb20iIE9SICJAeWFob28uY29tIiBPUiAiQG91dGxvb2suY29tIkgAUABYAHAAeACQAQCYAQCgAQCqAQC4AQPIAQD4AQGYAgCgAgCYAwCSBwCgBwCyBwC4BwDCBwDIBwCACAE%26sclient%3Dgws-wiz%26sei%3D474pav7mKufGkPIP7oTqsQc&ec=futura_srp_og_si_72236_p
+  - generic [ref=e62]:
+    - navigation [ref=e68]:
+      - generic [ref=e74]:
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "All" [disabled] [ref=e77]:
+              - generic [ref=e79]: All
+          - listitem [ref=e80]:
+            - link "Images" [ref=e81] [cursor=pointer]:
+              - /url: /search?sca_esv=a5f6b3e87b7fb004&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3tR7kVu8a3MULVA9bsoO0mCRDL_TmJOT9lTB_DhOz5rRYENyR3cxrh76YoJ8GgVppUvB0wHIsdD8QN3ksdIfYZ25JwklA05mv-CNJPnlRTP9S6shyQaMN7JdDIKEzVB-Y6ymbf7OVi4PO0_oAzpBDgIWrTCF2E8GWAmLdBcMnET6j-o2Vw&q=site:linkedin.com+%22software+engineer%22+%22New+York%22+%22%40gmail.com%22+OR+%22%40yahoo.com%22+OR+%22%40outlook.com%22&sa=X&ved=2ahUKEwjM3o_ot_2UAxWKkO4BHVnwK3YQtKgLegQIFRAB
+              - generic [ref=e83]: Images
+          - listitem [ref=e84]:
+            - link "Forums" [ref=e85] [cursor=pointer]:
+              - /url: /search?sca_esv=a5f6b3e87b7fb004&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3tR7kVu8a3MULVA9bsoO0mCRDL_TmJOT9lTB_DhOz5rRYENyR3cxrh76YoJ8GgVppUvB0wHIsdD8QN3ksdIfYZ25JwklA05mv-CNJPnlRTP9S6shyQaMN7JdDIKEzVB-Y6ymbf7OVi4PO0_oAzpBDgIWrTCF2E8GWAmLdBcMnET6j-o2Vw&q=site:linkedin.com+%22software+engineer%22+%22New+York%22+%22%40gmail.com%22+OR+%22%40yahoo.com%22+OR+%22%40outlook.com%22&sa=X&ved=2ahUKEwjM3o_ot_2UAxWKkO4BHVnwK3YQs6gLegQIEhAB
+              - generic [ref=e87]: Forums
+          - listitem [ref=e88]:
+            - link "Videos" [ref=e89] [cursor=pointer]:
+              - /url: /search?sca_esv=a5f6b3e87b7fb004&udm=7&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3tR7kVu8a3MULVA9bsoO0mCRDL_TmJOT9lTB_DhOz5rRYENyR3cxrh76YoJ8GgVppUvB0wHIsdD8QN3ksdIfYZ25JwklA05mv-CNJPnlRTP9S6shyQaMN7JdDIKEzVB-Y6ymbf7OVi4PO0_oAzpBDgIWrTCF2E8GWAmLdBcMnET6j-o2Vw&q=site:linkedin.com+%22software+engineer%22+%22New+York%22+%22%40gmail.com%22+OR+%22%40yahoo.com%22+OR+%22%40outlook.com%22&sa=X&ved=2ahUKEwjM3o_ot_2UAxWKkO4BHVnwK3YQtKgLegQIERAB
+              - generic [ref=e91]: Videos
+          - listitem [ref=e92]:
+            - link "News" [ref=e93] [cursor=pointer]:
+              - /url: /search?sca_esv=a5f6b3e87b7fb004&q=site:linkedin.com+%22software+engineer%22+%22New+York%22+%22%40gmail.com%22+OR+%22%40yahoo.com%22+OR+%22%40outlook.com%22&tbm=nws&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3tR7kVu8a3MULVA9bsoO0mCRDL_TmJOT9lTB_DhOz5rRYENyR3cxrh76YoJ8GgVppUvB0wHIsdD8QN3ksdIfYZ25JwklA05mv-CNJPnlRTP9S6shyQaMN7JdDIKEzVB-Y6ymbf7OVi4PO0_oAzpBDgIWrTCF2E8GWAmLdBcMnET6j-o2Vw&sa=X&ved=2ahUKEwjM3o_ot_2UAxWKkO4BHVnwK3YQ0pQJegQIExAB
+              - generic [ref=e95]: News
+          - listitem [ref=e96]:
+            - link "Shopping" [ref=e97] [cursor=pointer]:
+              - /url: /search?sca_esv=a5f6b3e87b7fb004&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpaEWjvZ2Py1XXV8d8KvlI3tR7kVu8a3MULVA9bsoO0mCRDL_TmJOT9lTB_DhOz5rRYENyR3cxrh76YoJ8GgVppUvB0wHIsdD8QN3ksdIfYZ25JwklA05mv-CNJPnlRTP9S6shyQaMN7JdDIKEzVB-Y6ymbf7OVi4PO0_oAzpBDgIWrTCF2E8GWAmLdBcMnET6j-o2Vw&q=site:linkedin.com+%22software+engineer%22+%22New+York%22+%22%40gmail.com%22+OR+%22%40yahoo.com%22+OR+%22%40outlook.com%22&ved=1t:220175&ictx=111
+              - generic [ref=e99]: Shopping
+          - listitem [ref=e100]:
+            - button "More filters" [ref=e101] [cursor=pointer]:
+              - generic "More filters" [ref=e102]:
+                - generic [ref=e103]:
+                  - generic [ref=e104]: More
+                  - img [ref=e106]
+        - button "Tools" [ref=e109] [cursor=pointer]:
+          - generic [ref=e111]:
+            - generic [ref=e112]: Tools
+            - img [ref=e114]
+    - heading "Search Results" [level=1] [ref=e116]
+    - main [ref=e122]:
+      - generic [ref=e126]:
+        - generic [ref=e129]:
+          - heading "Web results" [level=2] [ref=e130]
+          - generic [ref=e131]:
+            - generic [ref=e134]:
+              - link "Athreya A. - Software Engineer @ Google LinkedIn · Athreya A. 1.5K+ followers" [ref=e136] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/athreyaanand
+                - heading "Athreya A. - Software Engineer @ Google" [level=3] [ref=e137]
+                - generic [ref=e142]:
+                  - generic [ref=e144]: LinkedIn · Athreya A.
+                  - generic [ref=e146]: 1.5K+ followers
+              - button "About this result" [ref=e147] [cursor=pointer]:
+                - img [ref=e150]
+            - generic [ref=e152]:
+              - generic [ref=e153]: New York, New York, United States · Software Engineer · Google
+              - generic [ref=e154]:
+                - generic [ref=e155]:
+                  - text: ...
+                  - emphasis [ref=e156]: gmail.com
+                  - text: . I look forward to meeting you ... Athreya A.
+                  - emphasis [ref=e157]: Software Engineer
+                  - text: "@ Google. Google Georgia Institute of Technology."
+                  - emphasis [ref=e158]: New York
+                  - text: ","
+                  - emphasis [ref=e159]: New York
+                  - text: ", United States."
+                - link "Read more" [ref=e160] [cursor=pointer]:
+                  - /url: https://www.linkedin.com/in/athreyaanand#:~:text=Athreya%20A.,York%2C%20New%20York%2C%20United%20States
+        - generic [ref=e164]:
+          - generic [ref=e167]:
+            - link "Justin Matsnev - Staff Software Engineer @ Albert LinkedIn · Justin Matsnev 1.1K+ followers" [ref=e169] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/justinmatsnev
+              - heading "Justin Matsnev - Staff Software Engineer @ Albert" [level=3] [ref=e170]
+              - generic [ref=e175]:
+                - generic [ref=e177]: LinkedIn · Justin Matsnev
+                - generic [ref=e179]: 1.1K+ followers
+            - button "About this result" [ref=e180] [cursor=pointer]:
+              - img [ref=e183]
+          - generic [ref=e185]:
+            - generic [ref=e186]: New York, New York, United States · Staff Software Engineer · Albert
+            - generic [ref=e188]:
+              - text: Staff
+              - emphasis [ref=e189]: Software Engineer
+              - text: "@ Albert · I'm a graduate of ..."
+              - emphasis [ref=e190]: gmail.com
+              - text: "]. · Experience: Albert · Education: Penn State University · Location:"
+              - emphasis [ref=e191]: New York
+              - text: ...
+        - generic [ref=e195]:
+          - generic [ref=e198]:
+            - link "Donovan Jackson - Software Engineer | React | Typescript LinkedIn · Donovan Jackson 890+ followers" [ref=e200] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/donovan-jackson-engineer
+              - heading "Donovan Jackson - Software Engineer | React | Typescript" [level=3] [ref=e201]
+              - generic [ref=e206]:
+                - generic [ref=e208]: LinkedIn · Donovan Jackson
+                - generic [ref=e210]: 890+ followers
+            - button "About this result" [ref=e211] [cursor=pointer]:
+              - img [ref=e214]
+          - generic [ref=e217]:
+            - generic [ref=e218]:
+              - text: Donovan Jackson.
+              - emphasis [ref=e219]: Software Engineer
+              - text: "| React | Typescript | Node. Insight Global Siena College. Brooklyn,"
+              - emphasis [ref=e220]: New York
+              - text: ", United States. 891 followers 500+ connections."
+            - link "Read more" [ref=e221] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/donovan-jackson-engineer#:~:text=Donovan%20Jackson,891%20followers%20500%2B%20connections
+        - generic [ref=e225]:
+          - generic [ref=e228]:
+            - link "Mitch Gruen - Software Engineer LinkedIn · Mitch Gruen 910+ followers" [ref=e230] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/mitch-gruen
+              - heading "Mitch Gruen - Software Engineer" [level=3] [ref=e231]
+              - generic [ref=e236]:
+                - generic [ref=e238]: LinkedIn · Mitch Gruen
+                - generic [ref=e240]: 910+ followers
+            - button "About this result" [ref=e241] [cursor=pointer]:
+              - img [ref=e244]
+          - generic [ref=e246]:
+            - generic [ref=e247]: Brooklyn, New York, United States · Software Engineer · GoToJazz
+            - generic [ref=e248]:
+              - generic [ref=e249]:
+                - emphasis [ref=e250]: Software Engineer
+                - text: · mitchgruen.dev@
+                - emphasis [ref=e251]: gmail.com
+                - text: "· Experience: GoToJazz ... FYI. Jun 2024 - Jan 2025 8 months."
+                - emphasis [ref=e252]: New York
+                - text: ","
+                - emphasis [ref=e253]: New York
+                - text: ", United States. • Delivered ..."
+              - link "Read more" [ref=e254] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/mitch-gruen#:~:text=Perfectly%20Imperfect%20%2F%20PI.FYI,%E2%80%A2%20Delivered
+        - generic [ref=e258]:
+          - generic [ref=e261]:
+            - link "Addisu Woldehawariat - addislw@gmail.com LinkedIn · Addisu Woldehawariat 220+ followers" [ref=e263] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/addislw
+              - heading "Addisu Woldehawariat - addislw@gmail.com" [level=3] [ref=e264]
+              - generic [ref=e269]:
+                - generic [ref=e271]: LinkedIn · Addisu Woldehawariat
+                - generic [ref=e273]: 220+ followers
+            - button "About this result" [ref=e274] [cursor=pointer]:
+              - img [ref=e277]
+          - generic [ref=e279]:
+            - generic [ref=e280]: New York City Metropolitan Area · Full Stack Engineer · O'Neal Industries
+            - generic [ref=e281]:
+              - generic [ref=e282]:
+                - text: addislw@
+                - emphasis [ref=e283]: gmail.com
+                - text: "| Fullstack Academy Fellow |"
+                - emphasis [ref=e284]: Software Engineer
+                - text: . O'Neal Industries Fullstack Academy.
+                - emphasis [ref=e285]: New York
+                - text: City Metropolitan Area. 221 followers 220 ...
+              - link "Read more" [ref=e286] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/addislw#:~:text=addislw%40gmail.com%20%7C%20Fullstack%20Academy%20Fellow,221%20followers%20220%20connections
+        - generic [ref=e290]:
+          - generic [ref=e293]:
+            - link "Eric W. - Software Engineer (Javascript and Ruby) seeking ... LinkedIn · Eric W. 410+ followers" [ref=e295] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/ericjwilhite
+              - heading "Eric W. - Software Engineer (Javascript and Ruby) seeking ..." [level=3] [ref=e296]
+              - generic [ref=e301]:
+                - generic [ref=e303]: LinkedIn · Eric W.
+                - generic [ref=e305]: 410+ followers
+            - button "About this result" [ref=e306] [cursor=pointer]:
+              - img [ref=e309]
+          - generic [ref=e311]:
+            - generic [ref=e312]: Medford, Oregon, United States · Enrollment Systems Coordinator · Southern Oregon University
+            - generic [ref=e314]:
+              - emphasis [ref=e315]: Software Engineer
+              - text: (Javascript and Ruby) seeking new opportunities to ...
+              - emphasis [ref=e316]: gmail.com
+              - text: for networking purposes, and software engineering opportunities ...
+        - generic [ref=e320]:
+          - generic [ref=e323]:
+            - link "alexander.sharma@gmail.com 8082192613 Senior ... LinkedIn · Alexander Sharma 960+ followers" [ref=e325] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/alexandersharma
+              - heading "alexander.sharma@gmail.com 8082192613 Senior ..." [level=3] [ref=e326]
+              - generic [ref=e331]:
+                - generic [ref=e333]: LinkedIn · Alexander Sharma
+                - generic [ref=e335]: 960+ followers
+            - button "About this result" [ref=e336] [cursor=pointer]:
+              - img [ref=e339]
+          - generic [ref=e341]:
+            - generic [ref=e342]: Long Beach, California, United States · Senior Software Engineer · Federal Reserve Bank of New York
+            - generic [ref=e343]:
+              - generic [ref=e344]:
+                - text: Alexander Sharma. alexander.sharma@
+                - emphasis [ref=e345]: gmail.com
+                - text: 8082192613 Senior
+                - emphasis [ref=e346]: Software Engineer
+                - text: . Federal Reserve Bank of
+                - emphasis [ref=e347]: New York
+                - text: . Long Beach, California, United States. 967 ...
+              - link "Read more" [ref=e348] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/alexandersharma#:~:text=Alexander%20Sharma,967%20followers%20500%2B%20connections
+        - generic [ref=e352]:
+          - generic [ref=e355]:
+            - link "Patrick Du - Software Engineer LinkedIn · Patrick Du 660+ followers" [ref=e357] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/patrick-du3
+              - heading "Patrick Du - Software Engineer" [level=3] [ref=e358]
+              - generic [ref=e363]:
+                - generic [ref=e365]: LinkedIn · Patrick Du
+                - generic [ref=e367]: 660+ followers
+            - button "About this result" [ref=e368] [cursor=pointer]:
+              - img [ref=e371]
+          - generic [ref=e375]:
+            - emphasis [ref=e376]: Software Engineer
+            - text: · Always open to new opportunities. Feel free ...
+            - emphasis [ref=e377]: gmail.com
+            - text: "· Experience: Carta · Education: University of Waterloo · Location:"
+            - emphasis [ref=e378]: New York
+            - text: ...
+          - list [ref=e380]:
+            - listitem [ref=e381]:
+              - link "Software Engineer" [ref=e382] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/patrick-du3#:~:text=Software%20Engineer,-Carta%20University%20of%20Waterloo
+                - generic [ref=e384]: Software Engineer
+            - listitem [ref=e385]:
+              - link "Carta University Of Waterloo" [ref=e386] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/patrick-du3#:~:text=Carta%20University%20of%20Waterloo
+                - generic [ref=e388]: Carta University Of Waterloo
+            - listitem [ref=e389]:
+              - link "Experience" [ref=e390] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/patrick-du3#:~:text=Du-,Experience
+                - generic [ref=e392]: Experience
+        - generic [ref=e396]:
+          - generic [ref=e399]:
+            - link "Nicholas Voronetskis - Software Engineer & IT LinkedIn · Nicholas Voronetskis 10+ followers" [ref=e401] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/nicholas-voronetskis-90a94b221
+              - heading "Nicholas Voronetskis - Software Engineer & IT" [level=3] [ref=e402]
+              - generic [ref=e407]:
+                - generic [ref=e409]: LinkedIn · Nicholas Voronetskis
+                - generic [ref=e411]: 10+ followers
+            - button "About this result" [ref=e412] [cursor=pointer]:
+              - img [ref=e415]
+          - generic [ref=e418]:
+            - generic [ref=e419]:
+              - text: Nicholas Voronetskis.
+              - emphasis [ref=e420]: Software Engineer
+              - text: "& IT | nickhaspeed@"
+              - emphasis [ref=e421]: gmail.com
+              - text: . Federal Work Study - Aspire High
+              - emphasis [ref=e422]: New York
+              - text: Institute of Technology. Brooklyn,
+              - emphasis [ref=e423]: New York
+              - text: ", ..."
+            - link "Read more" [ref=e424] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/nicholas-voronetskis-90a94b221#:~:text=Nicholas%20Voronetskis,Brooklyn%2C%20New%20York%2C%20United%20States
+          - list [ref=e426]:
+            - listitem [ref=e427]:
+              - link "Software Engineer & It |..." [ref=e428] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/nicholas-voronetskis-90a94b221#:~:text=Software%20Engineer%20%26%20IT%20%7C%20nickhaspeed%40gmail.com
+                - generic [ref=e430]: Software Engineer & It |...
+            - listitem [ref=e431]:
+              - link "About" [ref=e432] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/nicholas-voronetskis-90a94b221#:~:text=About,-Motivated%20IT%20and%20software%20enthusiast
+                - generic [ref=e434]: About
+            - listitem [ref=e435]:
+              - link "Experience" [ref=e436] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/nicholas-voronetskis-90a94b221#:~:text=Experience,-IT%20Support%20%26%20Tutor
+                - generic [ref=e438]: Experience
+        - generic [ref=e442]:
+          - generic [ref=e445]:
+            - link "James Ardery - Software Engineer at Mercury Analytics LinkedIn · James Ardery 1.4K+ followers" [ref=e447] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/jamesardery
+              - heading "James Ardery - Software Engineer at Mercury Analytics" [level=3] [ref=e448]
+              - generic [ref=e453]:
+                - generic [ref=e455]: LinkedIn · James Ardery
+                - generic [ref=e457]: 1.4K+ followers
+            - button "About this result" [ref=e458] [cursor=pointer]:
+              - img [ref=e461]
+          - generic [ref=e463]:
+            - generic [ref=e464]: Louisville, Kentucky, United States · Software Engineer · Mercury Analytics
+            - generic [ref=e465]:
+              - generic [ref=e466]:
+                - text: ...
+                - emphasis [ref=e467]: gmail.com
+                - text: "· Experience: Mercury Analytics · Education: Flatiron School ... 4 months."
+                - emphasis [ref=e468]: New York
+                - text: City Metropolitan Area. An 4 month intensive training ...
+              - link "Read more" [ref=e469] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/jamesardery#:~:text=4%20months,Javascript%2C%20and%20React%20as%20stacks.
+          - list [ref=e471]:
+            - listitem [ref=e472]:
+              - link "Software Engineer At Mercury..." [ref=e473] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/jamesardery#:~:text=Software%20Engineer%20at%20Mercury%20Analytics,-Mercury%20Analytics%20Flatiron%20School
+                - generic [ref=e475]: Software Engineer At Mercury...
+            - listitem [ref=e476]:
+              - link "Experience" [ref=e477] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/jamesardery#:~:text=activities-,Experience
+                - generic [ref=e479]: Experience
+            - listitem [ref=e480]:
+              - link "About" [ref=e481] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/jamesardery#:~:text=About,-Software%20Engineer%20with%20creative%20background
+                - generic [ref=e483]: About
+      - generic [ref=e485]:
+        - generic [ref=e490]:
+          - heading "People also search for" [level=2] [ref=e492]
+          - generic [ref=e494]:
+            - link "Software engineer new york gmail com yahoo com outlook com email" [ref=e499] [cursor=pointer]:
+              - /url: /search?sca_esv=a5f6b3e87b7fb004&q=Software+engineer+new+york+gmail+com+yahoo+com+outlook+com+email&sa=X&ved=2ahUKEwjM3o_ot_2UAxWKkO4BHVnwK3YQ1QJ6BAgkEAE
+              - generic [ref=e500]:
+                - generic [ref=e505]: Software engineer new york gmail com yahoo com outlook com email
+                - img [ref=e509]
+            - link "Software engineer new york gmail com yahoo com outlook com job" [ref=e515] [cursor=pointer]:
+              - /url: /search?sca_esv=a5f6b3e87b7fb004&q=Software+engineer+new+york+gmail+com+yahoo+com+outlook+com+job&sa=X&ved=2ahUKEwjM3o_ot_2UAxWKkO4BHVnwK3YQ1QJ6BAglEAE
+              - generic [ref=e516]:
+                - generic [ref=e521]: Software engineer new york gmail com yahoo com outlook com job
+                - img [ref=e525]
+        - navigation [ref=e527]:
+          - heading "Page Navigation" [level=1] [ref=e528]
+          - text: "1"
+          - link "Page 2" [ref=e531] [cursor=pointer]:
+            - /url: /search?q=site:linkedin.com+%22software+engineer%22+%22New+York%22+%22@gmail.com%22+OR+%22@yahoo.com%22+OR+%22@outlook.com%22&sca_esv=a5f6b3e87b7fb004&ei=5L4paszcBYqhur8P2eCvsQc&start=10&sa=N&sstk=AU9db-CMb2h9gE9EAYIqyNMU0wahWoNdWACsB8N4Zm_Zczr8u2FAs-VzIAS7AuK3N5Ni_QI1vP5049IPT5QyUfZm__jzWTwmcZvFbA&ved=2ahUKEwjM3o_ot_2UAxWKkO4BHVnwK3YQ8tMDegQIIhAE
+            - text: "2"
+          - link "Page 3" [ref=e533] [cursor=pointer]:
+            - /url: /search?q=site:linkedin.com+%22software+engineer%22+%22New+York%22+%22@gmail.com%22+OR+%22@yahoo.com%22+OR+%22@outlook.com%22&sca_esv=a5f6b3e87b7fb004&ei=5L4paszcBYqhur8P2eCvsQc&start=20&sa=N&sstk=AU9db-CMb2h9gE9EAYIqyNMU0wahWoNdWACsB8N4Zm_Zczr8u2FAs-VzIAS7AuK3N5Ni_QI1vP5049IPT5QyUfZm__jzWTwmcZvFbA&ved=2ahUKEwjM3o_ot_2UAxWKkO4BHVnwK3YQ8tMDegQIIhAG
+            - text: "3"
+          - link "Page 4" [ref=e535] [cursor=pointer]:
+            - /url: /search?q=site:linkedin.com+%22software+engineer%22+%22New+York%22+%22@gmail.com%22+OR+%22@yahoo.com%22+OR+%22@outlook.com%22&sca_esv=a5f6b3e87b7fb004&ei=5L4paszcBYqhur8P2eCvsQc&start=30&sa=N&sstk=AU9db-CMb2h9gE9EAYIqyNMU0wahWoNdWACsB8N4Zm_Zczr8u2FAs-VzIAS7AuK3N5Ni_QI1vP5049IPT5QyUfZm__jzWTwmcZvFbA&ved=2ahUKEwjM3o_ot_2UAxWKkO4BHVnwK3YQ8tMDegQIIhAI
+            - text: "4"
+          - link "Page 5" [ref=e537] [cursor=pointer]:
+            - /url: /search?q=site:linkedin.com+%22software+engineer%22+%22New+York%22+%22@gmail.com%22+OR+%22@yahoo.com%22+OR+%22@outlook.com%22&sca_esv=a5f6b3e87b7fb004&ei=5L4paszcBYqhur8P2eCvsQc&start=40&sa=N&sstk=AU9db-CMb2h9gE9EAYIqyNMU0wahWoNdWACsB8N4Zm_Zczr8u2FAs-VzIAS7AuK3N5Ni_QI1vP5049IPT5QyUfZm__jzWTwmcZvFbA&ved=2ahUKEwjM3o_ot_2UAxWKkO4BHVnwK3YQ8tMDegQIIhAK
+            - text: "5"
+          - link "Page 6" [ref=e539] [cursor=pointer]:
+            - /url: /search?q=site:linkedin.com+%22software+engineer%22+%22New+York%22+%22@gmail.com%22+OR+%22@yahoo.com%22+OR+%22@outlook.com%22&sca_esv=a5f6b3e87b7fb004&ei=5L4paszcBYqhur8P2eCvsQc&start=50&sa=N&sstk=AU9db-CMb2h9gE9EAYIqyNMU0wahWoNdWACsB8N4Zm_Zczr8u2FAs-VzIAS7AuK3N5Ni_QI1vP5049IPT5QyUfZm__jzWTwmcZvFbA&ved=2ahUKEwjM3o_ot_2UAxWKkO4BHVnwK3YQ8tMDegQIIhAM
+            - text: "6"
+          - link "Page 7" [ref=e541] [cursor=pointer]:
+            - /url: /search?q=site:linkedin.com+%22software+engineer%22+%22New+York%22+%22@gmail.com%22+OR+%22@yahoo.com%22+OR+%22@outlook.com%22&sca_esv=a5f6b3e87b7fb004&ei=5L4paszcBYqhur8P2eCvsQc&start=60&sa=N&sstk=AU9db-CMb2h9gE9EAYIqyNMU0wahWoNdWACsB8N4Zm_Zczr8u2FAs-VzIAS7AuK3N5Ni_QI1vP5049IPT5QyUfZm__jzWTwmcZvFbA&ved=2ahUKEwjM3o_ot_2UAxWKkO4BHVnwK3YQ8tMDegQIIhAO
+            - text: "7"
+          - link "Page 8" [ref=e543] [cursor=pointer]:
+            - /url: /search?q=site:linkedin.com+%22software+engineer%22+%22New+York%22+%22@gmail.com%22+OR+%22@yahoo.com%22+OR+%22@outlook.com%22&sca_esv=a5f6b3e87b7fb004&ei=5L4paszcBYqhur8P2eCvsQc&start=70&sa=N&sstk=AU9db-CMb2h9gE9EAYIqyNMU0wahWoNdWACsB8N4Zm_Zczr8u2FAs-VzIAS7AuK3N5Ni_QI1vP5049IPT5QyUfZm__jzWTwmcZvFbA&ved=2ahUKEwjM3o_ot_2UAxWKkO4BHVnwK3YQ8tMDegQIIhAQ
+            - text: "8"
+          - link "Page 9" [ref=e545] [cursor=pointer]:
+            - /url: /search?q=site:linkedin.com+%22software+engineer%22+%22New+York%22+%22@gmail.com%22+OR+%22@yahoo.com%22+OR+%22@outlook.com%22&sca_esv=a5f6b3e87b7fb004&ei=5L4paszcBYqhur8P2eCvsQc&start=80&sa=N&sstk=AU9db-CMb2h9gE9EAYIqyNMU0wahWoNdWACsB8N4Zm_Zczr8u2FAs-VzIAS7AuK3N5Ni_QI1vP5049IPT5QyUfZm__jzWTwmcZvFbA&ved=2ahUKEwjM3o_ot_2UAxWKkO4BHVnwK3YQ8tMDegQIIhAS
+            - text: "9"
+          - link "Page 10" [ref=e547] [cursor=pointer]:
+            - /url: /search?q=site:linkedin.com+%22software+engineer%22+%22New+York%22+%22@gmail.com%22+OR+%22@yahoo.com%22+OR+%22@outlook.com%22&sca_esv=a5f6b3e87b7fb004&ei=5L4paszcBYqhur8P2eCvsQc&start=90&sa=N&sstk=AU9db-CMb2h9gE9EAYIqyNMU0wahWoNdWACsB8N4Zm_Zczr8u2FAs-VzIAS7AuK3N5Ni_QI1vP5049IPT5QyUfZm__jzWTwmcZvFbA&ved=2ahUKEwjM3o_ot_2UAxWKkO4BHVnwK3YQ8tMDegQIIhAU
+            - text: "10"
+          - heading "Next" [level=2] [ref=e549]:
+            - link "Next" [ref=e550] [cursor=pointer]:
+              - /url: /search?q=site:linkedin.com+%22software+engineer%22+%22New+York%22+%22@gmail.com%22+OR+%22@yahoo.com%22+OR+%22@outlook.com%22&sca_esv=a5f6b3e87b7fb004&ei=5L4paszcBYqhur8P2eCvsQc&start=10&sa=N&sstk=AU9db-CMb2h9gE9EAYIqyNMU0wahWoNdWACsB8N4Zm_Zczr8u2FAs-VzIAS7AuK3N5Ni_QI1vP5049IPT5QyUfZm__jzWTwmcZvFbA&ved=2ahUKEwjM3o_ot_2UAxWKkO4BHVnwK3YQ8NMDegQIIhAW
+              - generic [ref=e552]: Next
+      - navigation
+    - contentinfo [ref=e553]:
+      - heading "Footer Links" [level=1] [ref=e554]
+      - generic [ref=e558]:
+        - generic [ref=e562]:
+          - button "85281, Tempe, AZ - From your IP address" [ref=e564] [cursor=pointer]:
+            - generic [ref=e565]: 85281, Tempe, AZ
+            - generic [ref=e567]:
+              - text: "-"
+              - generic [ref=e568]: From your IP address
+          - text: "-"
+          - button "Update location" [ref=e570] [cursor=pointer]: Update location
+        - generic [ref=e573]:
+          - link "Help" [ref=e574] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+          - link "Send feedback" [ref=e575] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy" [ref=e576] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+          - link "Terms" [ref=e577] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1

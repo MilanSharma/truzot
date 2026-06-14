@@ -1,0 +1,37 @@
+[    5687ms] [WARNING]  [33m[1m⚠[22m[39m Runtime config is deprecated and will be removed in Next.js 16. Please remove the usage of "next/config" from your project. @ https://assets.production.linktr.ee/profiles/_next/static/chunks/pages/_app-c54429e05ece460e.js:29
+[    6415ms] [LOG] null @ https://assets.production.linktr.ee/client-brfp/br-fp-script.js:0
+[    6799ms] Error: Minified React error #418; visit https://reactjs.org/docs/error-decoder.html?invariant=418 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at lv (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:54779)
+    at https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:107824
+    at uO (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:114042)
+    at uR (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:106992)
+    at uM (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:106802)
+    at uw (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:101875)
+    at x (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:138634)
+    at MessagePort.L (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:139164)
+[    6801ms] Error: Minified React error #418; visit https://reactjs.org/docs/error-decoder.html?invariant=418 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at lm (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:54325)
+    at i (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:128948)
+    at uR (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:106932)
+    at uM (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:106802)
+    at uw (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:101875)
+    at x (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:138634)
+    at MessagePort.L (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:139164)
+[    6801ms] Error: Minified React error #418; visit https://reactjs.org/docs/error-decoder.html?invariant=418 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at lm (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:54325)
+    at i (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:128948)
+    at uR (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:106932)
+    at uM (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:106802)
+    at uw (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:101875)
+    at x (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:138634)
+    at MessagePort.L (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:139164)
+[    6801ms] Error: Minified React error #423; visit https://reactjs.org/docs/error-decoder.html?invariant=423 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at i (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:128607)
+    at uR (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:106932)
+    at uM (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:106802)
+    at uS (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:103573)
+    at uw (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:102128)
+    at x (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:138634)
+    at MessagePort.L (https://assets.production.linktr.ee/profiles/_next/static/chunks/framework-2278e184321f6976.js:1:139164)
+[    6952ms] [LOG] setting gppString to not opted out no GPC @ https://api.consentjs.datagrail.io/b8f6c3bf-2519-4023-963a-974547789e46/gpp-usnat.js:39
+[    7234ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://ciam.linktr.ee/v1/auth/try-refresh?dcs=f&dcr=f:0
