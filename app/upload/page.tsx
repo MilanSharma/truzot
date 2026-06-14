@@ -724,6 +724,75 @@ function UploadContent() {
     window.scrollTo(0, 0);
   };
 
+  const handleSubmit = async () => {
+    if (!consentChecked) {
+      setError("Please consent to biometric data processing to continue.");
+      return;
+    }
+
+    if (!email || !email.includes("@")) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    setIsProcessing(true);
+    setError("");
+    setProgress("Processing payment...");
+
+    try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      const authHeaders: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+
+      if (session?.access_token) {
+        authHeaders.Authorization = `Bearer ${session.access_token}`;
+      }
+
+      const checkoutPayload = {
+        plan,
+        email,
+        storagePath,
+        gender,
+        eyeColor,
+        hairColor,
+        clothing,
+        background,
+        framing,
+        selectedStyles,
+        idempotencyKey,
+        shootName: shootName || defaultShootName,
+        coupon: coupon || undefined,
+      };
+
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: authHeaders,
+        body: JSON.stringify(checkoutPayload),
+      });
+
+      if (!res.ok) {
+        const errBody = await res.json().catch(() => null);
+        throw new Error(errBody?.error || "Checkout failed");
+      }
+
+      const { url } = await res.json();
+
+      if (url) {
+        window.location.href = url;
+      } else {
+        throw new Error("No checkout URL received");
+      }
+    } catch (err: any) {
+      console.error("Checkout error:", err);
+      setError(err.message || "Failed to process payment. Please try again.");
+      setIsProcessing(false);
+    }
+  };
+
   return (
     <UploadErrorBoundary>
       <div
@@ -1385,68 +1454,6 @@ function UploadContent() {
 }
 
 export default function UploadPage() {
-  const handleSubmit = async () => {
-    try {
-      if (typeof setIsProcessing === "function") setIsProcessing(true);
-      if (typeof setError === "function") setError("");
-
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      const authHeaders: Record<string, string> = {
-        "Content-Type": "application/json",
-      };
-
-      if (session?.access_token) {
-        authHeaders.Authorization = `Bearer ${session.access_token}`;
-      }
-
-      // Prepare checkout payload (adjust variables based on your exact state)
-      const checkoutPayload = {
-        plan,
-        email,
-        storagePath,
-        gender,
-        eyeColor,
-        hairColor,
-        clothing,
-        background,
-        framing,
-        selectedStyles,
-        idempotencyKey,
-        shootName: typeof shootName !== "undefined" ? shootName : undefined,
-        coupon: typeof coupon !== "undefined" ? coupon : undefined,
-      };
-
-      // Call checkout API
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: authHeaders,
-        body: JSON.stringify(checkoutPayload),
-      });
-
-      if (!res.ok) {
-        const errBody = await res.json().catch(() => null);
-        throw new Error(errBody?.error || "Checkout failed");
-      }
-
-      const { url } = await res.json();
-
-      if (url) {
-        // Redirect to Stripe Checkout
-        window.location.href = url;
-      } else {
-        throw new Error("No checkout URL received");
-      }
-    } catch (err: any) {
-      console.error("Checkout error:", err);
-      if (typeof setError === "function") {
-        setError(err.message || "Failed to process payment. Please try again.");
-      }
-      if (typeof setIsProcessing === "function") setIsProcessing(false);
-    }
-  };
-
   return (
     <Suspense>
       <UploadContent />
