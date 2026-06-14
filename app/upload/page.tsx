@@ -172,7 +172,6 @@ function UploadContent() {
   const [idempotencyKey, setIdempotencyKey] = useState(() => {
     const saved = getSavedState()?.idempotencyKey as string | undefined;
     if (saved) return saved;
-    // Fallback: stable key per user session stored in localStorage
     try {
       const stable = localStorage.getItem("truzot-idempotency-key");
       if (stable) return stable;
@@ -187,7 +186,12 @@ function UploadContent() {
   const [progress, setProgress] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
 
-  // Sync step to URL using native history API (pushes entries for back button)
+  // Background Upload Optimization state
+  const [isUploadingBackground, setIsUploadingBackground] = useState(false);
+  const [backgroundProgress, setBackgroundProgress] = useState("");
+  const uploadPromiseRef = useRef<Promise<string | null> | null>(null);
+
+  // Sync step to URL using native history API
   const stepRef = useRef(step);
   useEffect(() => {
     if (stepRef.current !== step) {
@@ -200,7 +204,9 @@ function UploadContent() {
   useEffect(() => {
     const onPopState = () => {
       const params = new URLSearchParams(window.location.search);
-      const urlStep = parseInt(params.get("step") ?? "") as Step;
+      const urlStep = params.get("step")
+        ? (parseInt(params.get("step") ?? "1") as Step)
+        : 1;
       if (urlStep >= 1 && urlStep <= 3) {
         setStep(urlStep);
       }
@@ -222,7 +228,6 @@ function UploadContent() {
             ? (saved.step as Step)
             : 3;
         setStep(targetStep);
-        // Remove cancelled from URL without losing other state
         const newUrl = new URL(window.location.href);
         newUrl.searchParams.delete("cancelled");
         window.history.replaceState(null, "", newUrl.toString());
@@ -230,7 +235,7 @@ function UploadContent() {
     }
   }, [searchParams]);
 
-  // Validate storagePath is still accessible after restoration from cancelled/saved state
+  // Validate storagePath is still accessible after restoration
   useEffect(() => {
     if (!storagePath || step < 2) return;
     let cancelled = false;
@@ -262,7 +267,7 @@ function UploadContent() {
           }
         }
       } catch {
-        // Silently skip validation on error
+        // Skip validation quietly
       }
     }, 2000);
     return () => {
@@ -271,7 +276,7 @@ function UploadContent() {
     };
   }, [storagePath, step, toast, isProcessing]);
 
-  // Persist state so browser back from Stripe preserves details
+  // Persist state
   useEffect(() => {
     try {
       const state = JSON.stringify({
@@ -279,6 +284,7 @@ function UploadContent() {
         plan,
         email,
         consentChecked,
+        coupon,
         gender,
         eyeColor,
         hairColor,
@@ -299,6 +305,7 @@ function UploadContent() {
     plan,
     email,
     consentChecked,
+    coupon,
     gender,
     eyeColor,
     hairColor,
@@ -405,6 +412,93 @@ function UploadContent() {
     [],
   );
 
+  const performUpload = useCallback(
+    async (filesToUpload: File[], onProgress?: (msg: string) => void) => {
+      if (filesToUpload.length === 0) return null;
+
+      // If an upload is already running for these files, reuse that promise
+      if (uploadPromiseRef.current) {
+        return uploadPromiseRef.current;
+      }
+
+      const promise = (async () => {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        const token = session?.access_token;
+        const authHeaders: Record<string, string> = {
+          "Content-Type": "application/json",
+        };
+        if (token) authHeaders.Authorization = `Bearer ${token}`;
+
+        if (onProgress) onProgress("Preparing photos...");
+        const JSZip = (await import("jszip")).default;
+        const zip = new JSZip();
+        filesToUpload.forEach((f, i) => {
+          const ext = f.name.split(".").pop() ?? "jpg";
+          zip.file(`photo_${i + 1}.${ext}`, f);
+        });
+
+        const uploadUrlRes = await fetch("/api/upload", {
+          method: "POST",
+          headers: authHeaders,
+          body: JSON.stringify({
+            action: "get-upload-url",
+            filename: `dataset_${Date.now()}.zip`,
+          }),
+        });
+
+        if (!uploadUrlRes.ok) throw new Error("Failed to get upload URL");
+        const {
+          signedUrl,
+          token: uploadToken,
+          path,
+        } = await uploadUrlRes.json();
+
+        if (onProgress) onProgress("Uploading photos...");
+        const zipBlob = await zip.generateAsync({
+          type: "blob",
+          compression: "STORE",
+        });
+
+        await new Promise<void>((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open("PUT", signedUrl);
+          xhr.setRequestHeader("x-upsert", "true");
+          xhr.setRequestHeader("content-type", "application/zip");
+          if (uploadToken)
+            xhr.setRequestHeader("authorization", `Bearer ${uploadToken}`);
+          xhr.upload.onprogress = (e) => {
+            if (e.lengthComputable && onProgress) {
+              onProgress(
+                `Uploading: ${Math.round((e.loaded / e.total) * 100)}%`,
+              );
+            }
+          };
+          xhr.onload = () => {
+            if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204)
+              resolve();
+            else reject(new Error(`File upload failed (HTTP ${xhr.status})`));
+          };
+          xhr.onerror = () => reject(new Error("Network error during upload."));
+          xhr.send(zipBlob);
+        });
+
+        return path;
+      })();
+
+      uploadPromiseRef.current = promise;
+
+      try {
+        const path = await promise;
+        return path;
+      } finally {
+        uploadPromiseRef.current = null;
+      }
+    },
+    [],
+  );
+
   const heicConverterRef = useRef<((blob: Blob) => Promise<Blob>) | null>(null);
 
   const handleFiles = useCallback(
@@ -499,13 +593,50 @@ function UploadContent() {
         return next;
       });
       setStoragePath("");
+      uploadPromiseRef.current = null; // Invalidate any running background uploads on file updates
+      setIsUploadingBackground(false);
+      setBackgroundProgress("");
     },
     [toast, validatePhoto, computeFileFingerprint, detectFaces],
   );
 
   const removeFile = (i: number) => {
     setFiles((f) => f.filter((_, idx) => idx !== i));
+    setStoragePath("");
+    uploadPromiseRef.current = null; // Invalidate current uploads on file removal
+    setIsUploadingBackground(false);
+    setBackgroundProgress("");
   };
+
+  // Debounced Eager Background Upload logic
+  useEffect(() => {
+    if (
+      files.length >= 3 &&
+      !storagePath &&
+      !isProcessing &&
+      !isUploadingBackground
+    ) {
+      const timer = setTimeout(async () => {
+        setIsUploadingBackground(true);
+        setBackgroundProgress("Uploading photos in background...");
+        try {
+          const path = await performUpload(files, (msg) =>
+            setBackgroundProgress(msg),
+          );
+          if (path) {
+            setStoragePath(path);
+          }
+        } catch (err) {
+          console.error("Background upload failed:", err);
+        } finally {
+          setIsUploadingBackground(false);
+          setBackgroundProgress("");
+        }
+      }, 1500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [files, storagePath, isProcessing, isUploadingBackground, performUpload]);
 
   // Quality Score Calculation
   const getQualityScore = () => {
@@ -540,71 +671,6 @@ function UploadContent() {
     setEyeColor("Unknown");
   }, []);
 
-  const performUpload = useCallback(
-    async (filesToUpload: File[], onProgress?: (msg: string) => void) => {
-      if (filesToUpload.length === 0) return null;
-
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      const token = session?.access_token;
-      const authHeaders: Record<string, string> = {
-        "Content-Type": "application/json",
-      };
-      if (token) authHeaders.Authorization = `Bearer ${token}`;
-
-      if (onProgress) onProgress("Preparing photos...");
-      const JSZip = (await import("jszip")).default;
-      const zip = new JSZip();
-      filesToUpload.forEach((f, i) => {
-        const ext = f.name.split(".").pop() ?? "jpg";
-        zip.file(`photo_${i + 1}.${ext}`, f);
-      });
-
-      const uploadUrlRes = await fetch("/api/upload", {
-        method: "POST",
-        headers: authHeaders,
-        body: JSON.stringify({
-          action: "get-upload-url",
-          filename: `dataset_${Date.now()}.zip`,
-        }),
-      });
-
-      if (!uploadUrlRes.ok) throw new Error("Failed to get upload URL");
-      const { signedUrl, token: uploadToken, path } = await uploadUrlRes.json();
-
-      if (onProgress) onProgress("Uploading photos...");
-      const zipBlob = await zip.generateAsync({
-        type: "blob",
-        compression: "STORE",
-      });
-
-      await new Promise<void>((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open("PUT", signedUrl);
-        xhr.setRequestHeader("x-upsert", "true");
-        xhr.setRequestHeader("content-type", "application/zip");
-        if (uploadToken)
-          xhr.setRequestHeader("authorization", `Bearer ${uploadToken}`);
-        xhr.upload.onprogress = (e) => {
-          if (e.lengthComputable && onProgress) {
-            onProgress(`Uploading: ${Math.round((e.loaded / e.total) * 100)}%`);
-          }
-        };
-        xhr.onload = () => {
-          if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204)
-            resolve();
-          else reject(new Error(`File upload failed (HTTP ${xhr.status})`));
-        };
-        xhr.onerror = () => reject(new Error("Network error during upload."));
-        xhr.send(zipBlob);
-      });
-
-      return path;
-    },
-    [],
-  );
-
   const handleNextStep = async () => {
     setError("");
     if (step === 1 && files.length < 3 && !storagePath) {
@@ -614,7 +680,7 @@ function UploadContent() {
       return;
     }
     if (step === 1) {
-      // CRITICAL FIX: Wait for upload to complete before proceeding
+      // Wait for existing or new upload to complete before proceeding
       if (files.length > 0 && !storagePath) {
         setIsProcessing(true);
         try {
@@ -656,170 +722,6 @@ function UploadContent() {
     }
     setStep((s) => (s + 1) as Step);
     window.scrollTo(0, 0);
-  };
-
-  const handleStartOver = useCallback(() => {
-    try {
-      sessionStorage.removeItem(SESSION_KEY);
-      localStorage.removeItem(LOCAL_KEY);
-    } catch {}
-    setStep(1);
-    setPlan(searchParams.get("plan") || "pro");
-    setEmail("");
-    setShootName("");
-    setGender("");
-    setEyeColor("");
-    setHairColor("");
-    setClothing("business-casual");
-    setBackground("studio");
-    setFraming("closeup");
-    setSelectedStyles(STYLE_CATEGORIES.map((c) => c.id));
-    setConsentChecked(true);
-    setError("");
-    setIsProcessing(false);
-    setIdempotencyKey(crypto.randomUUID());
-  }, [searchParams]);
-
-  const handleSubmit = async () => {
-    setError("");
-    if (!consentChecked) {
-      setError(
-        "Please accept the biometric processing consent check before proceeding.",
-      );
-      return;
-    }
-    if (!email || !email.includes("@")) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-    if (files.length === 0 && !storagePath) {
-      setError("Please upload at least one photo first.");
-      setStep(1);
-      setIsProcessing(false);
-      return;
-    }
-
-    setIsProcessing(true);
-    setProgress("Preparing your order...");
-    let finalStoragePath = storagePath;
-
-    // Fallback: If the user was super fast and background upload didn't finish, do it now
-    if (files.length > 0 && !finalStoragePath) {
-      setProgress("Finalizing photo upload...");
-      try {
-        finalStoragePath = await performUpload(files, setProgress);
-        if (finalStoragePath) setStoragePath(finalStoragePath);
-      } catch (err: any) {
-        console.error("Upload error:", err);
-        setError(
-          err.message ??
-            "Something went wrong during upload. Please try again.",
-        );
-        setIsProcessing(false);
-        return;
-      }
-    }
-
-    // Verify the uploaded file actually exists in storage before proceeding
-    if (finalStoragePath) {
-      setProgress("Verifying upload...");
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      const token = session?.access_token;
-      const authHeaders: Record<string, string> = {
-        "Content-Type": "application/json",
-      };
-      if (token) authHeaders.Authorization = `Bearer ${token}`;
-
-      const checkRes = await fetch("/api/upload", {
-        method: "POST",
-        headers: authHeaders,
-        body: JSON.stringify({ action: "check", path: finalStoragePath }),
-      });
-      if (!checkRes.ok) {
-        const errData = await checkRes.json().catch(() => ({}));
-        setError(
-          `Upload verification failed: ${errData.error || "File not found in storage. Please re-upload."}`,
-        );
-        setIsProcessing(false);
-        return;
-      }
-    }
-
-    setProgress("Securing your checkout session...");
-    try {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      const token = session?.access_token;
-      const authHeaders: Record<string, string> = {
-        "Content-Type": "application/json",
-      };
-      if (token) authHeaders.Authorization = `Bearer ${token}`;
-
-      const checkoutPayload: Record<string, unknown> = {
-        plan,
-        email,
-        storagePath: finalStoragePath,
-        gender,
-        eyeColor,
-        hairColor,
-        clothing,
-        background,
-        framing,
-        selectedStyles,
-        idempotencyKey,
-        shootName: shootName || defaultShootName,
-        coupon,
-      };
-      if (userId) checkoutPayload.userId = userId;
-
-      const checkoutRes = await fetch("/api/checkout", {
-        method: "POST",
-        headers: authHeaders,
-        body: JSON.stringify(checkoutPayload),
-      });
-
-      if (!checkoutRes.ok) {
-        const errBody = await checkoutRes.json().catch(() => null);
-        throw new Error(
-          errBody?.error || `Checkout failed (${checkoutRes.status})`,
-        );
-      }
-
-      const { url } = await checkoutRes.json();
-
-      // Save final state
-      sessionStorage.setItem(
-        SESSION_KEY,
-        JSON.stringify({
-          step,
-          plan,
-          email,
-          consentChecked,
-          coupon,
-          gender,
-          eyeColor,
-          hairColor,
-          clothing,
-          background,
-          framing,
-          selectedStyles,
-          storagePath: finalStoragePath,
-          shootName,
-        }),
-      );
-
-      window.location.href = url;
-    } catch (err: any) {
-      console.error("Checkout error:", err);
-      setError(err.message ?? "Something went wrong. Please try again.");
-      setIsProcessing(false);
-      if (err.message?.includes("Failed to create order")) {
-        setStep(2);
-      }
-    }
   };
 
   return (
@@ -986,10 +888,35 @@ function UploadContent() {
                       ))}
                     </div>
                   )}
+
+                  {/* Background upload state feedback */}
+                  {isUploadingBackground && (
+                    <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/50 rounded-xl text-center animate-pulse">
+                      <div className="flex items-center justify-center gap-2 text-xs font-bold text-blue-600 dark:text-blue-400">
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>
+                          {backgroundProgress ||
+                            "Uploading photos in background..."}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                  {storagePath &&
+                    files.length >= 3 &&
+                    !isUploadingBackground && (
+                      <div className="mt-6 p-4 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/50 rounded-xl text-center">
+                        <div className="flex items-center justify-center gap-2 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                          <Check className="w-4 h-4" />
+                          <span>
+                            Photos fully uploaded and ready! Next transition
+                            will be instant.
+                          </span>
+                        </div>
+                      </div>
+                    )}
                 </div>
               )}
 
-              {/* Hide tips if dataset is already saved */}
               {files.length === 0 && !storagePath && (
                 <div className="grid sm:grid-cols-2 gap-4">
                   {PHOTO_TIPS.map((tip, idx) => (
@@ -1264,7 +1191,7 @@ function UploadContent() {
                   onClick={() => setStep(1)}
                   className="text-slate-500 dark:text-slate-400 font-bold flex items-center gap-2 hover:text-slate-800 dark:hover:text-slate-200"
                 >
-                  <ChevronLeft className="w-5 h-5" /> Back
+                  <ChevronLeft className="w-5 h-5" /> Back to Details
                 </button>
                 <button
                   onClick={handleNextStep}
