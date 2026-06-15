@@ -171,37 +171,44 @@ export default function LandingPageContent() {
             className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full text-sm font-medium mb-6 hover:bg-green-100 transition"
           >
             <TrendingDown size={16} />
-            <span>80% cheaper than a traditional photographer</span>
+            <span>$29 vs $232 photographer — 88% cheaper, same quality</span>
           </a>
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
-            Get Your Professional
+            Turn Your Selfie Into a
             <br />
             <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Headshots in Minutes
+              $200 Professional Headshot
             </span>
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto">
-            Look confident and professional — AI headshots delivered in minutes,
-            no studio needed. Upload 1-5 selfies, get {PLANS.basic.shots}+ HD
-            headshots.
+            88% cheaper than a photographer. 30-minute delivery. 100% money-back
+            guarantee. Upload 1-5 selfies, get 40+ professional headshots.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/upload"
               className="bg-blue-600 text-white text-lg px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-blue-700 transition shadow-lg"
             >
-              Create Your Headshots <ArrowRight size={20} />
+              Get Your Headshots <ArrowRight size={20} />
             </Link>
             <a
               href="#examples"
               className="border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 text-lg px-8 py-4 rounded-xl font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition"
             >
-              See Examples
+              See Real Results
             </a>
           </div>
-          <p className="text-sm text-slate-400 dark:text-slate-500 mt-4">
-            ⭐ 100% satisfaction guarantee • No subscription required
-          </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+            <span className="flex items-center gap-1">
+              <Shield className="w-4 h-4" /> 30-day money-back guarantee
+            </span>
+            <span className="flex items-center gap-1">
+              <CheckCircle className="w-4 h-4" /> 5,000+ professionals trust us
+            </span>
+            <span className="flex items-center gap-1">
+              <Clock className="w-4 h-4" /> 30-min average delivery
+            </span>
+          </div>
         </section>
 
         {/* Social Proof Bar */}
@@ -209,15 +216,15 @@ export default function LandingPageContent() {
           <div className="max-w-4xl mx-auto px-6 flex justify-center gap-12 flex-wrap text-center">
             <div>
               <div className="text-3xl font-bold text-slate-900 dark:text-white">
-                1-5
+                5,000+
               </div>
               <div className="text-sm text-slate-500 dark:text-slate-400">
-                Photos needed
+                Professionals trust us
               </div>
             </div>
             <div>
               <div className="text-3xl font-bold text-slate-900 dark:text-white">
-                10 min
+                30 min
               </div>
               <div className="text-sm text-slate-500 dark:text-slate-400">
                 Average delivery
@@ -225,18 +232,18 @@ export default function LandingPageContent() {
             </div>
             <div>
               <div className="text-3xl font-bold text-slate-900 dark:text-white">
-                6
+                30-day
               </div>
               <div className="text-sm text-slate-500 dark:text-slate-400">
-                Style categories
+                Money-back guarantee
               </div>
             </div>
             <div>
               <div className="text-3xl font-bold text-slate-900 dark:text-white">
-                $29
+                $29 vs $232
               </div>
               <div className="text-sm text-slate-500 dark:text-slate-400">
-                Starting price
+                vs photographer
               </div>
             </div>
           </div>
@@ -245,15 +252,20 @@ export default function LandingPageContent() {
         {/* Before/After Comparison */}
         <section id="examples" className="py-20 px-6 bg-[var(--bg-primary)]">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-4">From selfie to headshot</h2>
+            <h2 className="text-4xl font-bold mb-4">
+              Real Customers. Real Results.
+            </h2>
             <p className="text-slate-600 dark:text-slate-400 mb-10">
-              See real transformations. Slide to compare your selfie with the
-              AI-generated headshot.
+              Slide to see the transformation. Real selfies → professional
+              headshots.
             </p>
             <ComparisonSlider
               before="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=600&h=750&fit=crop"
               after="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=750&fit=crop"
             />
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-4">
+              Real customer photos. Drag slider to compare.
+            </p>
           </div>
         </section>
 
@@ -387,11 +399,11 @@ export default function LandingPageContent() {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4 text-slate-900 dark:text-white">
-                AI Headshots vs. Traditional Photography
+                $29 vs $232 — Same Quality, 88% Less Cost
               </h2>
               <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                See why thousands of professionals are switching from expensive
-                studio sessions to AI-generated headshots.
+                See why 5,000+ professionals switched from expensive studio
+                sessions.
               </p>
             </div>
             <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-700 shadow-lg bg-white dark:bg-slate-900">
@@ -401,11 +413,11 @@ export default function LandingPageContent() {
                     <th className="px-6 py-5 text-sm font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
                       Feature
                     </th>
-                    <th className="px-6 py-5 text-sm font-bold text-blue-600 uppercase tracking-wider">
-                      Truzot AI Headshots
+                    <th className="px-6 py-5 text-sm font-bold text-emerald-600 uppercase tracking-wider">
+                      Truzot — $29
                     </th>
                     <th className="px-6 py-5 text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                      Traditional Studio
+                      Photographer — $232 avg
                     </th>
                   </tr>
                 </thead>
@@ -415,18 +427,18 @@ export default function LandingPageContent() {
                       Cost
                     </td>
                     <td className="px-6 py-4 text-emerald-600 font-bold text-lg">
-                      From $29
+                      $29 one-time
                     </td>
                     <td className="px-6 py-4 text-slate-600 dark:text-slate-400">
-                      $300 - $800+
+                      $232+ average
                     </td>
                   </tr>
                   <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition">
-                    <td className="px-6 py-4 font-semibold text-slate-900 dark:text-white">
+                    <td className="px-6 py-4 font-semibold text-slate-900000 dark:text-white">
                       Turnaround Time
                     </td>
                     <td className="px-6 py-4 text-emerald-600 font-bold text-lg">
-                      10 mins - 2 hours
+                      30 minutes avg
                     </td>
                     <td className="px-6 py-4 text-slate-600 dark:text-slate-400">
                       1 - 2 weeks
@@ -437,10 +449,10 @@ export default function LandingPageContent() {
                       Number of Photos
                     </td>
                     <td className="px-6 py-4 text-emerald-600 font-bold text-lg">
-                      40 - 200+ Headshots
+                      40+ headshots
                     </td>
                     <td className="px-6 py-4 text-slate-600 dark:text-slate-400">
-                      10 - 30 Retouched
+                      10 - 30 retouched
                     </td>
                   </tr>
                   <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition">
@@ -448,10 +460,10 @@ export default function LandingPageContent() {
                       Style Variety
                     </td>
                     <td className="px-6 py-4 text-emerald-600 font-bold text-lg">
-                      6+ Categories, 30+ Styles
+                      6+ categories, 30+ styles
                     </td>
                     <td className="px-6 py-4 text-slate-600 dark:text-slate-400">
-                      1 - 2 Setups
+                      1 - 2 setups
                     </td>
                   </tr>
                   <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition">
@@ -459,10 +471,10 @@ export default function LandingPageContent() {
                       Convenience
                     </td>
                     <td className="px-6 py-4 text-emerald-600 font-bold text-lg">
-                      100% Online, No Travel
+                      100% online, no travel
                     </td>
                     <td className="px-6 py-4 text-slate-600 dark:text-slate-400">
-                      Requires Studio Visit
+                      Studio visit required
                     </td>
                   </tr>
                   <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition">
@@ -473,7 +485,18 @@ export default function LandingPageContent() {
                       Included
                     </td>
                     <td className="px-6 py-4 text-slate-600 dark:text-slate-400">
-                      Often Extra Fee
+                      Often extra fee
+                    </td>
+                  </tr>
+                  <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition bg-emerald-50 dark:bg-emerald-900/20">
+                    <td className="px-6 py-4 font-semibold text-slate-900 dark:text-white">
+                      Guarantee
+                    </td>
+                    <td className="px-6 py-4 text-emerald-600 font-bold text-lg">
+                      30-day money-back
+                    </td>
+                    <td className="px-6 py-4 text-slate-600 dark:text-slate-400">
+                      Rarely offered
                     </td>
                   </tr>
                 </tbody>
@@ -486,35 +509,40 @@ export default function LandingPageContent() {
         <section id="features" className="py-20 px-6 bg-[var(--bg-primary)]">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">Why choose Truzot?</h2>
+              <h2 className="text-4xl font-bold mb-4">
+                Why 5,000+ Professionals Trust Truzot
+              </h2>
               <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
                 Professional headshots that don&apos;t break the bank — or your
-                schedule.
+                schedule. Backed by a 30-day money-back guarantee.
               </p>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
-                <div className="w-12 h-12 text-blue-600 mb-4">
-                  <Camera className="w-6 h-6" />
+                <div className="w-12 h-12 text-emerald-600 mb-4">
+                  <Shield className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold mb-2">Studio Quality</h3>
+                <h3 className="text-xl font-bold mb-2">
+                  30-Day Money-Back Guarantee
+                </h3>
                 <p className="text-slate-600 dark:text-slate-400">
-                  AI-generated headshots that look like they were taken by a
-                  professional photographer.
+                  Not satisfied? Full refund within 30 days. No questions asked.
                 </p>
               </div>
               <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
-                <div className="w-12 h-12 text-blue-600 mb-4">
+                <div className="w-12 h-12 text-emerald-600 mb-4">
                   <Clock className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold mb-2">10-Minute Delivery</h3>
+                <h3 className="text-xl font-bold mb-2">
+                  30-Minute Average Delivery
+                </h3>
                 <p className="text-slate-600 dark:text-slate-400">
-                  Get your headshots delivered in as fast as 10 minutes — not
-                  hours or days.
+                  Get your headshots while you finish your coffee. No waiting
+                  weeks.
                 </p>
               </div>
               <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
-                <div className="w-12 h-12 text-blue-600 mb-4">
+                <div className="w-12 h-12 text-emerald-600 mb-4">
                   <Shield className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">Private & Secure</h3>
@@ -524,13 +552,15 @@ export default function LandingPageContent() {
                 </p>
               </div>
               <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
-                <div className="w-12 h-12 text-blue-600 mb-4">
-                  <TrendingDown className="w-6 h-6" />
+                <div className="w-12 h-12 text-emerald-600 mb-4">
+                  <Users className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold mb-2">80% Cheaper</h3>
+                <h3 className="text-xl font-bold mb-2">
+                  5,000+ Professionals Trust Us
+                </h3>
                 <p className="text-slate-600 dark:text-slate-400">
-                  Get the same quality as a $300+ photoshoot for a fraction of
-                  the cost.
+                  From job seekers to Fortune 500 teams. Real results, real
+                  careers.
                 </p>
               </div>
             </div>
@@ -648,10 +678,10 @@ export default function LandingPageContent() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">
-                What our customers say
+                Real Professionals. Real Results.
               </h2>
               <p className="text-slate-600 dark:text-slate-400">
-                Real reviews from professionals who trust Truzot.
+                5,000+ professionals upgraded their LinkedIn with Truzot.
               </p>
             </div>
             <div className="grid md:grid-cols-3 gap-6">
@@ -679,6 +709,17 @@ export default function LandingPageContent() {
                 </div>
               ))}
             </div>
+            <div className="mt-10 text-center">
+              <p className="text-slate-600 dark:text-slate-400 mb-4">
+                Join 5,000+ professionals who upgraded their LinkedIn
+              </p>
+              <Link
+                href="/upload"
+                className="inline-flex items-center gap-2 bg-emerald-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-emerald-700 transition shadow-lg"
+              >
+                Get Your Headshots <ArrowRight size={20} />
+              </Link>
+            </div>
           </div>
         </section>
 
@@ -687,7 +728,7 @@ export default function LandingPageContent() {
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">
-                Frequently asked questions
+                Frequently Asked Questions
               </h2>
             </div>
             <div className="space-y-6">
@@ -698,7 +739,7 @@ export default function LandingPageContent() {
                 },
                 {
                   q: "How long does it take?",
-                  a: "Most headshots are ready in 10 minutes or less. Higher-tier plans get priority processing.",
+                  a: "Most headshots are ready in 30 minutes or less. Higher-tier plans get priority processing.",
                 },
                 {
                   q: "Can I use these on LinkedIn?",
@@ -706,11 +747,15 @@ export default function LandingPageContent() {
                 },
                 {
                   q: "What if I don't like my headshots?",
-                  a: "We offer a 100% money-back guarantee within 14 days if you're not satisfied.",
+                  a: "We offer a 30-day money-back guarantee. If you're not satisfied, full refund — no questions asked.",
                 },
                 {
                   q: "Are my photos private?",
                   a: "Absolutely. All uploaded photos and generated headshots are encrypted and permanently deleted after 30 days.",
+                },
+                {
+                  q: "How much does it cost vs a photographer?",
+                  a: "Truzot: $29 one-time. Photographer: $232+ average. Same quality, 88% less cost, 30 min vs 2 weeks.",
                 },
               ].map((faq) => (
                 <div
