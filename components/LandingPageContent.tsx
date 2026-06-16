@@ -16,8 +16,10 @@ import {
   Briefcase,
   Linkedin,
   Camera,
+  Mail,
+  Loader2,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ComparisonSlider from "@/components/ComparisonSlider";
 import { PLANS, HEADSHOT_CATEGORIES } from "@/lib/plans";
 import {
@@ -87,6 +89,51 @@ const TESTIMONIALS = [
 
 export default function LandingPageContent() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showExitPopup, setShowExitPopup] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+
+  // Exit-intent detection
+  useEffect(() => {
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (e.clientY <= 0) {
+        setShowExitPopup(true);
+      }
+    };
+
+    document.addEventListener("mouseleave", handleMouseLeave);
+    return () => document.removeEventListener("mouseleave", handleMouseLeave);
+  }, []);
+
+  const handleEmailSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || isSubmitting) return;
+
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+
+    try {
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, source: "exit-intent" }),
+      });
+
+      if (res.ok) {
+        setSubmitStatus("success");
+        setEmail("");
+        setTimeout(() => setShowExitPopup(false), 2000);
+      } else {
+        setSubmitStatus("error");
+      }
+    } catch {
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <>
       <ProductSchema />
@@ -889,6 +936,97 @@ export default function LandingPageContent() {
           </div>
         </footer>
       </div>
-    </>
+
+      {/* Exit-Intent Popup */}
+      {showExitPopup && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          onClick={() => setShowExitPopup(false)}
+        >
+          <div
+            className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl shadow-xl p-8 text-center animate-in slide-in-from-top-4 duration-300"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowExitPopup(false)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition"
+              aria-label="Close"
+            >
+              <X size={24} />
+            </button>
+
+            <div className="mb-6">
+              <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Mail className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                Wait! Get $5 Off Your First Headshot
+              </h3>
+              <p className="text-slate-600 dark:text-slate-400 mb-6">
+                Enter your email and we'll send you a $5 discount code instantly.
+              </p>
+            </div>
+
+            {submitStatus === "success" ? (
+              <div className="text-center text-emerald-600 dark:text-emerald-400">
+                <CheckCircle className="w-12 h-12 mx-auto mb-3 text-emerald-500" />
+                <h4 className="font-bold text-lg mb-2">You're In!</h4>
+                <p className="text-slate-600 dark:text-slate-400">
+                  Check your inbox for your $5 discount code. Happy headshot hunting!
+                </p>
+              </div>
+            ) : submitStatus === "error" ? (
+              <div className="text-center text-red-600 dark:text-red-400">
+                <AlertCircle className="w-12 h-12 mx-auto mb-3 text-red-500" />
+                <h4 className="font-bold text-lg mb-2">Something Went Wrong</h4>
+                <p className="text-slate-600 dark:text-slate-400 mb-4">
+                  Please try again or email us at hello@truzot.com
+                </p>
+                <button
+                  onClick={() => setSubmitStatus("idle")}
+                  className="text-blue-600 hover:underline text-sm"
+                >
+                  Try Again
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleEmailSubmit} className="space-y-4">
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    required
+                    disabled={isSubmitting}
+                    className="w-full pl-11 pr-4 py-3 border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={isSubmitting || !email}
+                  className="w-full bg-emerald-600 text-white py-3 rounded-xl font-bold hover:bg-emerald-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      Get $5 Discount Code <ArrowRight size={20} />
+                    </>
+                  )}
+                </button>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  No spam. Unsubscribe anytime. 30-day money-back guarantee.
+                </p>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+    )}
   );
 }
