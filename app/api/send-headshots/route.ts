@@ -1,3 +1,4 @@
+import { createHmac } from "crypto";
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { createLogger } from "@/lib/logger";
@@ -51,18 +52,13 @@ export const POST = withContext(async (req: Request) => {
 
     if (Array.isArray(imageUrls) && imageUrls.length > 0) {
       // Generate a secure download token instead of heavy base64 attachments
-      const tokenRes = await fetch(`${siteUrl}/api/download/token`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: req.headers.get("Authorization") || "",
-        },
-        body: JSON.stringify({ orderId }),
-      });
-      const { token: downloadToken } = await tokenRes.json().catch(() => ({}));
-      const downloadUrl = downloadToken
-        ? `${siteUrl}/dashboard?order=${orderId}&download_token=${downloadToken}`
-        : `${siteUrl}/dashboard?order=${orderId}`;
+      // Generate a secure HMAC email token for guest access (bypasses /api/download/token user_id requirement)
+      const secret = process.env.CRON_SECRET || "fallback-secret";
+      const emailToken = createHmac("sha256", secret)
+        .update(orderId)
+        .digest("hex")
+        .substring(0, 32);
+      const downloadUrl = `${siteUrl}/dashboard?order=${orderId}&email_token=${emailToken}`;
 
       await resend.emails.send({
         from: "Truzot <hello@truzot.com>",

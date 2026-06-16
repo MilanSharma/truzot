@@ -1,3 +1,4 @@
+import { createHmac } from "crypto";
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { getAuthenticatedClient } from "@/lib/supabase/authenticated";
@@ -12,6 +13,25 @@ export const GET = withContext(async (req: Request) => {
   const { searchParams } = new URL(req.url);
   const orderId = searchParams.get("orderId");
   const downloadToken = searchParams.get("download_token");
+  const emailToken = searchParams.get("email_token");
+
+  // Validate email_token for secure guest access via email link
+  if (emailToken && !userId) {
+    const secret = process.env.CRON_SECRET || "fallback-secret";
+    const expected = createHmac("sha256", secret)
+      .update(orderId)
+      .digest("hex")
+      .substring(0, 32);
+    if (emailToken === expected) {
+      const { data: tokOrder } = await supabaseAdmin
+        .from("orders")
+        .select("status, plan, user_id")
+        .eq("id", orderId)
+        .maybeSingle();
+      order = tokOrder;
+      userId = "email-token-auth"; // Dummy ID to pass subsequent RLS checks
+    }
+  }
 
   if (!orderId)
     return addCors(
