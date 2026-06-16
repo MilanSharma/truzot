@@ -107,14 +107,72 @@ export const POST = withContext(async (req: Request) => {
     if (idempotencyKey) {
       const { data: existing } = await supabase
         .from("orders")
-        .select("id")
+        .select("id, status, plan, email")
         .filter("preferences->>idempotency_key", "eq", idempotencyKey)
         .maybeSingle();
       if (existing) {
-        return addCors(
-          NextResponse.json({ orderId: existing.id, existing: true }),
-          origin,
+        if (existing.status !== "pending") {
+          return addCors(
+            NextResponse.json(
+              { error: "This order is already being processed." },
+              { status: 400 },
+            ),
+            origin,
+          );
+        }
+
+        const label = `${planConfig.name} — ${planConfig.shots} Headshots`;
+        let customerId: string | undefined;
+        const existingCustomers = await stripe.customers.list({
+          email: existing.email || email,
+          limit: 1,
+        });
+        if (existingCustomers.data.length > 0) {
+          customerId = existingCustomers.data[0].id;
+        }
+
+        const cookieHeader = req.headers.get("cookie") || "";
+        const rewardfulMatch = cookieHeader.match(
+          /rewardful\.referral=([^;]+)/,
         );
+        const referralId = rewardfulMatch ? rewardfulMatch[1] : undefined;
+
+        const session = await stripe.checkout.sessions.create({
+          payment_method_types: ["card"],
+          mode: "payment",
+          customer: customerId,
+          customer_email: customerId ? undefined : existing.email || email,
+          client_reference_id: referralId,
+          automatic_tax: { enabled: false },
+          billing_address_collection: "auto",
+          line_items: [
+            {
+              price_data: {
+                currency: "usd",
+                product_data: {
+                  name: label,
+                  description: "AI Professional Headshots",
+                },
+                unit_amount: finalAmount,
+              },
+              quantity: 1,
+            },
+          ],
+          metadata: {
+            orderId: existing.id,
+            plan: existing.plan,
+            email: existing.email || email,
+            userId: userId || "",
+            coupon: coupon || "",
+            discount_code: appliedDiscountCode || "",
+            discount_amount: discountAmount.toString(),
+          },
+          success_url: `${baseUrl}/claim-order?order=${existing.id}`,
+          cancel_url: `${baseUrl}/upload?cancelled=1`,
+          ...(discount && !discountAmount ? { discounts: [discount] } : {}),
+        });
+
+        return addCors(NextResponse.json({ url: session.url }), origin);
       }
     }
 
@@ -127,11 +185,20 @@ export const POST = withContext(async (req: Request) => {
 
       // Check for waitlist discount codes (TRUZOT-XXXXXXXX format)
       if (couponUpper.startsWith("TRUZOT-")) {
+        // Handle optical confusion between O and 0
+        const possibleCodes = Array.from(
+          new Set([
+            couponUpper,
+            couponUpper.replace(/O/g, "0"),
+            couponUpper.replace(/0/g, "O"),
+          ]),
+        );
+
         const { data: waitlistEntry, error: waitlistError } =
           await supabaseAdmin
             .from("waitlist")
             .select("id, discount_code, used")
-            .eq("discount_code", couponUpper)
+            .in("discount_code", possibleCodes)
             .maybeSingle();
 
         if (waitlistError) {
@@ -144,12 +211,12 @@ export const POST = withContext(async (req: Request) => {
         } else if (waitlistEntry.used) {
           log.warn({ coupon: couponUpper }, "Discount code already used");
         } else {
-          // Apply 20% discount for waitlist codes
-          discountAmount = Math.round(planConfig.amount * 0.2);
-          appliedDiscountCode = couponUpper;
+          // Apply $5 flat discount (500 cents) matching the exit intent popup
+          discountAmount = 500;
+          appliedDiscountCode = waitlistEntry.discount_code || couponUpper;
           // Mark discount for Stripe (using amount_off)
           discount = {
-            coupon: "waitlist_20_off", // placeholder, we'll use amount_off in line_items
+            coupon: "waitlist_5_off", // placeholder
           };
           log.info(
             { coupon: couponUpper, discountAmount },

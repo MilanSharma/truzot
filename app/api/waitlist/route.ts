@@ -6,7 +6,8 @@ import { sendDiscountCodeEmail } from "@/lib/email";
 const log = createLogger("waitlist");
 
 function generateDiscountCode(): string {
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  // Exclude easily confused characters (O, 0, I, 1, L)
+  const chars = "ABCDEFGHJKMNPQRSTUVWXY3456789";
   let code = "TRUZOT-";
   for (let i = 0; i < 8; i++) {
     code += chars.charAt(Math.floor(Math.random() * chars.length));
