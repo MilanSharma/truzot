@@ -116,6 +116,74 @@ export const POST = withContext(async (req: Request) => {
       }
     }
 
+    let discount: Stripe.Checkout.SessionCreateParams.Discount | undefined;
+    let appliedDiscountCode: string | undefined;
+    let discountAmount = 0;
+
+    if (coupon) {
+      const couponUpper = coupon.toUpperCase();
+
+      // Check for waitlist discount codes (TRUZOT-XXXXXXXX format)
+      if (couponUpper.startsWith("TRUZOT-")) {
+        const { data: waitlistEntry, error: waitlistError } =
+          await supabaseAdmin
+            .from("waitlist")
+            .select("id, discount_code, used")
+            .eq("discount_code", couponUpper)
+            .maybeSingle();
+
+        if (waitlistError) {
+          log.warn(
+            { coupon: couponUpper, err: waitlistError },
+            "Waitlist lookup failed",
+          );
+        } else if (!waitlistEntry) {
+          log.warn({ coupon: couponUpper }, "Discount code not found");
+        } else if (waitlistEntry.used) {
+          log.warn({ coupon: couponUpper }, "Discount code already used");
+        } else {
+          // Apply 20% discount for waitlist codes
+          discountAmount = Math.round(planConfig.amount * 0.2);
+          appliedDiscountCode = couponUpper;
+          // Mark discount for Stripe (using amount_off)
+          discount = {
+            coupon: "waitlist_20_off", // placeholder, we'll use amount_off in line_items
+          };
+          log.info(
+            { coupon: couponUpper, discountAmount },
+            "Waitlist discount applied",
+          );
+        }
+      } else {
+        // Check Stripe coupons
+        try {
+          const stripeCoupon = await stripe.coupons.retrieve(couponUpper);
+          if (
+            stripeCoupon.valid &&
+            (!stripeCoupon.redeem_by ||
+              stripeCoupon.redeem_by * 1000 > Date.now()) &&
+            (stripeCoupon.max_redemptions === null ||
+              stripeCoupon.times_redeemed < stripeCoupon.max_redemptions)
+          ) {
+            discount = { coupon: stripeCoupon.id };
+            appliedDiscountCode = couponUpper;
+          } else {
+            log.warn(
+              { coupon: couponUpper },
+              "Invalid or expired coupon attempted",
+            );
+          }
+        } catch (err) {
+          log.warn({ coupon: couponUpper, err }, "Coupon not found");
+        }
+      }
+    }
+
+    const finalAmount =
+      discountAmount > 0
+        ? planConfig.amount - discountAmount
+        : planConfig.amount;
+
     const { data: order, error: orderError } = await supabase
       .from("orders")
       .insert({
@@ -182,74 +250,6 @@ export const POST = withContext(async (req: Request) => {
       const cookieHeader = req.headers.get("cookie") || "";
       const rewardfulMatch = cookieHeader.match(/rewardful\.referral=([^;]+)/);
       const referralId = rewardfulMatch ? rewardfulMatch[1] : undefined;
-
-      let discount: Stripe.Checkout.SessionCreateParams.Discount | undefined;
-      let appliedDiscountCode: string | undefined;
-      let discountAmount = 0;
-
-      if (coupon) {
-        const couponUpper = coupon.toUpperCase();
-
-        // Check for waitlist discount codes (TRUZOT-XXXXXXXX format)
-        if (couponUpper.startsWith("TRUZOT-")) {
-          const { data: waitlistEntry, error: waitlistError } =
-            await supabaseAdmin
-              .from("waitlist")
-              .select("id, discount_code, used")
-              .eq("discount_code", couponUpper)
-              .maybeSingle();
-
-          if (waitlistError) {
-            log.warn(
-              { coupon: couponUpper, err: waitlistError },
-              "Waitlist lookup failed",
-            );
-          } else if (!waitlistEntry) {
-            log.warn({ coupon: couponUpper }, "Discount code not found");
-          } else if (waitlistEntry.used) {
-            log.warn({ coupon: couponUpper }, "Discount code already used");
-          } else {
-            // Apply 20% discount for waitlist codes
-            discountAmount = Math.round(planConfig.amount * 0.2);
-            appliedDiscountCode = couponUpper;
-            // Mark discount for Stripe (using amount_off)
-            discount = {
-              coupon: "waitlist_20_off", // placeholder, we'll use amount_off in line_items
-            };
-            log.info(
-              { coupon: couponUpper, discountAmount },
-              "Waitlist discount applied",
-            );
-          }
-        } else {
-          // Check Stripe coupons
-          try {
-            const stripeCoupon = await stripe.coupons.retrieve(couponUpper);
-            if (
-              stripeCoupon.valid &&
-              (!stripeCoupon.redeem_by ||
-                stripeCoupon.redeem_by * 1000 > Date.now()) &&
-              (stripeCoupon.max_redemptions === null ||
-                stripeCoupon.times_redeemed < stripeCoupon.max_redemptions)
-            ) {
-              discount = { coupon: stripeCoupon.id };
-              appliedDiscountCode = couponUpper;
-            } else {
-              log.warn(
-                { coupon: couponUpper },
-                "Invalid or expired coupon attempted",
-              );
-            }
-          } catch (err) {
-            log.warn({ coupon: couponUpper, err }, "Coupon not found");
-          }
-        }
-      }
-
-      const finalAmount =
-        discountAmount > 0
-          ? planConfig.amount - discountAmount
-          : planConfig.amount;
 
       const sessionParams: Stripe.Checkout.SessionCreateParams = {
         payment_method_types: ["card"],
