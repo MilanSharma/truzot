@@ -84,6 +84,12 @@ export default function Nav({ showBack = false }: NavProps) {
               </Link>
               <DarkModeToggle />
               <Link
+                href="/free"
+                className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
+              >
+                Free Demo
+              </Link>
+              <Link
                 href="/login"
                 className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
               >
@@ -138,6 +144,13 @@ export default function Nav({ showBack = false }: NavProps) {
             className="text-slate-600 dark:text-slate-400"
           >
             Affiliates
+          </Link>
+          <Link
+            href="/free"
+            onClick={() => setMobileOpen(false)}
+            className="text-slate-600 dark:text-slate-400"
+          >
+            Free Demo
           </Link>
           <Link
             href="/login"

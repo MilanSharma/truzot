@@ -169,6 +169,12 @@ export default function LandingPageContent() {
                 FAQ
               </a>
               <Link
+                href="/free"
+                className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
+              >
+                Free Demo
+              </Link>
+              <Link
                 href="/login"
                 className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
               >
@@ -200,6 +206,9 @@ export default function LandingPageContent() {
               <a href="#pricing" onClick={() => setMobileMenuOpen(false)}>
                 Pricing
               </a>
+              <Link href="/free" onClick={() => setMobileMenuOpen(false)}>
+                Free Demo
+              </Link>
               <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
                 Sign In
               </Link>
@@ -234,16 +243,22 @@ export default function LandingPageContent() {
             88% cheaper than a photographer. 30-minute delivery. 100% money-back
             guarantee. Upload 1-5 selfies, get 40+ professional headshots.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
               href="/upload"
-              className="bg-blue-600 text-white text-lg px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-blue-700 transition shadow-lg"
+              className="w-full sm:w-auto bg-blue-600 text-white text-lg px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-blue-700 transition shadow-lg"
             >
               Get Your Headshots <ArrowRight size={20} />
             </Link>
+            <Link
+              href="/free"
+              className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white text-lg px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition shadow-lg"
+            >
+              🎁 Get FREE Demo — Upload selfie, get 1 AI headshot
+            </Link>
             <a
               href="#examples"
-              className="border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 text-lg px-8 py-4 rounded-xl font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition"
+              className="w-full sm:w-auto border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 text-lg px-8 py-4 rounded-xl font-semibold flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-800 transition"
             >
               See Real Results
             </a>

@@ -211,7 +211,7 @@ export const POST = withContext(async (req: Request) => {
     } else {
       await supabaseAdmin
         .from("free_usage")
-        .insert({ user_id: userId, remaining: 0 });
+        .insert({ user_id: userId, fingerprint: userId, remaining: 0 });
     }
 
     await supabaseAdmin.storage.from("uploads").remove([storagePath]);

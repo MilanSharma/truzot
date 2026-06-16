@@ -68,7 +68,8 @@ function LoginForm() {
       } = await supabase.auth.getSession();
 
       if (session) {
-        router.replace("/dashboard");
+        const nextParam = searchParams.get("next") || "/dashboard";
+        router.replace(nextParam);
         return;
       }
 
@@ -134,9 +135,13 @@ function LoginForm() {
   const handleGoogleSignIn = async () => {
     setError("");
     try {
+      const nextParam = searchParams.get("next") || "";
+      const redirectTo =
+        `${window.location.origin}/login` +
+        (nextParam ? `?next=${encodeURIComponent(nextParam)}` : "");
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
-        options: { redirectTo: `${window.location.origin}/login` },
+        options: { redirectTo },
       });
       if (error) setError(error.message);
     } catch (err: any) {
@@ -184,7 +189,8 @@ function LoginForm() {
             setError(error.message);
           }
         } else {
-          router.push("/dashboard");
+          const nextParam = searchParams.get("next") || "/dashboard";
+          router.push(nextParam);
         }
       }
     } catch (err: any) {
