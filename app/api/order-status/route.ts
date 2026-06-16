@@ -1,5 +1,5 @@
-import { createHmac } from "crypto";
 import { NextResponse } from "next/server";
+import { createHmac } from "crypto";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { getAuthenticatedClient } from "@/lib/supabase/authenticated";
 import { PLAN_SHOTS } from "@/lib/plans";
@@ -15,24 +15,6 @@ export const GET = withContext(async (req: Request) => {
   const downloadToken = searchParams.get("download_token");
   const emailToken = searchParams.get("email_token");
 
-  // Validate email_token for secure guest access via email link
-  if (emailToken && !userId) {
-    const secret = process.env.CRON_SECRET || "fallback-secret";
-    const expected = createHmac("sha256", secret)
-      .update(orderId)
-      .digest("hex")
-      .substring(0, 32);
-    if (emailToken === expected) {
-      const { data: tokOrder } = await supabaseAdmin
-        .from("orders")
-        .select("status, plan, user_id")
-        .eq("id", orderId)
-        .maybeSingle();
-      order = tokOrder;
-      userId = "email-token-auth"; // Dummy ID to pass subsequent RLS checks
-    }
-  }
-
   if (!orderId)
     return addCors(
       NextResponse.json({ error: "Missing orderId" }, { status: 400 }),
@@ -40,18 +22,18 @@ export const GET = withContext(async (req: Request) => {
     );
 
   const token = req.headers.get("Authorization")?.replace("Bearer ", "");
-
   let userId: string | null = null;
   let order: { status: string; plan: string; user_id: string | null } | null =
     null;
 
-  // Try download_token first for anonymous access
+  // 1. Try download_token first for anonymous access
   if (downloadToken) {
     const { data: tokenRow } = await supabaseAdmin
       .from("download_tokens")
       .select("user_id, order_id, expires_at")
       .eq("id", downloadToken)
       .maybeSingle();
+
     if (tokenRow && new Date(tokenRow.expires_at) > new Date()) {
       userId = tokenRow.user_id;
       const { data: tokOrder } = await supabaseAdmin
@@ -63,7 +45,27 @@ export const GET = withContext(async (req: Request) => {
     }
   }
 
-  // Fall back to authenticated access
+  // 2. Validate email_token for secure guest access via email link
+  if (!order && emailToken) {
+    const secret = process.env.CRON_SECRET || "fallback-secret";
+    const expected = createHmac("sha256", secret)
+      .update(orderId)
+      .digest("hex")
+      .substring(0, 32);
+    if (emailToken === expected) {
+      const { data: tokOrder } = await supabaseAdmin
+        .from("orders")
+        .select("status, plan, user_id")
+        .eq("id", orderId)
+        .maybeSingle();
+      if (tokOrder) {
+        order = tokOrder;
+        userId = "email-token-auth"; // Dummy ID to pass subsequent checks
+      }
+    }
+  }
+
+  // 3. Fall back to authenticated access
   if (!order && token) {
     const supabase = getAuthenticatedClient(token);
     const {
@@ -87,7 +89,12 @@ export const GET = withContext(async (req: Request) => {
     );
 
   // Only allow access if user owns the order or is anonymous with a valid token
-  if (order.user_id && userId && order.user_id !== userId)
+  if (
+    order.user_id &&
+    userId &&
+    userId !== "email-token-auth" &&
+    order.user_id !== userId
+  )
     return addCors(
       NextResponse.json({ error: "Forbidden" }, { status: 403 }),
       origin,
