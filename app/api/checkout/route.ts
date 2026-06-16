@@ -257,7 +257,7 @@ export const POST = withContext(async (req: Request) => {
         customer: customerId,
         customer_email: customerId ? undefined : email,
         client_reference_id: referralId,
-        automatic_tax: { enabled: false }, // Fixed: Disabled automatic tax to avoid head office errors
+        automatic_tax: { enabled: false },
         billing_address_collection: "auto",
         line_items: [
           {
