@@ -33,6 +33,7 @@ export const GET = withContext(async (req: Request) => {
       .from("orders")
       .select("*")
       .order("created_at", { ascending: false })
+      .order("id", { ascending: false })
       .limit(limit + 1);
 
     if (cursor) {

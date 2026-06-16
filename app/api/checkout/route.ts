@@ -41,17 +41,7 @@ export const POST = withContext(async (req: Request) => {
       coupon,
     } = parsed.data!;
 
-    // Basic email domain validation
-    const emailDomain = email.split("@")[1];
-    if (!emailDomain || emailDomain.length < 4 || !emailDomain.includes(".")) {
-      return addCors(
-        NextResponse.json(
-          { error: "Please provide a valid email address." },
-          { status: 400 },
-        ),
-        origin,
-      );
-    }
+    // Email validation is securely handled by Zod schema (checkoutSchema)
 
     // Generate signed download URL from storagePath if zipUrl not provided
     if (!zipUrl && storagePath) {
@@ -142,6 +132,13 @@ export const POST = withContext(async (req: Request) => {
           // Apply $5 flat discount (500 cents) matching the exit intent popup
           discountAmount = 500;
           appliedDiscountCode = waitlistEntry.discount_code || couponUpper;
+
+          // 🔒 Optimistically lock the coupon to prevent multi-tab race conditions
+          await supabaseAdmin
+            .from("waitlist")
+            .update({ used: true, used_at: new Date().toISOString() })
+            .eq("discount_code", appliedDiscountCode);
+
           // Mark discount for Stripe (using amount_off)
           discount = {
             coupon: "waitlist_5_off", // placeholder

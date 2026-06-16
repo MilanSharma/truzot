@@ -204,6 +204,10 @@ export const POST = withContext(async (req: Request) => {
           await stripe.refunds.create({
             payment_intent: session.payment_intent as string,
           });
+          await supabaseAdmin
+            .from("orders")
+            .update({ status: "refunded" })
+            .eq("id", orderId);
           log.info({ orderId }, "Auto-refund issued after training failure");
         } catch (refundErr) {
           Sentry.captureException(refundErr, {

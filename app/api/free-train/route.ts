@@ -44,17 +44,42 @@ export const POST = withContext(async (req: Request) => {
     }
 
     // Server-side rate limiting by user_id (not client-controlled fingerprint)
-    const { data: usage } = await supabaseAdmin
+    // Optimistically lock the quota before doing any work
+    const { data: lockedUsage } = await supabaseAdmin
       .from("free_usage")
-      .select("remaining")
+      .update({ remaining: 0 })
       .eq("user_id", userId)
-      .maybeSingle();
+      .gt("remaining", 0)
+      .select()
+      .single();
 
-    if (usage && (usage.remaining ?? 0) <= 0) {
-      return addCors(
-        NextResponse.json({ error: "Free limit reached" }, { status: 429 }),
-        origin,
-      );
+    if (!lockedUsage) {
+      // If no row was updated, check if we need to insert a new row
+      const { data: existingRow } = await supabaseAdmin
+        .from("free_usage")
+        .select("id")
+        .eq("user_id", userId)
+        .maybeSingle();
+
+      if (existingRow) {
+        // Row exists but remaining was 0
+        return addCors(
+          NextResponse.json({ error: "Free limit reached" }, { status: 429 }),
+          origin,
+        );
+      } else {
+        // No row exists, insert one with remaining: 0 to lock it
+        const { error: insertError } = await supabaseAdmin
+          .from("free_usage")
+          .insert({ user_id: userId, fingerprint: userId, remaining: 0 });
+
+        if (insertError) {
+          return addCors(
+            NextResponse.json({ error: "Free limit reached" }, { status: 429 }),
+            origin,
+          );
+        }
+      }
     }
 
     const { data: signedUrl } = await supabaseAdmin.storage
@@ -203,16 +228,7 @@ export const POST = withContext(async (req: Request) => {
       if (pub?.publicUrl) publicUrl = pub.publicUrl;
     }
 
-    if (usage) {
-      await supabaseAdmin
-        .from("free_usage")
-        .update({ remaining: 0 })
-        .eq("user_id", userId);
-    } else {
-      await supabaseAdmin
-        .from("free_usage")
-        .insert({ user_id: userId, fingerprint: userId, remaining: 0 });
-    }
+    // Quota was already locked at the start of the request
 
     await supabaseAdmin.storage.from("uploads").remove([storagePath]);
 

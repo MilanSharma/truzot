@@ -34,12 +34,56 @@ export const POST = withContext(async (req: Request) => {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
 
+    // 🔒 SSRF Protection
+    const { data: validHeadshots } = await supabaseAdmin
+      .from("headshots")
+      .select("image_url")
+      .eq("order_id", orderId)
+      .in("image_url", imageUrls);
+
+    const validUrls = new Set(
+      (validHeadshots ?? []).map((h: any) => h.image_url),
+    );
+
+    function isAllowedDomain(urlString: string): boolean {
+      try {
+        const parsedUrl = new URL(urlString);
+        const hostname = parsedUrl.hostname.toLowerCase();
+        const isFalMedia =
+          hostname === "fal.media" || hostname.endsWith(".fal.media");
+        const isSupabase =
+          hostname.endsWith(".supabase.co") || hostname === "supabase.co";
+        return isFalMedia || isSupabase;
+      } catch {
+        return false;
+      }
+    }
+
+    const safeUrls = imageUrls.filter(
+      (url) => validUrls.has(url) && isAllowedDomain(url),
+    );
+
+    if (safeUrls.length === 0) {
+      return NextResponse.json(
+        { error: "No valid images found" },
+        { status: 404 },
+      );
+    }
+
+    // 🚀 Prevent OOM: Limit to 50 images (approx 25MB, well within Vercel's 1024MB limit)
+    if (safeUrls.length > 50) {
+      return NextResponse.json(
+        { error: "Too many images. Download in batches." },
+        { status: 400 },
+      );
+    }
+
     const zip = new JSZip();
     const CONCURRENCY = 5;
 
     // Fetch images in batches to avoid overwhelming the server
-    for (let i = 0; i < imageUrls.length; i += CONCURRENCY) {
-      const batch = imageUrls.slice(i, i + CONCURRENCY);
+    for (let i = 0; i < safeUrls.length; i += CONCURRENCY) {
+      const batch = safeUrls.slice(i, i + CONCURRENCY);
       await Promise.all(
         batch.map(async (url: string, idx: number) => {
           try {

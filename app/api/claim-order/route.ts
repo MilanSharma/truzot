@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Order not found." }, { status: 404 });
     }
 
-    if (order.email !== user.email) {
+    if (order.email?.toLowerCase() !== user.email?.toLowerCase()) {
       return NextResponse.json(
         {
           error:

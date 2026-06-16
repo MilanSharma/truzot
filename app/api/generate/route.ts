@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import * as Sentry from "@sentry/nextjs";
+import { waitUntil } from "@vercel/functions";
 import { generateHeadshots } from "@/lib/ai/fal-client";
 import { PLAN_SHOTS } from "@/lib/plans";
 import { supabaseAdmin } from "@/lib/supabase/admin";
@@ -307,6 +308,10 @@ export const POST = withContext(async (req: Request) => {
             await stripe.refunds.create({
               payment_intent: failedOrder.stripe_payment_intent as string,
             });
+            await supabaseAdmin
+              .from("orders")
+              .update({ status: "refunded" })
+              .eq("id", orderId);
             log.info(
               { orderId },
               "Auto-refund issued after generation failure",
