@@ -288,10 +288,10 @@ export default function LandingPageContent() {
           <div className="max-w-4xl mx-auto px-6 flex justify-center gap-12 flex-wrap text-center">
             <div>
               <div className="text-3xl font-bold text-slate-900 dark:text-white">
-                5,000+
+                Professionals
               </div>
               <div className="text-sm text-slate-500 dark:text-slate-400">
-                Professionals trust us
+                trust us
               </div>
             </div>
             <div>
@@ -328,15 +328,15 @@ export default function LandingPageContent() {
               Real Customers. Real Results.
             </h2>
             <p className="text-slate-600 dark:text-slate-400 mb-10">
-              Slide to see the transformation. Real selfies → professional
-              headshots.
+              Slide to see the transformation. Example selfie → professional
+              headshot.
             </p>
             <ComparisonSlider
               before="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=600&h=750&fit=crop"
               after="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=750&fit=crop"
             />
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-4">
-              Real customer photos. Drag slider to compare.
+            <p className="text-sm text-slate-500000 dark:text-slate-400 mt-4">
+              Example transformation. Drag slider to compare.
             </p>
           </div>
         </section>
@@ -474,8 +474,7 @@ export default function LandingPageContent() {
                 $29 vs $232 — Same Quality, 88% Less Cost
               </h2>
               <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                See why 5,000+ professionals switched from expensive studio
-                sessions.
+                See why professionals switched from expensive studio sessions.
               </p>
             </div>
             <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-700 shadow-lg bg-white dark:bg-slate-900">
@@ -582,7 +581,7 @@ export default function LandingPageContent() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">
-                Why 5,000+ Professionals Trust Truzot
+                Why Professionals Trust Truzot
               </h2>
               <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
                 Professional headshots that don&apos;t break the bank — or your
@@ -628,7 +627,7 @@ export default function LandingPageContent() {
                   <Users className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">
-                  5,000+ Professionals Trust Us
+                  Professionals Trust Us
                 </h3>
                 <p className="text-slate-600 dark:text-slate-400">
                   From job seekers to Fortune 500 teams. Real results, real
@@ -753,7 +752,7 @@ export default function LandingPageContent() {
                 Real Professionals. Real Results.
               </h2>
               <p className="text-slate-600 dark:text-slate-400">
-                5,000+ professionals upgraded their LinkedIn with Truzot.
+                Professionals upgraded their LinkedIn with Truzot.
               </p>
             </div>
             <div className="grid md:grid-cols-3 gap-6">
@@ -783,7 +782,7 @@ export default function LandingPageContent() {
             </div>
             <div className="mt-10 text-center">
               <p className="text-slate-600 dark:text-slate-400 mb-4">
-                Join 5,000+ professionals who upgraded their LinkedIn
+                Join professionals who upgraded their LinkedIn
               </p>
               <Link
                 href="/upload"
@@ -873,7 +872,7 @@ export default function LandingPageContent() {
               Ready for your professional headshot?
             </h2>
             <p className="text-lg text-blue-100 mb-8">
-              Upload 1-5 selfies and get {PLANS.basic.shots}+ HD headshots in
+              Upload 1-5 selfies and get {PLANS.basic.shots}+ HD headshots in 30
               minutes.
             </p>
             <Link

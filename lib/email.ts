@@ -47,3 +47,17 @@ export async function sendPasswordResetEmail(email: string, resetUrl: string) {
   });
   if (error) throw new Error(error.message);
 }
+
+export async function sendDiscountCodeEmail(
+  email: string,
+  discountCode: string,
+) {
+  const resend = getResend();
+  const { error } = await resend.emails.send({
+    from: "Truzot <hello@truzot.com>",
+    to: email,
+    subject: "Your $5 discount code for Truzot headshots 🎁",
+    html: `<div style="font-family: Georgia, serif; max-width: 560px; margin: 0 auto; color: #0a0a0a;"><div style="padding: 40px 0 20px;"><h1 style="font-size: 28px; font-weight: 900; margin: 0 0 8px;">Your $5 discount is ready!</h1><p style="color: #6b6560; font-size: 16px; line-height: 1.6; margin: 0 0 16px;">Thanks for signing up. Here's your exclusive discount code:</p><div style="background: #f0fdf4; border: 2px solid #22c55e; border-radius: 8px; padding: 24px; text-align: center; margin: 24px 0;"><span style="font-size: 32px; font-weight: 900; color: #166534; letter-spacing: 4px; font-family: monospace;">${discountCode}</span></div><p style="color: #6b6560; font-size: 14px; margin: 16px 0;">Use this code at checkout to get <strong>$5 off</strong> any headshot plan.</p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/upload" style="background: #16a34a; color: white; padding: 14px 32px; border-radius: 2px; text-decoration: none; font-size: 15px; font-weight: 500; display: inline-block;">Get My Headshots →</a></div><hr style="border: none; border-top: 1px solid #e8e4dc; margin: 32px 0;" /><p style="color: #9b9590; font-size: 13px; line-height: 1.6;">Code expires in 30 days. Questions? Reply to this email. — The Truzot team</p></div>`,
+  });
+  if (error) throw new Error(error.message);
+}
