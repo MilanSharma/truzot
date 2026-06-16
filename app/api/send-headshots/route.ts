@@ -25,9 +25,6 @@ export const POST = withContext(async (req: Request) => {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
 
-    // Security check:
-    // 1. If it's a registered user's order, they must be authenticated as that user.
-    // 2. If it's a guest order (user_id is null), the requested email MUST match the order's email.
     const authHeader = req.headers.get("Authorization")?.replace("Bearer ", "");
     let userId = null;
     if (authHeader) {
@@ -53,22 +50,25 @@ export const POST = withContext(async (req: Request) => {
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     if (Array.isArray(imageUrls) && imageUrls.length > 0) {
-      const attachments = await Promise.all(
-        imageUrls.slice(0, 10).map(async (url: string, idx: number) => {
-          const res = await fetch(url);
-          const buf = await res.arrayBuffer();
-          return {
-            filename: `headshot_${idx + 1}.jpg`,
-            content: Buffer.from(buf).toString("base64"),
-          };
-        }),
-      );
+      // Generate a secure download token instead of heavy base64 attachments
+      const tokenRes = await fetch(`${siteUrl}/api/download/token`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: req.headers.get("Authorization") || "",
+        },
+        body: JSON.stringify({ orderId }),
+      });
+      const { token: downloadToken } = await tokenRes.json().catch(() => ({}));
+      const downloadUrl = downloadToken
+        ? `${siteUrl}/dashboard?order=${orderId}&download_token=${downloadToken}`
+        : `${siteUrl}/dashboard?order=${orderId}`;
+
       await resend.emails.send({
         from: "Truzot <hello@truzot.com>",
         to: email,
-        subject: "Your Truzot AI Headshots",
-        html: `<div style="font-family: Georgia, serif; max-width: 560px; margin: 0 auto; color: #0a0a0a;"><div style="padding: 40px 0 20px;"><h1 style="font-size: 28px; font-weight: 900; margin: 0 0 8px;">Your headshots are here!</h1><p style="color: #6b6560; font-size: 16px; margin: 0 0 32px;">Attached are your AI-generated professional headshots. You can also download them anytime from your dashboard.</p><a href="${siteUrl}/dashboard?order=${orderId}" style="background: #0a0a0a; color: #f5f0e8; padding: 14px 32px; border-radius: 2px; text-decoration: none; font-size: 15px; font-weight: 500; display: inline-block;">View in Dashboard →</a></div><hr style="border: none; border-top: 1px solid #e8e4dc; margin: 32px 0;" /><p style="color: #9b9590; font-size: 13px;">If you have any questions, reply to this email. — The Truzot team</p></div>`,
-        attachments,
+        subject: "Your Truzot AI Headshots are Ready! 📸",
+        html: `<div style="font-family: Georgia, serif; max-width: 560px; margin: 0 auto; color: #0a0a0a;"><div style="padding: 40px 0 20px;"><h1 style="font-size: 28px; font-weight: 900; margin: 0 0 8px;">Your headshots are here!</h1><p style="color: #6b6560; font-size: 16px; margin: 0 0 32px;">We've generated ${imageUrls.length} professional headshots for you. Click the button below to view and download them all securely.</p><a href="${downloadUrl}" style="background: #0a0a0a; color: #f5f0e8; padding: 14px 32px; border-radius: 2px; text-decoration: none; font-size: 15px; font-weight: 500; display: inline-block;">View & Download Headshots →</a></div><hr style="border: none; border-top: 1px solid #e8e4dc; margin: 32px 0;" /><p style="color: #9b9590; font-size: 13px;">If you have any questions, reply to this email. — The Truzot team</p></div>`,
       });
     } else {
       await resend.emails.send({

@@ -573,9 +573,16 @@ function UploadContent() {
           }
           const faceResult = await detectFaces(f);
           if (faceResult && faceResult.count === 0) {
-            warnings.push(
-              `${f.name}: no face detected — model training may not work well`,
+            errors.push(
+              `${f.name}: No face detected. Please upload a clear, front-facing photo.`,
             );
+            continue;
+          }
+          if (faceResult && faceResult.count > 1) {
+            errors.push(
+              `${f.name}: Multiple faces detected. Please upload photos with only one person.`,
+            );
+            continue;
           }
           converted.push(f);
         } else {
@@ -702,18 +709,7 @@ function UploadContent() {
       setStep(2);
       return;
     }
-    if (
-      step === 2 &&
-      (!gender ||
-        !eyeColor ||
-        !hairColor ||
-        !clothing ||
-        !background ||
-        !framing)
-    ) {
-      setError("Please fill in all details to help the AI.");
-      return;
-    }
+    // Removed manual field validation to reduce friction
     if (step === 2 && selectedStyles.length === 0) {
       setError("Please select at least one style.");
       return;
