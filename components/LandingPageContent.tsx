@@ -3,6 +3,7 @@
 import Link from "next/link";
 import {
   CheckCircle,
+  AlertCircle,
   ArrowRight,
   Zap,
   Shield,
@@ -92,7 +93,9 @@ export default function LandingPageContent() {
   const [showExitPopup, setShowExitPopup] = useState(false);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
 
   // Exit-intent detection
   useEffect(() => {
@@ -963,16 +966,18 @@ export default function LandingPageContent() {
                 Wait! Get $5 Off Your First Headshot
               </h3>
               <p className="text-slate-600 dark:text-slate-400 mb-6">
-                Enter your email and we'll send you a $5 discount code instantly.
+                Enter your email and we&apos;ll send you a $5 discount code
+                instantly.
               </p>
             </div>
 
             {submitStatus === "success" ? (
               <div className="text-center text-emerald-600 dark:text-emerald-400">
                 <CheckCircle className="w-12 h-12 mx-auto mb-3 text-emerald-500" />
-                <h4 className="font-bold text-lg mb-2">You're In!</h4>
+                <h4 className="font-bold text-lg mb-2">You&apos;re In!</h4>
                 <p className="text-slate-600 dark:text-slate-400">
-                  Check your inbox for your $5 discount code. Happy headshot hunting!
+                  Check your inbox for your $5 discount code. Happy headshot
+                  hunting!
                 </p>
               </div>
             ) : submitStatus === "error" ? (
@@ -991,41 +996,42 @@ export default function LandingPageContent() {
               </div>
             ) : (
               <form onSubmit={handleEmailSubmit} className="space-y-4">
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-              <input
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                placeholder="you@example.com"
-                required
-                disabled={isSubmitting}
-                className="w-full pl-11 pr-4 py-3 border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition"
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={isSubmitting || !email}
-              className="w-full bg-emerald-600 text-white py-3 rounded-xl font-bold hover:bg-emerald-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  Sending...
-                </>
-              ) : (
-                <>
-                  Get $5 Discount Code <ArrowRight size={20} />
-                </>
-              )}
-            </button>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
-              No spam. Unsubscribe anytime. 30-day money-back guarantee.
-            </p>
-          </form>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    required
+                    disabled={isSubmitting}
+                    className="w-full pl-11 pr-4 py-3 border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={isSubmitting || !email}
+                  className="w-full bg-emerald-600 text-white py-3 rounded-xl font-bold hover:bg-emerald-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      Get $5 Discount Code <ArrowRight size={20} />
+                    </>
+                  )}
+                </button>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  No spam. Unsubscribe anytime. 30-day money-back guarantee.
+                </p>
+              </form>
             )}
           </div>
         </div>
-      </div>
+      )}
+    </>
   );
 }
