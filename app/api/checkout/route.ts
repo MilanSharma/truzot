@@ -104,78 +104,6 @@ export const POST = withContext(async (req: Request) => {
       supabase = supabaseAdmin;
     }
 
-    if (idempotencyKey) {
-      const { data: existing } = await supabase
-        .from("orders")
-        .select("id, status, plan, email")
-        .filter("preferences->>idempotency_key", "eq", idempotencyKey)
-        .maybeSingle();
-      if (existing) {
-        if (existing.status !== "pending") {
-          return addCors(
-            NextResponse.json(
-              { error: "This order is already being processed." },
-              { status: 400 },
-            ),
-            origin,
-          );
-        }
-
-        const label = `${planConfig.name} — ${planConfig.shots} Headshots`;
-        let customerId: string | undefined;
-        const existingCustomers = await stripe.customers.list({
-          email: existing.email || email,
-          limit: 1,
-        });
-        if (existingCustomers.data.length > 0) {
-          customerId = existingCustomers.data[0].id;
-        }
-
-        const cookieHeader = req.headers.get("cookie") || "";
-        const rewardfulMatch = cookieHeader.match(
-          /rewardful\.referral=([^;]+)/,
-        );
-        const referralId = rewardfulMatch ? rewardfulMatch[1] : undefined;
-
-        const session = await stripe.checkout.sessions.create({
-          payment_method_types: ["card"],
-          mode: "payment",
-          customer: customerId,
-          customer_email: customerId ? undefined : existing.email || email,
-          client_reference_id: referralId,
-          automatic_tax: { enabled: false },
-          billing_address_collection: "auto",
-          line_items: [
-            {
-              price_data: {
-                currency: "usd",
-                product_data: {
-                  name: label,
-                  description: "AI Professional Headshots",
-                },
-                unit_amount: finalAmount,
-              },
-              quantity: 1,
-            },
-          ],
-          metadata: {
-            orderId: existing.id,
-            plan: existing.plan,
-            email: existing.email || email,
-            userId: userId || "",
-            coupon: coupon || "",
-            discount_code: appliedDiscountCode || "",
-            discount_amount: discountAmount.toString(),
-          },
-          success_url: `${baseUrl}/claim-order?order=${existing.id}`,
-          cancel_url: `${baseUrl}/upload?cancelled=1`,
-          ...(discount && !discountAmount ? { discounts: [discount] } : {}),
-        });
-
-        return addCors(NextResponse.json({ url: session.url }), origin);
-      }
-    }
-
     let discount: Stripe.Checkout.SessionCreateParams.Discount | undefined;
     let appliedDiscountCode: string | undefined;
     let discountAmount = 0;
@@ -253,6 +181,81 @@ export const POST = withContext(async (req: Request) => {
         ? planConfig.amount - discountAmount
         : planConfig.amount;
 
+    const url = new URL(req.url);
+    const baseUrl = `${url.protocol}//${url.host}`;
+
+    if (idempotencyKey) {
+      const { data: existing } = await supabase
+        .from("orders")
+        .select("id, status, plan, email")
+        .filter("preferences->>idempotency_key", "eq", idempotencyKey)
+        .maybeSingle();
+      if (existing) {
+        if (existing.status !== "pending") {
+          return addCors(
+            NextResponse.json(
+              { error: "This order is already being processed." },
+              { status: 400 },
+            ),
+            origin,
+          );
+        }
+
+        const label = `${planConfig.name} — ${planConfig.shots} Headshots`;
+        let customerId: string | undefined;
+        const existingCustomers = await stripe.customers.list({
+          email: existing.email || email,
+          limit: 1,
+        });
+        if (existingCustomers.data.length > 0) {
+          customerId = existingCustomers.data[0].id;
+        }
+
+        const cookieHeader = req.headers.get("cookie") || "";
+        const rewardfulMatch = cookieHeader.match(
+          /rewardful\.referral=([^;]+)/,
+        );
+        const referralId = rewardfulMatch ? rewardfulMatch[1] : undefined;
+
+        const session = await stripe.checkout.sessions.create({
+          payment_method_types: ["card"],
+          mode: "payment",
+          customer: customerId,
+          customer_email: customerId ? undefined : existing.email || email,
+          client_reference_id: referralId,
+          automatic_tax: { enabled: false },
+          billing_address_collection: "auto",
+          line_items: [
+            {
+              price_data: {
+                currency: "usd",
+                product_data: {
+                  name: label,
+                  description: "AI Professional Headshots",
+                },
+                unit_amount: finalAmount,
+              },
+              quantity: 1,
+            },
+          ],
+          metadata: {
+            orderId: existing.id,
+            plan: existing.plan,
+            email: existing.email || email,
+            userId: userId || "",
+            coupon: coupon || "",
+            discount_code: appliedDiscountCode || "",
+            discount_amount: discountAmount.toString(),
+          },
+          success_url: `${baseUrl}/claim-order?order=${existing.id}`,
+          cancel_url: `${baseUrl}/upload?cancelled=1`,
+          ...(discount && !discountAmount ? { discounts: [discount] } : {}),
+        });
+
+        return addCors(NextResponse.json({ url: session.url }), origin);
+      }
+    }
+
     const { data: order, error: orderError } = await supabase
       .from("orders")
       .insert({
@@ -300,9 +303,6 @@ export const POST = withContext(async (req: Request) => {
     const orderId = order.id;
 
     try {
-      const url = new URL(req.url);
-      const baseUrl = `${url.protocol}//${url.host}`;
-
       const label = `${planConfig.name} — ${planConfig.shots} Headshots`;
 
       // Look up or create Stripe customer to avoid duplicates
