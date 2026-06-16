@@ -1,7 +1,0 @@
-- generic [active]:
-  - generic:
-    - region "Notifications (F8)":
-      - list
-    - region "Notifications alt+T"
-    - button "Open chat" [ref=e2] [cursor=pointer]:
-      - img [ref=e4]
