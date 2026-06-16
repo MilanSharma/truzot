@@ -171,7 +171,7 @@ export const GET = withContext(async (req: Request) => {
     // Phase 1: Send warning emails for orders between 29 and 30 days old
     const { data: warnOrders } = await supabaseAdmin
       .from("orders")
-      .select("id, user_id, preferences")
+      .select("id, user_id, email, preferences")
       .lt("created_at", twentyNineDaysAgo)
       .gte("created_at", thirtyDaysAgo);
 
@@ -210,7 +210,7 @@ export const GET = withContext(async (req: Request) => {
     // Phase 2: Delete orders older than 30 days
     const { data: expiredOrders, error: fetchError } = await supabaseAdmin
       .from("orders")
-      .select("id, user_id, preferences")
+      .select("id, user_id, email, preferences")
       .lt("created_at", thirtyDaysAgo);
 
     if (fetchError) {
