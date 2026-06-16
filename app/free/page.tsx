@@ -267,9 +267,9 @@ export default function FreeGenerator() {
                 </p>
                 <Link
                   href="/upload?plan=basic"
-                  className="mt-6 inline-block bg-slate-900 dark:bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-800 dark:hover:bg-blue-700 transition"
+                  className="mt-6 inline-block bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-md"
                 >
-                  Remove Watermark — Get Full Access from $29 →
+                  Get Full Headshots — from $29
                 </Link>
               </div>
             )}
@@ -280,9 +280,9 @@ export default function FreeGenerator() {
           <div className="mt-12 text-center">
             <Link
               href="/upload?plan=basic"
-              className="text-blue-600 dark:text-blue-400 font-medium hover:underline"
+              className="text-sm text-blue-600 dark:text-blue-400 font-medium hover:underline"
             >
-              Skip the free version — get full quality headshots from $29 →
+              Get full headshots from $29 →
             </Link>
           </div>
         )}

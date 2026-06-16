@@ -169,12 +169,6 @@ export default function LandingPageContent() {
                 FAQ
               </a>
               <Link
-                href="/free"
-                className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
-              >
-                Free Demo
-              </Link>
-              <Link
                 href="/login"
                 className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
               >
@@ -182,9 +176,15 @@ export default function LandingPageContent() {
               </Link>
               <Link
                 href="/upload"
-                className="bg-slate-900 dark:bg-blue-600 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-blue-600 transition"
+                className="bg-blue-600 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-blue-700 transition shadow-md"
               >
-                Get Started
+                Get Headshots
+              </Link>
+              <Link
+                href="/free"
+                className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition"
+              >
+                Free demo
               </Link>
             </div>
             <button
@@ -206,18 +206,22 @@ export default function LandingPageContent() {
               <a href="#pricing" onClick={() => setMobileMenuOpen(false)}>
                 Pricing
               </a>
-              <Link href="/free" onClick={() => setMobileMenuOpen(false)}>
-                Free Demo
-              </Link>
               <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
                 Sign In
               </Link>
               <Link
                 href="/upload"
                 onClick={() => setMobileMenuOpen(false)}
-                className="bg-slate-900 dark:bg-blue-600 text-white text-center px-5 py-2 rounded-full text-sm font-semibold"
+                className="bg-blue-600 text-white text-center px-5 py-2.5 rounded-full text-sm font-bold"
               >
-                Get Started
+                Get Headshots
+              </Link>
+              <Link
+                href="/free"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-xs text-slate-400"
+              >
+                Free demo
               </Link>
             </div>
           )}
@@ -240,29 +244,32 @@ export default function LandingPageContent() {
             </span>
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto">
-            88% cheaper than a photographer. 30-minute delivery. 100% money-back
-            guarantee. Upload 1-5 selfies, get 40+ professional headshots.
+            88% cheaper than a photographer. Delivery from 30 minutes. 100%
+            money-back guarantee. Upload 1-5 selfies, get 40+ professional
+            headshots.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
               href="/upload"
-              className="w-full sm:w-auto bg-blue-600 text-white text-lg px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-blue-700 transition shadow-lg"
+              className="w-full sm:w-auto bg-blue-600 text-white text-lg px-10 py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-blue-700 transition shadow-lg order-1"
             >
               Get Your Headshots <ArrowRight size={20} />
             </Link>
-            <Link
-              href="/free"
-              className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white text-lg px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition shadow-lg"
-            >
-              🎁 Get FREE Demo — Upload selfie, get 1 AI headshot
-            </Link>
             <a
               href="#examples"
-              className="w-full sm:w-auto border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 text-lg px-8 py-4 rounded-xl font-semibold flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-800 transition"
+              className="w-full sm:w-auto border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 text-lg px-8 py-4 rounded-xl font-semibold flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-800 transition order-2"
             >
               See Real Results
             </a>
           </div>
+          <p className="mt-3 text-center">
+            <Link
+              href="/free"
+              className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition"
+            >
+              or try one free demo headshot
+            </Link>
+          </p>
           <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm text-slate-500 dark:text-slate-400">
             <span className="flex items-center gap-1">
               <Shield className="w-4 h-4" /> 30-day money-back guarantee
@@ -271,7 +278,7 @@ export default function LandingPageContent() {
               <CheckCircle className="w-4 h-4" /> 5,000+ professionals trust us
             </span>
             <span className="flex items-center gap-1">
-              <Clock className="w-4 h-4" /> 30-min average delivery
+              <Clock className="w-4 h-4" /> From 30-min delivery
             </span>
           </div>
         </section>
@@ -289,10 +296,10 @@ export default function LandingPageContent() {
             </div>
             <div>
               <div className="text-3xl font-bold text-slate-900 dark:text-white">
-                30 min
+                30 min+
               </div>
               <div className="text-sm text-slate-500 dark:text-slate-400">
-                Average delivery
+                Fastest delivery
               </div>
             </div>
             <div>
@@ -499,11 +506,11 @@ export default function LandingPageContent() {
                     </td>
                   </tr>
                   <tr className="hover:bg-slate-50 dark:hover:bg-slate-800 transition">
-                    <td className="px-6 py-4 font-semibold text-slate-900000 dark:text-white">
+                    <td className="px-6 py-4 font-semibold text-slate-900 dark:text-white">
                       Turnaround Time
                     </td>
                     <td className="px-6 py-4 text-emerald-600 font-bold text-lg">
-                      30 minutes avg
+                      From 30 minutes
                     </td>
                     <td className="px-6 py-4 text-slate-600 dark:text-slate-400">
                       1 - 2 weeks
@@ -804,7 +811,7 @@ export default function LandingPageContent() {
                 },
                 {
                   q: "How long does it take?",
-                  a: "Most headshots are ready in 30 minutes or less. Higher-tier plans get priority processing.",
+                  a: "Most headshots are ready within 30 minutes to 2 hours, depending on your plan. Executive is fastest, Basic takes up to 2 hours.",
                 },
                 {
                   q: "Can I use these on LinkedIn?",

@@ -84,12 +84,6 @@ export default function Nav({ showBack = false }: NavProps) {
               </Link>
               <DarkModeToggle />
               <Link
-                href="/free"
-                className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
-              >
-                Free Demo
-              </Link>
-              <Link
                 href="/login"
                 className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
               >
@@ -97,9 +91,15 @@ export default function Nav({ showBack = false }: NavProps) {
               </Link>
               <Link
                 href="/upload"
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition"
+                className="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition shadow-sm"
               >
-                Get Started
+                Get Headshots
+              </Link>
+              <Link
+                href="/free"
+                className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition"
+              >
+                Free demo
               </Link>
             </div>
             <div className="flex md:hidden items-center gap-3">
@@ -146,13 +146,6 @@ export default function Nav({ showBack = false }: NavProps) {
             Affiliates
           </Link>
           <Link
-            href="/free"
-            onClick={() => setMobileOpen(false)}
-            className="text-slate-600 dark:text-slate-400"
-          >
-            Free Demo
-          </Link>
-          <Link
             href="/login"
             onClick={() => setMobileOpen(false)}
             className="text-slate-600 dark:text-slate-400"
@@ -164,7 +157,14 @@ export default function Nav({ showBack = false }: NavProps) {
             onClick={() => setMobileOpen(false)}
             className="bg-blue-600 text-white text-center px-4 py-2 rounded-lg font-semibold"
           >
-            Get Started
+            Get Headshots
+          </Link>
+          <Link
+            href="/free"
+            onClick={() => setMobileOpen(false)}
+            className="text-xs text-slate-400"
+          >
+            Free demo
           </Link>
         </div>
       )}

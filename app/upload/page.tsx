@@ -763,7 +763,7 @@ function UploadContent() {
         background,
         framing,
         selectedStyles,
-        idempotencyKey: crypto.randomUUID(),
+        idempotencyKey,
         shootName: shootName || defaultShootName,
         coupon: coupon || undefined,
       };

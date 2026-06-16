@@ -166,7 +166,7 @@ export const POST = withContext(async (req: Request) => {
         .update({ status: "processed" })
         .eq("event_id", event.id)
         .eq("source", "stripe")
-        .is("status", "received");
+        .eq("status", "received");
     }
 
     try {

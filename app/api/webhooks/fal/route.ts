@@ -185,7 +185,9 @@ export const POST = withContext(async (req: Request) => {
       return NextResponse.json({ ok: true });
 
     // Check all possible locations where fal.ai might nest the model URL
+    const output = data.payload ?? data.output ?? data.result ?? data;
     const modelId =
+      output?.diffusers_lora_file?.url ??
       data.diffusers_lora_file?.url ??
       data.diff_url ??
       data.output?.diffusers_lora_file?.url ??

@@ -93,8 +93,8 @@ export const POST = withContext(async (req: Request) => {
 
     let trainingComplete = false;
     let modelId = "";
-    const POLL_INTERVAL = 3000;
-    const MAX_POLLS = 8;
+    const POLL_INTERVAL = 5000;
+    const MAX_POLLS = 40;
     let consecutiveFails = 0;
     for (let i = 0; i < MAX_POLLS; i++) {
       await new Promise((r) => setTimeout(r, POLL_INTERVAL));
