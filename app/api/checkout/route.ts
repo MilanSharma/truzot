@@ -184,8 +184,6 @@ export const POST = withContext(async (req: Request) => {
       const referralId = rewardfulMatch ? rewardfulMatch[1] : undefined;
 
       let discount: Stripe.Checkout.SessionCreateParams.Discount | undefined;
-
-      let discount: Stripe.Checkout.SessionCreateParams.Discount | undefined;
       let appliedDiscountCode: string | undefined;
       let discountAmount = 0;
 
