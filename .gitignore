@@ -68,3 +68,9 @@ Desktop.ini
 
 # linux
 .directory
+# Scraped data and external tool configs
+*.csv
+scraper.cjs
+*.yml
+check_stats.sql
+.playwright-mcp/
