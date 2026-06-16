@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import {
   useEffect,
@@ -63,6 +64,7 @@ function DashboardContent() {
   const [favorites, setFavorites] = useState<string[]>([]);
 
   // Reload favorites from localStorage when orderId changes (handles hydration and navigation)
+
   useEffect(() => {
     if (!orderId) return;
     const timer = setTimeout(() => {
@@ -410,7 +412,11 @@ function DashboardContent() {
       data: { session },
     } = await supabase.auth.getSession();
     const token = session?.access_token;
-    const dlRes = await fetch("/api/download", {
+
+    if (onProgress) onProgress(1, 1);
+
+    // Use server-side ZIP endpoint to prevent mobile browser OOM crashes
+    const res = await fetch("/api/download/zip", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -418,54 +424,21 @@ function DashboardContent() {
       },
       body: JSON.stringify({ imageUrls: urls, orderId }),
     });
-    if (!dlRes.ok) {
+
+    if (!res.ok) {
       toast("Download failed. Try again.", "error");
       return;
     }
-    const { urls: signedUrls } = await dlRes.json();
-    if (!Array.isArray(signedUrls) || signedUrls.length === 0) {
-      toast("No images to download.", "error");
-      return;
-    }
-    const total = signedUrls.length;
-    if (onProgress) onProgress(0, total);
-    // Split into chunks of MAX_ZIP_IMAGES to avoid memory exhaustion on mobile
-    for (let chunkStart = 0; chunkStart < total; chunkStart += MAX_ZIP_IMAGES) {
-      const chunk = signedUrls.slice(chunkStart, chunkStart + MAX_ZIP_IMAGES);
-      const chunkLabel =
-        total > MAX_ZIP_IMAGES
-          ? ` (part ${Math.floor(chunkStart / MAX_ZIP_IMAGES) + 1})`
-          : "";
-      const zip = new JSZip();
-      const CONCURRENCY = 6;
-      for (let i = 0; i < chunk.length; i += CONCURRENCY) {
-        const batch = chunk.slice(i, i + CONCURRENCY);
-        const results = await Promise.all(
-          batch.map(async (url: string, batchIdx: number) => {
-            const res = await fetch(url);
-            const buf = await res.arrayBuffer();
-            return { buf, idx: chunkStart + i + batchIdx };
-          }),
-        );
-        for (const { buf, idx } of results) {
-          zip.file(`headshot_${idx + 1}.jpg`, buf);
-        }
-        if (onProgress)
-          onProgress(Math.min(chunkStart + i + CONCURRENCY, total), total);
-      }
-      const zipBuffer = await zip.generateAsync({ type: "arraybuffer" });
-      const blob = new Blob([zipBuffer], { type: "application/zip" });
-      const blobUrl = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = blobUrl;
-      a.download = filename.replace(".zip", `${chunkLabel}.zip`);
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(blobUrl);
-      if (onProgress)
-        onProgress(Math.min(chunkStart + chunk.length, total), total);
-    }
+
+    const blob = await res.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = blobUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(blobUrl);
   };
 
   const shareGallery = async () => {
