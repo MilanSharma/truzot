@@ -647,10 +647,10 @@ function UploadContent() {
         color: "bg-slate-200",
         text: "text-slate-500",
       };
-    if (files.length < 5)
+    if (files.length === 1)
       return {
-        score: 30,
-        label: "Add 3-5 photos for best quality",
+        score: 50,
+        label: "Good, but more photos improve likeness",
         color: "bg-amber-500",
         text: "text-amber-600",
       };
@@ -843,8 +843,8 @@ function UploadContent() {
                   Upload your selfies
                 </h1>
                 <p className="text-slate-500 dark:text-slate-400">
-                  Upload 1-5 clear photos of your face. The AI uses these to
-                  create your personalized headshots.
+                  Upload 1-5 clear photos of your face. Just one good photo
+                  works, but more angles give the best results.
                 </p>
               </div>
 
