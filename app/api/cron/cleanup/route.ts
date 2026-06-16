@@ -81,7 +81,7 @@ export const GET = withContext(async (req: Request) => {
   const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
   const { data: abandonedOrders } = await supabaseAdmin
     .from("orders")
-    .select("id, user_id, plan")
+    .select("id, user_id, plan, created_at")
     .eq("status", "pending")
     .lt("created_at", oneHourAgo)
     .limit(20);
