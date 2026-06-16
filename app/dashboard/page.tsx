@@ -497,21 +497,24 @@ function DashboardContent() {
   };
 
   const emailDelivery = async () => {
-    if (!orderId || !user?.email) return;
+    const recipientEmail = user?.email || currentOrder?.email;
+    if (!orderId || !recipientEmail) return;
     try {
       const {
         data: { session },
       } = await supabase.auth.getSession();
       const token = session?.access_token;
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      if (token) headers.Authorization = `Bearer ${token}`;
+
       const res = await fetch("/api/send-headshots", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers,
         body: JSON.stringify({
           orderId,
-          email: user.email,
+          email: recipientEmail,
           imageUrls: headshots.map((h) => h.image_url),
         }),
       });

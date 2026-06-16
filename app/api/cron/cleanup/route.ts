@@ -177,11 +177,14 @@ export const GET = withContext(async (req: Request) => {
 
     let warningEmailsSent = 0;
     for (const order of warnOrders || []) {
-      if (!order.user_id) continue;
-      const { data: userData } = await supabaseAdmin.auth.admin.getUserById(
-        order.user_id,
-      );
-      const userEmail = userData?.user?.email;
+      // Fallback to order email for guest checkouts
+      let userEmail = order.email;
+      if (order.user_id) {
+        const { data: userData } = await supabaseAdmin.auth.admin.getUserById(
+          order.user_id,
+        );
+        userEmail = userData?.user?.email || order.email;
+      }
       if (!userEmail) continue;
       const { data: prefs } = await supabaseAdmin
         .from("email_preferences")

@@ -7,17 +7,6 @@ const log = createLogger("send-headshots");
 
 export const POST = withContext(async (req: Request) => {
   try {
-    const authHeader = req.headers.get("Authorization")?.replace("Bearer ", "");
-    if (!authHeader) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-    const {
-      data: { user },
-    } = await supabaseAdmin.auth.getUser(authHeader);
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { orderId, email, imageUrls } = await req.json();
     if (!orderId || !email) {
       return NextResponse.json(
@@ -28,14 +17,35 @@ export const POST = withContext(async (req: Request) => {
 
     const { data: order } = await supabaseAdmin
       .from("orders")
-      .select("user_id")
+      .select("user_id, email")
       .eq("id", orderId)
       .single();
+
     if (!order) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
-    if (order.user_id !== user.id) {
+
+    // Security check:
+    // 1. If it's a registered user's order, they must be authenticated as that user.
+    // 2. If it's a guest order (user_id is null), the requested email MUST match the order's email.
+    const authHeader = req.headers.get("Authorization")?.replace("Bearer ", "");
+    let userId = null;
+    if (authHeader) {
+      const {
+        data: { user },
+      } = await supabaseAdmin.auth.getUser(authHeader);
+      userId = user?.id || null;
+    }
+
+    if (order.user_id && order.user_id !== userId) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    if (!order.user_id && order.email.toLowerCase() !== email.toLowerCase()) {
+      return NextResponse.json(
+        { error: "Forbidden: Email does not match order" },
+        { status: 403 },
+      );
     }
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://truzot.com";
