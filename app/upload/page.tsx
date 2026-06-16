@@ -611,7 +611,7 @@ function UploadContent() {
   // Debounced Eager Background Upload logic
   useEffect(() => {
     if (
-      files.length >= 3 &&
+      files.length >= 1 &&
       !storagePath &&
       !isProcessing &&
       !isUploadingBackground
@@ -673,10 +673,8 @@ function UploadContent() {
 
   const handleNextStep = async () => {
     setError("");
-    if (step === 1 && files.length < 3 && !storagePath) {
-      setError(
-        "Please upload at least 3 photos for best results (5 recommended).",
-      );
+    if (step === 1 && files.length < 1 && !storagePath) {
+      setError("Please upload at least 1 photo to continue.");
       return;
     }
     if (step === 1) {
