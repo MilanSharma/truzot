@@ -62,10 +62,12 @@ export async function POST(req: Request) {
 
     log.info({ email, source, discountCode }, "Waitlist signup successful");
 
-    // Send discount code email (don't await - fire and forget)
-    sendDiscountCodeEmail(email, discountCode).catch((err) => {
+    // Await the email send so the serverless function environment does not freeze before completion
+    try {
+      await sendDiscountCodeEmail(email, discountCode);
+    } catch (err) {
       log.error({ err, email }, "Failed to send discount code email");
-    });
+    }
 
     return NextResponse.json(
       { message: "Successfully registered", discount: "$5 off", discountCode },

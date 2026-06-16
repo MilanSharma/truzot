@@ -26,7 +26,8 @@ export default function CookieConsent() {
     <div className="fixed bottom-0 left-0 right-0 z-50 p-4">
       <div className="max-w-4xl mx-auto bg-slate-900 text-white rounded-2xl p-5 shadow-2xl border border-slate-700 flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <div className="flex-1 text-sm leading-relaxed">
-          We use optional analytics cookies to improve your experience. See our{" "}
+          We use optional analytics cookies and marketing tools to improve your
+          experience. See our{" "}
           <Link href="/privacy" className="text-blue-400 underline">
             Privacy Policy
           </Link>{" "}

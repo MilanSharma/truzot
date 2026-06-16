@@ -149,12 +149,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </ToastProvider>
         </PostHogProvider>
       </body>
-      <Script
-        src="https://cdn.popupsmart.com/bundle.js"
-        id="popupsmart-script"
-        data-id="1049170"
-        strategy="afterInteractive"
-      />
     </html>
   );
 }

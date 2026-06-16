@@ -1,3 +1,4 @@
+import PopupSmart from "@/components/PopupSmart";
 import type { Metadata } from "next";
 import { PAGE_SEO, SITE_CONFIG } from "@/lib/seo";
 import LandingPageContent from "@/components/LandingPageContent";
