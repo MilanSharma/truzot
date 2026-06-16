@@ -274,7 +274,7 @@ export const POST = withContext(async (req: Request) => {
       );
     }
 
-    if (headshotsToInsert.length === 0) {
+    if (isInsertionFailure) {
       let newFailures = 1;
       try {
         const { data: rpcResult } = await supabaseAdmin.rpc(
