@@ -127,6 +127,16 @@ export const POST = withContext(async (req: Request) => {
         : session.customer?.id;
     const existingPrefs = (order.preferences as Record<string, any>) || {};
 
+    // Mark waitlist discount code as used
+    const discountCode = session.metadata?.discount_code;
+    if (discountCode && discountCode.startsWith("TRUZOT-")) {
+      await supabaseAdmin
+        .from("waitlist")
+        .update({ used: true, used_at: new Date().toISOString() })
+        .eq("discount_code", discountCode.toUpperCase());
+      log.info({ discountCode }, "Waitlist discount code marked as used");
+    }
+
     const { error: orderUpdateError } = await supabaseAdmin
       .from("orders")
       .update({
