@@ -76,3 +76,4 @@ check_stats.sql
 .playwright-mcp/
 
 # Scraped influencer data and MCP configs
+.aider*
