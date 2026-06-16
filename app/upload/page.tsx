@@ -1015,171 +1015,20 @@ function UploadContent() {
             </div>
           )}
 
-          {/* STEP 2: DETAILS FOR AI */}
+          {/* STEP 2: CHOOSE STYLES (Zero-Friction) */}
           {step === 2 && (
             <div className="animate-in slide-in-from-right-4 fade-in duration-300">
               <div className="text-center mb-8">
                 <h1 className="text-3xl font-bold mb-2 text-slate-900 dark:text-white">
-                  Details for the AI
+                  Choose Your Styles
                 </h1>
                 <p className="text-slate-500 dark:text-slate-400">
-                  These details help the AI create more realistic headshots.
+                  Our AI automatically adapts to your features. Just pick the
+                  vibes you want.
                 </p>
               </div>
 
               <div className="space-y-8 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 shadow-sm">
-                <div>
-                  <h3 className="font-bold text-lg mb-3 flex items-center gap-2 text-slate-900 dark:text-white">
-                    <User className="w-5 h-5 text-blue-600" /> Gender
-                  </h3>
-                  <div className="grid grid-cols-3 gap-3">
-                    {["Male", "Female", "Non-Binary"].map((g) => (
-                      <button
-                        key={g}
-                        onClick={() => setGender(g)}
-                        className={`py-3 rounded-xl border-2 font-semibold transition ${gender === g ? "border-blue-600 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400" : "border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-500"}`}
-                      >
-                        {g}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-lg mb-3 flex items-center gap-2 text-slate-900 dark:text-white">
-                    <ImageIcon className="w-5 h-5 text-blue-600" /> Eye Color
-                  </h3>
-                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
-                    {[
-                      "Brown",
-                      "Black",
-                      "Blue",
-                      "Green",
-                      "Hazel",
-                      "Gray",
-                      "Amber",
-                    ].map((c) => (
-                      <button
-                        key={c}
-                        onClick={() => setEyeColor(c)}
-                        className={`py-3 rounded-xl border-2 font-semibold transition ${eyeColor === c ? "border-blue-600 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400" : "border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-500"}`}
-                      >
-                        {c}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-lg mb-3 flex items-center gap-2 text-slate-900 dark:text-white">
-                    <User className="w-5 h-5 text-blue-600" /> Hair Color
-                  </h3>
-                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
-                    {["Black", "Brown", "Blonde", "Red", "Gray", "White"].map(
-                      (c) => (
-                        <button
-                          key={c}
-                          onClick={() => setHairColor(c)}
-                          className={`py-3 rounded-xl border-2 font-semibold transition ${hairColor === c ? "border-blue-600 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400" : "border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-500"}`}
-                        >
-                          {c}
-                        </button>
-                      ),
-                    )}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-lg mb-3 flex items-center gap-2 text-slate-900 dark:text-white">
-                    <Shield className="w-5 h-5 text-blue-600" /> Clothing
-                  </h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    {[
-                      {
-                        id: "business-formal",
-                        label: "Business Formal",
-                        desc: "Suit & tie",
-                      },
-                      {
-                        id: "business-casual",
-                        label: "Business Casual",
-                        desc: "Blazer, no tie",
-                      },
-                      {
-                        id: "smart-casual",
-                        label: "Smart Casual",
-                        desc: "Polished relaxed",
-                      },
-                      {
-                        id: "creative",
-                        label: "Creative",
-                        desc: "Turtleneck, etc.",
-                      },
-                    ].map((opt) => (
-                      <button
-                        key={opt.id}
-                        onClick={() => setClothing(opt.id)}
-                        className={`py-3 px-4 rounded-xl border-2 text-left transition ${clothing === opt.id ? "border-blue-600 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400" : "border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-500"}`}
-                      >
-                        <div className="font-semibold text-sm">{opt.label}</div>
-                        <div className="text-xs opacity-70">{opt.desc}</div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-lg mb-3 flex items-center gap-2 text-slate-900 dark:text-white">
-                    <Camera className="w-5 h-5 text-blue-600" /> Background
-                  </h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    {[
-                      { id: "studio", label: "Studio", desc: "Clean backdrop" },
-                      {
-                        id: "office",
-                        label: "Office",
-                        desc: "Modern workspace",
-                      },
-                      { id: "outdoor", label: "Outdoor", desc: "Nature, park" },
-                      { id: "city", label: "City", desc: "Urban skyline" },
-                    ].map((opt) => (
-                      <button
-                        key={opt.id}
-                        onClick={() => setBackground(opt.id)}
-                        className={`py-3 px-4 rounded-xl border-2 text-left transition ${background === opt.id ? "border-blue-600 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400" : "border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-500"}`}
-                      >
-                        <div className="font-semibold text-sm">{opt.label}</div>
-                        <div className="text-xs opacity-70">{opt.desc}</div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-lg mb-3 flex items-center gap-2 text-slate-900 dark:text-white">
-                    <Camera className="w-5 h-5 text-blue-600" /> Framing
-                  </h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    {[
-                      {
-                        id: "closeup",
-                        label: "Close-up",
-                        desc: "Head & shoulders",
-                      },
-                      { id: "half-body", label: "Half-body", desc: "Waist up" },
-                    ].map((opt) => (
-                      <button
-                        key={opt.id}
-                        onClick={() => setFraming(opt.id)}
-                        className={`py-3 px-4 rounded-xl border-2 text-left transition ${framing === opt.id ? "border-blue-600 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400" : "border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-500"}`}
-                      >
-                        <div className="font-semibold text-sm">{opt.label}</div>
-                        <div className="text-xs opacity-70">{opt.desc}</div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <h3 className="font-bold text-lg flex items-center gap-2 text-slate-900 dark:text-white">
@@ -1257,19 +1106,11 @@ function UploadContent() {
                   onClick={() => setStep(1)}
                   className="text-slate-500 dark:text-slate-400 font-bold flex items-center gap-2 hover:text-slate-800 dark:hover:text-slate-200"
                 >
-                  <ChevronLeft className="w-5 h-5" /> Back to Details
+                  <ChevronLeft className="w-5 h-5" /> Back to Upload
                 </button>
                 <button
                   onClick={handleNextStep}
-                  disabled={
-                    !gender ||
-                    !eyeColor ||
-                    !hairColor ||
-                    !clothing ||
-                    !background ||
-                    !framing ||
-                    selectedStyles.length === 0
-                  }
+                  disabled={selectedStyles.length === 0}
                   className="bg-slate-900 dark:bg-blue-600 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 dark:hover:bg-blue-700 transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Next: Choose Plan <ChevronRight className="w-5 h-5" />
