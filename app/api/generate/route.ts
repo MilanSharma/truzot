@@ -21,20 +21,18 @@ async function enqueueNextBatch(orderId: string): Promise<boolean> {
   const cronSecret = process.env.CRON_SECRET;
   const qstashToken = process.env.QSTASH_TOKEN;
 
-  // Fallback: fire-and-forget self-call when QStash is unavailable
-  // Not awaited to avoid recursive timeout on large orders (maxDuration=300s)
-  // Returns true so the current invocation returns 200 — the next batch
-  // will be picked up either by the inline fetch or the cron cleanup.
   if (!qstashToken) {
     log.warn({ orderId }, "QSTASH_TOKEN missing, firing inline fallback");
-    fetch(`${siteUrl}/api/generate`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-truzot-secret": cronSecret || "",
-      },
-      body: JSON.stringify({ orderId }),
-    }).catch((err) => log.error({ err, orderId }, "Inline fallback error"));
+    waitUntil(
+      fetch(`${siteUrl}/api/generate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-truzot-secret": cronSecret || "",
+        },
+        body: JSON.stringify({ orderId }),
+      }).catch((err) => log.error({ err, orderId }, "Inline fallback error")),
+    );
     return true;
   }
 

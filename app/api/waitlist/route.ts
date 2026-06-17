@@ -63,10 +63,13 @@ export async function POST(req: Request) {
 
     log.info({ email, source, discountCode }, "Waitlist signup successful");
 
-    // Send discount code email (don't await - fire and forget)
-    sendDiscountCodeEmail(email, discountCode).catch((err) => {
+    // Await the email send to ensure it completes before the function exits
+    try {
+      await sendDiscountCodeEmail(email, discountCode);
+      log.info({ email }, "Discount code email sent successfully");
+    } catch (err) {
       log.error({ err, email }, "Failed to send discount code email");
-    });
+    }
 
     return NextResponse.json(
       { message: "Successfully registered", discount: "$5 off", discountCode },

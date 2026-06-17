@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import * as Sentry from "@sentry/nextjs";
+import { waitUntil } from "@vercel/functions";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { trainModel, generateWebhookToken } from "@/lib/ai/fal-client";
 import { storeWebhookEvent } from "@/lib/webhook-store";
@@ -35,6 +36,16 @@ async function triggerGenerate(orderId: string): Promise<boolean> {
     if (attempt < 3) await new Promise((r) => setTimeout(r, 1000 * attempt));
   }
   return false;
+}
+
+async function triggerGenerateAsync(orderId: string): Promise<void> {
+  waitUntil(
+    triggerGenerate(orderId).then((success) => {
+      if (!success) {
+        log.error({ orderId }, "All generate trigger attempts failed");
+      }
+    }),
+  );
 }
 
 export const POST = withContext(async (req: Request) => {
@@ -226,10 +237,7 @@ export const POST = withContext(async (req: Request) => {
       .update({ status: "generating" })
       .eq("id", orderId);
 
-    const triggered = await triggerGenerate(orderId);
-    if (!triggered) {
-      log.error({ orderId }, "Generate trigger exhausted all retries");
-    }
+    triggerGenerateAsync(orderId);
     return NextResponse.json({ ok: true });
   } catch (err) {
     return NextResponse.json({ error: "Internal error" }, { status: 500 });
