@@ -139,6 +139,73 @@ const PROFESSION_EXAMPLES = [
   },
 ];
 
+const BEFORE_AFTER_EXAMPLES = [
+  {
+    before:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+    after:
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&h=750&fit=crop",
+    name: "Michael Chen",
+    profession: "Software Engineer",
+  },
+  {
+    before:
+      "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=400&h=400&fit=crop&crop=face",
+    after:
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=750&fit=crop",
+    name: "Sarah Johnson",
+    profession: "Marketing Director",
+  },
+  {
+    before:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
+    after:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=750&fit=crop",
+    name: "David Park",
+    profession: "Startup Founder",
+  },
+  {
+    before:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face",
+    after:
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&h=750&fit=crop",
+    name: "Emily Rodriguez",
+    profession: "Real Estate Agent",
+  },
+  {
+    before:
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop&crop=face",
+    after:
+      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&h=750&fit=crop",
+    name: "James Wilson",
+    profession: "Financial Advisor",
+  },
+  {
+    before:
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=400&fit=crop&crop=face",
+    after:
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&h=750&fit=crop",
+    name: "Lisa Thompson",
+    profession: "Creative Director",
+  },
+  {
+    before:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+    after:
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&h=750&fit=crop",
+    name: "Robert Kim",
+    profession: "Consultant",
+  },
+  {
+    before:
+      "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=400&h=400&fit=crop&crop=face",
+    after:
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=750&fit=crop",
+    name: "Amanda Foster",
+    profession: "HR Manager",
+  },
+];
+
 export default function LandingPageContent() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showExitPopup, setShowExitPopup] = useState(false);
@@ -406,6 +473,33 @@ export default function LandingPageContent() {
             <p className="text-sm text-slate-500000 dark:text-slate-400 mt-4">
               Example transformation. Drag slider to compare.
             </p>
+          </div>
+        </section>
+
+        {/* Before/After Carousel - Like HeadshotPro */}
+        <section className="py-20 px-6 bg-slate-50 dark:bg-slate-900/50">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold mb-4 text-slate-900 dark:text-white">
+                Real Transformations
+              </h2>
+              <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                See how professionals transformed their casual photos into
+                stunning headshots. Hover over the small &apos;BEFORE&apos;
+                thumbnail to see the original photo enlarged.
+              </p>
+            </div>
+
+            <BeforeAfterCarousel examples={BEFORE_AFTER_EXAMPLES} />
+
+            <div className="text-center mt-10">
+              <Link
+                href="/upload"
+                className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-700 transition shadow-lg"
+              >
+                Create Your Transformation <ArrowRight size={20} />
+              </Link>
+            </div>
           </div>
         </section>
 

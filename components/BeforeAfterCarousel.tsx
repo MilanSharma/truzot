@@ -1,121 +1,168 @@
 "use client";
-import { useState, useCallback } from "react";
-import ComparisonSlider from "./ComparisonSlider";
+import Image from "next/image";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-interface BeforeAfterPair {
+interface BeforeAfterCard {
   before: string;
   after: string;
-  beforeLabel?: string;
-  afterLabel?: string;
-  caption?: string;
+  name: string;
+  profession: string;
 }
 
 interface BeforeAfterCarouselProps {
-  pairs: Array<{
-    before: string;
-    after: string;
-    beforeLabel?: string;
-    afterLabel?: string;
-    caption?: string;
-  }>;
-  autoPlay?: boolean;
-  autoPlayInterval?: number;
+  examples: BeforeAfterCard[];
 }
 
 export default function BeforeAfterCarousel({
-  pairs,
-  autoPlay = false,
-  autoPlayInterval = 5000,
+  examples,
 }: BeforeAfterCarouselProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(autoPlay);
+  const [isHovered, setIsHovered] = useState(false);
+  const [enlargedImage, setEnlargedImage] = useState<string | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const nextSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % pairs.length);
-  }, [pairs.length]);
+  // Auto-scroll functionality
+  useEffect(() => {
+    if (!scrollRef.current || isHovered) return;
 
-  const prevSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev - 1 + pairs.length) % pairs.length);
-  }, [pairs.length]);
+    const scrollContainer = scrollRef.current;
+    let animationId: number;
+    let lastTime = 0;
+    const scrollSpeed = 0.5; // pixels per frame
 
-  const currentPair = pairs[currentIndex];
+    const scroll = (timestamp: number) => {
+      if (timestamp - lastTime > 16) {
+        // ~60fps
+        scrollContainer.scrollLeft += scrollSpeed;
+
+        // Reset to start when reaching end
+        if (
+          scrollContainer.scrollLeft >=
+          scrollContainer.scrollWidth - scrollContainer.clientWidth
+        ) {
+          scrollContainer.scrollLeft = 0;
+        }
+        lastTime = timestamp;
+      }
+      animationId = requestAnimationFrame(scroll);
+    };
+
+    animationId = requestAnimationFrame(scroll);
+
+    return () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+    };
+  }, [isHovered]);
 
   return (
-    <div className="w-full max-w-3xl mx-auto">
-      <div className="relative">
-        <ComparisonSlider
-          before={currentPair.before}
-          after={currentPair.after}
-          beforeLabel={currentPair.beforeLabel}
-          afterLabel={currentPair.afterLabel}
-        />
-
-        {currentPair.caption && (
-          <p className="mt-4 text-center text-sm text-slate-500 dark:text-slate-400">
-            {currentPair.caption}
-          </p>
-        )}
-
-        {pairs.length > 1 && (
-          <>
-            <button
-              onClick={prevSlide}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 w-12 h-12 rounded-full bg-white/90 dark:bg-slate-900/90 shadow-lg flex items-center justify-center text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 transition-all duration-200 hover:shadow-xl z-10"
-              aria-label="Previous"
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
-            <button
-              onClick={nextSlide}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 w-12 h-12 rounded-full bg-white/90 dark:bg-slate-900/90 shadow-lg flex items-center justify-center text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 transition-all duration-200 hover:shadow-xl z-10"
-              aria-label="Next"
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
-          </>
-        )}
-
-        {pairs.length > 1 && (
-          <div className="flex justify-center gap-2 mt-6">
-            {pairs.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-2.5 h-2.5 rounded-full transition-all duration-200 ${
-                  index === currentIndex
-                    ? "bg-blue-600 dark:bg-blue-400 w-8"
-                    : "bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500"
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
+    <div
+      className="relative w-full"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        setEnlargedImage(null);
+      }}
+    >
+      {/* Scrollable Container */}
+      <div
+        ref={scrollRef}
+        className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      >
+        {examples.map((example, index) => (
+          <div key={index} className="flex-shrink-0 w-72 relative group">
+            {/* Main After Image Card */}
+            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-lg bg-slate-100">
+              <Image
+                src={example.after}
+                alt={`${example.name} - Professional headshot`}
+                fill
+                className="object-cover"
+                priority={index === 0}
+                sizes="(max-width: 768px) 180px, (max-width: 1024px) 200px, 240px"
               />
-            ))}
+
+              {/* Before Thumbnail - Top Left Corner */}
+              <div
+                className="absolute top-3 left-3 w-16 h-16 rounded-lg overflow-hidden border-2 border-white shadow-md cursor-pointer transition-transform duration-300 hover:scale-150 hover:z-50 relative"
+                onMouseEnter={() => setEnlargedImage(example.before)}
+                onMouseLeave={() => setEnlargedImage(null)}
+              >
+                <Image
+                  src={example.before}
+                  alt="Before - Casual photo"
+                  fill
+                  className="object-cover"
+                  sizes="64px"
+                />
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                  <span className="text-white text-[10px] font-bold">
+                    BEFORE
+                  </span>
+                </div>
+              </div>
+
+              {/* Profession Badge */}
+              <div className="absolute bottom-3 left-3 right-3">
+                <div className="bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2">
+                  <p className="text-sm font-bold text-slate-900">
+                    {example.name}
+                  </p>
+                  <p className="text-xs text-slate-600">{example.profession}</p>
+                </div>
+              </div>
+            </div>
           </div>
-        )}
+        ))}
       </div>
+
+      {/* Enlarged Before Image Modal */}
+      <AnimatePresence>
+        {enlargedImage && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+            onClick={() => setEnlargedImage(null)}
+          >
+            <div className="relative max-w-2xl w-full">
+              <Image
+                src={enlargedImage}
+                alt="Enlarged before photo"
+                fill
+                sizes="90vw"
+                className="object-contain rounded-2xl shadow-2xl"
+              />
+              <button
+                onClick={() => setEnlargedImage(null)}
+                className="absolute -top-12 right-0 text-white hover:text-slate-300 transition"
+              >
+                <svg
+                  className="w-8 h-8"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Gradient Overlays for Smooth Edges */}
+      <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent pointer-events-none" />
     </div>
   );
 }
