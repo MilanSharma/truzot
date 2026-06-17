@@ -266,7 +266,7 @@ export const generateHeadshots = async (
           loras: [{ path: modelId, scale: 0.85 }],
           num_inference_steps: 28,
           guidance_scale: 3.5,
-          num_images: 1,
+          num_images: 4,
           image_size:
             plan === "executive"
               ? "square_hd"

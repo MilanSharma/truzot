@@ -14,7 +14,7 @@ import { isValidTransition } from "@/lib/order-status";
 
 const log = createLogger("generate");
 export const maxDuration = 300;
-const BATCH_SIZE = 8;
+const BATCH_SIZE = 12;
 
 async function enqueueNextBatch(orderId: string): Promise<boolean> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://truzot.com";
