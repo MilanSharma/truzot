@@ -467,7 +467,7 @@ export default function LandingPageContent() {
               headshot.
             </p>
             <ComparisonSlider
-              before="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=750&fit=crop&crop=face"
+              before="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=750&fit=crop"
               after="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=750&fit=crop"
             />
             <p className="text-sm text-slate-500000 dark:text-slate-400 mt-4">
