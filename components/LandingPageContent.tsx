@@ -142,7 +142,7 @@ const PROFESSION_EXAMPLES = [
 const BEFORE_AFTER_EXAMPLES = [
   {
     before:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=face",
+      "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=600&h=750&fit=crop&crop=face",
     after:
       "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=750&fit=crop",
     name: "Sarah Johnson",
