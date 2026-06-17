@@ -267,7 +267,12 @@ export const generateHeadshots = async (
           num_inference_steps: 28,
           guidance_scale: 3.5,
           num_images: 1,
-          image_size: "portrait_4_3",
+          image_size:
+            plan === "executive"
+              ? "square_hd"
+              : plan === "pro"
+                ? "portrait_4_3"
+                : "portrait_4_3",
           output_format: "jpeg",
         }).then((res) => ({ ...res.data, prompt, index })),
       ),

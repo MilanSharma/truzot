@@ -237,7 +237,7 @@ export const POST = withContext(async (req: Request) => {
       .update({ status: "generating" })
       .eq("id", orderId);
 
-    triggerGenerateAsync(orderId);
+    setTimeout(() => triggerGenerateAsync(orderId), 1000);
     return NextResponse.json({ ok: true });
   } catch (err) {
     return NextResponse.json({ error: "Internal error" }, { status: 500 });
