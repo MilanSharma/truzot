@@ -98,7 +98,7 @@ export const POST = withContext(async (req: Request) => {
       {
         input: {
           images_data_url: signedUrl.signedUrl,
-          steps: 500,
+          steps: 200,
           trigger_word: "TOK",
         },
         storageSettings: { expiresIn: "7d" },

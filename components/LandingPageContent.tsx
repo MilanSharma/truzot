@@ -297,12 +297,6 @@ export default function LandingPageContent() {
               >
                 Get Headshots
               </Link>
-              <Link
-                href="/free"
-                className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition"
-              >
-                Free demo
-              </Link>
             </div>
             <button
               className="md:hidden"
@@ -332,13 +326,6 @@ export default function LandingPageContent() {
                 className="bg-blue-600 text-white text-center px-5 py-2.5 rounded-full text-sm font-bold"
               >
                 Get Headshots
-              </Link>
-              <Link
-                href="/free"
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-xs text-slate-400"
-              >
-                Free demo
               </Link>
             </div>
           )}
@@ -381,14 +368,7 @@ export default function LandingPageContent() {
               See Real Results
             </a>
           </div>
-          <p className="mt-3 text-center">
-            <Link
-              href="/free"
-              className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition"
-            >
-              or try one free demo headshot
-            </Link>
-          </p>
+          <p className="mt-3 text-center"></p>
           <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm text-slate-500 dark:text-slate-400">
             <span className="flex items-center gap-1">
               <Shield className="w-4 h-4" /> 30-day money-back guarantee

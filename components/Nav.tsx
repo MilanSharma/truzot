@@ -95,12 +95,6 @@ export default function Nav({ showBack = false }: NavProps) {
               >
                 Get Headshots
               </Link>
-              <Link
-                href="/free"
-                className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition"
-              >
-                Free demo
-              </Link>
             </div>
             <div className="flex md:hidden items-center gap-3">
               <DarkModeToggle />
@@ -158,13 +152,6 @@ export default function Nav({ showBack = false }: NavProps) {
             className="bg-blue-600 text-white text-center px-4 py-2 rounded-lg font-semibold"
           >
             Get Headshots
-          </Link>
-          <Link
-            href="/free"
-            onClick={() => setMobileOpen(false)}
-            className="text-xs text-slate-400"
-          >
-            Free demo
           </Link>
         </div>
       )}
