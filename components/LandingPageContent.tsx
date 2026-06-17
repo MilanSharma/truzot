@@ -300,19 +300,21 @@ export default function LandingPageContent() {
             className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full text-sm font-medium mb-6 hover:bg-green-100 transition"
           >
             <TrendingDown size={16} />
-            <span>$29 vs $232 photographer — 88% cheaper, same quality</span>
+            <span>
+              ✨ Studio-quality AI — Indistinguishable from a real photoshoot
+            </span>
           </a>
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
             Turn Your Selfie Into a
             <br />
             <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              $200 Professional Headshot
+              Studio-Quality Headshot
             </span>
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto">
-            88% cheaper than a photographer. Delivery from 30 minutes. 100%
-            money-back guarantee. Upload 1-5 selfies, get 40+ professional
-            headshots.
+            Stop settling for casual selfies. Get 40+ photorealistic,
+            professional headshots perfect for LinkedIn, resumes, and company
+            profiles. Delivered in minutes with a 100% satisfaction guarantee.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
@@ -378,10 +380,10 @@ export default function LandingPageContent() {
             </div>
             <div>
               <div className="text-3xl font-bold text-slate-900 dark:text-white">
-                $29 vs $232
+                4K Ultra HD
               </div>
               <div className="text-sm text-slate-500 dark:text-slate-400">
-                vs photographer
+                Resolution
               </div>
             </div>
           </div>
