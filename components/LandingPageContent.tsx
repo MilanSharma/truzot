@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import ComparisonSlider from "@/components/ComparisonSlider";
+import BeforeAfterCarousel from "@/components/BeforeAfterCarousel";
 import { PLANS, HEADSHOT_CATEGORIES } from "@/lib/plans";
 import {
   ProductSchema,
@@ -85,6 +86,57 @@ const TESTIMONIALS = [
     role: "Agency Owner",
     text: "We use Truzot for all our team headshots. Consistent, professional, and done in minutes.",
     rating: 5,
+  },
+];
+
+const PROFESSION_EXAMPLES = [
+  {
+    profession: "Real Estate Agent",
+    before:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=750&fit=crop",
+    after:
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&h=750&fit=crop",
+    caption: "From casual selfie to MLS-ready professional",
+  },
+  {
+    profession: "Software Engineer",
+    before:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&h=750&fit=crop",
+    after:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=750&fit=crop",
+    caption: "Tech startup founder look in minutes",
+  },
+  {
+    profession: "Marketing Professional",
+    before:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&h=750&fit=crop",
+    after:
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=750&fit=crop",
+    caption: "Corporate marketing director transformation",
+  },
+  {
+    profession: "Actor/Performer",
+    before:
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&h=750&fit=crop",
+    after:
+      "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=600&h=750&fit=crop",
+    caption: "Versatile headshot for auditions",
+  },
+  {
+    profession: "Business Executive",
+    before:
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&h=750&fit=crop",
+    after:
+      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&h=750&fit=crop",
+    caption: "C-suite executive presence",
+  },
+  {
+    profession: "Consultant",
+    before:
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&h=750&fit=crop",
+    after:
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&h=750&fit=crop",
+    caption: "Client-facing professional polish",
   },
 ];
 
@@ -353,6 +405,24 @@ export default function LandingPageContent() {
             <p className="text-sm text-slate-500000 dark:text-slate-400 mt-4">
               Example transformation. Drag slider to compare.
             </p>
+          </div>
+        </section>
+
+        {/* Profession-Specific Before/After Carousel */}
+        <section className="py-20 px-6 bg-[var(--bg-secondary)]">
+          <div className="max-w-6xl mx-auto text-center">
+            <h2 className="text-4xl font-bold mb-4">
+              Transformations by Profession
+            </h2>
+            <p className="text-slate-600 dark:text-slate-400 mb-10 max-w-2xl mx-auto">
+              See how professionals across industries transformed their casual
+              photos into studio-quality headshots.
+            </p>
+            <BeforeAfterCarousel
+              pairs={PROFESSION_EXAMPLES}
+              autoPlay={true}
+              autoPlayInterval={5000}
+            />
           </div>
         </section>
 
@@ -681,6 +751,38 @@ export default function LandingPageContent() {
                   </p>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Satisfaction Guarantee Banner - Above Pricing */}
+        <section className="py-12 px-6 bg-gradient-to-r from-emerald-500 to-teal-500 text-white">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <Shield className="w-8 h-8" />
+              <h2 className="text-3xl font-bold">
+                100% Satisfaction Guarantee
+              </h2>
+            </div>
+            <p className="text-xl text-emerald-50 mb-6 max-w-2xl mx-auto">
+              Not satisfied with your AI headshots? Get a full refund within 30
+              days — no questions asked. We&apos;re confident you&apos;ll love
+              your professional headshots, but if for any reason you&apos;re not
+              completely satisfied, we&apos;ll refund your entire purchase.
+            </p>
+            <div className="flex flex-wrap justify-center gap-6 text-sm font-semibold">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-5 h-5" />
+                <span>30-Day Money-Back</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-5 h-5" />
+                <span>No Questions Asked</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-5 h-5" />
+                <span>Secure Checkout</span>
+              </div>
             </div>
           </div>
         </section>
