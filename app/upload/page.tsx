@@ -827,6 +827,7 @@ function UploadContent() {
   };
 
   const handleStartOver = () => {
+    // Clear all form state
     setEmail("");
     setStoragePath("");
     setFiles([]);
@@ -848,13 +849,22 @@ function UploadContent() {
     setIsUploadingBackground(false);
     setStep(1);
 
-    // Defer the cleanup and navigation to ensure it runs AFTER React's state flush
-    setTimeout(() => {
-      sessionStorage.removeItem(SESSION_KEY);
-      localStorage.removeItem(LOCAL_KEY);
-      localStorage.removeItem("truzot-idempotency-key");
-      window.location.href = "/upload";
-    }, 10);
+    // Clear all persisted state
+    sessionStorage.removeItem(SESSION_KEY);
+    localStorage.removeItem(LOCAL_KEY);
+    localStorage.removeItem("truzot-idempotency-key");
+    localStorage.removeItem("truzot-upload");
+    localStorage.removeItem("truzot-upload-backup");
+    sessionStorage.removeItem("truzot-upload");
+
+    // Generate new idempotency key for fresh session
+    const newKey = crypto.randomUUID();
+    localStorage.setItem("truzot-idempotency-key", newKey);
+    setIdempotencyKey(newKey);
+
+    // Note: objectUrls is derived from `files` via useMemo
+    // When files is cleared, useEffect cleanup will revoke the old URLs
+    filesRef.current = [];
   };
 
   return (
@@ -1022,28 +1032,14 @@ function UploadContent() {
                     </div>
                   )}
 
-                  {/* Background upload state feedback */}
-                  {isUploadingBackground && (
-                    <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/50 rounded-xl text-center animate-pulse">
-                      <div className="flex items-center justify-center gap-2 text-xs font-bold text-blue-600 dark:text-blue-400">
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        <span>
-                          {backgroundProgress ||
-                            "Uploading photos in background..."}
-                        </span>
+                  {storagePath && (
+                    <div className="mt-6 p-4 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/50 rounded-xl text-center">
+                      <div className="flex items-center justify-center gap-2 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                        <Check className="w-4 h-4" />
+                        <span>Photos uploaded and ready.</span>
                       </div>
                     </div>
                   )}
-                  {storagePath &&
-                    files.length >= 3 &&
-                    !isUploadingBackground && (
-                      <div className="mt-6 p-4 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/50 rounded-xl text-center">
-                        <div className="flex items-center justify-center gap-2 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                          <Check className="w-4 h-4" />
-                          <span>Photos uploaded and ready.</span>
-                        </div>
-                      </div>
-                    )}
                 </div>
               )}
 
