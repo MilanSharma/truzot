@@ -69,8 +69,15 @@ function getSavedState(): Record<string, unknown> | null {
   try {
     const saved = sessionStorage.getItem(SESSION_KEY);
     if (saved) return JSON.parse(saved);
-    // Only check localStorage if we are returning from a redirect or hard reload.
-    // We will handle specific user-data restoration in a useEffect.
+    const backup = localStorage.getItem(LOCAL_KEY);
+    if (backup) {
+      const parsed = JSON.parse(backup);
+      // Prevent sensitive guest data from leaking across sessions
+      delete parsed.email;
+      delete parsed.idempotencyKey;
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify(parsed));
+      return parsed;
+    }
     return null;
   } catch {
     return null;
@@ -275,7 +282,7 @@ function UploadContent() {
   // Persist state
   useEffect(() => {
     try {
-      const state = JSON.stringify({
+      const stateObj = {
         step,
         plan,
         email,
@@ -292,12 +299,13 @@ function UploadContent() {
         filesCount: files.length,
         shootName,
         idempotencyKey,
-      });
-      sessionStorage.setItem(SESSION_KEY, state);
+      };
+      const stateStr = JSON.stringify(stateObj);
+      sessionStorage.setItem(SESSION_KEY, stateStr);
 
-      // Only persist to localStorage if the user is logged in
+      // Only persist to localStorage if logged in
       if (userId) {
-        localStorage.setItem(LOCAL_KEY, state);
+        localStorage.setItem(LOCAL_KEY, stateStr);
       } else {
         localStorage.removeItem(LOCAL_KEY);
       }
@@ -319,6 +327,7 @@ function UploadContent() {
     files,
     shootName,
     idempotencyKey,
+    userId,
   ]);
 
   useEffect(() => {
@@ -808,9 +817,13 @@ function UploadContent() {
   };
 
   const handleStartOver = () => {
-    sessionStorage.removeItem("truzot-upload");
-    localStorage.removeItem("truzot-upload-backup");
+    sessionStorage.removeItem(SESSION_KEY);
+    localStorage.removeItem(LOCAL_KEY);
     localStorage.removeItem("truzot-idempotency-key");
+    setEmail("");
+    setStoragePath("");
+    setFiles([]);
+    setStep(1);
     window.location.href = "/upload";
   };
 
