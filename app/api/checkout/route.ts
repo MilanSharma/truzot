@@ -272,37 +272,6 @@ export const POST = withContext(async (req: Request) => {
           })
           .eq("id", existing.id);
 
-        const existingSession = await stripe.checkout.sessions.create({
-          payment_method_types: ["card"],
-          mode: "payment",
-          customer: customerId,
-          customer_email: customerId ? undefined : email,
-          client_reference_id: referralId,
-          line_items: [
-            {
-              price_data: {
-                currency: "usd",
-                product_data: {
-                  name: label,
-                  description: "AI Professional Headshots",
-                },
-                unit_amount: finalAmount,
-              },
-              quantity: 1,
-            },
-          ],
-          metadata: {
-            orderId: existing.id,
-            plan: plan,
-            email: email,
-            userId: userId || "",
-            discount_code: appliedDiscountCode || "",
-          },
-          success_url: `${baseUrl}/claim-order?order=${existing.id}`,
-          cancel_url: `${baseUrl}/upload?cancelled=1`,
-          ...(discount && !discountAmount ? { discounts: [discount] } : {}),
-        });
-
         return addCors(NextResponse.json({ url: existingSession.url }), origin);
       }
     }

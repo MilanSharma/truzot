@@ -312,6 +312,8 @@ function DashboardContent() {
   useEffect(() => {
     const loadOrderDetail = async () => {
       setOrderError(null);
+      setCurrentOrder(null); // Clear old order immediately to prevent flicker
+      setHeadshots([]); // Clear old headshots immediately
       if (orderId) setOrderLoading(true);
       if (!initRef.current) {
         initRef.current = true;
