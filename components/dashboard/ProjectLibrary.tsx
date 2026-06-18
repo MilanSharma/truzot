@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import {
   Plus,
   ArrowRight,
@@ -63,19 +63,59 @@ function OrderCardActions({
   onCancel?: (id: string) => void;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [menuBelow, setMenuBelow] = useState(false);
+  const [menuPosition, setMenuPosition] = useState<{
+    below: boolean;
+    left: number;
+    top: number;
+  }>({ below: true, left: 0, top: 0 });
   const buttonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
+  const calculatePosition = useCallback(() => {
+    if (!buttonRef.current || !menuRef.current) return;
+
+    const buttonRect = buttonRef.current.getBoundingClientRect();
+    const menuRect = menuRef.current.getBoundingClientRect();
+    const menuWidth = menuRect.width || 192; // w-48 = 192px
+    const menuHeight = menuRect.height || 200;
+
+    // Vertical positioning
+    const spaceBelow = window.innerHeight - buttonRect.bottom;
+    const spaceAbove = buttonRect.top;
+    const below = spaceBelow >= menuHeight || spaceBelow >= spaceAbove;
+
+    // Horizontal positioning - keep menu within viewport
+    const viewportRight = window.innerWidth - 12; // 12px margin from right edge
+    const buttonRight = buttonRect.right;
+    const menuLeft = buttonRight - menuWidth;
+    const finalLeft = Math.max(
+      12,
+      Math.min(menuLeft, viewportRight - menuWidth),
+    );
+
+    // Vertical position relative to button
+    const finalTop = below
+      ? buttonRect.bottom + 8
+      : buttonRect.top - menuHeight - 8;
+
+    setMenuPosition({
+      below,
+      left: finalLeft,
+      top: finalTop,
+    });
+  }, []);
+
   useEffect(() => {
-    if (menuOpen && buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      const spaceBelow = window.innerHeight - rect.bottom;
-      const spaceAbove = rect.top;
-      // If there's more space below than above, show below, else above
-      setMenuBelow(spaceBelow > spaceAbove);
+    if (menuOpen) {
+      calculatePosition();
+      window.addEventListener("resize", calculatePosition);
+      window.addEventListener("scroll", calculatePosition, true);
     }
-  }, [menuOpen]);
+    return () => {
+      window.removeEventListener("resize", calculatePosition);
+      window.removeEventListener("scroll", calculatePosition, true);
+    };
+  }, [menuOpen, calculatePosition]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -88,11 +128,7 @@ function OrderCardActions({
   }, [menuOpen]);
 
   return (
-    <div
-      className="relative"
-      ref={menuRef}
-      onClick={(e) => e.stopPropagation()}
-    >
+    <div className="relative">
       <button
         ref={buttonRef}
         onClick={(e) => {
@@ -108,10 +144,14 @@ function OrderCardActions({
 
       {menuOpen && (
         <div
-          className={`absolute right-0 w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xl py-1.5 z-[100] origin-top-right animate-in fade-in zoom-in-95 duration-100 ${
-            menuBelow ? "top-full mt-2" : "bottom-full mb-2"
-          }`}
-          style={{ maxHeight: "80vh", overflowY: "auto" }}
+          ref={menuRef}
+          className="fixed z-[100] w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xl py-1.5 animate-in fade-in zoom-in-95 duration-100"
+          style={{
+            left: menuPosition.left,
+            top: menuPosition.top,
+            maxHeight: "80vh",
+            overflowY: "auto",
+          }}
         >
           {["training", "generating"].includes(order.status) && onCancel && (
             <button
