@@ -782,7 +782,11 @@ function UploadContent() {
       }
     } catch (err: any) {
       console.error("Checkout error:", err);
-      setError(err.message || "Failed to process payment. Please try again.");
+      setError(
+        err.message?.includes("already being processed")
+          ? "An order session is already active. Please click 'Start Over' at the bottom to begin a fresh shoot."
+          : err.message || "Failed to process payment.",
+      );
       setIsProcessing(false);
     }
   };
@@ -790,6 +794,7 @@ function UploadContent() {
   const handleStartOver = () => {
     sessionStorage.removeItem("truzot-upload");
     localStorage.removeItem("truzot-upload-backup");
+    localStorage.removeItem("truzot-idempotency-key");
     window.location.href = "/upload";
   };
 
