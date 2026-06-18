@@ -56,7 +56,11 @@ function DashboardContent() {
   });
   const [loading, setLoading] = useState(true);
   const [orderLoading, setOrderLoading] = useState(true);
-  const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
+  const [fetchedOrder, setFetchedOrder] = useState<Order | null>(null);
+  const currentOrder = useMemo(() => {
+    if (!orderId) return null;
+    return orders.find((o) => o.id === orderId) || fetchedOrder;
+  }, [orderId, orders, fetchedOrder]);
   const [generationProgress, setGenerationProgress] = useState({
     count: 0,
     target: 0,
@@ -249,7 +253,7 @@ function DashboardContent() {
         },
         (payload) => {
           const updated = payload.new as Order;
-          setCurrentOrder(updated);
+          setFetchedOrder(updated);
           if (updated.status === "completed") {
             setHeadshots([]);
             setHeadshotPage(0);
@@ -320,17 +324,17 @@ function DashboardContent() {
 
       if (orderId) {
         if (existingOrder) {
-          setCurrentOrder(existingOrder);
+          setFetchedOrder(existingOrder);
           setOrderLoading(false);
         } else {
-          setCurrentOrder(null);
+          setFetchedOrder(null);
           setOrderLoading(true);
         }
         setHeadshots([]);
         setHeadshotPage(0);
         setHasMoreHeadshots(true);
       } else {
-        setCurrentOrder(null);
+        setFetchedOrder(null);
         setHeadshots([]);
         setHeadshotPage(0);
         setHasMoreHeadshots(true);
@@ -360,7 +364,7 @@ function DashboardContent() {
             if (orderId && !existingOrder) {
               const prefilled = (data as Order[]).find((o) => o.id === orderId);
               if (prefilled) {
-                setCurrentOrder(prefilled);
+                setFetchedOrder(prefilled);
                 setOrderLoading(false);
               }
             }
@@ -379,7 +383,7 @@ function DashboardContent() {
         const order = await fetchOrderById(orderId, downloadToken);
         if (order) {
           setOrderError(null);
-          setCurrentOrder(order);
+          setFetchedOrder(order);
           if (order.status !== "pending") {
             await fetchHeadshots(orderId, 0);
           }
@@ -392,12 +396,12 @@ function DashboardContent() {
           setOrderError(
             "Order not found. It may have been deleted or expired.",
           );
-          setCurrentOrder(null);
+          setFetchedOrder(null);
           setHeadshots([]);
         }
       } else {
         setOrderError(null);
-        setCurrentOrder(null);
+        setFetchedOrder(null);
         setHeadshots([]);
         setHeadshotPage(0);
         setHasMoreHeadshots(true);
@@ -681,7 +685,7 @@ function DashboardContent() {
         prev.map((o) => (o.id === id ? { ...o, status: "failed" } : o)),
       );
       if (currentOrder && currentOrder.id === id) {
-        setCurrentOrder((prev) =>
+        setFetchedOrder((prev) =>
           prev ? { ...prev, status: "failed" } : prev,
         );
       }
@@ -707,7 +711,7 @@ function DashboardContent() {
     if (res.ok) {
       setOrders((prev) => prev.filter((o) => o.id !== id));
       if (orderId === id) {
-        setCurrentOrder(null);
+        setFetchedOrder(null);
         window.location.href = "/dashboard";
       }
       toast("Order deleted", "success");
@@ -816,7 +820,7 @@ function DashboardContent() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              key={currentOrder.id}
+              key="detail-view"
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                 <div>
@@ -1050,6 +1054,7 @@ function DashboardContent() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.1 }}
+              key="library-view"
             >
               <ProjectLibrary
                 orders={orders}
