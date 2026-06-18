@@ -298,7 +298,13 @@ function UploadContent() {
         idempotencyKey,
       });
       sessionStorage.setItem(SESSION_KEY, state);
-      localStorage.setItem(LOCAL_KEY, state);
+
+      // Only persist to localStorage if the user is logged in
+      if (userId) {
+        localStorage.setItem(LOCAL_KEY, state);
+      } else {
+        localStorage.removeItem(LOCAL_KEY);
+      }
     } catch {}
   }, [
     step,
