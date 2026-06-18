@@ -1135,20 +1135,22 @@ function DashboardContent() {
             </Suspense>
           );
         })()}
+      {confirmModal && (
+        <ConfirmModal
+          isOpen={true}
+          title={confirmModal.title}
+          message={confirmModal.message}
+          confirmText={confirmModal.confirmText}
+          confirmStyle={confirmModal.confirmStyle}
+          onConfirm={confirmModal.action}
+          onCancel={() => setConfirmModal(null)}
+        />
+      )}
     </div>
   );
 }
 
 export default function DashboardPage() {
-  const [confirmModal, setConfirmModal] = useState<{
-    isOpen: boolean;
-    title: string;
-    message: string;
-    confirmText: string;
-    confirmStyle: string;
-    action: () => void;
-  } | null>(null);
-
   return (
     <Suspense
       fallback={
@@ -1186,17 +1188,6 @@ export default function DashboardPage() {
       >
         <DashboardContent />
       </ErrorBoundary>
-      {confirmModal && (
-        <ConfirmModal
-          isOpen={true}
-          title={confirmModal.title}
-          message={confirmModal.message}
-          confirmText={confirmModal.confirmText}
-          confirmStyle={confirmModal.confirmStyle}
-          onConfirm={confirmModal.action}
-          onCancel={() => setConfirmModal(null)}
-        />
-      )}
     </Suspense>
   );
 }
