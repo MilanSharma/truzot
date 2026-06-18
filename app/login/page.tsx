@@ -180,7 +180,10 @@ function LoginForm() {
         });
 
         if (error) {
-          if (error.message.includes("Email not confirmed")) {
+          if (
+            error.message.includes("Email not confirmed") ||
+            error.message.includes("Invalid API key")
+          ) {
             setError(
               "Please confirm your email address. Check your inbox for the confirmation link.",
             );

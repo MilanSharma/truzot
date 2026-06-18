@@ -98,7 +98,7 @@ export default function AccountSettingsPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
-      <Nav />
+      <Nav user={user?.email ? { email: user.email } : null} />
       <div className="max-w-2xl mx-auto px-6 py-16">
         <h1 className="text-3xl font-bold mb-8 text-slate-900 dark:text-white">
           Account Settings
@@ -179,14 +179,42 @@ export default function AccountSettingsPage() {
             <p className="text-xs text-slate-500 mb-3">
               Download all your data in JSON format (GDPR right to portability).
             </p>
-            <a
-              href="/api/export"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 text-sm underline"
+            <button
+              onClick={async () => {
+                const {
+                  data: { session },
+                } = await supabase.auth.getSession();
+                if (!session?.access_token) {
+                  setMessage("Please sign in again to export data.");
+                  return;
+                }
+                try {
+                  const res = await fetch("/api/export", {
+                    headers: {
+                      Authorization: `Bearer ${session.access_token}`,
+                    },
+                  });
+                  if (!res.ok) {
+                    setMessage("Failed to export data. Please try again.");
+                    return;
+                  }
+                  const blob = await res.blob();
+                  const url = window.URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = `truzot-export-${Date.now()}.json`;
+                  document.body.appendChild(a);
+                  a.click();
+                  a.remove();
+                  window.URL.revokeObjectURL(url);
+                } catch {
+                  setMessage("Failed to export data. Please try again.");
+                }
+              }}
+              className="text-blue-600 text-sm underline hover:text-blue-800"
             >
               Download my data →
-            </a>
+            </button>
           </div>
 
           <div className="border-t border-slate-200 dark:border-slate-700 pt-6">

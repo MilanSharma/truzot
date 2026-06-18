@@ -87,6 +87,15 @@ function getSavedState(): Record<string, unknown> | null {
 function UploadContent() {
   const searchParams = useSearchParams();
   const { toast } = useToast();
+  const [user, setUser] = useState<{ email: string } | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user?.email) {
+        setUser({ email: data.user.email });
+      }
+    });
+  }, []);
 
   const urlStep = parseInt(searchParams.get("step") ?? "") as Step;
   const [step, setStep] = useState<Step>(() => {
@@ -821,6 +830,22 @@ function UploadContent() {
     setEmail("");
     setStoragePath("");
     setFiles([]);
+    setSelectedStyles(STYLE_CATEGORIES.map((c) => c.id));
+    setPlan("pro");
+    setShootName("");
+    setCoupon("");
+    setConsentChecked(false);
+    setGender("");
+    setEyeColor("");
+    setHairColor("");
+    setClothing("");
+    setBackground("");
+    setFraming("");
+    setProgress("");
+    setError("");
+    setBackgroundProgress("");
+    setIsProcessing(false);
+    setIsUploadingBackground(false);
     setStep(1);
 
     // Defer the cleanup and navigation to ensure it runs AFTER React's state flush
@@ -838,7 +863,7 @@ function UploadContent() {
         id="main-content"
         className="min-h-screen bg-[var(--bg-primary)] font-sans text-[var(--text-primary)] pb-20"
       >
-        <Nav />
+        <Nav user={user} />
 
         <div className="max-w-3xl mx-auto px-6 pt-12">
           {/* Stepper Header */}
@@ -1046,9 +1071,25 @@ function UploadContent() {
               <div className="mt-8 flex justify-end">
                 <button
                   onClick={handleNextStep}
-                  className="bg-slate-900 dark:bg-blue-600 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 dark:hover:bg-blue-700 transition shadow-sm"
+                  disabled={isUploadingBackground || isProcessing}
+                  className="bg-slate-900 dark:bg-blue-600 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 dark:hover:bg-blue-700 transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Next: Customization <ChevronRight className="w-5 h-5" />
+                  {isUploadingBackground ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Uploading photos...
+                    </>
+                  ) : isProcessing ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      Next: Customization
+                      <ChevronRight className="w-5 h-5" />
+                    </>
+                  )}
                 </button>
               </div>
             </div>

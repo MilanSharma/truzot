@@ -63,7 +63,13 @@ export default function Sidebar({
           <p className="text-xs text-slate-300 mb-3 leading-relaxed">
             Get consistent branded headshots for your entire company.
           </p>
-          <button className="w-full bg-white/10 hover:bg-white/20 transition py-1.5 rounded text-xs font-bold">
+          <button
+            onClick={() =>
+              (window.location.href =
+                "mailto:hello@truzot.com?subject=Team%20Headshots%20Inquiry")
+            }
+            className="w-full bg-white/10 hover:bg-white/20 transition py-1.5 rounded text-xs font-bold"
+          >
             Contact Sales
           </button>
         </div>

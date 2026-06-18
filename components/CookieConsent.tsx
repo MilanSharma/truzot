@@ -3,12 +3,17 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 
 export default function CookieConsent() {
-  const [visible, setVisible] = useState(() => {
-    if (typeof window !== "undefined") {
-      return !localStorage.getItem("truzot-cookie-consent");
-    }
-    return false;
-  });
+  const [visible, setVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setMounted(true);
+      if (!localStorage.getItem("truzot-cookie-consent")) {
+        setVisible(true);
+      }
+    }, 0);
+  }, []);
 
   const accept = () => {
     localStorage.setItem("truzot-cookie-consent", "accepted");
@@ -20,7 +25,7 @@ export default function CookieConsent() {
     setVisible(false);
   };
 
-  if (!visible) return null;
+  if (!mounted || !visible) return null;
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 p-4">

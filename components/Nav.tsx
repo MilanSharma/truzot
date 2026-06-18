@@ -5,6 +5,7 @@ import { Menu, X, Sun, Moon } from "lucide-react";
 
 interface NavProps {
   showBack?: boolean;
+  user?: { email: string } | null;
 }
 
 function DarkModeToggle() {
@@ -32,8 +33,81 @@ function DarkModeToggle() {
   );
 }
 
-export default function Nav({ showBack = false }: NavProps) {
+export default function Nav({ showBack = false, user = null }: NavProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const navLinks = (
+    <>
+      <div className="hidden md:flex items-center gap-6 text-sm font-medium">
+        <Link
+          href="/#pricing"
+          className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
+        >
+          Pricing
+        </Link>
+        <Link
+          href="/faq"
+          className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
+        >
+          FAQ
+        </Link>
+        <Link
+          href="/contact"
+          className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
+        >
+          Contact
+        </Link>
+        <Link
+          href="/affiliates"
+          className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
+        >
+          Affiliates
+        </Link>
+        <DarkModeToggle />
+        {user ? (
+          <>
+            <Link
+              href="/dashboard"
+              className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
+            >
+              {user.email}
+            </Link>
+            <Link
+              href="/upload"
+              className="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition shadow-sm"
+            >
+              Get Headshots
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link
+              href="/login"
+              className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/upload"
+              className="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition shadow-sm"
+            >
+              Get Headshots
+            </Link>
+          </>
+        )}
+      </div>
+      <div className="flex md:hidden items-center gap-3">
+        <DarkModeToggle />
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="text-slate-600 dark:text-slate-400"
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
+        >
+          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+    </>
+  );
 
   return (
     <nav
@@ -56,57 +130,7 @@ export default function Nav({ showBack = false }: NavProps) {
             ← Back to Home
           </Link>
         ) : (
-          <>
-            <div className="hidden md:flex items-center gap-6 text-sm font-medium">
-              <Link
-                href="/#pricing"
-                className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
-              >
-                Pricing
-              </Link>
-              <Link
-                href="/faq"
-                className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
-              >
-                FAQ
-              </Link>
-              <Link
-                href="/contact"
-                className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
-              >
-                Contact
-              </Link>
-              <Link
-                href="/affiliates"
-                className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
-              >
-                Affiliates
-              </Link>
-              <DarkModeToggle />
-              <Link
-                href="/login"
-                className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/upload"
-                className="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition shadow-sm"
-              >
-                Get Headshots
-              </Link>
-            </div>
-            <div className="flex md:hidden items-center gap-3">
-              <DarkModeToggle />
-              <button
-                onClick={() => setMobileOpen(!mobileOpen)}
-                className="text-slate-600 dark:text-slate-400"
-                aria-label={mobileOpen ? "Close menu" : "Open menu"}
-              >
-                {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
-          </>
+          navLinks
         )}
       </div>
       {mobileOpen && !showBack && (
@@ -139,13 +163,23 @@ export default function Nav({ showBack = false }: NavProps) {
           >
             Affiliates
           </Link>
-          <Link
-            href="/login"
-            onClick={() => setMobileOpen(false)}
-            className="text-slate-600 dark:text-slate-400"
-          >
-            Sign In
-          </Link>
+          {user ? (
+            <Link
+              href="/dashboard"
+              onClick={() => setMobileOpen(false)}
+              className="text-slate-600 dark:text-slate-400"
+            >
+              {user.email}
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              onClick={() => setMobileOpen(false)}
+              className="text-slate-600 dark:text-slate-400"
+            >
+              Sign In
+            </Link>
+          )}
           <Link
             href="/upload"
             onClick={() => setMobileOpen(false)}

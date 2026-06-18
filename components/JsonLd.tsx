@@ -1,4 +1,4 @@
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://truzot.com";
+const siteUrl = "https://www.truzot.com";
 
 const socialProfiles = [
   "https://twitter.com/truzot",
@@ -70,6 +70,8 @@ export function WebSiteSchema() {
 }
 
 export function ProductSchema() {
+  const priceValidUntil = "2026-06-18T00:00:00.000Z";
+
   const schema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -87,9 +89,7 @@ export function ProductSchema() {
         price: "29",
         priceCurrency: "USD",
         description: "40 HD headshots with 10+ styles. 2-hour delivery.",
-        priceValidUntil: new Date(
-          new Date().setFullYear(new Date().getFullYear() + 1),
-        ).toISOString(),
+        priceValidUntil,
         availability: "https://schema.org/InStock",
         url: `${siteUrl}/upload?plan=basic`,
       },
@@ -100,9 +100,7 @@ export function ProductSchema() {
         priceCurrency: "USD",
         description:
           "100 premium 4K headshots with 30+ styles. 1-hour delivery.",
-        priceValidUntil: new Date(
-          new Date().setFullYear(new Date().getFullYear() + 1),
-        ).toISOString(),
+        priceValidUntil,
         availability: "https://schema.org/InStock",
         url: `${siteUrl}/upload?plan=pro`,
       },
@@ -113,9 +111,7 @@ export function ProductSchema() {
         priceCurrency: "USD",
         description:
           "200 ultra 8K headshots with all styles. 30-minute priority delivery.",
-        priceValidUntil: new Date(
-          new Date().setFullYear(new Date().getFullYear() + 1),
-        ).toISOString(),
+        priceValidUntil,
         availability: "https://schema.org/InStock",
         url: `${siteUrl}/upload?plan=executive`,
       },
@@ -210,7 +206,7 @@ export function HowToSchema() {
       {
         "@type": "HowToStep",
         name: "Download your headshots",
-        text: "Get 40-200 HD headshots delivered in as fast as 10 minutes. Use them on LinkedIn, resumes, company pages, and anywhere you need a professional image.",
+        text: "Get 40-200 HD headshots delivered in as fast as 10 minutes. Use them on LinkedIn, resumes, company pages, company pages, and anywhere you need a professional image.",
         image: `${siteUrl}/howto-download.jpg`,
         url: `${siteUrl}/upload`,
       },

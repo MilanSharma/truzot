@@ -33,11 +33,10 @@ export default function BeforeAfterCarousel({
         // ~60fps
         scrollContainer.scrollLeft += scrollSpeed;
 
-        // Reset to start when reaching end
-        if (
-          scrollContainer.scrollLeft >=
-          scrollContainer.scrollWidth - scrollContainer.clientWidth
-        ) {
+        // Reset to start when reaching end (with small threshold for precision)
+        const maxScroll =
+          scrollContainer.scrollWidth - scrollContainer.clientWidth;
+        if (scrollContainer.scrollLeft >= maxScroll - 1) {
           scrollContainer.scrollLeft = 0;
         }
         lastTime = timestamp;
