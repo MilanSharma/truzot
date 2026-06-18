@@ -94,7 +94,7 @@ function OrderCardActions({
       </button>
 
       {menuOpen && (
-        <div className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xl py-1.5 z-[100] animate-in fade-in zoom-in-95 duration-100">
+        <div className="absolute right-0 bottom-full mb-2 w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xl py-1.5 z-[100] origin-bottom-right animate-in fade-in zoom-in-95 duration-100">
           {["training", "generating"].includes(order.status) && onCancel && (
             <button
               onClick={(e) => {
