@@ -350,6 +350,7 @@ function UploadContent() {
       } else {
         // NOT LOGGED IN: Force clear any potential local leakage
         setUserId(null);
+        setEmail(""); // Explicitly clear guest email to prevent ANY persistence
         localStorage.removeItem(LOCAL_KEY);
         localStorage.removeItem("truzot-idempotency-key");
       }
@@ -817,14 +818,18 @@ function UploadContent() {
   };
 
   const handleStartOver = () => {
-    sessionStorage.removeItem(SESSION_KEY);
-    localStorage.removeItem(LOCAL_KEY);
-    localStorage.removeItem("truzot-idempotency-key");
     setEmail("");
     setStoragePath("");
     setFiles([]);
     setStep(1);
-    window.location.href = "/upload";
+
+    // Defer the cleanup and navigation to ensure it runs AFTER React's state flush
+    setTimeout(() => {
+      sessionStorage.removeItem(SESSION_KEY);
+      localStorage.removeItem(LOCAL_KEY);
+      localStorage.removeItem("truzot-idempotency-key");
+      window.location.href = "/upload";
+    }, 10);
   };
 
   return (
@@ -1224,6 +1229,8 @@ function UploadContent() {
                       </label>
                       <input
                         type="email"
+                        autoComplete="off"
+                        name="delivery_email_prevent_autofill"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="you@example.com"
