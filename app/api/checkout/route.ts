@@ -272,7 +272,7 @@ export const POST = withContext(async (req: Request) => {
           })
           .eq("id", existing.id);
 
-        return addCors(NextResponse.json({ url: existingSession.url }), origin);
+        return addCors(NextResponse.json({ url: session.url }), origin);
       }
     }
 
