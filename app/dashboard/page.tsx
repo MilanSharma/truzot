@@ -666,7 +666,7 @@ function DashboardContent() {
   const handleCancelOrder = async (id: string) => {
     if (
       !confirm(
-        "Are you sure you want to cancel this shoot? You will be refunded if applicable.",
+        "Are you sure you want to stop processing this shoot? You will be refunded if applicable.",
       )
     )
       return;
@@ -675,49 +675,65 @@ function DashboardContent() {
     } = await supabase.auth.getSession();
     const token = session?.access_token;
     if (!token) return;
-    const res = await fetch(`/api/orders/cancel?id=${id}`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (res.ok) {
-      setOrders((prev) =>
-        prev.map((o) => (o.id === id ? { ...o, status: "failed" } : o)),
-      );
-      if (currentOrder && currentOrder.id === id) {
-        setFetchedOrder((prev) =>
-          prev ? { ...prev, status: "failed" } : prev,
+    try {
+      const res = await fetch(`/api/orders/cancel?id=${id}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (res.ok) {
+        setOrders((prev) =>
+          prev.map((o) => (o.id === id ? { ...o, status: "failed" } : o)),
         );
+        if (currentOrder && currentOrder.id === id) {
+          setFetchedOrder((prev) =>
+            prev ? { ...prev, status: "failed" } : prev,
+          );
+        }
+        toast("Shoot cancelled successfully", "success");
+      } else {
+        const data = await res.json().catch(() => ({}));
+        toast(data.error || "Failed to cancel shoot", "error");
       }
-      toast("Shoot cancelled", "success");
-    } else {
+    } catch (err) {
       toast("Failed to cancel shoot", "error");
     }
   };
 
   const handleDeleteOrder = async (id: string) => {
+    if (
+      !confirm(
+        "Are you sure you want to delete this shoot? This action cannot be undone.",
+      )
+    )
+      return;
     const {
       data: { session },
     } = await supabase.auth.getSession();
     const token = session?.access_token;
     if (!token) return;
-    const res = await fetch(`/api/orders?id=${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "X-Requested-With": "XMLHttpRequest",
-      },
-    });
-    if (res.ok) {
-      setOrders((prev) => prev.filter((o) => o.id !== id));
-      if (orderId === id) {
-        setFetchedOrder(null);
-        window.location.href = "/dashboard";
+    try {
+      const res = await fetch(`/api/orders?id=${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "X-Requested-With": "XMLHttpRequest",
+        },
+      });
+      if (res.ok) {
+        setOrders((prev) => prev.filter((o) => o.id !== id));
+        if (orderId === id) {
+          setFetchedOrder(null);
+          window.location.href = "/dashboard";
+        }
+        toast("Shoot deleted successfully", "success");
+      } else {
+        const data = await res.json().catch(() => ({}));
+        toast(data.error || "Failed to delete shoot", "error");
       }
-      toast("Order deleted", "success");
-    } else {
-      toast("Failed to delete order", "error");
+    } catch (err) {
+      toast("Failed to delete shoot", "error");
     }
   };
 

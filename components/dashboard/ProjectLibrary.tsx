@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import {
   Plus,
   ArrowRight,
@@ -63,106 +63,89 @@ function OrderCardActions({
   onCancel?: (id: string) => void;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    if (menuOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [menuOpen]);
 
   return (
-    <>
+    <div
+      className="relative"
+      ref={menuRef}
+      onClick={(e) => e.stopPropagation()}
+    >
       <button
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          setMenuOpen(true);
+          setMenuOpen(!menuOpen);
         }}
         className="p-1.5 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
-        title="Manage shoot"
+        title="More actions"
       >
         <MoreHorizontal className="w-5 h-5" />
       </button>
+
       {menuOpen && (
-        <div
-          className="absolute inset-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 animate-in fade-in zoom-in-95 duration-200 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-xl"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-        >
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setMenuOpen(false);
-            }}
-            className="absolute top-4 right-4 p-2 bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 rounded-full transition"
-          >
-            <X className="w-4 h-4" />
-          </button>
-
-          <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-6">
-            Manage Shoot
-          </h4>
-
-          <div className="w-full max-w-[240px] flex flex-col gap-3">
-            {["training", "generating"].includes(order.status) && onCancel && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onCancel(order.id);
-                  setMenuOpen(false);
-                }}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-xl font-bold hover:bg-red-100 dark:hover:bg-red-900/40 transition"
-              >
-                <X className="w-4 h-4" /> Stop & Cancel
-              </button>
-            )}
-            {order.status === "failed" && onRetry && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onRetry(order.id);
-                  setMenuOpen(false);
-                }}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-xl font-bold hover:bg-blue-100 dark:hover:bg-blue-900/40 transition"
-              >
-                <RefreshCw className="w-4 h-4" /> Retry Generation
-              </button>
-            )}
-            {order.status === "pending" && onResumeCheckout && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onResumeCheckout(order.id);
-                  setMenuOpen(false);
-                }}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-xl font-bold hover:bg-amber-100 dark:hover:bg-amber-900/40 transition"
-              >
-                <ShoppingCart className="w-4 h-4" /> Resume Checkout
-              </button>
-            )}
-            {onDelete && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onDelete(order.id);
-                  setMenuOpen(false);
-                }}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-slate-100 dark:bg-slate-800 text-red-600 dark:text-red-400 rounded-xl font-bold hover:bg-red-50 dark:hover:bg-red-900/20 transition"
-              >
-                <Trash2 className="w-4 h-4" /> Delete Shoot
-              </button>
-            )}
+        <div className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xl py-1.5 z-[100] animate-in fade-in zoom-in-95 duration-100">
+          {["training", "generating"].includes(order.status) && onCancel && (
             <button
               onClick={(e) => {
-                e.preventDefault();
                 e.stopPropagation();
+                onCancel(order.id);
                 setMenuOpen(false);
               }}
-              className="w-full flex items-center justify-center px-4 py-3 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition mt-2"
+              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-amber-600 dark:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition text-left whitespace-nowrap"
             >
-              Back
+              <X className="w-4 h-4 shrink-0" /> Stop Processing
             </button>
-          </div>
+          )}
+          {order.status === "failed" && onRetry && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onRetry(order.id);
+                setMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition text-left whitespace-nowrap"
+            >
+              <RefreshCw className="w-4 h-4 shrink-0" /> Retry Generation
+            </button>
+          )}
+          {order.status === "pending" && onResumeCheckout && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onResumeCheckout(order.id);
+                setMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition text-left whitespace-nowrap"
+            >
+              <ShoppingCart className="w-4 h-4 shrink-0" /> Resume Checkout
+            </button>
+          )}
+          {onDelete && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(order.id);
+                setMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition text-left whitespace-nowrap"
+            >
+              <Trash2 className="w-4 h-4 shrink-0" /> Delete Shoot
+            </button>
+          )}
         </div>
       )}
-    </>
+    </div>
   );
 }
 
@@ -646,7 +629,7 @@ export default function ProjectLibrary({
                 {groups[group].map((o) => (
                   <div
                     key={o.id}
-                    className={`bg-white dark:bg-slate-900 rounded-2xl border shadow-sm hover:shadow-lg transition group relative overflow-hidden ${
+                    className={`bg-white dark:bg-slate-900 rounded-2xl border shadow-sm hover:shadow-lg transition group relative z-0 focus-within:z-10 hover:z-10 ${
                       o.status === "failed"
                         ? "border-red-200 dark:border-red-800 hover:border-red-300 dark:hover:border-red-600"
                         : o.status === "pending"
