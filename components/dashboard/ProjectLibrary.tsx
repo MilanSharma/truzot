@@ -647,7 +647,7 @@ export default function ProjectLibrary({
                 {groups[group].map((o) => (
                   <div
                     key={o.id}
-                    className={`bg-white dark:bg-slate-900 rounded-2xl border shadow-sm hover:shadow-lg transition group relative z-0 focus-within:z-10 hover:z-10 ${
+                    className={`bg-white dark:bg-slate-900 rounded-2xl border shadow-sm hover:shadow-lg transition group relative z-0 focus-within:z-10 hover:z-10 overflow-visible ${
                       o.status === "failed"
                         ? "border-red-200 dark:border-red-800 hover:border-red-300 dark:hover:border-red-600"
                         : o.status === "pending"

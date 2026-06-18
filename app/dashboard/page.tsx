@@ -735,6 +735,7 @@ function DashboardContent() {
             },
           });
           if (res.ok) {
+            setConfirmModal(null);
             setOrders((prev) => prev.filter((o) => o.id !== id));
             if (orderId === id) {
               setFetchedOrder(null);

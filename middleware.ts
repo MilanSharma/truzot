@@ -6,6 +6,7 @@ import type { Duration } from "@upstash/ratelimit";
 
 export const config = {
   matcher: [
+    "/",
     "/login",
     "/api/auth/signup",
     "/api/auth/reset-password",
@@ -89,8 +90,8 @@ const CSRF_PROTECTED = new Set([
 export default async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Auth redirect for login page - redirect authenticated users to dashboard
-  if (pathname === "/login") {
+  // Auth redirect for landing page and login page - redirect authenticated users to dashboard
+  if (pathname === "/" || pathname === "/login") {
     const supabaseAuthToken =
       req.cookies.get("sb-access-token")?.value ||
       req.cookies.get("sb-refresh-token")?.value ||
