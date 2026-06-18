@@ -55,7 +55,7 @@ function DashboardContent() {
     total: 0,
   });
   const [loading, setLoading] = useState(true);
-  const [orderLoading, setOrderLoading] = useState(false);
+  const [orderLoading, setOrderLoading] = useState(true);
   const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
   const [generationProgress, setGenerationProgress] = useState({
     count: 0,

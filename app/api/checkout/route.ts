@@ -214,7 +214,7 @@ export const POST = withContext(async (req: Request) => {
         );
         const referralId = rewardfulMatch ? rewardfulMatch[1] : undefined;
 
-        const session = await stripe.checkout.sessions.create({
+        const existingSession = await stripe.checkout.sessions.create({
           payment_method_types: ["card"],
           mode: "payment",
           customer: customerId,
@@ -272,7 +272,7 @@ export const POST = withContext(async (req: Request) => {
           })
           .eq("id", existing.id);
 
-        const session = await stripe.checkout.sessions.create({
+        const existingSession = await stripe.checkout.sessions.create({
           payment_method_types: ["card"],
           mode: "payment",
           customer: customerId,
@@ -303,7 +303,7 @@ export const POST = withContext(async (req: Request) => {
           ...(discount && !discountAmount ? { discounts: [discount] } : {}),
         });
 
-        return addCors(NextResponse.json({ url: session.url }), origin);
+        return addCors(NextResponse.json({ url: existingSession.url }), origin);
       }
     }
 
@@ -414,7 +414,7 @@ export const POST = withContext(async (req: Request) => {
         requestOptions,
       );
 
-      return addCors(NextResponse.json({ url: session.url }), origin);
+      return addCors(NextResponse.json({ url: existingSession.url }), origin);
     } catch (err) {
       await supabase.from("orders").delete().eq("id", orderId);
       throw err;
