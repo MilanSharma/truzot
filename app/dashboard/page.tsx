@@ -28,6 +28,7 @@ import FloatingSelectionBar from "@/components/dashboard/FloatingSelectionBar";
 import GalleryErrorBoundary from "@/components/GalleryErrorBoundary";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { useToast } from "@/components/Toast";
+import ConfirmModal from "@/components/ConfirmModal";
 import { motion } from "framer-motion";
 
 const LightboxModal = lazy(
@@ -1139,6 +1140,15 @@ function DashboardContent() {
 }
 
 export default function DashboardPage() {
+  const [confirmModal, setConfirmModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    confirmText: string;
+    confirmStyle: string;
+    action: () => void;
+  } | null>(null);
+
   return (
     <Suspense
       fallback={
@@ -1176,6 +1186,17 @@ export default function DashboardPage() {
       >
         <DashboardContent />
       </ErrorBoundary>
+      {confirmModal && (
+        <ConfirmModal
+          isOpen={true}
+          title={confirmModal.title}
+          message={confirmModal.message}
+          confirmText={confirmModal.confirmText}
+          confirmStyle={confirmModal.confirmStyle}
+          onConfirm={confirmModal.action}
+          onCancel={() => setConfirmModal(null)}
+        />
+      )}
     </Suspense>
   );
 }

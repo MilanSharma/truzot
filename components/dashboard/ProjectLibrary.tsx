@@ -63,7 +63,19 @@ function OrderCardActions({
   onCancel?: (id: string) => void;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuBelow, setMenuBelow] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (menuOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      // If there's more space below than above, show below, else above
+      setMenuBelow(spaceBelow > spaceAbove);
+    }
+  }, [menuOpen]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -82,6 +94,7 @@ function OrderCardActions({
       onClick={(e) => e.stopPropagation()}
     >
       <button
+        ref={buttonRef}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -94,7 +107,12 @@ function OrderCardActions({
       </button>
 
       {menuOpen && (
-        <div className="absolute right-0 bottom-full mb-2 w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xl py-1.5 z-[100] origin-bottom-right animate-in fade-in zoom-in-95 duration-100">
+        <div
+          className={`absolute right-0 w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xl py-1.5 z-[100] origin-top-right animate-in fade-in zoom-in-95 duration-100 ${
+            menuBelow ? "top-full mt-2" : "bottom-full mb-2"
+          }`}
+          style={{ maxHeight: "80vh", overflowY: "auto" }}
+        >
           {["training", "generating"].includes(order.status) && onCancel && (
             <button
               onClick={(e) => {

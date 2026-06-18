@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase/client";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { useToast } from "@/components/Toast";
+import ConfirmModal from "@/components/ConfirmModal";
 
 interface AdminOrder {
   id: string;
@@ -23,6 +24,14 @@ export default function AdminDashboard() {
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [confirmModal, setConfirmModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    confirmText: string;
+    confirmStyle: string;
+    action: () => void;
+  } | null>(null);
   const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -73,7 +82,32 @@ export default function AdminDashboard() {
   }, [fetchOrders]);
 
   const retryOrder = async (orderId: string) => {
-    if (!confirm(`Retry order ${orderId.slice(0, 8)}...?`)) return;
+    if (!confirmModal) {
+      setConfirmModal({
+        isOpen: true,
+        title: "Retry Order",
+        message: `Retry order ${orderId.slice(0, 8)}...?`,
+        confirmText: "Retry",
+        confirmStyle: "bg-indigo-600 hover:bg-indigo-700",
+        action: async () => {
+          const token = await getToken();
+          const res = await fetch("/api/retry", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ orderId }),
+          });
+          if (res.ok) {
+            fetchOrders();
+            toast("Retry initiated", "success");
+          } else toast("Retry failed", "error");
+          setConfirmModal(null);
+        },
+      });
+      return;
+    }
     const token = await getToken();
     const res = await fetch("/api/retry", {
       method: "POST",
@@ -90,7 +124,33 @@ export default function AdminDashboard() {
   };
 
   const refundOrder = async (orderId: string) => {
-    if (!confirm(`Refund order ${orderId.slice(0, 8)}...?`)) return;
+    if (!confirmModal) {
+      setConfirmModal({
+        isOpen: true,
+        title: "Refund Order",
+        message: `Refund order ${orderId.slice(0, 8)}...?`,
+        confirmText: "Refund",
+        confirmStyle: "bg-amber-600 hover:bg-amber-700",
+        action: async () => {
+          const token = await getToken();
+          const res = await fetch("/api/admin/refund", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ orderId }),
+          });
+          const data = await res.json();
+          if (res.ok) {
+            fetchOrders();
+            toast(data.message || "Refund processed", "success");
+          } else toast(data.error || "Refund failed", "error");
+          setConfirmModal(null);
+        },
+      });
+      return;
+    }
     const token = await getToken();
     const res = await fetch("/api/admin/refund", {
       method: "POST",
@@ -259,6 +319,42 @@ export default function AdminDashboard() {
         )}
       </div>
       <Footer />
+
+      {confirmModal && (
+        <ConfirmModal
+          isOpen={true}
+          title={confirmModal.title}
+          message={confirmModal.message}
+          confirmText={confirmModal.confirmText}
+          confirmStyle={confirmModal.confirmStyle}
+          onConfirm={confirmModal.action}
+          onCancel={() => setConfirmModal(null)}
+        />
+      )}
+
+      {confirmModal && (
+        <ConfirmModal
+          isOpen={true}
+          title={confirmModal.title}
+          message={confirmModal.message}
+          confirmText={confirmModal.confirmText}
+          confirmStyle={confirmModal.confirmStyle}
+          onConfirm={confirmModal.action}
+          onCancel={() => setConfirmModal(null)}
+        />
+      )}
+
+      {confirmModal && (
+        <ConfirmModal
+          isOpen={true}
+          title={confirmModal.title}
+          message={confirmModal.message}
+          confirmText={confirmModal.confirmText}
+          confirmStyle={confirmModal.confirmStyle}
+          onConfirm={confirmModal.action}
+          onCancel={() => setConfirmModal(null)}
+        />
+      )}
     </div>
   );
 }
