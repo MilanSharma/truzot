@@ -120,14 +120,29 @@ export const POST = withContext(async (req: Request) => {
             .maybeSingle();
 
         if (waitlistError) {
-          log.warn(
-            { coupon: couponUpper, err: waitlistError },
-            "Waitlist lookup failed",
+          return addCors(
+            NextResponse.json(
+              { error: "Failed to validate discount code." },
+              { status: 500 },
+            ),
+            origin,
           );
         } else if (!waitlistEntry) {
-          log.warn({ coupon: couponUpper }, "Discount code not found");
+          return addCors(
+            NextResponse.json(
+              { error: "Discount code not found." },
+              { status: 400 },
+            ),
+            origin,
+          );
         } else if (waitlistEntry.used) {
-          log.warn({ coupon: couponUpper }, "Discount code already used");
+          return addCors(
+            NextResponse.json(
+              { error: "This discount code has already been used." },
+              { status: 400 },
+            ),
+            origin,
+          );
         } else {
           // Apply $5 flat discount (500 cents) matching the exit intent popup
           discountAmount = 500;
@@ -153,22 +168,30 @@ export const POST = withContext(async (req: Request) => {
         try {
           const stripeCoupon = await stripe.coupons.retrieve(couponUpper);
           if (
-            stripeCoupon.valid &&
-            (!stripeCoupon.redeem_by ||
-              stripeCoupon.redeem_by * 1000 > Date.now()) &&
-            (stripeCoupon.max_redemptions === null ||
-              stripeCoupon.times_redeemed < stripeCoupon.max_redemptions)
+            !stripeCoupon.valid ||
+            (stripeCoupon.redeem_by &&
+              stripeCoupon.redeem_by * 1000 < Date.now()) ||
+            (stripeCoupon.max_redemptions !== null &&
+              stripeCoupon.times_redeemed >= stripeCoupon.max_redemptions)
           ) {
-            discount = { coupon: stripeCoupon.id };
-            appliedDiscountCode = couponUpper;
-          } else {
-            log.warn(
-              { coupon: couponUpper },
-              "Invalid or expired coupon attempted",
+            return addCors(
+              NextResponse.json(
+                { error: "This coupon is invalid or has already been used." },
+                { status: 400 },
+              ),
+              origin,
             );
           }
+          discount = { coupon: stripeCoupon.id };
+          appliedDiscountCode = couponUpper;
         } catch (err) {
-          log.warn({ coupon: couponUpper, err }, "Coupon not found");
+          return addCors(
+            NextResponse.json(
+              { error: "Coupon code not found." },
+              { status: 400 },
+            ),
+            origin,
+          );
         }
       }
     }
