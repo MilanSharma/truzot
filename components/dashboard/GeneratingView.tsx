@@ -76,39 +76,6 @@ export default function GeneratingView({ count, target }: GeneratingViewProps) {
     }
   };
 
-  const handleCancel = async () => {
-    if (!orderId || retrying) return;
-    if (
-      !confirm(
-        "Are you sure you want to cancel this generation? You will be refunded if you have paid.",
-      )
-    )
-      return;
-    setRetrying(true);
-    try {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      const res = await fetch(`/api/orders/cancel?id=${orderId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${session?.access_token || ""}`,
-        },
-      });
-      if (res.ok) {
-        toast("Generation cancelled. Redirecting...", "success");
-        setTimeout(() => (window.location.href = "/dashboard"), 1500);
-      } else {
-        throw new Error();
-      }
-    } catch {
-      toast("Failed to cancel generation.", "error");
-    } finally {
-      setRetrying(false);
-    }
-  };
-
   return (
     <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-10 max-w-2xl mx-auto shadow-sm mt-12 text-center">
       <div className="w-20 h-20 bg-indigo-50 dark:bg-indigo-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
