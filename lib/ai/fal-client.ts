@@ -76,10 +76,11 @@ type PromptBuilder = (prefs: {
 }) => string;
 
 const ALL_PROMPTS: Record<string, PromptBuilder> = {
+  // Gender reinforcement added to prevent model drift
   corporate: ({ g, p, e, h, c, b }) =>
-    `A professional corporate headshot of TOK, a ${g} ${p} ${e} ${h}, wearing ${c}, ${b}, soft studio lighting, shot on 85mm lens, f/1.8, highly detailed, 8k resolution`,
+    `A professional corporate headshot of a ${g} named TOK, a ${g} ${p} ${e} ${h}, wearing ${c}, ${b}, soft studio lighting, shot on 85mm lens, f/1.8, highly detailed, 8k resolution`,
   linkedin: ({ g, p, e, h, c, b }) =>
-    `A LinkedIn profile photo of TOK, a ${g} ${p} ${e} ${h}, ${c}, ${b}, confident smile, sharp focus, professional photography, natural lighting`,
+    `A LinkedIn profile photo of a ${g} named TOK, a ${g} ${p} ${e} ${h}, ${c}, ${b}, confident smile, sharp focus, professional photography, natural lighting`,
   "white-shirt": ({ g, p, e, h, c, b }) =>
     `A professional headshot of TOK, a ${g} ${p} ${e} ${h}, crisp white dress shirt, ${b}, natural window light, photorealistic, 8k`,
   urban: ({ g, p, e, h, c, b }) =>

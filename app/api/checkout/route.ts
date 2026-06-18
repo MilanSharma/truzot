@@ -249,6 +249,60 @@ export const POST = withContext(async (req: Request) => {
           ...(discount && !discountAmount ? { discounts: [discount] } : {}),
         });
 
+        // UPDATE the existing pending order with the NEW details (in case user changed photos/plan)
+        await supabase
+          .from("orders")
+          .update({
+            plan,
+            email,
+            amount_cents: finalAmount,
+            zip_url: zipUrl,
+            shoot_name: shootName || null,
+            preferences: {
+              gender,
+              eyeColor,
+              hairColor,
+              clothing,
+              background,
+              framing,
+              selectedStyles: selectedStyles || [],
+              storagePath: storagePath || null,
+              idempotency_key: idempotencyKey,
+            },
+          })
+          .eq("id", existing.id);
+
+        const session = await stripe.checkout.sessions.create({
+          payment_method_types: ["card"],
+          mode: "payment",
+          customer: customerId,
+          customer_email: customerId ? undefined : email,
+          client_reference_id: referralId,
+          line_items: [
+            {
+              price_data: {
+                currency: "usd",
+                product_data: {
+                  name: label,
+                  description: "AI Professional Headshots",
+                },
+                unit_amount: finalAmount,
+              },
+              quantity: 1,
+            },
+          ],
+          metadata: {
+            orderId: existing.id,
+            plan: plan,
+            email: email,
+            userId: userId || "",
+            discount_code: appliedDiscountCode || "",
+          },
+          success_url: `${baseUrl}/claim-order?order=${existing.id}`,
+          cancel_url: `${baseUrl}/upload?cancelled=1`,
+          ...(discount && !discountAmount ? { discounts: [discount] } : {}),
+        });
+
         return addCors(NextResponse.json({ url: session.url }), origin);
       }
     }
