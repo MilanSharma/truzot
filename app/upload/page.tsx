@@ -69,12 +69,8 @@ function getSavedState(): Record<string, unknown> | null {
   try {
     const saved = sessionStorage.getItem(SESSION_KEY);
     if (saved) return JSON.parse(saved);
-    const backup = localStorage.getItem(LOCAL_KEY);
-    if (backup) {
-      const parsed = JSON.parse(backup);
-      sessionStorage.setItem(SESSION_KEY, backup);
-      return parsed;
-    }
+    // Only check localStorage if we are returning from a redirect or hard reload.
+    // We will handle specific user-data restoration in a useEffect.
     return null;
   } catch {
     return null;
@@ -333,6 +329,20 @@ function UploadContent() {
       if (session?.user) {
         setUserId(session.user.id);
         setEmail((prev) => (prev || session.user.email) ?? "");
+
+        // Only now, if logged in, try to restore from localStorage if sessionStorage is empty
+        if (!sessionStorage.getItem(SESSION_KEY)) {
+          const backup = localStorage.getItem(LOCAL_KEY);
+          if (backup) {
+            const parsed = JSON.parse(backup);
+            // Sync states here if needed or just let the next render cycle handle it via useEffect
+          }
+        }
+      } else {
+        // NOT LOGGED IN: Force clear any potential local leakage
+        setUserId(null);
+        localStorage.removeItem(LOCAL_KEY);
+        localStorage.removeItem("truzot-idempotency-key");
       }
     };
     loadUser();

@@ -5,8 +5,8 @@ import { supabase } from "@/lib/supabase/client";
 
 function clearUploadStorage() {
   sessionStorage.removeItem("truzot-upload");
-  localStorage.removeItem("truzot-upload");
   localStorage.removeItem("truzot-upload-backup");
+  localStorage.removeItem("truzot-idempotency-key");
 }
 
 export default function AuthSync() {
