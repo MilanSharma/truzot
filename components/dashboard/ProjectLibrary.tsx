@@ -19,6 +19,7 @@ import {
   EyeOff,
   TrashIcon,
   Sparkles,
+  X,
 } from "lucide-react";
 import { PLANS } from "@/lib/plans";
 import type { Order, Headshot } from "@/lib/types";
@@ -53,11 +54,13 @@ function OrderCardActions({
   onDelete,
   onRetry,
   onResumeCheckout,
+  onCancel,
 }: {
   order: Order;
   onDelete?: (id: string) => void;
   onRetry?: (id: string) => void;
   onResumeCheckout?: (id: string) => void;
+  onCancel?: (id: string) => void;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -77,6 +80,17 @@ function OrderCardActions({
             onClick={() => setMenuOpen(false)}
           />
           <div className="absolute right-0 top-full mt-1 z-50 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xl py-1.5 min-w-[160px]">
+            {["training", "generating"].includes(order.status) && onCancel && (
+              <button
+                onClick={() => {
+                  onCancel(order.id);
+                  setMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition"
+              >
+                <X className="w-4 h-4" /> Cancel Processing
+              </button>
+            )}
             {order.status === "failed" && onRetry && (
               <button
                 onClick={() => {
@@ -227,12 +241,14 @@ export default function ProjectLibrary({
   onDelete,
   onRetry,
   onResumeCheckout,
+  onCancel,
 }: {
   orders: Order[];
   loading?: boolean;
   onDelete?: (id: string) => void;
   onRetry?: (id: string) => void;
   onResumeCheckout?: (id: string) => void;
+  onCancel?: (id: string) => void;
 }) {
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -595,7 +611,7 @@ export default function ProjectLibrary({
                 {groups[group].map((o) => (
                   <div
                     key={o.id}
-                    className={`bg-white dark:bg-slate-900 rounded-2xl border shadow-sm hover:shadow-lg transition group relative overflow-hidden ${
+                    className={`bg-white dark:bg-slate-900 rounded-2xl border shadow-sm hover:shadow-lg transition group relative ${
                       o.status === "failed"
                         ? "border-red-200 dark:border-red-800 hover:border-red-300 dark:hover:border-red-600"
                         : o.status === "pending"
@@ -609,7 +625,7 @@ export default function ProjectLibrary({
                     >
                       {/* Status badge top-right */}
                       {o.status === "completed" && (
-                        <div className="absolute top-0 right-0 w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-bl-full flex items-start justify-end p-3">
+                        <div className="absolute top-0 right-0 w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-tr-2xl rounded-bl-full flex items-start justify-end p-3">
                           <CheckCircle className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
                         </div>
                       )}
@@ -749,7 +765,7 @@ export default function ProjectLibrary({
                           <Sparkles className="w-3.5 h-3.5" /> View Gallery
                         </button>
                       )}
-                      {(o.status === "completed" || o.status === "failed") && (
+                      {o.status !== "pending" && (
                         <OrderCardActions
                           order={o}
                           onDelete={(id) => {
@@ -757,6 +773,7 @@ export default function ProjectLibrary({
                           }}
                           onRetry={onRetry}
                           onResumeCheckout={onResumeCheckout}
+                          onCancel={onCancel}
                         />
                       )}
                     </div>

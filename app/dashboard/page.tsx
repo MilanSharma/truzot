@@ -62,6 +62,10 @@ function DashboardContent() {
     target: 0,
   });
   const [favorites, setFavorites] = useState<string[]>([]);
+  const ordersRef = useRef<Order[]>([]);
+  useEffect(() => {
+    ordersRef.current = orders;
+  }, [orders]);
 
   // Reload favorites from localStorage when orderId changes (handles hydration and navigation)
 
@@ -312,9 +316,27 @@ function DashboardContent() {
   useEffect(() => {
     const loadOrderDetail = async () => {
       setOrderError(null);
-      setCurrentOrder(null); // Clear old order immediately to prevent flicker
-      setHeadshots([]); // Clear old headshots immediately
-      if (orderId) setOrderLoading(true);
+      const existingOrder = ordersRef.current.find((o) => o.id === orderId);
+
+      if (orderId) {
+        if (existingOrder) {
+          setCurrentOrder(existingOrder);
+          setOrderLoading(false);
+        } else {
+          setCurrentOrder(null);
+          setOrderLoading(true);
+        }
+        setHeadshots([]);
+        setHeadshotPage(0);
+        setHasMoreHeadshots(true);
+      } else {
+        setCurrentOrder(null);
+        setHeadshots([]);
+        setHeadshotPage(0);
+        setHasMoreHeadshots(true);
+        setOrderLoading(false);
+      }
+
       if (!initRef.current) {
         initRef.current = true;
         const {
@@ -333,7 +355,16 @@ function DashboardContent() {
             .select("*")
             .eq("user_id", u.id)
             .order("created_at", { ascending: false });
-          if (data) setOrders(data as Order[]);
+          if (data) {
+            setOrders(data as Order[]);
+            if (orderId && !existingOrder) {
+              const prefilled = (data as Order[]).find((o) => o.id === orderId);
+              if (prefilled) {
+                setCurrentOrder(prefilled);
+                setOrderLoading(false);
+              }
+            }
+          }
         }
       }
       if (!authChecked) setAuthChecked(true);
@@ -349,9 +380,6 @@ function DashboardContent() {
         if (order) {
           setOrderError(null);
           setCurrentOrder(order);
-          setHeadshots([]);
-          setHeadshotPage(0);
-          setHasMoreHeadshots(true);
           if (order.status !== "pending") {
             await fetchHeadshots(orderId, 0);
           }
@@ -630,6 +658,39 @@ function DashboardContent() {
     }
   };
 
+  const handleCancelOrder = async (id: string) => {
+    if (
+      !confirm(
+        "Are you sure you want to cancel this shoot? You will be refunded if applicable.",
+      )
+    )
+      return;
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    const token = session?.access_token;
+    if (!token) return;
+    const res = await fetch(`/api/orders/cancel?id=${id}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (res.ok) {
+      setOrders((prev) =>
+        prev.map((o) => (o.id === id ? { ...o, status: "failed" } : o)),
+      );
+      if (currentOrder && currentOrder.id === id) {
+        setCurrentOrder((prev) =>
+          prev ? { ...prev, status: "failed" } : prev,
+        );
+      }
+      toast("Shoot cancelled", "success");
+    } else {
+      toast("Failed to cancel shoot", "error");
+    }
+  };
+
   const handleDeleteOrder = async (id: string) => {
     const {
       data: { session },
@@ -751,7 +812,12 @@ function DashboardContent() {
             </div>
           )}
           {orderId && !orderError && currentOrder ? (
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              key={currentOrder.id}
+            >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                 <div>
                   <a
@@ -978,7 +1044,7 @@ function DashboardContent() {
                   />
                 </GalleryErrorBoundary>
               )}
-            </div>
+            </motion.div>
           ) : !orderError ? (
             <motion.div
               initial={{ opacity: 0, y: 16 }}
@@ -990,6 +1056,7 @@ function DashboardContent() {
                 onDelete={handleDeleteOrder}
                 onRetry={handleRetryOrder}
                 onResumeCheckout={handleResumeCheckout}
+                onCancel={handleCancelOrder}
               />
             </motion.div>
           ) : null}
