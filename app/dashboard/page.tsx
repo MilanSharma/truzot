@@ -1072,22 +1072,10 @@ function DashboardContent() {
                       if (token) authHeaders.Authorization = `Bearer ${token}`;
                       const idempotencyKey = crypto.randomUUID();
                       try {
-                        const res = await fetch("/api/checkout", {
+                        const res = await fetch("/api/checkout/resume", {
                           method: "POST",
                           headers: authHeaders,
-                          body: JSON.stringify({
-                            plan: currentOrder.plan,
-                            email: currentOrder.email || "",
-                            storagePath: prefs.storagePath || "",
-                            gender: prefs.gender || "",
-                            eyeColor: prefs.eyeColor || "",
-                            hairColor: prefs.hairColor || "",
-                            clothing: prefs.clothing || "",
-                            background: prefs.background || "",
-                            framing: prefs.framing || "",
-                            selectedStyles: prefs.selectedStyles || [],
-                            idempotencyKey,
-                          }),
+                          body: JSON.stringify({ orderId: currentOrder.id }),
                         });
                         if (!res.ok) {
                           const errBody = await res.json().catch(() => null);

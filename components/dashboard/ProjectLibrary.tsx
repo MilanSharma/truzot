@@ -875,7 +875,7 @@ export default function ProjectLibrary({
                           <Sparkles className="w-3.5 h-3.5" /> View Gallery
                         </button>
                       )}
-                      {o.status !== "pending" && (
+                      {
                         <div className="ml-auto">
                           <OrderCardActions
                             order={o}
@@ -888,7 +888,7 @@ export default function ProjectLibrary({
                             onRename={onRename}
                           />
                         </div>
-                      )}
+                      }
                     </div>
                   </div>
                 ))}
