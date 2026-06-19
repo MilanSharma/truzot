@@ -712,6 +712,24 @@ function DashboardContent() {
     });
   };
 
+  const handleRenameOrder = async (id: string) => {
+    const newName = prompt("Enter new shoot name:");
+    if (!newName) return;
+    setOrders((prev) =>
+      prev.map((o) => (o.id === id ? { ...o, shoot_name: newName } : o)),
+    );
+    if (currentOrder && currentOrder.id === id) {
+      setFetchedOrder((prev) =>
+        prev ? { ...prev, shoot_name: newName } : prev,
+      );
+    }
+    toast("Shoot renamed", "success");
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.access_token) {
+      await supabase.from("orders").update({ shoot_name: newName }).eq("id", id);
+    }
+  };
+
   const handleDeleteOrder = async (id: string) => {
     setConfirmModal({
       isOpen: true,
@@ -1095,6 +1113,7 @@ function DashboardContent() {
                 onRetry={handleRetryOrder}
                 onResumeCheckout={handleResumeCheckout}
                 onCancel={handleCancelOrder}
+                onRename={handleRenameOrder}
               />
             </motion.div>
           ) : null}

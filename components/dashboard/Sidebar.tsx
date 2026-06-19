@@ -21,7 +21,7 @@ export default function Sidebar({
   const router = useRouter();
 
   return (
-    <aside className="w-64 bg-[var(--bg-card)] border-r border-[var(--border-primary)] flex flex-col justify-between hidden md:flex shrink-0 z-10">
+    <aside className="w-64 bg-[var(--bg-card)] border-r border-[var(--border-primary)] flex flex-col justify-between hidden md:flex shrink-0 z-10 overflow-y-auto">
       <div>
         <div className="h-16 flex items-center px-6 border-b border-[var(--border-primary)]">
           <Link
@@ -55,6 +55,26 @@ export default function Sidebar({
         </div>
       </div>
 
+            <div className="mt-auto">
+        {user && (
+          <div className="px-4 py-2">
+            <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
+              <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Account Overview</div>
+              <div className="flex justify-between items-center mb-2 text-xs">
+                <span className="text-slate-600 dark:text-slate-400">Active Plan</span>
+                <span className="font-semibold text-slate-900 dark:text-white">Pro</span>
+              </div>
+              <div className="flex justify-between items-center text-xs mb-2">
+                <span className="text-slate-600 dark:text-slate-400">Generated</span>
+                <span className="font-semibold text-slate-900 dark:text-white">1,240</span>
+              </div>
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-slate-600 dark:text-slate-400">Credits</span>
+                <span className="font-semibold text-blue-600 dark:text-blue-400">12</span>
+              </div>
+            </div>
+          </div>
+        )}
       <div className="p-4 border-t border-[var(--border-primary)]">
         <div className="bg-gradient-to-br from-slate-900 to-slate-800 dark:from-slate-800 dark:to-slate-900 rounded-xl p-4 mb-4 text-white">
           <div className="flex items-center gap-2 font-bold text-sm mb-1">
@@ -94,6 +114,7 @@ export default function Sidebar({
           </div>
         )}
       </div>
+    </div>
     </aside>
   );
 }

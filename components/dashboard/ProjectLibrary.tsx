@@ -1,5 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import Link from "next/link";
+import { createPortal } from "react-dom";
 import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import {
   Plus,
@@ -20,6 +22,7 @@ import {
   TrashIcon,
   Sparkles,
   X,
+  Edit,
 } from "lucide-react";
 import { PLANS } from "@/lib/plans";
 import type { Order, Headshot } from "@/lib/types";
@@ -55,14 +58,18 @@ function OrderCardActions({
   onRetry,
   onResumeCheckout,
   onCancel,
+  onRename,
 }: {
   order: Order;
   onDelete?: (id: string) => void;
   onRetry?: (id: string) => void;
   onResumeCheckout?: (id: string) => void;
   onCancel?: (id: string) => void;
+  onRename?: (id: string) => void;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const [menuPosition, setMenuPosition] = useState<{
     below: boolean;
     left: number;
@@ -146,10 +153,10 @@ function OrderCardActions({
         <MoreHorizontal className="w-5 h-5" />
       </button>
 
-      {menuOpen && (
+      {menuOpen && mounted && typeof document !== 'undefined' && createPortal(
         <div
           ref={menuRef}
-          className="fixed z-[100] w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xl py-1.5 animate-in fade-in zoom-in-95 duration-100"
+          className="fixed z-[9999] w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xl py-1.5 animate-in fade-in zoom-in-95 duration-100"
           style={{
             left: menuPosition.left,
             top: menuPosition.top,
@@ -157,6 +164,18 @@ function OrderCardActions({
             overflowY: "auto",
           }}
         >
+          {onRename && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onRename(order.id);
+                setMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition text-left whitespace-nowrap"
+            >
+              <Edit className="w-4 h-4 shrink-0" /> Rename Shoot
+            </button>
+          )}
           {["training", "generating"].includes(order.status) && onCancel && (
             <button
               onClick={(e) => {
@@ -205,7 +224,8 @@ function OrderCardActions({
               <Trash2 className="w-4 h-4 shrink-0" /> Delete Shoot
             </button>
           )}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
@@ -322,6 +342,7 @@ export default function ProjectLibrary({
   onRetry,
   onResumeCheckout,
   onCancel,
+  onRename,
 }: {
   orders: Order[];
   loading?: boolean;
@@ -329,6 +350,7 @@ export default function ProjectLibrary({
   onRetry?: (id: string) => void;
   onResumeCheckout?: (id: string) => void;
   onCancel?: (id: string) => void;
+  onRename?: (id: string) => void;
 }) {
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -854,6 +876,7 @@ export default function ProjectLibrary({
                           onRetry={onRetry}
                           onResumeCheckout={onResumeCheckout}
                           onCancel={onCancel}
+                          onRename={onRename}
                         />
                       )}
                     </div>
