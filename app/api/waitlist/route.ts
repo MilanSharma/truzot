@@ -34,6 +34,12 @@ export async function POST(req: Request) {
       .maybeSingle();
 
     if (existing) {
+      try {
+        await sendDiscountCodeEmail(email, existing.discount_code);
+        log.info({ email }, "Discount code email resent successfully");
+      } catch (err) {
+        log.error({ err, email }, "Failed to resend discount code email");
+      }
       return NextResponse.json(
         {
           message: "Email already registered",

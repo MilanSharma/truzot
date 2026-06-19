@@ -247,29 +247,33 @@ function LoginForm() {
                   TRUZOT
                 </div>
               </Link>
-              <h1 className="text-3xl font-bold text-slate-900 mb-2">
+              <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
                 Reset your password
               </h1>
-              <p className="text-slate-600">
+              <p className="text-slate-600 dark:text-slate-400">
                 Enter your email and we&apos;ll send you a reset link.
               </p>
             </div>
             {success && (
-              <div className="mb-6 bg-green-50 border border-green-200 rounded-xl p-4 flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                <p className="text-sm text-green-800">{success}</p>
+              <div className="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4 flex items-start gap-3">
+                <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-green-800 dark:text-green-300">
+                  {success}
+                </p>
               </div>
             )}
             {error && (
-              <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-                <p className="text-sm text-red-800">{error}</p>
+              <div className="mb-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 flex items-start gap-3">
+                <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-red-800 dark:text-red-300">
+                  {error}
+                </p>
               </div>
             )}
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-8">
               <div className="space-y-5">
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                     Email address
                   </label>
                   <div className="relative">
@@ -279,7 +283,7 @@ function LoginForm() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
-                      className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                      className="w-full pl-11 pr-4 py-3 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                       placeholder="you@example.com"
                     />
                   </div>
@@ -297,7 +301,7 @@ function LoginForm() {
                     setError("");
                     setSuccess("");
                   }}
-                  className="w-full py-2 text-sm text-slate-600 hover:text-slate-900 font-medium transition"
+                  className="w-full py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition"
                 >
                   Back to sign in
                 </button>
@@ -345,10 +349,10 @@ function LoginForm() {
                 TRUZOT
               </div>
             </Link>
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">
+            <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
               {isSignUp ? "Create your account" : "Welcome back"}
             </h1>
-            <p className="text-slate-600">
+            <p className="text-slate-600 dark:text-slate-400">
               {isSignUp
                 ? "Get started with professional AI headshots"
                 : "Sign in to access your headshots"}
@@ -356,31 +360,33 @@ function LoginForm() {
           </div>
 
           {success && (
-            <div className="mb-6 bg-green-50 border border-green-200 rounded-xl p-4 flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-green-800">{success}</p>
+            <div className="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4 flex items-start gap-3">
+              <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-green-800 dark:text-green-300">
+                {success}
+              </p>
             </div>
           )}
 
           {error && (
-            <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-red-800">{error}</p>
+            <div className="mb-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-red-800 dark:text-red-300">{error}</p>
             </div>
           )}
 
           {emailNotConfirmed && (
-            <div className="mb-6 bg-amber-50 border border-amber-200 rounded-xl p-4">
+            <div className="mb-6 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4">
               <div className="flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                <AlertCircle className="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
                 <div className="flex-1">
-                  <p className="text-sm text-amber-800 font-medium">
+                  <p className="text-sm text-amber-800 dark:text-amber-300 font-medium">
                     Email not confirmed yet.
                   </p>
                   <button
                     onClick={handleResendConfirmation}
                     disabled={resending}
-                    className="mt-2 text-sm text-blue-600 hover:text-blue-800 underline font-medium disabled:opacity-50"
+                    className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline font-medium disabled:opacity-50"
                   >
                     {resending ? "Resending..." : "Resend confirmation email"}
                   </button>
@@ -389,11 +395,11 @@ function LoginForm() {
             </div>
           )}
 
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-8">
             <form onSubmit={handleSubmit} className="space-y-5">
               {isSignUp && (
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                     Full Name
                   </label>
                   <div className="relative">
@@ -403,14 +409,14 @@ function LoginForm() {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       required
-                      className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                      className="w-full pl-11 pr-4 py-3 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                       placeholder="John Doe"
                     />
                   </div>
                 </div>
               )}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                   Email address
                 </label>
                 <div className="relative">
@@ -420,7 +426,7 @@ function LoginForm() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                    className="w-full pl-11 pr-4 py-3 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                     placeholder="you@example.com"
                   />
                 </div>
@@ -428,7 +434,7 @@ function LoginForm() {
 
               {!isSignUp && (
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                     Password
                   </label>
                   <div className="relative">
@@ -438,13 +444,13 @@ function LoginForm() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
-                      className="w-full pl-11 pr-12 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                      className="w-full pl-11 pr-12 py-3 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                       placeholder="••••••••"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition"
                     >
                       {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                     </button>
@@ -453,7 +459,7 @@ function LoginForm() {
                     <button
                       type="button"
                       onClick={() => setForgotPasswordMode(true)}
-                      className="text-xs text-blue-600 hover:text-blue-800 hover:underline font-medium"
+                      className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline font-medium"
                     >
                       Forgot password?
                     </button>
@@ -464,7 +470,7 @@ function LoginForm() {
               {isSignUp && (
                 <>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                       Password
                     </label>
                     <div className="relative">
@@ -475,13 +481,13 @@ function LoginForm() {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                         minLength={6}
-                        className="w-full pl-11 pr-12 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                        className="w-full pl-11 pr-12 py-3 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                         placeholder="••••••••"
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition"
                       >
                         {showPassword ? (
                           <EyeOff size={20} />
@@ -490,12 +496,12 @@ function LoginForm() {
                         )}
                       </button>
                     </div>
-                    <p className="mt-2 text-xs text-slate-500">
+                    <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
                       Must be at least 6 characters
                     </p>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                       Confirm Password
                     </label>
                     <div className="relative">
@@ -506,7 +512,7 @@ function LoginForm() {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         required
                         minLength={6}
-                        className="w-full pl-11 pr-12 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                        className="w-full pl-11 pr-12 py-3 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                         placeholder="••••••••"
                       />
                     </div>
@@ -532,7 +538,7 @@ function LoginForm() {
             {/* Google OAuth */}
             <button
               onClick={handleGoogleSignIn}
-              className="w-full mt-4 flex items-center justify-center gap-3 py-3 border border-slate-300 rounded-xl font-semibold text-slate-700 hover:bg-slate-50 transition"
+              className="w-full mt-4 flex items-center justify-center gap-3 py-3 border border-slate-300 dark:border-slate-700 rounded-xl font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path
@@ -557,10 +563,12 @@ function LoginForm() {
 
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-200"></div>
+                <div className="w-full border-t border-slate-200 dark:border-slate-800"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white text-slate-500">or</span>
+                <span className="px-4 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400">
+                  or
+                </span>
               </div>
             </div>
 
@@ -571,7 +579,7 @@ function LoginForm() {
                 setSuccess("");
                 setEmailNotConfirmed(false);
               }}
-              className="w-full py-3 text-sm text-slate-600 hover:text-slate-900 font-medium transition"
+              className="w-full py-3 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium transition"
             >
               {isSignUp
                 ? "Already have an account? Sign in"
@@ -582,26 +590,38 @@ function LoginForm() {
           <div className="mt-8 grid grid-cols-3 gap-4 text-center">
             <div>
               <div className="text-2xl mb-1">🔒</div>
-              <div className="text-xs text-slate-600">Secure</div>
+              <div className="text-xs text-slate-600 dark:text-slate-400">
+                Secure
+              </div>
             </div>
             <div>
               <div className="text-2xl mb-1">⚡</div>
-              <div className="text-xs text-slate-600">Fast</div>
+              <div className="text-xs text-slate-600 dark:text-slate-400">
+                Fast
+              </div>
             </div>
             <div>
               <div className="text-2xl mb-1">✓</div>
-              <div className="text-xs text-slate-600">Private</div>
+              <div className="text-xs text-slate-600 dark:text-slate-400">
+                Private
+              </div>
             </div>
           </div>
 
-          <div className="mt-8 text-center text-sm text-slate-600">
+          <div className="mt-8 text-center text-sm text-slate-600 dark:text-slate-400">
             <p>
               By continuing, you agree to our{" "}
-              <Link href="/terms" className="text-blue-600 hover:underline">
+              <Link
+                href="/terms"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
                 Terms
               </Link>{" "}
               and{" "}
-              <Link href="/privacy" className="text-blue-600 hover:underline">
+              <Link
+                href="/privacy"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
                 Privacy Policy
               </Link>
             </p>
