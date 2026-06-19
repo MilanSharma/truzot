@@ -281,6 +281,9 @@ export const POST = withContext(async (req: Request) => {
             amount_cents: finalAmount,
             zip_url: zipUrl,
             shoot_name: shootName || null,
+            original_amount_cents: planConfig.amount,
+            discount_amount_cents: discountAmount,
+            discount_code: appliedDiscountCode || null,
             preferences: {
               gender,
               eyeColor,

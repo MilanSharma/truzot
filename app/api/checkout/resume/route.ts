@@ -58,6 +58,13 @@ export async function POST(req: Request) {
     }
 
     const idempotencyKey = `resume-${orderId}-${Date.now()}`;
+    const discountCode = order.discount_code;
+    const discountAmount = order.discount_amount_cents || 0;
+    let stripeCouponObj;
+    if (discountCode && discountAmount === 0) {
+      stripeCouponObj = { coupon: discountCode };
+    }
+
     const session = await stripe.checkout.sessions.create(
       {
         payment_method_types: ["card"],
@@ -89,6 +96,7 @@ export async function POST(req: Request) {
         },
         success_url: `${baseUrl}/claim-order?order=${orderId}`,
         cancel_url: `${baseUrl}/dashboard`,
+        ...(stripeCouponObj ? { discounts: [stripeCouponObj] } : {}),
       },
       { idempotencyKey },
     );

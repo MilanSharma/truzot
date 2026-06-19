@@ -63,6 +63,7 @@ interface CompletedGalleryProps {
 
 const CATEGORY_TABS = [
   { id: "all", name: "All Photos" },
+  { id: "best", name: "Best Headshots" },
   { id: "favorites", name: "Favorites" },
   { id: "corporate", name: "Corporate" },
   { id: "casual", name: "Casual" },
@@ -137,6 +138,7 @@ export default function CompletedGallery({
     null,
   );
   const [downloading, setDownloading] = useState(false);
+  const [downloadingAll, setDownloadingAll] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState({
     current: 0,
     total: 0,
@@ -163,7 +165,17 @@ export default function CompletedGallery({
   }, [hasMore, loadingMore, onLoadMore]);
 
   const sortedFiltered = useMemo(() => {
-    let result = [...filtered];
+    // When "best" tab is active, sort favorites to top
+    const base =
+      activeCategory === "best"
+        ? [...filtered].sort((a, b) => {
+            const aFav = favorites.includes(a.image_url) ? 1 : 0;
+            const bFav = favorites.includes(b.image_url) ? 1 : 0;
+            return bFav - aFav;
+          })
+        : filtered;
+
+    let result = [...base];
 
     // Apply search filter
     if (searchQuery.trim()) {
@@ -238,6 +250,7 @@ export default function CompletedGallery({
     return result;
   }, [
     filtered,
+    activeCategory,
     sortBy,
     favorites,
     hideSimilar,
@@ -271,6 +284,25 @@ export default function CompletedGallery({
     toast("Images deleted", "success");
   };
 
+  const handleDownloadAll = async () => {
+    if (!orderId || sortedFiltered.length === 0) return;
+    setDownloadingAll(true);
+    try {
+      const allUrls = sortedFiltered.map((h) => h.image_url);
+      await serverSideDownload(
+        allUrls,
+        orderId,
+        `truzot-all-${sortedFiltered.length}.zip`,
+        () => {},
+      );
+      toast("Download started", "success");
+    } catch {
+      toast("Failed to download all. Please try again.", "error");
+    } finally {
+      setDownloadingAll(false);
+    }
+  };
+
   const handleBulkDownload = async () => {
     if (selectedImages.length === 0 || !orderId) return;
     setDownloading(true);
@@ -278,6 +310,7 @@ export default function CompletedGallery({
     try {
       await serverSideDownload(
         selectedImages,
+        orderId,
         `truzot-selected-${selectedImages.length}.zip`,
         (current, total) => setDownloadProgress({ current, total }),
       );
@@ -467,6 +500,20 @@ export default function CompletedGallery({
           >
             <Archive className="w-4 h-4" />
             {showArchived ? "Show Active" : "Archived"}
+          </button>
+
+          <button className="flex items-center gap-1.5 px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-600 hover:bg-slate-50 transition">
+            <Eye className="w-4 h-4" />
+            Before/After
+          </button>
+
+          <button
+            onClick={handleDownloadAll}
+            disabled={downloadingAll}
+            className="flex items-center gap-1.5 px-3 py-2 text-sm bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition disabled:opacity-50"
+          >
+            <Download className="w-4 h-4" />
+            {downloadingAll ? "Downloading..." : "Download All"}
           </button>
         </div>
 

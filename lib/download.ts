@@ -1,14 +1,30 @@
+import { supabase } from "@/lib/supabase/client";
+
 export async function serverSideDownload(
   urls: string[],
+  orderId: string,
   filename: string,
   onProgress?: (current: number, total: number) => void,
 ): Promise<void> {
-  const response = await fetch("/api/download", {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  const token = session?.access_token;
+
+  const response = await fetch("/api/download/zip", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ urls, filename }),
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: JSON.stringify({ imageUrls: urls, orderId }),
   });
-  if (!response.ok) throw new Error("Download failed");
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.error || "Download failed");
+  }
+
   const blob = await response.blob();
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
