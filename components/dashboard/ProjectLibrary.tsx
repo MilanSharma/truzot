@@ -868,16 +868,18 @@ export default function ProjectLibrary({
                         </button>
                       )}
                       {o.status !== "pending" && (
-                        <OrderCardActions
-                          order={o}
-                          onDelete={(id) => {
-                            if (onDelete) onDelete(id);
-                          }}
-                          onRetry={onRetry}
-                          onResumeCheckout={onResumeCheckout}
-                          onCancel={onCancel}
-                          onRename={onRename}
-                        />
+                        <div className="ml-auto">
+                          <OrderCardActions
+                            order={o}
+                            onDelete={(id) => {
+                              if (onDelete) onDelete(id);
+                            }}
+                            onRetry={onRetry}
+                            onResumeCheckout={onResumeCheckout}
+                            onCancel={onCancel}
+                            onRename={onRename}
+                          />
+                        </div>
                       )}
                     </div>
                   </div>
