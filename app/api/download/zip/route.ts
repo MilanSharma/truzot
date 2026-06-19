@@ -75,8 +75,8 @@ export const POST = withContext(async (req: Request) => {
       );
     }
 
-    // 🚀 Prevent OOM: Limit to 50 images (approx 25MB, well within Vercel's 1024MB limit)
-    if (safeUrls.length > 50) {
+    // 🚀 Prevent OOM: Limit to 100 images (approx 50MB, well within Vercel's 1024MB limit)
+    if (safeUrls.length > 100) {
       return NextResponse.json(
         { error: "Too many images. Download in batches." },
         { status: 400 },

@@ -453,6 +453,7 @@ function DashboardContent() {
   };
 
   const MAX_ZIP_IMAGES = 250;
+  const ZIP_BATCH_SIZE = 100;
 
   const serverSideDownload = async (
     urls: string[],
@@ -464,9 +465,52 @@ function DashboardContent() {
     } = await supabase.auth.getSession();
     const token = session?.access_token;
 
+    // Auto-batch for >100 images (Executive plan = 200)
+    if (urls.length > ZIP_BATCH_SIZE) {
+      const batches: string[][] = [];
+      for (let i = 0; i < urls.length; i += ZIP_BATCH_SIZE) {
+        batches.push(urls.slice(i, i + ZIP_BATCH_SIZE));
+      }
+
+      for (let i = 0; i < batches.length; i++) {
+        const batchUrls = batches[i];
+        const batchFilename = `${filename.replace(".zip", "")}_part${i + 1}.zip`;
+
+        if (onProgress) onProgress(i + 1, batches.length);
+
+        const res = await fetch("/api/download/zip", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify({ imageUrls: batchUrls, orderId }),
+        });
+
+        if (!res.ok) {
+          toast(`Download failed for batch ${i + 1}. Try again.`, "error");
+          return;
+        }
+
+        const blob = await res.blob();
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = blobUrl;
+        a.download = batchFilename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(blobUrl);
+
+        // Small delay to prevent browser blocking multiple downloads
+        if (i < batches.length - 1)
+          await new Promise((r) => setTimeout(r, 500));
+      }
+      return;
+    }
+
     if (onProgress) onProgress(1, 1);
 
-    // Use server-side ZIP endpoint to prevent mobile browser OOM crashes
     const res = await fetch("/api/download/zip", {
       method: "POST",
       headers: {
