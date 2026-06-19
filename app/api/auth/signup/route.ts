@@ -26,13 +26,13 @@ export const POST = withContext(async (req: Request) => {
         NextResponse.json({ error: parsed.error }, { status: 400 }),
         origin,
       );
-    const { email, password } = parsed.data!;
+    const { email, password, name } = parsed.data!;
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://truzot.com";
     const { data, error } = await supabaseAdmin.auth.admin.generateLink({
       type: "signup",
       email,
       password,
-      options: { redirectTo: `${siteUrl}/login?confirmed=true` },
+      options: { redirectTo: `${siteUrl}/login?confirmed=true`, data: { full_name: name || "" } },
     });
     if (error || !data?.properties?.action_link) {
       return addCors(

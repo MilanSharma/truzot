@@ -12,6 +12,7 @@ import {
   Eye,
   EyeOff,
   ArrowLeft,
+  User,
 } from "lucide-react";
 
 // Wrapper component with Suspense boundary (Required by Next.js for useSearchParams)
@@ -35,6 +36,8 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
@@ -158,10 +161,15 @@ function LoginForm() {
 
     try {
       if (isSignUp) {
+        if (password !== confirmPassword) {
+          setError("Passwords do not match.");
+          setLoading(false);
+          return;
+        }
         const res = await fetch("/api/auth/signup", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({ email, password, name }),
         });
         const data = await res.json();
 
@@ -383,6 +391,24 @@ function LoginForm() {
 
           <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
             <form onSubmit={handleSubmit} className="space-y-5">
+              {isSignUp && (
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Full Name
+                  </label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      required
+                      className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                      placeholder="John Doe"
+                    />
+                  </div>
+                </div>
+              )}
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">
                   Email address
@@ -462,6 +488,23 @@ function LoginForm() {
                   <p className="mt-2 text-xs text-slate-500">
                     Must be at least 6 characters
                   </p>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Confirm Password
+                  </label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      required
+                      minLength={6}
+                      className="w-full pl-11 pr-12 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                      placeholder="••••••••"
+                    />
+                  </div>
                 </div>
               )}
 

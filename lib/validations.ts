@@ -8,6 +8,7 @@ export const passwordField = z
 export const planField = z.enum(["basic", "pro", "executive"]);
 
 export const signupSchema = z.object({
+  name: z.string().max(200).optional(),
   email: emailField,
   password: passwordField,
 });
