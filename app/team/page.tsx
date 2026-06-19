@@ -67,6 +67,9 @@ export default function TeamPage() {
             </p>
           </div>
         </div>
+        <div className="mb-6 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl px-6 py-4 text-sm text-emerald-800 dark:text-emerald-300">
+          Team features are available to all users — no Pro plan required.
+        </div>
         <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-xl p-8">
           <h2 className="text-2xl font-bold mb-4 text-slate-900 dark:text-white">
             Start your team trial

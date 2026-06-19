@@ -99,6 +99,7 @@ function DashboardContent() {
   const [multiSelectMode, setMultiSelectMode] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
+  const [isSigningOut, setIsSigningOut] = useState(false);
   const [confirmModal, setConfirmModal] = useState<{
     isOpen: boolean;
     title: string;
@@ -314,11 +315,7 @@ function DashboardContent() {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
         if (event === "SIGNED_OUT") {
-          subsRef.current?.unsubscribe();
-          subsRef.current = null;
-          setUser(null);
-          setOrders([]);
-          userIdRef.current = null;
+          setIsSigningOut(true);
           return;
         }
         if (event === "SIGNED_IN" && session) {
@@ -804,19 +801,7 @@ function DashboardContent() {
     });
   };
 
-  if (loading) {
-    return (
-      <div className="flex h-screen bg-[var(--bg-primary)] font-sans text-[var(--text-primary)] overflow-hidden">
-        <Sidebar user={user} active={!orderId} />
-        <main className="flex-1 overflow-y-auto relative flex items-center justify-center">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
-            <p className="text-sm text-slate-500">Loading your workspace...</p>
-          </div>
-        </main>
-      </div>
-    );
-  }
+  if (isSigningOut) return null;
 
   if (authChecked && !user && !orderId) {
     return (

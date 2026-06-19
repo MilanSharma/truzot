@@ -33,9 +33,16 @@ const ABANDONED_THRESHOLD_MS = 60 * 60 * 1000;
 
 function ProjectSkeleton() {
   return (
-    <div className="flex flex-col items-center justify-center py-24">
-      <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4" />
-      <p className="text-sm text-slate-500">Loading projects...</p>
+    <div className="animate-in fade-in duration-300">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+        <div>
+          <h1 className="text-3xl font-black text-slate-900 dark:text-white mb-1">
+            My Projects
+          </h1>
+          <div className="h-4 w-24 bg-slate-200 dark:bg-slate-700 rounded animate-pulse mt-2" />
+        </div>
+        <div className="h-12 w-32 bg-slate-200 dark:bg-slate-700 rounded-xl animate-pulse" />
+      </div>
     </div>
   );
 }

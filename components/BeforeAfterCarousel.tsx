@@ -13,59 +13,76 @@ interface BeforeAfterCarouselProps {
   examples: BeforeAfterCard[];
 }
 
+const CARD_WIDTH = 288; // w-72
+const GAP = 24; // gap-6
+const CARD_STEP = CARD_WIDTH + GAP;
+
 export default function BeforeAfterCarousel({
   examples,
 }: BeforeAfterCarouselProps) {
   const [isHovered, setIsHovered] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll functionality
-  useEffect(() => {
-    if (!scrollRef.current || isHovered) return;
+  // Triple the items for seamless infinite loop
+  const displayExamples = [...examples, ...examples, ...examples];
+  const singleSetWidth = examples.length * CARD_STEP;
 
-    const scrollContainer = scrollRef.current;
+  // Start at the beginning of the second set
+  useEffect(() => {
+    if (scrollRef.current && singleSetWidth > 0) {
+      scrollRef.current.scrollLeft = singleSetWidth;
+    }
+  }, [singleSetWidth]);
+
+  // Auto-scroll with infinite loop
+  useEffect(() => {
+    if (!scrollRef.current || isHovered || singleSetWidth === 0) return;
+
+    const container = scrollRef.current;
     let animationId: number;
     let lastTime = 0;
-    const scrollSpeed = 0.5; // pixels per frame
+    const speed = 0.5;
 
-    const scroll = (timestamp: number) => {
+    const tick = (timestamp: number) => {
       if (timestamp - lastTime > 16) {
-        // ~60fps
-        scrollContainer.scrollLeft += scrollSpeed;
+        container.scrollLeft += speed;
 
-        // Reset to start when reaching end (with small threshold for precision)
-        const maxScroll =
-          scrollContainer.scrollWidth - scrollContainer.clientWidth;
-        if (scrollContainer.scrollLeft >= maxScroll - 1) {
-          scrollContainer.scrollLeft = 0;
+        const maxScroll = container.scrollWidth - container.clientWidth;
+
+        // Jump from end of third set back to second set (seamless)
+        if (container.scrollLeft >= singleSetWidth * 2 + CARD_WIDTH) {
+          container.scrollLeft -= singleSetWidth;
         }
+        // Jump from start of first set forward to second set
+        else if (container.scrollLeft <= singleSetWidth - CARD_WIDTH) {
+          container.scrollLeft += singleSetWidth;
+        }
+
         lastTime = timestamp;
       }
-      animationId = requestAnimationFrame(scroll);
+      animationId = requestAnimationFrame(tick);
     };
 
-    animationId = requestAnimationFrame(scroll);
+    animationId = requestAnimationFrame(tick);
 
     return () => {
-      if (animationId) {
-        cancelAnimationFrame(animationId);
-      }
+      if (animationId) cancelAnimationFrame(animationId);
     };
-  }, [isHovered]);
+  }, [isHovered, singleSetWidth]);
 
   return (
     <div
-      className="relative w-full"
+      className="relative w-full overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Scrollable Container */}
       <div
         ref={scrollRef}
-        className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth"
+        className="flex gap-6 overflow-x-hidden scrollbar-hide"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
-        {examples.map((example, index) => (
+        {displayExamples.map((example, index) => (
           <div key={index} className="flex-shrink-0 w-72 relative group">
             {/* Main After Image Card */}
             <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-lg bg-slate-100">
@@ -74,11 +91,11 @@ export default function BeforeAfterCarousel({
                 alt={`${example.name} - Professional headshot`}
                 fill
                 className="object-cover"
-                priority={index === 0}
+                priority={index < 3}
                 sizes="(max-width: 768px) 180px, (max-width: 1024px) 200px, 240px"
               />
 
-              {/* Before Thumbnail - Top Left Corner (Black overlay removed) */}
+              {/* Before Thumbnail */}
               <div className="absolute top-3 left-3 w-16 h-16 rounded-lg overflow-hidden border-2 border-white shadow-md transition-transform duration-300 hover:scale-150 hover:z-50 relative">
                 <Image
                   src={example.before}
