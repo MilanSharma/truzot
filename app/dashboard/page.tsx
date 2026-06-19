@@ -29,6 +29,7 @@ import GalleryErrorBoundary from "@/components/GalleryErrorBoundary";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { useToast } from "@/components/Toast";
 import ConfirmModal from "@/components/ConfirmModal";
+import PromptModal from "@/components/PromptModal";
 import { motion } from "framer-motion";
 
 const LightboxModal = lazy(
@@ -712,22 +713,42 @@ function DashboardContent() {
     });
   };
 
+    const [promptModal, setPromptModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    initialValue: string;
+    action: (val: string) => void;
+  } | null>(null);
+
   const handleRenameOrder = async (id: string) => {
-    const newName = prompt("Enter new shoot name:");
-    if (!newName) return;
-    setOrders((prev) =>
-      prev.map((o) => (o.id === id ? { ...o, shoot_name: newName } : o)),
-    );
-    if (currentOrder && currentOrder.id === id) {
-      setFetchedOrder((prev) =>
-        prev ? { ...prev, shoot_name: newName } : prev,
-      );
-    }
-    toast("Shoot renamed", "success");
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session?.access_token) {
-      await supabase.from("orders").update({ shoot_name: newName }).eq("id", id);
-    }
+    const currentName = orders.find(o => o.id === id)?.shoot_name || "";
+    setPromptModal({
+      isOpen: true,
+      title: "Rename Shoot",
+      message: "Enter a new name for this shoot:",
+      initialValue: currentName,
+      action: async (newName: string) => {
+        if (!newName) {
+          setPromptModal(null);
+          return;
+        }
+        setOrders((prev) =>
+          prev.map((o) => (o.id === id ? { ...o, shoot_name: newName } : o)),
+        );
+        if (currentOrder && currentOrder.id === id) {
+          setFetchedOrder((prev) =>
+            prev ? { ...prev, shoot_name: newName } : prev,
+          );
+        }
+        toast("Shoot renamed", "success");
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.access_token) {
+          await supabase.from("orders").update({ shoot_name: newName }).eq("id", id);
+        }
+        setPromptModal(null);
+      }
+    });
   };
 
   const handleDeleteOrder = async (id: string) => {
@@ -1155,6 +1176,27 @@ function DashboardContent() {
             </Suspense>
           );
         })()}
+      {confirmModal && (
+        <ConfirmModal
+          isOpen={true}
+          title={confirmModal.title}
+          message={confirmModal.message}
+          confirmText={confirmModal.confirmText}
+          confirmStyle={confirmModal.confirmStyle}
+          onConfirm={confirmModal.action}
+          onCancel={() => setConfirmModal(null)}
+        />
+      )}
+      {promptModal && (
+        <PromptModal
+          isOpen={promptModal.isOpen}
+          title={promptModal.title}
+          message={promptModal.message}
+          initialValue={promptModal.initialValue}
+          onConfirm={promptModal.action}
+          onCancel={() => setPromptModal(null)}
+        />
+      )}
       {confirmModal && (
         <ConfirmModal
           isOpen={true}

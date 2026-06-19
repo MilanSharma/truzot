@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useToast } from "@/components/Toast";
 import { supabase } from "@/lib/supabase/client";
+import ConfirmModal from "@/components/ConfirmModal";
 
 interface GeneratingViewProps {
   count: number;
@@ -12,6 +13,7 @@ interface GeneratingViewProps {
 
 export default function GeneratingView({ count, target }: GeneratingViewProps) {
   const [retrying, setRetrying] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const searchParams = useSearchParams();
   const orderId = searchParams.get("order");
   const { toast } = useToast();
@@ -45,12 +47,11 @@ export default function GeneratingView({ count, target }: GeneratingViewProps) {
 
   const handleCancel = async () => {
     if (!orderId || retrying) return;
-    if (
-      !confirm(
-        "Are you sure you want to cancel this generation? You will be refunded if you have paid.",
-      )
-    )
-      return;
+    setConfirmOpen(true);
+  };
+
+  const executeCancel = async () => {
+    setConfirmOpen(false);
     setRetrying(true);
     try {
       const {
@@ -118,6 +119,18 @@ export default function GeneratingView({ count, target }: GeneratingViewProps) {
           Stuck? Click resume to trigger the next batch of images.
         </p>
       </div>
+    </div>
+      {confirmOpen && (
+        <ConfirmModal
+          isOpen={true}
+          title="Stop Processing"
+          message="Are you sure you want to cancel this generation? You will be refunded if you have paid."
+          confirmText="Cancel Shoot"
+          confirmStyle="bg-red-600 hover:bg-red-700"
+          onConfirm={executeCancel}
+          onCancel={() => setConfirmOpen(false)}
+        />
+      )}
     </div>
   );
 }
