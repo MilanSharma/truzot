@@ -25,7 +25,7 @@ export default function Sidebar({
       <div>
         <div className="h-16 flex items-center px-6 border-b border-[var(--border-primary)]">
           <Link
-            href="/dashboard"
+            href="/"
             className="text-xl font-black tracking-tighter bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
           >
             TRUZOT

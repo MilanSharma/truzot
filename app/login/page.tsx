@@ -46,6 +46,7 @@ function LoginForm() {
   const [forgotPasswordMode, setForgotPasswordMode] = useState(false);
   const [resending, setResending] = useState(false);
   const [emailNotConfirmed, setEmailNotConfirmed] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const [isDark, setIsDark] = useState(
     typeof document !== "undefined" &&
       document.documentElement.classList.contains("dark"),
@@ -71,6 +72,7 @@ function LoginForm() {
       } = await supabase.auth.getSession();
 
       if (session) {
+        setIsRedirecting(true);
         const nextParam = searchParams.get("next") || "/dashboard";
         router.replace(nextParam);
         return;
@@ -200,6 +202,7 @@ function LoginForm() {
             setError(error.message);
           }
         } else {
+          setIsRedirecting(true);
           const nextParam = searchParams.get("next") || "/dashboard";
           router.push(nextParam);
         }
@@ -210,6 +213,16 @@ function LoginForm() {
       setLoading(false);
     }
   };
+
+  if (isRedirecting) {
+    return (
+      <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      </div>
+    );
+  }
 
   if (forgotPasswordMode) {
     return (
