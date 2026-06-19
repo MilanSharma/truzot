@@ -48,7 +48,6 @@ function LoginForm() {
   const [emailNotConfirmed, setEmailNotConfirmed] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [isCheckingSession, setIsCheckingSession] = useState(true);
-  const [isCheckingSession, setIsCheckingSession] = useState(true);
   const [isDark, setIsDark] = useState(
     typeof document !== "undefined" &&
       document.documentElement.classList.contains("dark"),

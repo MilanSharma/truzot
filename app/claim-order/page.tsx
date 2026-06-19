@@ -26,7 +26,6 @@ function ClaimOrderForm() {
   const [isSignIn, setIsSignIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isCheckingSession, setIsCheckingSession] = useState(true);
-  const [isCheckingSession, setIsCheckingSession] = useState(true);
 
   const isValidUuid =
     orderId &&
