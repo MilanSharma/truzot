@@ -28,7 +28,7 @@ import {
 } from "lucide-react";
 import VirtualizedHeadshotGrid from "@/components/VirtualizedHeadshotGrid";
 import type { Headshot } from "@/lib/types";
-import { toast } from "@/components/Toast";
+import { useToast } from "@/components/Toast";
 import { supabase } from "@/lib/supabase/client";
 import { serverSideDownload } from "@/lib/download";
 
@@ -141,6 +141,8 @@ export default function CompletedGallery({
     current: 0,
     total: 0,
   });
+
+  const { toast } = useToast();
 
   const sentinelRef = useRef<HTMLDivElement>(null);
 
