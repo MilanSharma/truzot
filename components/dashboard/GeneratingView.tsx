@@ -118,19 +118,18 @@ export default function GeneratingView({ count, target }: GeneratingViewProps) {
         <p className="text-[10px] font-semibold text-slate-400 mt-4">
           Stuck? Click resume to trigger the next batch of images.
         </p>
+        {confirmOpen && (
+          <ConfirmModal
+            isOpen={true}
+            title="Stop Processing"
+            message="Are you sure you want to cancel this generation? You will be refunded if you have paid."
+            confirmText="Cancel Shoot"
+            confirmStyle="bg-red-600 hover:bg-red-700"
+            onConfirm={executeCancel}
+            onCancel={() => setConfirmOpen(false)}
+          />
+        )}
       </div>
-    </div>
-      {confirmOpen && (
-        <ConfirmModal
-          isOpen={true}
-          title="Stop Processing"
-          message="Are you sure you want to cancel this generation? You will be refunded if you have paid."
-          confirmText="Cancel Shoot"
-          confirmStyle="bg-red-600 hover:bg-red-700"
-          onConfirm={executeCancel}
-          onCancel={() => setConfirmOpen(false)}
-        />
-      )}
     </div>
   );
 }
