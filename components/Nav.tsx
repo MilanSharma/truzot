@@ -16,7 +16,11 @@ import { useRouter } from "next/navigation";
 
 interface NavProps {
   showBack?: boolean;
-  user?: { email: string; id?: string } | null;
+  user?: {
+    email?: string;
+    id?: string;
+    user_metadata?: { full_name?: string; avatar_url?: string };
+  } | null;
 }
 
 function DarkModeToggle() {
@@ -48,7 +52,11 @@ function UserMenu({
   user,
   onLogout,
 }: {
-  user: { email: string; id?: string } | null;
+  user: {
+    email?: string;
+    id?: string;
+    user_metadata?: { full_name?: string; avatar_url?: string };
+  } | null;
   onLogout: () => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -84,10 +92,12 @@ function UserMenu({
         aria-expanded={isOpen}
       >
         <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold text-sm">
-          {user.email?.charAt(0).toUpperCase()}
+          {(user.user_metadata?.full_name || user.email || "?")
+            .charAt(0)
+            .toUpperCase()}
         </div>
         <span className="hidden md:block text-sm font-medium text-slate-700 dark:text-slate-300 truncate max-w-[140px]">
-          {user.email}
+          {user.user_metadata?.full_name || user.email}
         </span>
       </button>
 
@@ -101,10 +111,7 @@ function UserMenu({
           <div className="absolute right-0 mt-2 w-56 bg-[var(--bg-card)] border border-[var(--border-primary)] rounded-xl shadow-xl py-1 z-50 animate-in fade-in zoom-in-95 duration-100">
             <div className="px-4 py-3 border-b border-[var(--border-primary)]">
               <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">
-                {user.email}
-              </p>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                Pro Plan
+                {user.user_metadata?.full_name || user.email}
               </p>
             </div>
             <Link
@@ -148,7 +155,16 @@ function UserMenu({
 
 export default function Nav({ showBack = false, user = null }: NavProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isAuthed, setIsAuthed] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    if (showBack) {
+      supabase.auth.getUser().then(({ data }) => {
+        if (data.user) setIsAuthed(true);
+      });
+    }
+  }, [showBack]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -163,6 +179,18 @@ export default function Nav({ showBack = false, user = null }: NavProps) {
           className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
         >
           Pricing
+        </Link>
+        <Link
+          href="/about"
+          className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
+        >
+          About
+        </Link>
+        <Link
+          href="/blog"
+          className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
+        >
+          Blog
         </Link>
         <Link
           href="/faq"
@@ -238,10 +266,10 @@ export default function Nav({ showBack = false, user = null }: NavProps) {
         </Link>
         {showBack ? (
           <Link
-            href="/"
+            href={isAuthed ? "/dashboard" : "/"}
             className="text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-white transition"
           >
-            ← Back to Home
+            ← {isAuthed ? "Dashboard" : "Back to Home"}
           </Link>
         ) : (
           navLinks
@@ -255,6 +283,20 @@ export default function Nav({ showBack = false, user = null }: NavProps) {
             className="text-slate-600 dark:text-slate-400"
           >
             Pricing
+          </Link>
+          <Link
+            href="/about"
+            onClick={() => setMobileOpen(false)}
+            className="text-slate-600 dark:text-slate-400"
+          >
+            About
+          </Link>
+          <Link
+            href="/blog"
+            onClick={() => setMobileOpen(false)}
+            className="text-slate-600 dark:text-slate-400"
+          >
+            Blog
           </Link>
           <Link
             href="/faq"
@@ -283,7 +325,7 @@ export default function Nav({ showBack = false, user = null }: NavProps) {
               onClick={() => setMobileOpen(false)}
               className="text-slate-600 dark:text-slate-400"
             >
-              {user.email}
+              {user.user_metadata?.full_name || user.email}
             </Link>
           ) : (
             <Link

@@ -63,7 +63,7 @@ export default function MobileDrawer({
           <div className="absolute bottom-6 left-6 right-6 pt-4 border-t border-slate-200">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-slate-500 truncate">
-                {user.email}
+                {user.user_metadata?.full_name || user.email}
               </span>
               <button
                 onClick={() =>

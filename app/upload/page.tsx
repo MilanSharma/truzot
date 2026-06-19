@@ -7,7 +7,7 @@ import {
   useRef,
   useMemo,
 } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 
@@ -87,15 +87,31 @@ function getSavedState(): Record<string, unknown> | null {
 function UploadContent() {
   const searchParams = useSearchParams();
   const { toast } = useToast();
-  const [user, setUser] = useState<{ email: string } | null>(null);
+  const router = useRouter();
+  const [authLoading, setAuthLoading] = useState(true);
+  const [user, setUser] = useState<{
+    email: string;
+    user_metadata?: any;
+  } | null>(null);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
       if (data.user?.email) {
-        setUser({ email: data.user.email });
+        setUser({
+          email: data.user.email,
+          user_metadata: data.user.user_metadata,
+        });
       }
+      setAuthLoading(false);
     });
   }, []);
+
+  // Redirect unauthenticated users to login
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push("/login");
+    }
+  }, [authLoading, user, router]);
 
   const urlStep = parseInt(searchParams.get("step") ?? "") as Step;
   const [step, setStep] = useState<Step>(() => {
@@ -867,6 +883,19 @@ function UploadContent() {
     filesRef.current = [];
   };
 
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-[var(--bg-primary)] font-sans flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm text-slate-500">Checking authentication...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) return null;
+
   return (
     <UploadErrorBoundary>
       <div
@@ -1032,6 +1061,24 @@ function UploadContent() {
                     </div>
                   )}
 
+                  {isUploadingBackground && (
+                    <div className="mt-6">
+                      <div className="flex items-center justify-between text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5">
+                        <div className="flex items-center gap-1.5">
+                          <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-500" />
+                          <span>
+                            {backgroundProgress || "Uploading photos..."}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-blue-500 rounded-full animate-pulse transition-all duration-300"
+                          style={{ width: "60%" }}
+                        />
+                      </div>
+                    </div>
+                  )}
                   {storagePath && (
                     <div className="mt-6 p-4 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/50 rounded-xl text-center">
                       <div className="flex items-center justify-center gap-2 text-xs font-bold text-emerald-600 dark:text-emerald-400">

@@ -98,7 +98,7 @@ export default function AccountSettingsPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
-      <Nav user={user?.email ? { email: user.email } : null} />
+      <Nav user={user} />
       <div className="max-w-2xl mx-auto px-6 py-16">
         <h1 className="text-3xl font-bold mb-8 text-slate-900 dark:text-white">
           Account Settings
