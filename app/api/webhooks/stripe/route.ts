@@ -103,7 +103,7 @@ export const POST = withContext(async (req: Request) => {
     const prefs = (order.preferences as Record<string, any>) || {};
     let freshZipUrl = order.zip_url;
     const storagePath = prefs.storagePath as string | undefined;
-    if (!freshZipUrl && storagePath) {
+    if (storagePath) {
       try {
         const { data: newData } = await supabaseAdmin.storage
           .from("uploads")

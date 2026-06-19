@@ -26,7 +26,9 @@ export async function POST(req: Request) {
 
     const { data: order } = await supabase
       .from("orders")
-      .select("user_id, status, plan, email, preferences")
+      .select(
+        "user_id, status, plan, email, preferences, discount_amount_cents, discount_code",
+      )
       .eq("id", orderId)
       .single();
     if (!order || order.user_id !== user.id)
@@ -70,7 +72,9 @@ export async function POST(req: Request) {
                 name: label,
                 description: "AI Professional Headshots",
               },
-              unit_amount: planConfig.amount,
+              unit_amount: order.discount_amount_cents
+                ? Math.max(0, planConfig.amount - order.discount_amount_cents)
+                : planConfig.amount,
             },
             quantity: 1,
           },
@@ -80,6 +84,8 @@ export async function POST(req: Request) {
           plan: order.plan,
           email: order.email,
           userId: user.id,
+          discount_code: order.discount_code || "",
+          discount_amount: (order.discount_amount_cents || 0).toString(),
         },
         success_url: `${baseUrl}/claim-order?order=${orderId}`,
         cancel_url: `${baseUrl}/dashboard`,

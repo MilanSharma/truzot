@@ -4,6 +4,8 @@ import { getAuthenticatedClient } from "@/lib/supabase/authenticated";
 import JSZip from "jszip";
 import { withContext } from "@/lib/request-context";
 
+export const maxDuration = 60;
+
 export const POST = withContext(async (req: Request) => {
   try {
     const { imageUrls, orderId } = await req.json();
