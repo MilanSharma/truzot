@@ -70,6 +70,7 @@ function OrderCardActions({
   }>({ below: true, left: 0, top: 0 });
   const buttonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const calculatePosition = useCallback(() => {
     if (!buttonRef.current || !menuRef.current) return;
@@ -107,7 +108,10 @@ function OrderCardActions({
 
   useEffect(() => {
     if (menuOpen) {
-      calculatePosition();
+      // Small delay to ensure menu is rendered before measuring
+      requestAnimationFrame(() => {
+        calculatePosition();
+      });
       window.addEventListener("resize", calculatePosition);
       window.addEventListener("scroll", calculatePosition, true);
     }
