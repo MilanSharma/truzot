@@ -2,7 +2,10 @@ import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { getAuthenticatedClient } from "@/lib/supabase/authenticated";
 import JSZip from "jszip";
+import { createLogger } from "@/lib/logger";
 import { withContext } from "@/lib/request-context";
+
+const log = createLogger("download-zip");
 
 export const maxDuration = 60;
 
@@ -95,7 +98,7 @@ export const POST = withContext(async (req: Request) => {
               zip.file(`headshot_${i + idx + 1}.jpg`, buf);
             }
           } catch (e) {
-            console.error("Failed to fetch image for ZIP", url);
+            log.error({ url, err: e }, "Failed to fetch image for ZIP");
           }
         }),
       );
@@ -110,7 +113,7 @@ export const POST = withContext(async (req: Request) => {
       },
     });
   } catch (err) {
-    console.error("ZIP generation failed", err);
+    log.error({ err }, "ZIP generation failed");
     return NextResponse.json(
       { error: "ZIP generation failed" },
       { status: 500 },

@@ -3,6 +3,7 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { getAuthenticatedClient } from "@/lib/supabase/authenticated";
 import { PLANS } from "@/lib/plans";
 import { checkoutSchema, validate } from "@/lib/validations";
+import * as Sentry from "@sentry/nextjs";
 import { addCors, handleOptions } from "@/lib/cors";
 import { createLogger } from "@/lib/logger";
 import { withContext } from "@/lib/request-context";
@@ -415,6 +416,7 @@ export const POST = withContext(async (req: Request) => {
       throw err;
     }
   } catch (err) {
+    Sentry.captureException(err);
     const message =
       err instanceof Error ? err.message : "Unknown checkout error";
     log.error(

@@ -164,6 +164,71 @@ export const GET = withContext(async (req: Request) => {
       .eq("id", order.id);
   }
 
+  // Anomaly detection: stale pending orders (> 24 hours)
+  const twentyFourHoursAgo = new Date(
+    Date.now() - 24 * 60 * 60 * 1000,
+  ).toISOString();
+  const { data: stalePending } = await supabaseAdmin
+    .from("orders")
+    .select("id, user_id, created_at")
+    .eq("status", "pending")
+    .lt("created_at", twentyFourHoursAgo)
+    .limit(50);
+
+  if (stalePending && stalePending.length > 0) {
+    log.warn(
+      { count: stalePending.length },
+      "Stale pending orders detected (> 24 hours old)",
+    );
+  }
+
+  // Anomaly detection: users with multiple pending orders (duplicate)
+  const { data: pendingByUser } = await supabaseAdmin
+    .from("orders")
+    .select("user_id, id, created_at")
+    .eq("status", "pending")
+    .not("user_id", "is", null)
+    .order("user_id", { ascending: true })
+    .order("created_at", { ascending: false });
+
+  if (pendingByUser && pendingByUser.length > 0) {
+    const userCounts = new Map<
+      string,
+      { ids: string[]; createdAts: string[] }
+    >();
+    for (const o of pendingByUser) {
+      const uid = o.user_id as string;
+      if (!userCounts.has(uid)) {
+        userCounts.set(uid, { ids: [], createdAts: [] });
+      }
+      userCounts.get(uid)!.ids.push(o.id);
+      userCounts.get(uid)!.createdAts.push(o.created_at);
+    }
+
+    let duplicatesFlagged = 0;
+    for (const [uid, data] of userCounts) {
+      if (data.ids.length > 1) {
+        log.warn(
+          { userId: uid, count: data.ids.length },
+          "User has multiple pending orders; marking older ones as failed",
+        );
+        // Keep most recent (first in desc-sorted array), fail the rest
+        const toFail = data.ids.slice(1);
+        for (const id of toFail) {
+          await supabaseAdmin
+            .from("orders")
+            .update({ status: "failed" })
+            .eq("id", id);
+          duplicatesFlagged++;
+        }
+      }
+    }
+
+    if (duplicatesFlagged > 0) {
+      log.info({ count: duplicatesFlagged }, "Duplicate pending orders failed");
+    }
+  }
+
   if (stuckResults.flagged > 0) {
     log.info(stuckResults, "Stuck order check complete");
     // Notify admin

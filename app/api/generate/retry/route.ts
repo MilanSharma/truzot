@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { getAuthenticatedClient } from "@/lib/supabase/authenticated";
 import { createLogger } from "@/lib/logger";
@@ -62,6 +63,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ status: "retrying" });
   } catch (err) {
+    Sentry.captureException(err);
     log.error({ err }, "Retry generation failed");
     return NextResponse.json(
       { error: "Failed to retry generation" },

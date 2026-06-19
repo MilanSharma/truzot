@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { getAuthenticatedClient } from "@/lib/supabase/authenticated";
 import { createLogger } from "@/lib/logger";
@@ -93,6 +94,7 @@ export const POST = withContext(async (req: Request) => {
 
     return addCors(NextResponse.json({ success: true }), origin);
   } catch (err) {
+    Sentry.captureException(err);
     log.error({ err }, "Cancel order failed");
     return addCors(
       NextResponse.json({ error: "Failed to cancel order" }, { status: 500 }),

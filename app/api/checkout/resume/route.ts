@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { getAuthenticatedClient } from "@/lib/supabase/authenticated";
 import { PLANS } from "@/lib/plans";
@@ -49,13 +50,8 @@ export async function POST(req: Request) {
     const label = `${planConfig.name} — ${planConfig.shots} Headshots`;
 
     let customerId: string | undefined;
-    const existingCustomers = await stripe.customers.list({
-      email: order.email,
-      limit: 1,
-    });
-    if (existingCustomers.data.length > 0) {
-      customerId = existingCustomers.data[0].id;
-    }
+    const prefs = (order.preferences as Record<string, any>) || {};
+    customerId = prefs.stripe_customer_id;
 
     const idempotencyKey = `resume-${orderId}-${Date.now()}`;
     const discountCode = order.discount_code;
@@ -103,6 +99,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ url: session.url });
   } catch (err) {
+    Sentry.captureException(err);
     log.error({ err }, "Resume checkout failed");
     return NextResponse.json(
       { error: "Failed to resume checkout" },

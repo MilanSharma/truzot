@@ -23,6 +23,7 @@ import {
   Mail,
   Sparkles,
   AlertCircle,
+  Loader2,
 } from "lucide-react";
 import Sidebar from "@/components/dashboard/Sidebar";
 import MobileDrawer from "@/components/dashboard/MobileDrawer";
@@ -100,6 +101,7 @@ function DashboardContent() {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
+  const [resumingPayment, setResumingPayment] = useState(false);
   const [confirmModal, setConfirmModal] = useState<{
     isOpen: boolean;
     title: string;
@@ -1059,38 +1061,20 @@ function DashboardContent() {
                     left off and complete your checkout.
                   </p>
                   <button
-                    onClick={async () => {
-                      const prefs =
-                        (currentOrder.preferences as Record<string, any>) || {};
-                      const {
-                        data: { session },
-                      } = await supabase.auth.getSession();
-                      const token = session?.access_token;
-                      const authHeaders: Record<string, string> = {
-                        "Content-Type": "application/json",
-                      };
-                      if (token) authHeaders.Authorization = `Bearer ${token}`;
-                      const idempotencyKey = crypto.randomUUID();
-                      try {
-                        const res = await fetch("/api/checkout/resume", {
-                          method: "POST",
-                          headers: authHeaders,
-                          body: JSON.stringify({ orderId: currentOrder.id }),
-                        });
-                        if (!res.ok) {
-                          const errBody = await res.json().catch(() => null);
-                          toast(errBody?.error || "Checkout failed", "error");
-                          return;
-                        }
-                        const { url } = await res.json();
-                        if (url) window.location.href = url;
-                      } catch {
-                        toast("Checkout failed. Please try again.", "error");
-                      }
-                    }}
-                    className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition flex items-center justify-center gap-2 mx-auto shadow-sm"
+                    onClick={() => handleResumeCheckout(currentOrder.id)}
+                    disabled={resumingPayment}
+                    className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition flex items-center justify-center gap-2 mx-auto shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Resume Payment <ChevronRight className="w-5 h-5" />
+                    {resumingPayment ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Processing...
+                      </>
+                    ) : (
+                      <>
+                        Resume Payment <ChevronRight className="w-5 h-5" />
+                      </>
+                    )}
                   </button>
                 </div>
               )}

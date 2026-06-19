@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { createClient } from "@supabase/supabase-js";
+import { createLogger } from "@/lib/logger";
+
+const log = createLogger("claim-order");
 
 export async function POST(request: NextRequest) {
   try {
@@ -84,6 +88,8 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (err) {
+    Sentry.captureException(err);
+    log.error({ err }, "Claim order failed");
     return NextResponse.json(
       { error: "Internal server error." },
       { status: 500 },
