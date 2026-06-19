@@ -108,7 +108,7 @@ function UserMenu({
             onClick={() => setIsOpen(false)}
             aria-hidden="true"
           />
-          <div className="absolute right-0 mt-2 w-56 bg-[var(--bg-card)] border border-[var(--border-primary)] rounded-xl shadow-xl py-1 z-50 animate-in fade-in zoom-in-95 duration-100">
+          <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-56 bg-[var(--bg-card)] border border-[var(--border-primary)] rounded-xl shadow-xl py-1 z-50 animate-in fade-in zoom-in-95 duration-100">
             <div className="px-4 py-3 border-b border-[var(--border-primary)]">
               <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">
                 {user.user_metadata?.full_name || user.email}
