@@ -94,7 +94,7 @@ export const POST = withContext(async (req: Request) => {
 
     const { data: order } = await supabaseAdmin
       .from("orders")
-      .select("status, plan, email, preferences")
+      .select("status, plan, email, preferences, shoot_name")
       .eq("id", orderId)
       .single();
     if (!order)
