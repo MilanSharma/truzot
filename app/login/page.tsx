@@ -47,6 +47,8 @@ function LoginForm() {
   const [resending, setResending] = useState(false);
   const [emailNotConfirmed, setEmailNotConfirmed] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const [isCheckingSession, setIsCheckingSession] = useState(true);
+  const [isCheckingSession, setIsCheckingSession] = useState(true);
   const [isDark, setIsDark] = useState(
     typeof document !== "undefined" &&
       document.documentElement.classList.contains("dark"),
@@ -81,6 +83,7 @@ function LoginForm() {
       if (searchParams.get("confirmed") === "true") {
         setSuccess("Email confirmed successfully! You can now sign in.");
       }
+      setIsCheckingSession(false);
     };
 
     handleOAuthError();
@@ -214,7 +217,7 @@ function LoginForm() {
     }
   };
 
-  if (isRedirecting) {
+  if (isRedirecting || isCheckingSession) {
     return (
       <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">

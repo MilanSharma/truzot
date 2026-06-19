@@ -2,7 +2,15 @@
 import { useEffect, useState, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
-import { CheckCircle, Eye, EyeOff, Mail, Lock, ArrowRight, User } from "lucide-react";
+import {
+  CheckCircle,
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  ArrowRight,
+  User,
+} from "lucide-react";
 import Nav from "@/components/Nav";
 
 function ClaimOrderForm() {
@@ -17,6 +25,8 @@ function ClaimOrderForm() {
   const [error, setError] = useState("");
   const [isSignIn, setIsSignIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isCheckingSession, setIsCheckingSession] = useState(true);
+  const [isCheckingSession, setIsCheckingSession] = useState(true);
 
   const isValidUuid =
     orderId &&
@@ -32,6 +42,7 @@ function ClaimOrderForm() {
     } = await supabase.auth.getSession();
     if (!session?.access_token) {
       setError("Please sign in first.");
+      setIsCheckingSession(false);
       return;
     }
 
@@ -51,15 +62,18 @@ function ClaimOrderForm() {
         return;
       }
       setError(body.error || "Failed to claim order.");
+      setIsCheckingSession(false);
     } else {
       router.push(`/dashboard?order=${orderId}`);
     }
-  }, [orderId, router, setError]);
+  }, [orderId, router, setError, setIsCheckingSession]);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session && orderId) {
         claimOrder();
+      } else {
+        setIsCheckingSession(false);
       }
     });
   }, [orderId, claimOrder]);
@@ -135,7 +149,14 @@ function ClaimOrderForm() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50 dark:from-slate-950 dark:via-slate-900 dark:to-emerald-950">
       <Nav />
       <div className="max-w-md mx-auto px-6 py-12 md:py-20">
-        {!isValidUuid ? (
+        {isCheckingSession ? (
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-10 shadow-lg text-center flex flex-col items-center justify-center min-h-[400px]">
+            <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4" />
+            <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+              Verifying secure link...
+            </p>
+          </div>
+        ) : !isValidUuid ? (
           <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-10 shadow-lg text-center">
             <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
               Invalid Link
