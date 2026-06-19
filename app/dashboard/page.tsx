@@ -806,15 +806,14 @@ function DashboardContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[var(--bg-secondary)] p-6 md:p-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="skeleton h-10 w-64 mb-8" />
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="skeleton h-48 rounded-2xl" />
-            ))}
+      <div className="flex h-screen bg-[var(--bg-primary)] font-sans text-[var(--text-primary)] overflow-hidden">
+        <Sidebar user={user} active={!orderId} />
+        <main className="flex-1 overflow-y-auto relative flex items-center justify-center">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+            <p className="text-sm text-slate-500">Loading your workspace...</p>
           </div>
-        </div>
+        </main>
       </div>
     );
   }
@@ -1249,12 +1248,10 @@ export default function DashboardPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[var(--bg-secondary)] p-6 md:p-10">
-          <div className="skeleton h-10 w-64 mb-8" />
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="skeleton h-48 rounded-2xl" />
-            ))}
+        <div className="min-h-screen bg-[var(--bg-secondary)] flex items-center justify-center">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+            <p className="text-sm text-slate-500">Loading dashboard...</p>
           </div>
         </div>
       }

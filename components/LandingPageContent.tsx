@@ -24,6 +24,7 @@ import { useState, useEffect } from "react";
 import ComparisonSlider from "@/components/ComparisonSlider";
 import BeforeAfterCarousel from "@/components/BeforeAfterCarousel";
 import { PLANS, HEADSHOT_CATEGORIES } from "@/lib/plans";
+import { supabase } from "@/lib/supabase/client";
 import {
   ProductSchema,
   SpeakableSchema,
@@ -195,9 +196,16 @@ export default function LandingPageContent() {
   const [showExitPopup, setShowExitPopup] = useState(false);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isAuthed, setIsAuthed] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
   >("idle");
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      if (data?.session) setIsAuthed(true);
+    });
+  }, []);
 
   // Exit-intent detection with suppression checks
   useEffect(() => {
@@ -285,12 +293,21 @@ export default function LandingPageContent() {
               <a href="#faq" className="hover:text-blue-600 transition">
                 FAQ
               </a>
-              <Link
-                href="/login"
-                className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
-              >
-                Sign In
-              </Link>
+              {isAuthed ? (
+                <Link
+                  href="/dashboard"
+                  className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
+                >
+                  Dashboard
+                </Link>
+              ) : (
+                <Link
+                  href="/login"
+                  className="text-slate-600 dark:text-slate-400 hover:text-blue-600 transition"
+                >
+                  Sign In
+                </Link>
+              )}
               <Link
                 href="/upload"
                 className="bg-blue-600 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-blue-700 transition shadow-md"
@@ -317,9 +334,18 @@ export default function LandingPageContent() {
               <a href="#pricing" onClick={() => setMobileMenuOpen(false)}>
                 Pricing
               </a>
-              <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                Sign In
-              </Link>
+              {isAuthed ? (
+                <Link
+                  href="/dashboard"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Dashboard
+                </Link>
+              ) : (
+                <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                  Sign In
+                </Link>
+              )}
               <Link
                 href="/upload"
                 onClick={() => setMobileMenuOpen(false)}
