@@ -143,9 +143,12 @@ export const POST = withContext(async (req: Request) => {
         .eq("order_id", orderId)
         .in("status", ["training", "generating"]);
       if (order.email)
-        await sendHeadshotsReadyEmail(order.email, orderId, currentCount).catch(
-          (err) => log.error({ err, orderId }, "Email send failed"),
-        );
+        await sendHeadshotsReadyEmail(
+          order.email,
+          orderId,
+          currentCount,
+          order.shoot_name,
+        ).catch((err) => log.error({ err, orderId }, "Email send failed"));
       log.info(
         { orderId, count: currentCount, target: targetCount },
         "Generation completed",
@@ -260,9 +263,12 @@ export const POST = withContext(async (req: Request) => {
         .eq("order_id", orderId)
         .in("status", ["training", "generating"]);
       if (order.email)
-        await sendHeadshotsReadyEmail(order.email, orderId, newTotal).catch(
-          (err) => log.error({ err, orderId }, "Email send failed"),
-        );
+        await sendHeadshotsReadyEmail(
+          order.email,
+          orderId,
+          newTotal,
+          order.shoot_name,
+        ).catch((err) => log.error({ err, orderId }, "Email send failed"));
       return addCors(
         NextResponse.json({
           status: "completed",

@@ -450,7 +450,7 @@ function DashboardContent() {
     );
   };
 
-  const MAX_ZIP_IMAGES = 50;
+  const MAX_ZIP_IMAGES = 250;
 
   const serverSideDownload = async (
     urls: string[],
