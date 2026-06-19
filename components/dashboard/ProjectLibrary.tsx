@@ -68,8 +68,7 @@ function OrderCardActions({
   onRename?: (id: string) => void;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+
   const [menuPosition, setMenuPosition] = useState<{
     below: boolean;
     left: number;
@@ -115,17 +114,18 @@ function OrderCardActions({
 
   useEffect(() => {
     if (menuOpen) {
-      // Small delay to ensure menu is rendered before measuring
-      requestAnimationFrame(() => {
+      // Use setTimeout to ensure portal content is rendered and laid out before measuring
+      const timer = setTimeout(() => {
         calculatePosition();
-      });
+      }, 0);
       window.addEventListener("resize", calculatePosition);
       window.addEventListener("scroll", calculatePosition, true);
+      return () => {
+        clearTimeout(timer);
+        window.removeEventListener("resize", calculatePosition);
+        window.removeEventListener("scroll", calculatePosition, true);
+      };
     }
-    return () => {
-      window.removeEventListener("resize", calculatePosition);
-      window.removeEventListener("scroll", calculatePosition, true);
-    };
   }, [menuOpen, calculatePosition]);
 
   useEffect(() => {
@@ -153,80 +153,82 @@ function OrderCardActions({
         <MoreHorizontal className="w-5 h-5" />
       </button>
 
-      {menuOpen && mounted && typeof document !== 'undefined' && createPortal(
-        <div
-          ref={menuRef}
-          className="fixed z-[9999] w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xl py-1.5 animate-in fade-in zoom-in-95 duration-100"
-          style={{
-            left: menuPosition.left,
-            top: menuPosition.top,
-            maxHeight: "80vh",
-            overflowY: "auto",
-          }}
-        >
-          {onRename && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onRename(order.id);
-                setMenuOpen(false);
-              }}
-              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition text-left whitespace-nowrap"
-            >
-              <Edit className="w-4 h-4 shrink-0" /> Rename Shoot
-            </button>
-          )}
-          {["training", "generating"].includes(order.status) && onCancel && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onCancel(order.id);
-                setMenuOpen(false);
-              }}
-              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-amber-600 dark:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition text-left whitespace-nowrap"
-            >
-              <X className="w-4 h-4 shrink-0" /> Stop Processing
-            </button>
-          )}
-          {order.status === "failed" && onRetry && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onRetry(order.id);
-                setMenuOpen(false);
-              }}
-              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition text-left whitespace-nowrap"
-            >
-              <RefreshCw className="w-4 h-4 shrink-0" /> Retry Generation
-            </button>
-          )}
-          {order.status === "pending" && onResumeCheckout && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onResumeCheckout(order.id);
-                setMenuOpen(false);
-              }}
-              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition text-left whitespace-nowrap"
-            >
-              <ShoppingCart className="w-4 h-4 shrink-0" /> Resume Checkout
-            </button>
-          )}
-          {onDelete && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete(order.id);
-                setMenuOpen(false);
-              }}
-              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition text-left whitespace-nowrap"
-            >
-              <Trash2 className="w-4 h-4 shrink-0" /> Delete Shoot
-            </button>
-          )}
-        </div>,
-        document.body
-      )}
+      {menuOpen &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <div
+            ref={menuRef}
+            className="fixed z-[9999] w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xl py-1.5 animate-in fade-in zoom-in-95 duration-100"
+            style={{
+              left: menuPosition.left,
+              top: menuPosition.top,
+              maxHeight: "80vh",
+              overflowY: "auto",
+            }}
+          >
+            {onRename && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRename(order.id);
+                  setMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition text-left whitespace-nowrap"
+              >
+                <Edit className="w-4 h-4 shrink-0" /> Rename Shoot
+              </button>
+            )}
+            {["training", "generating"].includes(order.status) && onCancel && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onCancel(order.id);
+                  setMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-amber-600 dark:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition text-left whitespace-nowrap"
+              >
+                <X className="w-4 h-4 shrink-0" /> Stop Processing
+              </button>
+            )}
+            {order.status === "failed" && onRetry && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRetry(order.id);
+                  setMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition text-left whitespace-nowrap"
+              >
+                <RefreshCw className="w-4 h-4 shrink-0" /> Retry Generation
+              </button>
+            )}
+            {order.status === "pending" && onResumeCheckout && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onResumeCheckout(order.id);
+                  setMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition text-left whitespace-nowrap"
+              >
+                <ShoppingCart className="w-4 h-4 shrink-0" /> Resume Checkout
+              </button>
+            )}
+            {onDelete && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete(order.id);
+                  setMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition text-left whitespace-nowrap"
+              >
+                <Trash2 className="w-4 h-4 shrink-0" /> Delete Shoot
+              </button>
+            )}
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }
@@ -503,6 +505,9 @@ export default function ProjectLibrary({
         <button
           onClick={() => {
             sessionStorage.removeItem("truzot-upload");
+            localStorage.removeItem("truzot-upload");
+            localStorage.removeItem("truzot-upload-backup");
+            localStorage.removeItem("truzot-idempotency-key");
             window.location.href = "/upload";
           }}
           className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl text-sm font-bold hover:bg-blue-700 transition shadow-sm"
@@ -716,9 +721,11 @@ export default function ProjectLibrary({
                     className={`bg-white dark:bg-slate-900 rounded-2xl border shadow-sm hover:shadow-lg transition group relative z-0 focus-within:z-10 hover:z-10 overflow-visible ${
                       o.status === "failed"
                         ? "border-red-200 dark:border-red-800 hover:border-red-300 dark:hover:border-red-600"
-                        : o.status === "pending"
-                          ? "border-amber-200 dark:border-amber-800 hover:border-amber-300 dark:hover:border-amber-600"
-                          : "border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600"
+                        : o.status === "refunded"
+                          ? "border-slate-300 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500"
+                          : o.status === "pending"
+                            ? "border-amber-200 dark:border-amber-800 hover:border-amber-300 dark:hover:border-amber-600"
+                            : "border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600"
                     }`}
                   >
                     <Link
@@ -810,7 +817,9 @@ export default function ProjectLibrary({
                                 ? "bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400"
                                 : o.status === "pending"
                                   ? "bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400"
-                                  : "bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400"
+                                  : o.status === "refunded"
+                                    ? "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
+                                    : "bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400"
                           }`}
                         >
                           {o.status === "completed" ? (
@@ -818,6 +827,10 @@ export default function ProjectLibrary({
                           ) : o.status === "failed" ? (
                             <>
                               <AlertCircle className="w-3 h-3" /> Failed
+                            </>
+                          ) : o.status === "refunded" ? (
+                            <>
+                              <AlertCircle className="w-3 h-3" /> Refunded
                             </>
                           ) : o.status === "pending" ? (
                             "Payment Pending"

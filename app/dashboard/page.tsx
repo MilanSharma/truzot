@@ -16,7 +16,14 @@ import JSZip from "jszip";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 import { PLANS } from "@/lib/plans";
 import type { User, Order, Headshot } from "@/lib/types";
-import { Camera, ChevronRight, Share2, Mail, Sparkles } from "lucide-react";
+import {
+  Camera,
+  ChevronRight,
+  Share2,
+  Mail,
+  Sparkles,
+  AlertCircle,
+} from "lucide-react";
 import Sidebar from "@/components/dashboard/Sidebar";
 import MobileDrawer from "@/components/dashboard/MobileDrawer";
 import ProjectLibrary from "@/components/dashboard/ProjectLibrary";
@@ -713,7 +720,7 @@ function DashboardContent() {
     });
   };
 
-    const [promptModal, setPromptModal] = useState<{
+  const [promptModal, setPromptModal] = useState<{
     isOpen: boolean;
     title: string;
     message: string;
@@ -722,7 +729,7 @@ function DashboardContent() {
   } | null>(null);
 
   const handleRenameOrder = async (id: string) => {
-    const currentName = orders.find(o => o.id === id)?.shoot_name || "";
+    const currentName = orders.find((o) => o.id === id)?.shoot_name || "";
     setPromptModal({
       isOpen: true,
       title: "Rename Shoot",
@@ -742,12 +749,17 @@ function DashboardContent() {
           );
         }
         toast("Shoot renamed", "success");
-        const { data: { session } } = await supabase.auth.getSession();
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
         if (session?.access_token) {
-          await supabase.from("orders").update({ shoot_name: newName }).eq("id", id);
+          await supabase
+            .from("orders")
+            .update({ shoot_name: newName })
+            .eq("id", id);
         }
         setPromptModal(null);
-      }
+      },
     });
   };
 
@@ -907,7 +919,19 @@ function DashboardContent() {
                       {PLANS[currentOrder.plan as keyof typeof PLANS]?.name ||
                         "Shoot"}
                     </h1>
-                    <span className="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border ${
+                        currentOrder.status === "completed"
+                          ? "bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800"
+                          : currentOrder.status === "failed"
+                            ? "bg-red-50 text-red-600 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800"
+                            : currentOrder.status === "refunded"
+                              ? "bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700"
+                              : currentOrder.status === "pending"
+                                ? "bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800"
+                                : "bg-indigo-50 text-indigo-600 border-indigo-200 dark:bg-indigo-900/20 dark:text-indigo-400 dark:border-indigo-800"
+                      }`}
+                    >
                       {currentOrder.status}
                     </span>
                   </div>
@@ -1006,6 +1030,26 @@ function DashboardContent() {
                 )}
               </div>
 
+              {currentOrder.status === "refunded" && (
+                <div className="flex flex-col items-center justify-center py-20 text-center bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm mt-12 max-w-2xl mx-auto p-10">
+                  <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-6">
+                    <AlertCircle className="w-8 h-8 text-slate-500 dark:text-slate-400" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+                    Order Refunded
+                  </h2>
+                  <p className="text-slate-500 dark:text-slate-400 max-w-md mb-8">
+                    This shoot encountered a fatal error and was automatically
+                    refunded to your original payment method.
+                  </p>
+                  <button
+                    onClick={() => router.push("/upload")}
+                    className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-sm"
+                  >
+                    Start New Shoot
+                  </button>
+                </div>
+              )}
               {currentOrder.status === "training" && (
                 <TrainingView order={currentOrder} />
               )}
@@ -1195,17 +1239,6 @@ function DashboardContent() {
           initialValue={promptModal.initialValue}
           onConfirm={promptModal.action}
           onCancel={() => setPromptModal(null)}
-        />
-      )}
-      {confirmModal && (
-        <ConfirmModal
-          isOpen={true}
-          title={confirmModal.title}
-          message={confirmModal.message}
-          confirmText={confirmModal.confirmText}
-          confirmStyle={confirmModal.confirmStyle}
-          onConfirm={confirmModal.action}
-          onCancel={() => setConfirmModal(null)}
         />
       )}
     </div>
