@@ -22,7 +22,13 @@ export const POST = withContext(async (req: Request) => {
     return NextResponse.json({ error: "Payload too large" }, { status: 413 });
   }
   const body = await req.text();
-  const signature = req.headers.get("Stripe-Signature")!;
+  const signature = req.headers.get("stripe-signature");
+  if (!signature) {
+    return NextResponse.json(
+      { error: "Missing Stripe signature" },
+      { status: 400 },
+    );
+  }
   let event: Stripe.Event;
   try {
     event = stripe.webhooks.constructEvent(
