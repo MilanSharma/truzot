@@ -31,6 +31,13 @@ export default function BeforeAfterCarousel({
   useEffect(() => {
     if (scrollRef.current && singleSetWidth > 0) {
       scrollRef.current.scrollLeft = singleSetWidth;
+      // Infinite scroll reset
+      if (
+        scrollRef.current.scrollWidth > 0 &&
+        scrollRef.current.scrollLeft >= scrollRef.current.scrollWidth / 2
+      ) {
+        scrollRef.current.scrollLeft = 0;
+      }
     }
   }, [singleSetWidth]);
 
