@@ -47,7 +47,7 @@ export const GET = withContext(async (req: Request) => {
 
   // 2. Validate email_token for secure guest access via email link
   if (!order && emailToken) {
-    const secret = process.env.CRON_SECRET || "fallback-secret";
+    const secret = process.env.CRON_SECRET!;
     const expected = createHmac("sha256", secret)
       .update(orderId)
       .digest("hex")

@@ -53,7 +53,7 @@ export const POST = withContext(async (req: Request) => {
     if (Array.isArray(imageUrls) && imageUrls.length > 0) {
       // Generate a secure download token instead of heavy base64 attachments
       // Generate a secure HMAC email token for guest access (bypasses /api/download/token user_id requirement)
-      const secret = process.env.CRON_SECRET || "fallback-secret";
+      const secret = process.env.CRON_SECRET!;
       const emailToken = createHmac("sha256", secret)
         .update(orderId)
         .digest("hex")

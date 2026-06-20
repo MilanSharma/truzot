@@ -44,7 +44,7 @@ export const GET = withContext(async (req: Request) => {
       .from("trainings")
       .select("status")
       .eq("order_id", order.id)
-      .in("status", ["processing", "queued", "started"])
+      .in("status", ["training", "generating"])
       .maybeSingle();
     if (activeTraining) {
       log.info(
