@@ -233,15 +233,7 @@ export const POST = withContext(async (req: Request) => {
         );
         const referralId = rewardfulMatch ? rewardfulMatch[1] : undefined;
 
-        const { createHmac } = require("crypto");
-        const secret = process.env.CRON_SECRET || "fallback-secret";
-        const emailToken = createHmac("sha256", secret)
-          .update(existing.id)
-          .digest("hex")
-          .substring(0, 32);
-        const { createHmac } = require("crypto");
-        const secret = process.env.CRON_SECRET || "fallback-secret";
-        const emailToken = createHmac("sha256", secret)
+        const emailToken = createHmac("sha256", process.env.CRON_SECRET!)
           .update(existing.id)
           .digest("hex")
           .substring(0, 32);
@@ -374,15 +366,7 @@ export const POST = withContext(async (req: Request) => {
       const rewardfulMatch = cookieHeader.match(/rewardful\.referral=([^;]+)/);
       const referralId = rewardfulMatch ? rewardfulMatch[1] : undefined;
 
-      const { createHmac } = require("crypto");
-      const secret = process.env.CRON_SECRET || "fallback-secret";
-      const emailToken = createHmac("sha256", secret)
-        .update(orderId)
-        .digest("hex")
-        .substring(0, 32);
-      const { createHmac } = require("crypto");
-      const secret = process.env.CRON_SECRET || "fallback-secret";
-      const emailToken = createHmac("sha256", secret)
+      const emailToken = createHmac("sha256", process.env.CRON_SECRET!)
         .update(orderId)
         .digest("hex")
         .substring(0, 32);

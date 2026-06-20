@@ -50,8 +50,8 @@ function DashboardContent() {
   const router = useRouter();
   const { toast } = useToast();
   const orderId = searchParams.get("order");
-  // eslint-disable-next-line react-hooks/purity
-  const [currentTime, setCurrentTime] = useState(Date.now());
+
+  const [currentTime, setCurrentTime] = useState(() => Date.now());
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(Date.now()), 60000);
     return () => clearInterval(timer);

@@ -142,12 +142,6 @@ function ClaimOrderForm() {
       });
       if (signInError) throw signInError;
 
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      if (signInError) throw signInError;
-
       await claimOrder();
     } catch (err: any) {
       setError(err.message);
