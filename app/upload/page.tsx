@@ -106,13 +106,6 @@ function UploadContent() {
     });
   }, []);
 
-  // Redirect unauthenticated users to login
-  useEffect(() => {
-    if (!authLoading && !user) {
-      router.push("/login");
-    }
-  }, [authLoading, user, router]);
-
   const urlStep = parseInt(searchParams.get("step") ?? "") as Step;
   const [step, setStep] = useState<Step>(() => {
     const saved = getSavedState();
