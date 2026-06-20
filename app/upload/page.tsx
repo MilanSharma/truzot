@@ -885,8 +885,6 @@ function UploadContent() {
     );
   }
 
-  if (!user) return null;
-
   return (
     <UploadErrorBoundary>
       <div
