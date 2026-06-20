@@ -220,25 +220,6 @@ export default function CompletedGallery({
       setDownloadingAll(false);
     }
   };
-
-  const handleBulkDownload = async () => {
-    if (selectedImages.length === 0 || !orderId) return;
-    setDownloading(true);
-    setDownloadProgress({ current: 0, total: selectedImages.length });
-    try {
-      await serverSideDownload(
-        selectedImages,
-        orderId,
-        `truzot-selected-${selectedImages.length}.zip`,
-        (current, total) => setDownloadProgress({ current, total }),
-      );
-    } catch {
-      toast("Failed to download selected images. Please try again.", "error");
-    } finally {
-      setDownloading(false);
-    }
-  };
-
   const handleDateFilterChange = (from: Date | null, to: Date | null) => {
     setDateFilter({ from, to });
     setShowDatePicker(false);
@@ -461,27 +442,6 @@ export default function CompletedGallery({
               ? "Try a different search term."
               : "Try toggling other categories or adding some favorites."}
           </p>
-        </div>
-      )}
-
-      {downloading && (
-        <div className="fixed bottom-6 right-6 bg-white border border-slate-200 rounded-xl shadow-xl p-4 w-72 z-50">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-medium text-slate-700">
-              Downloading...
-            </span>
-            <span className="text-xs text-slate-500">
-              {downloadProgress.current}/{downloadProgress.total}
-            </span>
-          </div>
-          <div className="w-full bg-slate-100 rounded-full h-2">
-            <div
-              className="bg-indigo-600 h-2 rounded-full transition-all duration-300"
-              style={{
-                width: `${(downloadProgress.current / downloadProgress.total) * 100}%`,
-              }}
-            />
-          </div>
         </div>
       )}
     </div>
