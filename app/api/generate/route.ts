@@ -214,35 +214,27 @@ export const POST = withContext(async (req: Request) => {
     });
 
     if (headshotsToInsert.length > 0) {
-      const { count: dedupCheck } = await supabaseAdmin
+      const { error: insertError } = await supabaseAdmin
         .from("headshots")
-        .select("id", { count: "exact", head: true })
-        .eq("order_id", orderId);
-      if ((dedupCheck ?? 0) !== currentCount) {
-        log.warn(
-          { orderId, expected: currentCount, actual: dedupCheck },
-          "Dedup: skipping batch, another instance already wrote headshots",
-        );
-        headshotsToInsert = [];
-      } else {
-        const { error: insertError } = await supabaseAdmin
-          .from("headshots")
-          .insert(headshotsToInsert);
-        if (insertError) {
-          // Unique violation (23505) means headshots already inserted — treat as idempotent success
-          if ((insertError as any)?.code === "23505") {
-            log.info({ orderId }, "Dedup: headshots already exist");
-          } else {
-            log.error(
-              { err: insertError, orderId },
-              "Failed to insert headshots",
-            );
-          }
+        .insert(headshotsToInsert);
+
+      if (insertError) {
+        if ((insertError as any)?.code === "23505") {
+          log.info({ orderId }, "Dedup: headshots already exist");
+        } else {
+          log.error(
+            { err: insertError, orderId },
+            "Failed to insert headshots",
+          );
         }
       }
     }
 
-    const newTotal = currentCount + headshotsToInsert.length;
+    const { count: finalCount } = await supabaseAdmin
+      .from("headshots")
+      .select("id", { count: "exact", head: true })
+      .eq("order_id", orderId);
+    const newTotal = finalCount ?? currentCount + headshotsToInsert.length;
     log.info(
       {
         orderId,

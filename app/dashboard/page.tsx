@@ -50,6 +50,12 @@ function DashboardContent() {
   const router = useRouter();
   const { toast } = useToast();
   const orderId = searchParams.get("order");
+  // eslint-disable-next-line react-hooks/purity
+  const [currentTime, setCurrentTime] = useState(Date.now());
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(Date.now()), 60000);
+    return () => clearInterval(timer);
+  }, []);
 
   const [headshots, setHeadshots] = useState<Headshot[]>([]);
   const [headshotPage, setHeadshotPage] = useState<number>(0);
@@ -175,9 +181,14 @@ function DashboardContent() {
         const {
           data: { session },
         } = await supabase.auth.getSession();
+        const emailToken =
+          new URLSearchParams(window.location.search).get("email_token") ??
+          undefined;
         const apiUrl = downloadToken
           ? `/api/order-status?orderId=${id}&download_token=${downloadToken}`
-          : `/api/order-status?orderId=${id}`;
+          : emailToken
+            ? `/api/order-status?orderId=${id}&email_token=${emailToken}`
+            : `/api/order-status?orderId=${id}`;
         const res = await fetch(apiUrl, {
           headers: session?.access_token
             ? { Authorization: `Bearer ${session.access_token}` }
@@ -953,6 +964,88 @@ function DashboardContent() {
               transition={{ duration: 0.3 }}
               key="detail-view"
             >
+              {currentOrder &&
+                ["training", "generating"].includes(currentOrder.status) &&
+                currentTime - new Date(currentOrder.created_at).getTime() >
+                  30 * 60 * 1000 && (
+                  <div className="mb-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in">
+                    <div className="text-sm text-amber-800 dark:text-amber-300">
+                      <span className="font-bold flex items-center gap-1 mb-1">
+                        <AlertCircle className="w-4 h-4" /> Processing is taking
+                        longer than usual.
+                      </span>
+                      Our AI cluster might be under heavy load. If this
+                      continues, please contact support.
+                    </div>
+                    <a
+                      href={`mailto:hello@truzot.com?subject=Delayed Order: ${currentOrder.id}`}
+                      className="shrink-0 px-4 py-2 bg-amber-600 text-white text-sm font-bold rounded-lg hover:bg-amber-700 transition"
+                    >
+                      Contact Support
+                    </a>
+                  </div>
+                )}
+              {!user && (
+                <div className="mb-8 p-5 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in">
+                  <div>
+                    <h3 className="text-blue-900 dark:text-blue-100 font-bold text-lg mb-1">
+                      Save your progress
+                    </h3>
+                    <p className="text-blue-700 dark:text-blue-300 text-sm">
+                      Create an account to securely access your headshots
+                      anytime.
+                    </p>
+                  </div>
+                  <Link
+                    href={`/claim-order?order=${orderId}`}
+                    className="shrink-0 px-6 py-3 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 transition"
+                  >
+                    Create Account
+                  </Link>
+                </div>
+              )}
+
+              {currentOrder &&
+                ["training", "generating"].includes(currentOrder.status) &&
+                currentTime > 0 &&
+                currentTime - new Date(currentOrder.created_at).getTime() >
+                  30 * 60 * 1000 && (
+                  <div className="mb-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in">
+                    <div className="text-sm text-amber-800 dark:text-amber-300">
+                      <span className="font-bold flex items-center gap-1 mb-1">
+                        <AlertCircle className="w-4 h-4" /> Processing is taking
+                        longer than usual.
+                      </span>
+                      Our AI cluster might be under heavy load. If this
+                      continues, please contact support.
+                    </div>
+                    <a
+                      href={`mailto:hello@truzot.com?subject=Delayed Order: ${currentOrder.id}`}
+                      className="shrink-0 px-4 py-2 bg-amber-600 text-white text-sm font-bold rounded-lg hover:bg-amber-700 transition"
+                    >
+                      Contact Support
+                    </a>
+                  </div>
+                )}
+              {!user && (
+                <div className="mb-8 p-5 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in">
+                  <div>
+                    <h3 className="text-blue-900 dark:text-blue-100 font-bold text-lg mb-1">
+                      Save your progress
+                    </h3>
+                    <p className="text-blue-700 dark:text-blue-300 text-sm">
+                      Create an account to securely access your headshots
+                      anytime.
+                    </p>
+                  </div>
+                  <Link
+                    href={`/claim-order?order=${orderId}`}
+                    className="shrink-0 px-6 py-3 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 transition"
+                  >
+                    Create Account
+                  </Link>
+                </div>
+              )}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                 <div>
                   <a

@@ -149,12 +149,6 @@ export const POST = withContext(async (req: Request) => {
           discountAmount = 500;
           appliedDiscountCode = waitlistEntry.discount_code || couponUpper;
 
-          // 🔒 Optimistically lock the coupon to prevent multi-tab race conditions
-          await supabaseAdmin
-            .from("waitlist")
-            .update({ used: true, used_at: new Date().toISOString() })
-            .eq("discount_code", appliedDiscountCode);
-
           // Mark discount for Stripe (using amount_off)
           discount = {
             coupon: "waitlist_5_off", // placeholder
@@ -238,6 +232,18 @@ export const POST = withContext(async (req: Request) => {
         );
         const referralId = rewardfulMatch ? rewardfulMatch[1] : undefined;
 
+        const { createHmac } = require("crypto");
+        const secret = process.env.CRON_SECRET || "fallback-secret";
+        const emailToken = createHmac("sha256", secret)
+          .update(existing.id)
+          .digest("hex")
+          .substring(0, 32);
+        const { createHmac } = require("crypto");
+        const secret = process.env.CRON_SECRET || "fallback-secret";
+        const emailToken = createHmac("sha256", secret)
+          .update(existing.id)
+          .digest("hex")
+          .substring(0, 32);
         const existingSession = await stripe.checkout.sessions.create({
           payment_method_types: ["card"],
           mode: "payment",
@@ -268,7 +274,7 @@ export const POST = withContext(async (req: Request) => {
             discount_code: appliedDiscountCode || "",
             discount_amount: discountAmount.toString(),
           },
-          success_url: `${baseUrl}/claim-order?order=${existing.id}`,
+          success_url: `${baseUrl}/dashboard?order=${existing.id}&email_token=${emailToken}`,
           cancel_url: `${baseUrl}/upload?cancelled=1`,
           ...(discount && !discountAmount ? { discounts: [discount] } : {}),
         });
@@ -367,6 +373,18 @@ export const POST = withContext(async (req: Request) => {
       const rewardfulMatch = cookieHeader.match(/rewardful\.referral=([^;]+)/);
       const referralId = rewardfulMatch ? rewardfulMatch[1] : undefined;
 
+      const { createHmac } = require("crypto");
+      const secret = process.env.CRON_SECRET || "fallback-secret";
+      const emailToken = createHmac("sha256", secret)
+        .update(orderId)
+        .digest("hex")
+        .substring(0, 32);
+      const { createHmac } = require("crypto");
+      const secret = process.env.CRON_SECRET || "fallback-secret";
+      const emailToken = createHmac("sha256", secret)
+        .update(orderId)
+        .digest("hex")
+        .substring(0, 32);
       const sessionParams: Stripe.Checkout.SessionCreateParams = {
         payment_method_types: ["card"],
         mode: "payment",
@@ -397,7 +415,7 @@ export const POST = withContext(async (req: Request) => {
           discount_code: appliedDiscountCode || "",
           discount_amount: discountAmount.toString(),
         },
-        success_url: `${baseUrl}/claim-order?order=${orderId}`,
+        success_url: `${baseUrl}/dashboard?order=${orderId}&email_token=${emailToken}`,
         cancel_url: `${baseUrl}/upload?cancelled=1`,
         ...(discount && !discountAmount ? { discounts: [discount] } : {}),
       };

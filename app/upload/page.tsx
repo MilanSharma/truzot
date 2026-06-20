@@ -60,7 +60,7 @@ const PHOTO_TIPS = [
   },
 ];
 
-type Step = 1 | 2 | 3;
+type Step = 1 | 2;
 
 const SESSION_KEY = "truzot-upload";
 const LOCAL_KEY = "truzot-upload-backup";
@@ -116,7 +116,7 @@ function UploadContent() {
       saved.step <= 3
     )
       return saved.step as Step;
-    return urlStep >= 1 && urlStep <= 3 ? urlStep : 1;
+    return urlStep >= 1 && urlStep <= 2 ? urlStep : 1;
   });
   const [files, setFiles] = useState<File[]>([]);
   const filesRef = useRef(files);
@@ -228,7 +228,7 @@ function UploadContent() {
       const urlStep = params.get("step")
         ? (parseInt(params.get("step") ?? "1") as Step)
         : 1;
-      if (urlStep >= 1 && urlStep <= 3) {
+      if (urlStep >= 1 && urlStep <= 2) {
         setStep(urlStep);
       }
     };
@@ -617,16 +617,13 @@ function UploadContent() {
           }
           const faceResult = await detectFaces(f);
           if (faceResult && faceResult.count === 0) {
-            errors.push(
-              `${f.name}: No face detected. Please upload a clear, front-facing photo.`,
+            warnings.push(
+              `${f.name}: No face detected. Make sure your face is visible.`,
             );
-            continue;
-          }
-          if (faceResult && faceResult.count > 1) {
-            errors.push(
-              `${f.name}: Multiple faces detected. Please upload photos with only one person.`,
+          } else if (faceResult && faceResult.count > 1) {
+            warnings.push(
+              `${f.name}: Multiple faces detected. Results may be unpredictable.`,
             );
-            continue;
           }
           converted.push(f);
         } else {
@@ -898,7 +895,7 @@ function UploadContent() {
           <div className="mb-10">
             <div className="flex items-center justify-between relative">
               <div className="absolute left-0 right-0 top-1/2 h-0.5 bg-slate-200 dark:bg-slate-700 -z-10" />
-              {[1, 2, 3].map((num) => (
+              {[1, 2].map((num) => (
                 <div
                   key={num}
                   className={`w-10 h-10 rounded-full flex items-center justify-center font-bold border-4 border-slate-50 dark:border-slate-950 transition-colors ${step >= num ? "bg-blue-600 text-white" : "bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-300"}`}
@@ -909,7 +906,7 @@ function UploadContent() {
             </div>
             <div className="flex justify-between text-xs font-bold text-slate-500 dark:text-slate-400 mt-3 uppercase tracking-wider">
               <span className={step >= 1 ? "text-blue-600" : ""}>Upload</span>
-              <span className={step >= 2 ? "text-blue-600" : ""}>Details</span>
+
               <span className={step >= 3 ? "text-blue-600" : ""}>Checkout</span>
             </div>
           </div>
@@ -1023,6 +1020,14 @@ function UploadContent() {
                     <p className="text-sm text-slate-500 dark:text-slate-400">
                       JPG, PNG, HEIC accepted.
                     </p>
+                    <p className="text-xs text-amber-600 dark:text-amber-500 mt-2 font-medium">
+                      📱 iPhone users: For fastest upload, change Camera
+                      Settings → Formats to &quot;Most Compatible&quot; (JPEG).
+                    </p>
+                    <p className="text-xs text-amber-600 dark:text-amber-500 mt-2 font-medium">
+                      📱 iPhone users: For fastest upload, change Camera
+                      Settings → Formats to &quot;Most Compatible&quot; (JPEG).
+                    </p>
                   </label>
                   {files.length > 0 && (
                     <div className="mt-8 grid grid-cols-4 sm:grid-cols-5 gap-3">
@@ -1127,117 +1132,13 @@ function UploadContent() {
             </div>
           )}
 
-          {/* STEP 2: CHOOSE STYLES (Zero-Friction) */}
-          {step === 2 && (
-            <div className="animate-in slide-in-from-right-4 fade-in duration-300">
-              <div className="text-center mb-8">
-                <h1 className="text-3xl font-bold mb-2 text-slate-900 dark:text-white">
-                  Choose Your Styles
-                </h1>
-                <p className="text-slate-500 dark:text-slate-400">
-                  Our AI automatically adapts to your features. Just pick the
-                  vibes you want.
-                </p>
-              </div>
-
-              <div className="space-y-8 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 shadow-sm">
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-bold text-lg flex items-center gap-2 text-slate-900 dark:text-white">
-                      <Camera className="w-5 h-5 text-blue-600" /> Headshot
-                      Styles
-                    </h3>
-                    <button
-                      onClick={() =>
-                        setSelectedStyles((prev) =>
-                          prev.length === STYLE_CATEGORIES.length
-                            ? []
-                            : STYLE_CATEGORIES.map((c) => c.id),
-                        )
-                      }
-                      className="text-sm font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
-                    >
-                      {selectedStyles.length === STYLE_CATEGORIES.length
-                        ? "Deselect All"
-                        : "Select All"}
-                    </button>
-                  </div>
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {STYLE_CATEGORIES.map((style) => {
-                      const isSelected = selectedStyles.includes(style.id);
-                      return (
-                        <button
-                          key={style.id}
-                          onClick={() =>
-                            setSelectedStyles((prev) =>
-                              isSelected
-                                ? prev.filter((s) => s !== style.id)
-                                : [...prev, style.id],
-                            )
-                          }
-                          className={`p-4 rounded-xl border-2 text-left transition-all ${
-                            isSelected
-                              ? "border-blue-600 bg-blue-50 dark:bg-blue-900/20 ring-2 ring-blue-100 dark:ring-blue-900"
-                              : "border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-500"
-                          }`}
-                        >
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="text-xl">{style.icon}</span>
-                            <div
-                              className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                                isSelected
-                                  ? "border-blue-600 bg-blue-600"
-                                  : "border-slate-300"
-                              }`}
-                            >
-                              {isSelected && (
-                                <Check className="w-3 h-3 text-white" />
-                              )}
-                            </div>
-                          </div>
-                          <h4 className="font-bold text-sm text-slate-900 dark:text-white">
-                            {style.name}
-                          </h4>
-                          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                            {style.description}
-                          </p>
-                        </button>
-                      );
-                    })}
-                  </div>
-                  {selectedStyles.length === 0 && (
-                    <p className="text-sm text-amber-600 dark:text-amber-400 mt-3">
-                      Select at least one style to continue.
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div className="mt-8 flex justify-between">
-                <button
-                  onClick={() => setStep(1)}
-                  className="text-slate-500 dark:text-slate-400 font-bold flex items-center gap-2 hover:text-slate-800 dark:hover:text-slate-200"
-                >
-                  <ChevronLeft className="w-5 h-5" /> Back to Upload
-                </button>
-                <button
-                  onClick={handleNextStep}
-                  disabled={selectedStyles.length === 0}
-                  className="bg-slate-900 dark:bg-blue-600 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 dark:hover:bg-blue-700 transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Next: Choose Plan <ChevronRight className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-          )}
-
           {/* STEP 3: CHECKOUT */}
-          {step === 3 && (
+          {step === 2 && (
             <PaymentErrorBoundary>
               <div className="animate-in slide-in-from-right-4 fade-in duration-300">
                 <div className="text-center mb-8">
                   <h1 className="text-3xl font-bold mb-2 text-slate-900 dark:text-white">
-                    Final Step: Choose Plan
+                    Choose Plan & Checkout
                   </h1>
                   <p className="text-slate-500 dark:text-slate-400">
                     Pick the package that fits your needs. 100% money-back
@@ -1384,10 +1285,10 @@ function UploadContent() {
 
                 <div className="mt-8 flex items-center justify-between">
                   <button
-                    onClick={() => setStep(2)}
+                    onClick={() => setStep(1)}
                     className="text-slate-500 dark:text-slate-400 font-bold flex items-center gap-2 hover:text-slate-800 dark:hover:text-slate-200"
                   >
-                    <ChevronLeft className="w-5 h-5" /> Back to Details
+                    <ChevronLeft className="w-5 h-5" /> Back to Upload
                   </button>
                   <button
                     onClick={handleStartOver}

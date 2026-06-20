@@ -87,7 +87,7 @@ const faqs = {
       a: (
         <>
           <p className="mb-3">
-            We offer a <strong>100% money-back guarantee</strong> within 14 days
+            We offer a <strong>100% money-back guarantee</strong> within 30 days
             of delivery. If you&apos;re not satisfied with your AI headshots for
             any reason, we&apos;ll refund your order — no questions asked.
           </p>
@@ -347,7 +347,7 @@ export default function FAQPage() {
           {
             question: "What if I don't like my headshots?",
             answer:
-              "We offer a 100% money-back guarantee within 14 days of delivery. Request a refund from your dashboard or email hello@truzot.com.",
+              "We offer a 100% money-back guarantee within 30 days of delivery. Request a refund from your dashboard or email hello@truzot.com.",
           },
           {
             question: "Are AI headshots good enough for LinkedIn?",

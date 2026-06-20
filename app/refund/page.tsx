@@ -25,7 +25,7 @@ export default function RefundPage() {
           <p>
             We stand behind our AI headshot quality. If you are not satisfied
             with your generated headshots for any reason, you are eligible for a
-            full refund within 14 days of delivery.
+            full refund within 30 days of delivery.
           </p>
 
           <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-8">
@@ -37,7 +37,7 @@ export default function RefundPage() {
             </li>
             <li>
               Click <strong>&ldquo;Request Refund&rdquo;</strong> on the order
-              (available within 14 days of completion)
+              (available within 30 days of completion)
             </li>
             <li>
               Alternatively, email{" "}

@@ -136,6 +136,18 @@ function ClaimOrderForm() {
       const body = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(body.error || "Failed to create account");
 
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (signInError) throw signInError;
+
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (signInError) throw signInError;
+
       await claimOrder();
     } catch (err: any) {
       setError(err.message);
