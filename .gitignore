@@ -80,3 +80,14 @@ check_stats.sql
 
 
 /issue.docx
+
+.agents
+
+# Playwright browser sessions (contains login cookies)
+/playwright-session/
+
+# Scraped influencer discovery data
+/data/
+
+# Draft distribution articles (published copy kept in content/blog/)
+/content/distribution/

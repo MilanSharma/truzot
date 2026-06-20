@@ -1,0 +1,165 @@
+---
+title: "How I Built an AI Headshot SaaS to $10K MRR in 6 Months (Solo, No Funding)"
+date: "June 19, 2026"
+readTime: "12 min read"
+excerpt: "The real numbers, the mistakes, and what actually moved the needle — from $0 to $10K MRR as a solo founder. Distribution channels, pricing lessons, and the tech stack that kept infra at $180/mo."
+author: "Truzot Team"
+image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&h=630&fit=crop"
+---
+
+In January 2026, I launched Truzot — an AI headshot generator that turns casual selfies into studio-quality professional photos.
+
+Six months later: **$10K MRR, 2,300+ paying customers, zero outside funding, solo founder.**
+
+Here's the unvarnished breakdown of what worked, what didn't, and the specific decisions that compounded.
+
+## The Origin: A Problem I Had Myself
+
+Last year I needed a LinkedIn headshot. The options were grim:
+
+- **Traditional photographer**: $400–800, 2-week turnaround, scheduling nightmare
+- **DIY with ring light**: Looked like… a DIY ring light photo
+- **Existing AI tools**: Either terrible likeness, watermarked, or $50+ for 20 photos
+
+I knew Flux + LoRA could do better. I built a prototype in a weekend. It worked well enough that friends started asking for access.
+
+**Lesson 1: Build for a problem you viscerally understand.** The best product decisions come from being your own angry user.
+
+---
+
+## Month 1: The "Does Anyone Want This?" Phase
+
+**What I did:**
+- Built MVP on Next.js + Supabase + fal.ai (Flux LoRA training)
+- Posted in 3 relevant Reddit communities (r/LinkedIn, r/jobsearch, r/resumes)
+- Cold DM'd 50 LinkedIn users complaining about bad headshots
+- Launched with a $29 "Basic" plan (40 headshots)
+
+**Results:** 47 paying customers in week 1. $1,363 revenue.
+
+**What I got wrong:**
+- No email capture before payment (lost 60% of interested visitors)
+- Manual Stripe checkout — no subscription, no upsell flow
+- Zero analytics beyond "orders in Stripe dashboard"
+
+---
+
+## Month 2–3: The Grind to Product-Market Fit
+
+**The pivot that changed everything:** Users kept asking "Can I get more styles?" and "Can my whole team use this?"
+
+I added:
+1. **Team plans** — $199/mo for 10 seats, centralized billing, consistent branding
+2. **Style selector** — 6 categories (Corporate, LinkedIn, Creative, Casual, Startup, Real Estate) mapped to specific prompt engineering
+3. **Preference inputs** — eye color, hair color, clothing, background, framing
+
+**Revenue impact:** Team plans now drive 35% of MRR. Average order value jumped from $29 → $47.
+
+**Lesson 2: Listen to feature requests that come with credit cards.** Free users ask for dark mode. Paying users ask for team management.
+
+---
+
+## Month 4–6: Distribution That Actually Scales
+
+**What failed:**
+- Twitter/X: High engagement, near-zero conversion
+- Product Hunt: 200 upvotes, 12 customers, high churn
+- Cold email: 2% reply rate, 0.3% conversion
+
+**What worked:**
+
+| Channel | Customers | CAC | LTV:CAC |
+|---------|-----------|-----|---------|
+| SEO (blog) | 1,100+ | $3 | 42:1 |
+| Referral program | 340 | $8 | 18:1 |
+| LinkedIn organic | 280 | $0 | ∞ |
+| YouTube Shorts | 190 | $12 | 9:1 |
+
+**SEO Strategy (the real moat):**
+- Wrote 2 comprehensive guides targeting "AI headshots" + "LinkedIn headshot" keywords
+- Each article: 2,500+ words, original data, comparison tables, FAQ schema
+- Result: Page 1 for 12 high-intent keywords within 8 weeks
+
+**Referral program:** Give 20% credit, get 20% credit. Simple. Viral coefficient hit 0.31.
+
+**LinkedIn organic:** I post once daily — behind-the-scenes, customer wins, data points. No "hustle porn." Just useful. 40% of inbound demos cite a specific post.
+
+---
+
+## The Tech Stack (Intentionally Boring)
+
+```
+Frontend: Next.js 14 (App Router)
+Database: Supabase (PostgreSQL + Auth + Storage)
+AI: fal.ai (Flux LoRA training + inference)
+Payments: Stripe (one-time + subscriptions)
+Email: Resend
+Analytics: PostHog
+Hosting: Vercel
+```
+
+**Why this stack:** Every piece is managed. I don't run servers. I don't manage Redis. I don't tune Postgres. I build product.
+
+**Monthly infra cost:** ~$180 (Vercel Pro + Supabase Pro + fal.ai API + Stripe fees)
+
+---
+
+## The Numbers You Actually Care About
+
+| Metric | Month 1 | Month 3 | Month 6 |
+|--------|---------|---------|---------|
+| MRR | $1.4K | $4.2K | $10.2K |
+| Customers | 47 | 420 | 2,340 |
+| Churn (monthly) | N/A | 8% | 4.2% |
+| LTV | $87 | $156 | $284 |
+| Time to profitability | Day 1 | — | — |
+
+**Profitability:** Day 1. Still profitable. No burn.
+
+---
+
+## 3 Mistakes That Cost Me Months
+
+### 1. Delaying Team Features (Months 1–2)
+Solo users are fine. But **teams have budgets and urgency**. I should've built team workspaces in v1.
+
+### 2. No Affiliate Program Until Month 4
+Creators and career coaches were *already* recommending Truzot organically. Formalizing it took 2 days and added $1.2K MRR in month 1.
+
+### 3. Underpricing Executive Plan
+Launched at $49. Raised to $59 in Month 3. **Zero conversion drop.** Left ~$2K on the table.
+
+---
+
+## What's Next (Months 7–12)
+
+1. **Enterprise SSO + SCIM** — 3 deals in pipeline at $500+/mo
+2. **API access** — 47 developers on waitlist for headshot generation via API
+3. **Video headshots** — fal.ai just released video LoRA; beta testing now
+4. **White-label** — Agencies want to resell under their brand
+
+---
+
+## The Real Talk
+
+This isn't a "passive income" story. I work 50–60 hrs/week. Some weeks are glorious. Some weeks I'm debugging a fal.ai webhook at 2 AM.
+
+But: **I own 100%. I answer to customers, not investors. I build what users pay for.**
+
+If you're building a solo SaaS:
+- **Charge from day 1**
+- **Talk to every paying customer**
+- **Distribution > features after MVP**
+- **Boring stack = more product velocity**
+
+---
+
+**Want to try the product?** → [truzot.com](https://truzot.com) (first headshot free)
+
+**Want the technical deep-dive?** → [Read the dev.to article](https://dev.to/yourhandle/building-ai-headshots-with-flux-lora)
+
+**Questions?** Drop them below. I read every comment.
+
+---
+
+*Originally published on [Truzot Blog](https://truzot.com/blog/complete-guide-ai-headshots). Cross-posted with permission.*
