@@ -138,7 +138,7 @@ async function discoverOnPlatform(
       const profileLinks = await page.evaluate(() => {
         const links = Array.from(document.querySelectorAll("a[href]"));
         return links
-          .map((a) => a.href)
+          .map((a) => (a as HTMLAnchorElement).href)
           .filter(
             (href) => href.includes("/@") || href.match(/\/(p|reel|video)\//),
           );
@@ -340,15 +340,19 @@ async function extractBio(
 ): Promise<string | undefined> {
   try {
     if (platform === "instagram") {
-      return await page
-        .locator("section header + div, header + div")
-        .first()
-        .textContent({ timeout: 5000 });
+      return (
+        (await page
+          .locator("section header + div, header + div")
+          .first()
+          .textContent({ timeout: 5000 })) ?? undefined
+      );
     } else {
-      return await page
-        .locator('[data-e2e="user-bio"]')
-        .first()
-        .textContent({ timeout: 5000 });
+      return (
+        (await page
+          .locator('[data-e2e="user-bio"]')
+          .first()
+          .textContent({ timeout: 5000 })) ?? undefined
+      );
     }
   } catch {
     return undefined;
@@ -361,15 +365,19 @@ async function extractDisplayName(
 ): Promise<string | undefined> {
   try {
     if (platform === "instagram") {
-      return await page
-        .locator("header h2, header h1")
-        .first()
-        .textContent({ timeout: 5000 });
+      return (
+        (await page
+          .locator("header h2, header h1")
+          .first()
+          .textContent({ timeout: 5000 })) ?? undefined
+      );
     } else {
-      return await page
-        .locator('[data-e2e="user-title"]')
-        .first()
-        .textContent({ timeout: 5000 });
+      return (
+        (await page
+          .locator('[data-e2e="user-title"]')
+          .first()
+          .textContent({ timeout: 5000 })) ?? undefined
+      );
     }
   } catch {
     return undefined;
@@ -396,7 +404,7 @@ async function extractRecentPosts(
     const postLinks = await page.evaluate(() => {
       const links = Array.from(document.querySelectorAll("a[href]"));
       return links
-        .map((a) => a.href)
+        .map((a) => (a as HTMLAnchorElement).href)
         .filter((href) => {
           if (platform === "instagram")
             return href.includes("/p/") || href.includes("/reel/");
@@ -437,15 +445,19 @@ async function extractCaption(
 ): Promise<string | undefined> {
   try {
     if (platform === "instagram") {
-      return await page
-        .locator("article header + div span, article h1")
-        .first()
-        .textContent({ timeout: 3000 });
+      return (
+        (await page
+          .locator("article header + div span, article h1")
+          .first()
+          .textContent({ timeout: 3000 })) ?? undefined
+      );
     } else {
-      return await page
-        .locator('[data-e2e="video-desc"], .video-info-detail')
-        .first()
-        .textContent({ timeout: 3000 });
+      return (
+        (await page
+          .locator('[data-e2e="video-desc"], .video-info-detail')
+          .first()
+          .textContent({ timeout: 3000 })) ?? undefined
+      );
     }
   } catch {
     return undefined;
@@ -507,12 +519,13 @@ async function extractPostDate(
   try {
     if (platform === "instagram") {
       const timeEl = await page.locator("time").first();
-      return await timeEl.getAttribute("datetime");
+      return (await timeEl.getAttribute("datetime")) ?? undefined;
     } else {
       const timeEl = await page.locator('[data-e2e="video-time"]').first();
       return (
-        (await timeEl.getAttribute("datetime")) ||
-        (await timeEl.textContent({ timeout: 3000 }))
+        (await timeEl.getAttribute("datetime")) ??
+        (await timeEl.textContent({ timeout: 3000 })) ??
+        undefined
       );
     }
   } catch {

@@ -331,30 +331,6 @@ export default function AdminDashboard() {
           onCancel={() => setConfirmModal(null)}
         />
       )}
-
-      {confirmModal && (
-        <ConfirmModal
-          isOpen={true}
-          title={confirmModal.title}
-          message={confirmModal.message}
-          confirmText={confirmModal.confirmText}
-          confirmStyle={confirmModal.confirmStyle}
-          onConfirm={confirmModal.action}
-          onCancel={() => setConfirmModal(null)}
-        />
-      )}
-
-      {confirmModal && (
-        <ConfirmModal
-          isOpen={true}
-          title={confirmModal.title}
-          message={confirmModal.message}
-          confirmText={confirmModal.confirmText}
-          confirmStyle={confirmModal.confirmStyle}
-          onConfirm={confirmModal.action}
-          onCancel={() => setConfirmModal(null)}
-        />
-      )}
     </div>
   );
 }

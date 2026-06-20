@@ -725,8 +725,6 @@ function UploadContent() {
   const analyzePhotos = useCallback(async (imageFiles: File[]) => {
     if (imageFiles.length === 0) return;
     setFraming("closeup");
-    setHairColor("Unknown");
-    setEyeColor("Unknown");
   }, []);
 
   const handleNextStep = async () => {

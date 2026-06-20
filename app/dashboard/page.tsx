@@ -114,6 +114,23 @@ function DashboardContent() {
   const userIdRef = useRef<string | null>(null);
   const initRef = useRef(false);
 
+  const initFavsRef = useRef(false);
+
+  useEffect(() => {
+    if (headshots.length > 0 && !hasMoreHeadshots && !initFavsRef.current) {
+      initFavsRef.current = true;
+      setFavorites((prev) => {
+        const validUrls = new Set(headshots.map((h) => h.image_url));
+        const next = prev.filter((f) => validUrls.has(f));
+        if (next.length !== prev.length && orderId) {
+          localStorage.setItem(`truzot-favs-${orderId}`, JSON.stringify(next));
+          return next;
+        }
+        return prev;
+      });
+    }
+  }, [headshots, hasMoreHeadshots, orderId]);
+
   const toggleFavorite = (url: string, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     const updated = favorites.includes(url)

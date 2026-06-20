@@ -42,7 +42,11 @@ async function publishToMedium(filePath: string) {
   const canonicalUrl = `https://truzot.com/blog/${slug}`;
 
   // Medium tags: max 5
-  const tags = (frontmatter.tags || []).slice(0, 5);
+  const tags = (frontmatter.tags || "")
+    .split(",")
+    .map((t: string) => t.trim())
+    .filter(Boolean)
+    .slice(0, 5);
 
   const payload: MediumPost = {
     title: frontmatter.title || slug,

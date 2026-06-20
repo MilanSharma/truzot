@@ -150,13 +150,17 @@ function buildPrompts(plan: string, prefs?: UserPreferences): string[] {
   const genderRaw = prefs?.gender || "person";
   const g = genderRaw.toLowerCase();
 
-  const e = prefs?.eyeColor ? `with ${prefs.eyeColor.toLowerCase()} eyes` : "";
+  const e =
+    prefs?.eyeColor && prefs.eyeColor.toLowerCase() !== "unknown"
+      ? `with ${prefs.eyeColor.toLowerCase()} eyes`
+      : "";
 
   const p = "professional";
 
-  const h = prefs?.hairColor
-    ? `with ${prefs.hairColor.toLowerCase()} hair`
-    : "";
+  const h =
+    prefs?.hairColor && prefs.hairColor.toLowerCase() !== "unknown"
+      ? `with ${prefs.hairColor.toLowerCase()} hair`
+      : "";
   const c = CLOTHING_MAP[prefs?.clothing || ""] || "professional attire";
   const b = BACKGROUND_MAP[prefs?.background || ""] || "studio background";
   const f = FRAMING_MAP[prefs?.framing || ""] || "";

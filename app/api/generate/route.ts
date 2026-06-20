@@ -208,6 +208,8 @@ export const POST = withContext(async (req: Request) => {
       return (res.images ?? []).map((img) => ({
         order_id: orderId,
         image_url: img.url,
+        style: promptText,
+        category,
       }));
     });
 

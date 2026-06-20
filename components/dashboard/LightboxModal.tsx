@@ -9,8 +9,6 @@ import {
   ChevronRight,
   RefreshCw,
   Loader2,
-  Layers,
-  Edit3
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ShareButton from "@/components/ShareButton";
@@ -100,65 +98,6 @@ export default function LightboxModal({
             </span>
           </div>
           <div className="flex items-center gap-3">
-            <button
-              onClick={(e) => onToggleFavorite(imageUrl, e)}
-              className={`w-12 h-12 rounded-xl flex items-center justify-center transition border ${favorites.includes(imageUrl) ? "bg-rose-500 border-rose-400 text-white" : "bg-white/10 hover:bg-white/20 border-white/10 text-white"}`}
-              aria-label={
-                favorites.includes(imageUrl)
-                  ? "Remove from favorites"
-                  : "Add to favorites"
-              }
-            >
-              <Heart
-                className={`w-5 h-5 ${favorites.includes(imageUrl) ? "fill-white" : ""}`}
-              />
-            </button>
-            {onRegenerate && (
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleRegenerate();
-                  }}
-                  disabled={regenerating}
-                  className={`w-12 h-12 rounded-xl flex items-center justify-center transition border ${
-                    regenerating
-                      ? "bg-blue-500/50 border-blue-400/50 text-white/50 cursor-not-allowed"
-                      : "bg-blue-500 hover:bg-blue-600 border-blue-400 text-white"
-                  }`}
-                  aria-label="Regenerate this headshot"
-                  title="Regenerate this headshot"
-                >
-                  {regenerating ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                  ) : (
-                    <RefreshCw className="w-5 h-5" />
-                  )}
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    alert("Variations generation will be available soon.");
-                  }}
-                  className="w-12 h-12 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white flex items-center justify-center transition"
-                  aria-label="Generate Variations"
-                  title="Generate Variations"
-                >
-                  <Layers className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    alert("Prompt editing will be available soon.");
-                  }}
-                  className="w-12 h-12 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white flex items-center justify-center transition"
-                  aria-label="Edit Prompt"
-                  title="Edit Prompt"
-                >
-                  <Edit3 className="w-5 h-5" />
-                </button>
-              </div>
-            )}
             <div className="hidden sm:block">
               <ShareButton imageUrl={imageUrl} label="Share" />
             </div>

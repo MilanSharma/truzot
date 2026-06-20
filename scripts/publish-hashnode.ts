@@ -44,10 +44,16 @@ async function publishToHashnode(filePath: string) {
   const slug = path.basename(filePath).replace(/\.mdx?$/, "");
   const canonicalUrl = `https://truzot.com/blog/${slug}`;
 
-  const tags = (frontmatter.tags || []).map((t) => ({
-    name: t,
-    slug: t.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
-  }));
+  const tags = (frontmatter.tags || "")
+    .split(",")
+    .map((t: string) => ({
+      name: t.trim(),
+      slug: t
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-"),
+    }))
+    .filter((t) => t.name.length > 0);
 
   const mutation = `
     mutation PublishPost($input: PublishPostInput!) {

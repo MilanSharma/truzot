@@ -55,7 +55,7 @@ export function getPost(slug: string): BlogPost | null {
   };
 }
 
-function parseFrontmatter(raw: string): Record<string, string> {
+export function parseFrontmatter(raw: string): Record<string, string> {
   const result: Record<string, string> = {};
   const match = raw.match(/^---\s*\n([\s\S]*?)\n---\s*\n/);
   if (!match) return result;
@@ -74,7 +74,7 @@ function parseFrontmatter(raw: string): Record<string, string> {
   return result;
 }
 
-function stripFrontmatter(raw: string): string {
+export function stripFrontmatter(raw: string): string {
   return raw.replace(/^---\s*\n[\s\S]*?\n---\s*\n/, "");
 }
 

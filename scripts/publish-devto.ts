@@ -41,9 +41,16 @@ async function publishToDevTo(filePath: string) {
   const canonicalUrl = `https://truzot.com/blog/${slug}`;
 
   // dev.to tags: max 4, lowercase, alphanumeric only
-  const tags = (frontmatter.tags || [])
-    .slice(0, 4)
-    .map((t) => t.toLowerCase().replace(/[^a-z0-9]/g, ""));
+  const tags = (frontmatter.tags || "")
+    .split(",")
+    .map((t: string) =>
+      t
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, ""),
+    )
+    .filter(Boolean)
+    .slice(0, 4);
 
   const payload: DevToArticle = {
     article: {
