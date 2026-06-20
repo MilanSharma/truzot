@@ -59,6 +59,12 @@ interface DateFilter {
   to: Date | null;
 }
 
+const SkeletonCard = () => (
+  <div className="aspect-[3/4] rounded-xl bg-slate-200 dark:bg-slate-800 animate-pulse">
+    <div className="h-full w-full rounded-xl bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200 dark:from-slate-800 dark:via-slate-700 dark:to-slate-800 animate-shimmer" />
+  </div>
+);
+
 export default function CompletedGallery({
   headshots,
   filtered,

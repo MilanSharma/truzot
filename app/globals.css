@@ -213,3 +213,73 @@
     animation: fadeIn 0.5s ease-out forwards;
   }
 }
+
+/* Mobile Responsive Enhancements */
+@media (max-width: 768px) {
+  /* Better touch targets */
+  button,
+  a,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Prevent zoom on input focus */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+
+  /* Better spacing for mobile */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Lightbox mobile optimizations */
+  .lightbox-image {
+    max-height: 70vh;
+    object-fit: contain;
+  }
+
+  /* Gallery grid mobile */
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+}
+
+/* Touch-friendly animations */
+@media (hover: none) {
+  .hover\:scale-105:hover {
+    transform: scale(1);
+  }
+
+  /* Disable hover effects on touch devices */
+  .group:hover .group-hover\:opacity-100 {
+    opacity: 1;
+  }
+}
+
+/* Skeleton shimmer animation */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+  background-size: 1000px 100%;
+}

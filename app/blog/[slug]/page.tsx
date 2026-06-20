@@ -14,6 +14,8 @@ export function generateStaticParams() {
   return posts.map((post) => ({ slug: post.slug }));
 }
 
+const readingTime = Math.ceil(content.split(" ").length / 200); // 200 words per minute
+
 export async function generateMetadata({
   params,
 }: {
@@ -70,6 +72,32 @@ export async function generateMetadata({
     },
   };
 }
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.title,
+  description: post.description,
+  image: post.image || `${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`,
+  author: {
+    "@type": "Person",
+    name: post.author || "Truzot Team",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "Truzot",
+    logo: {
+      "@type": "ImageObject",
+      url: `${process.env.NEXT_PUBLIC_SITE_URL}/logo.png`,
+    },
+  },
+  datePublished: post.publishedAt,
+  dateModified: post.updatedAt || post.publishedAt,
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${post.slug}`,
+  },
+};
 
 export default async function BlogPostPage({
   params,
