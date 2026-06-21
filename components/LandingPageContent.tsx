@@ -121,13 +121,53 @@ const FAQS = [
 ];
 
 // Placeholder for modern B2B unicorn logos
+const LOGOS = [
+  { name: "Stripe", className: "font-sans font-bold tracking-tight text-2xl" },
+  {
+    name: "Google",
+    className: "font-sans font-medium tracking-tighter text-2xl",
+  },
+  {
+    name: "Microsoft",
+    className: "font-sans font-semibold tracking-tight text-xl",
+  },
+  {
+    name: "Amazon",
+    className: "font-sans font-bold tracking-tighter text-2xl",
+  },
+  { name: "Meta", className: "font-sans font-semibold tracking-wide text-2xl" },
+  {
+    name: "Netflix",
+    className: "font-sans font-black tracking-widest text-2xl",
+  },
+  {
+    name: "Spotify",
+    className: "font-sans font-bold tracking-tighter text-2xl",
+  },
+  { name: "Linear", className: "font-sans font-bold tracking-tight text-2xl" },
+  { name: "Vercel", className: "font-sans font-extrabold text-2xl" },
+];
+
 const CompanyLogos = () => (
-  <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-    <div className="text-xl font-bold font-sans tracking-tight">Stripe</div>
-    <div className="text-xl font-bold font-serif tracking-tighter">Notion</div>
-    <div className="text-xl font-bold font-sans tracking-wide">Linear</div>
-    <div className="text-xl font-extrabold font-sans">Vercel</div>
-    <div className="text-xl font-bold font-sans tracking-tighter">Gusto</div>
+  <div
+    className="w-full inline-flex flex-nowrap overflow-hidden py-4"
+    style={{
+      maskImage:
+        "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+      WebkitMaskImage:
+        "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+    }}
+  >
+    <div className="flex w-max animate-marquee gap-12 md:gap-24 items-center justify-center">
+      {[...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS].map((logo, i) => (
+        <div
+          key={i}
+          className={`text-slate-400 dark:text-slate-500 opacity-60 hover:opacity-100 transition-opacity ${logo.className}`}
+        >
+          {logo.name}
+        </div>
+      ))}
+    </div>
   </div>
 );
 
@@ -288,26 +328,26 @@ export default function LandingPageContent() {
         </nav>
 
         {/* Enterprise Hero Section */}
-        <section className="pt-40 pb-20 px-6 max-w-7xl mx-auto text-center relative">
-          <div className="inline-flex items-center rounded-full border border-indigo-200/60 dark:border-indigo-800/60 bg-indigo-50/50 dark:bg-indigo-900/20 backdrop-blur-sm px-4 py-1.5 text-sm font-semibold text-indigo-700 dark:text-indigo-300 mb-8 shadow-sm">
+        <section className="pt-28 md:pt-32 pb-16 px-6 max-w-7xl mx-auto text-center relative">
+          <div className="inline-flex items-center rounded-full border border-indigo-200/60 dark:border-indigo-800/60 bg-indigo-50/50 dark:bg-indigo-900/20 backdrop-blur-sm px-4 py-1.5 text-sm font-semibold text-indigo-700 dark:text-indigo-300 mb-6 shadow-sm">
             <Sparkles className="w-4 h-4 mr-2" />
             Truzot Enterprise AI 2.0 Now Available
           </div>
 
-          <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-extrabold tracking-tighter mb-6 text-slate-900 dark:text-white leading-[1.05]">
+          <h1 className="text-4xl md:text-6xl lg:text-[4.5rem] font-extrabold tracking-tighter mb-4 text-slate-900 dark:text-white leading-[1.1]">
             Studio-Quality Headshots <br className="hidden md:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-500 dark:from-white dark:to-slate-400">
               Generated in Minutes
             </span>
           </h1>
 
-          <p className="text-xl text-slate-600 dark:text-slate-400 mb-10 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-8 max-w-3xl mx-auto leading-relaxed">
             Upload a few casual selfies and let our advanced AI generate
             breathtaking, photorealistic portraits. Built for actors, models,
             founders, and everyday professionals.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10">
             <Link
               href="/upload"
               className="w-full sm:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition shadow-xl hover:shadow-2xl flex items-center justify-center gap-2"
@@ -322,11 +362,7 @@ export default function LandingPageContent() {
             </a>
           </div>
 
-          <div className="mb-24 w-full mx-auto relative z-10">
-            <BeforeAfterCarousel examples={BEFORE_AFTER_EXAMPLES} />
-          </div>
-
-          <div className="flex items-center justify-center gap-3 text-sm font-medium text-slate-600 dark:text-slate-300 mb-10">
+          <div className="flex items-center justify-center gap-3 text-sm font-medium text-slate-600 dark:text-slate-300 mb-12">
             <div className="flex -space-x-3 items-center">
               {AVATARS.map((src, i) => (
                 <div
@@ -358,7 +394,11 @@ export default function LandingPageContent() {
             </div>
           </div>
 
-          <p className="text-sm font-semibold text-slate-400 uppercase tracking-widest mb-6">
+          <div id="examples" className="mb-12 w-full mx-auto relative z-10">
+            <BeforeAfterCarousel examples={BEFORE_AFTER_EXAMPLES} />
+          </div>
+
+          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 mt-4">
             Trusted by professionals at
           </p>
           <CompanyLogos />
