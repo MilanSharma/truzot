@@ -247,7 +247,7 @@ function UploadContent() {
           saved.step >= 1 &&
           saved.step <= 3
             ? (saved.step as Step)
-            : 3;
+            : 2;
         setStep(targetStep);
         const newUrl = new URL(window.location.href);
         newUrl.searchParams.delete("cancelled");
