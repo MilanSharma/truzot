@@ -418,13 +418,30 @@ export default function CompletedGallery({
 
       {sortedFiltered.length > 0 ? (
         <>
-          <div className="mb-4">
-            <button
-              onClick={() => setShowUpsellModal(true)}
-              className="px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:from-indigo-600 hover:to-purple-700 transition flex items-center gap-2 shadow-md"
-            >
-              <Sparkles className="w-4 h-4" /> Custom Pack ($14)
-            </button>
+          <div className="mb-10 relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 p-8 shadow-2xl group border border-white/10">
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none"></div>
+            <div className="absolute -right-20 -top-20 w-64 h-64 bg-indigo-500 rounded-full blur-[100px] opacity-20 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
+            <div className="absolute -left-20 -bottom-20 w-64 h-64 bg-purple-500 rounded-full blur-[100px] opacity-20 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
+
+            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+              <div>
+                <h3 className="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                  <Sparkles className="w-6 h-6 text-indigo-400" />
+                  Unlock Custom Styles
+                </h3>
+                <p className="text-indigo-100/70 max-w-xl text-sm leading-relaxed">
+                  Your AI model is already trained! Didn&apos;t get the exact
+                  look you wanted? Generate 20 custom headshots with your exact
+                  choice of clothing and background.
+                </p>
+              </div>
+              <button
+                onClick={() => setShowUpsellModal(true)}
+                className="shrink-0 px-8 py-3.5 bg-white text-indigo-950 rounded-xl font-bold hover:bg-indigo-50 transition-all duration-300 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] flex items-center gap-2"
+              >
+                Create Custom Pack ($14)
+              </button>
+            </div>
           </div>
           <VirtualizedHeadshotGrid
             headshots={sortedFiltered}

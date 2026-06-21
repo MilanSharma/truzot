@@ -21,7 +21,7 @@ export default function Sidebar({
   const router = useRouter();
 
   return (
-    <aside className="w-64 bg-[var(--bg-card)] border-r border-[var(--border-primary)] flex flex-col justify-between hidden md:flex shrink-0 z-10 overflow-y-auto">
+    <aside className="w-64 bg-white/50 dark:bg-slate-950/50 backdrop-blur-2xl border-r border-[var(--border-primary)] flex flex-col justify-between hidden md:flex shrink-0 z-10 overflow-y-auto shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
       <div>
         <div className="h-16 flex items-center px-6 border-b border-[var(--border-primary)]">
           <Link
@@ -34,13 +34,13 @@ export default function Sidebar({
         <div className="p-4 space-y-1">
           <a
             href="/dashboard"
-            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-bold transition w-full text-left ${active ? "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400" : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200"}`}
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 w-full text-left active:scale-95 ${active ? "bg-blue-600 text-white shadow-md shadow-blue-600/20" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:translate-x-1"}`}
           >
             <LayoutDashboard className="w-4 h-4" /> My Projects
           </a>
           <a
             href="/team"
-            className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition"
+            className="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 w-full text-left active:scale-95 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:translate-x-1"
           >
             <div className="flex items-center gap-3">
               <Users className="w-4 h-4" /> Team Workspace
@@ -51,7 +51,7 @@ export default function Sidebar({
           </a>
           <Link
             href="/account"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 w-full text-left active:scale-95 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 hover:translate-x-1"
           >
             <Settings className="w-4 h-4" /> Account Settings
           </Link>
@@ -60,7 +60,7 @@ export default function Sidebar({
 
       <div className="mt-auto">
         <div className="p-4 border-t border-[var(--border-primary)]">
-          <div className="bg-gradient-to-br from-slate-900 to-slate-800 dark:from-slate-800 dark:to-slate-900 rounded-xl p-4 mb-4 text-white">
+          <div className="bg-gradient-to-br from-slate-900 to-slate-800 dark:from-slate-800 dark:to-slate-900 rounded-xl p-4 mb-4 text-white hover:scale-[1.02] transition-transform duration-300 cursor-pointer shadow-lg">
             <div className="flex items-center gap-2 font-bold text-sm mb-1">
               <Briefcase className="w-4 h-4 text-amber-400" /> For Teams
             </div>
@@ -69,7 +69,7 @@ export default function Sidebar({
             </p>
             <Link
               href="/contact"
-              className="block w-full bg-white/10 hover:bg-white/20 transition py-1.5 rounded text-xs font-bold text-center"
+              className="block w-full bg-white/10 hover:bg-white/20 transition py-1.5 rounded text-xs font-bold text-center active:scale-95"
             >
               Contact Sales
             </Link>
@@ -88,7 +88,7 @@ export default function Sidebar({
                     router.push("/");
                   })
                 }
-                className="text-slate-400 hover:text-red-500 transition"
+                className="text-slate-400 hover:text-red-500 transition active:scale-95 p-1 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20"
               >
                 <LogOut className="w-4 h-4" />
               </button>

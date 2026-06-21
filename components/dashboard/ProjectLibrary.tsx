@@ -36,7 +36,7 @@ function ProjectSkeleton() {
     <div className="animate-in fade-in duration-300">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 dark:text-white mb-1">
+          <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-1">
             My Projects
           </h1>
           <div className="h-4 w-24 bg-slate-200 dark:bg-slate-700 rounded animate-pulse mt-2" />
@@ -490,7 +490,7 @@ export default function ProjectLibrary({
       {/* Stats Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 dark:text-white mb-1">
+          <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-1">
             My Projects
           </h1>
           <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
@@ -505,7 +505,7 @@ export default function ProjectLibrary({
             localStorage.removeItem("truzot-idempotency-key");
             window.location.href = "/upload";
           }}
-          className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl text-sm font-bold hover:bg-blue-700 transition shadow-sm"
+          className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl text-sm font-bold hover:bg-blue-700 transition-all duration-200 active:scale-95 shadow-sm hover:shadow-md"
         >
           <Plus className="w-4 h-4" /> New Shoot
         </button>
@@ -713,7 +713,7 @@ export default function ProjectLibrary({
                 {groups[group].map((o) => (
                   <div
                     key={o.id}
-                    className={`bg-white dark:bg-slate-900 rounded-2xl border shadow-sm hover:shadow-lg transition group relative z-0 focus-within:z-10 hover:z-10 overflow-visible ${
+                    className={`bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl border shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-all duration-400 ease-out transform hover:-translate-y-1 group relative z-0 focus-within:z-10 hover:z-10 overflow-visible ${
                       o.status === "failed"
                         ? "border-red-200 dark:border-red-800 hover:border-red-300 dark:hover:border-red-600"
                         : o.status === "refunded"

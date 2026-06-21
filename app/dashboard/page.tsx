@@ -800,6 +800,16 @@ function DashboardContent() {
       confirmText: "Delete",
       confirmStyle: "bg-red-600 hover:bg-red-700",
       action: async () => {
+        // Optimistic UI Update: instantly remove from view
+        setConfirmModal(null);
+        const previousOrders = [...orders];
+        setOrders((prev) => prev.filter((o) => o.id !== id));
+        if (orderId === id) {
+          setFetchedOrder(null);
+          window.history.pushState(null, "", "/dashboard");
+        }
+        toast("Deleting shoot...", "info");
+
         const {
           data: { session },
         } = await supabase.auth.getSession();
@@ -814,18 +824,14 @@ function DashboardContent() {
             },
           });
           if (res.ok) {
-            setConfirmModal(null);
-            setOrders((prev) => prev.filter((o) => o.id !== id));
-            if (orderId === id) {
-              setFetchedOrder(null);
-              window.history.pushState(null, "", "/dashboard");
-            }
             toast("Shoot deleted successfully", "success");
           } else {
             const data = await res.json().catch(() => ({}));
+            setOrders(previousOrders); // Rollback on fail
             toast(data.error || "Failed to delete shoot", "error");
           }
         } catch (err) {
+          setOrders(previousOrders); // Rollback on fail
           toast("Failed to delete shoot", "error");
         }
       },
