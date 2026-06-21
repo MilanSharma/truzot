@@ -6,23 +6,7 @@ import type { Duration } from "@upstash/ratelimit";
 
 export const config = {
   matcher: [
-    "/",
-    "/login",
-    "/api/auth/signup",
-    "/api/auth/reset-password",
-    "/api/checkout",
-    "/api/upload",
-    "/api/free-generate",
-    "/api/feedback",
-    "/api/retry",
-    "/api/regenerate",
-    "/api/contact",
-    "/api/order-status",
-    "/api/download",
-    "/api/download/token",
-    "/api/generate",
-    "/api/generate/retry",
-    "/api/free-train",
+    "/((?!_next/static|_next/image|favicon.ico|.*\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };
 

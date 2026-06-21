@@ -25,13 +25,29 @@ import {
   AlertCircle,
   Loader2,
 } from "lucide-react";
+import dynamic from "next/dynamic";
 import Sidebar from "@/components/dashboard/Sidebar";
 import MobileDrawer from "@/components/dashboard/MobileDrawer";
-import ProjectLibrary from "@/components/dashboard/ProjectLibrary";
-import TrainingView from "@/components/dashboard/TrainingView";
-import GeneratingView from "@/components/dashboard/GeneratingView";
-import FailedView from "@/components/dashboard/FailedView";
-import CompletedGallery from "@/components/dashboard/CompletedGallery";
+import MobileDrawer from "@/components/dashboard/MobileDrawer";
+const ProjectLibrary = dynamic(
+  () => import("@/components/dashboard/ProjectLibrary"),
+  { ssr: false },
+);
+const TrainingView = dynamic(
+  () => import("@/components/dashboard/TrainingView"),
+  { ssr: false },
+);
+const GeneratingView = dynamic(
+  () => import("@/components/dashboard/GeneratingView"),
+  { ssr: false },
+);
+const FailedView = dynamic(() => import("@/components/dashboard/FailedView"), {
+  ssr: false,
+});
+const CompletedGallery = dynamic(
+  () => import("@/components/dashboard/CompletedGallery"),
+  { ssr: false },
+);
 import FloatingSelectionBar from "@/components/dashboard/FloatingSelectionBar";
 import GalleryErrorBoundary from "@/components/GalleryErrorBoundary";
 import ErrorBoundary from "@/components/ErrorBoundary";
