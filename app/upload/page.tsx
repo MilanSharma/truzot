@@ -207,28 +207,6 @@ function UploadContent() {
   const [backgroundProgress, setBackgroundProgress] = useState("");
   const uploadPromiseRef = useRef<Promise<string | null> | null>(null);
 
-  const stepRef = useRef(step);
-  useEffect(() => {
-    if (stepRef.current !== step) {
-      window.history.pushState(null, "", `/upload?step=${step}`);
-    }
-    stepRef.current = step;
-  }, [step]);
-
-  useEffect(() => {
-    const onPopState = () => {
-      const params = new URLSearchParams(window.location.search);
-      const urlStep = params.get("step")
-        ? (parseInt(params.get("step") ?? "1") as Step)
-        : 1;
-      if (urlStep >= 1 && urlStep <= 2) {
-        setStep(urlStep);
-      }
-    };
-    window.addEventListener("popstate", onPopState);
-    return () => window.removeEventListener("popstate", onPopState);
-  }, []);
-
   useEffect(() => {
     if (searchParams.get("cancelled")) {
       setTimeout(() => {

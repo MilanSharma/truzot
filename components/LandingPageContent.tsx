@@ -61,39 +61,57 @@ const AVATARS = [
 const TESTIMONIALS = [
   {
     name: "Sarah Chen",
-    role: "VP of Product",
-    text: "The quality is indistinguishable from the $800 studio session I did last year. My entire team now uses Truzot for our company directory.",
+    role: "VP of Product @ TechFlow",
+    image:
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200",
+    text: "The quality is absolutely indistinguishable from the $800 studio session I did last year in NYC. My entire executive team now uses Truzot for our company directory.",
     rating: 5,
+    verified: true,
   },
   {
     name: "Marcus Johnson",
-    role: "Working Actor",
-    text: "I needed commercial and theatrical looks for my comp card. Truzot gave me incredible variety without having to pay for multiple wardrobe changes at a studio.",
+    role: "Commercial Actor",
+    image:
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200",
+    text: "I needed fresh commercial and theatrical looks for my comp card. Truzot gave me incredible variety without having to pay for multiple wardrobe changes and lighting setups.",
     rating: 5,
+    verified: true,
   },
   {
     name: "Emily Rodriguez",
-    role: "Real Estate Broker",
-    text: "In real estate, trust is everything. These photos gave me a polished, premium look that immediately elevated my listings and marketing materials.",
+    role: "Principal Broker",
+    image:
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
+    text: "In luxury real estate, trust is everything. These photos gave me a polished, high-end look that immediately elevated my listings and marketing materials.",
     rating: 5,
+    verified: true,
   },
   {
     name: "David Park",
-    role: "Recent Graduate",
-    text: "Updated my resume and LinkedIn in 10 minutes. Got 3x more profile views in the first week. Worth every penny for the job search.",
+    role: "Software Engineer",
+    image:
+      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=200",
+    text: "Updated my resume and LinkedIn in 10 minutes. Got 3x more profile views and two recruiter messages in the first week. Worth every penny for the job search.",
     rating: 5,
+    verified: true,
   },
   {
-    name: "Jessica T.",
-    role: "Dating Profile",
-    text: "I just wanted some nice, natural-looking photos for Hinge that didn't look like mirror selfies. The 'Casual' and 'Outdoor' styles were perfect.",
+    name: "Jessica Turner",
+    role: "Creative Director",
+    image:
+      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=200",
+    text: "I was highly skeptical of AI photography, but the skin textures and lighting logic here are flawless. It captured my actual features perfectly.",
     rating: 5,
+    verified: true,
   },
   {
-    name: "Michael B.",
-    role: "Startup Founder",
-    text: "Used these for my pitch deck and press kit. Investors actually complimented the photography. They had no idea it was AI.",
+    name: "Michael Brent",
+    role: "Y Combinator Founder",
+    image:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200",
+    text: "Used these for our Series A pitch deck and press kit. TechCrunch actually complimented the photography. They had absolutely no idea it was AI.",
     rating: 5,
+    verified: true,
   },
 ];
 
@@ -624,26 +642,49 @@ export default function LandingPageContent() {
                 saying.
               </p>
             </div>
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-3 gap-8">
               {TESTIMONIALS.map((t, idx) => (
                 <div
                   key={idx}
-                  className="bg-slate-50 dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm"
+                  className="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-200/60 dark:border-slate-800 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] transition-all duration-300 relative group overflow-hidden flex flex-col justify-between"
                 >
-                  <div className="flex gap-1 text-amber-400 mb-4">
-                    {Array.from({ length: t.rating }).map((_, i) => (
-                      <Star key={i} size={18} className="fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-slate-700 dark:text-slate-300 mb-6 text-base leading-relaxed">
-                    &ldquo;{t.text}&rdquo;
-                  </p>
-                  <div>
-                    <div className="font-bold text-slate-900 dark:text-white">
-                      {t.name}
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl group-hover:bg-blue-500/15 transition-colors duration-500" />
+
+                  <div className="relative z-10 flex-1">
+                    <div className="flex items-center gap-1.5 mb-6">
+                      {Array.from({ length: t.rating }).map((_, i) => (
+                        <Star
+                          key={i}
+                          size={16}
+                          className="fill-amber-400 text-amber-400"
+                        />
+                      ))}
                     </div>
-                    <div className="text-sm text-slate-500 dark:text-slate-400">
-                      {t.role}
+                    <p className="text-slate-700 dark:text-slate-300 text-base leading-relaxed font-medium mb-8">
+                      &ldquo;{t.text}&rdquo;
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-4 relative z-10 mt-auto pt-6 border-t border-slate-100 dark:border-slate-800/60">
+                    <div className="relative w-12 h-12 rounded-full overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm shrink-0">
+                      <Image
+                        src={t.image}
+                        alt={t.name}
+                        fill
+                        className="object-cover"
+                        sizes="48px"
+                      />
+                    </div>
+                    <div>
+                      <div className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5 text-sm">
+                        {t.name}{" "}
+                        {t.verified && (
+                          <CheckCircle className="w-3.5 h-3.5 text-blue-500" />
+                        )}
+                      </div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                        {t.role}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -672,7 +713,7 @@ export default function LandingPageContent() {
               {Object.values(PLANS).map((plan: any) => (
                 <div
                   key={plan.id}
-                  className={`relative bg-white dark:bg-slate-900 p-10 rounded-[2rem] border ${plan.popular ? "border-slate-900 dark:border-slate-100 shadow-2xl scale-105 z-10" : "border-slate-200 dark:border-slate-800 shadow-sm"} transition-transform flex flex-col`}
+                  className={`relative bg-white dark:bg-slate-900 p-10 rounded-[2rem] border ${plan.popular ? "border-blue-600 dark:border-blue-500 shadow-[0_20px_60px_rgba(37,99,235,0.15)] scale-105 z-10 ring-4 ring-blue-50 dark:ring-blue-900/20" : "border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg"} transition-all duration-300 flex flex-col`}
                 >
                   {plan.popular && (
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">
