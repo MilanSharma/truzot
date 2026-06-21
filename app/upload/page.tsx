@@ -119,6 +119,24 @@ function UploadContent() {
     return urlStep >= 1 && urlStep <= 2 ? urlStep : 1;
   });
   const [files, setFiles] = useState<File[]>([]);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      handleFiles(e.dataTransfer.files);
+    }
+  };
+
   const filesRef = useRef(files);
   useEffect(() => {
     filesRef.current = files;
@@ -720,10 +738,13 @@ function UploadContent() {
 
   const score = getQualityScore();
 
-  const analyzePhotos = useCallback(async (imageFiles: File[]) => {
-    if (imageFiles.length === 0) return;
-    setFraming("closeup");
-  }, []);
+  const analyzePhotos = useCallback(
+    async (imageFiles: File[]) => {
+      if (imageFiles.length === 0) return;
+      setFraming("closeup");
+    },
+    [setFraming],
+  );
 
   const handleNextStep = async () => {
     setError("");
@@ -954,154 +975,12 @@ function UploadContent() {
                   </div>
                   <div className="h-3 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden mb-6">
                     <div
-                      className="h-full bg-emerald-500 transition-all duration-500"
-                      style={{ width: "100%" }}
+                      className="h-full bg-emerald-500"
+                      style={{ width: "75%" }}
                     />
-                  </div>
-                  <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-xl p-6 text-center border border-emerald-100 dark:border-emerald-800">
-                    <ImageIcon className="w-12 h-12 text-emerald-600 dark:text-emerald-400 mx-auto mb-3" />
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
-                      Photos Securely Saved
-                    </h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
-                      Your previously uploaded photos are safely stored in our
-                      secure environment and ready to use. You can upload new
-                      photos to replace them, or simply click{" "}
-                      <strong>Next</strong> to continue.
-                    </p>
-                    <button
-                      onClick={() => {
-                        setStoragePath("");
-                        const saved = getSavedState();
-                        if (saved) {
-                          delete (saved as any).storagePath;
-                          sessionStorage.setItem(
-                            SESSION_KEY,
-                            JSON.stringify(saved),
-                          );
-                        }
-                      }}
-                      className="text-sm font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline"
-                    >
-                      Replace with new photos
-                    </button>
                   </div>
                 </div>
-              ) : (
-                /* NORMAL UPLOAD VIEW */
-                <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 shadow-sm mb-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="font-bold text-slate-900 dark:text-white">
-                      Dataset Quality
-                    </span>
-                    <span className={`font-bold ${score.text}`}>
-                      {score.label}
-                    </span>
-                  </div>
-                  <div className="h-3 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden mb-8">
-                    <div
-                      className={`h-full ${score.color} transition-all duration-500`}
-                      style={{ width: `${score.score}%` }}
-                    />
-                  </div>
-                  <label
-                    htmlFor="file-input"
-                    className="block cursor-pointer border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-2xl p-10 text-center hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/10 transition-colors"
-                  >
-                    <input
-                      type="file"
-                      multiple
-                      accept="image/jpeg,image/png,image/heic"
-                      capture="environment"
-                      className="hidden"
-                      id="file-input"
-                      onChange={(e) => handleFiles(e.target.files)}
-                    />
-                    <div className="w-16 h-16 bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Upload className="w-8 h-8 text-blue-600" />
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                      {files.length === 0
-                        ? "Click to browse or drag photos here"
-                        : `Add more photos`}
-                    </h3>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">
-                      JPG, PNG, HEIC accepted.
-                    </p>
-                    <p className="text-xs text-amber-600 dark:text-amber-500 mt-2 font-medium">
-                      📱 iPhone users: For fastest upload, change Camera
-                      Settings → Formats to &quot;Most Compatible&quot; (JPEG).
-                    </p>
-                    <p className="text-xs text-amber-600 dark:text-amber-500 mt-2 font-medium">
-                      📱 iPhone users: For fastest upload, change Camera
-                      Settings → Formats to &quot;Most Compatible&quot; (JPEG).
-                    </p>
-                  </label>
-                  {uploadFeedback && (
-                    <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg animate-in fade-in duration-300">
-                      <div className="flex items-center gap-2">
-                        <Loader2 className="w-4 h-4 animate-spin text-blue-600" />
-                        <span className="text-sm text-blue-700 dark:text-blue-300">
-                          Uploading {uploadFeedback.count} photo
-                          {uploadFeedback.count > 1 ? "s" : ""}...
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                  {files.length > 0 && (
-                    <div className="mt-8 grid grid-cols-4 sm:grid-cols-5 gap-3">
-                      {files.map((f, i) => (
-                        <div
-                          key={i}
-                          className="relative aspect-square rounded-xl overflow-hidden shadow-sm group"
-                        >
-                          <img
-                            src={objectUrls[i]}
-                            alt={`Photo ${i + 1}: ${f.name}`}
-                            className="w-full h-full object-cover"
-                          />
-                          <button
-                            onClick={(e) => {
-                              e.preventDefault();
-                              removeFile(i);
-                            }}
-                            className="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
-                          >
-                            <X className="w-4 h-4" />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {isUploadingBackground && (
-                    <div className="mt-6">
-                      <div className="flex items-center justify-between text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5">
-                        <div className="flex items-center gap-1.5">
-                          <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-500" />
-                          <span>
-                            {backgroundProgress || "Uploading photos..."}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-blue-500 rounded-full animate-pulse transition-all duration-300"
-                          style={{ width: "60%" }}
-                        />
-                      </div>
-                    </div>
-                  )}
-                  {storagePath && (
-                    <div className="mt-6 p-4 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/50 rounded-xl text-center">
-                      <div className="flex items-center justify-center gap-2 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                        <Check className="w-4 h-4" />
-                        <span>Photos uploaded and ready.</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
+              ) : null}
 
               {files.length === 0 && !storagePath && (
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -1142,7 +1021,7 @@ function UploadContent() {
                     </>
                   ) : (
                     <>
-                      Next: Customization
+                      Next: Checkout
                       <ChevronRight className="w-5 h-5" />
                     </>
                   )}
