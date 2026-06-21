@@ -1,5 +1,5 @@
+"use client";
 import Image from "next/image";
-("use client");
 
 import Link from "next/link";
 import {
@@ -21,7 +21,7 @@ import {
   Mail,
   Loader2,
 } from "lucide-react";
-import { useState, useRef, useEffect, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import ComparisonSlider from "@/components/ComparisonSlider";
 import BeforeAfterCarousel from "@/components/BeforeAfterCarousel";
 import { PLANS, HEADSHOT_CATEGORIES } from "@/lib/plans";
