@@ -120,16 +120,14 @@ const FAQS = [
   },
 ];
 
-// Placeholder for corporate logos (SVGs)
+// Placeholder for modern B2B unicorn logos
 const CompanyLogos = () => (
   <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-    <div className="text-xl font-bold font-sans tracking-tight">Microsoft</div>
-    <div className="text-xl font-bold font-serif tracking-tighter">Google</div>
-    <div className="text-xl font-bold font-sans tracking-wide">amazon</div>
-    <div className="text-xl font-extrabold font-sans">Meta</div>
-    <div className="text-xl font-bold font-sans tracking-tighter">
-      Salesforce
-    </div>
+    <div className="text-xl font-bold font-sans tracking-tight">Stripe</div>
+    <div className="text-xl font-bold font-serif tracking-tighter">Notion</div>
+    <div className="text-xl font-bold font-sans tracking-wide">Linear</div>
+    <div className="text-xl font-extrabold font-sans">Vercel</div>
+    <div className="text-xl font-bold font-sans tracking-tighter">Gusto</div>
   </div>
 );
 
@@ -297,9 +295,9 @@ export default function LandingPageContent() {
           </div>
 
           <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-extrabold tracking-tighter mb-6 text-slate-900 dark:text-white leading-[1.05]">
-            Studio-Quality Headshots. <br className="hidden md:block" />
+            Studio-Quality Headshots <br className="hidden md:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-500 dark:from-white dark:to-slate-400">
-              Generated in Minutes.
+              Generated in Minutes
             </span>
           </h1>
 
@@ -309,7 +307,7 @@ export default function LandingPageContent() {
             founders, and everyday professionals.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
             <Link
               href="/upload"
               className="w-full sm:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition shadow-xl hover:shadow-2xl flex items-center justify-center gap-2"
@@ -324,7 +322,11 @@ export default function LandingPageContent() {
             </a>
           </div>
 
-          <div className="flex items-center justify-center gap-3 text-sm font-medium text-slate-600 dark:text-slate-300 mb-16">
+          <div className="mb-24 w-full mx-auto relative z-10">
+            <BeforeAfterCarousel examples={BEFORE_AFTER_EXAMPLES} />
+          </div>
+
+          <div className="flex items-center justify-center gap-3 text-sm font-medium text-slate-600 dark:text-slate-300 mb-10">
             <div className="flex -space-x-3 items-center">
               {AVATARS.map((src, i) => (
                 <div
@@ -360,10 +362,6 @@ export default function LandingPageContent() {
             Trusted by professionals at
           </p>
           <CompanyLogos />
-
-          <div className="mt-24 w-full mx-auto relative z-10">
-            <BeforeAfterCarousel examples={BEFORE_AFTER_EXAMPLES} />
-          </div>
         </section>
 
         {/* Use Cases Section (Broadening Audience) */}
@@ -784,8 +782,8 @@ export default function LandingPageContent() {
                 TRUZOT
               </div>
               <p className="text-sm leading-relaxed mb-6">
-                Enterprise-grade AI headshot generation. Professional
-                photography, modernized.
+                High-end AI photography generation for everyone. Studio quality
+                without the studio.
               </p>
               <div className="flex gap-4">
                 {/* Social icons could go here */}
