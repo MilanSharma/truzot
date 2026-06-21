@@ -1,4 +1,5 @@
-"use client";
+import Image from "next/image";
+("use client");
 
 import Link from "next/link";
 import {
@@ -20,7 +21,7 @@ import {
   Mail,
   Loader2,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect, useEffect } from "react";
 import ComparisonSlider from "@/components/ComparisonSlider";
 import BeforeAfterCarousel from "@/components/BeforeAfterCarousel";
 import { PLANS, HEADSHOT_CATEGORIES } from "@/lib/plans";
@@ -32,58 +33,52 @@ import {
 } from "@/components/JsonLd";
 
 const USE_CASES = [
-  { icon: <Linkedin className="w-5 h-5" />, name: "LinkedIn" },
-  { icon: <Briefcase className="w-5 h-5" />, name: "Company Pages" },
-  { icon: <Camera className="w-5 h-5" />, name: "Zoom / Teams" },
-  { icon: <Users className="w-5 h-5" />, name: "Team Profiles" },
-  { icon: <Star className="w-5 h-5" />, name: "Business Cards" },
-  { icon: <Zap className="w-5 h-5" />, name: "Social Media" },
+  { icon: <Linkedin className="w-5 h-5" /> },
+  { icon: <Briefcase className="w-5 h-5" /> },
+  { icon: <Camera className="w-5 h-5" /> },
+  { icon: <Users className="w-5 h-5" /> },
+  { icon: <Star className="w-5 h-5" /> },
+  { icon: <Zap className="w-5 h-5" /> },
 ];
 
 const STYLE_GALLERY = [
-  { name: "Corporate", color: "bg-slate-800" },
-  { name: "LinkedIn", color: "bg-blue-600" },
-  { name: "Casual", color: "bg-emerald-600" },
-  { name: "Creative", color: "bg-purple-600" },
-  { name: "Executive", color: "bg-slate-900" },
-  { name: "Nature", color: "bg-green-700" },
-  { name: "Urban", color: "bg-orange-600" },
-  { name: "Studio", color: "bg-indigo-600" },
+  { color: "bg-slate-800" },
+  { color: "bg-blue-600" },
+  { color: "bg-emerald-600" },
+  { color: "bg-purple-600" },
+  { color: "bg-slate-900" },
+  { color: "bg-green-700" },
+  { color: "bg-orange-600" },
+  { color: "bg-indigo-600" },
 ];
 
 const TESTIMONIALS = [
   {
-    name: "Sarah K.",
     role: "Product Manager",
     text: "Got hired after updating my LinkedIn with these headshots. Best $39 I ever spent.",
     rating: 5,
   },
   {
-    name: "Marcus T.",
     role: "Startup Founder",
     text: "The team plan saved us thousands vs. a photo studio. The consistency across all headshots is incredible.",
     rating: 5,
   },
   {
-    name: "Emily R.",
     role: "Marketing Director",
     text: "Finally, professional headshots without the awkward studio session. The AI nailed my likeness perfectly.",
     rating: 5,
   },
   {
-    name: "David L.",
     role: "Software Engineer",
     text: "Updated my resume and LinkedIn in 10 minutes. Got 3x more profile views in the first week.",
     rating: 5,
   },
   {
-    name: "Jessica M.",
     role: "Real Estate Agent",
     text: "My clients comment on my professional photos all the time. Nobody believes they're AI-generated.",
     rating: 5,
   },
   {
-    name: "Alex P.",
     role: "Agency Owner",
     text: "We use Truzot for all our team headshots. Consistent, professional, and done in minutes.",
     rating: 5,
@@ -91,7 +86,6 @@ const TESTIMONIALS = [
 ];
 const PROFESSION_EXAMPLES = [
   {
-    profession: "Real Estate Agent",
     before:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=750&fit=crop",
     after:
@@ -99,7 +93,6 @@ const PROFESSION_EXAMPLES = [
     caption: "From casual selfie to MLS-ready professional",
   },
   {
-    profession: "Software Engineer",
     before:
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&h=750&fit=crop",
     after:
@@ -107,7 +100,6 @@ const PROFESSION_EXAMPLES = [
     caption: "Tech startup founder look in minutes",
   },
   {
-    profession: "Marketing Professional",
     before:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&h=750&fit=crop",
     after:
@@ -115,7 +107,6 @@ const PROFESSION_EXAMPLES = [
     caption: "Corporate marketing director transformation",
   },
   {
-    profession: "Actor/Performer",
     before:
       "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&h=750&fit=crop",
     after:
@@ -123,7 +114,6 @@ const PROFESSION_EXAMPLES = [
     caption: "Versatile headshot for auditions",
   },
   {
-    profession: "Business Executive",
     before:
       "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&h=750&fit=crop",
     after:
@@ -131,7 +121,6 @@ const PROFESSION_EXAMPLES = [
     caption: "C-suite executive presence",
   },
   {
-    profession: "Consultant",
     before:
       "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&h=750&fit=crop",
     after:
@@ -144,54 +133,59 @@ const BEFORE_AFTER_EXAMPLES = [
   {
     before: "/shots/girl1%20-%20before.jpg",
     after: "/shots/girl1%20-%20after.jpeg",
-    name: "Sarah Johnson",
-    profession: "Marketing Director",
   },
   {
     before: "/shots/girl2%20-%20before.jpg",
     after: "/shots/girl2%20-%20after.jpeg",
-    name: "Emily Chen",
-    profession: "Software Engineer",
   },
   {
     before: "/shots/man1%20-%20before.jpg",
     after: "/shots/man1%20-%20after.jpeg",
-    name: "Michael Park",
-    profession: "Business Executive",
   },
   {
     before: "/shots/girl3%20-%20before.jpg",
     after: "/shots/girl3%20-%20after.jpeg",
-    name: "Lisa Rodriguez",
-    profession: "Real Estate Agent",
   },
   {
     before: "/shots/man2-%20before.jpg",
     after: "/shots/man2-%20after.jpeg",
-    name: "David Kim",
-    profession: "Startup Founder",
   },
   {
     before: "/shots/girl4%20-%20before.jpg",
     after: "/shots/girl4%20-%20after.jpeg",
-    name: "Amanda Foster",
-    profession: "Creative Director",
   },
   {
     before: "/shots/man3%20-%20before.jpg",
     after: "/shots/man3%20-%20after.jpeg",
-    name: "James Wilson",
-    profession: "Financial Advisor",
   },
   {
     before: "/shots/man4%20-%20before.jpg",
     after: "/shots/man4%20-%20after.jpeg",
-    name: "Jennifer Lee",
-    profession: "HR Manager",
   },
 ];
 
 export default function LandingPageContent() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+    let animationFrameId: number;
+    const scroll = () => {
+      if (!isHovered && scrollContainer) {
+        scrollContainer.scrollLeft += 1;
+        // Infinite loop reset when reaching the middle (since we duplicate the array)
+        if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
+          scrollContainer.scrollLeft = 0;
+        }
+      }
+      animationFrameId = requestAnimationFrame(scroll);
+    };
+    animationFrameId = requestAnimationFrame(scroll);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [isHovered]);
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showExitPopup, setShowExitPopup] = useState(false);
   const [email, setEmail] = useState("");
@@ -266,7 +260,7 @@ export default function LandingPageContent() {
     <>
       <ProductSchema />
       <SpeakableSchema />
-      <BreadcrumbSchema items={[{ name: "Home", url: "/" }]} />
+      <BreadcrumbSchema items={[{ url: "/" }]} />
       <div
         id="main-content"
         className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans scroll-smooth"
@@ -480,7 +474,7 @@ export default function LandingPageContent() {
               </p>
             </div>
 
-            <BeforeAfterCarousel examples={BEFORE_AFTER_EXAMPLES} />
+            {/* <BeforeAfterCarousel /> Removed - Moved to Hero */}
 
             <div className="text-center mt-10">
               <Link
