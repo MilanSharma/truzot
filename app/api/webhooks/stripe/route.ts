@@ -90,6 +90,41 @@ export const POST = withContext(async (req: Request) => {
     if (["training", "generating", "completed"].includes(order.status))
       return NextResponse.json({ received: true });
 
+    // 🚀 NEW: FAST-TRACK UPSELL PACKAGES TO GENERATION (Bypasses Training)
+    if (plan === "custom_upsell") {
+      await supabaseAdmin
+        .from("orders")
+        .update({
+          status: "generating",
+          stripe_payment_intent: session.payment_intent as string,
+        })
+        .eq("id", orderId);
+
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://truzot.com";
+      const cronSecret = process.env.CRON_SECRET;
+
+      fetch(`${siteUrl}/api/generate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-truzot-secret": cronSecret || "",
+        },
+        body: JSON.stringify({ orderId }),
+      }).catch((err) =>
+        log.error({ err, orderId }, "Trigger generate failed for upsell"),
+      );
+
+      if (event.id) {
+        await supabaseAdmin
+          .from("webhook_events")
+          .update({ status: "processed" })
+          .eq("event_id", event.id)
+          .eq("source", "stripe")
+          .eq("status", "received");
+      }
+      return NextResponse.json({ received: true });
+    }
+
     if (!isValidTransition(order.status, "training")) {
       log.warn(
         { orderId, currentStatus: order.status },

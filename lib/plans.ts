@@ -77,6 +77,7 @@ export const PLAN_SHOTS: Record<string, number> = {
   basic: 40,
   pro: 100,
   executive: 200,
+  custom_upsell: 20,
 };
 
 export const STYLE_CATEGORIES = [

@@ -10,12 +10,14 @@ import {
   Calendar,
   Download,
   X,
+  Sparkles,
 } from "lucide-react";
 import VirtualizedHeadshotGrid from "@/components/VirtualizedHeadshotGrid";
 import type { Headshot } from "@/lib/types";
 import { useToast } from "@/components/Toast";
 import { supabase } from "@/lib/supabase/client";
 import { serverSideDownload } from "@/lib/download";
+import CustomUpsellModal from "./CustomUpsellModal";
 
 interface CompletedGalleryProps {
   headshots: Headshot[];
@@ -82,6 +84,7 @@ export default function CompletedGallery({
   onDownload,
   onClearSelection,
 }: CompletedGalleryProps) {
+  const [showUpsellModal, setShowUpsellModal] = useState(false);
   const [sortBy, setSortBy] = useState<"newest" | "oldest" | "favorites">(
     "newest",
   );
@@ -415,6 +418,14 @@ export default function CompletedGallery({
 
       {sortedFiltered.length > 0 ? (
         <>
+          <div className="mb-4">
+            <button
+              onClick={() => setShowUpsellModal(true)}
+              className="px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:from-indigo-600 hover:to-purple-700 transition flex items-center gap-2 shadow-md"
+            >
+              <Sparkles className="w-4 h-4" /> Custom Pack ($14)
+            </button>
+          </div>
           <VirtualizedHeadshotGrid
             headshots={sortedFiltered}
             favorites={favorites}
@@ -448,6 +459,13 @@ export default function CompletedGallery({
               : "Try toggling other categories or adding some favorites."}
           </p>
         </div>
+      )}
+
+      {showUpsellModal && (
+        <CustomUpsellModal
+          orderId={orderId || ""}
+          onClose={() => setShowUpsellModal(false)}
+        />
       )}
     </div>
   );

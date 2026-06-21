@@ -144,6 +144,38 @@ function getPromptsForStyles(
 }
 
 function buildPrompts(plan: string, prefs?: UserPreferences): string[] {
+  // If it's a direct exact upsell run
+  if (plan === "custom_upsell" || prefs?.is_upsell) {
+    const g = (prefs?.gender || "person").toLowerCase();
+    const e =
+      prefs?.eyeColor && prefs.eyeColor.toLowerCase() !== "unknown"
+        ? `with ${prefs.eyeColor.toLowerCase()} eyes`
+        : "";
+    const h =
+      prefs?.hairColor && prefs.hairColor.toLowerCase() !== "unknown"
+        ? `with ${prefs.hairColor.toLowerCase()} hair`
+        : "";
+
+    const c = prefs?.clothing || "professional attire";
+    const b = prefs?.background || "studio background";
+
+    const basePrompt = `A high-end professional headshot of TOK, a ${g} ${e} ${h}, wearing ${c}, ${b}, 8k resolution, highly detailed, photorealistic`;
+    const suffixes = [
+      ", looking directly at camera, slight smile",
+      ", three-quarter angle, relaxed posture",
+      ", looking slightly off-camera, thoughtful expression",
+      ", front-facing, neutral confident expression, ultra-sharp",
+      ", warm approachable smile, slightly turned head",
+    ];
+
+    const target = PLAN_SHOTS[plan] ?? 20;
+    const pool: string[] = [];
+    for (let i = 0; i < target; i++) {
+      pool.push(basePrompt + suffixes[i % suffixes.length]);
+    }
+    return pool;
+  }
+
   const target = PLAN_SHOTS[plan] ?? 40;
   const pool: string[] = [];
 
@@ -161,8 +193,14 @@ function buildPrompts(plan: string, prefs?: UserPreferences): string[] {
     prefs?.hairColor && prefs.hairColor.toLowerCase() !== "unknown"
       ? `with ${prefs.hairColor.toLowerCase()} hair`
       : "";
-  const c = CLOTHING_MAP[prefs?.clothing || ""] || "professional attire";
-  const b = BACKGROUND_MAP[prefs?.background || ""] || "studio background";
+  const c =
+    CLOTHING_MAP[prefs?.clothing || ""] ||
+    prefs?.clothing ||
+    "professional attire";
+  const b =
+    BACKGROUND_MAP[prefs?.background || ""] ||
+    prefs?.background ||
+    "studio background";
   const f = FRAMING_MAP[prefs?.framing || ""] || "";
 
   const promptPrefs = { g, p, e, h, c, b, f };

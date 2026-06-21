@@ -33,6 +33,7 @@ import {
   CheckCircle2,
   Loader2,
   Image as ImageIcon,
+  Plus,
 } from "lucide-react";
 
 const PLANS_LIST = Object.values(PLANS);
@@ -60,7 +61,7 @@ const PHOTO_TIPS = [
   },
 ];
 
-type Step = 1 | 2;
+type Step = 1 | 2 | 3;
 
 const SESSION_KEY = "truzot-upload";
 const LOCAL_KEY = "truzot-upload-backup";
@@ -116,7 +117,7 @@ function UploadContent() {
       saved.step <= 3
     )
       return saved.step as Step;
-    return urlStep >= 1 && urlStep <= 2 ? urlStep : 1;
+    return urlStep >= 1 && urlStep <= 3 ? urlStep : 1;
   });
   const [files, setFiles] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -252,7 +253,7 @@ function UploadContent() {
       const urlStep = params.get("step")
         ? (parseInt(params.get("step") ?? "1") as Step)
         : 1;
-      if (urlStep >= 1 && urlStep <= 2) {
+      if (urlStep >= 1 && urlStep <= 3) {
         setStep(urlStep);
       }
     };
@@ -271,7 +272,7 @@ function UploadContent() {
           saved.step >= 1 &&
           saved.step <= 3
             ? (saved.step as Step)
-            : 2;
+            : 3;
         setStep(targetStep);
         const newUrl = new URL(window.location.href);
         newUrl.searchParams.delete("cancelled");
@@ -756,12 +757,11 @@ function UploadContent() {
 
   const handleNextStep = async () => {
     setError("");
-    if (step === 1 && files.length < 1 && !storagePath) {
-      setError("Please upload at least 1 photo to continue.");
-      return;
-    }
     if (step === 1) {
-      // Wait for existing or new upload to complete before proceeding
+      if (files.length < 1 && !storagePath) {
+        setError("Please upload at least 1 photo to continue.");
+        return;
+      }
       if (files.length > 0 && !storagePath) {
         setIsProcessing(true);
         try {
@@ -783,15 +783,19 @@ function UploadContent() {
       }
       await analyzePhotos(files);
       setStep(2);
+      window.scrollTo(0, 0);
       return;
     }
-    // Removed manual field validation to reduce friction
-    if (step === 2 && selectedStyles.length === 0) {
-      setError("Please select at least one style.");
+
+    if (step === 2) {
+      if (selectedStyles.length === 0) {
+        setError("Please select at least one style.");
+        return;
+      }
+      setStep(3);
+      window.scrollTo(0, 0);
       return;
     }
-    setStep((s) => (s + 1) as Step);
-    window.scrollTo(0, 0);
   };
 
   const handleSubmit = async () => {
@@ -932,7 +936,7 @@ function UploadContent() {
           <div className="mb-10">
             <div className="flex items-center justify-between relative">
               <div className="absolute left-0 right-0 top-1/2 h-0.5 bg-slate-200 dark:bg-slate-700 -z-10" />
-              {[1, 2].map((num) => (
+              {[1, 2, 3].map((num) => (
                 <div
                   key={num}
                   className={`w-10 h-10 rounded-full flex items-center justify-center font-bold border-4 border-slate-50 dark:border-slate-950 transition-colors ${step >= num ? "bg-blue-600 text-white" : "bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-300"}`}
@@ -943,7 +947,9 @@ function UploadContent() {
             </div>
             <div className="flex justify-between text-xs font-bold text-slate-500 dark:text-slate-400 mt-3 uppercase tracking-wider">
               <span className={step >= 1 ? "text-blue-600" : ""}>Upload</span>
-
+              <span className={step >= 2 ? "text-blue-600" : ""}>
+                Customize
+              </span>
               <span className={step >= 3 ? "text-blue-600" : ""}>Checkout</span>
             </div>
           </div>
@@ -1040,6 +1046,62 @@ function UploadContent() {
                 </div>
               )}
 
+              {/* Files Uploaded Preview */}
+              {files.length > 0 && (
+                <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 shadow-sm">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="font-bold text-slate-900 dark:text-white">
+                      Dataset Quality
+                    </span>
+                    <span className={`font-bold ${score.text}`}>
+                      {score.label}
+                    </span>
+                  </div>
+                  <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden mb-6">
+                    <div
+                      className={`h-full transition-all duration-1000 ${score.color}`}
+                      style={{ width: `${score.score}%` }}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                    {objectUrls.map((url, i) => (
+                      <div
+                        key={i}
+                        className="relative aspect-[3/4] group rounded-xl overflow-hidden shadow-sm"
+                      >
+                        <img
+                          src={url}
+                          alt="Upload preview"
+                          className="w-full h-full object-cover"
+                        />
+                        <button
+                          onClick={() => removeFile(i)}
+                          className="absolute top-2 right-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow-md"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                    {files.length < 5 && (
+                      <label className="aspect-[3/4] border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/10 transition">
+                        <input
+                          type="file"
+                          multiple
+                          accept="image/jpeg,image/png,image/heic"
+                          className="hidden"
+                          onChange={(e) => handleFiles(e.target.files)}
+                        />
+                        <Plus className="w-6 h-6 text-slate-400 mb-2" />
+                        <span className="text-xs font-semibold text-slate-500">
+                          Add Photo
+                        </span>
+                      </label>
+                    )}
+                  </div>
+                </div>
+              )}
+
               <div className="mt-8 flex justify-end">
                 <button
                   onClick={handleNextStep}
@@ -1058,7 +1120,7 @@ function UploadContent() {
                     </>
                   ) : (
                     <>
-                      Next: Checkout
+                      Next: Customize
                       <ChevronRight className="w-5 h-5" />
                     </>
                   )}
@@ -1067,8 +1129,195 @@ function UploadContent() {
             </div>
           )}
 
-          {/* STEP 3: CHECKOUT */}
+          {/* STEP 2: CUSTOMIZE */}
           {step === 2 && (
+            <div className="animate-in slide-in-from-right-4 fade-in duration-300">
+              <div className="text-center mb-8">
+                <h1 className="text-3xl font-bold mb-2 text-slate-900 dark:text-white">
+                  Customize your headshots
+                </h1>
+                <p className="text-slate-500 dark:text-slate-400">
+                  Tell the AI a bit about yourself to get the most accurate
+                  results.
+                </p>
+              </div>
+
+              <div className="space-y-8 bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                <div className="grid md:grid-cols-2 gap-8">
+                  {/* Gender */}
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
+                      Gender
+                    </label>
+                    <div className="grid grid-cols-3 gap-3">
+                      {["man", "woman", "person"].map((g) => (
+                        <button
+                          key={g}
+                          onClick={() => setGender(g)}
+                          className={`p-3 rounded-xl border font-medium text-sm transition capitalize ${
+                            gender === g
+                              ? "border-blue-600 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400"
+                              : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-700 dark:text-slate-300"
+                          }`}
+                        >
+                          {g}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Eye Color */}
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
+                      Eye Color
+                    </label>
+                    <select
+                      value={eyeColor}
+                      onChange={(e) => setEyeColor(e.target.value)}
+                      className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
+                    >
+                      <option value="">Select eye color...</option>
+                      <option value="brown">Brown</option>
+                      <option value="blue">Blue</option>
+                      <option value="green">Green</option>
+                      <option value="hazel">Hazel</option>
+                      <option value="gray">Gray</option>
+                    </select>
+                  </div>
+
+                  {/* Hair Color */}
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
+                      Hair Color
+                    </label>
+                    <select
+                      value={hairColor}
+                      onChange={(e) => setHairColor(e.target.value)}
+                      className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
+                    >
+                      <option value="">Select hair color...</option>
+                      <option value="black">Black</option>
+                      <option value="brown">Brown</option>
+                      <option value="blonde">Blonde</option>
+                      <option value="red">Red</option>
+                      <option value="gray">Gray</option>
+                      <option value="white">White</option>
+                      <option value="bald">Bald / Shaved</option>
+                    </select>
+                  </div>
+
+                  {/* Clothing */}
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
+                      Clothing Preference
+                    </label>
+                    <select
+                      value={clothing}
+                      onChange={(e) => setClothing(e.target.value)}
+                      className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
+                    >
+                      <option value="business-formal">Business Formal</option>
+                      <option value="business-casual">Business Casual</option>
+                      <option value="smart-casual">Smart Casual</option>
+                      <option value="creative">Creative / Minimalist</option>
+                    </select>
+                  </div>
+
+                  {/* Background */}
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
+                      Background
+                    </label>
+                    <select
+                      value={background}
+                      onChange={(e) => setBackground(e.target.value)}
+                      className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
+                    >
+                      <option value="studio">Studio Backdrop</option>
+                      <option value="office">Modern Office</option>
+                      <option value="outdoor">Outdoor / Nature</option>
+                      <option value="city">Urban / Cityscape</option>
+                    </select>
+                  </div>
+
+                  {/* Framing */}
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
+                      Framing
+                    </label>
+                    <select
+                      value={framing}
+                      onChange={(e) => setFraming(e.target.value)}
+                      className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
+                    >
+                      <option value="closeup">Head and Shoulders</option>
+                      <option value="half-body">Half Body / Waist Up</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Styles */}
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
+                    Select Styles
+                  </label>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {STYLE_CATEGORIES.map((cat) => (
+                      <label
+                        key={cat.id}
+                        className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition ${
+                          selectedStyles.includes(cat.id)
+                            ? "border-blue-600 bg-blue-50 dark:bg-blue-900/20"
+                            : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600"
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={selectedStyles.includes(cat.id)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedStyles([...selectedStyles, cat.id]);
+                            } else {
+                              setSelectedStyles(
+                                selectedStyles.filter((id) => id !== cat.id),
+                              );
+                            }
+                          }}
+                          className="mt-1 w-4 h-4 rounded text-blue-600 border-slate-300 focus:ring-blue-500"
+                        />
+                        <div>
+                          <div className="font-bold text-sm text-slate-900 dark:text-white mb-1">
+                            {cat.icon} {cat.name}
+                          </div>
+                          <div className="text-xs text-slate-500 dark:text-slate-400">
+                            {cat.description}
+                          </div>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 flex items-center justify-between">
+                <button
+                  onClick={() => setStep(1)}
+                  className="text-slate-500 dark:text-slate-400 font-bold flex items-center gap-2 hover:text-slate-800 dark:hover:text-slate-200 transition"
+                >
+                  <ChevronLeft className="w-5 h-5" /> Back to Upload
+                </button>
+                <button
+                  onClick={handleNextStep}
+                  className="bg-slate-900 dark:bg-blue-600 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 dark:hover:bg-blue-700 transition shadow-sm"
+                >
+                  Next: Checkout <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* STEP 3: CHECKOUT */}
+          {step === 3 && (
             <PaymentErrorBoundary>
               <div className="animate-in slide-in-from-right-4 fade-in duration-300">
                 <div className="text-center mb-8">
@@ -1220,10 +1469,10 @@ function UploadContent() {
 
                 <div className="mt-8 flex items-center justify-between">
                   <button
-                    onClick={() => setStep(1)}
+                    onClick={() => setStep(2)}
                     className="text-slate-500 dark:text-slate-400 font-bold flex items-center gap-2 hover:text-slate-800 dark:hover:text-slate-200"
                   >
-                    <ChevronLeft className="w-5 h-5" /> Back to Upload
+                    <ChevronLeft className="w-5 h-5" /> Back to Customization
                   </button>
                   <button
                     onClick={handleStartOver}

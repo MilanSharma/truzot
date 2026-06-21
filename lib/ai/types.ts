@@ -42,4 +42,5 @@ export interface UserPreferences {
   idempotency_key?: string;
   stripe_customer_id?: string;
   generate_failures?: number;
+  is_upsell?: boolean;
 }
