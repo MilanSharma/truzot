@@ -1,6 +1,5 @@
 "use client";
 import AILoadingAnimation from "@/components/AILoadingAnimation";
-("use client");
 import {
   useEffect,
   useState,
