@@ -1251,6 +1251,7 @@ function DashboardContent() {
             >
               <ProjectLibrary
                 orders={orders}
+                loading={loading}
                 onDelete={handleDeleteOrder}
                 onRetry={handleRetryOrder}
                 onResumeCheckout={handleResumeCheckout}
