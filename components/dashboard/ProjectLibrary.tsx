@@ -677,29 +677,33 @@ export default function ProjectLibrary({
       )}
 
       {filteredOrders.length === 0 ? (
-        <div className="text-center py-24 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-400 to-indigo-500" />
-          <div className="w-20 h-20 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Camera className="w-10 h-10 text-blue-600 dark:text-blue-400" />
+        <div className="text-center py-32 bg-white dark:bg-[#0b0d10] rounded-[3rem] border border-slate-200/80 dark:border-slate-800 shadow-2xl relative overflow-hidden group">
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.15] mix-blend-overlay pointer-events-none"></div>
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-500/10 dark:bg-blue-600/10 rounded-full blur-[120px] pointer-events-none group-hover:bg-blue-500/20 transition-colors duration-1000" />
+
+          <div className="relative z-10">
+            <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-xl shadow-blue-500/25 transform rotate-3 group-hover:rotate-6 transition-transform duration-500">
+              <Camera className="w-10 h-10 text-white" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4 tracking-tight">
+              {searchQuery || filterStatus !== "all"
+                ? "No matching shoots"
+                : "Create your first AI studio"}
+            </h2>
+            <p className="text-lg text-slate-500 dark:text-slate-400 max-w-lg mx-auto mb-10 leading-relaxed">
+              {searchQuery || filterStatus !== "all"
+                ? "Try a different search or filter."
+                : "Generate premium corporate headshots without leaving your home. Results in under an hour."}
+            </p>
+            {!searchQuery && filterStatus === "all" && (
+              <Link
+                href="/upload"
+                className="inline-flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-10 py-5 rounded-2xl text-lg font-bold hover:scale-105 transition-transform shadow-xl active:scale-95"
+              >
+                Start New Shoot <ArrowRight className="w-5 h-5" />
+              </Link>
+            )}
           </div>
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
-            {searchQuery || filterStatus !== "all"
-              ? "No matching shoots"
-              : "Create your first AI models"}
-          </h2>
-          <p className="text-slate-500 dark:text-slate-400 max-w-md mx-auto mb-8 leading-relaxed">
-            {searchQuery || filterStatus !== "all"
-              ? "Try a different search or filter."
-              : "Get high-end studio pictures in under an hour without setting foot outside."}
-          </p>
-          {!searchQuery && filterStatus === "all" && (
-            <Link
-              href="/upload"
-              className="inline-flex items-center gap-2 bg-slate-900 dark:bg-blue-600 text-white px-8 py-4 rounded-xl text-sm font-bold hover:bg-slate-800 dark:hover:bg-blue-700 transition shadow-lg"
-            >
-              Upload Selfies <ArrowRight className="w-4 h-4" />
-            </Link>
-          )}
         </div>
       ) : (
         <div className="space-y-10">

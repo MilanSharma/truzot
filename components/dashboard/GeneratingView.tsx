@@ -1,6 +1,12 @@
 "use client";
-import { Sparkles, RefreshCw, Loader2, X } from "lucide-react";
-import { useState } from "react";
+import {
+  Sparkles,
+  RefreshCw,
+  Loader2,
+  X,
+  Image as ImageIcon,
+} from "lucide-react";
+import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useToast } from "@/components/Toast";
 import { supabase } from "@/lib/supabase/client";
@@ -18,6 +24,23 @@ export default function GeneratingView({ count, target }: GeneratingViewProps) {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("order");
   const { toast } = useToast();
+
+  const [activeLogIndex, setActiveLogIndex] = useState(0);
+  const logs = [
+    "Applying dynamic studio lighting models...",
+    "Rendering Corporate & Executive styles...",
+    "Generating authentic outdoor backgrounds...",
+    "Perfecting skin textures and micro-expressions...",
+    "Enhancing 4K/8K resolution details...",
+    "Packaging final gallery...",
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveLogIndex((prev) => (prev + 1) % logs.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [logs.length]);
 
   const handleRetry = async () => {
     if (!orderId || retrying) return;
@@ -44,11 +67,6 @@ export default function GeneratingView({ count, target }: GeneratingViewProps) {
     } finally {
       setRetrying(false);
     }
-  };
-
-  const handleCancel = async () => {
-    if (!orderId || retrying) return;
-    setConfirmOpen(true);
   };
 
   const executeCancel = async () => {
@@ -78,52 +96,91 @@ export default function GeneratingView({ count, target }: GeneratingViewProps) {
     }
   };
 
+  const percentage = target > 0 ? Math.round((count / target) * 100) : 0;
+
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-10 max-w-2xl mx-auto shadow-sm mt-12 text-center">
-      <div className="w-20 h-20 bg-indigo-50 dark:bg-indigo-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
-        <Sparkles className="w-10 h-10 text-indigo-600 animate-pulse" />
-      </div>
-      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-        Rendering Photography
-      </h2>
-      <p className="text-sm text-slate-500 mb-8">
-        Applying professional studio lighting and tailored environments.
-      </p>
-      <div className="max-w-md mx-auto bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-6 border border-slate-100 dark:border-slate-800">
-        <div className="flex justify-between text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-          <span>Render Engine Progress</span>
-          <span className="text-indigo-600 dark:text-indigo-400">
-            {count} / {target}
-          </span>
+    <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-200/60 dark:border-slate-800 shadow-2xl p-8 md:p-12 max-w-3xl mx-auto mt-12 relative overflow-hidden">
+      {/* Background ambient glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-indigo-500/10 dark:bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="text-center relative z-10 mb-12">
+        <div className="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-xl shadow-indigo-500/30 transform rotate-3">
+          <Sparkles className="w-12 h-12 text-white animate-pulse" />
         </div>
-        <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden mb-6">
-          <div
-            className="h-full bg-indigo-600 rounded-full transition-all duration-700 ease-out"
-            style={{ width: `${target > 0 ? (count / target) * 100 : 0}%` }}
-          />
+        <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-3 tracking-tight">
+          Rendering Your Photos
+        </h2>
+        <p className="text-lg text-slate-500 dark:text-slate-400 max-w-md mx-auto">
+          Your model is trained! Now generating high-resolution headshots in
+          multiple professional styles.
+        </p>
+      </div>
+
+      <div className="max-w-xl mx-auto bg-slate-50 dark:bg-[#0b0d10] rounded-[2rem] p-8 border border-slate-100 dark:border-slate-800 relative z-10 shadow-inner">
+        <div className="flex justify-between items-end mb-4">
+          <div>
+            <div className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-1">
+              Engine Status
+            </div>
+            <div className="text-xl font-bold text-slate-900 dark:text-white">
+              {percentage}% Complete
+            </div>
+          </div>
+          <div className="text-sm font-bold text-slate-500 dark:text-slate-400 flex items-center gap-2 bg-white dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700">
+            <ImageIcon className="w-4 h-4" /> {count} / {target}
+          </div>
         </div>
 
+        <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden mb-6 shadow-inner border border-slate-300/50 dark:border-slate-700/50">
+          <div
+            className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 rounded-full transition-all duration-700 ease-out relative"
+            style={{ width: `${percentage}%`, backgroundSize: "200% auto" }}
+          >
+            <div className="absolute inset-0 bg-white/20 animate-[shimmer_2s_infinite]" />
+          </div>
+        </div>
+
+        {/* Animated Log Text */}
+        <div className="flex items-center gap-3 justify-center text-sm font-medium text-slate-600 dark:text-slate-400 h-8">
+          <Loader2 className="w-4 h-4 animate-spin text-indigo-500" />
+          <span
+            className="animate-in fade-in slide-in-from-bottom-2 duration-300"
+            key={activeLogIndex}
+          >
+            {logs[activeLogIndex]}
+          </span>
+        </div>
+      </div>
+
+      <div className="mt-10 flex flex-col items-center gap-4 relative z-10">
         <button
           onClick={handleRetry}
           disabled={retrying}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 dark:bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-slate-800 transition disabled:opacity-50"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 rounded-xl font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition disabled:opacity-50 shadow-sm active:scale-95"
         >
           {retrying ? (
-            <Loader2 className="w-3 h-3 animate-spin" />
+            <Loader2 className="w-4 h-4 animate-spin text-indigo-600" />
           ) : (
-            <RefreshCw className="w-3 h-3" />
+            <RefreshCw className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
           )}
-          {count > 0 ? "Resume Generation" : "Start Generation"}
+          {count > 0 ? "Force Resume Generation" : "Start Generation"}
+        </button>
+        <p className="text-xs font-semibold text-slate-400 text-center max-w-sm">
+          If generation seems stuck for more than 5 minutes, click resume to
+          trigger the next batch. You can safely close this window.
+        </p>
+        <button
+          onClick={() => setConfirmOpen(true)}
+          className="text-xs text-red-500 hover:underline mt-2"
+        >
+          Stop Processing & Cancel Order
         </button>
 
-        <p className="text-[10px] font-semibold text-slate-400 mt-4">
-          Stuck? Click resume to trigger the next batch of images.
-        </p>
         {confirmOpen && (
           <ConfirmModal
             isOpen={true}
             title="Stop Processing"
-            message="Are you sure you want to cancel this generation? You will be refunded if you have paid."
+            message="Are you sure you want to cancel this generation? You will be refunded automatically if you have paid."
             confirmText="Cancel Shoot"
             confirmStyle="bg-red-600 hover:bg-red-700"
             onConfirm={executeCancel}
