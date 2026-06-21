@@ -1046,6 +1046,34 @@ function DashboardContent() {
                   </p>
                 </div>
 
+                {(currentOrder.status === "generating" ||
+                  currentOrder.status === "paid") && (
+                  <div className="mt-6 w-full">
+                    <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl p-6">
+                      <h3 className="font-bold text-emerald-900 dark:text-emerald-100 mb-2 flex items-center gap-2">
+                        <Sparkles className="w-5 h-5" /> Payment Successful!
+                        Here&apos;s what happens next:
+                      </h3>
+                      <ol className="list-decimal list-inside space-y-1 text-sm text-emerald-800 dark:text-emerald-300">
+                        <li>
+                          We&apos;re training your custom AI model (5-15
+                          minutes)
+                        </li>
+                        <li>
+                          Generating{" "}
+                          {PLANS[currentOrder.plan as keyof typeof PLANS]
+                            ?.shots || 20}{" "}
+                          professional headshots
+                        </li>
+                        <li>
+                          You&apos;ll get an email when they&apos;re ready to
+                          download
+                        </li>
+                      </ol>
+                    </div>
+                  </div>
+                )}
+
                 {currentOrder.status === "completed" && (
                   <div className="flex flex-wrap items-center gap-3">
                     <button

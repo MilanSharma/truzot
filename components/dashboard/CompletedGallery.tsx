@@ -359,7 +359,9 @@ export default function CompletedGallery({
             className="flex items-center gap-1.5 px-3 py-2 text-sm bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition disabled:opacity-50"
           >
             <Download className="w-4 h-4" />
-            {downloadingAll ? "Downloading..." : "Download All"}
+            {downloadingAll
+              ? "Downloading..."
+              : `Download All (${sortedFiltered.length})`}
           </button>
         </div>
 

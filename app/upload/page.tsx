@@ -212,6 +212,12 @@ function UploadContent() {
   const [backgroundProgress, setBackgroundProgress] = useState("");
   const uploadPromiseRef = useRef<Promise<string | null> | null>(null);
 
+  // Instant upload feedback state
+  const [uploadFeedback, setUploadFeedback] = useState<{
+    count: number;
+    timestamp: number;
+  } | null>(null);
+
   // Sync step to URL using native history API
   const stepRef = useRef(step);
   useEffect(() => {
@@ -636,10 +642,12 @@ function UploadContent() {
       if (errors.length > 0) {
         toast(errors.join("\n"), "error");
       }
-      setFiles((prev) => {
-        const next = [...prev, ...converted].slice(0, 5);
-        return next;
-      });
+      const nextFiles = [...filesRef.current, ...converted].slice(0, 5);
+      setFiles(nextFiles);
+      if (converted.length > 0) {
+        setUploadFeedback({ count: converted.length, timestamp: Date.now() });
+        setTimeout(() => setUploadFeedback(null), 5000);
+      }
       setStoragePath("");
       uploadPromiseRef.current = null; // Invalidate any running background uploads on file updates
       setIsUploadingBackground(false);
@@ -1029,6 +1037,17 @@ function UploadContent() {
                       Settings → Formats to &quot;Most Compatible&quot; (JPEG).
                     </p>
                   </label>
+                  {uploadFeedback && (
+                    <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg animate-in fade-in duration-300">
+                      <div className="flex items-center gap-2">
+                        <Loader2 className="w-4 h-4 animate-spin text-blue-600" />
+                        <span className="text-sm text-blue-700 dark:text-blue-300">
+                          Uploading {uploadFeedback.count} photo
+                          {uploadFeedback.count > 1 ? "s" : ""}...
+                        </span>
+                      </div>
+                    </div>
+                  )}
                   {files.length > 0 && (
                     <div className="mt-8 grid grid-cols-4 sm:grid-cols-5 gap-3">
                       {files.map((f, i) => (
