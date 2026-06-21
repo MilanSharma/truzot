@@ -58,7 +58,7 @@ const config: Config = {
         },
         marquee: {
           "0%": { transform: "translateX(0%)" },
-          "100%": { transform: "translateX(calc(-100% - 1.5rem))" },
+          "100%": { transform: "translateX(-100%)" },
         },
       },
       boxShadow: {
