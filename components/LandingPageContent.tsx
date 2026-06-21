@@ -52,10 +52,10 @@ const BEFORE_AFTER_EXAMPLES = [
 ];
 
 const AVATARS = [
-  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&h=100&fit=crop",
-  "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&h=100&fit=crop",
-  "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop",
-  "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&h=100&fit=crop",
+  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&q=80",
 ];
 
 const TESTIMONIALS = [
@@ -193,19 +193,19 @@ const USE_CASES = [
   {
     title: "LinkedIn & Corporate",
     desc: "Crisp, professional headshots that increase recruiter messages by 36x. Perfect for resumes and company websites.",
-    img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800",
+    img: "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&q=80&w=800",
     icon: Linkedin,
   },
   {
     title: "Actors & Models",
     desc: "Build a versatile comp card. Get theatrical and commercial looks without paying for multiple wardrobe changes at a studio.",
-    img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800",
+    img: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=800",
     icon: Camera,
   },
   {
     title: "Dating & Social",
     desc: "Natural, flattering photos in outdoor and casual settings that look authentic, not artificially generated.",
-    img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800",
+    img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=800",
     icon: Heart,
   },
   {
@@ -478,11 +478,11 @@ export default function LandingPageContent() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {USE_CASES.map((useCase, idx) => (
                 <div
                   key={idx}
-                  className="group relative h-[400px] rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-200/50 dark:border-slate-800"
+                  className="group relative h-[420px] rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-200/50 dark:border-slate-800"
                 >
                   <Image
                     src={useCase.img}
