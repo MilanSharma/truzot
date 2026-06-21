@@ -28,7 +28,6 @@ import {
 import dynamic from "next/dynamic";
 import Sidebar from "@/components/dashboard/Sidebar";
 import MobileDrawer from "@/components/dashboard/MobileDrawer";
-import MobileDrawer from "@/components/dashboard/MobileDrawer";
 const ProjectLibrary = dynamic(
   () => import("@/components/dashboard/ProjectLibrary"),
   { ssr: false },

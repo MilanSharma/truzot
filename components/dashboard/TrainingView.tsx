@@ -142,8 +142,7 @@ export default function TrainingView({ order }: { order: Order }) {
             {AI_STEPS.map((step, idx) => {
               const isPast = idx < currentStepIndex;
               const isCurrent = idx === currentStepIndex;
-              const isFuture = idx & gt;
-              currentStepIndex;
+              const isFuture = idx > currentStepIndex;
 
               return (
                 <div
