@@ -741,7 +741,10 @@ function DashboardContent() {
           );
           toast("Headshot regenerated!", "success");
         } else {
-          toast(data.message || "Regeneration submitted", "success");
+          toast(
+            "Replacement requested! Our team will review and email you a new headshot within 24 hours.",
+            "info",
+          );
         }
       } else {
         toast("Failed to regenerate headshot", "error");

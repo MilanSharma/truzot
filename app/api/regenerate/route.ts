@@ -101,54 +101,7 @@ export const POST = withContext(async (req: Request) => {
       originalHeadshot?.style ||
       "A professional headshot of TOK, studio lighting, 8k";
 
-    // Generate a replacement
-    let replacementUrl: string | null = null;
-    try {
-      const result = await fal.run("fal-ai/flux-lora", {
-        input: {
-          prompt,
-          loras: [{ path: training.model_id, scale: 0.85 }],
-          num_inference_steps: 28,
-          guidance_scale: 3.5,
-          num_images: 1,
-          image_size: "portrait_4_3",
-          output_format: "jpeg",
-        },
-      });
-      replacementUrl = (result as any).images?.[0]?.url ?? null;
-    } catch (err) {
-      log.error({ err, orderId }, "Regeneration generation failed");
-    }
-
-    if (replacementUrl) {
-      // Delete the old headshot and insert the replacement
-      await supabaseAdmin
-        .from("headshots")
-        .delete()
-        .eq("image_url", imageUrl)
-        .eq("order_id", orderId);
-
-      await supabaseAdmin.from("headshots").insert({
-        order_id: orderId,
-        image_url: replacementUrl,
-        style: originalHeadshot?.style || "ai-generated",
-        category: "regenerated",
-      });
-
-      log.info(
-        { orderId, userId: user.id },
-        "Headshot auto-regenerated successfully",
-      );
-
-      return addCors(
-        NextResponse.json({
-          success: true,
-          replacementUrl,
-          message: "Headshot regenerated. Refresh to see the replacement.",
-        }),
-        origin,
-      );
-    }
+    // Removed synchronous fal.run to prevent timeouts. Relying on manual review flagging.
 
     // Fallback: flag for manual review if auto-generation fails
     await supabaseAdmin.from("headshot_flags").upsert(

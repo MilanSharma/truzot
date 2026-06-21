@@ -260,7 +260,7 @@ export default function LandingPageContent() {
     <>
       <ProductSchema />
       <SpeakableSchema />
-      <BreadcrumbSchema items={[{ url: "/" }]} />
+      <BreadcrumbSchema items={[{ name: "Home", url: "/" }]} />
       <div
         id="main-content"
         className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans scroll-smooth"
