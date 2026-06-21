@@ -389,15 +389,20 @@ export default function LandingPageContent() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
               href="/upload"
-              className="w-full sm:w-auto bg-blue-600 text-white text-lg px-10 py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-blue-700 transition shadow-lg order-1"
+              className="group relative inline-flex items-center justify-center w-full sm:w-auto order-1 px-10 py-5 font-extrabold text-white text-xl rounded-2xl overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_0_40px_rgba(79,70,229,0.4)] hover:shadow-[0_0_80px_rgba(79,70,229,0.7)]"
             >
-              Get Your Headshots <ArrowRight size={20} />
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-600"></span>
+              <span className="absolute bottom-0 left-1/2 w-[200%] h-32 -translate-x-1/2 bg-white/30 blur-[40px] rounded-full group-hover:h-56 transition-all duration-500"></span>
+              <span className="relative flex items-center gap-2 tracking-tight drop-shadow-md">
+                Unlock Your 10x Glow-Up 🔥{" "}
+                <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
+              </span>
             </Link>
             <a
               href="#examples"
-              className="w-full sm:w-auto border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 text-lg px-8 py-4 rounded-xl font-semibold flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-800 transition order-2"
+              className="w-full sm:w-auto border-2 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 text-lg px-8 py-4 rounded-2xl font-bold flex items-center justify-center hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all active:scale-95 order-2"
             >
-              See Real Results
+              See the Proof 👇
             </a>
           </div>
           <p className="mt-3 text-center"></p>
@@ -953,9 +958,14 @@ export default function LandingPageContent() {
               </p>
               <Link
                 href="/upload"
-                className="inline-flex items-center gap-2 bg-emerald-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-emerald-700 transition shadow-lg"
+                className="group relative inline-flex items-center justify-center gap-2 px-10 py-5 font-extrabold text-white text-xl rounded-2xl overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_0_40px_rgba(16,185,129,0.4)] hover:shadow-[0_0_80px_rgba(16,185,129,0.7)]"
               >
-                Get Your Headshots <ArrowRight size={20} />
+                <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-600"></span>
+                <span className="absolute bottom-0 left-1/2 w-[200%] h-32 -translate-x-1/2 bg-white/30 blur-[40px] rounded-full group-hover:h-56 transition-all duration-500"></span>
+                <span className="relative flex items-center gap-2 tracking-tight drop-shadow-md">
+                  Stop Losing Opportunities — Start Now{" "}
+                  <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
+                </span>
               </Link>
             </div>
           </div>
@@ -1044,9 +1054,10 @@ export default function LandingPageContent() {
             </p>
             <Link
               href="/upload"
-              className="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-xl font-bold text-lg hover:shadow-lg transition"
+              className="group inline-flex items-center gap-2 bg-white text-blue-600 px-10 py-5 rounded-2xl font-black text-xl hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] transition-all hover:scale-105 active:scale-95"
             >
-              Get Started Now <ChevronRight size={20} />
+              Generate My Unfair Advantage{" "}
+              <ChevronRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
             </Link>
           </div>
         </section>
