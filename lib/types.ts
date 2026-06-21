@@ -39,6 +39,9 @@ export interface Order {
   preferences?: Record<string, unknown>;
   shoot_name?: string;
   source_image_url?: string;
+  discount_code?: string | null;
+  discount_amount_cents?: number | null;
+  original_amount_cents?: number | null;
 }
 
 export interface User {
