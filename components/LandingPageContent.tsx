@@ -7,6 +7,7 @@ import {
   Shield,
   Users,
   Clock,
+  ChevronRight,
   Menu,
   X,
   Star,
@@ -19,7 +20,6 @@ import {
   Lock,
   Heart,
   GraduationCap,
-  ChevronRight,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
@@ -100,7 +100,7 @@ const TESTIMONIALS = [
 const FAQS = [
   {
     q: "Do these actually look like me?",
-    a: "Yes. Unlike early AI filters that made everyone look like plastic dolls, our proprietary LoRA pipeline learns your exact facial geometry, skin texture, and micro-expressions. The results are indistinguishable from real photography.",
+    a: "Yes. Unlike early AI filters that made everyone look like plastic dolls, our advanced AI learns your exact facial geometry, skin texture, and micro-expressions. The results are indistinguishable from real photography.",
   },
   {
     q: "Is this only for business professionals?",
@@ -119,6 +119,19 @@ const FAQS = [
     a: "Yes. We use AES-256 encryption. Your uploaded selfies and the trained AI model are permanently purged from our servers 30 days after your order is complete. We NEVER use your face to train public models.",
   },
 ];
+
+// Placeholder for corporate logos (SVGs)
+const CompanyLogos = () => (
+  <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+    <div className="text-xl font-bold font-sans tracking-tight">Microsoft</div>
+    <div className="text-xl font-bold font-serif tracking-tighter">Google</div>
+    <div className="text-xl font-bold font-sans tracking-wide">amazon</div>
+    <div className="text-xl font-extrabold font-sans">Meta</div>
+    <div className="text-xl font-bold font-sans tracking-tighter">
+      Salesforce
+    </div>
+  </div>
+);
 
 export default function LandingPageContent() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -232,7 +245,7 @@ export default function LandingPageContent() {
                 href="/upload"
                 className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-slate-800 dark:hover:bg-slate-100 transition shadow-md"
               >
-                Create Photos
+                Get Professional Headshots
               </Link>
             </div>
             <button
@@ -270,13 +283,13 @@ export default function LandingPageContent() {
                 onClick={() => setMobileMenuOpen(false)}
                 className="bg-slate-900 text-white text-center px-5 py-3 rounded-lg mt-2"
               >
-                Create Photos
+                Get Professional Headshots
               </Link>
             </div>
           )}
         </nav>
 
-        {/* Hero Section */}
+        {/* Enterprise Hero Section */}
         <section className="pt-40 pb-20 px-6 max-w-7xl mx-auto text-center relative">
           <div className="inline-flex items-center rounded-full border border-indigo-200/60 dark:border-indigo-800/60 bg-indigo-50/50 dark:bg-indigo-900/20 backdrop-blur-sm px-4 py-1.5 text-sm font-semibold text-indigo-700 dark:text-indigo-300 mb-8 shadow-sm">
             <Sparkles className="w-4 h-4 mr-2" />
@@ -284,14 +297,14 @@ export default function LandingPageContent() {
           </div>
 
           <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-extrabold tracking-tighter mb-6 text-slate-900 dark:text-white leading-[1.05]">
-            Stunning Photography. <br className="hidden md:block" />
+            Studio-Quality Headshots. <br className="hidden md:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-500 dark:from-white dark:to-slate-400">
               Generated in Minutes.
             </span>
           </h1>
 
           <p className="text-xl text-slate-600 dark:text-slate-400 mb-10 max-w-3xl mx-auto leading-relaxed">
-            Upload a few casual selfies and let our proprietary AI generate
+            Upload a few casual selfies and let our advanced AI generate
             breathtaking, photorealistic portraits. Built for actors, models,
             founders, and everyday professionals.
           </p>
@@ -312,11 +325,11 @@ export default function LandingPageContent() {
           </div>
 
           <div className="flex items-center justify-center gap-3 text-sm font-medium text-slate-600 dark:text-slate-300 mb-16">
-            <div className="flex -space-x-3">
+            <div className="flex -space-x-3 items-center">
               {AVATARS.map((src, i) => (
                 <div
                   key={i}
-                  className={`relative w-10 h-10 rounded-full border-2 border-white dark:border-slate-950 z-${10 - i} overflow-hidden bg-slate-200`}
+                  className={`relative w-10 h-10 rounded-full border-2 border-white dark:border-slate-950 overflow-hidden bg-slate-200 shadow-sm ${["z-40", "z-30", "z-20", "z-10"][i] || "z-0"}`}
                 >
                   <Image
                     src={src}
@@ -338,12 +351,17 @@ export default function LandingPageContent() {
                 ))}
               </div>
               <span className="font-semibold text-xs mt-0.5">
-                Trusted by 10,000+ people
+                Trusted by 10,000+ professionals
               </span>
             </div>
           </div>
 
-          <div className="mt-12 w-full mx-auto relative z-10">
+          <p className="text-sm font-semibold text-slate-400 uppercase tracking-widest mb-6">
+            Trusted by professionals at
+          </p>
+          <CompanyLogos />
+
+          <div className="mt-24 w-full mx-auto relative z-10">
             <BeforeAfterCarousel examples={BEFORE_AFTER_EXAMPLES} />
           </div>
         </section>
@@ -436,14 +454,15 @@ export default function LandingPageContent() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-slate-50 dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm col-span-1 md:col-span-2">
+              {/* Step 1: Takes exactly 1 column now */}
+              <div className="bg-slate-50 dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm col-span-1">
                 <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-xl flex items-center justify-center mb-6">
                   <Camera className="w-6 h-6" />
                 </div>
                 <h3 className="text-2xl font-bold mb-3">
                   1. Upload Casual Selfies
                 </h3>
-                <p className="text-slate-600 dark:text-slate-400 mb-6 text-lg">
+                <p className="text-slate-600 dark:text-slate-400 text-lg">
                   Provide 1-5 everyday photos. Our AI analyzes your facial
                   geometry, skin tone, and expressions with surgical precision.
                 </p>
@@ -473,25 +492,25 @@ export default function LandingPageContent() {
                 </p>
               </div>
 
-              <div className="bg-slate-900 dark:bg-slate-950 p-8 rounded-3xl border border-slate-800 shadow-xl col-span-1 md:col-span-2 text-white flex flex-col justify-center relative overflow-hidden">
-                <div className="absolute right-0 top-0 w-64 h-64 bg-indigo-500 rounded-full blur-[100px] opacity-20" />
-                <h3 className="text-3xl font-bold mb-4 z-10">
-                  Strict Data Privacy
-                </h3>
-                <p className="text-slate-300 text-lg max-w-xl z-10 mb-6">
-                  Your biometric data is securely processed in isolated
-                  environments and permanently purged after 30 days. We never
-                  train public models on your face.
-                </p>
-                <div className="flex flex-wrap items-center gap-4 z-10">
-                  <div className="flex items-center gap-2 text-sm font-semibold bg-white/10 px-4 py-2 rounded-lg">
+              {/* Privacy box spans all 3 columns across the bottom */}
+              <div className="bg-slate-900 dark:bg-slate-950 p-8 md:p-10 rounded-3xl border border-slate-800 shadow-xl col-span-1 md:col-span-3 text-white flex flex-col md:flex-row items-start md:items-center justify-between relative overflow-hidden gap-8 mt-2">
+                <div className="absolute right-0 top-0 w-64 h-64 bg-indigo-500 rounded-full blur-[100px] opacity-20 pointer-events-none" />
+                <div className="relative z-10 max-w-2xl">
+                  <h3 className="text-3xl font-bold mb-3">
+                    Strict Data Privacy
+                  </h3>
+                  <p className="text-slate-300 text-lg mb-0 leading-relaxed">
+                    Your biometric data is securely processed in isolated
+                    environments and permanently purged after 30 days. We never
+                    train public models on your face.
+                  </p>
+                </div>
+                <div className="flex flex-col sm:flex-row items-center gap-3 z-10 shrink-0 w-full md:w-auto">
+                  <div className="flex items-center gap-2 text-sm font-semibold bg-white/10 px-4 py-3 rounded-xl w-full sm:w-auto">
                     <Shield className="w-4 h-4" /> SOC-2 Aligned
                   </div>
-                  <div className="flex items-center gap-2 text-sm font-semibold bg-white/10 px-4 py-2 rounded-lg">
+                  <div className="flex items-center gap-2 text-sm font-semibold bg-white/10 px-4 py-3 rounded-xl w-full sm:w-auto">
                     <Lock className="w-4 h-4" /> AES-256 Encryption
-                  </div>
-                  <div className="flex items-center gap-2 text-sm font-semibold bg-white/10 px-4 py-2 rounded-lg">
-                    <CheckCircle className="w-4 h-4" /> Auto-Delete in 30 Days
                   </div>
                 </div>
               </div>
@@ -545,7 +564,7 @@ export default function LandingPageContent() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-extrabold tracking-tight mb-4">
-                Real users. Real success.
+                Hear from our customers
               </h2>
               <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto">
                 Don&apos;t just take our word for it. See what others are
@@ -765,8 +784,8 @@ export default function LandingPageContent() {
                 TRUZOT
               </div>
               <p className="text-sm leading-relaxed mb-6">
-                High-end AI photography generation for everyone. Studio quality
-                without the studio.
+                Enterprise-grade AI headshot generation. Professional
+                photography, modernized.
               </p>
               <div className="flex gap-4">
                 {/* Social icons could go here */}
