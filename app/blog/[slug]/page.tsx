@@ -14,8 +14,6 @@ export function generateStaticParams() {
   return posts.map((post) => ({ slug: post.slug }));
 }
 
-const readingTime = Math.ceil(content.split(" ").length / 200); // 200 words per minute
-
 export async function generateMetadata({
   params,
 }: {
