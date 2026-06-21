@@ -27,7 +27,6 @@ function drawWatermark(canvas: HTMLCanvasElement) {
 }
 
 export default function FreeGenerator() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [files, setFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
   const [step, setStep] = useState<"upload" | "training" | "done">("upload");
@@ -37,19 +36,6 @@ export default function FreeGenerator() {
   const imgRef = useRef<HTMLImageElement>(null);
 
   const objectUrlsRef = useRef<string[]>([]);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setIsAuthenticated(!!session);
-    });
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      setIsAuthenticated(!!session);
-    });
-    return () => subscription.unsubscribe();
-  }, []);
-
   useEffect(() => {
     const urls = objectUrlsRef.current;
     return () => {
@@ -108,7 +94,7 @@ export default function FreeGenerator() {
 
       const trainRes = await fetch("/api/free-train", {
         method: "POST",
-        headers: authHeaders,
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ storagePath: path }),
       });
 
@@ -165,127 +151,99 @@ export default function FreeGenerator() {
           </div>
         )}
 
-        {isAuthenticated === null ? (
-          <div className="py-16 text-center">
-            <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-slate-600 dark:text-slate-400 font-medium">
-              Checking authentication...
-            </p>
-          </div>
-        ) : !isAuthenticated ? (
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 max-w-md mx-auto text-center shadow-lg animate-in fade-in duration-500">
-            <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Lock className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-            </div>
-            <h2 className="text-2xl font-bold mb-2 text-slate-900 dark:text-white">
-              Account Required
-            </h2>
-            <p className="text-slate-600 dark:text-slate-400 mb-6 text-sm">
-              Please sign in or create a free account to generate your free AI
-              headshot.
-            </p>
-            <Link
-              href="/login?next=/free"
-              className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl transition text-center shadow-md animate-pulse"
-            >
-              Sign In / Create Account
-            </Link>
-          </div>
-        ) : (
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-8 text-center animate-in fade-in duration-500">
-            {step === "upload" && (
-              <>
-                <input
-                  type="file"
-                  multiple
-                  accept="image/jpeg,image/png,image/heic"
-                  onChange={handleFiles}
-                  className="mb-4 text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                />
-                {previews.length > 0 && (
-                  <div className="flex gap-3 justify-center mt-4 flex-wrap">
-                    {previews.map((p, i) => (
-                      <img
-                        key={i}
-                        src={p}
-                        className="w-20 h-20 object-cover rounded-xl"
-                        alt={`Photo ${i + 1}`}
-                      />
-                    ))}
-                  </div>
-                )}
-                {files.length > 0 && (
-                  <button
-                    onClick={generateFree}
-                    className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-md"
-                  >
-                    Generate My Free Headshot
-                  </button>
-                )}
-              </>
-            )}
-
-            {step === "training" && (
-              <div className="py-16 text-center">
-                <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-                <p className="text-slate-600 dark:text-slate-400 font-medium">
-                  Training AI model and generating your free headshot...
-                </p>
-                <p className="text-xs text-slate-400 mt-2">
-                  This usually takes 2-3 minutes
-                </p>
-              </div>
-            )}
-
-            {step === "done" && resultUrl && (
-              <div>
-                <div className="relative max-w-sm mx-auto animate-in zoom-in duration-500">
-                  <img
-                    ref={imgRef}
-                    src={resultUrl}
-                    className="w-full rounded-xl shadow-lg"
-                    alt="Your free AI headshot"
-                    onLoad={() => {
-                      if (canvasRef.current && imgRef.current) {
-                        const c = canvasRef.current;
-                        c.width = imgRef.current.naturalWidth || 400;
-                        c.height = imgRef.current.naturalHeight || 500;
-                        drawWatermark(c);
-                      }
-                    }}
-                  />
-                  <canvas
-                    ref={canvasRef}
-                    className="absolute inset-0 pointer-events-none rounded-xl"
-                    width={400}
-                    height={500}
-                  />
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-8 text-center animate-in fade-in duration-500">
+          {step === "upload" && (
+            <>
+              <input
+                type="file"
+                multiple
+                accept="image/jpeg,image/png,image/heic"
+                onChange={handleFiles}
+                className="mb-4 text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+              />
+              {previews.length > 0 && (
+                <div className="flex gap-3 justify-center mt-4 flex-wrap">
+                  {previews.map((p, i) => (
+                    <img
+                      key={i}
+                      src={p}
+                      className="w-20 h-20 object-cover rounded-xl"
+                      alt={`Photo ${i + 1}`}
+                    />
+                  ))}
                 </div>
-                <p className="text-xs text-slate-400 mt-3">
-                  Hover to preview without watermark.{" "}
-                  <strong>Upgrade for watermark-free downloads.</strong>
-                </p>
-                <Link
-                  href="/upload?plan=basic"
-                  className="mt-6 inline-block bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-md"
+              )}
+              {files.length > 0 && (
+                <button
+                  onClick={generateFree}
+                  className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-md"
                 >
-                  Get Full Headshots — from $29
-                </Link>
-              </div>
-            )}
-          </div>
-        )}
+                  Generate My Free Headshot
+                </button>
+              )}
+            </>
+          )}
 
-        {step !== "done" && (
-          <div className="mt-12 text-center">
-            <Link
-              href="/upload?plan=basic"
-              className="text-sm text-blue-600 dark:text-blue-400 font-medium hover:underline"
-            >
-              Get full headshots from $29 →
-            </Link>
-          </div>
-        )}
+          {step === "training" && (
+            <div className="py-16 text-center">
+              <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+              <p className="text-slate-600 dark:text-slate-400 font-medium">
+                Training AI model and generating your free headshot...
+              </p>
+              <p className="text-xs text-slate-400 mt-2">
+                This usually takes 2-3 minutes
+              </p>
+            </div>
+          )}
+
+          {step === "done" && resultUrl && (
+            <div>
+              <div className="relative max-w-sm mx-auto animate-in zoom-in duration-500">
+                <img
+                  ref={imgRef}
+                  src={resultUrl}
+                  className="w-full rounded-xl shadow-lg"
+                  alt="Your free AI headshot"
+                  onLoad={() => {
+                    if (canvasRef.current && imgRef.current) {
+                      const c = canvasRef.current;
+                      c.width = imgRef.current.naturalWidth || 400;
+                      c.height = imgRef.current.naturalHeight || 500;
+                      drawWatermark(c);
+                    }
+                  }}
+                />
+                <canvas
+                  ref={canvasRef}
+                  className="absolute inset-0 pointer-events-none rounded-xl"
+                  width={400}
+                  height={500}
+                />
+              </div>
+              <p className="text-xs text-slate-400 mt-3">
+                Hover to preview without watermark.{" "}
+                <strong>Upgrade for watermark-free downloads.</strong>
+              </p>
+              <Link
+                href="/upload?plan=basic"
+                className="mt-6 inline-block bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-md"
+              >
+                Get Full Headshots — from $29
+              </Link>
+            </div>
+          )}
+
+          {step !== "done" && (
+            <div className="mt-12 text-center">
+              <Link
+                href="/upload?plan=basic"
+                className="text-sm text-blue-600 dark:text-blue-400 font-medium hover:underline"
+              >
+                Get full headshots from $29 →
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
       <Footer />
     </div>

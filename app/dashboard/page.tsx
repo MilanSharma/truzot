@@ -709,51 +709,6 @@ function DashboardContent() {
     }
   };
 
-  const handleRegenerateHeadshot = async (imageUrl: string) => {
-    if (!orderId) return;
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-    const token = session?.access_token;
-    if (!token) {
-      toast("Please sign in to regenerate", "error");
-      return;
-    }
-    try {
-      const res = await fetch("/api/regenerate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-          "X-Requested-With": "XMLHttpRequest",
-        },
-        body: JSON.stringify({ orderId, imageUrl }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.replacementUrl) {
-          setHeadshots((prev) =>
-            prev.map((h) =>
-              h.image_url === imageUrl
-                ? { ...h, image_url: data.replacementUrl }
-                : h,
-            ),
-          );
-          toast("Headshot regenerated!", "success");
-        } else {
-          toast(
-            "Replacement requested! Our team will review and email you a new headshot within 24 hours.",
-            "info",
-          );
-        }
-      } else {
-        toast("Failed to regenerate headshot", "error");
-      }
-    } catch {
-      toast("Failed to regenerate headshot", "error");
-    }
-  };
-
   const handleCancelOrder = async (id: string) => {
     setConfirmModal({
       isOpen: true,
@@ -1257,23 +1212,6 @@ function DashboardContent() {
                     onToggleFavorite={toggleFavorite}
                     onView={(url) => setSelected(url)}
                     onDownload={downloadSingle}
-                    onFlag={async (url) => {
-                      const {
-                        data: { session },
-                      } = await supabase.auth.getSession();
-                      const res = await fetch("/api/feedback", {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                          Authorization: `Bearer ${session?.access_token || ""}`,
-                          "X-Requested-With": "XMLHttpRequest",
-                        },
-                        body: JSON.stringify({ orderId, imageUrl: url }),
-                      });
-                      if (res.ok)
-                        toast("Headshot flagged for review", "success");
-                      else toast("Failed to flag headshot", "error");
-                    }}
                   />
                 </GalleryErrorBoundary>
               )}
@@ -1328,7 +1266,6 @@ function DashboardContent() {
                 }
                 onToggleFavorite={toggleFavorite}
                 onDownload={downloadSingle}
-                onRegenerate={handleRegenerateHeadshot}
               />
             </Suspense>
           );

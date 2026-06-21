@@ -33,7 +33,6 @@ interface CompletedGalleryProps {
   onToggleFavorite: (url: string, e?: React.MouseEvent) => void;
   onView: (url: string) => void;
   onDownload: (url: string) => void;
-  onFlag?: (url: string) => void;
   onClearSelection?: () => void;
 }
 
@@ -81,7 +80,6 @@ export default function CompletedGallery({
   onToggleFavorite,
   onView,
   onDownload,
-  onFlag,
   onClearSelection,
 }: CompletedGalleryProps) {
   const [sortBy, setSortBy] = useState<"newest" | "oldest" | "favorites">(
@@ -426,7 +424,6 @@ export default function CompletedGallery({
             onToggleFavorite={onToggleFavorite}
             onView={(url) => onView(url)}
             onDownload={onDownload}
-            onFlag={onFlag}
           />
           {hasMore && <div ref={sentinelRef} className="h-10 w-full" />}
           {loadingMore && (

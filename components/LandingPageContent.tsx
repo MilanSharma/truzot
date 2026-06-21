@@ -54,21 +54,25 @@ const STYLE_GALLERY = [
 
 const TESTIMONIALS = [
   {
+    name: "Sarah Chen",
     role: "Product Manager",
     text: "Got hired after updating my LinkedIn with these headshots. Best $39 I ever spent.",
     rating: 5,
   },
   {
+    name: "Marcus Johnson",
     role: "Startup Founder",
     text: "The team plan saved us thousands vs. a photo studio. The consistency across all headshots is incredible.",
     rating: 5,
   },
   {
+    name: "Emily Rodriguez",
     role: "Marketing Director",
     text: "Finally, professional headshots without the awkward studio session. The AI nailed my likeness perfectly.",
     rating: 5,
   },
   {
+    name: "David Park",
     role: "Software Engineer",
     text: "Updated my resume and LinkedIn in 10 minutes. Got 3x more profile views in the first week.",
     rating: 5,
@@ -400,6 +404,10 @@ export default function LandingPageContent() {
               <Clock className="w-4 h-4" /> From 30-min delivery
             </span>
           </div>
+
+          <div className="mt-16 w-full max-w-5xl mx-auto">
+            <BeforeAfterCarousel examples={BEFORE_AFTER_EXAMPLES} />
+          </div>
         </section>
 
         {/* Social Proof Bar */}
@@ -457,33 +465,6 @@ export default function LandingPageContent() {
             <p className="text-sm text-slate-500000 dark:text-slate-400 mt-4">
               Example transformation. Drag slider to compare.
             </p>
-          </div>
-        </section>
-
-        {/* Before/After Carousel - Like HeadshotPro */}
-        <section className="py-20 px-6 bg-slate-50 dark:bg-slate-900/50">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4 text-slate-900 dark:text-white">
-                Real Transformations
-              </h2>
-              <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                See how professionals transformed their casual photos into
-                stunning headshots. Hover over the small &apos;BEFORE&apos;
-                thumbnail to see the original photo enlarged.
-              </p>
-            </div>
-
-            {/* <BeforeAfterCarousel /> Removed - Moved to Hero */}
-
-            <div className="text-center mt-10">
-              <Link
-                href="/upload"
-                className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-700 transition shadow-lg"
-              >
-                Create Your Transformation <ArrowRight size={20} />
-              </Link>
-            </div>
           </div>
         </section>
 

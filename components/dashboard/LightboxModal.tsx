@@ -22,7 +22,6 @@ interface LightboxModalProps {
   onNext?: () => void;
   onToggleFavorite: (url: string, e?: React.MouseEvent) => void;
   onDownload: (url: string) => void;
-  onRegenerate?: (url: string) => Promise<void>;
 }
 
 export default function LightboxModal({
@@ -34,9 +33,7 @@ export default function LightboxModal({
   onNext,
   onToggleFavorite,
   onDownload,
-  onRegenerate,
 }: LightboxModalProps) {
-  const [regenerating, setRegenerating] = useState(false);
   const callbacksRef = useRef({ onClose, onPrev, onNext });
   useEffect(() => {
     callbacksRef.current = { onClose, onPrev, onNext };
@@ -59,16 +56,6 @@ export default function LightboxModal({
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
   }, []);
-
-  const handleRegenerate = async () => {
-    if (regenerating || !onRegenerate) return;
-    setRegenerating(true);
-    try {
-      await onRegenerate(imageUrl);
-    } finally {
-      setRegenerating(false);
-    }
-  };
 
   return (
     <motion.div

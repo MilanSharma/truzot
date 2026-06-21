@@ -27,10 +27,6 @@ export default function PromptModal({
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setValue(initialValue);
-  }, [initialValue, isOpen]);
-
-  useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
       setTimeout(() => inputRef.current?.focus(), 100);

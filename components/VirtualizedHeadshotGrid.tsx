@@ -133,12 +133,9 @@ function HeadshotCard({
             </button>
             {onFlag && (
               <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onFlag(headshot.image_url);
-                }}
-                className="w-7 h-7 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white rounded-lg flex items-center justify-center transition"
-                aria-label="Flag for regeneration"
+                onClick={() => onFlag(headshot.image_url)}
+                className="w-9 h-9 bg-amber-500 hover:bg-amber-600 text-white rounded-lg flex items-center justify-center transition shadow-sm"
+                aria-label="Flag for review"
               >
                 <Flag className="w-3.5 h-3.5" />
               </button>

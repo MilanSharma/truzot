@@ -7,6 +7,10 @@ import { fal } from "@fal-ai/client";
 
 const log = createLogger("free-train");
 
+function getIp(req: Request): string {
+  return req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+}
+
 fal.config({ credentials: process.env.FAL_KEY });
 
 export const maxDuration = 300;
@@ -14,24 +18,7 @@ export const maxDuration = 300;
 export const POST = withContext(async (req: Request) => {
   const origin = req.headers.get("origin");
   try {
-    // Require authenticated user for free training
-    const token = req.headers.get("Authorization")?.replace("Bearer ", "");
-    let userId: string | null = null;
-    if (token) {
-      const {
-        data: { user },
-      } = await supabaseAdmin.auth.getUser(token);
-      if (user) userId = user.id;
-    }
-    if (!userId) {
-      return addCors(
-        NextResponse.json(
-          { error: "Authentication required" },
-          { status: 401 },
-        ),
-        origin,
-      );
-    }
+    const fingerprint = getIp(req);
 
     const body = await req.json();
     const { storagePath } = body;
@@ -48,7 +35,7 @@ export const POST = withContext(async (req: Request) => {
     const { data: lockedUsage } = await supabaseAdmin
       .from("free_usage")
       .update({ remaining: 0 })
-      .eq("user_id", userId)
+      .eq("fingerprint", fingerprint)
       .gt("remaining", 0)
       .select()
       .single();
@@ -58,7 +45,7 @@ export const POST = withContext(async (req: Request) => {
       const { data: existingRow } = await supabaseAdmin
         .from("free_usage")
         .select("id")
-        .eq("user_id", userId)
+        .eq("fingerprint", fingerprint)
         .maybeSingle();
 
       if (existingRow) {
@@ -71,7 +58,7 @@ export const POST = withContext(async (req: Request) => {
         // No row exists, insert one with remaining: 0 to lock it
         const { error: insertError } = await supabaseAdmin
           .from("free_usage")
-          .insert({ user_id: userId, fingerprint: userId, remaining: 0 });
+          .insert({ fingerprint, remaining: 0 });
 
         if (insertError) {
           return addCors(
