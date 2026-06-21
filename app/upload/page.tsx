@@ -671,7 +671,15 @@ function UploadContent() {
       setIsUploadingBackground(false);
       setBackgroundProgress("");
     },
-    [toast, validatePhoto, computeFileFingerprint, detectFaces],
+    [
+      toast,
+      validatePhoto,
+      computeFileFingerprint,
+      detectFaces,
+      setIsUploadingBackground,
+      setBackgroundProgress,
+      setStoragePath,
+    ],
   );
 
   const removeFile = (i: number) => {
@@ -1000,6 +1008,35 @@ function UploadContent() {
                       </div>
                     </div>
                   ))}
+                </div>
+              )}
+
+              {/* Upload Zone */}
+              {files.length === 0 && !storagePath && (
+                <div className="mt-6">
+                  <label
+                    htmlFor="file-input"
+                    className="block cursor-pointer border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-2xl p-10 text-center hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/10 transition-colors"
+                  >
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/jpeg,image/png,image/heic"
+                      capture="environment"
+                      className="hidden"
+                      id="file-input"
+                      onChange={(e) => handleFiles(e.target.files)}
+                    />
+                    <div className="w-16 h-16 bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Upload className="w-8 h-8 text-blue-600" />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                      Click to browse or drag photos here
+                    </h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                      JPG, PNG, HEIC accepted.
+                    </p>
+                  </label>
                 </div>
               )}
 
