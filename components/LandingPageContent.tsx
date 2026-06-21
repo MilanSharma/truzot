@@ -33,12 +33,12 @@ import {
 } from "@/components/JsonLd";
 
 const USE_CASES = [
-  { icon: <Linkedin className="w-5 h-5" /> },
-  { icon: <Briefcase className="w-5 h-5" /> },
-  { icon: <Camera className="w-5 h-5" /> },
-  { icon: <Users className="w-5 h-5" /> },
-  { icon: <Star className="w-5 h-5" /> },
-  { icon: <Zap className="w-5 h-5" /> },
+  { name: "LinkedIn", icon: <Linkedin className="w-5 h-5" /> },
+  { name: "Resumes", icon: <Briefcase className="w-5 h-5" /> },
+  { name: "Portfolios", icon: <Camera className="w-5 h-5" /> },
+  { name: "Team Pages", icon: <Users className="w-5 h-5" /> },
+  { name: "Speaking", icon: <Star className="w-5 h-5" /> },
+  { name: "Personal Brand", icon: <Zap className="w-5 h-5" /> },
 ];
 
 const STYLE_GALLERY = [
