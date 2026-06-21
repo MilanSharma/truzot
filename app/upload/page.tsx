@@ -13,27 +13,23 @@ import Nav from "@/components/Nav";
 
 import { supabase } from "@/lib/supabase/client";
 import { PLANS } from "@/lib/plans";
-import { STYLE_CATEGORIES } from "@/lib/plans";
 import { useToast } from "@/components/Toast";
 import UploadErrorBoundary from "@/components/UploadErrorBoundary";
 import PaymentErrorBoundary from "@/components/PaymentErrorBoundary";
 import {
-  Camera,
   Upload,
   Shield,
-  Zap,
   Check,
   X,
   ChevronRight,
   ChevronLeft,
   Star,
   Lock,
-  User,
   AlertCircle,
   CheckCircle2,
   Loader2,
-  Image as ImageIcon,
   Plus,
+  UploadCloud,
 } from "lucide-react";
 
 const PLANS_LIST = Object.values(PLANS);
@@ -61,7 +57,7 @@ const PHOTO_TIPS = [
   },
 ];
 
-type Step = 1 | 2 | 3;
+type Step = 1 | 2;
 
 const SESSION_KEY = "truzot-upload";
 const LOCAL_KEY = "truzot-upload-backup";
@@ -73,7 +69,6 @@ function getSavedState(): Record<string, unknown> | null {
     const backup = localStorage.getItem(LOCAL_KEY);
     if (backup) {
       const parsed = JSON.parse(backup);
-      // Prevent sensitive guest data from leaking across sessions
       delete parsed.email;
       delete parsed.idempotencyKey;
       sessionStorage.setItem(SESSION_KEY, JSON.stringify(parsed));
@@ -114,11 +109,12 @@ function UploadContent() {
       saved?.step &&
       typeof saved.step === "number" &&
       saved.step >= 1 &&
-      saved.step <= 3
+      saved.step <= 2
     )
       return saved.step as Step;
-    return urlStep >= 1 && urlStep <= 3 ? urlStep : 1;
+    return urlStep >= 1 && urlStep <= 2 ? urlStep : 1;
   });
+
   const [files, setFiles] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -142,34 +138,6 @@ function UploadContent() {
   useEffect(() => {
     filesRef.current = files;
   }, [files]);
-  const [filesCount, setFilesCount] = useState(
-    () => (getSavedState()?.filesCount as number) || 0,
-  );
-
-  // Customization Preferences
-  const [gender, setGender] = useState(
-    () => (getSavedState()?.gender as string) || "",
-  );
-  const [eyeColor, setEyeColor] = useState(
-    () => (getSavedState()?.eyeColor as string) || "",
-  );
-  const [hairColor, setHairColor] = useState(
-    () => (getSavedState()?.hairColor as string) || "",
-  );
-  const [clothing, setClothing] = useState(
-    () => (getSavedState()?.clothing as string) || "business-casual",
-  );
-  const [background, setBackground] = useState(
-    () => (getSavedState()?.background as string) || "studio",
-  );
-  const [framing, setFraming] = useState(
-    () => (getSavedState()?.framing as string) || "closeup",
-  );
-  const [selectedStyles, setSelectedStyles] = useState<string[]>(
-    () =>
-      (getSavedState()?.selectedStyles as string[]) ||
-      STYLE_CATEGORIES.map((c) => c.id),
-  );
 
   // Checkout State
   const [plan, setPlan] = useState(
@@ -192,6 +160,7 @@ function UploadContent() {
   const [storagePath, setStoragePath] = useState(
     () => (getSavedState()?.storagePath as string) || "",
   );
+
   const SHOOT_NAMES = [
     "Professional Headshots",
     "My New Headshots",
@@ -231,13 +200,6 @@ function UploadContent() {
   const [backgroundProgress, setBackgroundProgress] = useState("");
   const uploadPromiseRef = useRef<Promise<string | null> | null>(null);
 
-  // Instant upload feedback state
-  const [uploadFeedback, setUploadFeedback] = useState<{
-    count: number;
-    timestamp: number;
-  } | null>(null);
-
-  // Sync step to URL using native history API
   const stepRef = useRef(step);
   useEffect(() => {
     if (stepRef.current !== step) {
@@ -246,14 +208,13 @@ function UploadContent() {
     stepRef.current = step;
   }, [step]);
 
-  // Listen for browser back/forward via popstate
   useEffect(() => {
     const onPopState = () => {
       const params = new URLSearchParams(window.location.search);
       const urlStep = params.get("step")
         ? (parseInt(params.get("step") ?? "1") as Step)
         : 1;
-      if (urlStep >= 1 && urlStep <= 3) {
+      if (urlStep >= 1 && urlStep <= 2) {
         setStep(urlStep);
       }
     };
@@ -261,7 +222,6 @@ function UploadContent() {
     return () => window.removeEventListener("popstate", onPopState);
   }, []);
 
-  // Handle ?cancelled=1 from Stripe cancel URL — preserve state and return to last step
   useEffect(() => {
     if (searchParams.get("cancelled")) {
       setTimeout(() => {
@@ -270,9 +230,9 @@ function UploadContent() {
           saved?.step &&
           typeof saved.step === "number" &&
           saved.step >= 1 &&
-          saved.step <= 3
+          saved.step <= 2
             ? (saved.step as Step)
-            : 3;
+            : 2;
         setStep(targetStep);
         const newUrl = new URL(window.location.href);
         newUrl.searchParams.delete("cancelled");
@@ -281,7 +241,6 @@ function UploadContent() {
     }
   }, [searchParams]);
 
-  // Validate storagePath is still accessible after restoration
   useEffect(() => {
     if (!storagePath || step < 2) return;
     let cancelled = false;
@@ -322,7 +281,6 @@ function UploadContent() {
     };
   }, [storagePath, step, toast, isProcessing]);
 
-  // Persist state
   useEffect(() => {
     try {
       const stateObj = {
@@ -331,13 +289,6 @@ function UploadContent() {
         email,
         consentChecked,
         coupon,
-        gender,
-        eyeColor,
-        hairColor,
-        clothing,
-        background,
-        framing,
-        selectedStyles,
         storagePath,
         filesCount: files.length,
         shootName,
@@ -346,7 +297,6 @@ function UploadContent() {
       const stateStr = JSON.stringify(stateObj);
       sessionStorage.setItem(SESSION_KEY, stateStr);
 
-      // Only persist to localStorage if logged in
       if (userId) {
         localStorage.setItem(LOCAL_KEY, stateStr);
       } else {
@@ -359,13 +309,6 @@ function UploadContent() {
     email,
     consentChecked,
     coupon,
-    gender,
-    eyeColor,
-    hairColor,
-    clothing,
-    background,
-    framing,
-    selectedStyles,
     storagePath,
     files,
     shootName,
@@ -382,26 +325,21 @@ function UploadContent() {
         setUserId(session.user.id);
         setEmail((prev) => (prev || session.user.email) ?? "");
 
-        // Only now, if logged in, try to restore from localStorage if sessionStorage is empty
         if (!sessionStorage.getItem(SESSION_KEY)) {
           const backup = localStorage.getItem(LOCAL_KEY);
           if (backup) {
-            const parsed = JSON.parse(backup);
-            // Sync states here if needed or just let the next render cycle handle it via useEffect
+            JSON.parse(backup);
           }
         }
       } else {
-        // NOT LOGGED IN: Force clear any potential local leakage
         setUserId(null);
-        setEmail(""); // Explicitly clear guest email to prevent ANY persistence
+        setEmail("");
         localStorage.removeItem(LOCAL_KEY);
         localStorage.removeItem("truzot-idempotency-key");
       }
     };
     loadUser();
   }, []);
-
-  const selectedPlan = PLANS_LIST.find((p) => p.id === plan) || PLANS_LIST[1];
 
   const objectUrls = useMemo(
     () => files.map((f) => URL.createObjectURL(f)),
@@ -472,7 +410,6 @@ function UploadContent() {
         return null;
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 
@@ -485,7 +422,6 @@ function UploadContent() {
     async (filesToUpload: File[], onProgress?: (msg: string) => void) => {
       if (filesToUpload.length === 0) return null;
 
-      // If an upload is already running for these files, reuse that promise
       if (uploadPromiseRef.current) {
         return uploadPromiseRef.current;
       }
@@ -663,12 +599,8 @@ function UploadContent() {
       }
       const nextFiles = [...filesRef.current, ...converted].slice(0, 5);
       setFiles(nextFiles);
-      if (converted.length > 0) {
-        setUploadFeedback({ count: converted.length, timestamp: Date.now() });
-        setTimeout(() => setUploadFeedback(null), 5000);
-      }
       setStoragePath("");
-      uploadPromiseRef.current = null; // Invalidate any running background uploads on file updates
+      uploadPromiseRef.current = null;
       setIsUploadingBackground(false);
       setBackgroundProgress("");
     },
@@ -686,12 +618,11 @@ function UploadContent() {
   const removeFile = (i: number) => {
     setFiles((f) => f.filter((_, idx) => idx !== i));
     setStoragePath("");
-    uploadPromiseRef.current = null; // Invalidate current uploads on file removal
+    uploadPromiseRef.current = null;
     setIsUploadingBackground(false);
     setBackgroundProgress("");
   };
 
-  // Debounced Eager Background Upload logic
   useEffect(() => {
     if (
       files.length >= 1 &&
@@ -721,40 +652,6 @@ function UploadContent() {
     }
   }, [files, storagePath, isProcessing, isUploadingBackground, performUpload]);
 
-  // Quality Score Calculation
-  const getQualityScore = () => {
-    if (files.length === 0)
-      return {
-        score: 0,
-        label: "Upload photos to start",
-        color: "bg-slate-200",
-        text: "text-slate-500",
-      };
-    if (files.length === 1)
-      return {
-        score: 50,
-        label: "Good, but more photos improve likeness",
-        color: "bg-amber-500",
-        text: "text-amber-600",
-      };
-    return {
-      score: 100,
-      label: "Excellent Variety",
-      color: "bg-emerald-500",
-      text: "text-emerald-600",
-    };
-  };
-
-  const score = getQualityScore();
-
-  const analyzePhotos = useCallback(
-    async (imageFiles: File[]) => {
-      if (imageFiles.length === 0) return;
-      setFraming("closeup");
-    },
-    [setFraming],
-  );
-
   const handleNextStep = async () => {
     setError("");
     if (step === 1) {
@@ -781,18 +678,7 @@ function UploadContent() {
           setIsProcessing(false);
         }
       }
-      await analyzePhotos(files);
       setStep(2);
-      window.scrollTo(0, 0);
-      return;
-    }
-
-    if (step === 2) {
-      if (selectedStyles.length === 0) {
-        setError("Please select at least one style.");
-        return;
-      }
-      setStep(3);
       window.scrollTo(0, 0);
       return;
     }
@@ -830,13 +716,7 @@ function UploadContent() {
         plan,
         email,
         storagePath,
-        gender,
-        eyeColor,
-        hairColor,
-        clothing,
-        background,
-        framing,
-        selectedStyles,
+        selectedStyles: ["auto"], // Styles are fully automated on backend now
         idempotencyKey,
         shootName: shootName || defaultShootName,
         coupon: coupon || undefined,
@@ -872,21 +752,13 @@ function UploadContent() {
   };
 
   const handleStartOver = () => {
-    // Clear all form state
     setEmail("");
     setStoragePath("");
     setFiles([]);
-    setSelectedStyles(STYLE_CATEGORIES.map((c) => c.id));
     setPlan("pro");
     setShootName("");
     setCoupon("");
     setConsentChecked(false);
-    setGender("");
-    setEyeColor("");
-    setHairColor("");
-    setClothing("");
-    setBackground("");
-    setFraming("");
     setProgress("");
     setError("");
     setBackgroundProgress("");
@@ -894,7 +766,6 @@ function UploadContent() {
     setIsUploadingBackground(false);
     setStep(1);
 
-    // Clear all persisted state
     sessionStorage.removeItem(SESSION_KEY);
     localStorage.removeItem(LOCAL_KEY);
     localStorage.removeItem("truzot-idempotency-key");
@@ -902,13 +773,9 @@ function UploadContent() {
     localStorage.removeItem("truzot-upload-backup");
     sessionStorage.removeItem("truzot-upload");
 
-    // Generate new idempotency key for fresh session
     const newKey = crypto.randomUUID();
     localStorage.setItem("truzot-idempotency-key", newKey);
     setIdempotencyKey(newKey);
-
-    // Note: objectUrls is derived from `files` via useMemo
-    // When files is cleared, useEffect cleanup will revoke the old URLs
     filesRef.current = [];
   };
 
@@ -933,10 +800,10 @@ function UploadContent() {
 
         <div className="max-w-3xl mx-auto px-6 pt-12">
           {/* Stepper Header */}
-          <div className="mb-10">
-            <div className="flex items-center justify-between relative">
-              <div className="absolute left-0 right-0 top-1/2 h-0.5 bg-slate-200 dark:bg-slate-700 -z-10" />
-              {[1, 2, 3].map((num) => (
+          <div className="mb-10 max-w-sm mx-auto">
+            <div className="flex items-center justify-center gap-16 relative">
+              <div className="absolute top-1/2 left-[calc(50%-40px)] w-20 h-0.5 bg-slate-200 dark:bg-slate-700 -z-10" />
+              {[1, 2].map((num) => (
                 <div
                   key={num}
                   className={`w-10 h-10 rounded-full flex items-center justify-center font-bold border-4 border-slate-50 dark:border-slate-950 transition-colors ${step >= num ? "bg-blue-600 text-white" : "bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-300"}`}
@@ -945,12 +812,9 @@ function UploadContent() {
                 </div>
               ))}
             </div>
-            <div className="flex justify-between text-xs font-bold text-slate-500 dark:text-slate-400 mt-3 uppercase tracking-wider">
+            <div className="flex justify-between text-xs font-bold text-slate-500 dark:text-slate-400 mt-3 uppercase tracking-wider px-[34px]">
               <span className={step >= 1 ? "text-blue-600" : ""}>Upload</span>
-              <span className={step >= 2 ? "text-blue-600" : ""}>
-                Customize
-              </span>
-              <span className={step >= 3 ? "text-blue-600" : ""}>Checkout</span>
+              <span className={step >= 2 ? "text-blue-600" : ""}>Checkout</span>
             </div>
           </div>
 
@@ -971,59 +835,67 @@ function UploadContent() {
                   Upload your selfies
                 </h1>
                 <p className="text-slate-500 dark:text-slate-400">
-                  Upload 1-5 clear photos of your face. Just one good photo
-                  works, but more angles give the best results.
+                  Upload 1-5 clear photos of your face. The AI automatically
+                  handles rest to give you the perfect corporate mix.
                 </p>
               </div>
 
-              {/* SAVED DATASET VIEW (Shows after hard reload / returning from Stripe) */}
+              {/* SAVED DATASET VIEW */}
               {storagePath && files.length === 0 ? (
-                <div className="bg-white dark:bg-slate-900 rounded-2xl border border-emerald-200 dark:border-emerald-800 p-8 shadow-sm mb-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="font-bold text-slate-900 dark:text-white">
-                      Dataset Quality
-                    </span>
-                    <span className="font-bold text-emerald-600">
-                      Previously Uploaded
-                    </span>
-                  </div>
-                  <div className="h-3 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden mb-6">
-                    <div
-                      className="h-full bg-emerald-500"
-                      style={{ width: "75%" }}
-                    />
+                <div className="bg-white dark:bg-slate-900 rounded-3xl border border-emerald-200 dark:border-emerald-800 p-8 shadow-sm mb-8 relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-emerald-50 dark:bg-emerald-900/10 opacity-50 pointer-events-none" />
+                  <div className="relative z-10 flex flex-col items-center text-center">
+                    <CheckCircle2 className="w-12 h-12 text-emerald-500 mb-3" />
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">
+                      Photos Ready
+                    </h3>
+                    <p className="text-slate-500 dark:text-slate-400 mb-6">
+                      Your previous dataset is saved and ready for checkout.
+                    </p>
+                    <div className="flex gap-4">
+                      <button
+                        onClick={handleNextStep}
+                        className="bg-emerald-600 text-white px-6 py-2.5 rounded-xl font-bold hover:bg-emerald-700 transition"
+                      >
+                        Continue to Checkout
+                      </button>
+                      <button
+                        onClick={() => setStoragePath("")}
+                        className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-6 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition"
+                      >
+                        Replace Photos
+                      </button>
+                    </div>
                   </div>
                 </div>
               ) : null}
 
-              {files.length === 0 && !storagePath && (
-                <div className="grid sm:grid-cols-2 gap-4">
-                  {PHOTO_TIPS.map((tip, idx) => (
-                    <div
-                      key={idx}
-                      className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex gap-3 shadow-sm"
-                    >
-                      <span className="text-2xl">{tip.icon}</span>
-                      <div>
-                        <div className="font-bold text-sm text-slate-900 dark:text-white">
-                          {tip.text}
-                        </div>
-                        <div className="text-xs text-slate-500 dark:text-slate-400">
-                          {tip.desc}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
               {/* Upload Zone */}
               {files.length === 0 && !storagePath && (
-                <div className="mt-6">
+                <div className="mb-10">
                   <label
                     htmlFor="file-input"
-                    className="block cursor-pointer border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-2xl p-10 text-center hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/10 transition-colors"
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    className={`group relative flex flex-col items-center justify-center w-full p-12 text-center cursor-pointer border-2 border-dashed rounded-3xl transition-all duration-300 ease-out overflow-hidden
+                      ${isDragging ? "border-blue-500 bg-blue-50/80 dark:bg-blue-900/20 scale-[1.02]" : "border-blue-200 dark:border-blue-800 bg-blue-50/30 dark:bg-blue-900/10 hover:border-blue-400 dark:hover:border-blue-600 hover:bg-blue-50/50 dark:hover:bg-blue-900/20"}`}
                   >
+                    <div className="absolute inset-0 bg-gradient-to-b from-blue-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                    <div
+                      className={`w-20 h-20 bg-white dark:bg-slate-800 shadow-lg border border-slate-100 dark:border-slate-700 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-transform duration-300 ${isDragging ? "scale-110" : "group-hover:-translate-y-1"}`}
+                    >
+                      <UploadCloud className="w-10 h-10 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">
+                      {isDragging
+                        ? "Drop photos here"
+                        : "Click to browse or drag photos"}
+                    </h3>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">
+                      Upload 1-5 clear selfies (JPG, PNG, HEIC)
+                    </p>
                     <input
                       type="file"
                       multiple
@@ -1033,16 +905,34 @@ function UploadContent() {
                       id="file-input"
                       onChange={(e) => handleFiles(e.target.files)}
                     />
-                    <div className="w-16 h-16 bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Upload className="w-8 h-8 text-blue-600" />
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                      Click to browse or drag photos here
-                    </h3>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">
-                      JPG, PNG, HEIC accepted.
-                    </p>
                   </label>
+                </div>
+              )}
+
+              {/* Photo Tips (Below Upload) */}
+              {files.length === 0 && !storagePath && (
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">
+                    Photo Requirements
+                  </h3>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {PHOTO_TIPS.map((tip, idx) => (
+                      <div
+                        key={idx}
+                        className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex gap-3 shadow-sm"
+                      >
+                        <span className="text-2xl">{tip.icon}</span>
+                        <div>
+                          <div className="font-bold text-sm text-slate-900 dark:text-white">
+                            {tip.text}
+                          </div>
+                          <div className="text-xs text-slate-500 dark:text-slate-400">
+                            {tip.desc}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
 
@@ -1051,17 +941,8 @@ function UploadContent() {
                 <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 shadow-sm">
                   <div className="flex items-center justify-between mb-4">
                     <span className="font-bold text-slate-900 dark:text-white">
-                      Dataset Quality
+                      Uploaded Photos
                     </span>
-                    <span className={`font-bold ${score.text}`}>
-                      {score.label}
-                    </span>
-                  </div>
-                  <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden mb-6">
-                    <div
-                      className={`h-full transition-all duration-1000 ${score.color}`}
-                      style={{ width: `${score.score}%` }}
-                    />
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
@@ -1102,222 +983,37 @@ function UploadContent() {
                 </div>
               )}
 
-              <div className="mt-8 flex justify-end">
-                <button
-                  onClick={handleNextStep}
-                  disabled={isUploadingBackground || isProcessing}
-                  className="bg-slate-900 dark:bg-blue-600 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 dark:hover:bg-blue-700 transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isUploadingBackground ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      Uploading photos...
-                    </>
-                  ) : isProcessing ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      Processing...
-                    </>
-                  ) : (
-                    <>
-                      Next: Customize
-                      <ChevronRight className="w-5 h-5" />
-                    </>
-                  )}
-                </button>
-              </div>
+              {files.length > 0 && (
+                <div className="mt-8 flex justify-end">
+                  <button
+                    onClick={handleNextStep}
+                    disabled={isUploadingBackground || isProcessing}
+                    className="bg-slate-900 dark:bg-blue-600 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 dark:hover:bg-blue-700 transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isUploadingBackground ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Uploading photos...
+                      </>
+                    ) : isProcessing ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Processing...
+                      </>
+                    ) : (
+                      <>
+                        Next: Checkout
+                        <ChevronRight className="w-5 h-5" />
+                      </>
+                    )}
+                  </button>
+                </div>
+              )}
             </div>
           )}
 
-          {/* STEP 2: CUSTOMIZE */}
+          {/* STEP 2: CHECKOUT */}
           {step === 2 && (
-            <div className="animate-in slide-in-from-right-4 fade-in duration-300">
-              <div className="text-center mb-8">
-                <h1 className="text-3xl font-bold mb-2 text-slate-900 dark:text-white">
-                  Customize your headshots
-                </h1>
-                <p className="text-slate-500 dark:text-slate-400">
-                  Tell the AI a bit about yourself to get the most accurate
-                  results.
-                </p>
-              </div>
-
-              <div className="space-y-8 bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                <div className="grid md:grid-cols-2 gap-8">
-                  {/* Gender */}
-                  <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                      Gender
-                    </label>
-                    <div className="grid grid-cols-3 gap-3">
-                      {["man", "woman", "person"].map((g) => (
-                        <button
-                          key={g}
-                          onClick={() => setGender(g)}
-                          className={`p-3 rounded-xl border font-medium text-sm transition capitalize ${
-                            gender === g
-                              ? "border-blue-600 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400"
-                              : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-700 dark:text-slate-300"
-                          }`}
-                        >
-                          {g}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Eye Color */}
-                  <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                      Eye Color
-                    </label>
-                    <select
-                      value={eyeColor}
-                      onChange={(e) => setEyeColor(e.target.value)}
-                      className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
-                    >
-                      <option value="">Select eye color...</option>
-                      <option value="brown">Brown</option>
-                      <option value="blue">Blue</option>
-                      <option value="green">Green</option>
-                      <option value="hazel">Hazel</option>
-                      <option value="gray">Gray</option>
-                    </select>
-                  </div>
-
-                  {/* Hair Color */}
-                  <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                      Hair Color
-                    </label>
-                    <select
-                      value={hairColor}
-                      onChange={(e) => setHairColor(e.target.value)}
-                      className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
-                    >
-                      <option value="">Select hair color...</option>
-                      <option value="black">Black</option>
-                      <option value="brown">Brown</option>
-                      <option value="blonde">Blonde</option>
-                      <option value="red">Red</option>
-                      <option value="gray">Gray</option>
-                      <option value="white">White</option>
-                      <option value="bald">Bald / Shaved</option>
-                    </select>
-                  </div>
-
-                  {/* Clothing */}
-                  <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                      Clothing Preference
-                    </label>
-                    <select
-                      value={clothing}
-                      onChange={(e) => setClothing(e.target.value)}
-                      className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
-                    >
-                      <option value="business-formal">Business Formal</option>
-                      <option value="business-casual">Business Casual</option>
-                      <option value="smart-casual">Smart Casual</option>
-                      <option value="creative">Creative / Minimalist</option>
-                    </select>
-                  </div>
-
-                  {/* Background */}
-                  <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                      Background
-                    </label>
-                    <select
-                      value={background}
-                      onChange={(e) => setBackground(e.target.value)}
-                      className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
-                    >
-                      <option value="studio">Studio Backdrop</option>
-                      <option value="office">Modern Office</option>
-                      <option value="outdoor">Outdoor / Nature</option>
-                      <option value="city">Urban / Cityscape</option>
-                    </select>
-                  </div>
-
-                  {/* Framing */}
-                  <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                      Framing
-                    </label>
-                    <select
-                      value={framing}
-                      onChange={(e) => setFraming(e.target.value)}
-                      className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
-                    >
-                      <option value="closeup">Head and Shoulders</option>
-                      <option value="half-body">Half Body / Waist Up</option>
-                    </select>
-                  </div>
-                </div>
-
-                {/* Styles */}
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                    Select Styles
-                  </label>
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {STYLE_CATEGORIES.map((cat) => (
-                      <label
-                        key={cat.id}
-                        className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition ${
-                          selectedStyles.includes(cat.id)
-                            ? "border-blue-600 bg-blue-50 dark:bg-blue-900/20"
-                            : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600"
-                        }`}
-                      >
-                        <input
-                          type="checkbox"
-                          checked={selectedStyles.includes(cat.id)}
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              setSelectedStyles([...selectedStyles, cat.id]);
-                            } else {
-                              setSelectedStyles(
-                                selectedStyles.filter((id) => id !== cat.id),
-                              );
-                            }
-                          }}
-                          className="mt-1 w-4 h-4 rounded text-blue-600 border-slate-300 focus:ring-blue-500"
-                        />
-                        <div>
-                          <div className="font-bold text-sm text-slate-900 dark:text-white mb-1">
-                            {cat.icon} {cat.name}
-                          </div>
-                          <div className="text-xs text-slate-500 dark:text-slate-400">
-                            {cat.description}
-                          </div>
-                        </div>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-8 flex items-center justify-between">
-                <button
-                  onClick={() => setStep(1)}
-                  className="text-slate-500 dark:text-slate-400 font-bold flex items-center gap-2 hover:text-slate-800 dark:hover:text-slate-200 transition"
-                >
-                  <ChevronLeft className="w-5 h-5" /> Back to Upload
-                </button>
-                <button
-                  onClick={handleNextStep}
-                  className="bg-slate-900 dark:bg-blue-600 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 dark:hover:bg-blue-700 transition shadow-sm"
-                >
-                  Next: Checkout <ChevronRight className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* STEP 3: CHECKOUT */}
-          {step === 3 && (
             <PaymentErrorBoundary>
               <div className="animate-in slide-in-from-right-4 fade-in duration-300">
                 <div className="text-center mb-8">
@@ -1469,10 +1165,10 @@ function UploadContent() {
 
                 <div className="mt-8 flex items-center justify-between">
                   <button
-                    onClick={() => setStep(2)}
+                    onClick={() => setStep(1)}
                     className="text-slate-500 dark:text-slate-400 font-bold flex items-center gap-2 hover:text-slate-800 dark:hover:text-slate-200"
                   >
-                    <ChevronLeft className="w-5 h-5" /> Back to Customization
+                    <ChevronLeft className="w-5 h-5" /> Back to Upload
                   </button>
                   <button
                     onClick={handleStartOver}
