@@ -58,6 +58,16 @@ function LoginForm() {
   }, [router]);
 
   useEffect(() => {
+    const handlePopState = () => {
+      if (window.location.hash && window.location.pathname === "/") {
+        window.location.reload();
+      }
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  useEffect(() => {
     const handleOAuthError = () => {
       const oauthError = searchParams.get("error");
       const oauthErrorDesc = searchParams.get("error_description");
