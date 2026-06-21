@@ -135,6 +135,8 @@ function PendingOrderPreviews({ storagePath }: { storagePath?: string }) {
           src={u}
           className="w-16 h-16 object-cover rounded-xl shadow-sm border border-slate-200 dark:border-slate-700"
           alt="Uploaded preview"
+          width={64}
+          height={64}
         />
       ))}
     </div>

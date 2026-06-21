@@ -1,5 +1,11 @@
 "use client";
-import { useState, useRef, useCallback, useEffect, useMemo } from "react";
+import React, {
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+  useMemo,
+} from "react";
 import Image from "next/image";
 import { Grid as GridBase } from "react-window";
 const Grid = GridBase as React.ComponentType<any>;
@@ -37,7 +43,7 @@ const CARD_ASPECT = 3 / 4;
 const GAP = 24;
 const MAX_VISIBLE_ROWS = 6;
 
-function HeadshotCard({
+const HeadshotCard = React.memo(function HeadshotCard({
   headshot,
   isFav,
   isSel,
@@ -155,9 +161,9 @@ function HeadshotCard({
       </div>
     </div>
   );
-}
+});
 
-function GridCell({
+const GridCell = React.memo(function GridCell({
   columnIndex,
   rowIndex,
   style,
@@ -206,7 +212,7 @@ function GridCell({
       onFlag={onFlag}
     />
   );
-}
+});
 
 export default function VirtualizedHeadshotGrid(
   props: VirtualizedHeadshotGridProps,

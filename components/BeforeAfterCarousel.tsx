@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
 
 interface BeforeAfterCard {
   before: string;
@@ -12,70 +11,9 @@ interface BeforeAfterCarouselProps {
   examples: BeforeAfterCard[];
 }
 
-const CARD_WIDTH = 288; // w-72
-const GAP = 24; // gap-6
-const CARD_STEP = CARD_WIDTH + GAP;
-
 export default function BeforeAfterCarousel({
   examples,
 }: BeforeAfterCarouselProps) {
-  const [isHovered, setIsHovered] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  // Triple the items for seamless infinite loop
-  const displayExamples = [...examples, ...examples, ...examples];
-  const singleSetWidth = examples.length * CARD_STEP;
-
-  // Start at the beginning of the second set
-  useEffect(() => {
-    if (scrollRef.current && singleSetWidth > 0) {
-      scrollRef.current.scrollLeft = singleSetWidth;
-      // Infinite scroll reset
-      if (
-        scrollRef.current.scrollWidth > 0 &&
-        scrollRef.current.scrollLeft >= scrollRef.current.scrollWidth / 2
-      ) {
-        scrollRef.current.scrollLeft = 0;
-      }
-    }
-  }, [singleSetWidth]);
-
-  // Auto-scroll with infinite loop
-  useEffect(() => {
-    if (!scrollRef.current || isHovered || singleSetWidth === 0) return;
-
-    const container = scrollRef.current;
-    let animationId: number;
-    let lastTime = 0;
-    const speed = 0.5;
-
-    const tick = (timestamp: number) => {
-      if (timestamp - lastTime > 16) {
-        container.scrollLeft += speed;
-
-        const maxScroll = container.scrollWidth - container.clientWidth;
-
-        // Jump from end of third set back to second set (seamless)
-        if (container.scrollLeft >= singleSetWidth * 2 + CARD_WIDTH) {
-          container.scrollLeft -= singleSetWidth;
-        }
-        // Jump from start of first set forward to second set
-        else if (container.scrollLeft <= singleSetWidth - CARD_WIDTH) {
-          container.scrollLeft += singleSetWidth;
-        }
-
-        lastTime = timestamp;
-      }
-      animationId = requestAnimationFrame(tick);
-    };
-
-    animationId = requestAnimationFrame(tick);
-
-    return () => {
-      if (animationId) cancelAnimationFrame(animationId);
-    };
-  }, [isHovered, singleSetWidth]);
-
   const Card = ({
     example,
     index,
@@ -84,7 +22,7 @@ export default function BeforeAfterCarousel({
     index: number;
   }) => (
     <div key={index} className="flex-shrink-0 w-72 relative group">
-      <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-lg bg-slate-100">
+      <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-lg bg-slate-100 dark:bg-slate-800">
         <Image
           src={example.after}
           alt={`${example.name || "Headshot"} - Professional headshot`}
@@ -107,22 +45,19 @@ export default function BeforeAfterCarousel({
   );
 
   return (
-    <div
-      className="relative w-full overflow-hidden"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div
-        ref={scrollRef}
-        className="flex gap-6 overflow-x-hidden scrollbar-hide"
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-      >
-        {displayExamples.map((example, index) => (
-          <Card key={index} example={example} index={index} />
+    <div className="relative w-full overflow-hidden flex group">
+      <div className="flex gap-6 animate-marquee whitespace-nowrap min-w-full group-hover:[animation-play-state:paused] pr-6">
+        {examples.map((example, index) => (
+          <Card key={`a-${index}`} example={example} index={index} />
         ))}
       </div>
-      <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent pointer-events-none" />
+      <div className="flex gap-6 animate-marquee whitespace-nowrap min-w-full group-hover:[animation-play-state:paused] pr-6">
+        {examples.map((example, index) => (
+          <Card key={`b-${index}`} example={example} index={index} />
+        ))}
+      </div>
+      <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[var(--bg-primary)] to-transparent pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[var(--bg-primary)] to-transparent pointer-events-none" />
     </div>
   );
 }

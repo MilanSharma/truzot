@@ -106,6 +106,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="dns-prefetch" href="https://js.stripe.com" />
         <link rel="preconnect" href="https://js.stripe.com" />
+        <link rel="preconnect" href="https://api.stripe.com" />
+        {process.env.NEXT_PUBLIC_SUPABASE_URL && (
+          <link
+            rel="preconnect"
+            href={process.env.NEXT_PUBLIC_SUPABASE_URL}
+            crossOrigin="anonymous"
+          />
+        )}
         <link rel="icon" href="/logo.png" sizes="any" />
         <link rel="apple-touch-icon" href="/logo.png" />
         <script

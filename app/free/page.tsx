@@ -169,6 +169,8 @@ export default function FreeGenerator() {
                       src={p}
                       className="w-20 h-20 object-cover rounded-xl"
                       alt={`Photo ${i + 1}`}
+                      width={80}
+                      height={80}
                     />
                   ))}
                 </div>

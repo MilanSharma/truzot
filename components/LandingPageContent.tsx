@@ -22,8 +22,25 @@ import {
   Loader2,
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import ComparisonSlider from "@/components/ComparisonSlider";
-import BeforeAfterCarousel from "@/components/BeforeAfterCarousel";
+import dynamic from "next/dynamic";
+const ComparisonSlider = dynamic(
+  () => import("@/components/ComparisonSlider"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full max-w-lg mx-auto aspect-[4/5] bg-slate-200 dark:bg-slate-800 animate-pulse rounded-2xl"></div>
+    ),
+  },
+);
+const BeforeAfterCarousel = dynamic(
+  () => import("@/components/BeforeAfterCarousel"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-[360px] bg-slate-200 dark:bg-slate-800 animate-pulse rounded-2xl"></div>
+    ),
+  },
+);
 import { PLANS, HEADSHOT_CATEGORIES } from "@/lib/plans";
 import { supabase } from "@/lib/supabase/client";
 import {
@@ -172,31 +189,10 @@ import { useRouter } from "next/navigation";
 
 export default function LandingPageContent() {
   const router = useRouter();
-  const scrollRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     router.prefetch("/upload");
     router.prefetch("/login");
   }, [router]);
-  const [isHovered, setIsHovered] = useState(false);
-
-  useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer) return;
-    let animationFrameId: number;
-    const scroll = () => {
-      if (!isHovered && scrollContainer) {
-        scrollContainer.scrollLeft += 1;
-        // Infinite loop reset when reaching the middle (since we duplicate the array)
-        if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
-          scrollContainer.scrollLeft = 0;
-        }
-      }
-      animationFrameId = requestAnimationFrame(scroll);
-    };
-    animationFrameId = requestAnimationFrame(scroll);
-    return () => cancelAnimationFrame(animationFrameId);
-  }, [isHovered]);
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showExitPopup, setShowExitPopup] = useState(false);
