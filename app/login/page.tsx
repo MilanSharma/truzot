@@ -53,6 +53,11 @@ function LoginForm() {
       document.documentElement.classList.contains("dark"),
   );
 
+  // Prefetch dashboard route on mount for instant navigation
+  useEffect(() => {
+    router.prefetch("/dashboard");
+  }, [router]);
+
   useEffect(() => {
     const handleOAuthError = () => {
       const oauthError = searchParams.get("error");
@@ -206,7 +211,7 @@ function LoginForm() {
         } else {
           setIsRedirecting(true);
           const nextParam = searchParams.get("next") || "/dashboard";
-          router.push(nextParam);
+          router.replace(nextParam);
         }
       }
     } catch (err: any) {

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import {
   useEffect,
@@ -105,7 +104,7 @@ function DashboardContent() {
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [multiSelectMode, setMultiSelectMode] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
-  const [authChecked, setAuthChecked] = useState(false);
+  const [authChecked, setAuthChecked] = useState(true);
   const [isSigningOut, setIsSigningOut] = useState(false);
   const [resumingPayment, setResumingPayment] = useState(false);
   const [confirmModal, setConfirmModal] = useState<{
@@ -416,7 +415,6 @@ function DashboardContent() {
           }
         }
       }
-      if (!authChecked) setAuthChecked(true);
       if (subsRef.current) {
         supabase.removeChannel(subsRef.current);
         subsRef.current = null;
@@ -1326,14 +1324,7 @@ function DashboardContent() {
 export default function DashboardPage() {
   return (
     <Suspense
-      fallback={
-        <div className="min-h-screen bg-[var(--bg-secondary)] flex items-center justify-center">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
-            <p className="text-sm text-slate-500">Loading dashboard...</p>
-          </div>
-        </div>
-      }
+      fallback={<div className="min-h-screen bg-[var(--bg-secondary)]" />}
     >
       <ErrorBoundary
         fallback={
