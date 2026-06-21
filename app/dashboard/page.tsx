@@ -38,7 +38,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import { useToast } from "@/components/Toast";
 import ConfirmModal from "@/components/ConfirmModal";
 import PromptModal from "@/components/PromptModal";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const LightboxModal = lazy(
   () => import("@/components/dashboard/LightboxModal"),
@@ -806,7 +806,7 @@ function DashboardContent() {
         setOrders((prev) => prev.filter((o) => o.id !== id));
         if (orderId === id) {
           setFetchedOrder(null);
-          window.history.pushState(null, "", "/dashboard");
+          router.replace("/dashboard");
         }
         toast("Deleting shoot...", "info");
 
@@ -920,353 +920,357 @@ function DashboardContent() {
               </a>
             </div>
           )}
-          {orderId && !orderError && currentOrder ? (
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              key="detail-view"
-            >
-              {currentOrder &&
-                ["training", "generating"].includes(currentOrder.status) &&
-                currentTime - new Date(currentOrder.created_at).getTime() >
-                  30 * 60 * 1000 && (
-                  <div className="mb-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in">
-                    <div className="text-sm text-amber-800 dark:text-amber-300">
-                      <span className="font-bold flex items-center gap-1 mb-1">
-                        <AlertCircle className="w-4 h-4" /> Processing is taking
-                        longer than usual.
-                      </span>
-                      Our AI cluster might be under heavy load. If this
-                      continues, please contact support.
+          <AnimatePresence mode="wait">
+            {orderId && !orderError && currentOrder ? (
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.2 }}
+                key="detail-view"
+              >
+                {currentOrder &&
+                  ["training", "generating"].includes(currentOrder.status) &&
+                  currentTime - new Date(currentOrder.created_at).getTime() >
+                    30 * 60 * 1000 && (
+                    <div className="mb-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in">
+                      <div className="text-sm text-amber-800 dark:text-amber-300">
+                        <span className="font-bold flex items-center gap-1 mb-1">
+                          <AlertCircle className="w-4 h-4" /> Processing is
+                          taking longer than usual.
+                        </span>
+                        Our AI cluster might be under heavy load. If this
+                        continues, please contact support.
+                      </div>
+                      <a
+                        href={`mailto:hello@truzot.com?subject=Delayed Order: ${currentOrder.id}`}
+                        className="shrink-0 px-4 py-2 bg-amber-600 text-white text-sm font-bold rounded-lg hover:bg-amber-700 transition"
+                      >
+                        Contact Support
+                      </a>
                     </div>
-                    <a
-                      href={`mailto:hello@truzot.com?subject=Delayed Order: ${currentOrder.id}`}
-                      className="shrink-0 px-4 py-2 bg-amber-600 text-white text-sm font-bold rounded-lg hover:bg-amber-700 transition"
-                    >
-                      Contact Support
-                    </a>
-                  </div>
-                )}
-              {!user && (
-                <div className="mb-8 p-5 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in">
-                  <div>
-                    <h3 className="text-blue-900 dark:text-blue-100 font-bold text-lg mb-1">
-                      Save your progress
-                    </h3>
-                    <p className="text-blue-700 dark:text-blue-300 text-sm">
-                      Create an account to securely access your headshots
-                      anytime.
-                    </p>
-                  </div>
-                  <Link
-                    href={`/claim-order?order=${orderId}`}
-                    className="shrink-0 px-6 py-3 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 transition"
-                  >
-                    Create Account
-                  </Link>
-                </div>
-              )}
-
-              {currentOrder &&
-                ["training", "generating"].includes(currentOrder.status) &&
-                currentTime > 0 &&
-                currentTime - new Date(currentOrder.created_at).getTime() >
-                  30 * 60 * 1000 && (
-                  <div className="mb-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in">
-                    <div className="text-sm text-amber-800 dark:text-amber-300">
-                      <span className="font-bold flex items-center gap-1 mb-1">
-                        <AlertCircle className="w-4 h-4" /> Processing is taking
-                        longer than usual.
-                      </span>
-                      Our AI cluster might be under heavy load. If this
-                      continues, please contact support.
-                    </div>
-                    <a
-                      href={`mailto:hello@truzot.com?subject=Delayed Order: ${currentOrder.id}`}
-                      className="shrink-0 px-4 py-2 bg-amber-600 text-white text-sm font-bold rounded-lg hover:bg-amber-700 transition"
-                    >
-                      Contact Support
-                    </a>
-                  </div>
-                )}
-              {!user && (
-                <div className="mb-8 p-5 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in">
-                  <div>
-                    <h3 className="text-blue-900 dark:text-blue-100 font-bold text-lg mb-1">
-                      Save your progress
-                    </h3>
-                    <p className="text-blue-700 dark:text-blue-300 text-sm">
-                      Create an account to securely access your headshots
-                      anytime.
-                    </p>
-                  </div>
-                  <Link
-                    href={`/claim-order?order=${orderId}`}
-                    className="shrink-0 px-6 py-3 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 transition"
-                  >
-                    Create Account
-                  </Link>
-                </div>
-              )}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-                <div>
-                  <a
-                    href="/dashboard"
-                    className="text-xs font-bold text-slate-400 dark:text-slate-500 hover:text-blue-600 mb-2 flex items-center gap-1 transition"
-                  >
-                    ← Back to library
-                  </a>
-                  <div className="flex items-center gap-3">
-                    <h1 className="text-3xl font-black text-slate-900 dark:text-white">
-                      {PLANS[currentOrder.plan as keyof typeof PLANS]?.name ||
-                        "Shoot"}
-                    </h1>
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border ${
-                        currentOrder.status === "completed"
-                          ? "bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800"
-                          : currentOrder.status === "failed"
-                            ? "bg-red-50 text-red-600 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800"
-                            : currentOrder.status === "refunded"
-                              ? "bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700"
-                              : currentOrder.status === "pending"
-                                ? "bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800"
-                                : "bg-indigo-50 text-indigo-600 border-indigo-200 dark:bg-indigo-900/20 dark:text-indigo-400 dark:border-indigo-800"
-                      }`}
-                    >
-                      {currentOrder.status}
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-400 dark:text-slate-500 font-medium mt-1">
-                    Created{" "}
-                    {new Date(currentOrder.created_at).toLocaleDateString(
-                      undefined,
-                      {
-                        month: "long",
-                        day: "numeric",
-                        year: "numeric",
-                      },
-                    )}
-                  </p>
-                </div>
-
-                {(currentOrder.status === "generating" ||
-                  currentOrder.status === "paid") && (
-                  <div className="mt-6 w-full">
-                    <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl p-6">
-                      <h3 className="font-bold text-emerald-900 dark:text-emerald-100 mb-2 flex items-center gap-2">
-                        <Sparkles className="w-5 h-5" /> Payment Successful!
-                        Here&apos;s what happens next:
+                  )}
+                {!user && (
+                  <div className="mb-8 p-5 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in">
+                    <div>
+                      <h3 className="text-blue-900 dark:text-blue-100 font-bold text-lg mb-1">
+                        Save your progress
                       </h3>
-                      <ol className="list-decimal list-inside space-y-1 text-sm text-emerald-800 dark:text-emerald-300">
-                        <li>
-                          We&apos;re training your custom AI model (5-15
-                          minutes)
-                        </li>
-                        <li>
-                          Generating{" "}
-                          {PLANS[currentOrder.plan as keyof typeof PLANS]
-                            ?.shots || 20}{" "}
-                          professional headshots
-                        </li>
-                        <li>
-                          You&apos;ll get an email when they&apos;re ready to
-                          download
-                        </li>
-                      </ol>
+                      <p className="text-blue-700 dark:text-blue-300 text-sm">
+                        Create an account to securely access your headshots
+                        anytime.
+                      </p>
                     </div>
+                    <Link
+                      href={`/claim-order?order=${orderId}`}
+                      className="shrink-0 px-6 py-3 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 transition"
+                    >
+                      Create Account
+                    </Link>
+                  </div>
+                )}
+
+                {currentOrder &&
+                  ["training", "generating"].includes(currentOrder.status) &&
+                  currentTime > 0 &&
+                  currentTime - new Date(currentOrder.created_at).getTime() >
+                    30 * 60 * 1000 && (
+                    <div className="mb-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in">
+                      <div className="text-sm text-amber-800 dark:text-amber-300">
+                        <span className="font-bold flex items-center gap-1 mb-1">
+                          <AlertCircle className="w-4 h-4" /> Processing is
+                          taking longer than usual.
+                        </span>
+                        Our AI cluster might be under heavy load. If this
+                        continues, please contact support.
+                      </div>
+                      <a
+                        href={`mailto:hello@truzot.com?subject=Delayed Order: ${currentOrder.id}`}
+                        className="shrink-0 px-4 py-2 bg-amber-600 text-white text-sm font-bold rounded-lg hover:bg-amber-700 transition"
+                      >
+                        Contact Support
+                      </a>
+                    </div>
+                  )}
+                {!user && (
+                  <div className="mb-8 p-5 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in">
+                    <div>
+                      <h3 className="text-blue-900 dark:text-blue-100 font-bold text-lg mb-1">
+                        Save your progress
+                      </h3>
+                      <p className="text-blue-700 dark:text-blue-300 text-sm">
+                        Create an account to securely access your headshots
+                        anytime.
+                      </p>
+                    </div>
+                    <Link
+                      href={`/claim-order?order=${orderId}`}
+                      className="shrink-0 px-6 py-3 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 transition"
+                    >
+                      Create Account
+                    </Link>
+                  </div>
+                )}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                  <div>
+                    <a
+                      href="/dashboard"
+                      className="text-xs font-bold text-slate-400 dark:text-slate-500 hover:text-blue-600 mb-2 flex items-center gap-1 transition"
+                    >
+                      ← Back to library
+                    </a>
+                    <div className="flex items-center gap-3">
+                      <h1 className="text-3xl font-black text-slate-900 dark:text-white">
+                        {PLANS[currentOrder.plan as keyof typeof PLANS]?.name ||
+                          "Shoot"}
+                      </h1>
+                      <span
+                        className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border ${
+                          currentOrder.status === "completed"
+                            ? "bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800"
+                            : currentOrder.status === "failed"
+                              ? "bg-red-50 text-red-600 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800"
+                              : currentOrder.status === "refunded"
+                                ? "bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700"
+                                : currentOrder.status === "pending"
+                                  ? "bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800"
+                                  : "bg-indigo-50 text-indigo-600 border-indigo-200 dark:bg-indigo-900/20 dark:text-indigo-400 dark:border-indigo-800"
+                        }`}
+                      >
+                        {currentOrder.status}
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-400 dark:text-slate-500 font-medium mt-1">
+                      Created{" "}
+                      {new Date(currentOrder.created_at).toLocaleDateString(
+                        undefined,
+                        {
+                          month: "long",
+                          day: "numeric",
+                          year: "numeric",
+                        },
+                      )}
+                    </p>
+                  </div>
+
+                  {(currentOrder.status === "generating" ||
+                    currentOrder.status === "paid") && (
+                    <div className="mt-6 w-full">
+                      <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl p-6">
+                        <h3 className="font-bold text-emerald-900 dark:text-emerald-100 mb-2 flex items-center gap-2">
+                          <Sparkles className="w-5 h-5" /> Payment Successful!
+                          Here&apos;s what happens next:
+                        </h3>
+                        <ol className="list-decimal list-inside space-y-1 text-sm text-emerald-800 dark:text-emerald-300">
+                          <li>
+                            We&apos;re training your custom AI model (5-15
+                            minutes)
+                          </li>
+                          <li>
+                            Generating{" "}
+                            {PLANS[currentOrder.plan as keyof typeof PLANS]
+                              ?.shots || 20}{" "}
+                            professional headshots
+                          </li>
+                          <li>
+                            You&apos;ll get an email when they&apos;re ready to
+                            download
+                          </li>
+                        </ol>
+                      </div>
+                    </div>
+                  )}
+
+                  {currentOrder.status === "completed" && (
+                    <div className="flex flex-wrap items-center gap-3">
+                      <button
+                        onClick={shareGallery}
+                        className="px-4 py-2.5 rounded-xl text-sm font-bold border bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition flex items-center gap-2"
+                        title="Copy shareable gallery link"
+                      >
+                        <Share2 className="w-4 h-4" /> Share
+                      </button>
+                      <button
+                        onClick={emailDelivery}
+                        className="px-4 py-2.5 rounded-xl text-sm font-bold border bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition flex items-center gap-2"
+                        title="Email my headshots"
+                      >
+                        <Mail className="w-4 h-4" /> Email
+                      </button>
+                      <button
+                        onClick={() => {
+                          const prefs =
+                            (currentOrder.preferences as Record<string, any>) ||
+                            {};
+                          try {
+                            sessionStorage.setItem(
+                              "truzot-upload",
+                              JSON.stringify({
+                                step: 3,
+                                plan: currentOrder.plan,
+                                email: currentOrder.email || "",
+                                consentChecked: true,
+                                gender: prefs.gender || "",
+                                eyeColor: prefs.eyeColor || "",
+                                hairColor: prefs.hairColor || "",
+                                clothing: prefs.clothing || "business-casual",
+                                background: prefs.background || "studio",
+                                framing: prefs.framing || "closeup",
+                                selectedStyles: prefs.selectedStyles || [],
+                                storagePath: prefs.storagePath || "",
+                                filesCount: 0,
+                                shootName: "",
+                              }),
+                            );
+                          } catch {}
+                          router.push("/upload");
+                        }}
+                        className="px-4 py-2.5 rounded-xl text-sm font-bold border bg-indigo-50 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition flex items-center gap-2"
+                        title="Generate more headshots with new styles"
+                      >
+                        <Sparkles className="w-4 h-4" /> Generate More
+                      </button>
+                      <button
+                        onClick={() => setMultiSelectMode(!multiSelectMode)}
+                        className={`px-4 py-2.5 rounded-xl text-sm font-bold transition border ${multiSelectMode ? "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-400" : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700"}`}
+                      >
+                        {multiSelectMode ? "Cancel Select" : "Select Multiple"}
+                      </button>
+                      <Suspense
+                        fallback={
+                          <div className="px-5 py-2.5 bg-slate-100 dark:bg-slate-800 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-300">
+                            Loading...
+                          </div>
+                        }
+                      >
+                        <DownloadProgress
+                          onDownload={async (onProgress) => {
+                            const imageUrls = headshots.map((h) => h.image_url);
+                            if (imageUrls.length === 0) {
+                              toast("No images to download.", "error");
+                              return;
+                            }
+                            await serverSideDownload(
+                              imageUrls,
+                              `truzot-headshots-${orderId}.zip`,
+                              onProgress,
+                            );
+                          }}
+                          label="Download All"
+                        />
+                      </Suspense>
+                    </div>
+                  )}
+                </div>
+
+                {currentOrder.status === "refunded" && (
+                  <div className="flex flex-col items-center justify-center py-20 text-center bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm mt-12 max-w-2xl mx-auto p-10">
+                    <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-6">
+                      <AlertCircle className="w-8 h-8 text-slate-500 dark:text-slate-400" />
+                    </div>
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+                      Order Refunded
+                    </h2>
+                    <p className="text-slate-500 dark:text-slate-400 max-w-md mb-8">
+                      This shoot encountered a fatal error and was automatically
+                      refunded to your original payment method.
+                    </p>
+                    <button
+                      onClick={() => router.push("/upload")}
+                      className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-sm"
+                    >
+                      Start New Shoot
+                    </button>
+                  </div>
+                )}
+                {currentOrder.status === "training" && (
+                  <TrainingView order={currentOrder} />
+                )}
+                {currentOrder.status === "generating" && (
+                  <GeneratingView
+                    count={generationProgress.count}
+                    target={generationProgress.target}
+                  />
+                )}
+                {currentOrder.status === "failed" && (
+                  <FailedView order={currentOrder} />
+                )}
+                {currentOrder.status === "pending" && (
+                  <div className="flex flex-col items-center justify-center py-20 text-center">
+                    <div className="w-16 h-16 bg-amber-50 dark:bg-amber-900/20 rounded-full flex items-center justify-center mb-6">
+                      <Camera className="w-8 h-8 text-amber-600 dark:text-amber-400" />
+                    </div>
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+                      Payment Incomplete
+                    </h2>
+                    <p className="text-slate-500 dark:text-slate-400 max-w-md mb-8">
+                      You left this order unpaid. You can pick up right where
+                      you left off and complete your checkout.
+                    </p>
+                    <button
+                      onClick={() => handleResumeCheckout(currentOrder.id)}
+                      disabled={resumingPayment}
+                      className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition flex items-center justify-center gap-2 mx-auto shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {resumingPayment ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          Processing...
+                        </>
+                      ) : (
+                        <>
+                          Resume Payment <ChevronRight className="w-5 h-5" />
+                        </>
+                      )}
+                    </button>
                   </div>
                 )}
 
                 {currentOrder.status === "completed" && (
-                  <div className="flex flex-wrap items-center gap-3">
-                    <button
-                      onClick={shareGallery}
-                      className="px-4 py-2.5 rounded-xl text-sm font-bold border bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition flex items-center gap-2"
-                      title="Copy shareable gallery link"
-                    >
-                      <Share2 className="w-4 h-4" /> Share
-                    </button>
-                    <button
-                      onClick={emailDelivery}
-                      className="px-4 py-2.5 rounded-xl text-sm font-bold border bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition flex items-center gap-2"
-                      title="Email my headshots"
-                    >
-                      <Mail className="w-4 h-4" /> Email
-                    </button>
-                    <button
-                      onClick={() => {
-                        const prefs =
-                          (currentOrder.preferences as Record<string, any>) ||
-                          {};
-                        try {
-                          sessionStorage.setItem(
-                            "truzot-upload",
-                            JSON.stringify({
-                              step: 3,
-                              plan: currentOrder.plan,
-                              email: currentOrder.email || "",
-                              consentChecked: true,
-                              gender: prefs.gender || "",
-                              eyeColor: prefs.eyeColor || "",
-                              hairColor: prefs.hairColor || "",
-                              clothing: prefs.clothing || "business-casual",
-                              background: prefs.background || "studio",
-                              framing: prefs.framing || "closeup",
-                              selectedStyles: prefs.selectedStyles || [],
-                              storagePath: prefs.storagePath || "",
-                              filesCount: 0,
-                              shootName: "",
-                            }),
-                          );
-                        } catch {}
-                        router.push("/upload");
+                  <GalleryErrorBoundary>
+                    <CompletedGallery
+                      headshots={headshots}
+                      filtered={currentFiltered}
+                      activeCategory={activeCategory}
+                      orderId={orderId!}
+                      favorites={favorites}
+                      selectedImages={selectedImages}
+                      multiSelectMode={multiSelectMode}
+                      hasMore={hasMoreHeadshots}
+                      loadingMore={loadingHeadshots}
+                      onLoadMore={loadMoreHeadshots}
+                      onCategoryChange={(cat) => {
+                        setActiveCategory(cat);
+                        setSelectedImages([]);
                       }}
-                      className="px-4 py-2.5 rounded-xl text-sm font-bold border bg-indigo-50 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition flex items-center gap-2"
-                      title="Generate more headshots with new styles"
-                    >
-                      <Sparkles className="w-4 h-4" /> Generate More
-                    </button>
-                    <button
-                      onClick={() => setMultiSelectMode(!multiSelectMode)}
-                      className={`px-4 py-2.5 rounded-xl text-sm font-bold transition border ${multiSelectMode ? "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-400" : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700"}`}
-                    >
-                      {multiSelectMode ? "Cancel Select" : "Select Multiple"}
-                    </button>
-                    <Suspense
-                      fallback={
-                        <div className="px-5 py-2.5 bg-slate-100 dark:bg-slate-800 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-300">
-                          Loading...
-                        </div>
-                      }
-                    >
-                      <DownloadProgress
-                        onDownload={async (onProgress) => {
-                          const imageUrls = headshots.map((h) => h.image_url);
-                          if (imageUrls.length === 0) {
-                            toast("No images to download.", "error");
-                            return;
-                          }
-                          await serverSideDownload(
-                            imageUrls,
-                            `truzot-headshots-${orderId}.zip`,
-                            onProgress,
-                          );
-                        }}
-                        label="Download All"
-                      />
-                    </Suspense>
-                  </div>
+                      onToggleSelect={toggleSelectImage}
+                      onToggleFavorite={toggleFavorite}
+                      onView={(url) => setSelected(url)}
+                      onDownload={downloadSingle}
+                    />
+                  </GalleryErrorBoundary>
                 )}
-              </div>
-
-              {currentOrder.status === "refunded" && (
-                <div className="flex flex-col items-center justify-center py-20 text-center bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm mt-12 max-w-2xl mx-auto p-10">
-                  <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-6">
-                    <AlertCircle className="w-8 h-8 text-slate-500 dark:text-slate-400" />
-                  </div>
-                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
-                    Order Refunded
-                  </h2>
-                  <p className="text-slate-500 dark:text-slate-400 max-w-md mb-8">
-                    This shoot encountered a fatal error and was automatically
-                    refunded to your original payment method.
-                  </p>
-                  <button
-                    onClick={() => router.push("/upload")}
-                    className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-sm"
-                  >
-                    Start New Shoot
-                  </button>
-                </div>
-              )}
-              {currentOrder.status === "training" && (
-                <TrainingView order={currentOrder} />
-              )}
-              {currentOrder.status === "generating" && (
-                <GeneratingView
-                  count={generationProgress.count}
-                  target={generationProgress.target}
+              </motion.div>
+            ) : !orderError ? (
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.2 }}
+                key="library-view"
+              >
+                <ProjectLibrary
+                  orders={orders}
+                  loading={loading}
+                  onDelete={handleDeleteOrder}
+                  onRetry={handleRetryOrder}
+                  onResumeCheckout={handleResumeCheckout}
+                  onCancel={handleCancelOrder}
+                  onRename={handleRenameOrder}
                 />
-              )}
-              {currentOrder.status === "failed" && (
-                <FailedView order={currentOrder} />
-              )}
-              {currentOrder.status === "pending" && (
-                <div className="flex flex-col items-center justify-center py-20 text-center">
-                  <div className="w-16 h-16 bg-amber-50 dark:bg-amber-900/20 rounded-full flex items-center justify-center mb-6">
-                    <Camera className="w-8 h-8 text-amber-600 dark:text-amber-400" />
-                  </div>
-                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
-                    Payment Incomplete
-                  </h2>
-                  <p className="text-slate-500 dark:text-slate-400 max-w-md mb-8">
-                    You left this order unpaid. You can pick up right where you
-                    left off and complete your checkout.
-                  </p>
-                  <button
-                    onClick={() => handleResumeCheckout(currentOrder.id)}
-                    disabled={resumingPayment}
-                    className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition flex items-center justify-center gap-2 mx-auto shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {resumingPayment ? (
-                      <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        Processing...
-                      </>
-                    ) : (
-                      <>
-                        Resume Payment <ChevronRight className="w-5 h-5" />
-                      </>
-                    )}
-                  </button>
-                </div>
-              )}
-
-              {currentOrder.status === "completed" && (
-                <GalleryErrorBoundary>
-                  <CompletedGallery
-                    headshots={headshots}
-                    filtered={currentFiltered}
-                    activeCategory={activeCategory}
-                    orderId={orderId!}
-                    favorites={favorites}
-                    selectedImages={selectedImages}
-                    multiSelectMode={multiSelectMode}
-                    hasMore={hasMoreHeadshots}
-                    loadingMore={loadingHeadshots}
-                    onLoadMore={loadMoreHeadshots}
-                    onCategoryChange={(cat) => {
-                      setActiveCategory(cat);
-                      setSelectedImages([]);
-                    }}
-                    onToggleSelect={toggleSelectImage}
-                    onToggleFavorite={toggleFavorite}
-                    onView={(url) => setSelected(url)}
-                    onDownload={downloadSingle}
-                  />
-                </GalleryErrorBoundary>
-              )}
-            </motion.div>
-          ) : !orderError ? (
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.1 }}
-              key="library-view"
-            >
-              <ProjectLibrary
-                orders={orders}
-                loading={loading}
-                onDelete={handleDeleteOrder}
-                onRetry={handleRetryOrder}
-                onResumeCheckout={handleResumeCheckout}
-                onCancel={handleCancelOrder}
-                onRename={handleRenameOrder}
-              />
-            </motion.div>
-          ) : null}
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
         </motion.div>
       </main>
 

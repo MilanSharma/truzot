@@ -1,7 +1,7 @@
 "use client";
 import { Sparkles, RefreshCw, Loader2, X } from "lucide-react";
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useToast } from "@/components/Toast";
 import { supabase } from "@/lib/supabase/client";
 import ConfirmModal from "@/components/ConfirmModal";
@@ -12,6 +12,7 @@ interface GeneratingViewProps {
 }
 
 export default function GeneratingView({ count, target }: GeneratingViewProps) {
+  const router = useRouter();
   const [retrying, setRetrying] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const searchParams = useSearchParams();
@@ -66,7 +67,7 @@ export default function GeneratingView({ count, target }: GeneratingViewProps) {
       });
       if (res.ok) {
         toast("Generation cancelled. Redirecting...", "success");
-        setTimeout(() => (window.location.href = "/dashboard"), 1500);
+        setTimeout(() => router.push("/dashboard"), 1500);
       } else {
         throw new Error();
       }

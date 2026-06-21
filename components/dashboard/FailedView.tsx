@@ -37,7 +37,7 @@ export default function FailedView({ order }: { order: Order }) {
                 body: JSON.stringify({ orderId: order.id }),
               });
               if (!res.ok) throw new Error("Retry failed");
-              window.location.reload();
+              router.refresh();
             } catch {
               toast(
                 "Failed to retry. Please try again or contact support.",

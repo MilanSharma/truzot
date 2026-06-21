@@ -168,8 +168,16 @@ const BEFORE_AFTER_EXAMPLES = [
   },
 ];
 
+import { useRouter } from "next/navigation";
+
 export default function LandingPageContent() {
+  const router = useRouter();
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    router.prefetch("/upload");
+    router.prefetch("/login");
+  }, [router]);
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {

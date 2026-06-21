@@ -24,6 +24,7 @@ import {
   X,
   Edit,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { PLANS } from "@/lib/plans";
 import type { Order, Headshot } from "@/lib/types";
 import { timeAgo, groupByDate, DATE_GROUPS } from "@/lib/time";
@@ -349,6 +350,7 @@ export default function ProjectLibrary({
   onCancel?: (id: string) => void;
   onRename?: (id: string) => void;
 }) {
+  const router = useRouter();
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
@@ -503,7 +505,7 @@ export default function ProjectLibrary({
             localStorage.removeItem("truzot-upload");
             localStorage.removeItem("truzot-upload-backup");
             localStorage.removeItem("truzot-idempotency-key");
-            window.location.href = "/upload";
+            router.push("/upload");
           }}
           className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl text-sm font-bold hover:bg-blue-700 transition-all duration-200 active:scale-95 shadow-sm hover:shadow-md"
         >
@@ -664,7 +666,7 @@ export default function ProjectLibrary({
                     });
                   }
                 }
-                window.location.reload();
+                router.refresh();
               }}
               className="px-3 py-1.5 text-xs font-bold bg-amber-600 text-white hover:bg-amber-700 rounded-lg transition"
             >
@@ -868,7 +870,7 @@ export default function ProjectLibrary({
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            window.location.href = `/dashboard?order=${o.id}`;
+                            router.push(`/dashboard?order=${o.id}`);
                           }}
                           className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800 rounded-lg text-xs font-bold hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition"
                         >

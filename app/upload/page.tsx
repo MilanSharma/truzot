@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import {
   useState,
@@ -410,7 +411,7 @@ function UploadContent() {
         return null;
       }
     },
-    [],
+    [faceDetectorSupported],
   );
 
   const computeFileFingerprint = useCallback(
@@ -1188,7 +1189,18 @@ function UploadContent() {
 
 export default function UploadPage() {
   return (
-    <Suspense>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+            <p className="text-sm font-medium text-slate-500">
+              Preparing studio...
+            </p>
+          </div>
+        </div>
+      }
+    >
       <UploadContent />
     </Suspense>
   );
