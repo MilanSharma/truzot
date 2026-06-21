@@ -45,6 +45,102 @@ const LightboxModal = lazy(
 );
 const DownloadProgress = lazy(() => import("@/components/DownloadProgress"));
 
+function PendingOrderPreviews({ storagePath }: { storagePath?: string }) {
+  const [urls, setUrls] = useState<string[]>([]);
+  const [loading, setLoading] = useState(!!storagePath);
+  const urlsRef = useRef<string[]>([]);
+
+  useEffect(() => {
+    urlsRef.current = urls;
+  }, [urls]);
+
+  useEffect(() => {
+    let active = true;
+    const load = async () => {
+      setLoading(true);
+      try {
+        if (!storagePath) {
+          setLoading(false);
+          setUrls([]);
+          return;
+        }
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${session?.access_token || ""}`,
+          },
+          body: JSON.stringify({
+            action: "get-download-url",
+            path: storagePath,
+          }),
+        });
+        if (!res.ok) throw new Error("failed");
+        const { zipUrl } = await res.json();
+
+        const zipRes = await fetch(zipUrl);
+        const zipBlob = await zipRes.blob();
+        const zip = await JSZip.loadAsync(zipBlob);
+
+        const imgUrls: string[] = [];
+        for (const [filename, file] of Object.entries(zip.files)) {
+          if (!file.dir && filename.match(/\.(jpg|jpeg|png|heic)$/i)) {
+            const blob = await file.async("blob");
+            imgUrls.push(URL.createObjectURL(blob));
+            if (imgUrls.length >= 5) break;
+          }
+        }
+        if (active) {
+          setUrls(imgUrls);
+          setLoading(false);
+        }
+      } catch (e) {
+        if (active) setLoading(false);
+      }
+    };
+
+    const t = setTimeout(() => {
+      if (active) load();
+    }, 0);
+
+    return () => {
+      active = false;
+      clearTimeout(t);
+    };
+  }, [storagePath]);
+
+  useEffect(() => {
+    return () => {
+      urlsRef.current.forEach((u) => URL.revokeObjectURL(u));
+    };
+  }, []);
+
+  if (loading)
+    return (
+      <div className="flex justify-center mb-6">
+        <Loader2 className="w-6 h-6 animate-spin text-slate-400" />
+      </div>
+    );
+  if (urls.length === 0) return null;
+
+  return (
+    <div className="flex flex-wrap gap-3 justify-center mb-8">
+      {urls.map((u, i) => (
+        /* eslint-disable-next-line @next/next/no-img-element */
+        <img
+          key={i}
+          src={u}
+          className="w-16 h-16 object-cover rounded-xl shadow-sm border border-slate-200 dark:border-slate-700"
+          alt="Uploaded preview"
+        />
+      ))}
+    </div>
+  );
+}
+
 function DashboardContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -683,29 +779,25 @@ function DashboardContent() {
   };
 
   const handleResumeCheckout = async (id: string) => {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-    const token = session?.access_token;
-    if (!token) return;
-    try {
-      const res = await fetch("/api/checkout/resume", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ orderId: id }),
-      });
-      if (res.ok) {
-        const { url } = await res.json();
-        if (url) window.location.href = url;
-      } else {
-        toast("Failed to resume checkout", "error");
-      }
-    } catch {
-      toast("Failed to resume checkout", "error");
-    }
+    const order = orders.find((o) => o.id === id) || fetchedOrder;
+    if (!order) return;
+    setResumingPayment(true);
+    const prefs = (order.preferences as Record<string, any>) || {};
+    sessionStorage.setItem(
+      "truzot-upload",
+      JSON.stringify({
+        step: 2,
+        plan: order.plan,
+        email: order.email || "",
+        consentChecked: true,
+        storagePath: prefs.storagePath || "",
+        filesCount: 0,
+        shootName: order.shoot_name || prefs.shootName || "",
+        idempotencyKey: prefs.idempotency_key || "",
+        coupon: order.discount_code || "",
+      }),
+    );
+    router.push("/upload");
   };
 
   const handleCancelOrder = async (id: string) => {
@@ -1197,6 +1289,12 @@ function DashboardContent() {
                 )}
                 {currentOrder.status === "pending" && (
                   <div className="flex flex-col items-center justify-center py-20 text-center">
+                    <PendingOrderPreviews
+                      storagePath={
+                        (currentOrder.preferences as Record<string, any>)
+                          ?.storagePath as string | undefined
+                      }
+                    />
                     <div className="w-16 h-16 bg-amber-50 dark:bg-amber-900/20 rounded-full flex items-center justify-center mb-6">
                       <Camera className="w-8 h-8 text-amber-600 dark:text-amber-400" />
                     </div>
