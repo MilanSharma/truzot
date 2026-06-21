@@ -17,6 +17,7 @@ import { PLANS } from "@/lib/plans";
 import { useToast } from "@/components/Toast";
 import UploadErrorBoundary from "@/components/UploadErrorBoundary";
 import PaymentErrorBoundary from "@/components/PaymentErrorBoundary";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Upload,
   Shield,
@@ -31,30 +32,35 @@ import {
   Loader2,
   Plus,
   UploadCloud,
+  Smile,
+  Sun,
+  Camera,
+  Shirt,
+  ImagePlus,
 } from "lucide-react";
 
 const PLANS_LIST = Object.values(PLANS);
 
 const PHOTO_TIPS = [
   {
-    icon: "😊",
+    icon: Smile,
     text: "Clear face visibility",
-    desc: "No sunglasses or heavy hats.",
+    desc: "Look straight at the camera. No sunglasses or hats.",
   },
   {
-    icon: "💡",
+    icon: Sun,
     text: "Good lighting",
-    desc: "Natural window light works best.",
+    desc: "Natural window light works best. Avoid harsh shadows.",
   },
   {
-    icon: "📐",
+    icon: Camera,
     text: "Variety of angles",
-    desc: "Front, side, and 3/4 views.",
+    desc: "Include front, side, and 3/4 views for best AI training.",
   },
   {
-    icon: "👔",
+    icon: Shirt,
     text: "Different outfits",
-    desc: "Change clothes/backgrounds.",
+    desc: "Change your clothing to give the AI more variety.",
   },
 ];
 
@@ -784,392 +790,470 @@ function UploadContent() {
     <UploadErrorBoundary>
       <div
         id="main-content"
-        className="min-h-screen bg-[var(--bg-primary)] font-sans text-[var(--text-primary)] pb-20"
+        className="min-h-screen bg-[var(--bg-primary)] font-sans text-[var(--text-primary)] pb-20 overflow-x-hidden"
       >
         <Nav user={user} />
 
-        <div className="max-w-3xl mx-auto px-6 pt-12">
+        <div className="max-w-4xl mx-auto px-6 pt-12">
           {/* Stepper Header */}
-          <div className="mb-10 max-w-sm mx-auto">
-            <div className="flex items-center justify-center gap-16 relative">
-              <div className="absolute top-1/2 left-[calc(50%-40px)] w-20 h-0.5 bg-slate-200 dark:bg-slate-700 -z-10" />
+          <div className="mb-12 max-w-md mx-auto">
+            <div className="flex items-center justify-center gap-24 relative">
+              <div className="absolute top-1/2 left-[calc(50%-48px)] w-24 h-1 bg-slate-200 dark:bg-slate-800 -z-10 rounded-full" />
+              <div
+                className="absolute top-1/2 left-[calc(50%-48px)] h-1 bg-blue-600 -z-10 rounded-full transition-all duration-500 ease-out"
+                style={{ width: step === 2 ? "96px" : "0px" }}
+              />
               {[1, 2].map((num) => (
                 <div
                   key={num}
-                  className={`w-10 h-10 rounded-full flex items-center justify-center font-bold border-4 border-slate-50 dark:border-slate-950 transition-colors ${step >= num ? "bg-blue-600 text-white" : "bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-300"}`}
+                  className={`w-12 h-12 rounded-full flex items-center justify-center font-bold border-[4px] transition-all duration-500 ease-out z-10 ${step >= num ? "bg-blue-600 border-blue-100 dark:border-blue-900/50 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]" : "bg-slate-100 dark:bg-slate-800 border-white dark:border-slate-950 text-slate-400 dark:text-slate-500"}`}
                 >
-                  {step > num ? <Check className="w-5 h-5" /> : num}
+                  {step > num ? <Check className="w-6 h-6" /> : num}
                 </div>
               ))}
             </div>
-            <div className="flex justify-between text-xs font-bold text-slate-500 dark:text-slate-400 mt-3 uppercase tracking-wider px-[34px]">
-              <span className={step >= 1 ? "text-blue-600" : ""}>Upload</span>
-              <span className={step >= 2 ? "text-blue-600" : ""}>Checkout</span>
+            <div className="flex justify-between text-xs font-bold text-slate-500 dark:text-slate-400 mt-4 uppercase tracking-wider px-[14px]">
+              <span className={step >= 1 ? "text-blue-600" : ""}>
+                Upload Photos
+              </span>
+              <span className={step >= 2 ? "text-blue-600" : ""}>
+                Select Plan
+              </span>
             </div>
           </div>
 
-          {error && (
-            <div className="mb-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 flex items-start gap-3 animate-in fade-in">
-              <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-red-800 dark:text-red-300 font-medium">
-                {error}
-              </p>
-            </div>
-          )}
-
-          {/* STEP 1: UPLOAD */}
-          {step === 1 && (
-            <div className="animate-in slide-in-from-right-4 fade-in duration-300">
-              <div className="text-center mb-8">
-                <h1 className="text-3xl font-bold mb-2 text-slate-900 dark:text-white">
-                  Upload your selfies
-                </h1>
-                <p className="text-slate-500 dark:text-slate-400">
-                  Upload 1-5 clear photos of your face. The AI automatically
-                  handles rest to give you the perfect corporate mix.
+          <AnimatePresence mode="wait">
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="mb-8 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-4 flex items-start gap-3 shadow-sm"
+              >
+                <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-red-800 dark:text-red-300 font-medium">
+                  {error}
                 </p>
-              </div>
+              </motion.div>
+            )}
 
-              {/* SAVED DATASET VIEW */}
-              {storagePath && files.length === 0 ? (
-                <div className="bg-white dark:bg-slate-900 rounded-3xl border border-emerald-200 dark:border-emerald-800 p-8 shadow-sm mb-8 relative overflow-hidden group">
-                  <div className="absolute inset-0 bg-emerald-50 dark:bg-emerald-900/10 opacity-50 pointer-events-none" />
-                  <div className="relative z-10 flex flex-col items-center text-center">
-                    <CheckCircle2 className="w-12 h-12 text-emerald-500 mb-3" />
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">
-                      Photos Ready
-                    </h3>
-                    <p className="text-slate-500 dark:text-slate-400 mb-6">
-                      Your previous dataset is saved and ready for checkout.
-                    </p>
-                    <div className="flex gap-4">
-                      <button
-                        onClick={handleNextStep}
-                        className="bg-emerald-600 text-white px-6 py-2.5 rounded-xl font-bold hover:bg-emerald-700 transition"
-                      >
-                        Continue to Checkout
-                      </button>
-                      <button
-                        onClick={() => setStoragePath("")}
-                        className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-6 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition"
-                      >
-                        Replace Photos
-                      </button>
-                    </div>
-                  </div>
+            {/* STEP 1: UPLOAD */}
+            {step === 1 && (
+              <motion.div
+                key="step1"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                <div className="text-center mb-10">
+                  <h1 className="text-4xl font-extrabold mb-4 text-slate-900 dark:text-white tracking-tight">
+                    Upload your selfies
+                  </h1>
+                  <p className="text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
+                    Upload 1-5 clear photos of your face. We only need a few to
+                    learn your features. Takes{" "}
+                    <span className="font-bold text-slate-700 dark:text-slate-300">
+                      2 minutes
+                    </span>{" "}
+                    instead of the 20 minutes other apps require.
+                  </p>
                 </div>
-              ) : null}
 
-              {/* Upload Zone */}
-              {files.length === 0 && !storagePath && (
-                <div className="mb-10">
-                  <label
-                    htmlFor="file-input"
-                    onDragOver={handleDragOver}
-                    onDragLeave={handleDragLeave}
-                    onDrop={handleDrop}
-                    className={`group relative flex flex-col items-center justify-center w-full p-12 text-center cursor-pointer border-2 border-dashed rounded-3xl transition-all duration-300 ease-out overflow-hidden
-                      ${isDragging ? "border-blue-500 bg-blue-50/80 dark:bg-blue-900/20 scale-[1.02]" : "border-blue-200 dark:border-blue-800 bg-blue-50/30 dark:bg-blue-900/10 hover:border-blue-400 dark:hover:border-blue-600 hover:bg-blue-50/50 dark:hover:bg-blue-900/20"}`}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-b from-blue-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                    <div
-                      className={`w-20 h-20 bg-white dark:bg-slate-800 shadow-lg border border-slate-100 dark:border-slate-700 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-transform duration-300 ${isDragging ? "scale-110" : "group-hover:-translate-y-1"}`}
-                    >
-                      <UploadCloud className="w-10 h-10 text-blue-600 dark:text-blue-400" />
-                    </div>
-                    <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">
-                      {isDragging
-                        ? "Drop photos here"
-                        : "Click to browse or drag photos"}
-                    </h3>
-                    <p className="text-slate-500 dark:text-slate-400 font-medium">
-                      Upload 1-5 clear selfies (JPG, PNG, HEIC)
-                    </p>
-                    <input
-                      type="file"
-                      multiple
-                      accept="image/jpeg,image/png,image/heic"
-                      capture="environment"
-                      className="hidden"
-                      id="file-input"
-                      onChange={(e) => handleFiles(e.target.files)}
-                    />
-                  </label>
-                </div>
-              )}
-
-              {/* Photo Tips (Below Upload) */}
-              {files.length === 0 && !storagePath && (
-                <div>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">
-                    Photo Requirements
-                  </h3>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    {PHOTO_TIPS.map((tip, idx) => (
-                      <div
-                        key={idx}
-                        className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex gap-3 shadow-sm"
-                      >
-                        <span className="text-2xl">{tip.icon}</span>
-                        <div>
-                          <div className="font-bold text-sm text-slate-900 dark:text-white">
-                            {tip.text}
-                          </div>
-                          <div className="text-xs text-slate-500 dark:text-slate-400">
-                            {tip.desc}
-                          </div>
-                        </div>
+                {/* SAVED DATASET VIEW */}
+                {storagePath && files.length === 0 ? (
+                  <div className="bg-white dark:bg-slate-900 rounded-[2rem] border border-emerald-200 dark:border-emerald-800/60 p-10 shadow-xl mb-8 relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 to-transparent dark:from-emerald-900/10 dark:to-transparent opacity-50 pointer-events-none" />
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-20 h-20 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mb-6">
+                        <CheckCircle2 className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
                       </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Files Uploaded Preview */}
-              {files.length > 0 && (
-                <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 shadow-sm">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="font-bold text-slate-900 dark:text-white">
-                      Uploaded Photos
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                    {objectUrls.map((url, i) => (
-                      <div
-                        key={i}
-                        className="relative aspect-[3/4] group rounded-xl overflow-hidden shadow-sm"
-                      >
-                        <img
-                          src={url}
-                          alt="Upload preview"
-                          className="w-full h-full object-cover"
-                        />
+                      <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                        Photos Ready
+                      </h3>
+                      <p className="text-slate-600 dark:text-slate-400 mb-8 max-w-md mx-auto">
+                        Your previous dataset is saved and ready for checkout.
+                        You can proceed directly to select a plan.
+                      </p>
+                      <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
                         <button
-                          onClick={() => removeFile(i)}
-                          className="absolute top-2 right-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow-md"
+                          onClick={handleNextStep}
+                          className="bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-bold text-lg hover:bg-emerald-700 transition shadow-lg hover:shadow-emerald-600/25 active:scale-95"
                         >
-                          <X className="w-4 h-4" />
+                          Continue to Checkout
+                        </button>
+                        <button
+                          onClick={() => setStoragePath("")}
+                          className="bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 px-8 py-3.5 rounded-xl font-bold text-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition shadow-sm active:scale-95"
+                        >
+                          Replace Photos
                         </button>
                       </div>
-                    ))}
-                    {files.length < 5 && (
-                      <label className="aspect-[3/4] border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/10 transition">
+                    </div>
+                  </div>
+                ) : null}
+
+                {/* Upload Zone & Tips */}
+                {files.length === 0 && !storagePath && (
+                  <div className="grid md:grid-cols-5 gap-8 mb-10">
+                    <div className="md:col-span-3">
+                      <label
+                        htmlFor="file-input"
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
+                        className={`group relative flex flex-col items-center justify-center w-full h-full min-h-[320px] p-8 text-center cursor-pointer border-2 border-dashed rounded-[2rem] transition-all duration-300 ease-out overflow-hidden
+                          ${isDragging ? "border-blue-500 bg-blue-50/80 dark:bg-blue-900/20 scale-[1.02]" : "border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 hover:border-blue-400 dark:hover:border-blue-600 hover:bg-blue-50/50 dark:hover:bg-blue-900/20"}`}
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-b from-blue-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                        <div
+                          className={`w-20 h-20 bg-white dark:bg-slate-900 shadow-xl border border-slate-100 dark:border-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-transform duration-300 ${isDragging ? "scale-110" : "group-hover:-translate-y-2"}`}
+                        >
+                          <ImagePlus className="w-10 h-10 text-blue-600 dark:text-blue-400" />
+                        </div>
+                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+                          {isDragging
+                            ? "Drop photos here"
+                            : "Click or drag photos here"}
+                        </h3>
+                        <p className="text-slate-500 dark:text-slate-400 font-medium max-w-xs">
+                          Upload 1-5 selfies (JPG, PNG, HEIC)
+                        </p>
                         <input
                           type="file"
                           multiple
                           accept="image/jpeg,image/png,image/heic"
+                          capture="environment"
                           className="hidden"
+                          id="file-input"
                           onChange={(e) => handleFiles(e.target.files)}
                         />
-                        <Plus className="w-6 h-6 text-slate-400 mb-2" />
-                        <span className="text-xs font-semibold text-slate-500">
-                          Add Photo
+                      </label>
+                    </div>
+
+                    <div className="md:col-span-2 space-y-4">
+                      <div className="bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800/50 p-6 rounded-[2rem]">
+                        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">
+                          Photo Requirements
+                        </h3>
+                        <div className="flex flex-col gap-5">
+                          {PHOTO_TIPS.map((tip, idx) => {
+                            const Icon = tip.icon;
+                            return (
+                              <div key={idx} className="flex gap-4">
+                                <div className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-sm flex items-center justify-center shrink-0">
+                                  <Icon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                                </div>
+                                <div>
+                                  <div className="font-bold text-sm text-slate-900 dark:text-white">
+                                    {tip.text}
+                                  </div>
+                                  <div className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+                                    {tip.desc}
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Files Uploaded Preview */}
+                {files.length > 0 && (
+                  <div className="bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200 dark:border-slate-800 p-8 shadow-xl mb-10">
+                    <div className="flex items-center justify-between mb-6">
+                      <span className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
+                        Uploaded Photos
+                        <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm py-1 px-3 rounded-full">
+                          {files.length} / 5
                         </span>
-                      </label>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {files.length > 0 && (
-                <div className="mt-8 flex justify-end">
-                  <button
-                    onClick={handleNextStep}
-                    disabled={isUploadingBackground || isProcessing}
-                    className="bg-slate-900 dark:bg-blue-600 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 dark:hover:bg-blue-700 transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isUploadingBackground ? (
-                      <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        Uploading photos...
-                      </>
-                    ) : isProcessing ? (
-                      <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        Processing...
-                      </>
-                    ) : (
-                      <>
-                        Next: Checkout
-                        <ChevronRight className="w-5 h-5" />
-                      </>
-                    )}
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* STEP 2: CHECKOUT */}
-          {step === 2 && (
-            <PaymentErrorBoundary>
-              <div className="animate-in slide-in-from-right-4 fade-in duration-300">
-                <div className="text-center mb-8">
-                  <h1 className="text-3xl font-bold mb-2 text-slate-900 dark:text-white">
-                    Choose Plan & Checkout
-                  </h1>
-                  <p className="text-slate-500 dark:text-slate-400">
-                    Pick the package that fits your needs. 100% money-back
-                    guarantee.
-                  </p>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div className="space-y-4">
-                    {PLANS_LIST.map((p) => (
-                      <button
-                        key={p.id}
-                        onClick={() => setPlan(p.id)}
-                        className={`w-full p-5 rounded-2xl border-2 text-left transition-all relative ${plan === p.id ? "border-blue-600 bg-white dark:bg-slate-800 shadow-md ring-4 ring-blue-50 dark:ring-blue-900" : "border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-500"}`}
-                      >
-                        {p.popular && (
-                          <div className="absolute -top-3 right-4 bg-blue-600 text-white text-[10px] font-black px-3 py-1 rounded-full tracking-wider uppercase">
-                            Most Popular
-                          </div>
-                        )}
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="font-bold text-lg text-slate-900 dark:text-white">
-                            {p.name}
-                          </span>
-                          <span className="text-2xl font-black text-blue-600">
-                            ${p.price}
-                          </span>
-                        </div>
-                        <div className="text-sm font-medium text-slate-500 dark:text-slate-400 flex items-center gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-500" />{" "}
-                          {p.shots} photos • {p.turnaround} delivery
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-
-                  <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm h-fit">
-                    <h3 className="font-bold mb-4 flex items-center gap-2 text-slate-900 dark:text-white">
-                      <Lock className="w-4 h-4" /> Secure Checkout
-                    </h3>
-
-                    <div className="mb-5">
-                      <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
-                        Name This Shoot
-                      </label>
-                      <input
-                        type="text"
-                        value={shootName}
-                        onChange={(e) => setShootName(e.target.value)}
-                        onFocus={() => {
-                          if (!shootName) setShootName("");
-                        }}
-                        placeholder={defaultShootName}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900 outline-none transition font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500"
-                        maxLength={100}
-                      />
+                      </span>
                     </div>
 
-                    <div className="mb-5">
-                      <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
-                        Delivery Email
-                      </label>
-                      <input
-                        type="email"
-                        autoComplete="off"
-                        name="delivery_email_prevent_autofill"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="you@example.com"
-                        className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900 outline-none transition font-medium"
-                      />
-                    </div>
-
-                    <div className="mb-5">
-                      <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
-                        Coupon Code (optional)
-                      </label>
-                      <div className="relative">
-                        <input
-                          type="text"
-                          value={coupon}
-                          onChange={(e) =>
-                            setCoupon(e.target.value.toUpperCase())
-                          }
-                          placeholder="SAVE20"
-                          maxLength={20}
-                          className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900 outline-none transition font-medium text-center uppercase tracking-wider"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-3 mb-6 bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
-                      <input
-                        type="checkbox"
-                        id="consent"
-                        checked={consentChecked}
-                        onChange={(e) => setConsentChecked(e.target.checked)}
-                        className="mt-1 w-4 h-4 rounded text-blue-600 border-slate-300 dark:border-slate-600 cursor-pointer"
-                      />
-                      <label
-                        htmlFor="consent"
-                        className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed cursor-pointer select-none"
-                      >
-                        I consent to Truzot processing my biometric face photos
-                        to train a temporary AI model. Data is automatically
-                        permanently deleted in 30 days per the{" "}
-                        <Link
-                          href="/privacy"
-                          className="text-blue-600 underline"
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+                      {objectUrls.map((url, i) => (
+                        <div
+                          key={i}
+                          className="relative aspect-[3/4] group rounded-2xl overflow-hidden shadow-md border border-slate-100 dark:border-slate-800"
                         >
-                          Privacy Policy
-                        </Link>
-                        .
-                      </label>
+                          <img
+                            src={url}
+                            alt="Upload preview"
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          <button
+                            onClick={() => removeFile(i)}
+                            className="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-lg hover:bg-red-600 hover:scale-110"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                      {files.length < 5 && (
+                        <label className="aspect-[3/4] border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/10 transition-colors group">
+                          <input
+                            type="file"
+                            multiple
+                            accept="image/jpeg,image/png,image/heic"
+                            className="hidden"
+                            onChange={(e) => handleFiles(e.target.files)}
+                          />
+                          <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800 group-hover:bg-white dark:group-hover:bg-slate-700 rounded-full flex items-center justify-center mb-3 transition-colors shadow-sm">
+                            <Plus className="w-6 h-6 text-slate-400 group-hover:text-blue-600" />
+                          </div>
+                          <span className="text-sm font-semibold text-slate-500 group-hover:text-blue-600 transition-colors">
+                            Add Photo
+                          </span>
+                        </label>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {files.length > 0 && (
+                  <div className="flex justify-end pt-4 border-t border-slate-200 dark:border-slate-800">
+                    <button
+                      onClick={handleNextStep}
+                      disabled={isUploadingBackground || isProcessing}
+                      className="bg-blue-600 text-white px-10 py-4 rounded-xl text-lg font-bold flex items-center gap-2 hover:bg-blue-700 transition shadow-xl hover:shadow-blue-600/30 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
+                    >
+                      {isUploadingBackground ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          Uploading securely...
+                        </>
+                      ) : isProcessing ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          Processing...
+                        </>
+                      ) : (
+                        <>
+                          Next: Select Plan
+                          <ChevronRight className="w-5 h-5" />
+                        </>
+                      )}
+                    </button>
+                  </div>
+                )}
+              </motion.div>
+            )}
+
+            {/* STEP 2: CHECKOUT */}
+            {step === 2 && (
+              <PaymentErrorBoundary>
+                <motion.div
+                  key="step2"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                >
+                  <div className="text-center mb-12">
+                    <h1 className="text-3xl font-extrabold mb-3 text-slate-900 dark:text-white">
+                      Complete your order
+                    </h1>
+                    <p className="text-lg text-slate-500 dark:text-slate-400">
+                      Pick the package that fits your needs. Backed by our 100%
+                      money-back guarantee.
+                    </p>
+                  </div>
+
+                  <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
+                    <div className="md:col-span-7 space-y-5">
+                      <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
+                        Select a Package
+                      </h3>
+                      {PLANS_LIST.map((p) => (
+                        <button
+                          key={p.id}
+                          onClick={() => setPlan(p.id)}
+                          className={`w-full p-6 rounded-[2rem] border-2 text-left transition-all relative overflow-hidden group ${plan === p.id ? "border-blue-600 bg-blue-50/30 dark:bg-blue-900/10 shadow-[0_8px_30px_rgba(37,99,235,0.12)]" : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-700"}`}
+                        >
+                          {plan === p.id && (
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl" />
+                          )}
+                          {p.popular && (
+                            <div className="absolute top-0 right-6 bg-blue-600 text-white text-xs font-bold px-3 py-1.5 rounded-b-lg tracking-wider uppercase shadow-sm">
+                              Most Popular
+                            </div>
+                          )}
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="font-extrabold text-xl text-slate-900 dark:text-white">
+                              {p.name}
+                            </span>
+                            <span className="text-3xl font-black text-slate-900 dark:text-white">
+                              ${p.price}
+                            </span>
+                          </div>
+                          <div className="text-slate-600 dark:text-slate-400 mt-4 grid grid-cols-2 gap-3 text-sm font-medium">
+                            <div className="flex items-center gap-2">
+                              <CheckCircle2
+                                className={`w-5 h-5 ${plan === p.id ? "text-blue-600" : "text-emerald-500"}`}
+                              />
+                              {p.shots} photos
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <CheckCircle2
+                                className={`w-5 h-5 ${plan === p.id ? "text-blue-600" : "text-emerald-500"}`}
+                              />
+                              {p.styles} styles
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <CheckCircle2
+                                className={`w-5 h-5 ${plan === p.id ? "text-blue-600" : "text-emerald-500"}`}
+                              />
+                              {p.resolution}
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <CheckCircle2
+                                className={`w-5 h-5 ${plan === p.id ? "text-blue-600" : "text-emerald-500"}`}
+                              />
+                              {p.turnaround}
+                            </div>
+                          </div>
+                        </button>
+                      ))}
                     </div>
 
-                    {isProcessing ? (
-                      <div className="bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-xl p-4 text-center border border-blue-100 dark:border-blue-800">
-                        <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2 text-blue-600 dark:text-blue-400" />
-                        <div className="font-bold text-sm">{progress}</div>
-                        <div className="text-xs opacity-75 mt-1">
-                          Please do not close this window
-                        </div>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={handleSubmit}
-                        className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition shadow-md flex items-center justify-center gap-2"
-                      >
-                        Complete Payment <ChevronRight className="w-5 h-5" />
-                      </button>
-                    )}
+                    <div className="md:col-span-5">
+                      <div className="bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200 dark:border-slate-800 p-8 shadow-xl h-fit sticky top-24">
+                        <h3 className="text-xl font-bold mb-6 text-slate-900 dark:text-white">
+                          Order Details
+                        </h3>
 
-                    <div className="mt-6 flex items-center justify-center gap-4 text-xs font-semibold text-slate-400 dark:text-slate-500">
-                      <div className="flex items-center gap-1">
-                        <Shield className="w-4 h-4" /> 256-bit TLS
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Star className="w-4 h-4" /> Money-back guarantee
+                        <div className="space-y-5 mb-8">
+                          <div>
+                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                              Name This Shoot
+                            </label>
+                            <input
+                              type="text"
+                              value={shootName}
+                              onChange={(e) => setShootName(e.target.value)}
+                              onFocus={() => {
+                                if (!shootName) setShootName("");
+                              }}
+                              placeholder={defaultShootName}
+                              className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 outline-none transition font-medium"
+                              maxLength={100}
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                              Delivery Email
+                            </label>
+                            <input
+                              type="email"
+                              autoComplete="email"
+                              value={email}
+                              onChange={(e) => setEmail(e.target.value)}
+                              placeholder="Where should we send your photos?"
+                              className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 outline-none transition font-medium"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-700/50 mb-8">
+                          <label className="flex items-start gap-3 cursor-pointer group">
+                            <div className="relative flex items-center justify-center mt-0.5">
+                              <input
+                                type="checkbox"
+                                checked={consentChecked}
+                                onChange={(e) =>
+                                  setConsentChecked(e.target.checked)
+                                }
+                                className="peer appearance-none w-5 h-5 border-2 border-slate-300 dark:border-slate-600 rounded checked:bg-blue-600 checked:border-blue-600 transition-colors"
+                              />
+                              <Check className="absolute w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity" />
+                            </div>
+                            <span className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed group-hover:text-slate-800 dark:group-hover:text-slate-300 transition-colors">
+                              I consent to processing my photos to train a
+                              temporary AI model. Data is automatically deleted
+                              in 30 days per the{" "}
+                              <Link
+                                href="/privacy"
+                                className="text-blue-600 font-medium hover:underline"
+                              >
+                                Privacy Policy
+                              </Link>
+                              .
+                            </span>
+                          </label>
+                        </div>
+
+                        {isProcessing ? (
+                          <div className="bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-2xl p-6 text-center border border-blue-100 dark:border-blue-800/50">
+                            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-3 text-blue-600 dark:text-blue-400" />
+                            <div className="font-bold text-lg">{progress}</div>
+                            <div className="text-sm opacity-75 mt-1">
+                              Redirecting to secure checkout...
+                            </div>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={handleSubmit}
+                            className="w-full bg-slate-900 dark:bg-blue-600 text-white py-4 rounded-xl text-lg font-bold hover:bg-slate-800 dark:hover:bg-blue-700 transition-all shadow-xl hover:shadow-2xl active:scale-95 flex items-center justify-center gap-2"
+                          >
+                            <Lock className="w-5 h-5" /> Continue to Payment
+                          </button>
+                        )}
+
+                        <div className="mt-8 flex flex-col items-center gap-3">
+                          <div className="flex items-center justify-center gap-6 text-sm font-semibold text-slate-500 dark:text-slate-400 w-full">
+                            <div className="flex items-center gap-1.5 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-100 dark:border-slate-700">
+                              <Shield className="w-4 h-4 text-emerald-500" />{" "}
+                              SSL Secured
+                            </div>
+                            <div className="flex items-center gap-1.5 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-100 dark:border-slate-700">
+                              <Star className="w-4 h-4 text-amber-400" />{" "}
+                              Guaranteed
+                            </div>
+                          </div>
+
+                          <div className="w-full mt-4 flex">
+                            <input
+                              type="text"
+                              value={coupon}
+                              onChange={(e) =>
+                                setCoupon(e.target.value.toUpperCase())
+                              }
+                              placeholder="Discount Code"
+                              className="w-full px-4 py-2 rounded-l-lg border border-r-0 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm outline-none uppercase font-medium"
+                            />
+                            <div className="bg-slate-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-700 border-l-0 px-4 py-2 rounded-r-lg text-sm font-semibold text-slate-500 flex items-center justify-center">
+                              Apply
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="mt-8 flex items-center justify-between">
-                  <button
-                    onClick={() => setStep(1)}
-                    className="text-slate-500 dark:text-slate-400 font-bold flex items-center gap-2 hover:text-slate-800 dark:hover:text-slate-200"
-                  >
-                    <ChevronLeft className="w-5 h-5" /> Back to Upload
-                  </button>
-                  <button
-                    onClick={handleStartOver}
-                    className="text-xs text-slate-400 hover:text-slate-600 underline"
-                  >
-                    Start Over
-                  </button>
-                </div>
-              </div>
-            </PaymentErrorBoundary>
-          )}
+                  <div className="mt-12 flex items-center justify-between border-t border-slate-200 dark:border-slate-800 pt-8">
+                    <button
+                      onClick={() => setStep(1)}
+                      className="text-slate-500 dark:text-slate-400 font-bold flex items-center gap-2 hover:text-slate-800 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-800 px-6 py-3 rounded-xl transition-colors active:scale-95"
+                    >
+                      <ChevronLeft className="w-5 h-5" /> Back to Uploads
+                    </button>
+                    <button
+                      onClick={handleStartOver}
+                      className="text-sm font-semibold text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+                    >
+                      Start Over
+                    </button>
+                  </div>
+                </motion.div>
+              </PaymentErrorBoundary>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </UploadErrorBoundary>
