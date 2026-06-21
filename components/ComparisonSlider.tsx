@@ -67,14 +67,15 @@ export default function ComparisonSlider({
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div
-          className="absolute inset-0 overflow-hidden"
-          style={{ width: `${sliderPos}%` }}
+          className="absolute inset-0 w-full h-full overflow-hidden"
+          style={{
+            clipPath: `polygon(0 0, ${sliderPos}% 0, ${sliderPos}% 100%, 0 100%)`,
+          }}
         >
           <img
             src={before}
             alt={beforeLabel}
-            className="absolute top-0 left-0 w-full h-full object-cover"
-            style={{ width: `${100 / (sliderPos / 100)}%`, maxWidth: "none" }}
+            className="absolute inset-0 w-full h-full object-cover"
           />
         </div>
         <div

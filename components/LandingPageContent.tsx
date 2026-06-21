@@ -280,7 +280,7 @@ export default function LandingPageContent() {
         <section className="pt-40 pb-20 px-6 max-w-7xl mx-auto text-center relative">
           <div className="inline-flex items-center rounded-full border border-indigo-200/60 dark:border-indigo-800/60 bg-indigo-50/50 dark:bg-indigo-900/20 backdrop-blur-sm px-4 py-1.5 text-sm font-semibold text-indigo-700 dark:text-indigo-300 mb-8 shadow-sm">
             <Sparkles className="w-4 h-4 mr-2" />
-            Cinematic AI Engine 2.0 Now Available
+            Truzot Enterprise AI 2.0 Now Available
           </div>
 
           <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-extrabold tracking-tighter mb-6 text-slate-900 dark:text-white leading-[1.05]">
@@ -301,7 +301,7 @@ export default function LandingPageContent() {
               href="/upload"
               className="w-full sm:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition shadow-xl hover:shadow-2xl flex items-center justify-center gap-2"
             >
-              Create Your Photos Now <ArrowRight className="w-5 h-5" />
+              Get Professional Headshots <ArrowRight className="w-5 h-5" />
             </Link>
             <a
               href="#examples"
@@ -717,6 +717,26 @@ export default function LandingPageContent() {
           </div>
         </section>
 
+        {/* Affiliate CTA */}
+        <section className="bg-slate-900 dark:bg-slate-950 text-white py-20 px-6 mx-4 md:mx-auto max-w-7xl rounded-[3rem] shadow-2xl mb-24">
+          <div className="relative max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Earn <span className="text-emerald-400">20%</span> on Every
+              Referral
+            </h2>
+            <p className="text-lg text-slate-300 mb-8 max-w-2xl mx-auto">
+              Join the Truzot Affiliate Program. Share your link and earn
+              commission on every sale.
+            </p>
+            <Link
+              href="/affiliates"
+              className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-500 transition shadow-lg"
+            >
+              Become an Affiliate <ChevronRight size={20} />
+            </Link>
+          </div>
+        </section>
+
         {/* CTA Banner */}
         <section className="py-24 px-6 bg-[var(--bg-primary)]">
           <div className="max-w-5xl mx-auto bg-slate-900 dark:bg-slate-950 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl">
@@ -732,7 +752,7 @@ export default function LandingPageContent() {
               href="/upload"
               className="inline-flex items-center gap-2 bg-white text-slate-900 px-10 py-5 rounded-2xl font-bold text-xl hover:scale-105 transition-transform active:scale-95 shadow-xl relative z-10"
             >
-              Create Your Photos Now <ArrowRight className="w-5 h-5" />
+              Get Professional Headshots <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
         </section>
