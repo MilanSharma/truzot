@@ -39,13 +39,13 @@ export default function MobileDrawer({
           </button>
         </div>
         <div className="space-y-2">
-          <a
+          <Link
             href="/dashboard"
             onClick={onClose}
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-bold bg-blue-50 text-blue-700 w-full text-left"
           >
             <LayoutDashboard className="w-4 h-4" /> My Projects
-          </a>
+          </Link>
           <Link
             href="/upload"
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-bold text-slate-600 hover:bg-slate-50 transition"

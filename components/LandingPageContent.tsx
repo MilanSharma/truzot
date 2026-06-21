@@ -171,6 +171,45 @@ const CompanyLogos = () => (
   </div>
 );
 
+const USE_CASES = [
+  {
+    title: "LinkedIn & Corporate",
+    desc: "Crisp, professional headshots that increase recruiter messages by 36x. Perfect for resumes and company websites.",
+    img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800",
+    icon: Linkedin,
+  },
+  {
+    title: "Actors & Models",
+    desc: "Build a versatile comp card. Get theatrical and commercial looks without paying for multiple wardrobe changes at a studio.",
+    img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800",
+    icon: Camera,
+  },
+  {
+    title: "Dating & Social",
+    desc: "Natural, flattering photos in outdoor and casual settings that look authentic, not artificially generated.",
+    img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800",
+    icon: Heart,
+  },
+  {
+    title: "Startup Founders",
+    desc: "Authoritative, modern portraits for pitch decks, press releases, and speaking engagements.",
+    img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=800",
+    icon: Briefcase,
+  },
+  {
+    title: "Students & Grads",
+    desc: "Kickstart your career on a budget. Get premium quality photos before your first post-grad interview.",
+    img: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=800",
+    icon: GraduationCap,
+  },
+  {
+    title: "Real Estate & Sales",
+    desc: "Warm, trustworthy, client-facing photos that build immediate credibility on your marketing materials.",
+    img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=800",
+    icon: Users,
+  },
+];
+
 export default function LandingPageContent() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showExitPopup, setShowExitPopup] = useState(false);
@@ -422,55 +461,31 @@ export default function LandingPageContent() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition">
-                <Linkedin className="w-10 h-10 text-blue-600 mb-4" />
-                <h3 className="text-xl font-bold mb-2">LinkedIn & Corporate</h3>
-                <p className="text-slate-600 dark:text-slate-400">
-                  Crisp, professional headshots that increase recruiter messages
-                  by 36x. Perfect for resumes and company websites.
-                </p>
-              </div>
-              <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition">
-                <Camera className="w-10 h-10 text-purple-600 mb-4" />
-                <h3 className="text-xl font-bold mb-2">Actors & Models</h3>
-                <p className="text-slate-600 dark:text-slate-400">
-                  Build a versatile comp card. Get theatrical and commercial
-                  looks without paying for multiple wardrobe changes at a
-                  studio.
-                </p>
-              </div>
-              <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition">
-                <Heart className="w-10 h-10 text-rose-500 mb-4" />
-                <h3 className="text-xl font-bold mb-2">Dating & Social</h3>
-                <p className="text-slate-600 dark:text-slate-400">
-                  Natural, flattering photos in outdoor and casual settings that
-                  look authentic, not artificially generated.
-                </p>
-              </div>
-              <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition">
-                <Briefcase className="w-10 h-10 text-indigo-600 mb-4" />
-                <h3 className="text-xl font-bold mb-2">Startup Founders</h3>
-                <p className="text-slate-600 dark:text-slate-400">
-                  Authoritative, modern portraits for pitch decks, press
-                  releases, and speaking engagements.
-                </p>
-              </div>
-              <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition">
-                <GraduationCap className="w-10 h-10 text-emerald-600 mb-4" />
-                <h3 className="text-xl font-bold mb-2">Students & Grads</h3>
-                <p className="text-slate-600 dark:text-slate-400">
-                  Kickstart your career on a budget. Get premium quality photos
-                  before your first post-grad interview.
-                </p>
-              </div>
-              <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition">
-                <Users className="w-10 h-10 text-amber-600 mb-4" />
-                <h3 className="text-xl font-bold mb-2">Real Estate & Sales</h3>
-                <p className="text-slate-600 dark:text-slate-400">
-                  Warm, trustworthy, client-facing photos that build immediate
-                  credibility on your marketing materials.
-                </p>
-              </div>
+              {USE_CASES.map((useCase, idx) => (
+                <div
+                  key={idx}
+                  className="group relative h-[400px] rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-200/50 dark:border-slate-800"
+                >
+                  <Image
+                    src={useCase.img}
+                    alt={useCase.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-90 transition-opacity" />
+                  <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                    <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center mb-6 border border-white/20 shadow-xl">
+                      <useCase.icon className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-3 text-white tracking-tight">
+                      {useCase.title}
+                    </h3>
+                    <p className="text-slate-200 font-medium leading-relaxed text-sm">
+                      {useCase.desc}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>

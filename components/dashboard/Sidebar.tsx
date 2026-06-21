@@ -38,19 +38,19 @@ export default function Sidebar({
           <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-3 mb-3">
             Main Menu
           </p>
-          <a
+          <Link
             href="/dashboard"
             className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold transition-all duration-300 w-full text-left active:scale-95 ${active ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-xl" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-200"}`}
           >
             <LayoutDashboard className="w-4 h-4" /> My Projects
-          </a>
+          </Link>
           <Link
             href="/upload"
             className="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold transition-all duration-300 w-full text-left active:scale-95 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-200"
           >
             <Sparkles className="w-4 h-4" /> New Shoot
           </Link>
-          <a
+          <Link
             href="/team"
             className="flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-bold transition-all duration-300 w-full text-left active:scale-95 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-200"
           >
@@ -60,7 +60,7 @@ export default function Sidebar({
             <span className="text-[9px] bg-amber-100 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 px-1.5 py-0.5 rounded uppercase font-bold">
               Soon
             </span>
-          </a>
+          </Link>
 
           <div className="pt-6 pb-2">
             <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-3 mb-3">

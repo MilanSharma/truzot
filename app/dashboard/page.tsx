@@ -1021,12 +1021,12 @@ function DashboardContent() {
               <p className="text-slate-500 dark:text-slate-400 max-w-md mb-8">
                 {orderError}
               </p>
-              <a
+              <Link
                 href="/dashboard"
                 className="inline-flex items-center justify-center bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition"
               >
                 Back to Library
-              </a>
+              </Link>
             </div>
           )}
           <AnimatePresence mode="wait">
@@ -1122,12 +1122,12 @@ function DashboardContent() {
                 )}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                   <div>
-                    <a
+                    <Link
                       href="/dashboard"
                       className="text-xs font-bold text-slate-400 dark:text-slate-500 hover:text-blue-600 mb-2 flex items-center gap-1 transition"
                     >
                       ← Back to library
-                    </a>
+                    </Link>
                     <div className="flex items-center gap-3">
                       <h1 className="text-3xl font-black text-slate-900 dark:text-white">
                         {PLANS[currentOrder.plan as keyof typeof PLANS]?.name ||
