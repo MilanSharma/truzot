@@ -71,6 +71,18 @@ export const HEADSHOT_CATEGORIES = [
     icon: "😊",
     description: "Approachable yet polished",
   },
+  {
+    id: "dating",
+    name: "Dating & Social",
+    icon: "🔥",
+    description: "Flattering, natural, and confident",
+  },
+  {
+    id: "model",
+    name: "Modeling Portfolio",
+    icon: "📸",
+    description: "High-fashion and editorial looks",
+  },
 ];
 
 export const PLAN_SHOTS: Record<string, number> = {

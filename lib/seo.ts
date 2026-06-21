@@ -26,6 +26,10 @@ const H_KEYWORDS = [
   "professional headshots",
   "LinkedIn headshots",
   "corporate headshots",
+  "actor headshots",
+  "model comp cards",
+  "dating profile pictures",
+  "student headshots",
   "AI photo generator",
   "headshot generator",
   "professional portrait AI",
@@ -49,7 +53,7 @@ export const PAGE_SEO: Record<string, PageSEO> = {
     title:
       "AI Headshot Generator | Professional AI Headshots for LinkedIn in Minutes | Truzot",
     description:
-      "Generate studio-quality AI professional headshots from your selfies. The #1 AI headshot generator for LinkedIn, resumes, and corporate teams. Get 40-200+ HD headshots in minutes. Starting at $29. 100% money-back guarantee.",
+      "Generate studio-quality AI headshots from your selfies. The #1 AI photo generator for LinkedIn, actors, models, dating profiles, and teams. Get 40-200+ HD headshots in minutes. Starting at $29. 100% money-back guarantee.",
     keywords: [
       "AI headshot generator",
       "professional AI headshots",
@@ -188,7 +192,7 @@ export const PAGE_SEO: Record<string, PageSEO> = {
       "Truzot team",
     ],
     canonical: `${siteUrl}/about`,
-    ogTitle: "About Truzot — AI-Powered Professional Headshots",
+    ogTitle: "About Truzot — High-End AI Photography for Everyone",
   },
   pricing: {
     title: "AI Headshot Pricing — Professional Headshots from $29 | Truzot",
