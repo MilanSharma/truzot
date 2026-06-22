@@ -52,10 +52,10 @@ const BEFORE_AFTER_EXAMPLES = [
 ];
 
 const AVATARS = [
-  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100&h=100&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&h=100&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1601233749202-95d04d5b3c00?w=100&h=100&fit=crop&q=80",
 ];
 
 const TESTIMONIALS = [
@@ -63,7 +63,7 @@ const TESTIMONIALS = [
     name: "Sarah Chen",
     role: "VP of Product @ TechFlow",
     image:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200",
+      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=200",
     text: "The quality is absolutely indistinguishable from the $800 studio session I did last year in NYC. My entire executive team now uses Truzot for our company directory.",
     rating: 5,
     verified: true,
@@ -72,7 +72,7 @@ const TESTIMONIALS = [
     name: "Marcus Johnson",
     role: "Commercial Actor",
     image:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200",
+      "https://images.unsplash.com/photo-1614283233556-f35b0c801ef1?auto=format&fit=crop&q=80&w=200",
     text: "I needed fresh commercial and theatrical looks for my comp card. Truzot gave me incredible variety without having to pay for multiple wardrobe changes and lighting setups.",
     rating: 5,
     verified: true,
@@ -81,7 +81,7 @@ const TESTIMONIALS = [
     name: "Emily Rodriguez",
     role: "Principal Broker",
     image:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
+      "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=200",
     text: "In luxury real estate, trust is everything. These photos gave me a polished, high-end look that immediately elevated my listings and marketing materials.",
     rating: 5,
     verified: true,
@@ -90,7 +90,7 @@ const TESTIMONIALS = [
     name: "David Park",
     role: "Software Engineer",
     image:
-      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=200",
+      "https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?auto=format&fit=crop&q=80&w=200",
     text: "Updated my resume and LinkedIn in 10 minutes. Got 3x more profile views and two recruiter messages in the first week. Worth every penny for the job search.",
     rating: 5,
     verified: true,
@@ -99,7 +99,7 @@ const TESTIMONIALS = [
     name: "Jessica Turner",
     role: "Creative Director",
     image:
-      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=200",
+      "https://images.unsplash.com/photo-1557862921-37829c790f19?auto=format&fit=crop&q=80&w=200",
     text: "I was highly skeptical of AI photography, but the skin textures and lighting logic here are flawless. It captured my actual features perfectly.",
     rating: 5,
     verified: true,
@@ -108,7 +108,7 @@ const TESTIMONIALS = [
     name: "Michael Brent",
     role: "Y Combinator Founder",
     image:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200",
+      "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&q=80&w=200",
     text: "Used these for our Series A pitch deck and press kit. TechCrunch actually complimented the photography. They had absolutely no idea it was AI.",
     rating: 5,
     verified: true,
