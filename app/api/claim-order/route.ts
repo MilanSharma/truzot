@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import * as Sentry from "@sentry/nextjs";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { createClient } from "@supabase/supabase-js";
@@ -6,7 +6,7 @@ import { createLogger } from "@/lib/logger";
 
 const log = createLogger("claim-order");
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
     const { orderId } = await request.json();
     if (

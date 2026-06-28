@@ -178,15 +178,21 @@ export const POST = withContext(async (req: Request) => {
       log.info({ discountCode }, "Waitlist discount code marked as used");
     }
 
-    const { error: orderUpdateError } = await supabaseAdmin
-      .from("orders")
-      .update({
-        status: "training",
-        zip_url: freshZipUrl,
-        stripe_payment_intent: session.payment_intent as string,
-        preferences: { ...existingPrefs, stripe_customer_id: customerId },
-      })
-      .eq("id", orderId);
+    const affiliateCode = session.metadata?.promotekit_referral;
+const updatedPrefs: Record<string, any> = { ...existingPrefs, stripe_customer_id: customerId };
+if (affiliateCode) {
+  updatedPrefs.promotekit_referral = affiliateCode;
+}
+
+const { error: orderUpdateError } = await supabaseAdmin
+.from("orders")
+.update({
+status: "training",
+zip_url: freshZipUrl,
+stripe_payment_intent: session.payment_intent as string,
+preferences: updatedPrefs,
+})
+.eq("id", orderId);
     if (orderUpdateError)
       return NextResponse.json(
         { error: "Failed to update order" },
