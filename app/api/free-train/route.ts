@@ -4,34 +4,24 @@ import { createLogger } from "@/lib/logger";
 import { withContext } from "@/lib/request-context";
 import { addCors } from "@/lib/cors";
 import { fal } from "@fal-ai/client";
-
 const log = createLogger("free-train");
-
 function getIp(req: Request): string {
   return req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
 }
-
 fal.config({ credentials: process.env.FAL_KEY });
-
 export const maxDuration = 300;
-
 export const POST = withContext(async (req: Request) => {
   const origin = req.headers.get("origin");
   try {
     const fingerprint = getIp(req);
-
     const body = await req.json();
     const { storagePath } = body;
-
     if (!storagePath) {
       return addCors(
         NextResponse.json({ error: "Missing fields" }, { status: 400 }),
         origin,
       );
     }
-
-    // Server-side rate limiting by user_id (not client-controlled fingerprint)
-    // Optimistically lock the quota before doing any work
     const { data: lockedUsage } = await supabaseAdmin
       .from("free_usage")
       .update({ remaining: 0 })
@@ -39,27 +29,21 @@ export const POST = withContext(async (req: Request) => {
       .gt("remaining", 0)
       .select()
       .single();
-
     if (!lockedUsage) {
-      // If no row was updated, check if we need to insert a new row
       const { data: existingRow } = await supabaseAdmin
         .from("free_usage")
         .select("id")
         .eq("fingerprint", fingerprint)
         .maybeSingle();
-
       if (existingRow) {
-        // Row exists but remaining was 0
         return addCors(
           NextResponse.json({ error: "Free limit reached" }, { status: 429 }),
           origin,
         );
       } else {
-        // No row exists, insert one with remaining: 0 to lock it
         const { error: insertError } = await supabaseAdmin
           .from("free_usage")
           .insert({ fingerprint, remaining: 0 });
-
         if (insertError) {
           return addCors(
             NextResponse.json({ error: "Free limit reached" }, { status: 429 }),
@@ -68,18 +52,15 @@ export const POST = withContext(async (req: Request) => {
         }
       }
     }
-
     const { data: signedUrl } = await supabaseAdmin.storage
       .from("uploads")
       .createSignedUrl(storagePath, 14400);
-
     if (!signedUrl?.signedUrl) {
       return addCors(
         NextResponse.json({ error: "File not found" }, { status: 404 }),
         origin,
       );
     }
-
     const trainResult = await fal.queue.submit(
       "fal-ai/flux-lora-fast-training",
       {
@@ -91,7 +72,6 @@ export const POST = withContext(async (req: Request) => {
         storageSettings: { expiresIn: "7d" },
       },
     );
-
     const requestId = (trainResult as any).request_id;
     if (!requestId) {
       return addCors(
@@ -102,7 +82,6 @@ export const POST = withContext(async (req: Request) => {
         origin,
       );
     }
-
     let trainingComplete = false;
     let modelId = "";
     const POLL_INTERVAL = 5000;
@@ -137,7 +116,6 @@ export const POST = withContext(async (req: Request) => {
         if (consecutiveFails > 5) break;
       }
     }
-
     if (!trainingComplete || !modelId) {
       try {
         await fal.queue.cancel("fal-ai/flux-lora-fast-training", { requestId });
@@ -157,7 +135,6 @@ export const POST = withContext(async (req: Request) => {
         origin,
       );
     }
-
     const genResult = await fal.run("fal-ai/flux-lora", {
       input: {
         prompt:
@@ -171,7 +148,6 @@ export const POST = withContext(async (req: Request) => {
       },
       storageSettings: { expiresIn: "7d" },
     });
-
     const imageUrl = (genResult as any).images?.[0]?.url;
     if (!imageUrl) {
       return addCors(
@@ -179,19 +155,16 @@ export const POST = withContext(async (req: Request) => {
         origin,
       );
     }
-
     const controller = new AbortController();
     const fetchTimeout = setTimeout(() => controller.abort(), 30000);
     const imgRes = await fetch(imageUrl, { signal: controller.signal });
     clearTimeout(fetchTimeout);
-
     if (!imgRes.ok) {
       return addCors(
         NextResponse.json({ error: "Image fetch failed" }, { status: 502 }),
         origin,
       );
     }
-
     const imgBody = imgRes.body;
     if (!imgBody) {
       return addCors(
@@ -206,7 +179,6 @@ export const POST = withContext(async (req: Request) => {
         contentType: "image/jpeg",
         upsert: false,
       });
-
     let publicUrl = imageUrl;
     if (uploaded?.path) {
       const { data: pub } = supabaseAdmin.storage
@@ -214,11 +186,7 @@ export const POST = withContext(async (req: Request) => {
         .getPublicUrl(uploaded.path);
       if (pub?.publicUrl) publicUrl = pub.publicUrl;
     }
-
-    // Quota was already locked at the start of the request
-
     await supabaseAdmin.storage.from("uploads").remove([storagePath]);
-
     return addCors(NextResponse.json({ url: publicUrl }), origin);
   } catch (err) {
     log.error({ err }, "Free train error");

@@ -8,22 +8,16 @@ import {
   TrendingUp,
   ArrowRight,
 } from "lucide-react";
-
 export const metadata: Metadata = {
-  title: "Affiliate Program — Truzot AI Headshots",
+  title: "Affiliate Program — Earn 40% Commission | Truzot AI Headshots",
   description:
-    "Join the Truzot Affiliate Program. Earn a 20% commission for every customer you refer.",
+    "Join the Truzot Affiliate Program and earn 40% commission on every sale. High conversion rate, 60-day cookies, monthly payouts. Perfect for creators, career coaches, and publishers.",
 };
-
 export default function AffiliatesPage() {
-  const REWARDFUL_SIGNUP_URL =
-    process.env.NEXT_PUBLIC_REWARDFUL_SIGNUP_URL || "/contact";
-
+  const PROMOTEKIT_PORTAL_URL = "https://truzot.promotekit.com";
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans">
       <Nav />
-
-      {/* Hero Section */}
       <div className="bg-slate-900 dark:bg-black text-white py-24 px-6 text-center border-b border-slate-800">
         <div className="max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-slate-800/50 border border-slate-700 text-slate-300 px-4 py-2 rounded-full text-sm font-medium mb-6">
@@ -31,7 +25,7 @@ export default function AffiliatesPage() {
             Partner Program Now Open
           </div>
           <h1 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">
-            Earn <span className="text-emerald-400">20% Commission</span> on
+            Earn <span className="text-emerald-400">40% Commission</span> on
             Every Sale
           </h1>
           <p className="text-xl text-slate-400 mb-10 max-w-2xl mx-auto">
@@ -40,15 +34,9 @@ export default function AffiliatesPage() {
             referral.
           </p>
           <a
-            href={REWARDFUL_SIGNUP_URL}
-            target={
-              REWARDFUL_SIGNUP_URL.startsWith("http") ? "_blank" : undefined
-            }
-            rel={
-              REWARDFUL_SIGNUP_URL.startsWith("http")
-                ? "noopener noreferrer"
-                : undefined
-            }
+            href={PROMOTEKIT_PORTAL_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-blue-500 transition shadow-xl hover:shadow-blue-900/20"
           >
             Become an Affiliate <ArrowRight className="w-5 h-5" />
@@ -58,8 +46,6 @@ export default function AffiliatesPage() {
           </p>
         </div>
       </div>
-
-      {/* How it Works */}
       <div className="max-w-6xl mx-auto px-6 py-24">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">
@@ -70,7 +56,6 @@ export default function AffiliatesPage() {
             profitable for creators, career coaches, and publishers.
           </p>
         </div>
-
         <div className="grid md:grid-cols-3 gap-8">
           <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm text-center transition hover:shadow-md">
             <div className="w-16 h-16 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -104,14 +89,12 @@ export default function AffiliatesPage() {
               3. You Get Paid
             </h3>
             <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-              Earn a flat 20% commission on the total sale value. Payments are
+              Earn a flat 40% commission on the total sale value. Payments are
               made automatically to your PayPal account every month.
             </p>
           </div>
         </div>
       </div>
-
-      {/* Program Benefits */}
       <div className="bg-white dark:bg-slate-900 border-y border-slate-200 dark:border-slate-800 py-24 px-6">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
@@ -126,7 +109,7 @@ export default function AffiliatesPage() {
             {[
               "High conversion rate (~8-12%)",
               "Average order value of $45",
-              "Earn up to $9 per referral",
+              "Earn up to $18 per referral",
               "60-day cookie tracking window",
               "Last-click attribution model",
               "Monthly payouts via PayPal",
@@ -144,18 +127,11 @@ export default function AffiliatesPage() {
               </div>
             ))}
           </div>
-
           <div className="mt-16 text-center">
             <a
-              href={REWARDFUL_SIGNUP_URL}
-              target={
-                REWARDFUL_SIGNUP_URL.startsWith("http") ? "_blank" : undefined
-              }
-              rel={
-                REWARDFUL_SIGNUP_URL.startsWith("http")
-                  ? "noopener noreferrer"
-                  : undefined
-              }
+              href={PROMOTEKIT_PORTAL_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-blue-700 transition shadow-lg"
             >
               Sign Up for Free
@@ -163,7 +139,7 @@ export default function AffiliatesPage() {
             <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">
               Already an affiliate?{" "}
               <a
-                href="https://app.getrewardful.com/login"
+                href={PROMOTEKIT_PORTAL_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:underline"
@@ -174,7 +150,6 @@ export default function AffiliatesPage() {
           </div>
         </div>
       </div>
-
       <Footer />
     </div>
   );

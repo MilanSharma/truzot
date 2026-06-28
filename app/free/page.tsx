@@ -5,9 +5,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabase/client";
 import JSZip from "jszip";
-
 import { Lock } from "lucide-react";
-
 function drawWatermark(canvas: HTMLCanvasElement) {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
@@ -25,7 +23,6 @@ function drawWatermark(canvas: HTMLCanvasElement) {
   ctx.fillText("TRUZOT.COM FREE", 0, 0);
   ctx.restore();
 }
-
 export default function FreeGenerator() {
   const [files, setFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
@@ -34,7 +31,6 @@ export default function FreeGenerator() {
   const [error, setError] = useState("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
-
   const objectUrlsRef = useRef<string[]>([]);
   useEffect(() => {
     const urls = objectUrlsRef.current;
@@ -42,7 +38,6 @@ export default function FreeGenerator() {
       for (const url of urls) URL.revokeObjectURL(url);
     };
   }, []);
-
   const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const incoming = Array.from(e.target.files).slice(0, 5);
@@ -55,12 +50,10 @@ export default function FreeGenerator() {
     setResultUrl(null);
     setError("");
   };
-
   const generateFree = useCallback(async () => {
     if (files.length === 0) return;
     setStep("training");
     setError("");
-
     try {
       const zip = new JSZip();
       for (let i = 0; i < files.length; i++) {
@@ -68,7 +61,6 @@ export default function FreeGenerator() {
         zip.file(`photo_${i + 1}.jpg`, buf);
       }
       const zipBlob = await zip.generateAsync({ type: "blob" });
-
       const uploadRes = await fetch("/api/upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -76,13 +68,11 @@ export default function FreeGenerator() {
       });
       const { signedUrl, path } = await uploadRes.json();
       if (!signedUrl) throw new Error("Upload URL generation failed");
-
       await fetch(signedUrl, {
         method: "PUT",
         body: zipBlob,
         headers: { "Content-Type": "application/zip" },
       });
-
       const {
         data: { session },
       } = await supabase.auth.getSession();
@@ -91,16 +81,13 @@ export default function FreeGenerator() {
       };
       if (session?.access_token)
         authHeaders.Authorization = `Bearer ${session.access_token}`;
-
       const trainRes = await fetch("/api/free-train", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ storagePath: path }),
       });
-
       const data = await trainRes.json();
       if (!trainRes.ok) throw new Error(data.error || "Generation failed");
-
       setResultUrl(data.url);
       setStep("done");
     } catch (err: any) {
@@ -108,7 +95,6 @@ export default function FreeGenerator() {
       setStep("upload");
     }
   }, [files]);
-
   useEffect(() => {
     if (step !== "done" || !resultUrl || !canvasRef.current) return;
     const canvas = canvasRef.current;
@@ -118,13 +104,11 @@ export default function FreeGenerator() {
       canvas.height = img.naturalHeight;
       drawWatermark(canvas);
     }
-
     const handleMouseEnter = () => {
       const ctx = canvas.getContext("2d");
       if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
     };
     const handleMouseLeave = () => drawWatermark(canvas);
-
     canvas.addEventListener("mouseenter", handleMouseEnter);
     canvas.addEventListener("mouseleave", handleMouseLeave);
     return () => {
@@ -132,7 +116,6 @@ export default function FreeGenerator() {
       canvas.removeEventListener("mouseleave", handleMouseLeave);
     };
   }, [step, resultUrl]);
-
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       <Nav />
@@ -144,13 +127,11 @@ export default function FreeGenerator() {
           Upload your photos and get <strong>one free headshot</strong>{" "}
           generated with a watermark. No credit card required.
         </p>
-
         {error && (
           <div className="mb-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 text-sm text-red-700 dark:text-red-400">
             {error}
           </div>
         )}
-
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-8 text-center animate-in fade-in duration-500">
           {step === "upload" && (
             <>
@@ -185,7 +166,6 @@ export default function FreeGenerator() {
               )}
             </>
           )}
-
           {step === "training" && (
             <div className="py-16 text-center">
               <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
@@ -197,7 +177,6 @@ export default function FreeGenerator() {
               </p>
             </div>
           )}
-
           {step === "done" && resultUrl && (
             <div>
               <div className="relative max-w-sm mx-auto animate-in zoom-in duration-500">
@@ -234,7 +213,6 @@ export default function FreeGenerator() {
               </Link>
             </div>
           )}
-
           {step !== "done" && (
             <div className="mt-12 text-center">
               <Link

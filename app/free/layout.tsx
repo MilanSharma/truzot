@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { PAGE_SEO, SITE_CONFIG } from "@/lib/seo";
-
 const seo = PAGE_SEO.free;
-
 export const metadata: Metadata = {
   title: seo.title,
   description: seo.description,
@@ -26,7 +24,6 @@ export const metadata: Metadata = {
     images: [SITE_CONFIG.ogImage],
   },
 };
-
 export default function FreeLayout({
   children,
 }: {

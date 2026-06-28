@@ -5,18 +5,14 @@ import { Redis } from "@upstash/redis";
 import { addCors, handleOptions } from "@/lib/cors";
 import { withContext } from "@/lib/request-context";
 import { createLogger } from "@/lib/logger";
-
 const log = createLogger("free-generate");
 const CACHE_KEY = "free-generate:preview-urls";
-const CACHE_TTL = 60 * 60 * 24; // 24 hours
-
+const CACHE_TTL = 60 * 60 * 24;
 fal.config({ credentials: process.env.FAL_KEY });
-
 const hasRedisConfig =
   typeof process !== "undefined" &&
   process.env.UPSTASH_REDIS_REST_URL &&
   process.env.UPSTASH_REDIS_REST_TOKEN;
-
 let redisClient: Redis | null = null;
 let rateLimiter: Ratelimit | null = null;
 if (hasRedisConfig) {
@@ -35,11 +31,9 @@ if (hasRedisConfig) {
     log.error({ err }, "Failed to init rate limiter");
   }
 }
-
 function getIp(req: Request): string {
   return req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
 }
-
 const PROMPTS = [
   "A professional corporate headshot, studio lighting, neutral background",
   "A creative headshot, soft natural light, slight smile",
@@ -51,13 +45,10 @@ const PROMPTS = [
   "A tech startup founder headshot, casual blazer, modern office",
   "A speaker headshot, authoritative pose, stage lighting",
 ];
-
 export const OPTIONS = handleOptions;
-
 export const POST = withContext(async (req: Request) => {
   const origin = req.headers.get("origin");
   try {
-    // Rate limiting
     if (rateLimiter) {
       const ip = getIp(req);
       const { success } = await rateLimiter.limit(ip);
@@ -73,8 +64,6 @@ export const POST = withContext(async (req: Request) => {
         );
       }
     }
-
-    // Check cache (generic previews are the same for all users)
     if (redisClient) {
       try {
         const cached = await redisClient.get<string>(CACHE_KEY);
@@ -88,7 +77,6 @@ export const POST = withContext(async (req: Request) => {
         log.warn({ err }, "Cache read failed");
       }
     }
-
     const results = await Promise.all(
       PROMPTS.map((prompt) =>
         fal.run("fal-ai/flux/dev", {
@@ -103,16 +91,12 @@ export const POST = withContext(async (req: Request) => {
         }),
       ),
     );
-
     const urls = results.map((r) => (r as any).images[0].url);
-
-    // Cache the results
     if (redisClient) {
       redisClient
         .set(CACHE_KEY, JSON.stringify(urls), { ex: CACHE_TTL })
         .catch((err) => log.warn({ err }, "Cache write failed"));
     }
-
     return addCors(NextResponse.json({ urls }), origin);
   } catch (err) {
     log.error({ err }, "Free generate failed");
