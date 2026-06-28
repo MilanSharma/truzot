@@ -834,7 +834,7 @@ export default function LandingPageContent() {
         <section className="bg-slate-900 dark:bg-slate-950 text-white py-20 px-6 mx-4 md:mx-auto max-w-7xl rounded-[3rem] shadow-2xl mb-24">
           <div className="relative max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Earn <span className="text-emerald-400">20%</span> on Every
+              Earn <span className="text-emerald-400">40%</span> on Every
               Referral
             </h2>
             <p className="text-lg text-slate-300 mb-8 max-w-2xl mx-auto">
