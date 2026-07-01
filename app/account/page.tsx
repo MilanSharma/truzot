@@ -85,28 +85,32 @@ export default function AccountSettingsPage() {
       localStorage.removeItem("truzot-upload");
       localStorage.removeItem("truzot-upload-backup");
       await supabase.auth.signOut();
-      router.push("/");
+      window.location.href = "/";
     }
   };
 
   if (loading)
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full" />
+        <div className="animate-spin w-8 h-8 border-4 border-lime-400 border-t-transparent rounded-full" />
       </div>
     );
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+    <div className="min-h-screen">
       <Nav user={user} />
       <div className="max-w-2xl mx-auto px-6 py-16">
-        <h1 className="text-3xl font-bold mb-8 text-slate-900 dark:text-white">
+        <h1 className="text-4xl font-black tracking-tight mb-10 text-[var(--text)]">
           Account Settings
         </h1>
 
-        <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 space-y-6">
+        <div
+          className="rounded-2xl border p-8 space-y-8"
+          
+        >
+          {/* Email */}
           <div>
-            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+            <label className="block text-sm font-bold text-[var(--text-muted)] mb-2">
               Email Address
             </label>
             <div className="flex gap-3">
@@ -114,24 +118,26 @@ export default function AccountSettingsPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                className="flex-1 px-4 py-3 rounded-2xl border text-[var(--text)] placeholder-[var(--text-faint)] focus:ring-2 focus:ring-lime-400/50 focus:border-lime-400/50 outline-none transition"
+                
               />
               <button
                 onClick={updateEmail}
                 disabled={saving || email === user?.email || emailUpdated}
-                className="px-5 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition disabled:opacity-50"
+                className="px-5 py-2.5 bg-lime-400 text-black rounded-2xl text-sm font-bold hover:bg-lime-300 transition disabled:opacity-50"
               >
                 {saving ? "Saving..." : "Update"}
               </button>
             </div>
-            {message && <p className="mt-2 text-sm text-blue-600">{message}</p>}
+            {message && <p className="mt-2 text-sm text-lime-400">{message}</p>}
           </div>
 
-          <div className="border-t border-slate-200 dark:border-slate-700 pt-6">
-            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+          {/* Password */}
+          <div className="border-t border-[var(--border)] pt-8">
+            <label className="block text-sm font-bold text-[var(--text-muted)] mb-2">
               Password
             </label>
-            <p className="text-xs text-slate-500 mb-3">
+            <p className="text-xs text-[var(--text-faint)] mb-4">
               Reset your password via email link.
             </p>
             <button
@@ -145,45 +151,43 @@ export default function AccountSettingsPage() {
                   });
                   const data = await res.json();
                   if (!res.ok)
-                    setMessage(
-                      `Error: ${data.error || "Failed to send reset link"}`,
-                    );
+                    setMessage(`Error: ${data.error || "Failed to send reset link"}`);
                   else
                     setMessage("Password reset email sent. Check your inbox.");
                 } catch (err: any) {
                   setMessage(`Error: ${err.message}`);
                 }
               }}
-              className="px-5 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-sm font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+              className="px-5 py-2.5 bg-[var(--surface)] border border-[var(--border)] text-[var(--text-secondary)] rounded-2xl text-sm font-bold hover:bg-[var(--surface2)] transition"
             >
               Send Reset Email
             </button>
           </div>
 
-          <div className="border-t border-slate-200 dark:border-slate-700 pt-6">
-            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+          {/* Notifications */}
+          <div className="border-t border-[var(--border)] pt-8">
+            <label className="block text-sm font-bold text-[var(--text-muted)] mb-2">
               Notification Preferences
             </label>
-            <p className="text-xs text-slate-500 mb-3">
+            <p className="text-xs text-[var(--text-faint)] mb-4">
               Control which emails you receive from Truzot.
             </p>
-            <a href="/unsubscribe" className="text-blue-600 text-sm underline">
+            <a href="/unsubscribe" className="text-lime-400 text-sm font-semibold hover:underline">
               Manage email preferences →
             </a>
           </div>
 
-          <div className="border-t border-slate-200 dark:border-slate-700 pt-6">
-            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+          {/* Data Export */}
+          <div className="border-t border-[var(--border)] pt-8">
+            <label className="block text-sm font-bold text-[var(--text-muted)] mb-2">
               Data Export
             </label>
-            <p className="text-xs text-slate-500 mb-3">
+            <p className="text-xs text-[var(--text-faint)] mb-4">
               Download all your data in JSON format (GDPR right to portability).
             </p>
             <button
               onClick={async () => {
-                const {
-                  data: { session },
-                } = await supabase.auth.getSession();
+                const { data: { session } } = await supabase.auth.getSession();
                 if (!session?.access_token) {
                   setMessage("Please sign in again to export data.");
                   return;
@@ -211,35 +215,37 @@ export default function AccountSettingsPage() {
                   setMessage("Failed to export data. Please try again.");
                 }
               }}
-              className="text-blue-600 text-sm underline hover:text-blue-800"
+              className="text-lime-400 text-sm font-semibold hover:underline"
             >
               Download my data →
             </button>
           </div>
 
-          <div className="border-t border-slate-200 dark:border-slate-700 pt-6">
-            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+          {/* Billing */}
+          <div className="border-t border-[var(--border)] pt-8">
+            <label className="block text-sm font-bold text-[var(--text-muted)] mb-2">
               Billing & Invoices
             </label>
-            <p className="text-xs text-slate-500 mb-3">
+            <p className="text-xs text-[var(--text-faint)] mb-4">
               View payment history, download receipts, and manage refunds.
             </p>
-            <a href="/billing" className="text-blue-600 text-sm underline">
+            <a href="/billing" className="text-lime-400 text-sm font-semibold hover:underline">
               Stripe Customer Portal →
             </a>
           </div>
 
-          <div className="border-t border-slate-200 dark:border-slate-700 pt-6">
-            <label className="block text-sm font-bold text-red-600 mb-2">
+          {/* Danger Zone */}
+          <div className="border-t border-[var(--border)] pt-8">
+            <label className="block text-sm font-bold text-red-400 mb-2">
               Danger Zone
             </label>
-            <p className="text-xs text-slate-500 mb-3">
+            <p className="text-xs text-[var(--text-faint)] mb-4">
               Permanently delete your account and all associated data. This
               cannot be undone.
             </p>
             <button
               onClick={deleteAccount}
-              className="px-5 py-2.5 bg-red-600 text-white rounded-xl text-sm font-bold hover:bg-red-700 transition"
+              className="px-5 py-2.5 bg-red-500 text-[var(--text)] rounded-2xl text-sm font-bold hover:bg-red-600 transition shadow-md"
             >
               Delete Account
             </button>

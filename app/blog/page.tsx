@@ -34,28 +34,27 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const posts = getAllPosts();
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+    <div className="min-h-screen">
       <Nav />
-      <div id="main-content" className="max-w-3xl mx-auto px-6 py-16">
-        <h1 className="text-4xl font-bold mb-2 text-slate-900 dark:text-white">
+      <div className="max-w-3xl mx-auto px-6 py-16">
+        <h1 className="text-4xl font-black tracking-tight mb-2 text-[var(--text)]">
           AI Headshots Blog
         </h1>
-        <p className="text-lg text-slate-500 dark:text-slate-400 mb-10 font-light">
+        <p className="text-lg text-[var(--text-muted)] mb-10 font-light">
           Expert tips, comprehensive guides, and insights about professional AI
           headshots, LinkedIn optimization, and personal branding.
         </p>
         <div className="flex flex-col gap-6">
           {posts.map((post) => (
-            <Link
-              key={post.slug}
-              href={`/blog/${post.slug}`}
-              className="block group"
-            >
-              <article className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1">
-                <div className="text-xs text-blue-600 font-semibold mb-2 uppercase tracking-wider">
+            <Link key={post.slug} href={`/blog/${post.slug}`} className="block group">
+              <article
+                className="border rounded-2xl p-6 transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1"
+                
+              >
+                <div className="text-xs text-lime-400 font-semibold mb-2 uppercase tracking-wider">
                   {post.date} · {post.readTime}
                 </div>
-                <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 transition">
+                <h2 className="text-xl font-bold text-[var(--text)] mb-2 group-hover:text-lime-400 transition">
                   {post.title}
                 </h2>
               </article>

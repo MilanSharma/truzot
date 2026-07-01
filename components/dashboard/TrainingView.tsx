@@ -91,37 +91,36 @@ export default function TrainingView({ order }: { order: Order }) {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-200/60 dark:border-slate-800 shadow-2xl p-8 md:p-12 max-w-3xl mx-auto mt-12 relative overflow-hidden">
-      {/* Background ambient glow */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-600/10 rounded-full blur-[100px] pointer-events-none" />
+    <div className="bg-[#0E1016] rounded-[2.5rem] border border-white/10 shadow-2xl p-8 md:p-12 max-w-3xl mx-auto mt-12 relative overflow-hidden">
+      {/* Background ambient glow — lime */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-lime-400/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-400/5 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 border-b border-slate-100 dark:border-slate-800 pb-10 relative z-10">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 border-b border-white/10 pb-10 relative z-10">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-xs font-bold uppercase tracking-wider mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-lime-400/10 text-lime-400 text-xs font-bold uppercase tracking-wider mb-4">
             <Cpu className="w-4 h-4" /> System Active
           </div>
-          <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">
+          <h2 className="text-3xl font-black text-white mb-2 tracking-tight">
             Training AI Model
           </h2>
-          <p className="text-slate-500 dark:text-slate-400 font-medium">
-            Teaching the neural network your exact facial features. (ETA: ~15
-            mins)
+          <p className="text-white/40 font-medium">
+            Teaching the neural network your exact facial features. (ETA: ~15 mins)
           </p>
         </div>
-        <div className="mt-6 md:mt-0 w-24 h-24 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-800 rounded-full flex items-center justify-center relative shadow-inner border border-slate-200 dark:border-slate-700 shrink-0">
-          <div className="absolute inset-0 border-[6px] border-transparent border-t-blue-600 dark:border-t-blue-500 rounded-full animate-[spin_2s_linear_infinite]" />
-          <div className="absolute inset-2 border-[4px] border-transparent border-l-indigo-500 dark:border-l-indigo-400 rounded-full animate-[spin_3s_linear_infinite_reverse]" />
-          <span className="text-2xl font-black text-slate-900 dark:text-white relative z-10">
+        <div className="mt-6 md:mt-0 w-24 h-24 bg-lime-400/10 border border-lime-400/20 rounded-full flex items-center justify-center relative shadow-inner shrink-0">
+          <div className="absolute inset-0 border-[6px] border-transparent border-t-lime-400 rounded-full animate-[spin_2s_linear_infinite]" />
+          <div className="absolute inset-2 border-[4px] border-transparent border-l-indigo-400 rounded-full animate-[spin_3s_linear_infinite_reverse]" />
+          <span className="text-2xl font-black text-white relative z-10">
             {progressPct}%
           </span>
         </div>
       </div>
 
       <div className="relative z-10">
-        <div className="h-4 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden mb-8 shadow-inner border border-slate-200/50 dark:border-slate-700/50">
+        <div className="h-4 bg-white/10 rounded-full overflow-hidden mb-8 shadow-inner border border-white/10">
           <div
-            className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-700 relative"
+            className="h-full bg-gradient-to-r from-lime-500 via-lime-400 to-lime-500 rounded-full transition-all duration-700 relative"
             style={{ width: `${progressPct}%` }}
           >
             <div className="absolute inset-0 bg-white/20 animate-[shimmer_2s_infinite]" />
@@ -129,12 +128,12 @@ export default function TrainingView({ order }: { order: Order }) {
         </div>
 
         {/* AI Logs Terminal */}
-        <div className="bg-slate-50 dark:bg-[#0b0d10] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 font-mono text-sm shadow-inner mb-8">
-          <div className="flex items-center gap-2 mb-4 border-b border-slate-200 dark:border-slate-800 pb-3">
-            <div className="w-3 h-3 rounded-full bg-red-500" />
-            <div className="w-3 h-3 rounded-full bg-amber-500" />
-            <div className="w-3 h-3 rounded-full bg-emerald-500" />
-            <span className="ml-2 text-xs text-slate-400 uppercase tracking-widest font-sans font-bold">
+        <div className="bg-[#07080A] border border-white/10 rounded-2xl p-6 font-mono text-sm shadow-inner mb-8">
+          <div className="flex items-center gap-2 mb-4 border-b border-white/10 pb-3">
+            <div className="w-3 h-3 rounded-full bg-red-400" />
+            <div className="w-3 h-3 rounded-full bg-amber-400" />
+            <div className="w-3 h-3 rounded-full bg-emerald-400" />
+            <span className="ml-2 text-xs text-white/30 uppercase tracking-widest font-sans font-bold">
               Process Log
             </span>
           </div>
@@ -150,14 +149,14 @@ export default function TrainingView({ order }: { order: Order }) {
                   className={`flex items-start gap-3 transition-opacity duration-300 ${isFuture ? "opacity-30" : "opacity-100"}`}
                 >
                   {isPast ? (
-                    <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
+                    <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
                   ) : isCurrent ? (
-                    <Loader2 className="w-5 h-5 text-blue-500 animate-spin shrink-0" />
+                    <Loader2 className="w-5 h-5 text-lime-400 animate-spin shrink-0" />
                   ) : (
-                    <Circle className="w-5 h-5 text-slate-300 dark:text-slate-700 shrink-0" />
+                    <Circle className="w-5 h-5 text-white/20 shrink-0" />
                   )}
                   <span
-                    className={`${isCurrent ? "text-blue-700 dark:text-blue-400 font-semibold" : "text-slate-600 dark:text-slate-400"}`}
+                    className={`${isCurrent ? "text-lime-400 font-semibold" : isPast ? "text-emerald-400/70" : "text-white/30"}`}
                   >
                     {step.text}
                   </span>
@@ -167,36 +166,31 @@ export default function TrainingView({ order }: { order: Order }) {
           </div>
 
           {progressStatus === "in_queue" && progress?.queuePosition && (
-            <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800 text-amber-600 dark:text-amber-400 text-xs animate-pulse">
+            <div className="mt-4 pt-4 border-t border-white/10 text-amber-400 text-xs animate-pulse">
               &gt; Waiting in high-priority GPU queue (Position:{" "}
               {progress.queuePosition})...
             </div>
           )}
-          {progressStatus === "in_progress" &&
-            progress?.step &&
-            progress?.total && (
-              <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800 text-blue-600 dark:text-blue-400 text-xs font-bold">
-                &gt; Executing tensor step {progress.step} / {progress.total}
-              </div>
-            )}
+          {progressStatus === "in_progress" && progress?.step && progress?.total && (
+            <div className="mt-4 pt-4 border-t border-white/10 text-lime-400 text-xs font-bold">
+              &gt; Executing tensor step {progress.step} / {progress.total}
+            </div>
+          )}
         </div>
       </div>
 
-      <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 pt-8 border-t border-slate-100 dark:border-slate-800">
-        <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 py-2 px-4 rounded-xl">
-          <Shield className="w-5 h-5 text-emerald-500 shrink-0" />
+      <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 pt-8 border-t border-white/10">
+        <div className="flex items-center gap-3 text-sm text-white/40 bg-white/5 py-2 px-4 rounded-2xl">
+          <Shield className="w-5 h-5 text-emerald-400 shrink-0" />
           <p>
             You can safely close this window. We&apos;ll email you at{" "}
-            <strong className="text-slate-700 dark:text-slate-200">
-              {order.email || "your address"}
-            </strong>
-            .
+            <strong className="text-white">{order.email || "your address"}</strong>.
           </p>
         </div>
         <button
           onClick={handleRetry}
           disabled={retrying}
-          className="shrink-0 inline-flex items-center gap-2 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 px-5 py-2.5 rounded-xl font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition disabled:opacity-50 shadow-sm"
+          className="shrink-0 inline-flex items-center gap-2 bg-white/5 text-white/70 border border-white/10 px-5 py-2.5 rounded-2xl font-bold hover:bg-white/10 transition disabled:opacity-50 shadow-sm"
         >
           <RefreshCw className={`w-4 h-4 ${retrying ? "animate-spin" : ""}`} />
           {retrying ? "Retrying..." : "Force Retry"}

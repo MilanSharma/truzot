@@ -1,170 +1,141 @@
 "use client";
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
 import Link from "next/link";
-import { Camera, Sparkles, Globe, Shield, Zap, TrendingUp } from "lucide-react";
+import Image from "next/image";
+import { Camera, Sparkles, Globe, Shield, Zap, TrendingUp, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function AboutPage() {
-  return (
-    <div className="min-h-screen bg-[var(--bg-primary)] font-sans text-[var(--text-primary)]">
-      <Nav showBack />
+ return (
+ <div className="min-h-screen">
+ {/* Nav */}
+ <nav className="fixed top-0 w-full z-50 bg-[var(--bg)]/90 backdrop-blur-xl border-b border-[var(--border)]">
+ <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+ <Link href="/" className="text-2xl font-black tracking-tighter text-[var(--text)]">
+ TRUZOT<span className="ml-1.5 text-[10px] font-bold text-lime-400 align-super tracking-widest">AI</span>
+ </Link>
+ <Link href="/upload" className="bg-lime-400 text-black px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-lime-300 transition shadow-lg shadow-lime-400/20">
+ Get headshots
+ </Link>
+ </div>
+ </nav>
 
-      {/* Hero */}
-      <section className="pt-32 pb-20 px-6 max-w-5xl mx-auto text-center relative">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-500/10 dark:bg-blue-600/10 blur-[120px] rounded-full pointer-events-none" />
+ {/* Hero */}
+ <section className="pt-32 pb-20 px-6">
+ <div className="max-w-5xl mx-auto text-center">
+ <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+ <p className="text-xs font-bold text-lime-400 uppercase tracking-[0.2em] mb-4">Our Mission</p>
+ <h1 className="text-5xl md:text-6xl font-black tracking-tighter text-[var(--text)] mb-6">
+ Democratizing professional photography
+ </h1>
+ <p className="text-xl text-[var(--text-muted)] max-w-2xl mx-auto leading-relaxed">
+ Everyone deserves studio-quality headshots. We&apos;re making it accessible, affordable, and instant.
+ </p>
+ </motion.div>
+ </div>
+ </section>
 
-        <div className="inline-flex items-center rounded-full border border-blue-200/60 dark:border-blue-800/60 bg-blue-50/50 dark:bg-blue-900/20 backdrop-blur-sm px-4 py-1.5 text-sm font-semibold text-blue-700 dark:text-blue-300 mb-8 shadow-sm relative z-10">
-          <Sparkles className="w-4 h-4 mr-2" /> Our Mission
-        </div>
-        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter mb-6 text-slate-900 dark:text-white leading-[1.1] relative z-10">
-          Democratizing high-end <br className="hidden md:block" /> photography
-          for everyone.
-        </h1>
-        <p className="text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto relative z-10">
-          Whether you&apos;re an actor landing an audition, a founder raising
-          capital, or a professional updating your LinkedIn—you deserve to look
-          your absolute best without paying $500 for a studio.
-        </p>
-      </section>
+ {/* Stats */}
+ <section className="py-16 px-6 border-y border-[var(--border)]">
+ <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+ {[
+ { value: "10K+", label: "Professionals served" },
+ { value: "1.2M+", label: "Headshots generated" },
+ { value: "30 min", label: "Average delivery" },
+ { value: "4.9/5", label: "Average rating" },
+ ].map((stat, i) => (
+ <motion.div
+ key={i}
+ initial={{ opacity: 0, y: 20 }}
+ whileInView={{ opacity: 1, y: 0 }}
+ viewport={{ once: true }}
+ transition={{ delay: i * 0.1 }}
+ className="text-center"
+ >
+ <div className="text-4xl font-black text-[var(--text)] mb-1">{stat.value}</div>
+ <div className="text-sm text-[var(--text-muted)]">{stat.label}</div>
+ </motion.div>
+ ))}
+ </div>
+ </section>
 
-      {/* Stats */}
-      <section className="py-12 border-y border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
-        <div className="max-w-5xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          <div>
-            <div className="text-4xl font-black text-slate-900 dark:text-white mb-2">
-              10k+
-            </div>
-            <div className="text-sm font-semibold text-slate-500 uppercase tracking-wider">
-              Customers
-            </div>
-          </div>
-          <div>
-            <div className="text-4xl font-black text-slate-900 dark:text-white mb-2">
-              1.2M+
-            </div>
-            <div className="text-sm font-semibold text-slate-500 uppercase tracking-wider">
-              Photos Generated
-            </div>
-          </div>
-          <div>
-            <div className="text-4xl font-black text-slate-900 dark:text-white mb-2">
-              2 min
-            </div>
-            <div className="text-sm font-semibold text-slate-500 uppercase tracking-wider">
-              Upload Time
-            </div>
-          </div>
-          <div>
-            <div className="text-4xl font-black text-slate-900 dark:text-white mb-2">
-              4.9/5
-            </div>
-            <div className="text-sm font-semibold text-slate-500 uppercase tracking-wider">
-              Average Rating
-            </div>
-          </div>
-        </div>
-      </section>
+ {/* Content */}
+ <section className="py-24 px-6">
+ <div className="max-w-5xl mx-auto">
+ <div className="grid md:grid-cols-2 gap-16 items-center mb-24">
+ <div>
+ <h2 className="text-4xl font-black tracking-tight text-[var(--text)] mb-6">
+ The $500 studio problem.
+ </h2>
+ <p className="text-lg text-[var(--text-muted)] mb-6 leading-relaxed">
+ For decades, professional photography has been locked behind expensive equipment, rented studios, and hours of manual retouching.
+ </p>
+ <p className="text-lg text-[var(--text-muted)] leading-relaxed">
+ Truzot leverages state-of-the-art generative AI to analyze your facial features from everyday selfies and render breathtaking, photorealistic portraits in minutes.
+ </p>
+ </div>
+ <div className="relative aspect-square rounded-3xl overflow-hidden">
+ <Image
+ src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&q=80&fit=crop"
+ alt="Professional photography"
+ fill
+ className="object-cover"
+ />
+ <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+ </div>
+ </div>
 
-      {/* Content */}
-      <section className="py-24 px-6 max-w-5xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-16 items-center mb-24">
-          <div className="bg-slate-100 dark:bg-slate-900 aspect-square rounded-[2.5rem] border border-slate-200 dark:border-slate-800 overflow-hidden relative shadow-2xl">
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&q=80')] bg-cover bg-center opacity-90 mix-blend-luminosity hover:scale-105 transition-transform duration-700" />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent flex items-end p-10">
-              <div>
-                <h3 className="text-3xl font-bold text-white mb-2">
-                  The old way is broken.
-                </h3>
-                <p className="text-slate-300 font-medium">
-                  It&apos;s time for an upgrade.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div>
-            <h2 className="text-4xl font-bold mb-6 tracking-tight text-slate-900 dark:text-white">
-              The $500 studio problem.
-            </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
-              For decades, professional photography has been locked behind a
-              wall of expensive equipment, rented studios, and hours of manual
-              retouching. It cost hundreds of dollars, required awkward posing,
-              and took weeks to get results.
-            </p>
-            <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
-              Truzot was built to change that. We leverage state-of-the-art
-              generative AI (fine-tuned Flux LoRA architecture) to analyze your
-              facial geometry from everyday selfies and render breathtaking,
-              photorealistic portraits in minutes.
-            </p>
-          </div>
-        </div>
+ <div className="grid md:grid-cols-3 gap-6">
+ {[
+ { icon: Globe, title: "Accessible to Everyone", desc: "From Fortune 500 CEOs to aspiring actors. Great photos open doors." },
+ { icon: Camera, title: "Studio Quality", desc: "We render precise lighting, authentic skin textures, and natural depth of field." },
+ { icon: Shield, title: "Privacy First", desc: "Your photos are encrypted and auto-deleted after 30 days. Always." },
+ ].map(({ icon: Icon, title, desc }, i) => (
+ <motion.div
+ key={i}
+ initial={{ opacity: 0, y: 20 }}
+ whileInView={{ opacity: 1, y: 0 }}
+ viewport={{ once: true }}
+ transition={{ delay: i * 0.1 }}
+ className="p-8 rounded-2xl border"
+ 
+ >
+ <div className="w-12 h-12 bg-[var(--lime-dim)] border border-[var(--lime-border)] rounded-2xl flex items-center justify-center mb-5">
+ <Icon className="w-6 h-6 text-lime-400" />
+ </div>
+ <h3 className="text-xl font-bold text-[var(--text)] mb-3">{title}</h3>
+ <p className="text-[var(--text-muted)] leading-relaxed">{desc}</p>
+ </motion.div>
+ ))}
+ </div>
+ </div>
+ </section>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-24">
-          <div className="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow">
-            <div className="w-14 h-14 bg-blue-50 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-6">
-              <Globe className="w-7 h-7 text-blue-600 dark:text-blue-400" />
-            </div>
-            <h3 className="text-xl font-bold mb-3 text-slate-900 dark:text-white">
-              Accessible to Everyone
-            </h3>
-            <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-              From Fortune 500 CEOs to aspiring actors and everyday job seekers.
-              Great photos open doors, and everyone deserves the key.
-            </p>
-          </div>
-          <div className="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow">
-            <div className="w-14 h-14 bg-emerald-50 dark:bg-emerald-900/30 rounded-2xl flex items-center justify-center mb-6">
-              <Camera className="w-7 h-7 text-emerald-600 dark:text-emerald-400" />
-            </div>
-            <h3 className="text-xl font-bold mb-3 text-slate-900 dark:text-white">
-              Studio Quality
-            </h3>
-            <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-              We don&apos;t do cheap filters. Our engine renders precise
-              volumetric lighting, authentic skin textures, and natural depth of
-              field.
-            </p>
-          </div>
-          <div className="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-lg hover:shadow-xl transition-shadow">
-            <div className="w-14 h-14 bg-indigo-50 dark:bg-indigo-900/30 rounded-2xl flex items-center justify-center mb-6">
-              <Shield className="w-7 h-7 text-indigo-600 dark:text-indigo-400" />
-            </div>
-            <h3 className="text-xl font-bold mb-3 text-slate-900 dark:text-white">
-              Privacy First
-            </h3>
-            <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-              Your face is your data. We encrypt your uploads, train isolated
-              models, and automatically purge everything after 30 days.
-            </p>
-          </div>
-        </div>
+ {/* CTA */}
+ <section className="py-24 px-6">
+ <div className="max-w-4xl mx-auto">
+ <div className="rounded-3xl p-12 md:p-16 text-center bg-[var(--surface)] border border-[var(--lime-border)] shadow-sm">
+ <h2 className="text-4xl font-black text-[var(--text)] mb-4 tracking-tight">
+ Ready to see yourself in a new light?
+ </h2>
+ <p className="text-xl text-[var(--text-muted)] mb-8 max-w-xl mx-auto">
+ Join 10,000+ professionals who transformed their personal brand with Truzot.
+ </p>
+ <Link
+ href="/upload"
+ className="inline-flex items-center gap-2 bg-lime-400 text-black px-8 py-4 rounded-2xl font-bold text-lg hover:bg-lime-300 transition shadow-[var(--shadow-md)] shadow-lime-400/20"
+ >
+ Create your headshots <ArrowRight className="w-5 h-5" />
+ </Link>
+ </div>
+ </div>
+ </section>
 
-        <div className="bg-slate-900 dark:bg-slate-950 rounded-[3rem] p-12 md:p-20 relative overflow-hidden shadow-2xl flex flex-col md:flex-row items-center justify-between gap-12 border border-slate-800">
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none"></div>
-          <div className="absolute right-0 top-0 w-96 h-96 bg-blue-500 rounded-full blur-[120px] opacity-20 pointer-events-none" />
-
-          <div className="relative z-10 max-w-xl">
-            <h2 className="text-4xl font-extrabold text-white mb-4 tracking-tight">
-              Ready to see yourself in a new light?
-            </h2>
-            <p className="text-lg text-slate-300 leading-relaxed">
-              Join over 10,000 people who have transformed their personal brand,
-              landed jobs, and grown their businesses with Truzot.
-            </p>
-          </div>
-          <div className="relative z-10 shrink-0">
-            <Link
-              href="/upload"
-              className="inline-block bg-white text-slate-900 px-8 py-4 rounded-xl font-bold text-lg hover:scale-105 transition-transform active:scale-95 shadow-[0_0_40px_rgba(255,255,255,0.3)]"
-            >
-              Create Your Photos Now
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <Footer />
-    </div>
-  );
+ {/* Footer */}
+ <footer className="border-t border-[var(--border)] py-12 px-6">
+ <div className="max-w-7xl mx-auto text-center text-sm text-[var(--text-faint)]">
+ © {new Date().getFullYear()} Truzot Inc. All rights reserved.
+ </div>
+ </footer>
+ </div>
+ );
 }

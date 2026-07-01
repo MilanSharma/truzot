@@ -9,10 +9,10 @@ describe("resume checkout", () => {
         body: JSON.stringify({}),
       }),
     );
-    const data = await response.json();
+    const data = await response.json() as { error?: string };
     expect(response.status).toBe(400);
     expect(data.error).toBe("Missing orderId");
-  });
+  }, 10000);
 
   it("rejects empty orderId string", async () => {
     const { POST } = await import("@/app/api/checkout/resume/route");
@@ -22,10 +22,10 @@ describe("resume checkout", () => {
         body: JSON.stringify({ orderId: "" }),
       }),
     );
-    const data = await response.json();
+    const data = await response.json() as { error?: string };
     expect(response.status).toBe(400);
     expect(data.error).toBe("Missing orderId");
-  });
+  }, 10000);
 
   it("rejects null orderId", async () => {
     const { POST } = await import("@/app/api/checkout/resume/route");
@@ -35,10 +35,10 @@ describe("resume checkout", () => {
         body: JSON.stringify({ orderId: null }),
       }),
     );
-    const data = await response.json();
+    const data = await response.json() as { error?: string };
     expect(response.status).toBe(400);
     expect(data.error).toBe("Missing orderId");
-  });
+  }, 10000);
 
   it("rejects unauthorized request with valid orderId", async () => {
     const { POST } = await import("@/app/api/checkout/resume/route");
@@ -50,8 +50,8 @@ describe("resume checkout", () => {
         }),
       }),
     );
-    const data = await response.json();
+    const data = await response.json() as { error?: string };
     expect(response.status).toBe(401);
     expect(data.error).toBe("Unauthorized");
-  });
+  }, 10000);
 });

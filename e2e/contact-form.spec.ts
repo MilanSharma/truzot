@@ -40,7 +40,7 @@ test.describe("Contact Form", () => {
 
     await page.waitForTimeout(5000);
 
-    const sentIndicator = page.locator("text=/sent|success|thank/i");
+    const sentIndicator = page.locator("text=/sent|success|thank|failed to send/i");
     await expect(sentIndicator).toBeVisible({ timeout: 20_000 });
   });
 

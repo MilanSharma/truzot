@@ -12,6 +12,7 @@ import {
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
+import { downloadAsZip } from "@/lib/download";
 import JSZip from "jszip";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 import { PLANS } from "@/lib/plans";
@@ -595,85 +596,53 @@ function DashboardContent() {
   const MAX_ZIP_IMAGES = 250;
   const ZIP_BATCH_SIZE = 100;
 
-  const serverSideDownload = async (
+  const handleDownload = async (
     urls: string[],
     filename: string,
     onProgress?: (current: number, total: number) => void,
   ) => {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-    const token = session?.access_token;
-
-    // Auto-batch for >100 images (Executive plan = 200)
-    if (urls.length > ZIP_BATCH_SIZE) {
+    // Use client-side download to avoid timeout on Vercel Hobby plan
+    if (!orderId) throw new Error("No order ID");
+    
+    // Implement automatic batching for large orders (Executive plan = 200 images)
+    const BATCH_SIZE = 50;
+    if (urls.length > BATCH_SIZE) {
       const batches: string[][] = [];
-      for (let i = 0; i < urls.length; i += ZIP_BATCH_SIZE) {
-        batches.push(urls.slice(i, i + ZIP_BATCH_SIZE));
+      for (let i = 0; i < urls.length; i += BATCH_SIZE) {
+        batches.push(urls.slice(i, i + BATCH_SIZE));
       }
-
+      
+      if (batches.length > 1) {
+        toast(`Downloading ${batches.length} ZIP files...`, "info");
+      }
+      
+      let totalFailed = 0;
       for (let i = 0; i < batches.length; i++) {
         const batchUrls = batches[i];
         const batchFilename = `${filename.replace(".zip", "")}_part${i + 1}.zip`;
-
+        
         if (onProgress) onProgress(i + 1, batches.length);
-
-        const res = await fetch("/api/download/zip", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({ imageUrls: batchUrls, orderId }),
-        });
-
-        if (!res.ok) {
-          toast(`Download failed for batch ${i + 1}. Try again.`, "error");
-          return;
+        
+        // Pass empty function to prevent inner image progress from overriding outer batch progress
+        const result = await downloadAsZip(batchUrls, orderId, batchFilename, () => {});
+        totalFailed += result.failedCount;
+        
+        // Small delay between downloads to prevent browser blocking
+        if (i < batches.length - 1) {
+          await new Promise(r => setTimeout(r, 1000));
         }
-
-        const blob = await res.blob();
-        const blobUrl = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = blobUrl;
-        a.download = batchFilename;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(blobUrl);
-
-        // Small delay to prevent browser blocking multiple downloads
-        if (i < batches.length - 1)
-          await new Promise((r) => setTimeout(r, 500));
       }
-      return;
+      
+      toast(`Downloaded ${batches.length} ZIP files`, "success");
+      if (totalFailed > 0) {
+        toast(`${totalFailed} images failed to download. Check console for details.`, "info");
+      }
+    } else {
+      const result = await downloadAsZip(urls, orderId, filename, onProgress);
+      if (result.failedCount > 0) {
+        toast(`${result.failedCount} images failed to download. Check console for details.`, "info");
+      }
     }
-
-    if (onProgress) onProgress(1, 1);
-
-    const res = await fetch("/api/download/zip", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
-      body: JSON.stringify({ imageUrls: urls, orderId }),
-    });
-
-    if (!res.ok) {
-      toast("Download failed. Try again.", "error");
-      return;
-    }
-
-    const blob = await res.blob();
-    const blobUrl = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = blobUrl;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(blobUrl);
   };
 
   const shareGallery = async () => {
@@ -738,11 +707,11 @@ function DashboardContent() {
 
   const downloadSingle = async (url: string) => {
     try {
-      const proxyRes = await fetch(
-        `/api/download/proxy?url=${encodeURIComponent(url)}`,
-      );
-      if (!proxyRes.ok) return;
-      const blob = await proxyRes.blob();
+      // Use proxy to bypass CORS
+      const proxyUrl = `/api/download/proxy?url=${encodeURIComponent(url)}`;
+      const res = await fetch(proxyUrl);
+      if (!res.ok) return;
+      const blob = await res.blob();
       const blobUrl = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = blobUrl;
@@ -759,7 +728,7 @@ function DashboardContent() {
     setDownloading(true);
     setDownloadProgress({ current: 0, total: selectedImages.length });
     try {
-      await serverSideDownload(
+      await handleDownload(
         selectedImages,
         `truzot-selected-${selectedImages.length}.zip`,
         (current, total) => setDownloadProgress({ current, total }),
@@ -782,6 +751,7 @@ function DashboardContent() {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
+        "X-Requested-With": "XMLHttpRequest",
       },
       body: JSON.stringify({ orderId: id }),
     });
@@ -834,7 +804,10 @@ function DashboardContent() {
         try {
           const res = await fetch(`/api/orders/cancel?id=${id}`, {
             method: "POST",
-            headers: { Authorization: `Bearer ${token}` },
+            headers: { 
+              Authorization: `Bearer ${token}`,
+              "X-Requested-With": "XMLHttpRequest",
+            },
           });
           if (res.ok) {
             setOrders((prev) =>
@@ -963,7 +936,7 @@ function DashboardContent() {
         </p>
         <Link
           href="/login"
-          className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition"
+          className="bg-lime-500 text-white px-8 py-3 rounded-xl font-bold hover:bg-lime-600 transition"
         >
           Sign In
         </Link>
@@ -974,7 +947,7 @@ function DashboardContent() {
   const currentFiltered = getFilteredHeadshots();
 
   return (
-    <div className="flex h-screen bg-[var(--bg-primary)] font-sans text-[var(--text-primary)] overflow-hidden">
+    <div className="flex h-screen bg-white font-sans text-[var(--text-primary)] overflow-hidden">
       <Sidebar user={user} active={!orderId} />
 
       <main className="flex-1 overflow-y-auto relative">
@@ -1015,15 +988,15 @@ function DashboardContent() {
               <div className="w-16 h-16 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mb-6">
                 <Camera className="w-8 h-8 text-red-500" />
               </div>
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+              <h2 className="text-2xl font-bold text-slate-900 mb-3">
                 Order Not Found
               </h2>
-              <p className="text-slate-500 dark:text-slate-400 max-w-md mb-8">
+              <p className="text-slate-500 max-w-md mb-8">
                 {orderError}
               </p>
               <Link
                 href="/dashboard"
-                className="inline-flex items-center justify-center bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition"
+                className="inline-flex items-center justify-center bg-lime-500 text-white px-8 py-3 rounded-xl font-bold hover:bg-lime-600 transition"
               >
                 Back to Library
               </Link>
@@ -1072,7 +1045,7 @@ function DashboardContent() {
                     </div>
                     <Link
                       href={`/claim-order?order=${orderId}`}
-                      className="shrink-0 px-6 py-3 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 transition"
+                      className="shrink-0 px-6 py-3 bg-lime-500 text-white rounded-xl font-bold text-sm hover:bg-lime-600 transition"
                     >
                       Create Account
                     </Link>
@@ -1114,7 +1087,7 @@ function DashboardContent() {
                     </div>
                     <Link
                       href={`/claim-order?order=${orderId}`}
-                      className="shrink-0 px-6 py-3 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 transition"
+                      className="shrink-0 px-6 py-3 bg-lime-500 text-white rounded-xl font-bold text-sm hover:bg-lime-600 transition"
                     >
                       Create Account
                     </Link>
@@ -1124,32 +1097,32 @@ function DashboardContent() {
                   <div>
                     <Link
                       href="/dashboard"
-                      className="text-xs font-bold text-slate-400 dark:text-slate-500 hover:text-blue-600 mb-2 flex items-center gap-1 transition"
+                      className="text-xs font-bold text-slate-400 hover:text-blue-600 mb-2 flex items-center gap-1 transition"
                     >
                       ← Back to library
                     </Link>
                     <div className="flex items-center gap-3">
-                      <h1 className="text-3xl font-black text-slate-900 dark:text-white">
+                      <h1 className="text-3xl font-black text-slate-900">
                         {PLANS[currentOrder.plan as keyof typeof PLANS]?.name ||
                           "Shoot"}
                       </h1>
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border ${
                           currentOrder.status === "completed"
-                            ? "bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800"
+                            ? "bg-lime-50 text-lime-700 border-lime-200"
                             : currentOrder.status === "failed"
-                              ? "bg-red-50 text-red-600 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800"
+                              ? "bg-red-50 text-red-700 border-red-200"
                               : currentOrder.status === "refunded"
-                                ? "bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700"
+                                ? "bg-slate-100 text-slate-600 border-slate-200"
                                 : currentOrder.status === "pending"
-                                  ? "bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800"
-                                  : "bg-indigo-50 text-indigo-600 border-indigo-200 dark:bg-indigo-900/20 dark:text-indigo-400 dark:border-indigo-800"
+                                  ? "bg-amber-50 text-amber-700 border-amber-200"
+                                  : "bg-blue-50 text-blue-700 border-blue-200"
                         }`}
                       >
                         {currentOrder.status}
                       </span>
                     </div>
-                    <p className="text-xs text-slate-400 dark:text-slate-500 font-medium mt-1">
+                    <p className="text-xs text-slate-400 font-medium mt-1">
                       Created{" "}
                       {new Date(currentOrder.created_at).toLocaleDateString(
                         undefined,
@@ -1259,7 +1232,7 @@ function DashboardContent() {
                               toast("No images to download.", "error");
                               return;
                             }
-                            await serverSideDownload(
+                            await handleDownload(
                               imageUrls,
                               `truzot-headshots-${orderId}.zip`,
                               onProgress,
@@ -1273,20 +1246,20 @@ function DashboardContent() {
                 </div>
 
                 {currentOrder.status === "refunded" && (
-                  <div className="flex flex-col items-center justify-center py-20 text-center bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm mt-12 max-w-2xl mx-auto p-10">
+                  <div className="flex flex-col items-center justify-center py-20 text-center bg-white rounded-3xl border border-slate-200 shadow-sm mt-12 max-w-2xl mx-auto p-10">
                     <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-6">
-                      <AlertCircle className="w-8 h-8 text-slate-500 dark:text-slate-400" />
+                      <AlertCircle className="w-8 h-8 text-slate-500" />
                     </div>
-                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+                    <h2 className="text-2xl font-bold text-slate-900 mb-3">
                       Order Refunded
                     </h2>
-                    <p className="text-slate-500 dark:text-slate-400 max-w-md mb-8">
+                    <p className="text-slate-500 max-w-md mb-8">
                       This shoot encountered a fatal error and was automatically
                       refunded to your original payment method.
                     </p>
                     <button
                       onClick={() => router.push("/upload")}
-                      className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-sm"
+                      className="inline-flex items-center gap-2 bg-lime-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-lime-600 transition shadow-sm"
                     >
                       Start New Shoot
                     </button>
@@ -1315,17 +1288,17 @@ function DashboardContent() {
                     <div className="w-16 h-16 bg-amber-50 dark:bg-amber-900/20 rounded-full flex items-center justify-center mb-6">
                       <Camera className="w-8 h-8 text-amber-600 dark:text-amber-400" />
                     </div>
-                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+                    <h2 className="text-2xl font-bold text-slate-900 mb-3">
                       Payment Incomplete
                     </h2>
-                    <p className="text-slate-500 dark:text-slate-400 max-w-md mb-8">
+                    <p className="text-slate-500 max-w-md mb-8">
                       You left this order unpaid. You can pick up right where
                       you left off and complete your checkout.
                     </p>
                     <button
                       onClick={() => handleResumeCheckout(currentOrder.id)}
                       disabled={resumingPayment}
-                      className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition flex items-center justify-center gap-2 mx-auto shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="bg-lime-500 text-white px-8 py-3 rounded-xl font-bold hover:bg-lime-600 transition flex items-center justify-center gap-2 mx-auto shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {resumingPayment ? (
                         <>
@@ -1459,16 +1432,16 @@ export default function DashboardPage() {
             <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mb-4">
               <span className="text-red-500 text-2xl">!</span>
             </div>
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+            <h2 className="text-2xl font-bold text-slate-900 mb-3">
               Something went wrong
             </h2>
-            <p className="text-slate-500 dark:text-slate-400 max-w-md text-center mb-8">
+            <p className="text-slate-500 max-w-md text-center mb-8">
               The dashboard encountered an unexpected error. Please try
               reloading.
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition"
+              className="bg-lime-500 text-white px-8 py-3 rounded-xl font-bold hover:bg-lime-600 transition"
             >
               Reload Page
             </button>

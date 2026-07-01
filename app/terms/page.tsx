@@ -11,32 +11,28 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+    <div className="min-h-screen">
       <Nav />
       <div className="max-w-3xl mx-auto px-6 py-16">
-        <h1 className="text-4xl font-bold mb-6 text-slate-900 dark:text-white font-display">
+        <h1 className="text-4xl font-black mb-6 text-[var(--text)] font-display">
           Terms of Service
         </h1>
-        <p className="text-slate-500 mb-8">Last updated: May 2026</p>
-        <div className="space-y-6 text-slate-600 dark:text-slate-400 leading-relaxed">
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-8">
-            1. Acceptance
-          </h2>
+        <p className="text-[var(--text-muted)] mb-8">Last updated: May 2026</p>
+        <div className="space-y-6 text-[var(--text-secondary)] leading-relaxed">
+          <h2 className="text-xl font-bold text-[var(--text)] mt-8">1. Acceptance</h2>
           <p>
             By using Truzot, you agree to these terms. If you do not agree, do
             not use the service.
           </p>
 
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-8">
-            2. Eligibility
-          </h2>
+          <h2 className="text-xl font-bold text-[var(--text)] mt-8">2. Eligibility</h2>
           <p>
             You must be at least 18 years old. By uploading photos, you
             represent that you own the rights to those photos or have explicit
             permission from every identifiable person depicted.
           </p>
 
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-8">
+          <h2 className="text-xl font-bold text-[var(--text)] mt-8">
             3. License to Generated Images
           </h2>
           <p>
@@ -46,7 +42,7 @@ export default function TermsPage() {
             company websites.
           </p>
 
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-8">
+          <h2 className="text-xl font-bold text-[var(--text)] mt-8">
             4. Prohibited Uses
           </h2>
           <ul className="list-disc pl-6 space-y-2">
@@ -62,7 +58,7 @@ export default function TermsPage() {
             </li>
           </ul>
 
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-8">
+          <h2 className="text-xl font-bold text-[var(--text)] mt-8">
             5. Payments & Refunds
           </h2>
           <p>
@@ -71,7 +67,7 @@ export default function TermsPage() {
             and do not store payment card details.
           </p>
 
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-8">
+          <h2 className="text-xl font-bold text-[var(--text)] mt-8">
             6. Service Availability
           </h2>
           <p>
@@ -80,7 +76,7 @@ export default function TermsPage() {
             third-party AI provider outages.
           </p>
 
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-8">
+          <h2 className="text-xl font-bold text-[var(--text)] mt-8">
             7. Limitation of Liability
           </h2>
           <p>
@@ -89,29 +85,23 @@ export default function TermsPage() {
             indirect, incidental, or consequential damages.
           </p>
 
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-8">
-            8. Termination
-          </h2>
+          <h2 className="text-xl font-bold text-[var(--text)] mt-8">8. Termination</h2>
           <p>
             We may suspend or terminate your account if you violate these terms.
             Upon termination, your data will be deleted per our Privacy Policy.
           </p>
 
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-8">
-            9. Changes
-          </h2>
+          <h2 className="text-xl font-bold text-[var(--text)] mt-8">9. Changes</h2>
           <p>
             We may update these terms. Continued use after changes constitutes
             acceptance. Material changes will be notified via email.
           </p>
 
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-8">
-            10. Contact
-          </h2>
+          <h2 className="text-xl font-bold text-[var(--text)] mt-8">10. Contact</h2>
           <p>
             <a
               href="mailto:hello@truzot.com"
-              className="text-blue-600 underline"
+              className="text-lime-400 hover:underline"
             >
               hello@truzot.com
             </a>

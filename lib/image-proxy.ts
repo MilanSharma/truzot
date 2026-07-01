@@ -12,6 +12,7 @@ export function isFalUrl(url: string): boolean {
 }
 
 export function getProxyUrl(url: string): string {
-  if (!isFalUrl(url)) return url;
-  return `/api/image-proxy?url=${encodeURIComponent(url)}`;
+  // Return direct URL since image-proxy route was deleted
+  // For downloads, use the download/proxy route instead
+  return url;
 }

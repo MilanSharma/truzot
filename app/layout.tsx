@@ -1,13 +1,14 @@
 import "./globals.css";
 import { ReactNode } from "react";
 import type { Metadata, Viewport } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Instrument_Serif } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import Script from "next/script";
 import { getEnv } from "@/lib/env";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import { ToastProvider } from "@/components/Toast";
 import CookieConsent from "@/components/CookieConsent";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import AuthSync from "@/components/AuthSync";
 import {
   OrganizationSchema,
@@ -26,16 +27,13 @@ if (typeof window === "undefined") {
   }
 }
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
-});
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
+const serif = Instrument_Serif({ subsets: ["latin"], weight: "400", variable: "--font-serif", style: ["normal", "italic"], display: "swap" });
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#2563eb",
+  themeColor: "#A3E635",
 };
 
 export const metadata: Metadata = {
@@ -94,9 +92,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html
+    <html data-scroll-behavior="smooth"
       lang="en"
-      className={`${inter.variable} ${playfair.variable}`}
+      className={`${inter.variable} ${serif.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -116,16 +114,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         )}
         <link rel="icon" href="/logo.png" sizes="any" />
         <link rel="apple-touch-icon" href="/logo.png" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `try { document.documentElement.classList.toggle('dark', localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)); } catch(e) {}`,
-          }}
-        />
       </head>
       <body className="font-sans antialiased">
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:bg-blue-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-bold"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:bg-[var(--lime)] focus:text-black focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-bold"
         >
           Skip to main content
         </a>
@@ -150,14 +143,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             />
           </>
         )}
-        <PostHogProvider>
-          <ToastProvider>
-            <AuthSync />
-            {children}
-            <Analytics />
-            <CookieConsent />
-          </ToastProvider>
-        </PostHogProvider>
+        <ThemeProvider>
+          <PostHogProvider>
+            <ToastProvider>
+              <AuthSync />
+              {children}
+              <Analytics />
+              <CookieConsent />
+            </ToastProvider>
+          </PostHogProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

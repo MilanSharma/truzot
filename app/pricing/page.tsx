@@ -38,88 +38,85 @@ export default function PricingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)] font-sans text-[var(--text-primary)]">
+    <div className="min-h-screen font-sans text-white" style={{ background: "#07080A" }}>
       <Nav />
       <main className="pt-32 px-6 pb-24">
         <div className="max-w-7xl mx-auto">
+          {/* Hero */}
           <div className="text-center mb-20">
-            <div className="inline-flex items-center rounded-full border border-blue-200/60 dark:border-blue-800/60 bg-blue-50/50 dark:bg-blue-900/20 px-4 py-1.5 text-sm font-semibold text-blue-700 dark:text-blue-300 mb-6 shadow-sm">
-              <Lock className="w-4 h-4 mr-2" /> One-time payment. No
-              subscriptions.
+            <div className="inline-flex items-center gap-2 rounded-full border border-lime-400/20 bg-lime-400/10 px-4 py-1.5 text-sm font-semibold text-lime-400 mb-6 shadow-sm">
+              <Lock className="w-4 h-4" /> One-time payment. No subscriptions.
             </div>
-            <h1 className="text-5xl md:text-6xl font-extrabold tracking-tighter mb-6 text-slate-900 dark:text-white">
+            <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-6 text-white">
               Studio quality. Fraction of the cost.
             </h1>
-            <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+            <p className="text-xl text-white/40 max-w-2xl mx-auto">
               Get premium professional headshots without leaving your home.
               Backed by our 100% money-back guarantee.
             </p>
           </div>
 
+          {/* Plans */}
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-24">
             {Object.values(PLANS).map((plan: any) => (
               <div
                 key={plan.id}
-                className={`relative bg-white dark:bg-slate-900 p-10 rounded-[2.5rem] border transition-all duration-300 flex flex-col ${plan.popular ? "border-blue-600 dark:border-blue-500 shadow-2xl scale-105 z-10 ring-4 ring-blue-50 dark:ring-blue-900/20" : "border-slate-200 dark:border-slate-800 shadow-lg hover:shadow-xl"}`}
+                className={`relative p-10 rounded-[2.5rem] border transition-all duration-300 flex flex-col ${
+                  plan.popular
+                    ? "border-lime-400/40 shadow-2xl scale-105 z-10 ring-1 ring-lime-400/20"
+                    : "border-white/10 shadow-lg hover:shadow-xl"
+                }`}
+                style={{ background: "#0E1016" }}
               >
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs font-bold px-5 py-1.5 rounded-full uppercase tracking-wider shadow-md">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-lime-400 text-black text-xs font-bold px-5 py-1.5 rounded-full uppercase tracking-wider shadow-md">
                     Most Popular
                   </div>
                 )}
-                <h3 className="text-2xl font-bold mb-2 text-slate-900 dark:text-white">
-                  {plan.name}
-                </h3>
-                <p className="text-slate-500 dark:text-slate-400 text-sm h-10">
+                <h3 className="text-2xl font-bold mb-2 text-white">{plan.name}</h3>
+                <p className="text-white/40 text-sm h-10">
                   Best for{" "}
                   {plan.id === "basic"
                     ? "quick updates"
                     : plan.id === "pro"
-                      ? "complete profile overhauls"
-                      : "executives and teams"}
+                    ? "complete profile overhauls"
+                    : "executives and teams"}
                   .
                 </p>
 
                 <div className="my-8">
-                  <span className="text-6xl font-black tracking-tight text-slate-900 dark:text-white">
+                  <span className="text-6xl font-black tracking-tight text-white">
                     ${plan.price}
                   </span>
-                  <span className="text-slate-500 dark:text-slate-400 font-medium">
-                    {" "}
-                    / one-time
-                  </span>
+                  <span className="text-white/40 font-medium"> / one-time</span>
                 </div>
 
                 <ul className="space-y-4 mb-10 flex-1">
-                  <li className="flex items-center gap-3 font-medium text-slate-700 dark:text-slate-300">
-                    <CheckCircle
-                      size={22}
-                      className="text-blue-600 dark:text-blue-500 shrink-0"
-                    />
-                    <span className="font-bold">{plan.shots}</span> High-Res
-                    Photos
+                  <li className="flex items-center gap-3 font-medium text-white/50">
+                    <CheckCircle size={22} className="text-lime-400 shrink-0" />
+                    <span className="font-bold">{plan.shots}</span> High-Res Photos
                   </li>
-                  <li className="flex items-center gap-3 font-medium text-slate-700 dark:text-slate-300">
-                    <CheckCircle
-                      size={22}
-                      className="text-blue-600 dark:text-blue-500 shrink-0"
-                    />
-                    <span className="font-bold">{plan.styles}</span> Custom
-                    Styles
+                  <li className="flex items-center gap-3 font-medium text-white/50">
+                    <CheckCircle size={22} className="text-lime-400 shrink-0" />
+                    <span className="font-bold">{plan.styles}</span> Custom Styles
                   </li>
-                  <li className="flex items-center gap-3 font-medium text-slate-700 dark:text-slate-300">
-                    <ImageIcon size={22} className="text-slate-400 shrink-0" />
+                  <li className="flex items-center gap-3 font-medium text-white/50">
+                    <ImageIcon size={22} className="text-white/30 shrink-0" />
                     {plan.resolution}
                   </li>
-                  <li className="flex items-center gap-3 font-medium text-slate-700 dark:text-slate-300">
-                    <Clock size={22} className="text-slate-400 shrink-0" />
+                  <li className="flex items-center gap-3 font-medium text-white/50">
+                    <Clock size={22} className="text-white/30 shrink-0" />
                     {plan.turnaround} Delivery
                   </li>
                 </ul>
 
                 <Link
                   href={`/upload?plan=${plan.id}`}
-                  className={`block w-full text-center py-4 rounded-xl font-bold text-lg transition-all active:scale-95 shadow-md ${plan.popular ? "bg-blue-600 text-white hover:bg-blue-700 hover:shadow-blue-600/25" : "bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-100"}`}
+                  className={`block w-full text-center py-4 rounded-2xl font-bold text-lg transition-all active:scale-95 ${
+                    plan.popular
+                      ? "bg-lime-400 text-black hover:bg-lime-300 shadow-lg shadow-lime-400/20"
+                      : "bg-white/5 text-white/70 border border-white/10 hover:bg-white/10"
+                  }`}
                 >
                   Get Started
                 </Link>
@@ -128,41 +125,35 @@ export default function PricingPage() {
           </div>
 
           {/* Included in all plans */}
-          <div className="max-w-4xl mx-auto bg-slate-50 dark:bg-slate-900/50 rounded-[2rem] border border-slate-200 dark:border-slate-800 p-8 md:p-12 mb-24">
-            <h3 className="text-2xl font-bold text-center mb-8 text-slate-900 dark:text-white">
+          <div className="max-w-4xl mx-auto rounded-[2rem] border border-white/10 p-8 md:p-12 mb-24" style={{ background: "#0E1016" }}>
+            <h3 className="text-2xl font-bold text-center mb-8 text-white">
               Included in every package
             </h3>
             <div className="grid sm:grid-cols-3 gap-8">
               <div className="text-center">
-                <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 bg-emerald-400/10 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Briefcase className="w-6 h-6" />
                 </div>
-                <h4 className="font-bold text-slate-900 dark:text-white mb-2">
-                  Commercial Rights
-                </h4>
-                <p className="text-sm text-slate-500 dark:text-slate-400">
+                <h4 className="font-bold text-white mb-2">Commercial Rights</h4>
+                <p className="text-sm text-white/40">
                   Full ownership of your photos to use anywhere, forever.
                 </p>
               </div>
               <div className="text-center">
-                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 bg-indigo-400/10 text-indigo-400 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Shield className="w-6 h-6" />
                 </div>
-                <h4 className="font-bold text-slate-900 dark:text-white mb-2">
-                  Total Privacy
-                </h4>
-                <p className="text-sm text-slate-500 dark:text-slate-400">
+                <h4 className="font-bold text-white mb-2">Total Privacy</h4>
+                <p className="text-sm text-white/40">
                   Your photos are encrypted and auto-deleted after 30 days.
                 </p>
               </div>
               <div className="text-center">
-                <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 bg-amber-400/10 text-amber-400 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Camera className="w-6 h-6" />
                 </div>
-                <h4 className="font-bold text-slate-900 dark:text-white mb-2">
-                  Studio Match
-                </h4>
-                <p className="text-sm text-slate-500 dark:text-slate-400">
+                <h4 className="font-bold text-white mb-2">Studio Match</h4>
+                <p className="text-sm text-white/40">
                   Results indistinguishable from a $500 photography session.
                 </p>
               </div>
@@ -171,26 +162,29 @@ export default function PricingPage() {
 
           {/* Pricing FAQ */}
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-10 text-slate-900 dark:text-white">
+            <h2 className="text-3xl font-black text-center mb-10 text-white">
               Frequently Asked Questions
             </h2>
             <div className="space-y-4">
               {FAQ_ITEMS.map((faq, idx) => (
                 <div
                   key={idx}
-                  className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden bg-white dark:bg-slate-900"
+                  className="border border-white/10 rounded-2xl overflow-hidden"
+                  style={{ background: "#0E1016" }}
                 >
                   <button
                     onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                    className="w-full px-6 py-5 text-left font-bold flex justify-between items-center text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50 transition"
+                    className="w-full px-6 py-5 text-left font-bold flex justify-between items-center text-white hover:bg-white/5 transition"
                   >
                     {faq.q}
                     <ChevronDown
-                      className={`w-5 h-5 text-slate-400 transition-transform ${openFaq === idx ? "rotate-180" : ""}`}
+                      className={`w-5 h-5 text-white/40 transition-transform ${
+                        openFaq === idx ? "rotate-180" : ""
+                      }`}
                     />
                   </button>
                   {openFaq === idx && (
-                    <div className="px-6 pb-5 text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
+                    <div className="px-6 pb-5 text-white/40 leading-relaxed text-sm">
                       {faq.a}
                     </div>
                   )}

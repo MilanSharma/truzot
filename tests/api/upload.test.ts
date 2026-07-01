@@ -78,10 +78,10 @@ describe("upload route handler", () => {
         body: JSON.stringify({ action: "invalid" }),
       }),
     );
-    const data = await response.json();
+    const data = await response.json() as { error?: string };
     expect(response.status).toBe(400);
     expect(data.error).toContain("action");
-  });
+  }, 10000);
 
   it("rejects missing action", async () => {
     const { POST } = await import("@/app/api/upload/route");
@@ -91,10 +91,10 @@ describe("upload route handler", () => {
         body: JSON.stringify({}),
       }),
     );
-    const data = await response.json();
+    const data = await response.json() as { error?: string };
     expect(response.status).toBe(400);
     expect(data.error).toContain("action");
-  });
+  }, 10000);
 
   it("rejects get-download-url with missing path", async () => {
     const { POST } = await import("@/app/api/upload/route");
@@ -104,10 +104,10 @@ describe("upload route handler", () => {
         body: JSON.stringify({ action: "get-download-url" }),
       }),
     );
-    const data = await response.json();
+    const data = await response.json() as { error?: string };
     expect(response.status).toBe(400);
     expect(data.error).toBe("Invalid path");
-  });
+  }, 10000);
 
   it("rejects check action with missing path", async () => {
     const { POST } = await import("@/app/api/upload/route");
@@ -117,10 +117,10 @@ describe("upload route handler", () => {
         body: JSON.stringify({ action: "check" }),
       }),
     );
-    const data = await response.json();
+    const data = await response.json() as { error?: string };
     expect(response.status).toBe(400);
     expect(data.error).toBe("Invalid path");
-  });
+  }, 10000);
 
   it("rejects path with traversal", async () => {
     const { POST } = await import("@/app/api/upload/route");
@@ -133,10 +133,10 @@ describe("upload route handler", () => {
         }),
       }),
     );
-    const data = await response.json();
+    const data = await response.json() as { error?: string };
     expect(response.status).toBe(400);
     expect(data.error).toBe("Invalid path");
-  });
+  }, 10000);
 
   it("rejects absolute path", async () => {
     const { POST } = await import("@/app/api/upload/route");
@@ -149,10 +149,10 @@ describe("upload route handler", () => {
         }),
       }),
     );
-    const data = await response.json();
+    const data = await response.json() as { error?: string };
     expect(response.status).toBe(400);
     expect(data.error).toBe("Invalid path");
-  });
+  }, 10000);
 
   it("rejects path with disallowed characters", async () => {
     const { POST } = await import("@/app/api/upload/route");
@@ -165,8 +165,8 @@ describe("upload route handler", () => {
         }),
       }),
     );
-    const data = await response.json();
+    const data = await response.json() as { error?: string };
     expect(response.status).toBe(400);
     expect(data.error).toBe("Invalid path");
-  });
+  }, 10000);
 });

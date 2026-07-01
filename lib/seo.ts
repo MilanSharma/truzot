@@ -162,21 +162,14 @@ export const PAGE_SEO: Record<string, PageSEO> = {
     ogDescription:
       "Get studio-quality headshots for your entire team. Bulk pricing available. Perfect for company websites and LinkedIn.",
   },
-  free: {
     title:
-      "Free AI Headshot Generator — Try Professional Headshots Free | Truzot",
     description:
       "Try our AI headshot generator for free. Generate a professional headshot from your photo at no cost. See the quality before you buy. Upgrade to unlock all styles and HD downloads.",
     keywords: [
-      "free AI headshot generator",
       "free professional headshot",
       "try AI headshots free",
       "free headshot maker",
-      "AI headshot trial",
-      "free LinkedIn photo generator",
     ],
-    canonical: `${siteUrl}/free`,
-    ogTitle: "Free AI Headshot Generator — Try Before You Buy",
     ogDescription:
       "Generate a professional AI headshot for free. See the quality yourself before choosing a plan.",
   },

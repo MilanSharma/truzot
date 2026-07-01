@@ -16,6 +16,7 @@ interface RateLimitRule {
 }
 
 const RATE_LIMIT_RULES: Record<string, RateLimitRule> = {
+  "/api/waitlist": { max: 10, window: "60 s" },
   "/api/auth/signup": { max: 5, window: "60 s" },
   "/api/auth/reset-password": { max: 5, window: "60 s" },
   "/api/checkout": { max: 10, window: "60 s" },
@@ -25,12 +26,12 @@ const RATE_LIMIT_RULES: Record<string, RateLimitRule> = {
   "/api/retry": { max: 5, window: "60 s" },
   "/api/regenerate": { max: 10, window: "60 s" },
   "/api/contact": { max: 10, window: "60 s" },
+  "/api/unsubscribe": { max: 5, window: "60 s" },
   "/api/order-status": { max: 30, window: "60 s" },
   "/api/download": { max: 30, window: "60 s" },
   "/api/download/token": { max: 10, window: "60 s" },
   "/api/generate": { max: 5, window: "60 s" },
   "/api/generate/retry": { max: 5, window: "60 s" },
-  "/api/free-train": { max: 3, window: "60 s" },
 };
 
 function getIp(req: NextRequest): string {
@@ -68,7 +69,11 @@ if (hasRedisConfig) {
 const CSRF_PROTECTED = new Set([
   "/api/feedback",
   "/api/orders",
+  "/api/orders/cancel",
   "/api/regenerate",
+  "/api/checkout",
+  "/api/retry",
+  "/api/generate/retry",
 ]);
 
 export default async function proxy(req: NextRequest) {
@@ -99,6 +104,48 @@ export default async function proxy(req: NextRequest) {
       );
     }
   }
+
+  
+  // Bypass rate limits for internal system triggers
+  if (req.headers.get("x-truzot-secret") === process.env.CRON_SECRET) {
+    return NextResponse.next();
+  }
+
+  
+  const origin = req.headers.get("origin");
+const ALLOWED_ORIGINS = [
+  process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+  "https://truzot.com",
+  "https://www.truzot.com"
+];
+let isOriginAllowed = false;
+
+if (origin) {
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    isOriginAllowed = true;
+  } else {
+    try {
+      const url = new URL(origin);
+      // Allow localhost/127.0.0.1 on any port in development
+      if (
+        process.env.NODE_ENV !== "production" &&
+        (url.hostname === "localhost" || url.hostname === "127.0.0.1" || url.hostname.endsWith(".local"))
+      ) {
+        isOriginAllowed = true;
+      }
+      // Allow Vercel preview deployments
+      if (url.hostname.endsWith(".vercel.app")) {
+        isOriginAllowed = true;
+      }
+    } catch {
+      // Ignore invalid URLs
+    }
+  }
+}
+
+if (origin && !isOriginAllowed) {
+  return NextResponse.json({ error: "Forbidden Origin" }, { status: 403 });
+}
 
   const rule = RATE_LIMIT_RULES[pathname];
 

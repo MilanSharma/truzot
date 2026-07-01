@@ -1,3 +1,6 @@
+-- Enable pg_trgm extension for trigram matching
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
 -- Optimize Dashboard loading (filtering by user and status)
 CREATE INDEX IF NOT EXISTS idx_orders_user_status ON orders(user_id, status);
 

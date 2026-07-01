@@ -71,7 +71,6 @@ Desktop.ini
 # Scraped data and external tool configs
 *.csv
 scraper.cjs
-*.yml
 check_stats.sql
 .playwright-mcp/
 
@@ -91,3 +90,51 @@ check_stats.sql
 
 # Draft distribution articles (published copy kept in content/blog/)
 /content/distribution/
+
+
+
+
+# ==========================================
+# 🗑️ OCX / OpenCode Monorepo Bloat
+# ==========================================
+# These directories belong to the OCX CLI tool, NOT the Truzot SaaS.
+# They are the primary reason your repo is so massive.
+ocx/
+docs/
+workers/
+facades/
+.ocx/
+skills-lock.json
+bun.lock
+.turbo/
+dist/
+
+# ==========================================
+# 🤖 AI Agent & Tooling Scratchpads
+# ==========================================
+.agents/
+.mcp/
+.opencode/
+.aider*
+.playwright-mcp/
+
+# ==========================================
+# 🎭 Playwright & Testing
+# ==========================================
+test-results/
+playwright-report/
+/playwright-session/
+/data/
+
+# ==========================================
+# 📝 Local Scripts, Notes & Scraped Data
+# ==========================================
+fix-*.cjs
+add-fetch-interceptor.cjs
+DATABASE_READINESS_CHECK.md
+SUMMARY.md
+/content/distribution/
+*.csv
+scraper.cjs
+check_stats.sql
+issue.docx

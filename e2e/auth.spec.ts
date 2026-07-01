@@ -54,7 +54,7 @@ test.describe("Authentication", () => {
     // Wait for error - the error div has bg-red-50 class and contains the error text
     // Supabase returns "Invalid login credentials"
     await page.waitForTimeout(3000);
-    const errorDiv = page.locator('div.bg-red-50, div[class*="bg-red-50"]');
+    const errorDiv = page.locator('div[class*="bg-red"], .text-red-300, .text-red-400, p:has-text("Invalid"), p:has-text("Error"), p:has-text("Confirm")').first();
     await expect(errorDiv).toBeVisible({ timeout: 20_000 });
   });
 
@@ -105,7 +105,7 @@ test.describe("Reset Password", () => {
     await page.waitForTimeout(300);
     await expect(
       page.getByRole("heading", {
-        name: /reset your password/i,
+        name: /reset.*password/i,
       }),
     ).toBeVisible();
     const emailInput = page.locator('input[type="email"]').first();

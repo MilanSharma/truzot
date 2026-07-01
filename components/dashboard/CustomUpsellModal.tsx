@@ -1,6 +1,20 @@
 "use client";
 import { useState } from "react";
-import { X, Sparkles, Loader2 } from "lucide-react";
+import { useToast } from "@/components/Toast";
+import {
+  X,
+  Sparkles,
+  Loader2,
+  Briefcase,
+  Shirt,
+  GraduationCap,
+  Coffee,
+  Building,
+  Monitor,
+  TreePine,
+  Sunrise,
+} from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function CustomUpsellModal({
   orderId,
@@ -9,9 +23,24 @@ export default function CustomUpsellModal({
   orderId: string;
   onClose: () => void;
 }) {
-  const [clothing, setClothing] = useState("Business Suit (Corporate)");
-  const [background, setBackground] = useState("Modern Corporate Office");
+  const [clothing, setClothing] = useState("Business Suit");
+  const [background, setBackground] = useState("Modern Office");
   const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+
+  const CLOTHING_OPTS = [
+    { id: "Business Suit", icon: Briefcase },
+    { id: "Smart Casual Blazer", icon: Shirt },
+    { id: "Creative Turtleneck", icon: GraduationCap },
+    { id: "Tech Startup T-Shirt", icon: Coffee },
+  ];
+
+  const BG_OPTS = [
+    { id: "Modern Office", icon: Building },
+    { id: "Clean Studio Grey", icon: Monitor },
+    { id: "Outdoor Urban", icon: Sunrise },
+    { id: "Cozy Cafe", icon: TreePine },
+  ];
 
   const handleCheckout = async () => {
     setLoading(true);
@@ -23,91 +52,129 @@ export default function CustomUpsellModal({
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
-      else alert(data.error || "Failed to create checkout");
+      else toast(data.error || "Failed to create checkout", "error");
     } catch (err) {
-      alert("An error occurred.");
+      toast("An error occurred.", "error");
     }
     setLoading(false);
   };
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in">
-      <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-lg w-full p-6 relative border border-slate-200 dark:border-slate-800 animate-in zoom-in-95">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.95, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.95, opacity: 0 }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
+        className="bg-[#0E1016] border border-white/10 rounded-3xl shadow-2xl max-w-2xl w-full p-8 relative"
+        onClick={(e) => e.stopPropagation()}
+      >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+          className="absolute top-6 right-6 text-white/40 hover:text-white transition bg-white/5 p-2 rounded-full"
         >
           <X className="w-5 h-5" />
         </button>
-        <div className="flex items-center gap-2 mb-2">
-          <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
-            <Sparkles className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+
+        <div className="flex items-center gap-3 mb-3">
+          <div className="p-2.5 bg-lime-400/10 border border-lime-400/20 rounded-xl">
+            <Sparkles className="w-6 h-6 text-lime-400" />
           </div>
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white">
-            Custom Studio Pack
-          </h2>
+          <h2 className="text-3xl font-black text-white">Create Custom Pack</h2>
         </div>
-        <p className="text-slate-600 dark:text-slate-400 mb-6 text-sm">
-          Need a specific look? Generate{" "}
-          <span className="font-bold text-slate-900 dark:text-white">
-            20 custom headshots
-          </span>{" "}
-          tailored to your exact preferences for just{" "}
-          <span className="font-bold text-emerald-600">$14</span>.
+
+        <p className="text-white/40 mb-8 text-sm">
+          Select your exact preferences. We&apos;ll reuse your trained AI model
+          to generate{" "}
+          <strong className="text-white">20 custom headshots</strong> for just{" "}
+          <strong className="text-lime-400">$14</strong>.
         </p>
 
-        <div className="space-y-4 mb-6">
+        <div className="space-y-6 mb-8">
           <div>
-            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-              Clothing & Attire
+            <label className="block text-sm font-bold text-white/40 mb-3 uppercase tracking-widest">
+              Attire
             </label>
-            <select
-              value={clothing}
-              onChange={(e) => setClothing(e.target.value)}
-              className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
-            >
-              <option>Business Suit (Corporate)</option>
-              <option>Smart Casual Blazer</option>
-              <option>Creative Turtleneck</option>
-              <option>Tech Startup Casual</option>
-            </select>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {CLOTHING_OPTS.map((opt) => {
+                const Icon = opt.icon;
+                const isSelected = clothing === opt.id;
+                return (
+                  <button
+                    key={opt.id}
+                    onClick={() => setClothing(opt.id)}
+                    className={`flex flex-col items-center justify-center p-4 rounded-xl border transition-all ${
+                      isSelected
+                        ? "bg-lime-400/10 border-lime-400 text-lime-400 scale-[1.02]"
+                        : "bg-white/5 border-white/10 text-white/50 hover:border-white/20 hover:text-white/70"
+                    }`}
+                  >
+                    <Icon className="w-6 h-6 mb-2" />
+                    <span className="text-xs font-bold text-center leading-tight">
+                      {opt.id}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
+
           <div>
-            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-              Background Vibe
+            <label className="block text-sm font-bold text-white/40 mb-3 uppercase tracking-widest">
+              Background
             </label>
-            <select
-              value={background}
-              onChange={(e) => setBackground(e.target.value)}
-              className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
-            >
-              <option>Modern Corporate Office</option>
-              <option>Clean Studio Grey</option>
-              <option>Outdoor Urban City</option>
-              <option>Cozy Library / Academic</option>
-            </select>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {BG_OPTS.map((opt) => {
+                const Icon = opt.icon;
+                const isSelected = background === opt.id;
+                return (
+                  <button
+                    key={opt.id}
+                    onClick={() => setBackground(opt.id)}
+                    className={`flex flex-col items-center justify-center p-4 rounded-xl border transition-all ${
+                      isSelected
+                        ? "bg-lime-400/10 border-lime-400 text-lime-400 scale-[1.02]"
+                        : "bg-white/5 border-white/10 text-white/50 hover:border-white/20 hover:text-white/70"
+                    }`}
+                  >
+                    <Icon className="w-6 h-6 mb-2" />
+                    <span className="text-xs font-bold text-center leading-tight">
+                      {opt.id}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
         <button
           onClick={handleCheckout}
           disabled={loading}
-          className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold rounded-xl flex items-center justify-center gap-2 transition shadow-lg disabled:opacity-70"
+          className="w-full bg-lime-400 text-black py-4 rounded-xl text-lg font-bold hover:bg-lime-300 transition shadow-lg shadow-lime-400/20 disabled:opacity-50 flex items-center justify-center gap-2"
         >
           {loading ? (
             <>
-              <Loader2 className="w-4 h-4 animate-spin" /> Redirecting...
+              <Loader2 className="w-5 h-5 animate-spin" />
+              Redirecting to Checkout...
             </>
           ) : (
             <>
-              <Sparkles className="w-4 h-4" /> Unlock Custom Pack — $14
+              <Sparkles className="w-5 h-5" />
+              Generate 20 Custom Photos — $14
             </>
           )}
         </button>
-        <p className="text-center text-xs text-slate-400 mt-3">
-          Powered by your existing trained AI model. Delivered in ~10 minutes.
+        <p className="text-center text-xs text-white/20 mt-4 font-semibold">
+          Delivered in ~10 minutes. No uploading required.
         </p>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

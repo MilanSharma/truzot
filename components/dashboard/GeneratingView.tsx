@@ -30,7 +30,7 @@ export default function GeneratingView({ count, target }: GeneratingViewProps) {
     "Applying dynamic studio lighting models...",
     "Rendering Corporate & Executive styles...",
     "Generating authentic outdoor backgrounds...",
-    "Perfecting skin textures and micro-expressions...",
+    "Perfecting skin textures and micro‑expressions...",
     "Enhancing 4K/8K resolution details...",
     "Packaging final gallery...",
   ];
@@ -99,50 +99,52 @@ export default function GeneratingView({ count, target }: GeneratingViewProps) {
   const percentage = target > 0 ? Math.round((count / target) * 100) : 0;
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-200/60 dark:border-slate-800 shadow-2xl p-8 md:p-12 max-w-3xl mx-auto mt-12 relative overflow-hidden">
-      {/* Background ambient glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-indigo-500/10 dark:bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none" />
+    <div className="bg-[#0E1016] rounded-[2.5rem] border border-white/10 shadow-2xl p-8 md:p-12 max-w-3xl mx-auto mt-12 relative overflow-hidden">
+      {/* Background ambient glow — lime instead of indigo */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-lime-400/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="text-center relative z-10 mb-12">
-        <div className="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-xl shadow-indigo-500/30 transform rotate-3">
-          <Sparkles className="w-12 h-12 text-white animate-pulse" />
+        <div className="w-24 h-24 bg-lime-400/10 border border-lime-400/20 rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-lg shadow-lime-400/10">
+          <Sparkles className="w-12 h-12 text-lime-400 animate-pulse" />
         </div>
-        <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-3 tracking-tight">
+        <h2 className="text-3xl font-black text-white mb-3 tracking-tight">
           Rendering Your Photos
         </h2>
-        <p className="text-lg text-slate-500 dark:text-slate-400 max-w-md mx-auto">
-          Your model is trained! Now generating high-resolution headshots in
+        <p className="text-lg text-white/40 max-w-md mx-auto">
+          Your model is trained! Now generating high‑resolution headshots in
           multiple professional styles.
         </p>
       </div>
 
-      <div className="max-w-xl mx-auto bg-slate-50 dark:bg-[#0b0d10] rounded-[2rem] p-8 border border-slate-100 dark:border-slate-800 relative z-10 shadow-inner">
+      {/* Progress card */}
+      <div className="max-w-xl mx-auto bg-[#07080A] rounded-[2rem] p-8 border border-white/10 relative z-10 shadow-inner">
         <div className="flex justify-between items-end mb-4">
           <div>
-            <div className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-1">
+            <div className="text-[10px] font-black text-lime-400 uppercase tracking-widest mb-1">
               Engine Status
             </div>
-            <div className="text-xl font-bold text-slate-900 dark:text-white">
+            <div className="text-xl font-bold text-white">
               {percentage}% Complete
             </div>
           </div>
-          <div className="text-sm font-bold text-slate-500 dark:text-slate-400 flex items-center gap-2 bg-white dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700">
+          <div className="text-sm font-bold text-white/40 flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg border border-white/10">
             <ImageIcon className="w-4 h-4" /> {count} / {target}
           </div>
         </div>
 
-        <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden mb-6 shadow-inner border border-slate-300/50 dark:border-slate-700/50">
+        {/* Progress bar */}
+        <div className="h-4 bg-white/10 rounded-full overflow-hidden mb-6 border border-white/10">
           <div
-            className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 rounded-full transition-all duration-700 ease-out relative"
+            className="h-full bg-gradient-to-r from-lime-500 via-lime-400 to-lime-500 rounded-full transition-all duration-700 ease-out relative"
             style={{ width: `${percentage}%`, backgroundSize: "200% auto" }}
           >
             <div className="absolute inset-0 bg-white/20 animate-[shimmer_2s_infinite]" />
           </div>
         </div>
 
-        {/* Animated Log Text */}
-        <div className="flex items-center gap-3 justify-center text-sm font-medium text-slate-600 dark:text-slate-400 h-8">
-          <Loader2 className="w-4 h-4 animate-spin text-indigo-500" />
+        {/* Animated log */}
+        <div className="flex items-center gap-3 justify-center text-sm font-medium text-white/40 h-8">
+          <Loader2 className="w-4 h-4 animate-spin text-lime-400" />
           <span
             className="animate-in fade-in slide-in-from-bottom-2 duration-300"
             key={activeLogIndex}
@@ -152,26 +154,27 @@ export default function GeneratingView({ count, target }: GeneratingViewProps) {
         </div>
       </div>
 
+      {/* Actions */}
       <div className="mt-10 flex flex-col items-center gap-4 relative z-10">
         <button
           onClick={handleRetry}
           disabled={retrying}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 rounded-xl font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition disabled:opacity-50 shadow-sm active:scale-95"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 text-white border border-white/10 rounded-2xl font-bold hover:bg-white/10 transition disabled:opacity-50 shadow-sm active:scale-95"
         >
           {retrying ? (
-            <Loader2 className="w-4 h-4 animate-spin text-indigo-600" />
+            <Loader2 className="w-4 h-4 animate-spin text-lime-400" />
           ) : (
-            <RefreshCw className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+            <RefreshCw className="w-4 h-4 text-lime-400" />
           )}
           {count > 0 ? "Force Resume Generation" : "Start Generation"}
         </button>
-        <p className="text-xs font-semibold text-slate-400 text-center max-w-sm">
+        <p className="text-xs font-semibold text-white/30 text-center max-w-sm">
           If generation seems stuck for more than 5 minutes, click resume to
           trigger the next batch. You can safely close this window.
         </p>
         <button
           onClick={() => setConfirmOpen(true)}
-          className="text-xs text-red-500 hover:underline mt-2"
+          className="text-xs text-red-400 hover:underline mt-2"
         >
           Stop Processing & Cancel Order
         </button>

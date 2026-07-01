@@ -32,46 +32,58 @@ export default function TeamPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+    <div className="min-h-screen text-white" style={{ background: "#07080A" }}>
       <Nav />
       <div className="max-w-5xl mx-auto px-6 py-16">
-        <h1 className="text-4xl font-bold mb-2 text-slate-900 dark:text-white">
+        <h1 className="text-4xl font-black tracking-tight mb-2 text-white">
           Team Headshots, Unified Brand
         </h1>
-        <p className="text-lg text-slate-500 dark:text-slate-400 mb-10">
+        <p className="text-lg text-white/40 mb-10">
           Create consistent, professional headshots for your entire company.
         </p>
+
+        {/* Feature cards */}
         <div className="grid md:grid-cols-3 gap-6 mb-10">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6">
-            <h3 className="text-lg font-bold mb-2 text-slate-900 dark:text-white">
-              Admin Dashboard
-            </h3>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
+          <div
+            className="border rounded-2xl p-6"
+            style={{ background: "#0E1016", borderColor: "rgba(255,255,255,0.07)" }}
+          >
+            <h3 className="text-lg font-bold mb-2 text-white">Admin Dashboard</h3>
+            <p className="text-sm text-white/40">
               Invite employees, set branding guidelines, track progress.
             </p>
           </div>
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6">
-            <h3 className="text-lg font-bold mb-2 text-slate-900 dark:text-white">
-              Bulk Pricing
-            </h3>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
+          <div
+            className="border rounded-2xl p-6"
+            style={{ background: "#0E1016", borderColor: "rgba(255,255,255,0.07)" }}
+          >
+            <h3 className="text-lg font-bold mb-2 text-white">Bulk Pricing</h3>
+            <p className="text-sm text-white/40">
               Volume discounts starting at 10+ employees.
             </p>
           </div>
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6">
-            <h3 className="text-lg font-bold mb-2 text-slate-900 dark:text-white">
-              API & SSO
-            </h3>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
+          <div
+            className="border rounded-2xl p-6"
+            style={{ background: "#0E1016", borderColor: "rgba(255,255,255,0.07)" }}
+          >
+            <h3 className="text-lg font-bold mb-2 text-white">API & SSO</h3>
+            <p className="text-sm text-white/40">
               Enterprise-grade security and automation.
             </p>
           </div>
         </div>
-        <div className="mb-6 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl px-6 py-4 text-sm text-emerald-800 dark:text-emerald-300">
+
+        {/* Info banner */}
+        <div className="mb-6 bg-lime-400/10 border border-lime-400/20 rounded-2xl px-6 py-4 text-sm text-lime-400">
           Team features are available to all users — no Pro plan required.
         </div>
-        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-xl p-8">
-          <h2 className="text-2xl font-bold mb-4 text-slate-900 dark:text-white">
+
+        {/* CTA section */}
+        <div
+          className="border rounded-2xl p-8"
+          style={{ background: "#0E1016", borderColor: "rgba(255,255,255,0.07)" }}
+        >
+          <h2 className="text-2xl font-bold mb-4 text-white">
             Start your team trial
           </h2>
           <div className="flex flex-col sm:flex-row gap-4 max-w-xl">
@@ -81,7 +93,11 @@ export default function TeamPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={status === "loading" || status === "success"}
-              className="flex-1 px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition disabled:opacity-50"
+              className="flex-1 px-4 py-3 rounded-2xl border text-white placeholder-white/25 focus:ring-2 focus:ring-lime-400/50 outline-none transition disabled:opacity-50"
+              style={{
+                background: "#0E1016",
+                borderColor: "rgba(255,255,255,0.07)",
+              }}
             />
             <input
               type="text"
@@ -89,23 +105,27 @@ export default function TeamPage() {
               value={company}
               onChange={(e) => setCompany(e.target.value)}
               disabled={status === "loading" || status === "success"}
-              className="flex-1 px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition disabled:opacity-50"
+              className="flex-1 px-4 py-3 rounded-2xl border text-white placeholder-white/25 focus:ring-2 focus:ring-lime-400/50 outline-none transition disabled:opacity-50"
+              style={{
+                background: "#0E1016",
+                borderColor: "rgba(255,255,255,0.07)",
+              }}
             />
             <button
               onClick={handleRequestDemo}
               disabled={!email || status === "loading" || status === "success"}
-              className="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition disabled:opacity-50"
+              className="bg-lime-400 text-black px-6 py-3 rounded-2xl font-bold hover:bg-lime-300 transition disabled:opacity-50 shadow-lg shadow-lime-400/20"
             >
               {status === "loading" ? "Sending..." : "Request Demo"}
             </button>
           </div>
           {status === "success" && (
-            <p className="text-green-600 font-semibold mt-4">
+            <p className="text-lime-400 font-semibold mt-4">
               Thanks! We&apos;ll contact you shortly.
             </p>
           )}
           {status === "error" && (
-            <p className="text-red-600 text-sm mt-2">{errorMsg}</p>
+            <p className="text-red-400 text-sm mt-2">{errorMsg}</p>
           )}
         </div>
       </div>

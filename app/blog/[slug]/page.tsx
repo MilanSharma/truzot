@@ -81,7 +81,7 @@ export default async function BlogPostPage({
   if (!post) notFound();
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+    <div className="min-h-screen">
       <BlogPostingSchema
         title={post.title}
         description={post.excerpt || post.title}
@@ -97,18 +97,18 @@ export default async function BlogPostPage({
         ]}
       />
       <Nav showBack />
-      <main id="main-content" className="max-w-3xl mx-auto px-6 py-16">
-        <div className="text-sm text-blue-600 font-semibold mb-2 uppercase tracking-wider">
+      <main className="max-w-3xl mx-auto px-6 py-16">
+        <div className="text-sm text-lime-400 font-semibold mb-2 uppercase tracking-wider">
           {post.date}
         </div>
-        <h1 className="text-4xl font-bold mb-8 text-slate-900 dark:text-white leading-tight">
+        <h1 className="text-4xl font-black text-[var(--text)] mb-8 leading-tight">
           {post.title}
         </h1>
-        <div className="prose prose-slate dark:prose-invert max-w-none leading-relaxed text-slate-600 dark:text-slate-400">
+        <article className="prose prose-invert max-w-none leading-relaxed text-[var(--text-secondary)]">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
             {post.content}
           </ReactMarkdown>
-        </div>
+        </article>
       </main>
       <Footer />
     </div>

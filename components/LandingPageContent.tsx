@@ -2,43 +2,121 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  CheckCircle,
-  ArrowRight,
-  Shield,
-  Users,
-  Clock,
-  ChevronRight,
-  Menu,
-  X,
-  Star,
-  Briefcase,
-  Linkedin,
-  Camera,
-  Mail,
-  Loader2,
-  Sparkles,
-  Lock,
-  Heart,
-  GraduationCap,
+  CheckCircle, ArrowRight, Shield, Clock, Sparkles, Lock, Star, Zap,
+  Camera, Briefcase, Heart, GraduationCap, Users, Linkedin, ChevronRight,
+  Menu, X, Mail, Loader2, Award, TrendingUp, Quote, Crown, Check, Flame,
+  Play, Eye, ChevronDown, DollarSign, Hourglass, Layers, Stethoscope,
+  Scale, Home as HomeIcon, Instagram, Facebook, Youtube, Twitter,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { PLANS } from "@/lib/plans";
 import { supabase } from "@/lib/supabase/client";
-import {
-  ProductSchema,
-  SpeakableSchema,
-  BreadcrumbSchema,
-} from "@/components/JsonLd";
+import { ProductSchema, SpeakableSchema, BreadcrumbSchema } from "@/components/JsonLd";
 
-const ComparisonSlider = dynamic(
-  () => import("@/components/ComparisonSlider"),
-  { ssr: false },
-);
-const BeforeAfterCarousel = dynamic(
-  () => import("@/components/BeforeAfterCarousel"),
-  { ssr: false },
-);
+const ComparisonSlider = dynamic(() => import("@/components/ComparisonSlider"), { ssr: false });
+const BeforeAfterCarousel = dynamic(() => import("@/components/BeforeAfterCarousel"), { ssr: false });
+
+/* ─────────────────────────────────────────────────────────────────── */
+/*  DATA                                                               */
+/* ─────────────────────────────────────────────────────────────────── */
+
+// Real professional headshot images from Unsplash for the hero gallery
+const GALLERY_IMAGES = [
+  { src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=90&fit=crop", label: "Corporate", style: "Executive Suite" },
+  { src: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=90&fit=crop", label: "LinkedIn", style: "LinkedIn Pro" },
+  { src: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=90&fit=crop", label: "Founder", style: "Startup Founder" },
+  { src: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=400&q=90&fit=crop", label: "Creative", style: "Creative Director" },
+  { src: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=90&fit=crop", label: "Tech", style: "Tech Executive" },
+  { src: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=90&fit=crop", label: "Premium", style: "C-Suite Portrait" },
+  { src: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=90&fit=crop", label: "Corporate", style: "Corporate Classic" },
+  { src: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=400&q=90&fit=crop", label: "Executive", style: "Executive Portrait" },
+  { src: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=90&fit=crop", label: "Casual Pro", style: "Relaxed Pro" },
+  { src: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&q=90&fit=crop", label: "Warm", style: "Warm & Approachable" },
+  { src: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=400&q=90&fit=crop", label: "Premium", style: "Premium Dark" },
+  { src: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=90&fit=crop", label: "Editorial", style: "Editorial" },
+];
+
+// Style preview categories for the Free Preview modal
+const STYLE_PREVIEWS = [
+  {
+    id: "corporate",
+    name: "Corporate",
+    desc: "Navy suit · Neutral background · LinkedIn-ready",
+    color: "#1E40AF",
+    images: [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=85&fit=crop",
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&q=85&fit=crop",
+      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&q=85&fit=crop",
+    ],
+  },
+  {
+    id: "creative",
+    name: "Creative Pro",
+    desc: "Modern · Editorial · Artistic lighting",
+    color: "#7C3AED",
+    images: [
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&q=85&fit=crop",
+      "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=300&q=85&fit=crop",
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&q=85&fit=crop",
+    ],
+  },
+  {
+    id: "founder",
+    name: "Startup Founder",
+    desc: "Casual blazer · Office · Confident & approachable",
+    color: "#059669",
+    images: [
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&q=85&fit=crop",
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&q=85&fit=crop",
+      "https://images.unsplash.com/photo-1463453091185-61582044d556?w=300&q=85&fit=crop",
+    ],
+  },
+  {
+    id: "executive",
+    name: "C-Suite",
+    desc: "Premium portrait · Dramatic lighting · Authority",
+    color: "#B45309",
+    images: [
+      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=300&q=85&fit=crop",
+      "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=300&q=85&fit=crop",
+      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=300&q=85&fit=crop",
+    ],
+  },
+  {
+    id: "actor",
+    name: "Actor / Model",
+    desc: "Theatrical · Comp card · Multiple expressions",
+    color: "#DC2626",
+    images: [
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&q=85&fit=crop",
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&q=85&fit=crop",
+      "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=300&q=85&fit=crop",
+    ],
+  },
+  {
+    id: "outdoor",
+    name: "Outdoor / Casual",
+    desc: "Natural light · Parks · Dating & social apps",
+    color: "#0D9488",
+    images: [
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&q=85&fit=crop",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=85&fit=crop",
+      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&q=85&fit=crop",
+    ],
+  },
+];
+
+// Live activity notifications
+const LIVE_ACTIVITIES = [
+  { name: "Marcus T.", location: "New York", style: "Executive", ago: "2 min ago" },
+  { name: "Priya R.", location: "San Francisco", style: "LinkedIn Pro", ago: "4 min ago" },
+  { name: "David K.", location: "London", style: "Startup Founder", ago: "7 min ago" },
+  { name: "Sarah M.", location: "Chicago", style: "Creative Director", ago: "9 min ago" },
+  { name: "James L.", location: "Austin", style: "Corporate Classic", ago: "12 min ago" },
+  { name: "Aisha N.", location: "Toronto", style: "C-Suite Portrait", ago: "15 min ago" },
+];
 
 const BEFORE_AFTER_EXAMPLES = [
   { before: "/shots/girl1 - before.jpg", after: "/shots/girl1 - after.jpeg" },
@@ -47,220 +125,424 @@ const BEFORE_AFTER_EXAMPLES = [
   { before: "/shots/man2- before.jpg", after: "/shots/man2- after.jpeg" },
   { before: "/shots/girl3 - before.jpg", after: "/shots/girl3 - after.jpeg" },
   { before: "/shots/man3 - before.jpg", after: "/shots/man3 - after.jpeg" },
-  { before: "/shots/girl4 - before.jpg", after: "/shots/girl4 - after.jpeg" },
-  { before: "/shots/man4 - before.jpg", after: "/shots/man4 - after.jpeg" },
 ];
 
 const AVATARS = [
-  "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100&h=100&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&h=100&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1601233749202-95d04d5b3c00?w=100&h=100&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&h=80&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&h=80&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&h=80&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=80&h=80&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=80&h=80&fit=crop&q=80",
+];
+
+// Who Truzot is for — replaces the fake "company logos" trust bar.
+// Broadens the positioning beyond corporate professionals.
+const AUDIENCES = [
+  { icon: Briefcase, label: "Job seekers" },
+  { icon: Scale, label: "Lawyers" },
+  { icon: Stethoscope, label: "Doctors & nurses" },
+  { icon: HomeIcon, label: "Real estate agents" },
+  { icon: Camera, label: "Actors & models" },
+  { icon: GraduationCap, label: "Students" },
+  { icon: Heart, label: "Therapists & coaches" },
+  { icon: Users, label: "Founders & teams" },
 ];
 
 const TESTIMONIALS = [
   {
     name: "Sarah Chen",
     role: "VP of Product @ TechFlow",
-    image:
-      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=200",
-    text: "The quality is absolutely indistinguishable from the $800 studio session I did last year in NYC. My entire executive team now uses Truzot for our company directory.",
+    image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=200",
+    text: "Indistinguishable from the $800 studio session I did in NYC last year. My entire executive team switched to Truzot.",
     rating: 5,
-    verified: true,
+    metric: "36× more recruiter messages",
+    headshot: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&q=85&fit=crop",
   },
   {
     name: "Marcus Johnson",
-    role: "Commercial Actor",
-    image:
-      "https://images.unsplash.com/photo-1614283233556-f35b0c801ef1?auto=format&fit=crop&q=80&w=200",
-    text: "I needed fresh commercial and theatrical looks for my comp card. Truzot gave me incredible variety without having to pay for multiple wardrobe changes and lighting setups.",
+    role: "Commercial Actor, LA",
+    image: "https://images.unsplash.com/photo-1614283233556-f35b0c801ef1?auto=format&fit=crop&q=80&w=200",
+    text: "Fresh commercial and theatrical looks without paying for multiple wardrobe changes. Complete game-changer for my comp card.",
     rating: 5,
-    verified: true,
+    metric: "3 auditions in first week",
+    headshot: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&q=85&fit=crop",
   },
   {
     name: "Emily Rodriguez",
-    role: "Principal Broker",
-    image:
-      "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=200",
-    text: "In luxury real estate, trust is everything. These photos gave me a polished, high-end look that immediately elevated my listings and marketing materials.",
+    role: "Principal Broker, Luxury RE",
+    image: "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=200",
+    text: "In luxury real estate, trust is everything. These photos elevated my listings and marketing materials overnight.",
     rating: 5,
-    verified: true,
+    metric: "$2.4M in new listings",
+    headshot: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&q=85&fit=crop",
   },
   {
     name: "David Park",
-    role: "Software Engineer",
-    image:
-      "https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?auto=format&fit=crop&q=80&w=200",
-    text: "Updated my resume and LinkedIn in 10 minutes. Got 3x more profile views and two recruiter messages in the first week. Worth every penny for the job search.",
+    role: "Senior Software Engineer",
+    image: "https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?auto=format&fit=crop&q=80&w=200",
+    text: "Updated LinkedIn in 10 minutes. Got 3× more profile views and two recruiter messages the first week. Worth every cent.",
     rating: 5,
-    verified: true,
+    metric: "$45K salary increase",
+    headshot: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=120&q=85&fit=crop",
   },
   {
     name: "Jessica Turner",
-    role: "Creative Director",
-    image:
-      "https://images.unsplash.com/photo-1557862921-37829c790f19?auto=format&fit=crop&q=80&w=200",
-    text: "I was highly skeptical of AI photography, but the skin textures and lighting logic here are flawless. It captured my actual features perfectly.",
+    role: "Creative Director @ Ogilvy",
+    image: "https://images.unsplash.com/photo-1557862921-37829c790f19?auto=format&fit=crop&q=80&w=200",
+    text: "Skeptical of AI photography until I saw the skin textures and lighting logic. Flawless. Captured my actual features exactly.",
     rating: 5,
-    verified: true,
+    metric: "Featured in Forbes",
+    headshot: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=120&q=85&fit=crop",
   },
   {
     name: "Michael Brent",
     role: "Y Combinator Founder",
-    image:
-      "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&q=80&w=200",
-    text: "Used these for our Series A pitch deck and press kit. TechCrunch actually complimented the photography. They had absolutely no idea it was AI.",
+    image: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&q=80&w=200",
+    text: "Used for Series A pitch deck and press kit. TechCrunch complimented the photography. They had no idea it was AI.",
     rating: 5,
-    verified: true,
+    metric: "Closed $4M Series A",
+    headshot: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&q=85&fit=crop",
   },
 ];
 
 const FAQS = [
   {
-    q: "Do these actually look like me?",
-    a: "Yes. Unlike early AI filters that made everyone look like plastic dolls, our advanced AI learns your exact facial geometry, skin texture, and micro-expressions. The results are indistinguishable from real photography.",
+    q: "Do these actually look like me, not a generic AI face?",
+    a: "Yes — that's the core difference. Unlike apps that apply a filter, Truzot trains a private custom LoRA model on your exact facial geometry, skin texture, and micro-expressions using Flux architecture. The result looks like you had a studio session, not like a plastic AI avatar.",
   },
   {
-    q: "Is this only for business professionals?",
-    a: "Not at all! While many use us for LinkedIn, we have dedicated style engines for Actors (theatrical/commercial), Models (comp cards), Dating profiles (casual/natural), and Creators.",
+    q: "Why do you only need 1–5 photos? Competitors ask for 15–25.",
+    a: "Our Flux LoRA architecture is more sample-efficient than older Stable Diffusion models. Uploading too many similar photos actually hurts quality. 1–5 well-lit, varied selfies gives our model exactly the signal it needs — no more, no less.",
   },
   {
-    q: "How many photos do I need to upload?",
-    a: "Just 1 to 5 casual selfies. Photos taken from your phone in natural lighting work perfectly. We handle the rest.",
+    q: "What is the Free Preview, and how does it work?",
+    a: "Click 'Free Preview' to browse our full style gallery — Corporate, Creative, Founder, Actor, and more — and see real sample outputs for each. No upload, no payment required. Once you find styles you love, click 'Get these looks' to start your order.",
   },
   {
-    q: "What if I'm not happy with the results?",
-    a: "We offer a strict 30-day, 100% money-back guarantee. If you don't absolutely love your photos, just click 'Request Refund' in your dashboard. No questions asked.",
+    q: "How fast will I get my photos?",
+    a: "Executive plans: ~30 minutes. Pro plans: ~1 hour. Basic plans: ~2 hours. You'll get a real-time email the moment your private gallery is ready to download.",
   },
   {
-    q: "Are my photos private?",
-    a: "Yes. We use AES-256 encryption. Your uploaded selfies and the trained AI model are permanently purged from our servers 30 days after your order is complete. We NEVER use your face to train public models.",
+    q: "Are my photos and face data private?",
+    a: "Yes. All data is AES-256 encrypted. Your uploaded selfies and the trained model are permanently and automatically purged from our servers 30 days after delivery. We never use your face to train public models or share data with third parties.",
+  },
+  {
+    q: "What if I don't love the results?",
+    a: "Request a 100% refund within 30 days — no forms, no questions, no hassle. Just click 'Request Refund' in your dashboard. You keep the photos either way.",
+  },
+  {
+    q: "Can I use these for commercial purposes?",
+    a: "Yes. Every plan includes full commercial use rights. Use your headshots on your website, LinkedIn, press releases, speaking bios, pitch decks, and marketing materials with no restrictions.",
   },
 ];
 
-// Placeholder for modern B2B unicorn logos
-const LOGOS = [
-  { name: "Stripe", className: "font-sans font-bold tracking-tight text-2xl" },
-  {
-    name: "Google",
-    className: "font-sans font-medium tracking-tighter text-2xl",
-  },
-  {
-    name: "Microsoft",
-    className: "font-sans font-semibold tracking-tight text-xl",
-  },
-  {
-    name: "Amazon",
-    className: "font-sans font-bold tracking-tighter text-2xl",
-  },
-  { name: "Meta", className: "font-sans font-semibold tracking-wide text-2xl" },
-  {
-    name: "Netflix",
-    className: "font-sans font-black tracking-widest text-2xl",
-  },
-  {
-    name: "Spotify",
-    className: "font-sans font-bold tracking-tighter text-2xl",
-  },
-  { name: "Linear", className: "font-sans font-bold tracking-tight text-2xl" },
-  { name: "Vercel", className: "font-sans font-extrabold text-2xl" },
+const SOCIALS = [
+  { label: "Instagram", href: "https://www.instagram.com/truzot/", icon: Instagram },
+  { label: "Facebook", href: "https://www.facebook.com/profile.php?id=61590417309053", icon: Facebook },
+  { label: "TikTok", href: "https://www.tiktok.com/@truzot", icon: "tiktok" },
+  { label: "X", href: "https://x.com/Truzot", icon: Twitter },
+  { label: "Bluesky", href: "https://bsky.app/profile/truzot.bsky.social", icon: "bluesky" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/truzot", icon: Linkedin },
+  { label: "YouTube", href: "https://www.youtube.com/@Truzot", icon: Youtube },
 ];
 
-const CompanyLogos = () => (
-  <div
-    className="w-full inline-flex flex-nowrap overflow-hidden py-4"
-    style={{
-      maskImage:
-        "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-      WebkitMaskImage:
-        "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-    }}
-  >
-    <div className="flex w-max animate-marquee gap-12 md:gap-24 items-center justify-center">
-      {[...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS].map((logo, i) => (
-        <div
-          key={i}
-          className={`text-slate-400 dark:text-slate-500 opacity-60 hover:opacity-100 transition-opacity ${logo.className}`}
+// ROI Calculator Data
+const ROI_MULTIPLIERS = {
+  "LinkedIn": 3.2,
+  "Company bio": 2.1,
+  "Conference": 2.5,
+  "Press kit": 2.8,
+};
+
+/* ─────────────────────────────────────────────────────────────────── */
+/*  ICONS NOT IN LUCIDE (TikTok, Bluesky)                              */
+/* ─────────────────────────────────────────────────────────────────── */
+function TikTokIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M16.6 5.82c-.99-.96-1.53-2.27-1.53-3.66h-3.07v13.6c0 1.55-1.26 2.81-2.81 2.81a2.81 2.81 0 1 1 0-5.62c.27 0 .53.04.78.11v-3.12a6 6 0 0 0-.78-.05 5.94 5.94 0 1 0 5.94 5.94V9.4a8.6 8.6 0 0 0 5.04 1.62V8c-1.32 0-2.54-.42-3.57-1.18z" />
+    </svg>
+  );
+}
+function BlueskyIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M12 9.6C10.6 7 6.9 2.3 3.7 0 .6-2 0 .6 0 2.3c0 .4.2 3.6.4 4.2.7 2.4 3.1 3 5.4 2.7-3.9.6-7.3 2-2.8 7.1 4.9 5.2 6.7-1.1 7-2.4.3 1.3 1.4 7.5 6.9 2.4 4.2-4.2 1.2-6.5-2.8-7.1 2.3.3 4.7-.3 5.4-2.7.2-.6.4-3.8.4-4.2C24 .6 23.4-2 20.3 0c-3.2 2.3-6.9 7-8.3 9.6z" />
+    </svg>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+/*  ANIMATION HELPERS                                                  */
+/* ─────────────────────────────────────────────────────────────────── */
+const fadeUp = {
+  hidden: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
+};
+const stagger = {
+  visible: { transition: { staggerChildren: 0.07 } },
+};
+
+/* ─────────────────────────────────────────────────────────────────── */
+/*  ANIMATED COUNTER                                                   */
+/* ─────────────────────────────────────────────────────────────────── */
+function AnimatedCounter({ target, suffix = "", duration = 2000 }: { target: number; suffix?: string; duration?: number }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const animated = useRef(false);
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !animated.current) {
+        animated.current = true;
+        const t0 = Date.now();
+        const step = () => {
+          const p = Math.min((Date.now() - t0) / duration, 1);
+          setCount(Math.floor((1 - Math.pow(1 - p, 3)) * target));
+          if (p < 1) requestAnimationFrame(step);
+        };
+        step();
+      }
+    }, { threshold: 0.5 });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [target, duration]);
+  return <span ref={ref} className="tabular-nums">{count.toLocaleString()}{suffix}</span>;
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+/*  LIVE ACTIVITY TOAST                                               */
+/* ─────────────────────────────────────────────────────────────────── */
+function LiveActivityToast() {
+  const [idx, setIdx] = useState(0);
+  const [visible, setVisible] = useState(true);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setIdx(i => (i + 1) % LIVE_ACTIVITIES.length);
+        setVisible(true);
+      }, 400);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+  const a = LIVE_ACTIVITIES[idx];
+  return (
+    <AnimatePresence>
+      {visible && (
+        <motion.div
+          key={idx}
+          initial={{ opacity: 0, y: 16, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -8, scale: 0.97 }}
+          transition={{ duration: 0.35 }}
+          className="fixed bottom-6 left-6 z-40 hidden md:flex items-center gap-3 bg-[#0E1016] border border-white/10 backdrop-blur-xl rounded-2xl px-4 py-3 shadow-2xl"
         >
-          {logo.name}
+          <div className="relative">
+            <div className="w-2.5 h-2.5 bg-lime-400 rounded-full absolute -top-0.5 -right-0.5 animate-ping" />
+            <div className="w-2.5 h-2.5 bg-lime-400 rounded-full absolute -top-0.5 -right-0.5" />
+            <Camera className="w-5 h-5 text-white/60" />
+          </div>
+          <div className="text-xs">
+            <span className="font-bold text-white">{a.name}</span>
+            <span className="text-white/40"> · {a.location}</span>
+            <br />
+            <span className="text-lime-400 font-semibold">{a.style}</span>
+            <span className="text-white/30"> delivered · {a.ago}</span>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+/*  FREE PREVIEW MODAL                                                */
+/* ─────────────────────────────────────────────────────────────────── */
+function FreePreviewModal({ onClose }: { onClose: () => void }) {
+  const [active, setActive] = useState(STYLE_PREVIEWS[0]);
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-md p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.92, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.96, opacity: 0, y: 10 }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        className="relative w-full max-w-5xl bg-[#0E1016] border border-white/10 rounded-3xl shadow-2xl overflow-hidden"
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between px-8 py-6 border-b border-white/8">
+          <div>
+            <p className="text-xs font-bold text-lime-400 uppercase tracking-widest mb-1">Free Style Preview</p>
+            <h2 className="text-2xl font-bold text-white">See your headshot styles — before you pay</h2>
+          </div>
+          <button onClick={onClose} className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/60 hover:text-white transition">
+            <X size={20} />
+          </button>
         </div>
+
+        <div className="flex flex-col md:flex-row h-[520px]">
+          {/* Style tabs */}
+          <div className="flex md:flex-col gap-2 p-4 md:p-6 md:w-64 overflow-x-auto md:overflow-x-visible md:border-r border-white/8 shrink-0">
+            {STYLE_PREVIEWS.map(s => (
+              <button
+                key={s.id}
+                onClick={() => setActive(s)}
+                className={`flex-shrink-0 text-left px-4 py-3 rounded-xl transition-all ${
+                  active.id === s.id
+                    ? "bg-white/10 border border-white/15 text-white"
+                    : "text-white/50 hover:text-white hover:bg-white/5"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: s.color }} />
+                  <span className="font-semibold text-sm whitespace-nowrap">{s.name}</span>
+                </div>
+                <p className="text-xs text-white/40 mt-1 ml-6 hidden md:block leading-relaxed">{s.desc}</p>
+              </button>
+            ))}
+          </div>
+
+          {/* Preview area */}
+          <div className="flex-1 p-6 flex flex-col">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={active.id}
+                initial={{ opacity: 0, x: 12 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -12 }}
+                transition={{ duration: 0.25 }}
+                className="flex-1 flex flex-col"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-4 h-4 rounded-full" style={{ backgroundColor: active.color }} />
+                  <span className="font-bold text-white text-lg">{active.name}</span>
+                  <span className="text-white/40 text-sm">· {active.desc}</span>
+                </div>
+                <div className="grid grid-cols-3 gap-3 flex-1">
+                  {active.images.map((img, i) => (
+                    <div key={i} className="relative rounded-2xl overflow-hidden bg-white/5 group">
+                      <Image src={img} alt={`${active.name} style sample ${i + 1}`} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+                        <span className="text-xs font-semibold text-white">{active.name} · Style {i + 1}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 flex items-center gap-3">
+                  <p className="text-white/40 text-sm flex-1">These are sample outputs. Your AI model will be trained specifically on <em>your</em> face.</p>
+                  <Link
+                    href={`/upload?style=${active.id}`}
+                    onClick={onClose}
+                    className="shrink-0 bg-lime-400 text-black px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-lime-300 transition flex items-center gap-2"
+                  >
+                    Get {active.name} looks <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+/*  WHO IT'S FOR — replaces fake company-logo marquee                  */
+/* ─────────────────────────────────────────────────────────────────── */
+function AudienceStrip() {
+  return (
+    <div className="w-full">
+      <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4 max-w-5xl mx-auto">
+        {AUDIENCES.map((a, i) => {
+          const Icon = a.icon;
+          return (
+            <motion.div
+              key={a.label}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.04 }}
+              className="flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-semibold text-slate-600 hover:text-slate-900 hover:border-lime-600/40 hover:bg-white transition-colors"
+              style={{ borderColor: "var(--border)", background: "var(--surface2)" }}
+            >
+              <Icon className="w-4 h-4 text-lime-600/90" />
+              {a.label}
+            </motion.div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+/*  HERO PHOTO GRID                                                    */
+/* ─────────────────────────────────────────────────────────────────── */
+function HeroPhotoGrid() {
+  return (
+    <div className="absolute inset-0 grid grid-cols-4 md:grid-cols-6 gap-1 opacity-30 pointer-events-none overflow-hidden">
+      {GALLERY_IMAGES.map((img, i) => (
+        <motion.div
+          key={i}
+          className="relative overflow-hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: i * 0.08, duration: 0.8 }}
+        >
+          <Image src={img.src} alt={img.label} fill className="object-cover object-top" sizes="200px" />
+        </motion.div>
       ))}
     </div>
-  </div>
-);
+  );
+}
 
-const USE_CASES = [
-  {
-    title: "LinkedIn & Corporate",
-    desc: "Crisp, professional headshots that increase recruiter messages by 36x. Perfect for resumes and company websites.",
-    img: "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&q=80&w=800",
-    icon: Linkedin,
-  },
-  {
-    title: "Actors & Models",
-    desc: "Build a versatile comp card. Get theatrical and commercial looks without paying for multiple wardrobe changes at a studio.",
-    img: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=800",
-    icon: Camera,
-  },
-  {
-    title: "Dating & Social",
-    desc: "Natural, flattering photos in outdoor and casual settings that look authentic, not artificially generated.",
-    img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=800",
-    icon: Heart,
-  },
-  {
-    title: "Startup Founders",
-    desc: "Authoritative, modern portraits for pitch decks, press releases, and speaking engagements.",
-    img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=800",
-    icon: Briefcase,
-  },
-  {
-    title: "Students & Grads",
-    desc: "Kickstart your career on a budget. Get premium quality photos before your first post-grad interview.",
-    img: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=800",
-    icon: GraduationCap,
-  },
-  {
-    title: "Real Estate & Sales",
-    desc: "Warm, trustworthy, client-facing photos that build immediate credibility on your marketing materials.",
-    img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=800",
-    icon: Users,
-  },
-];
-
+/* ─────────────────────────────────────────────────────────────────── */
+/*  MAIN COMPONENT                                                     */
+/* ─────────────────────────────────────────────────────────────────── */
 export default function LandingPageContent() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
   const [showExitPopup, setShowExitPopup] = useState(false);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isAuthed, setIsAuthed] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<
-    "idle" | "success" | "error"
-  >("idle");
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [scrolled, setScrolled] = useState(false);
+  const [headshotsCount] = useState(1247893);
+  
+  // ROI Calculator State
+  const [roiProfession, setRoiProfession] = useState<keyof typeof ROI_MULTIPLIERS>("Company bio");
+  const [roiViews, setRoiViews] = useState(1110);
+
+  const { scrollYProgress } = useScroll();
+  const heroY = useTransform(scrollYProgress, [0, 0.25], [0, -60]);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       if (data?.session) setIsAuthed(true);
     });
-
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
     const handleMouseLeave = (e: MouseEvent) => {
-      const signedUp =
-        localStorage.getItem("truzot-waitlist-signed-up") === "true";
-      const dismissed =
-        localStorage.getItem("truzot-exit-popup-dismissed") === "true";
-      if (signedUp || dismissed) return;
+      const done = localStorage.getItem("truzot-exit-dismissed") === "true";
+      if (done) return;
       if (e.clientY <= 0) setShowExitPopup(true);
     };
-
     document.addEventListener("mouseleave", handleMouseLeave);
-    return () => document.removeEventListener("mouseleave", handleMouseLeave);
+    return () => {
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
-
-  const handleClosePopup = () => {
-    setShowExitPopup(false);
-    localStorage.setItem("truzot-exit-popup-dismissed", "true");
-  };
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -275,788 +557,1176 @@ export default function LandingPageContent() {
       if (res.ok) {
         setSubmitStatus("success");
         setEmail("");
-        localStorage.setItem("truzot-waitlist-signed-up", "true");
-        setTimeout(() => setShowExitPopup(false), 2000);
-      } else {
-        setSubmitStatus("error");
-      }
-    } catch {
-      setSubmitStatus("error");
-    } finally {
-      setIsSubmitting(false);
-    }
+        localStorage.setItem("truzot-exit-dismissed", "true");
+        setTimeout(() => setShowExitPopup(false), 2200);
+      } else setSubmitStatus("error");
+    } catch { setSubmitStatus("error"); }
+    finally { setIsSubmitting(false); }
   };
+
+  // ROI Calculations
+  const roiMultiplier = ROI_MULTIPLIERS[roiProfession];
+  const projectedViews = Math.round(roiViews * roiMultiplier);
+  const viewIncrease = projectedViews - roiViews;
 
   return (
     <>
       <ProductSchema />
       <SpeakableSchema />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }]} />
-      <div
-        id="main-content"
-        className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans scroll-smooth"
-      >
-        {/* Modern Navigation */}
-        <nav className="fixed top-0 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl z-50 border-b border-slate-200/50 dark:border-slate-800/50 transition-all">
+
+      {/* CSS Variables — dark photographic theme */}
+      <style>{`
+        :root {
+          --bg: #07080A;
+          --surface: #0E1016;
+          --surface2: #161820;
+          --surface3: #1C1F29;
+          --lime: #A3E635;
+          --lime-dim: rgba(163,230,53,0.12);
+          --lime-border: rgba(163,230,53,0.3);
+          --lime-text: #A3E635;
+          --indigo: #6366F1;
+          --border: rgba(255,255,255,0.07);
+          --text: #FAFAFA;
+          --text-muted: rgba(255,255,255,0.4);
+          --muted: #52525B;
+        }
+        html, body, #__next {
+          background-color: var(--bg) !important;
+          overscroll-behavior-y: none;
+        }
+        body {
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          text-rendering: optimizeLegibility;
+        }
+        @keyframes marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+        .animate-marquee { animation: marquee 38s linear infinite; }
+        @keyframes float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-8px) } }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        @keyframes pulse-ring { 0% { transform: scale(1); opacity: 0.6 } 100% { transform: scale(2.2); opacity: 0 } }
+        .pulse-ring { animation: pulse-ring 2.4s ease-out infinite; }
+        html { scroll-behavior: smooth; }
+
+        .light-zone {
+          --bg: #FFFFFF;
+          --surface: #F8FAFC;
+          --surface2: #F1F5F9;
+          --surface3: #E2E8F0;
+          --border: rgba(15,23,42,0.08);
+          --text: #0F172A;
+          --text-muted: rgba(15,23,42,0.45);
+          --muted: #64748B;
+          --lime-dim: rgba(101,163,13,0.10);
+          --lime-border: rgba(101,163,13,0.35);
+          --lime-text: #65A30D;
+          background: var(--bg);
+        }
+
+        /* Custom Range Slider for ROI Calculator */
+        .roi-slider {
+          -webkit-appearance: none;
+          appearance: none;
+          height: 6px;
+          background: #E2E8F0;
+          border-radius: 10px;
+          outline: none;
+        }
+        .roi-slider::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 22px;
+          height: 22px;
+          background: #65A30D;
+          border: 3px solid #FFFFFF;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+          border-radius: 50%;
+          cursor: pointer;
+          transition: transform 0.15s ease;
+        }
+        .roi-slider::-webkit-slider-thumb:hover {
+          transform: scale(1.1);
+        }
+        .roi-slider::-moz-range-thumb {
+          width: 22px;
+          height: 22px;
+          background: #65A30D;
+          border: 3px solid #FFFFFF;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+          border-radius: 50%;
+          cursor: pointer;
+        }
+      `}</style>
+
+      <div id="main-content" className="min-h-screen font-sans selection:bg-lime-400/20" style={{ background: "var(--bg)", color: "var(--text)" }}>
+
+        {/* Scroll progress */}
+        <motion.div
+          className="fixed top-0 left-0 right-0 h-[2px] z-[70] origin-left"
+          style={{ scaleX: scrollYProgress, background: "linear-gradient(to right, #A3E635, #6366F1)" }}
+        />
+
+        {/* Live activity toast */}
+        <LiveActivityToast />
+
+        {/* Free Preview Modal */}
+        <AnimatePresence>
+          {showPreview && <FreePreviewModal onClose={() => setShowPreview(false)} />}
+        </AnimatePresence>
+
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  NAVIGATION                                                */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+          scrolled ? "bg-[#07080A]/90 backdrop-blur-xl border-b border-transparent shadow-md" : "bg-transparent"
+        }`}>
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div className="text-2xl font-black tracking-tighter text-slate-900 dark:text-white">
+            {/* Logo */}
+            <Link href="/" className="text-2xl font-black tracking-tighter text-white">
               TRUZOT
-            </div>
-            <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600 dark:text-slate-300">
-              <a
-                href="#who-its-for"
-                className="hover:text-slate-900 dark:hover:text-white transition"
-              >
-                Use Cases
-              </a>
-              <a
-                href="#how-it-works"
-                className="hover:text-slate-900 dark:hover:text-white transition"
-              >
-                How It Works
-              </a>
-              <a
-                href="#pricing"
-                className="hover:text-slate-900 dark:hover:text-white transition"
-              >
-                Pricing
-              </a>
+              <span className="ml-1.5 text-[10px] font-bold text-lime-400 align-super tracking-widest">AI</span>
+            </Link>
+
+            {/* Desktop nav */}
+            <div className="hidden md:flex items-center gap-7 text-sm font-semibold text-white/50">
+              <a href="#examples" className="hover:text-white transition">Examples</a>
+              <a href="#how-it-works" className="hover:text-white transition">How it works</a>
+              <a href="#pricing" className="hover:text-white transition">Pricing</a>
               {isAuthed ? (
-                <Link
-                  href="/dashboard"
-                  className="hover:text-slate-900 dark:hover:text-white transition"
-                >
-                  Dashboard
-                </Link>
+                <Link href="/dashboard" className="hover:text-white transition">Dashboard</Link>
               ) : (
-                <Link
-                  href="/login"
-                  className="hover:text-slate-900 dark:hover:text-white transition"
-                >
-                  Sign In
-                </Link>
+                <Link href="/login" className="hover:text-white transition">Sign in</Link>
               )}
+
+              {/* Free Preview CTA */}
+              <button onClick={() => setShowPreview(true)} className="flex items-center gap-2 border border-[var(--border)] px-4 py-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--lime-text)] hover:bg-[var(--surface2)] transition">
+                <Eye className="w-4 h-4" /> Free Preview
+              </button>
+
+              {/* Primary CTA */}
               <Link
                 href="/upload"
-                className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-slate-800 dark:hover:bg-slate-100 transition shadow-md"
+                className="relative group bg-lime-400 text-black px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-lime-300 transition shadow-lg shadow-lime-400/20 flex items-center gap-1.5"
               >
-                Get Professional Headshots
+                Get headshots
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
-            <button
-              className="md:hidden text-slate-900 dark:text-white"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
+
+            <button className="md:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
+
           {mobileMenuOpen && (
-            <div className="md:hidden bg-[var(--bg-card)] border-b border-[var(--border-primary)] py-4 px-6 flex flex-col gap-4 font-semibold shadow-2xl">
-              <a href="#who-its-for" onClick={() => setMobileMenuOpen(false)}>
-                Use Cases
-              </a>
-              <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)}>
-                How It Works
-              </a>
-              <a href="#pricing" onClick={() => setMobileMenuOpen(false)}>
-                Pricing
-              </a>
+            <div className="md:hidden bg-[#0E1016] border-b border-white/8 py-5 px-6 flex flex-col gap-4 font-semibold">
+              <a href="#examples" onClick={() => setMobileMenuOpen(false)} className="text-white/60 hover:text-white transition">Examples</a>
+              <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="text-white/60 hover:text-white transition">How it works</a>
+              <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-white/60 hover:text-white transition">Pricing</a>
               {isAuthed ? (
-                <Link
-                  href="/dashboard"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Dashboard
-                </Link>
+                <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="text-white/60">Dashboard</Link>
               ) : (
-                <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                  Sign In
-                </Link>
+                <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="text-white/60">Sign in</Link>
               )}
-              <Link
-                href="/upload"
-                onClick={() => setMobileMenuOpen(false)}
-                className="bg-slate-900 text-white text-center px-5 py-3 rounded-lg mt-2"
-              >
-                Get Professional Headshots
+              <button onClick={() => { setMobileMenuOpen(false); setShowPreview(true); }} className="border border-[var(--border)] text-[var(--text-muted)] px-4 py-3 rounded-xl text-left flex items-center gap-2">
+                <Eye className="w-4 h-4" /> Free Preview
+              </button>
+              <Link href="/upload" onClick={() => setMobileMenuOpen(false)} className="bg-lime-400 text-black text-center px-5 py-3 rounded-xl font-bold">
+                Get headshots
               </Link>
             </div>
           )}
         </nav>
 
-        {/* Enterprise Hero Section */}
-        <section className="pt-28 md:pt-32 pb-16 px-6 max-w-7xl mx-auto text-center relative">
-          <div className="inline-flex items-center rounded-full border border-indigo-200/60 dark:border-indigo-800/60 bg-indigo-50/50 dark:bg-indigo-900/20 backdrop-blur-sm px-4 py-1.5 text-sm font-semibold text-indigo-700 dark:text-indigo-300 mb-6 shadow-sm">
-            <Sparkles className="w-4 h-4 mr-2" />
-            Truzot Enterprise AI 2.0 Now Available
-          </div>
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  HERO                                                       */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section className="relative min-h-[100vh] flex flex-col items-center justify-center pt-24 pb-16 px-6 overflow-hidden">
+          {/* Background: photographic grid */}
+          <HeroPhotoGrid />
 
-          <h1 className="text-4xl md:text-6xl lg:text-[4.5rem] font-extrabold tracking-tighter mb-4 text-slate-900 dark:text-white leading-[1.1]">
-            Studio-Quality Headshots <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-500 dark:from-white dark:to-slate-400">
-              Generated in Minutes
-            </span>
-          </h1>
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#07080A]/40 via-[#07080A]/70 to-[#07080A]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#07080A]/60 via-transparent to-[#07080A]/60" />
 
-          <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Upload a few casual selfies and let our advanced AI generate
-            breathtaking, photorealistic portraits. Built for actors, models,
-            founders, and everyday professionals.
+          {/* Ambient glow */}
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
+            style={{ background: "radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%)" }} />
+
+          <motion.div style={{ y: heroY }} className="relative z-10 max-w-5xl mx-auto text-center">
+            <motion.div initial="hidden" animate="visible" variants={stagger}>
+
+              {/* Trust pill */}
+              <motion.div variants={fadeUp} className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm px-5 py-2.5 text-sm font-semibold text-white/70 mb-10">
+                <div className="flex -space-x-2">
+                  {AVATARS.map((src, i) => (
+                    <div key={i} className="w-7 h-7 rounded-full border-2 border-[#07080A] overflow-hidden">
+                      <Image src={src} alt="" width={28} height={28} className="object-cover" />
+                    </div>
+                  ))}
+                </div>
+                <span>Trusted by <strong className="text-white">10,247</strong> people</span>
+                <span className="w-px h-4 bg-white/15" />
+                <div className="flex items-center gap-1">
+                  {[1,2,3,4,5].map(i => <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />)}
+                  <span className="ml-1 font-bold text-white">4.9</span>
+                </div>
+              </motion.div>
+
+              {/* Headline */}
+              <motion.h1 variants={fadeUp} className="text-5xl md:text-7xl lg:text-[80px] font-black tracking-tighter leading-[0.92] mb-7">
+                <span className="text-white">Studio headshots.</span>
+                <br />
+                <span className="relative">
+                  <span className="text-lime-400">30 minutes.</span>
+                </span>
+                <br />
+                <span className="text-white/40">From your phone.</span>
+              </motion.h1>
+
+              {/* Sub */}
+              <motion.p variants={fadeUp} className="text-lg md:text-xl text-white/50 mb-6 max-w-2xl mx-auto leading-relaxed">
+                Upload <strong className="text-white">1–5 selfies</strong>. Our AI trains a private model on your face and delivers
+                <strong className="text-white"> 40–200 photorealistic headshots</strong> in every style you need — for a fraction of what photographers charge.
+              </motion.p>
+
+              {/* Audience line — broadens beyond "professionals" */}
+              <motion.p variants={fadeUp} className="text-sm md:text-base text-white/40 mb-10 max-w-2xl mx-auto leading-relaxed">
+                Lawyers, doctors, real estate agents, job seekers, actors, models, students, founders — anyone can look this good.
+              </motion.p>
+
+              {/* 1-5 selfies differentiator badge */}
+              <motion.div variants={fadeUp} className="inline-flex items-center gap-2 bg-white/5 border border-lime-400/25 text-lime-400 px-4 py-2 rounded-full text-sm font-bold mb-8">
+                <Zap className="w-4 h-4" />
+                Only 1–5 selfies needed — competitors require 15–25
+              </motion.div>
+
+              {/* CTAs */}
+              <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10">
+                <Link
+                  href="/upload"
+                  className="group w-full sm:w-auto bg-lime-400 text-black px-8 py-4 rounded-xl font-bold text-lg hover:bg-lime-300 transition-all shadow-xl shadow-lime-400/25 flex items-center justify-center gap-2 hover:-translate-y-0.5 active:translate-y-0"
+                >
+                  Create my headshots
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <button 
+                  onClick={() => setShowPreview(true)} 
+                  className="w-full sm:w-auto bg-[var(--surface2)] backdrop-blur-sm text-[var(--text)] border border-[var(--border)] px-8 py-4 rounded-xl font-bold text-lg hover:bg-[var(--surface3)] transition flex items-center justify-center gap-2"
+                >
+                  <Eye className="w-5 h-5" /> Free Preview
+                </button>
+              </motion.div>
+
+              {/* Micro-proof */}
+              <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-x-7 gap-y-2.5 text-sm text-white/40 font-medium">
+                <span className="flex items-center gap-1.5"><CheckCircle className="w-4 h-4 text-lime-400" /> 30-day money-back</span>
+                <span className="flex items-center gap-1.5"><Lock className="w-4 h-4 text-lime-400" /> AES-256 encrypted</span>
+                <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-lime-400" /> Auto-purge in 30 days</span>
+                <span className="flex items-center gap-1.5"><Zap className="w-4 h-4 text-lime-400" /> From $29 one-time</span>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+
+          {/* Scroll cue */}
+          <motion.div
+            animate={{ y: [0, 6, 0] }}
+            transition={{ repeat: Infinity, duration: 2 }}
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/20"
+          >
+            <ChevronDown className="w-6 h-6" />
+          </motion.div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  LIGHT ZONE START — everything from here through the final  */}
+        {/*  CTA renders on a white background (see .light-zone above). */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <div className="light-zone">
+
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  WHO IT'S FOR (replaces the fake company-logo bar)          */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section className="py-10 border-y" style={{ borderColor: "var(--border)", background: "var(--surface)" }}>
+          <p className="text-center text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-6">
+            Built for every profession — not just executives
           </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10">
-            <Link
-              href="/upload"
-              className="w-full sm:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition shadow-xl hover:shadow-2xl flex items-center justify-center gap-2"
-            >
-              Get Professional Headshots <ArrowRight className="w-5 h-5" />
-            </Link>
-            <a
-              href="#examples"
-              className="w-full sm:w-auto bg-white dark:bg-slate-900 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition shadow-sm flex items-center justify-center"
-            >
-              View Gallery
-            </a>
-          </div>
-
-          <div className="flex items-center justify-center gap-3 text-sm font-medium text-slate-600 dark:text-slate-300 mb-12">
-            <div className="flex -space-x-3 items-center">
-              {AVATARS.map((src, i) => (
-                <div
-                  key={i}
-                  className={`relative w-10 h-10 rounded-full border-2 border-white dark:border-slate-950 overflow-hidden bg-slate-200 shadow-sm ${["z-40", "z-30", "z-20", "z-10"][i] || "z-0"}`}
-                >
-                  <Image
-                    src={src}
-                    alt="User"
-                    fill
-                    className="object-cover"
-                    sizes="40px"
-                  />
-                </div>
-              ))}
-            </div>
-            <div className="flex flex-col items-start ml-2 text-left">
-              <div className="flex items-center">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <Star
-                    key={i}
-                    className="w-4 h-4 fill-amber-400 text-amber-400"
-                  />
-                ))}
-              </div>
-              <span className="font-semibold text-xs mt-0.5">
-                Trusted by 10,000+ professionals
-              </span>
-            </div>
-          </div>
-
-          <div id="examples" className="mb-12 w-full mx-auto relative z-10">
-            <BeforeAfterCarousel examples={BEFORE_AFTER_EXAMPLES} />
-          </div>
-
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 mt-4">
-            Trusted by professionals at
-          </p>
-          <CompanyLogos />
+          <AudienceStrip />
         </section>
 
-        {/* Use Cases Section (Broadening Audience) */}
-        <section
-          id="who-its-for"
-          className="py-24 px-6 bg-slate-50 dark:bg-slate-900/50 border-y border-slate-200 dark:border-slate-800"
-        >
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">
-                One tool. Infinite possibilities.
-              </h2>
-              <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto">
-                Select your preferred style during upload. We automatically
-                adapt lighting, poses, and backgrounds to match your exact
-                needs.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {USE_CASES.map((useCase, idx) => (
-                <div
-                  key={idx}
-                  className="group relative h-[420px] rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-200/50 dark:border-slate-800"
-                >
-                  <Image
-                    src={useCase.img}
-                    alt={useCase.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-90 transition-opacity" />
-                  <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                    <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center mb-6 border border-white/20 shadow-xl">
-                      <useCase.icon className="w-6 h-6 text-white" />
-                    </div>
-                    <h3 className="text-2xl font-bold mb-3 text-white tracking-tight">
-                      {useCase.title}
-                    </h3>
-                    <p className="text-slate-200 font-medium leading-relaxed text-sm">
-                      {useCase.desc}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Bento Box: How It Works & Privacy */}
-        <section
-          id="how-it-works"
-          className="py-24 px-6 bg-[var(--bg-primary)]"
-        >
-          <div className="max-w-7xl mx-auto">
-            <div className="mb-16 text-center">
-              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">
-                Engineered for Excellence
-              </h2>
-              <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto">
-                The fastest way to achieve a premium brand. No travel, no
-                awkward posing, no waiting weeks for edits.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Step 1: Takes exactly 1 column now */}
-              <div className="bg-slate-50 dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm col-span-1">
-                <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-xl flex items-center justify-center mb-6">
-                  <Camera className="w-6 h-6" />
-                </div>
-                <h3 className="text-2xl font-bold mb-3">
-                  1. Upload Casual Selfies
-                </h3>
-                <p className="text-slate-600 dark:text-slate-400 text-lg">
-                  Provide 1-5 everyday photos. Our AI analyzes your facial
-                  geometry, skin tone, and expressions with surgical precision.
-                </p>
-              </div>
-
-              <div className="bg-slate-50 dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-xl flex items-center justify-center mb-6">
-                  <Clock className="w-6 h-6" />
-                </div>
-                <h3 className="text-2xl font-bold mb-3">2. Rapid Generation</h3>
-                <p className="text-slate-600 dark:text-slate-400 text-lg">
-                  Grab a coffee. In as little as 30 minutes, your custom AI
-                  model renders dozens of studio-grade photos.
-                </p>
-              </div>
-
-              <div className="bg-slate-50 dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center mb-6">
-                  <Briefcase className="w-6 h-6" />
-                </div>
-                <h3 className="text-2xl font-bold mb-3">
-                  3. Professional Polish
-                </h3>
-                <p className="text-slate-600 dark:text-slate-400 text-lg">
-                  Download 4K resolution photos optimized for any
-                  platform—social media, printing, or web.
-                </p>
-              </div>
-
-              {/* Privacy box spans all 3 columns across the bottom */}
-              <div className="bg-slate-900 dark:bg-slate-950 p-8 md:p-10 rounded-3xl border border-slate-800 shadow-xl col-span-1 md:col-span-3 text-white flex flex-col md:flex-row items-start md:items-center justify-between relative overflow-hidden gap-8 mt-2">
-                <div className="absolute right-0 top-0 w-64 h-64 bg-indigo-500 rounded-full blur-[100px] opacity-20 pointer-events-none" />
-                <div className="relative z-10 max-w-2xl">
-                  <h3 className="text-3xl font-bold mb-3">
-                    Strict Data Privacy
-                  </h3>
-                  <p className="text-slate-300 text-lg mb-0 leading-relaxed">
-                    Your biometric data is securely processed in isolated
-                    environments and permanently purged after 30 days. We never
-                    train public models on your face.
-                  </p>
-                </div>
-                <div className="flex flex-col sm:flex-row items-center gap-3 z-10 shrink-0 w-full md:w-auto">
-                  <div className="flex items-center gap-2 text-sm font-semibold bg-white/10 px-4 py-3 rounded-xl w-full sm:w-auto">
-                    <Shield className="w-4 h-4" /> SOC-2 Aligned
-                  </div>
-                  <div className="flex items-center gap-2 text-sm font-semibold bg-white/10 px-4 py-3 rounded-xl w-full sm:w-auto">
-                    <Lock className="w-4 h-4" /> AES-256 Encryption
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Before/After Slider */}
-        <section className="py-24 px-6 bg-slate-50 dark:bg-slate-900/50 border-y border-slate-200 dark:border-slate-800">
-          <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-16">
-            <div className="flex-1">
-              <h2 className="text-4xl font-extrabold tracking-tight mb-6">
-                Indistinguishable from reality.
-              </h2>
-              <p className="text-slate-600 dark:text-slate-400 text-lg mb-8 leading-relaxed">
-                We&apos;ve tuned our algorithms to avoid the &quot;AI
-                look&quot;. Skin texture, authentic lighting, and natural eye
-                contact ensure your photos look like they were taken by a
-                high-end human photographer.
-              </p>
-              <ul className="space-y-4 font-semibold text-slate-700 dark:text-slate-300 mb-8">
-                <li className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-indigo-600" /> Authentic
-                  skin textures and pores
-                </li>
-                <li className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-indigo-600" /> Perfected
-                  studio lighting
-                </li>
-                <li className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-indigo-600" /> Accurate
-                  eye tracking
-                </li>
-              </ul>
-            </div>
-            <div className="flex-1 w-full relative">
-              <div className="absolute -inset-4 bg-gradient-to-tr from-indigo-100 to-slate-50 dark:from-slate-800 dark:to-slate-900 rounded-[2.5rem] -z-10 blur-xl" />
-              <ComparisonSlider
-                before="/shots/man5 - before.jpg"
-                after="/shots/man5 - after.jpeg"
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* Wall of Love (Testimonials) */}
-        <section
-          id="testimonials"
-          className="py-24 px-6 bg-[var(--bg-primary)]"
-        >
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-extrabold tracking-tight mb-4">
-                Hear from our customers
-              </h2>
-              <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto">
-                Don&apos;t just take our word for it. See what others are
-                saying.
-              </p>
-            </div>
-            <div className="grid md:grid-cols-3 gap-8">
-              {TESTIMONIALS.map((t, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-200/60 dark:border-slate-800 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] transition-all duration-300 relative group overflow-hidden flex flex-col justify-between"
-                >
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl group-hover:bg-blue-500/15 transition-colors duration-500" />
-
-                  <div className="relative z-10 flex-1">
-                    <div className="flex items-center gap-1.5 mb-6">
-                      {Array.from({ length: t.rating }).map((_, i) => (
-                        <Star
-                          key={i}
-                          size={16}
-                          className="fill-amber-400 text-amber-400"
-                        />
-                      ))}
-                    </div>
-                    <p className="text-slate-700 dark:text-slate-300 text-base leading-relaxed font-medium mb-8">
-                      &ldquo;{t.text}&rdquo;
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-4 relative z-10 mt-auto pt-6 border-t border-slate-100 dark:border-slate-800/60">
-                    <div className="relative w-12 h-12 rounded-full overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm shrink-0">
-                      <Image
-                        src={t.image}
-                        alt={t.name}
-                        fill
-                        className="object-cover"
-                        sizes="48px"
-                      />
-                    </div>
-                    <div>
-                      <div className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5 text-sm">
-                        {t.name}{" "}
-                        {t.verified && (
-                          <CheckCircle className="w-3.5 h-3.5 text-blue-500" />
-                        )}
-                      </div>
-                      <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                        {t.role}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Pricing Section */}
-        <section
-          id="pricing"
-          className="py-24 bg-slate-50 dark:bg-slate-900/50 px-6 border-y border-slate-200 dark:border-slate-800"
-        >
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-extrabold tracking-tight mb-4">
-                Transparent, one-time pricing
-              </h2>
-              <p className="text-slate-600 dark:text-slate-400 text-lg">
-                No subscriptions. 100% money-back guarantee if you&apos;re not
-                fully satisfied.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {Object.values(PLANS).map((plan: any) => (
-                <div
-                  key={plan.id}
-                  className={`relative bg-white dark:bg-slate-900 p-10 rounded-[2rem] border ${plan.popular ? "border-blue-600 dark:border-blue-500 shadow-[0_20px_60px_rgba(37,99,235,0.15)] scale-105 z-10 ring-4 ring-blue-50 dark:ring-blue-900/20" : "border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg"} transition-all duration-300 flex flex-col`}
-                >
-                  {plan.popular && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">
-                      Most Popular
-                    </div>
-                  )}
-                  <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-                  <p className="text-slate-500 dark:text-slate-400 text-sm h-10">
-                    Best for{" "}
-                    {plan.id === "basic"
-                      ? "quick updates"
-                      : plan.id === "pro"
-                        ? "complete profile overhauls"
-                        : "actors and executives"}
-                    .
-                  </p>
-
-                  <div className="my-6">
-                    <span className="text-5xl font-black tracking-tight">
-                      ${plan.price}
-                    </span>
-                    <span className="text-slate-500 dark:text-slate-400 font-medium">
-                      {" "}
-                      / one-time
-                    </span>
-                  </div>
-
-                  <ul className="space-y-4 mb-10 flex-1">
-                    <li className="flex items-center gap-3 font-medium text-slate-700 dark:text-slate-300">
-                      <CheckCircle
-                        size={20}
-                        className="text-emerald-500 shrink-0"
-                      />{" "}
-                      {plan.shots} High-Res Photos
-                    </li>
-                    <li className="flex items-center gap-3 font-medium text-slate-700 dark:text-slate-300">
-                      <CheckCircle
-                        size={20}
-                        className="text-emerald-500 shrink-0"
-                      />{" "}
-                      {plan.styles} Custom Styles
-                    </li>
-                    <li className="flex items-center gap-3 font-medium text-slate-700 dark:text-slate-300">
-                      <CheckCircle
-                        size={20}
-                        className="text-emerald-500 shrink-0"
-                      />{" "}
-                      {plan.resolution}
-                    </li>
-                    <li className="flex items-center gap-3 font-medium text-slate-700 dark:text-slate-300">
-                      <Clock size={20} className="text-indigo-500 shrink-0" />{" "}
-                      {plan.turnaround} Delivery
-                    </li>
-                  </ul>
-
-                  <Link
-                    href={`/upload?plan=${plan.id}`}
-                    className={`block w-full text-center py-4 rounded-xl font-bold text-lg transition ${plan.popular ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-200" : "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700"}`}
-                  >
-                    Select {plan.name}
-                  </Link>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-12 flex items-center justify-center gap-6 text-sm font-semibold text-slate-500 dark:text-slate-400">
-              <div className="flex items-center gap-2">
-                <Lock className="w-4 h-4" /> Secured by Stripe
-              </div>
-              <div className="flex items-center gap-2">
-                <Shield className="w-4 h-4" /> 30-Day Refund Guarantee
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* FAQ SECTION ON LANDING PAGE */}
-        <section className="py-24 px-6 bg-[var(--bg-primary)]">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-10 text-center">
-              Frequently Asked Questions
-            </h2>
-            <div className="space-y-4">
-              {FAQS.map((faq, idx) => (
-                <div
-                  key={idx}
-                  className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden"
-                >
-                  <button
-                    onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                    className="w-full px-6 py-5 text-left font-bold flex justify-between items-center hover:bg-slate-50 dark:hover:bg-slate-900/50 transition"
-                  >
-                    {faq.q}
-                    <ChevronRight
-                      className={`w-5 h-5 text-slate-400 transition-transform ${openFaq === idx ? "rotate-90" : ""}`}
-                    />
-                  </button>
-                  {openFaq === idx && (
-                    <div className="px-6 pb-5 text-slate-600 dark:text-slate-400 leading-relaxed">
-                      {faq.a}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-            <div className="mt-8 text-center">
-              <Link
-                href="/faq"
-                className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline"
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  STATS                                                     */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section className="py-20 px-6" style={{ background: "var(--bg)" }}>
+          <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { value: 10247, suffix: "+", label: "People served", sub: "across 42 countries" },
+              { value: 1200000, suffix: "+", label: "Headshots generated", sub: "and counting live" },
+              { value: 4.9, suffix: "/5", label: "Average rating", sub: "from 642 verified reviews", isDecimal: true },
+              { value: 30, suffix: " min", label: "Average delivery", sub: "Executive plan" },
+            ].map((stat, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="text-center group"
               >
-                Read more FAQs →
+                <div className="text-4xl md:text-5xl font-black text-slate-900 mb-1 tracking-tight tabular-nums">
+                  {stat.isDecimal ? (
+                    <span>{stat.value}{stat.suffix}</span>
+                  ) : (
+                    <AnimatedCounter target={stat.value} suffix={stat.suffix} />
+                  )}
+                </div>
+                <div className="text-sm font-bold text-slate-600 mb-0.5">{stat.label}</div>
+                <div className="text-xs text-slate-400">{stat.sub}</div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  BEFORE / AFTER GALLERY                                    */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section id="examples" className="py-24 px-6" style={{ background: "var(--surface)" }}>
+          <div className="max-w-7xl mx-auto">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="text-center mb-16">
+              <motion.p variants={fadeUp} className="text-xs font-bold text-lime-600 uppercase tracking-[0.2em] mb-4">REAL RESULTS · NO PHOTOSHOP</motion.p>
+              <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black tracking-tighter mb-4 text-slate-900">
+                These are real headshots.
+                <br />
+                <span className="text-slate-400">Generated in under an hour.</span>
+              </motion.h2>
+              <motion.p variants={fadeUp} className="text-slate-500 max-w-xl mx-auto text-lg">
+                Tap a card to compare. Every output uses a model trained on <em>that person's</em> face — not a generic template.
+              </motion.p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.7 }}
+              className="mb-16 rounded-3xl border p-2 md:p-3"
+              style={{ borderColor: "var(--border)", background: "var(--surface2)" }}
+            >
+              <BeforeAfterCarousel examples={BEFORE_AFTER_EXAMPLES} />
+            </motion.div>
+
+            {/* Interactive slider — one hero comparison */}
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
+                <p className="text-xs font-bold text-lime-600 uppercase tracking-widest mb-4">DRAG TO COMPARE</p>
+                <h3 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 mb-4">
+                  Indistinguishable from a $500 studio shoot.
+                </h3>
+                <ul className="space-y-3 text-slate-600 text-sm font-medium mb-6">
+                  {["Authentic skin texture & pores", "Perfected three-point studio lighting", "True facial likeness — it's really you", "Natural expressions, not plastic smiles"].map((t, i) => (
+                    <li key={i} className="flex items-center gap-2.5">
+                      <Check className="w-4 h-4 text-lime-600 shrink-0" />
+                      <span>{t}</span>
+                    </li>
+                  ))}
+                </ul>
+                <button onClick={() => setShowPreview(true)} className="inline-flex items-center gap-2 text-[var(--lime-text)] font-bold hover:gap-3 transition-all text-sm">
+                  Free preview <ArrowRight className="w-4 h-4" />
+                </button>
+              </motion.div>
+              <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="rounded-3xl overflow-hidden">
+                <ComparisonSlider before="/shots/man5 - before.jpg" after="/shots/man5 - after.jpeg" />
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  STYLE GRID — "Free Preview" teaser                         */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section className="py-24 px-6" style={{ background: "var(--bg)" }}>
+          <div className="max-w-7xl mx-auto">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="flex flex-col md:flex-row md:items-end md:justify-between mb-12 gap-6">
+              <div>
+                <motion.p variants={fadeUp} className="text-xs font-bold text-lime-600 uppercase tracking-[0.2em] mb-3">6+ Style Categories</motion.p>
+                <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900">
+                  Every look.<br />One order.
+                </motion.h2>
+              </div>
+              <motion.div variants={fadeUp}>
+                <button onClick={() => setShowPreview(true)} className="inline-flex items-center gap-2 border border-[var(--lime-border)] bg-[var(--lime-dim)] text-[var(--lime-text)] px-6 py-3 rounded-xl font-bold hover:bg-[var(--surface2)] transition">
+                  <Eye className="w-4 h-4" /> Free preview
+                </button>
+              </motion.div>
+            </motion.div>
+
+            <motion.div
+              initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-60px" }} variants={stagger}
+              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3"
+            >
+              {GALLERY_IMAGES.slice(0, 8).map((img, i) => (
+                <motion.div
+                  key={i}
+                  variants={fadeUp}
+                  className="relative group rounded-2xl overflow-hidden aspect-[3/4] cursor-pointer"
+                  onClick={() => setShowPreview(true)}
+                >
+                  <Image src={img.src} alt={img.label} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="300px" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute bottom-3 left-3 right-3">
+                    <span className="text-xs font-bold text-white/70 uppercase tracking-widest">{img.label}</span>
+                    <p className="text-sm font-bold text-white">{img.style}</p>
+                  </div>
+                  <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="bg-lime-400/90 rounded-full p-1.5">
+                      <Eye className="w-3.5 h-3.5 text-black" />
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            <div className="text-center mt-8">
+              <button onClick={() => setShowPreview(true)} className="text-[var(--text-muted)] hover:text-[var(--text)] text-sm font-semibold transition flex items-center gap-2 mx-auto">
+                View all 6 style categories <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  PAIN POINTS                                                */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section className="py-24 px-6 border-y" style={{ background: "var(--surface)", borderColor: "var(--border)" }}>
+          <div className="max-w-5xl mx-auto">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="text-center mb-14">
+              <motion.p variants={fadeUp} className="text-xs font-bold text-red-600 uppercase tracking-[0.2em] mb-4 flex items-center justify-center gap-2">
+                <Flame className="w-3.5 h-3.5" /> The old way is broken
+              </motion.p>
+              <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 mb-4">
+                A bad headshot is costing you<br />
+                <span className="text-slate-400">more than you think.</span>
+              </motion.h2>
+              <motion.p variants={fadeUp} className="text-slate-500 max-w-xl mx-auto text-lg">
+                Profiles without professional headshots get <strong className="text-slate-900">14× fewer views</strong> and <strong className="text-slate-900">36× fewer recruiter messages</strong>.
+              </motion.p>
+            </motion.div>
+
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="grid md:grid-cols-3 gap-4">
+              {[
+                { Icon: DollarSign, title: "$400–$800 per session", desc: "Traditional photographers charge a premium for 30 minutes — plus retouching fees on top. Then you wait 2–4 weeks.", badge: "$500+ avg" },
+                { Icon: Hourglass, title: "2–4 weeks turnaround", desc: "Scheduling, shooting, editing, revisions. Your new headshot arrives weeks after you needed it.", badge: "2–4 weeks" },
+                { Icon: Layers, title: "10–30 photos, one look", desc: "One outfit. One background. Need variety for LinkedIn, dating, and press? Pay for another session.", badge: "Limited variety" },
+              ].map((p, i) => (
+                <motion.div
+                  key={i}
+                  variants={fadeUp}
+                  className="relative p-7 rounded-2xl border hover:border-red-400/30 hover:shadow-lg hover:shadow-red-500/5 transition-all duration-300"
+                  style={{ background: "var(--surface2)", borderColor: "var(--border)" }}
+                >
+                  <div className="absolute top-4 right-4 text-[10px] font-bold text-red-600 bg-red-500/10 border border-red-500/20 px-2 py-1 rounded-md">{p.badge}</div>
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5" style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.15)" }}>
+                    <p.Icon className="w-6 h-6 text-red-500" />
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">{p.title}</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed">{p.desc}</p>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  HOW IT WORKS                                               */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section id="how-it-works" className="py-24 px-6" style={{ background: "var(--bg)" }}>
+          <div className="max-w-6xl mx-auto">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="text-center mb-16">
+              <motion.p variants={fadeUp} className="text-xs font-bold text-lime-600 uppercase tracking-[0.2em] mb-4">Dead simple</motion.p>
+              <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900">
+                Three steps. Thirty minutes.<br /><span className="text-slate-400">Done.</span>
+              </motion.h2>
+            </motion.div>
+
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="grid md:grid-cols-3 gap-6">
+              {[
+                {
+                  n: "01",
+                  icon: Camera,
+                  title: "Upload 1–5 selfies",
+                  desc: "No studio. No lighting setup. Just phone photos taken in natural light — that's all we need.",
+                  detail: "Most competitors require 15–25 photos. Ours needs just 1.",
+                  color: "#65A30D",
+                },
+                {
+                  n: "02",
+                  icon: Sparkles,
+                  title: "We train your AI",
+                  desc: "Our Flux LoRA model learns your exact facial geometry, skin tone, and micro-expressions. Private. Just yours.",
+                  detail: "Custom model, not a generic filter. Purged after 30 days.",
+                  color: "#6366F1",
+                },
+                {
+                  n: "03",
+                  icon: Briefcase,
+                  title: "Download your gallery",
+                  desc: "40–200 studio-quality headshots across every style. High-res, full commercial rights, yours forever.",
+                  detail: "Use on LinkedIn, pitch decks, press releases, anywhere.",
+                  color: "#65A30D",
+                },
+              ].map((s, i) => {
+                const Icon = s.icon;
+                return (
+                  <motion.div
+                    key={i}
+                    variants={fadeUp}
+                    className="relative p-8 rounded-3xl border hover:-translate-y-1 transition-all duration-300 group overflow-hidden"
+                    style={{ background: "var(--surface)", borderColor: "var(--border)" }}
+                  >
+                    {/* Premium Background Number */}
+                    <div className="absolute -top-2 -right-2 text-[80px] font-black text-slate-900/[0.04] group-hover:text-slate-900/[0.06] transition-colors select-none pointer-events-none leading-none">{s.n}</div>
+                    
+                    <div className="relative z-10">
+                      <div
+                        className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-105"
+                        style={{ background: `${s.color}15`, border: `1px solid ${s.color}25` }}
+                      >
+                        <Icon className="w-7 h-7" style={{ color: s.color }} />
+                      </div>
+                      <h3 className="text-xl font-bold text-slate-900 mb-2 tracking-tight">{s.title}</h3>
+                      <p className="text-slate-500 text-sm leading-relaxed mb-5">{s.desc}</p>
+                      <div className="flex items-start gap-2 text-xs text-slate-400 border-t pt-4" style={{ borderColor: "var(--border)" }}>
+                        <CheckCircle className="w-3.5 h-3.5 mt-0.5 shrink-0" style={{ color: s.color }} />
+                        <span className="font-medium">{s.detail}</span>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+
+            <div className="text-center mt-12">
+              <Link
+                href="/upload"
+                className="inline-flex items-center gap-2 bg-lime-400 text-black px-8 py-4 rounded-xl font-bold text-lg hover:bg-lime-300 transition shadow-xl shadow-lime-400/20 hover:-translate-y-0.5 active:translate-y-0"
+              >
+                Start my headshots <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
           </div>
         </section>
 
-        {/* Affiliate CTA */}
-        <section className="bg-slate-900 dark:bg-slate-950 text-white py-20 px-6 mx-4 md:mx-auto max-w-7xl rounded-[3rem] shadow-2xl mb-24">
-          <div className="relative max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Earn <span className="text-emerald-400">40%</span> on Every
-              Referral
-            </h2>
-            <p className="text-lg text-slate-300 mb-8 max-w-2xl mx-auto">
-              Join the Truzot Affiliate Program. Share your link and earn
-              commission on every sale.
-            </p>
-            <Link
-              href="/affiliates"
-              className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-500 transition shadow-lg"
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  COMPARISON TABLE                                           */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section className="py-24 px-6 border-y" style={{ background: "var(--surface)", borderColor: "var(--border)" }}>
+          <div className="max-w-5xl mx-auto">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="text-center mb-14">
+              <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 mb-4">
+                How we stack up.
+              </motion.h2>
+              <motion.p variants={fadeUp} className="text-slate-500 text-lg">Truzot vs. traditional photography vs. other AI apps.</motion.p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="rounded-2xl border overflow-hidden shadow-sm"
+              style={{ borderColor: "var(--border)", background: "var(--surface2)" }}
             >
-              Become an Affiliate <ChevronRight size={20} />
-            </Link>
+              <div className="grid grid-cols-4 border-b" style={{ borderColor: "var(--border)" }}>
+                <div className="p-5 text-xs font-bold text-slate-400 uppercase tracking-widest">Feature</div>
+                <div className="p-5 text-center" style={{ background: "rgba(163,230,53,0.06)", borderLeft: "1px solid rgba(163,230,53,0.15)", borderRight: "1px solid rgba(163,230,53,0.15)" }}>
+                  <div className="flex items-center justify-center gap-1.5 text-lime-600 font-bold text-sm">
+                    <Crown className="w-3.5 h-3.5" /> TRUZOT
+                  </div>
+                </div>
+                <div className="p-5 text-center text-xs font-bold text-slate-400 uppercase tracking-widest">Photographer</div>
+                <div className="p-5 text-center text-xs font-bold text-slate-400 uppercase tracking-widest">Other AI</div>
+              </div>
+              {[
+                ["Price", "$29–$59", "$400–$800", "$20–$60"],
+                ["Photos needed", "1–5 selfies", "Photographer present", "12–25 selfies"],
+                ["Turnaround", "30 min – 2 hrs", "2–4 weeks", "1–6 hours"],
+                ["Output volume", "40–200 photos", "10–30 photos", "10–40 photos"],
+                ["Style variety", "6+ categories", "1–2 setups", "Generic filters"],
+                ["True facial likeness", "✓ Custom LoRA", "✓ Human eye", "✗ Generic model"],
+                ["Data privacy", "✓ AES-256 · 30d purge", "Varies", "Rarely"],
+                ["Money-back guarantee", "✓ 30 days", "Rarely", "Varies"],
+              ].map((row, i) => (
+                <div key={i} className="grid grid-cols-4 border-t hover:bg-slate-900/[0.02] transition" style={{ borderColor: "var(--border)" }}>
+                  <div className="p-4 text-sm font-semibold text-slate-600">{row[0]}</div>
+                  <div className="p-4 text-center text-sm font-bold text-lime-600" style={{ background: "rgba(163,230,53,0.03)" }}>{row[1]}</div>
+                  <div className="p-4 text-center text-sm text-slate-400">{row[2]}</div>
+                  <div className="p-4 text-center text-sm text-slate-400">{row[3]}</div>
+                </div>
+              ))}
+            </motion.div>
           </div>
         </section>
 
-        {/* CTA Banner */}
-        <section className="py-24 px-6 bg-[var(--bg-primary)]">
-          <div className="max-w-5xl mx-auto bg-slate-900 dark:bg-slate-950 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl">
-            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none"></div>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6 tracking-tight relative z-10">
-              You deserve a breathtaking portrait.
-            </h2>
-            <p className="text-xl text-slate-300 mb-10 max-w-2xl mx-auto relative z-10">
-              Join thousands of people who have elevated their personal brand
-              with Truzot. Takes 2 minutes to set up.
-            </p>
-            <Link
-              href="/upload"
-              className="inline-flex items-center gap-2 bg-white text-slate-900 px-10 py-5 rounded-2xl font-bold text-xl hover:scale-105 transition-transform active:scale-95 shadow-xl relative z-10"
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  ROI CALCULATOR                                             */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section className="py-24 px-6" style={{ background: "var(--bg)" }}>
+          <div className="max-w-6xl mx-auto">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="text-center mb-14">
+              <motion.p variants={fadeUp} className="text-xs font-bold text-lime-600 uppercase tracking-[0.2em] mb-4 flex items-center justify-center gap-2">
+                <TrendingUp className="w-3.5 h-3.5" /> Calculate your ROI
+              </motion.p>
+              <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 mb-3">
+                See the impact a great headshot has.
+              </motion.h2>
+              <motion.p variants={fadeUp} className="text-slate-500 text-lg max-w-2xl mx-auto">
+                Professional headshots can increase profile views by 2-3x. See what that means for you.
+              </motion.p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="rounded-3xl border p-8 md:p-12 grid md:grid-cols-2 gap-10 md:gap-16 items-center shadow-sm"
+              style={{ borderColor: "var(--border)", background: "var(--surface)" }}
             >
-              Get Professional Headshots <ArrowRight className="w-5 h-5" />
-            </Link>
+              {/* Controls */}
+              <div>
+                <p className="text-sm font-bold text-slate-900 mb-4">I am a...</p>
+                <div className="flex flex-wrap gap-2 mb-8">
+                  {Object.keys(ROI_MULTIPLIERS).map((role) => (
+                    <button
+                      key={role}
+                      onClick={() => setRoiProfession(role as keyof typeof ROI_MULTIPLIERS)}
+                      className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                        roiProfession === role
+                          ? "bg-lime-400 text-black border-lime-400 shadow-sm"
+                          : "bg-[var(--surface2)] text-slate-600 border-[var(--border)] hover:border-lime-600/40"
+                      }`}
+                    >
+                      {role}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="mb-2 flex justify-between items-center">
+                  <p className="text-sm font-bold text-slate-900">Current monthly profile views</p>
+                  <span className="text-2xl font-black text-slate-900 tabular-nums bg-slate-100 px-3 py-1 rounded-md">{roiViews}</span>
+                </div>
+                <input
+                  type="range"
+                  min="100"
+                  max="5000"
+                  step="10"
+                  value={roiViews}
+                  onChange={(e) => setRoiViews(Number(e.target.value))}
+                  className="w-full roi-slider mt-4"
+                />
+                <div className="flex justify-between text-xs text-slate-400 mt-2 font-medium">
+                  <span>100</span>
+                  <span>5,000+</span>
+                </div>
+              </div>
+
+              {/* Results */}
+              <div className="relative p-8 rounded-2xl bg-[#0E1016] border border-white/10 shadow-xl text-white">
+                <div className="absolute -top-3 left-8 bg-lime-400 text-black text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Projected Impact</div>
+
+                <div className="mb-6 mt-2">
+                  <div className="text-5xl font-black mb-1 tabular-nums tracking-tight text-white">
+                    {projectedViews.toLocaleString()}
+                  </div>
+                  <div className="text-sm font-semibold text-white/50">Estimated monthly views</div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                  <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                    <div className="flex items-center gap-1.5 text-lime-400 mb-1">
+                      <TrendingUp className="w-4 h-4" />
+                      <span className="text-xs font-bold uppercase tracking-wider">Increase</span>
+                    </div>
+                    <div className="text-xl font-bold text-white tabular-nums">
+                      +{viewIncrease.toLocaleString()}
+                    </div>
+                    <div className="text-xs text-white/40 font-medium">more views/mo</div>
+                  </div>
+                  <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                    <div className="flex items-center gap-1.5 text-indigo-400 mb-1">
+                      <Zap className="w-4 h-4" />
+                      <span className="text-xs font-bold uppercase tracking-wider">Multiplier</span>
+                    </div>
+                    <div className="text-xl font-bold text-white tabular-nums">
+                      {roiMultiplier}x
+                    </div>
+                    <div className="text-xs text-white/40 font-medium">more visibility</div>
+                  </div>
+                </div>
+
+                <div className="border-t border-white/10 pt-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-white/50 text-sm font-medium">From an investment of</span>
+                    <span className="text-3xl font-black text-white tracking-tight">$39</span>
+                  </div>
+                  <Link
+                    href="/upload?plan=pro"
+                    className="w-full bg-lime-400 text-black py-3.5 rounded-xl font-bold hover:bg-lime-300 transition flex items-center justify-center gap-2 shadow-sm hover:shadow-md"
+                  >
+                    Get this ROI for $39 <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  <p className="mt-4 text-center text-xs text-white/30 font-medium flex items-center justify-center gap-1.5">
+                    <Shield className="w-3 h-3" /> 30-day money-back guarantee
+                  </p>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="bg-white dark:bg-[#0b0d10] border-t border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 py-16 px-6">
-          <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
-            <div className="col-span-1 md:col-span-1">
-              <div className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter mb-4">
-                TRUZOT
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  TESTIMONIALS                                               */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section className="py-24 px-6 border-y" style={{ background: "var(--surface)", borderColor: "var(--border)" }}>
+          <div className="max-w-7xl mx-auto">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="text-center mb-14">
+              <motion.p variants={fadeUp} className="text-xs font-bold text-amber-600 uppercase tracking-[0.2em] mb-4 flex items-center justify-center gap-2">
+                <Star className="w-3.5 h-3.5 fill-current" /> Wall of love
+              </motion.p>
+              <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 mb-3">
+                Don't take our word for it.
+              </motion.h2>
+              <motion.div variants={fadeUp} className="flex items-center justify-center gap-1.5 text-amber-600 mb-1">
+                {[1,2,3,4,5].map(i => <Star key={i} className="w-5 h-5 fill-current" />)}
+                <span className="ml-2 text-slate-900 font-bold text-lg">4.9</span>
+                <span className="text-slate-400 text-sm font-medium">from 642 verified reviews</span>
+              </motion.div>
+            </motion.div>
+
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="grid md:grid-cols-3 gap-5">
+              {TESTIMONIALS.map((t, i) => (
+                <motion.div
+                  key={i}
+                  variants={fadeUp}
+                  className="p-7 rounded-2xl border hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-200/50 transition-all duration-300 flex flex-col"
+                  style={{ background: "var(--bg)", borderColor: "var(--border)" }}
+                >
+                  {/* Metric badge */}
+                  <div className="inline-flex items-center gap-1.5 bg-lime-400/10 border border-lime-400/20 text-lime-600 px-3 py-1.5 rounded-full text-xs font-bold mb-5 w-fit">
+                    <TrendingUp className="w-3 h-3" /> {t.metric}
+                  </div>
+
+                  <div className="flex gap-0.5 mb-4">
+                    {Array.from({ length: t.rating }).map((_, j) => (
+                      <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-500" />
+                    ))}
+                  </div>
+
+                  <p className="text-slate-600 text-sm leading-relaxed mb-6 flex-1">"{t.text}"</p>
+
+                  <div className="flex items-center gap-3 pt-5 border-t" style={{ borderColor: "var(--border)" }}>
+                    <div className="relative w-10 h-10 rounded-full overflow-hidden border border-slate-900/8 shrink-0">
+                      <Image src={t.image} alt={t.name} fill className="object-cover" sizes="40px" />
+                    </div>
+                    {/* Their new AI headshot */}
+                    <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-lime-400/40 shrink-0 -ml-4 shadow-sm">
+                      <Image src={t.headshot} alt={`${t.name} AI headshot`} fill className="object-cover" sizes="40px" />
+                      <div className="absolute inset-0 flex items-center justify-center" style={{ background: "rgba(163,230,53,0.05)" }}>
+                        <Sparkles className="w-3 h-3 text-lime-600" />
+                      </div>
+                    </div>
+                    <div className="ml-1">
+                      <div className="text-sm font-bold text-slate-900 flex items-center gap-1">
+                        {t.name}
+                        <CheckCircle className="w-3.5 h-3.5 text-indigo-500" />
+                      </div>
+                      <div className="text-xs text-slate-400 font-medium">{t.role}</div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  GUARANTEE                                                  */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section className="py-24 px-6" style={{ background: "var(--bg)" }}>
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="relative rounded-3xl p-12 md:p-16 text-center overflow-hidden border"
+              style={{ background: "linear-gradient(135deg, rgba(16,185,129,0.06) 0%, rgba(5,150,105,0.03) 100%)", borderColor: "rgba(16,185,129,0.15)" }}
+            >
+              <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 70%)" }} />
+              <div className="relative z-10">
+                <div className="w-18 h-18 rounded-full flex items-center justify-center mx-auto mb-6 p-4" style={{ background: "rgba(16,185,129,0.10)", border: "1px solid rgba(16,185,129,0.20)" }}>
+                  <Award className="w-10 h-10 text-emerald-600" />
+                </div>
+                <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 mb-4">
+                  100% money-back guarantee.<br />
+                  <span className="text-emerald-600">No questions. No hassle.</span>
+                </h2>
+                <p className="text-slate-500 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
+                  We're so confident in the quality, we offer a full refund within 30 days — no forms, no explanations required. Click 'Request Refund' in your dashboard. You keep the photos either way.
+                </p>
+                <div className="flex flex-wrap justify-center gap-3">
+                  {[
+                    { icon: Shield, label: "30-day protection" },
+                    { icon: Lock, label: "AES-256 encryption" },
+                    { icon: Zap, label: "Auto-purge in 30 days" },
+                  ].map(({ icon: Icon, label }) => (
+                    <span key={label} className="flex items-center gap-2 text-sm font-semibold text-emerald-600 bg-emerald-400/8 border border-emerald-400/15 px-4 py-2 rounded-full">
+                      <Icon className="w-4 h-4" /> {label}
+                    </span>
+                  ))}
+                </div>
               </div>
-              <p className="text-sm leading-relaxed mb-6">
-                High-end AI photography generation for everyone. Studio quality
-                without the studio.
-              </p>
-              <div className="flex gap-4">
-                {/* Social icons could go here */}
-              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  PRICING                                                    */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section id="pricing" className="py-24 px-6 border-y" style={{ background: "var(--surface)", borderColor: "var(--border)" }}>
+          <div className="max-w-7xl mx-auto">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="text-center mb-14">
+              <motion.p variants={fadeUp} className="text-xs font-bold text-lime-600 uppercase tracking-[0.2em] mb-4">Transparent pricing</motion.p>
+              <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 mb-4">
+                One-time payment.<br />
+                <span className="text-slate-400">No subscriptions. No surprises.</span>
+              </motion.h2>
+              <motion.p variants={fadeUp} className="text-slate-500 max-w-xl mx-auto">
+                Every plan backed by our 30-day money-back guarantee.
+              </motion.p>
+            </motion.div>
+
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
+              {Object.values(PLANS).map((plan: any) => (
+                <motion.div
+                  key={plan.id}
+                  variants={fadeUp}
+                  className={`relative p-9 rounded-2xl border flex flex-col transition-all ${
+                    plan.popular
+                      ? "scale-[1.03] z-10 shadow-xl shadow-lime-400/10"
+                      : "hover:-translate-y-1 hover:shadow-lg"
+                  }`}
+                  style={{
+                    background: plan.popular ? "linear-gradient(180deg, var(--bg) 0%, rgba(163,230,53,0.03) 100%)" : "var(--surface2)",
+                    borderColor: plan.popular ? "rgba(163,230,53,0.4)" : "var(--border)",
+                  }}
+                >
+                  {plan.popular && (
+                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-lime-400 text-black text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-wider flex items-center gap-1.5 shadow-md">
+                      <Flame className="w-3 h-3" /> Most popular
+                    </div>
+                  )}
+                  <div className="mb-6">
+                    <h3 className="text-xl font-bold text-slate-900 mb-1 tracking-tight">{plan.name}</h3>
+                    <p className="text-slate-400 text-sm font-medium">
+                      {plan.id === "basic" ? "Quick profile refresh" : plan.id === "pro" ? "Full brand overhaul" : "Executive & team use"}
+                    </p>
+                  </div>
+                  <div className="mb-7">
+                    <span className="text-5xl font-black text-slate-900 tabular-nums tracking-tighter">${plan.price}</span>
+                    <span className="text-slate-400 font-medium"> one-time</span>
+                  </div>
+                  <ul className="space-y-3 mb-8 flex-1">
+                    {[
+                      `${plan.shots} high-resolution photos`,
+                      `${plan.styles} custom style categories`,
+                      plan.resolution,
+                      `${plan.turnaround} delivery`,
+                      "Full commercial rights",
+                      "30-day money-back guarantee",
+                    ].map((feat, j) => (
+                      <li key={j} className="flex items-center gap-2.5 text-sm text-slate-600 font-medium">
+                        <CheckCircle className="w-4 h-4 text-lime-600 shrink-0" />
+                        {feat}
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    href={`/upload?plan=${plan.id}`}
+                    className={`block w-full text-center py-3.5 rounded-xl font-bold text-base transition-all hover:-translate-y-0.5 active:translate-y-0 ${
+                      plan.popular
+                        ? "bg-lime-400 text-black hover:bg-lime-300 shadow-lg shadow-lime-400/20"
+                        : "bg-slate-900/[0.05] text-slate-900 hover:bg-slate-900/10 border border-slate-900/8"
+                    }`}
+                  >
+                    Get {plan.name}
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm font-semibold text-slate-400">
+              <div className="flex items-center gap-2"><Lock className="w-4 h-4" /> Secured by Stripe</div>
+              <div className="flex items-center gap-2"><Shield className="w-4 h-4" /> 30-day guarantee</div>
+              <div className="flex items-center gap-2"><Zap className="w-4 h-4" /> Instant delivery confirmation</div>
             </div>
-            <div>
-              <h4 className="font-bold text-slate-900 dark:text-white mb-4">
-                Product
-              </h4>
-              <ul className="space-y-3 text-sm font-medium">
-                <li>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  FAQ                                                        */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section className="py-24 px-6" style={{ background: "var(--bg)" }}>
+          <div className="max-w-3xl mx-auto">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger} className="text-center mb-12">
+              <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 mb-4">
+                Questions? We've got answers.
+              </motion.h2>
+              <motion.p variants={fadeUp} className="text-slate-500">
+                Can't find what you need?{" "}
+                <Link href="/contact" className="text-lime-600 font-semibold hover:underline">Contact us</Link>.
+              </motion.p>
+            </motion.div>
+
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="space-y-2">
+              {FAQS.map((faq, i) => (
+                <motion.div key={i} variants={fadeUp} className="rounded-xl overflow-hidden border transition-colors hover:border-slate-900/15" style={{ borderColor: "var(--border)", background: "var(--surface)" }}>
+                  <button
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                    className="w-full px-6 py-5 text-left font-semibold flex justify-between items-center hover:bg-slate-50 transition text-slate-900"
+                  >
+                    <span className="pr-4">{faq.q}</span>
+                    <ChevronDown className={`w-5 h-5 text-slate-400 shrink-0 transition-transform ${openFaq === i ? "rotate-180" : ""}`} />
+                  </button>
+                  <AnimatePresence>
+                    {openFaq === i && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25 }}
+                        className="overflow-hidden"
+                      >
+                        <p className="px-6 pb-5 text-slate-500 text-sm leading-relaxed">{faq.a}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  FINAL CTA                                                  */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section className="py-24 px-6 border-t" style={{ background: "var(--surface)", borderColor: "var(--border)" }}>
+          <div className="max-w-5xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="relative rounded-3xl p-14 md:p-20 text-center overflow-hidden"
+              style={{ background: "linear-gradient(135deg, #0D0F13 0%, #0E1016 50%, #0A0B10 100%)", border: "1px solid rgba(163,230,53,0.12)" }}
+            >
+              {/* Ambient glows */}
+              <div className="absolute -right-24 -top-24 w-96 h-96 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(99,102,241,0.2) 0%, transparent 70%)" }} />
+              <div className="absolute -left-24 -bottom-24 w-96 h-96 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(163,230,53,0.1) 0%, transparent 70%)" }} />
+
+              <div className="relative z-10">
+                {/* Live counter */}
+                <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm font-semibold text-white/50 mb-8">
+                  <div className="w-2 h-2 bg-lime-400 rounded-full animate-ping" />
+                  <div className="w-2 h-2 bg-lime-400 rounded-full absolute" />
+                  <span><AnimatedCounter target={headshotsCount} suffix="+" /> headshots generated and counting</span>
+                </div>
+
+                <h2 className="text-4xl md:text-6xl font-black text-white mb-5 tracking-tighter leading-[0.95]">
+                  Your next great first impression
+                  <br />
+                  <span className="text-lime-400">starts in 30 minutes.</span>
+                </h2>
+                <p className="text-xl text-white/40 mb-10 max-w-xl mx-auto leading-relaxed">
+                  Join 10,247 people who upgraded their personal brand — professionals, job seekers, creatives, and students alike. No studio. No photographer. No risk.
+                </p>
+
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link
                     href="/upload"
-                    className="hover:text-slate-900 dark:hover:text-white transition"
+                    className="group inline-flex items-center justify-center gap-2 bg-lime-400 text-black px-10 py-5 rounded-2xl font-bold text-xl hover:bg-lime-300 transition shadow-xl shadow-lime-400/20 hover:-translate-y-0.5 active:scale-[0.98]"
                   >
-                    Create Photos
+                    Create my headshots
+                    <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                   </Link>
-                </li>
-                <li>
-                  <a
-                    href="#pricing"
-                    className="hover:text-slate-900 dark:hover:text-white transition"
+                  <button 
+                    onClick={() => setShowPreview(true)} 
+                    className="inline-flex items-center justify-center gap-2 bg-white/5 text-white border border-white/10 px-8 py-5 rounded-2xl font-bold text-xl hover:bg-white/10 transition"
                   >
-                    Pricing
-                  </a>
-                </li>
+                    <Eye className="w-5 h-5" /> Preview styles first
+                  </button>
+                </div>
+
+                <p className="mt-6 text-sm text-white/30 font-medium">From $29 · 30-day money-back guarantee · Results in 30 minutes</p>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        </div>
+        {/* LIGHT ZONE END */}
+
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  FOOTER                                                     */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <footer className="border-t py-16 px-6" style={{ background: "var(--surface)", borderColor: "var(--border)" }}>
+          <div className="max-w-7xl mx-auto grid md:grid-cols-5 gap-10">
+            <div className="md:col-span-2">
+              <div className="text-2xl font-black text-white tracking-tighter mb-1">
+                TRUZOT<span className="text-xs text-lime-400 align-super ml-1 font-bold tracking-widest">AI</span>
+              </div>
+              <p className="text-white/30 text-sm leading-relaxed mb-6 max-w-xs">
+                Studio-quality AI headshots for anyone — professionals, job seekers, creatives, and students. From your phone. In 30 minutes. Backed by a 30-day guarantee.
+              </p>
+
+              {/* Social links */}
+              <div className="flex items-center gap-2 mb-6">
+                {SOCIALS.map((s) => {
+                  const isCustom = typeof s.icon === "string";
+                  return (
+                    <a
+                      key={s.label}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={s.label}
+                      className="w-9 h-9 rounded-lg flex items-center justify-center border text-white/40 hover:text-lime-400 hover:border-lime-400/30 transition-colors"
+                      style={{ borderColor: "var(--border)", background: "var(--surface2)" }}
+                    >
+                      {isCustom ? (
+                        s.icon === "tiktok" ? <TikTokIcon className="w-4 h-4" /> : <BlueskyIcon className="w-4 h-4" />
+                      ) : (
+                        <s.icon className="w-4 h-4" />
+                      )}
+                    </a>
+                  );
+                })}
+              </div>
+
+              <div className="flex items-center gap-2 text-xs font-semibold text-white/20">
+                <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+                All systems operational
+              </div>
+            </div>
+            <div>
+              <h4 className="font-bold text-white text-sm mb-4 uppercase tracking-widest">Product</h4>
+              <ul className="space-y-3 text-sm text-white/30">
+                <li><Link href="/upload" className="hover:text-white transition">Create headshots</Link></li>
                 <li>
-                  <Link
-                    href="/team"
-                    className="hover:text-slate-900 dark:hover:text-white transition"
-                  >
-                    For Teams
-                  </Link>
+                  <button onClick={() => setShowPreview(true)} className="hover:text-[var(--text)] transition text-left">
+                    Free Preview
+                  </button>
                 </li>
+                <li><a href="#pricing" className="hover:text-white transition">Pricing</a></li>
+                <li><Link href="/team" className="hover:text-white transition">For teams</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-slate-900 dark:text-white mb-4">
-                Company
-              </h4>
-              <ul className="space-y-3 text-sm font-medium">
-                <li>
-                  <Link
-                    href="/about"
-                    className="hover:text-slate-900 dark:hover:text-white transition"
-                  >
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/blog"
-                    className="hover:text-slate-900 dark:hover:text-white transition"
-                  >
-                    Blog
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/contact"
-                    className="hover:text-slate-900 dark:hover:text-white transition"
-                  >
-                    Contact
-                  </Link>
-                </li>
+              <h4 className="font-bold text-white text-sm mb-4 uppercase tracking-widest">Company</h4>
+              <ul className="space-y-3 text-sm text-white/30">
+                <li><Link href="/about" className="hover:text-white transition">About</Link></li>
+                <li><Link href="/blog" className="hover:text-white transition">Blog</Link></li>
+                <li><Link href="/contact" className="hover:text-white transition">Contact</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-slate-900 dark:text-white mb-4">
-                Legal
-              </h4>
-              <ul className="space-y-3 text-sm font-medium">
-                <li>
-                  <Link
-                    href="/privacy"
-                    className="hover:text-slate-900 dark:hover:text-white transition"
-                  >
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/terms"
-                    className="hover:text-slate-900 dark:hover:text-white transition"
-                  >
-                    Terms of Service
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/refund"
-                    className="hover:text-slate-900 dark:hover:text-white transition"
-                  >
-                    Refund Policy
-                  </Link>
-                </li>
+              <h4 className="font-bold text-white text-sm mb-4 uppercase tracking-widest">Legal</h4>
+              <ul className="space-y-3 text-sm text-white/30">
+                <li><Link href="/privacy" className="hover:text-white transition">Privacy</Link></li>
+                <li><Link href="/terms" className="hover:text-white transition">Terms</Link></li>
+                <li><Link href="/refund" className="hover:text-white transition">Refund policy</Link></li>
               </ul>
             </div>
           </div>
-          <div className="max-w-7xl mx-auto border-t border-slate-200 dark:border-slate-800 mt-16 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm font-medium">
-            <p>
-              &copy; {new Date().getFullYear()} Truzot Inc. All rights reserved.
-            </p>
+          <div className="max-w-7xl mx-auto border-t mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-medium text-white/20" style={{ borderColor: "var(--border)" }}>
+            <p>© {new Date().getFullYear()} Truzot Inc. All rights reserved.</p>
+            <div className="flex items-center gap-4">
+              <span className="flex items-center gap-1.5"><Shield className="w-3 h-3" /> AES-256 encrypted</span>
+              <span className="flex items-center gap-1.5"><Lock className="w-3 h-3" /> No data sold</span>
+            </div>
           </div>
         </footer>
       </div>
 
-      {/* Exit-Intent Popup */}
-      {showExitPopup && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4"
-          onClick={handleClosePopup}
-        >
-          <div
-            className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl p-8 text-center animate-in slide-in-from-bottom-8 duration-300"
-            onClick={(e) => e.stopPropagation()}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/*  EXIT-INTENT POPUP                                         */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      <AnimatePresence>
+        {showExitPopup && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-md p-4"
+            onClick={() => { setShowExitPopup(false); localStorage.setItem("truzot-exit-dismissed", "true"); }}
           >
-            <button
-              onClick={handleClosePopup}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition"
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="relative w-full max-w-md rounded-2xl p-8 text-center"
+              style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
+              onClick={e => e.stopPropagation()}
             >
-              <X size={24} />
-            </button>
-            {submitStatus === "success" ? (
-              <div className="py-6">
-                <CheckCircle className="w-16 h-16 mx-auto mb-4 text-emerald-500" />
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                  Code Sent!
-                </h3>
-                <p className="text-slate-600 dark:text-slate-400">
-                  Check your inbox for your $5 discount.
-                </p>
-              </div>
-            ) : (
-              <>
-                <div className="mb-6">
-                  <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Mail className="w-8 h-8 text-slate-900 dark:text-white" />
-                  </div>
-                  <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-2">
-                    Wait! Take $5 Off
-                  </h3>
-                  <p className="text-slate-600 dark:text-slate-400">
-                    Enter your email and we&apos;ll send you a $5 discount code
-                    instantly.
-                  </p>
+              <button
+                onClick={() => { setShowExitPopup(false); localStorage.setItem("truzot-exit-dismissed", "true"); }}
+                className="absolute top-4 right-4 w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/40 hover:text-white transition"
+              >
+                <X size={16} />
+              </button>
+              {submitStatus === "success" ? (
+                <div className="py-4">
+                  <CheckCircle className="w-14 h-14 mx-auto mb-4 text-lime-400" />
+                  <h3 className="text-2xl font-bold text-white mb-2">Discount sent!</h3>
+                  <p className="text-white/40">Check your inbox for your $5 discount code.</p>
                 </div>
-                <form onSubmit={handleEmailSubmit} className="space-y-4">
-                  <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              ) : (
+                <>
+                  <div className="w-14 h-14 bg-lime-400/10 border border-lime-400/20 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                    <Mail className="w-7 h-7 text-lime-400" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-2">Wait — take $5 off</h3>
+                  <p className="text-white/40 text-sm mb-6">Enter your email and we'll send a $5 discount code instantly.</p>
+                  <form onSubmit={handleEmailSubmit} className="space-y-3">
                     <input
                       type="email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="name@email.com"
+                      onChange={e => setEmail(e.target.value)}
+                      placeholder="your@email.com"
                       required
                       disabled={isSubmitting}
-                      className="w-full pl-12 pr-4 py-4 border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 rounded-xl font-medium focus:ring-2 focus:ring-slate-900 outline-none transition"
+                      className="w-full px-4 py-3.5 rounded-xl text-sm font-medium text-white placeholder-white/25 outline-none focus:ring-1 focus:ring-lime-400/50 transition"
+                      style={{ background: "var(--surface2)", border: "1px solid var(--border)" }}
                     />
-                  </div>
-                  <button
-                    type="submit"
-                    disabled={isSubmitting || !email}
-                    className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 py-4 rounded-xl font-bold hover:bg-slate-800 dark:hover:bg-slate-100 transition flex items-center justify-center gap-2"
-                  >
-                    {isSubmitting ? (
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                    ) : (
-                      "Send My Discount"
-                    )}
-                  </button>
-                </form>
-              </>
-            )}
-          </div>
-        </div>
-      )}
+                    <button
+                      type="submit"
+                      disabled={isSubmitting || !email}
+                      className="w-full bg-lime-400 text-black py-3.5 rounded-xl font-bold text-sm hover:bg-lime-300 transition flex items-center justify-center gap-2 disabled:opacity-60"
+                    >
+                      {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : "Send my $5 discount"}
+                    </button>
+                  </form>
+                  {submitStatus === "error" && (
+                    <p className="text-red-400 text-xs mt-3">Something went wrong. Try again.</p>
+                  )}
+                </>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

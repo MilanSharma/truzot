@@ -7,56 +7,66 @@ import { isAdminUser } from "@/lib/admin";
 const log = createLogger("admin-orders");
 
 export const GET = withContext(async (req: Request) => {
-  try {
-    const authHeader = req.headers.get("Authorization")?.replace("Bearer ", "");
-    if (!authHeader) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+ try {
+ const authHeader = req.headers.get("Authorization")?.replace("Bearer ", "");
+ if (!authHeader) {
+ return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+ }
 
-    const {
-      data: { user },
-      error: authError,
-    } = await supabaseAdmin.auth.getUser(authHeader);
-    if (authError || !user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+ const {
+ data: { user },
+ error: authError,
+ } = await supabaseAdmin.auth.getUser(authHeader);
+ if (authError || !user) {
+ return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+ }
 
-    if (!(await isAdminUser(user.id))) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
+ if (!(await isAdminUser(user.id))) {
+ return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+ }
 
-    const { searchParams } = new URL(req.url);
-    const cursor = searchParams.get("cursor");
-    const limit = Math.min(Number(searchParams.get("limit")) || 100, 500);
+ const { searchParams } = new URL(req.url);
+ const cursor = searchParams.get("cursor");
+ const limit = Math.min(Number(searchParams.get("limit")) || 100, 500);
 
-    let query = supabaseAdmin
-      .from("orders")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .order("id", { ascending: false })
-      .limit(limit + 1);
+ let query = supabaseAdmin
+ .from("orders")
+ .select("*")
+ .order("created_at", { ascending: false })
+ .order("id", { ascending: false })
+ .limit(limit + 1);
 
-    if (cursor) {
-      query = query.lt("created_at", cursor);
-    }
+ if (cursor) {
+ // Parse cursor which should be "created_at,id" format
+ const [cursorCreatedAt, cursorId] = cursor.split(",");
+ if (cursorCreatedAt && cursorId) {
+ query = query
+ .lt("created_at", cursorCreatedAt)
+ .or(`created_at.eq.${cursorCreatedAt}and.id.lt.${cursorId}`);
+ } else {
+ // Fallback for old format (created_at only)
+ query = query.lt("created_at", cursor);
+ }
+ }
 
-    const { data: orders, error } = await query;
+ const { data: orders, error } = await query;
 
-    if (error) {
-      log.error({ err: error }, "Failed to fetch orders");
-      return NextResponse.json(
-        { error: "Failed to fetch orders" },
-        { status: 500 },
-      );
-    }
+ if (error) {
+ log.error({ err: error }, "Failed to fetch orders");
+ return NextResponse.json(
+ { error: "Failed to fetch orders" },
+ { status: 500 },
+ );
+ }
 
-    const hasMore = orders.length > limit;
-    const result = hasMore ? orders.slice(0, limit) : orders;
-    const nextCursor = hasMore ? orders[limit - 1]?.created_at : null;
+ const hasMore = orders.length > limit;
+ const result = hasMore ? orders.slice(0, limit) : orders;
+ // Include both created_at and id in cursor to handle ties
+ const nextCursor = hasMore ? `${orders[limit - 1]?.created_at},${orders[limit - 1]?.id}` : null;
 
-    return NextResponse.json({ orders: result, nextCursor, hasMore });
-  } catch (err) {
-    log.error({ err }, "Admin orders error");
-    return NextResponse.json({ error: "Internal error" }, { status: 500 });
-  }
+ return NextResponse.json({ orders: result, nextCursor, hasMore });
+ } catch (err) {
+ log.error({ err }, "Admin orders error");
+ return NextResponse.json({ error: "Internal error" }, { status: 500 });
+ }
 });

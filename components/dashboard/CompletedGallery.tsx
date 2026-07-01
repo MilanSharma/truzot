@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState, useRef, useEffect, useCallback } from "react";
+import { useMemo, useState, useRef, useEffect } from "react";
 import {
   ImageIcon,
   ArrowUpDown,
@@ -15,8 +15,7 @@ import {
 import VirtualizedHeadshotGrid from "@/components/VirtualizedHeadshotGrid";
 import type { Headshot } from "@/lib/types";
 import { useToast } from "@/components/Toast";
-import { supabase } from "@/lib/supabase/client";
-import { serverSideDownload } from "@/lib/download";
+import { downloadAsZip } from "@/lib/download";
 import CustomUpsellModal from "./CustomUpsellModal";
 
 interface CompletedGalleryProps {
@@ -35,7 +34,6 @@ interface CompletedGalleryProps {
   onToggleFavorite: (url: string, e?: React.MouseEvent) => void;
   onView: (url: string) => void;
   onDownload: (url: string) => void;
-  onClearSelection?: () => void;
 }
 
 const CATEGORY_TABS = [
@@ -60,12 +58,6 @@ interface DateFilter {
   to: Date | null;
 }
 
-const SkeletonCard = () => (
-  <div className="aspect-[3/4] rounded-xl bg-slate-200 dark:bg-slate-800 animate-pulse">
-    <div className="h-full w-full rounded-xl bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200 dark:from-slate-800 dark:via-slate-700 dark:to-slate-800 animate-shimmer" />
-  </div>
-);
-
 export default function CompletedGallery({
   headshots,
   filtered,
@@ -82,7 +74,6 @@ export default function CompletedGallery({
   onToggleFavorite,
   onView,
   onDownload,
-  onClearSelection,
 }: CompletedGalleryProps) {
   const [showUpsellModal, setShowUpsellModal] = useState(false);
   const [sortBy, setSortBy] = useState<"newest" | "oldest" | "favorites">(
@@ -207,26 +198,41 @@ export default function CompletedGallery({
     dateFilter,
   ]);
 
-  // Handle bulk actions
-
   const handleDownloadAll = async () => {
     if (!orderId || sortedFiltered.length === 0) return;
     setDownloadingAll(true);
     try {
       const allUrls = sortedFiltered.map((h) => h.image_url);
-      await serverSideDownload(
-        allUrls,
-        orderId,
-        `truzot-all-${sortedFiltered.length}.zip`,
-        () => {},
-      );
-      toast("Download started", "success");
+      const BATCH_SIZE = 50;
+      
+      if (allUrls.length > BATCH_SIZE) {
+        // Download in batches of 50 to prevent memory crashes
+        for (let i = 0; i < allUrls.length; i += BATCH_SIZE) {
+          const batch = allUrls.slice(i, i + BATCH_SIZE);
+          await downloadAsZip(
+            batch,
+            orderId,
+            `truzot-batch-${Math.floor(i / BATCH_SIZE) + 1}-${Math.ceil(allUrls.length / BATCH_SIZE)}.zip`,
+            () => {},
+          );
+        }
+        toast(`Downloaded ${allUrls.length} photos in ${Math.ceil(allUrls.length / BATCH_SIZE)} files`, "success");
+      } else {
+        await downloadAsZip(
+          allUrls,
+          orderId,
+          `truzot-all-${sortedFiltered.length}.zip`,
+          () => {},
+        );
+        toast("Download started", "success");
+      }
     } catch {
       toast("Failed to download all. Please try again.", "error");
     } finally {
       setDownloadingAll(false);
     }
   };
+
   const handleDateFilterChange = (from: Date | null, to: Date | null) => {
     setDateFilter({ from, to });
     setShowDatePicker(false);
@@ -241,13 +247,18 @@ export default function CompletedGallery({
 
   return (
     <div>
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-6 mb-6">
+      {/* Category tabs */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-6 mb-6">
         <div className="flex flex-wrap gap-2">
           {CATEGORY_TABS.map((tab) => (
             <button
               key={tab.id}
               onClick={() => onCategoryChange(tab.id)}
-              className={`px-4 py-2.5 text-sm font-bold rounded-full transition-all duration-200 active:scale-95 ${activeCategory === tab.id ? "bg-slate-900 text-white shadow-md scale-105" : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-slate-300"}`}
+              className={`px-4 py-2.5 text-sm font-bold rounded-full transition-all duration-200 active:scale-95 ${
+                activeCategory === tab.id
+                  ? "bg-lime-500 text-slate-900 shadow-md scale-105"
+                  : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:text-slate-900"
+              }`}
             >
               {tab.name}
             </button>
@@ -255,8 +266,10 @@ export default function CompletedGallery({
         </div>
       </div>
 
+      {/* Filters & controls */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
         <div className="flex flex-wrap items-center gap-2">
+          {/* Search */}
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
@@ -264,7 +277,7 @@ export default function CompletedGallery({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search style or category..."
-              className="pl-9 pr-3 py-2 text-sm border border-slate-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent w-56"
+              className="pl-9 pr-3 py-2 text-sm border border-slate-200 bg-white/5 text-slate-900 placeholder-slate-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400/50 focus:border-transparent w-56"
             />
             {searchQuery && (
               <button
@@ -276,10 +289,15 @@ export default function CompletedGallery({
             )}
           </div>
 
+          {/* Date filter */}
           <div className="relative">
             <button
               onClick={() => setShowDatePicker(!showDatePicker)}
-              className={`flex items-center gap-1.5 px-3 py-2 text-sm border rounded-lg transition ${dateFilter.from || dateFilter.to ? "bg-indigo-50 border-indigo-300 text-indigo-700" : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"}`}
+              className={`flex items-center gap-1.5 px-3 py-2 text-sm border rounded-lg transition ${
+                dateFilter.from || dateFilter.to
+                  ? "bg-lime-400/10 border-lime-400/30 text-lime-400"
+                  : "bg-white/5 border-white/10 text-slate-900/50 hover:bg-slate-50 hover:text-slate-900"
+              }`}
             >
               <Calendar className="w-4 h-4" />
               {dateFilter.from || dateFilter.to
@@ -297,9 +315,9 @@ export default function CompletedGallery({
               )}
             </button>
             {showDatePicker && (
-              <div className="absolute top-full left-0 mt-1 z-50 bg-white border border-slate-200 rounded-xl shadow-xl p-4 w-72">
+              <div className="absolute top-full left-0 mt-1 z-50 bg-[#0E1016] border border-slate-200 rounded-2xl shadow-2xl p-4 w-72">
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-medium text-slate-500">
+                  <label className="text-xs font-medium text-slate-900/40">
                     From
                   </label>
                   <input
@@ -315,11 +333,9 @@ export default function CompletedGallery({
                         from: e.target.value ? new Date(e.target.value) : null,
                       }))
                     }
-                    className="px-3 py-1.5 text-sm border border-slate-200 rounded-lg"
+                    className="px-3 py-1.5 text-sm border border-slate-200 bg-white/5 text-slate-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400/50"
                   />
-                  <label className="text-xs font-medium text-slate-500">
-                    To
-                  </label>
+                  <label className="text-xs font-medium text-slate-900/40">To</label>
                   <input
                     type="date"
                     value={
@@ -333,12 +349,12 @@ export default function CompletedGallery({
                         to: e.target.value ? new Date(e.target.value) : null,
                       }))
                     }
-                    className="px-3 py-1.5 text-sm border border-slate-200 rounded-lg"
+                    className="px-3 py-1.5 text-sm border border-slate-200 bg-white/5 text-slate-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400/50"
                   />
                   <div className="flex justify-end gap-2 mt-2">
                     <button
                       onClick={() => setShowDatePicker(false)}
-                      className="px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100 rounded-lg"
+                      className="px-3 py-1.5 text-sm text-slate-900/50 hover:bg-white/10 rounded-lg"
                     >
                       Close
                     </button>
@@ -346,7 +362,7 @@ export default function CompletedGallery({
                       onClick={() => {
                         setShowDatePicker(false);
                       }}
-                      className="px-3 py-1.5 text-sm bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+                      className="px-3 py-1.5 text-sm bg-lime-500 text-slate-900 rounded-lg hover:bg-lime-300"
                     >
                       Apply
                     </button>
@@ -356,10 +372,11 @@ export default function CompletedGallery({
             )}
           </div>
 
+          {/* Download All */}
           <button
             onClick={handleDownloadAll}
             disabled={downloadingAll}
-            className="flex items-center gap-1.5 px-3 py-2 text-sm bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition disabled:opacity-50"
+            className="flex items-center gap-1.5 px-3 py-2 text-sm bg-lime-500 text-slate-900 rounded-lg hover:bg-lime-300 transition disabled:opacity-50 font-bold"
           >
             <Download className="w-4 h-4" />
             {downloadingAll
@@ -368,7 +385,8 @@ export default function CompletedGallery({
           </button>
         </div>
 
-        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 rounded-lg p-0.5">
+        {/* Grid density selector */}
+        <div className="flex items-center gap-1 bg-slate-100 rounded-lg p-0.5 border border-slate-200">
           {GRID_DENSITIES.map((d) => {
             const Icon = d.icon;
             return (
@@ -377,8 +395,8 @@ export default function CompletedGallery({
                 onClick={() => setGridDensity(d.cols)}
                 className={`p-1.5 rounded-md transition ${
                   gridDensity === d.cols
-                    ? "bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white"
-                    : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"
+                    ? "bg-white/10 text-slate-900 shadow-sm"
+                    : "text-slate-400 hover:text-slate-900/60"
                 }`}
                 title={`${d.label} columns`}
               >
@@ -389,26 +407,27 @@ export default function CompletedGallery({
         </div>
       </div>
 
+      {/* Sort & hide similar */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-        <div className="flex items-center gap-4 text-xs font-medium text-slate-500 dark:text-slate-400">
+        <div className="flex items-center gap-4 text-xs font-medium text-slate-400">
           <div className="flex items-center gap-1.5">
             <ArrowUpDown className="w-3.5 h-3.5" />
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-              className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg px-2 py-1.5 text-xs text-slate-700 dark:text-slate-300 focus:outline-none"
+              className="bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-900/50 focus:outline-none focus:ring-1 focus:ring-lime-400/30"
             >
               <option value="newest">Newest</option>
               <option value="oldest">Oldest</option>
               <option value="favorites">Favorites First</option>
             </select>
           </div>
-          <label className="flex items-center gap-1.5 cursor-pointer select-none">
+          <label className="flex items-center gap-1.5 cursor-pointer select-none text-slate-900/40 hover:text-slate-900/60 transition">
             <input
               type="checkbox"
               checked={hideSimilar}
               onChange={(e) => setHideSimilar(e.target.checked)}
-              className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+              className="rounded border-white/20 bg-white/5 text-lime-400 focus:ring-lime-400/30"
             />
             Hide similar
           </label>
@@ -418,31 +437,31 @@ export default function CompletedGallery({
 
       {sortedFiltered.length > 0 ? (
         <>
-          <div className="mb-10 relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 p-8 shadow-2xl group border border-white/10">
-            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none"></div>
-            <div className="absolute -right-20 -top-20 w-64 h-64 bg-indigo-500 rounded-full blur-[100px] opacity-20 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
-            <div className="absolute -left-20 -bottom-20 w-64 h-64 bg-purple-500 rounded-full blur-[100px] opacity-20 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none"></div>
+          {/* Upsell banner */}
+          <div className="mb-10 relative overflow-hidden rounded-3xl bg-gradient-to-br from-lime-50 via-white to-blue-50 p-8 shadow-2xl group border border-slate-200">
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+            <div className="absolute -right-20 -top-20 w-64 h-64 bg-indigo-500 rounded-full blur-[100px] opacity-20 group-hover:opacity-30 transition-opacity duration-700 pointer-events-none"></div>
+            <div className="absolute -left-20 -bottom-20 w-64 h-64 bg-lime-500 rounded-full blur-[100px] opacity-10 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"></div>
 
             <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
               <div>
-                <h3 className="text-2xl font-bold text-white mb-2 flex items-center gap-2">
-                  <Sparkles className="w-6 h-6 text-indigo-400" />
+                <h3 className="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                  <Sparkles className="w-6 h-6 text-lime-400" />
                   Unlock Custom Styles
                 </h3>
-                <p className="text-indigo-100/70 max-w-xl text-sm leading-relaxed">
-                  Your AI model is already trained! Didn&apos;t get the exact
-                  look you wanted? Generate 20 custom headshots with your exact
-                  choice of clothing and background.
+                <p className="text-slate-900/50 max-w-xl text-sm leading-relaxed">
+                  Your AI model is already trained! Didn’t get the exact look you wanted? Generate 20 custom headshots with your exact choice of clothing and background.
                 </p>
               </div>
               <button
                 onClick={() => setShowUpsellModal(true)}
-                className="shrink-0 px-8 py-3.5 bg-white text-indigo-950 rounded-xl font-bold hover:bg-indigo-50 transition-all duration-300 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] flex items-center gap-2"
+                className="shrink-0 px-8 py-3.5 bg-lime-500 text-slate-900 rounded-2xl font-bold hover:bg-lime-300 transition-all duration-300 active:scale-95 shadow-[0_0_20px_rgba(163,230,53,0.2)] hover:shadow-[0_0_30px_rgba(163,230,53,0.4)] flex items-center gap-2"
               >
                 Create Custom Pack ($14)
               </button>
             </div>
           </div>
+
           <VirtualizedHeadshotGrid
             headshots={sortedFiltered}
             favorites={favorites}
@@ -458,19 +477,19 @@ export default function CompletedGallery({
           {hasMore && <div ref={sentinelRef} className="h-10 w-full" />}
           {loadingMore && (
             <div className="flex justify-center py-8">
-              <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+              <div className="w-6 h-6 border-2 border-lime-400 border-t-transparent rounded-full animate-spin" />
             </div>
           )}
         </>
       ) : (
-        <div className="text-center py-20 bg-white rounded-3xl border border-slate-200 shadow-sm max-w-2xl mx-auto">
-          <ImageIcon className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+        <div className="text-center py-20 bg-[#0E1016] rounded-3xl border border-slate-200 max-w-2xl mx-auto">
+          <ImageIcon className="w-12 h-12 text-slate-900/10 mx-auto mb-4" />
           <h4 className="text-xl font-bold text-slate-900 mb-2">
             {searchQuery || dateFilter.from || dateFilter.to
               ? "No matching headshots"
               : "No headshots yet"}
           </h4>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-400">
             {searchQuery
               ? "Try a different search term."
               : "Try toggling other categories or adding some favorites."}

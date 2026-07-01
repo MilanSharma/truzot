@@ -96,7 +96,21 @@ REVOKE EXECUTE ON FUNCTION public.delete_user_account() FROM PUBLIC;
 REVOKE EXECUTE ON FUNCTION public.handle_new_user() FROM PUBLIC;
 
 -- 7. Storage RLS policies for uploads bucket
-ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
+-- Note: storage.objects is a system table, RLS may already be enabled
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_class WHERE relname = 'objects' AND relnamespace = 'storage'::regnamespace) THEN
+        -- Skip if table doesn't exist in expected location
+    ELSE
+        -- Try to enable RLS, ignore if already enabled or permission denied
+        BEGIN
+            ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
+        EXCEPTION WHEN others THEN
+            -- RLS may already be enabled or we don't have permission
+            NULL;
+        END;
+    END IF;
+END $$;
 
 CREATE POLICY "Users can upload own files" ON storage.objects
   FOR INSERT WITH CHECK (

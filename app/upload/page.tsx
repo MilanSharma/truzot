@@ -37,6 +37,8 @@ import {
   Camera,
   Shirt,
   ImagePlus,
+  Sparkles,
+  Eye,
 } from "lucide-react";
 
 const PLANS_LIST = Object.values(PLANS);
@@ -87,6 +89,26 @@ function getSavedState(): Record<string, unknown> | null {
   }
 }
 
+  // Debug: intercept fetch to log CORS errors
+  if (typeof window !== 'undefined' && !(window as any).__fetchIntercepted) {
+    (window as any).__fetchIntercepted = true;
+    const originalFetch = window.fetch;
+    window.fetch = async (url, options) => {
+      try {
+        const response = await originalFetch(url, options);
+        if (!response.ok && response.status === 403) {
+          const text = await response.clone().text();
+          if (text.includes('Forbidden Origin')) {
+            console.error('CORS ERROR - URL:', url, 'Status:', response.status, 'Body:', text);
+          }
+        }
+        return response;
+      } catch (e) {
+        console.error('FETCH ERROR - URL:', url, 'Error:', e);
+        throw e;
+      }
+    };
+  }
 function UploadContent() {
   const searchParams = useSearchParams();
   const { toast } = useToast();
@@ -98,11 +120,11 @@ function UploadContent() {
   } | null>(null);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      if (data.user?.email) {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user?.email) {
         setUser({
-          email: data.user.email,
-          user_metadata: data.user.user_metadata,
+          email: session.user.email,
+          user_metadata: session.user.user_metadata,
         });
       }
       setAuthLoading(false);
@@ -149,7 +171,7 @@ function UploadContent() {
   // Checkout State
   const [plan, setPlan] = useState(
     () =>
-      (getSavedState()?.plan as string) || searchParams.get("plan") || "pro",
+      searchParams.get("plan") || (getSavedState()?.plan as string) || "pro",
   );
   const [email, setEmail] = useState(
     () => (getSavedState()?.email as string) || "",
@@ -232,9 +254,14 @@ function UploadContent() {
     const timer = setTimeout(async () => {
       if (cancelled) return;
       try {
-        const {
-          data: { session },
-        } = await supabase.auth.getSession();
+        let session = null;
+        try {
+          const { data: { session: s } } = await supabase.auth.getSession();
+          session = s;
+        } catch (e) {
+          console.warn("Session check failed:", e);
+          session = null;
+        }
         const authHeaders: Record<string, string> = {
           "Content-Type": "application/json",
         };
@@ -438,7 +465,11 @@ function UploadContent() {
           }),
         });
 
-        if (!uploadUrlRes.ok) throw new Error("Failed to get upload URL");
+        if (!uploadUrlRes.ok) {
+          const errorText = await uploadUrlRes.text();
+          console.error("Upload URL request failed:", uploadUrlRes.status, errorText);
+          throw new Error("Failed to get upload URL");
+        }
         const {
           signedUrl,
           token: uploadToken,
@@ -654,9 +685,9 @@ function UploadContent() {
           } else {
             throw new Error("Upload failed to return a path");
           }
-        } catch (err) {
+        } catch (err: any) {
           console.error("Upload failed:", err);
-          setError("Failed to upload photos. Please try again.");
+          setError(err.message || "Failed to upload photos. Please try again.");
           setIsProcessing(false);
           return;
         } finally {
@@ -677,6 +708,11 @@ function UploadContent() {
 
     if (!email || !email.includes("@")) {
       setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (!storagePath) {
+      setError("Please upload your photos before proceeding to checkout.");
       return;
     }
 
@@ -709,7 +745,10 @@ function UploadContent() {
 
       const res = await fetch("/api/checkout", {
         method: "POST",
-        headers: authHeaders,
+        headers: {
+          ...authHeaders,
+          "X-Requested-With": "XMLHttpRequest",
+        },
         body: JSON.stringify(checkoutPayload),
       });
 
@@ -743,7 +782,7 @@ function UploadContent() {
     setPlan("pro");
     setShootName("");
     setCoupon("");
-    setConsentChecked(false);
+    setConsentChecked(true);
     setProgress("");
     setError("");
     setBackgroundProgress("");
@@ -764,11 +803,13 @@ function UploadContent() {
     filesRef.current = [];
   };
 
+  // Inline CSS for the landing page theme
   return (
     <UploadErrorBoundary>
       <div
         id="main-content"
-        className="min-h-screen bg-[var(--bg-primary)] font-sans text-[var(--text-primary)] pb-20 overflow-x-hidden"
+        className="min-h-screen font-sans text-[var(--text)] pb-20 overflow-x-hidden"
+        style={{ background: "var(--bg)" }}
       >
         <Nav user={user} />
 
@@ -776,42 +817,44 @@ function UploadContent() {
           {/* Stepper Header */}
           <div className="mb-12 max-w-md mx-auto">
             <div className="flex items-center justify-center gap-24 relative">
-              <div className="absolute top-1/2 left-[calc(50%-48px)] w-24 h-1 bg-slate-200 dark:bg-slate-800 -z-10 rounded-full" />
+              <div className="absolute top-1/2 left-[calc(50%-48px)] w-24 h-1 bg-[var(--border)] -z-10 rounded-full" />
               <div
-                className="absolute top-1/2 left-[calc(50%-48px)] h-1 bg-blue-600 -z-10 rounded-full transition-all duration-500 ease-out"
+                className="absolute top-1/2 left-[calc(50%-48px)] h-1 bg-[var(--lime)] -z-10 rounded-full transition-all duration-500 ease-out"
                 style={{ width: step === 2 ? "96px" : "0px" }}
               />
               {[1, 2].map((num) => (
                 <div
                   key={num}
-                  className={`w-12 h-12 rounded-full flex items-center justify-center font-bold border-[4px] transition-all duration-500 ease-out z-10 ${step >= num ? "bg-blue-600 border-blue-100 dark:border-blue-900/50 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]" : "bg-slate-100 dark:bg-slate-800 border-white dark:border-slate-950 text-slate-400 dark:text-slate-500"}`}
+                  className={`w-12 h-12 rounded-full flex items-center justify-center font-bold border-[4px] transition-all duration-500 ease-out z-10 ${
+                    step >= num
+                      ? "bg-[var(--lime)] border-[var(--lime)]/30 text-[var(--lime-on)] shadow-[0_0_20px_var(--lime)]"
+                      : "bg-[var(--surface2)] border-[var(--border)] text-[var(--text-secondary)]"
+                  }`}
                 >
                   {step > num ? <Check className="w-6 h-6" /> : num}
                 </div>
               ))}
             </div>
-            <div className="flex justify-between text-xs font-bold text-slate-500 dark:text-slate-400 mt-4 uppercase tracking-wider px-[14px]">
-              <span className={step >= 1 ? "text-blue-600" : ""}>
+            <div className="flex justify-between text-xs font-bold uppercase tracking-wider mt-4 px-[14px] text-[var(--text-secondary)]">
+              <span className={step >= 1 ? "text-[var(--lime)]" : ""}>
                 Upload Photos
               </span>
-              <span className={step >= 2 ? "text-blue-600" : ""}>
+              <span className={step >= 2 ? "text-[var(--lime)]" : ""}>
                 Select Plan
               </span>
             </div>
           </div>
 
-          <AnimatePresence mode="wait">
+          <AnimatePresence >
             {error && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="mb-8 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-4 flex items-start gap-3 shadow-sm"
+                className="mb-8 bg-red-500/10 border border-red-500/20 rounded-2xl p-4 flex items-start gap-3 shadow-sm"
               >
-                <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
-                <p className="text-sm text-red-800 dark:text-red-300 font-medium">
-                  {error}
-                </p>
+                <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-red-300 font-medium">{error}</p>
               </motion.div>
             )}
 
@@ -825,44 +868,44 @@ function UploadContent() {
                 transition={{ duration: 0.3, ease: "easeOut" }}
               >
                 <div className="text-center mb-10">
-                  <h1 className="text-4xl font-extrabold mb-4 text-slate-900 dark:text-white tracking-tight">
+                  <h1 className="text-4xl font-black tracking-tighter mb-4 text-[var(--text)]">
                     Upload your selfies
                   </h1>
-                  <p className="text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
+                  <p className="text-lg text-[var(--text-secondary)] max-w-xl mx-auto leading-relaxed">
                     Upload 1-5 clear photos of your face. We only need a few to
                     learn your features. Takes{" "}
-                    <span className="font-bold text-slate-700 dark:text-slate-300">
-                      2 minutes
-                    </span>{" "}
+                    <span className="font-bold text-[var(--text)]">2 minutes</span>{" "}
                     instead of the 20 minutes other apps require.
                   </p>
                 </div>
 
                 {/* SAVED DATASET VIEW */}
                 {storagePath && files.length === 0 ? (
-                  <div className="bg-white dark:bg-slate-900 rounded-[2rem] border border-emerald-200 dark:border-emerald-800/60 p-10 shadow-xl mb-8 relative overflow-hidden group">
-                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 to-transparent dark:from-emerald-900/10 dark:to-transparent opacity-50 pointer-events-none" />
+                  <div className="relative rounded-2xl border border-emerald-500/20 p-10 mb-8 overflow-hidden group"
+                    style={{ background: "var(--surface)" }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent pointer-events-none" />
                     <div className="relative z-10 flex flex-col items-center text-center">
-                      <div className="w-20 h-20 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mb-6">
-                        <CheckCircle2 className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
+                      <div className="w-20 h-20 rounded-full flex items-center justify-center mb-6 bg-emerald-500/10 border border-emerald-500/20">
+                        <CheckCircle2 className="w-10 h-10 text-emerald-400" />
                       </div>
-                      <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                      <h3 className="text-2xl font-bold text-[var(--text)] mb-2">
                         Photos Ready
                       </h3>
-                      <p className="text-slate-600 dark:text-slate-400 mb-8 max-w-md mx-auto">
+                      <p className="text-[var(--text-secondary)] mb-8 max-w-md mx-auto">
                         Your previous dataset is saved and ready for checkout.
                         You can proceed directly to select a plan.
                       </p>
                       <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
                         <button
                           onClick={handleNextStep}
-                          className="bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-bold text-lg hover:bg-emerald-700 transition shadow-lg hover:shadow-emerald-600/25 active:scale-95"
+                          className="bg-[var(--lime)] text-[var(--lime-on)] px-8 py-3.5 rounded-xl font-bold text-lg hover:brightness-110 transition shadow-[var(--shadow-lime)] active:scale-95"
                         >
                           Continue to Checkout
                         </button>
                         <button
                           onClick={() => setStoragePath("")}
-                          className="bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 px-8 py-3.5 rounded-xl font-bold text-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition shadow-sm active:scale-95"
+                          className="bg-[var(--surface2)] text-[var(--text)] border border-[var(--border)] px-8 py-3.5 rounded-xl font-bold text-lg hover:bg-[var(--surface3)] transition shadow-sm active:scale-95"
                         >
                           Replace Photos
                         </button>
@@ -880,22 +923,22 @@ function UploadContent() {
                         onDragOver={handleDragOver}
                         onDragLeave={handleDragLeave}
                         onDrop={handleDrop}
-                        className={`group relative flex flex-col items-center justify-center w-full h-full min-h-[320px] p-8 text-center cursor-pointer border-2 border-dashed rounded-[2rem] transition-all duration-300 ease-out overflow-hidden
-                          ${isDragging ? "border-blue-500 bg-blue-50/80 dark:bg-blue-900/20 scale-[1.02]" : "border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 hover:border-blue-400 dark:hover:border-blue-600 hover:bg-blue-50/50 dark:hover:bg-blue-900/20"}`}
+                        className={`group relative flex flex-col items-center justify-center w-full h-full min-h-[320px] p-8 text-center cursor-pointer border-2 border-dashed rounded-[2rem] transition-all duration-500 ease-out overflow-hidden shadow-sm hover:shadow-xl
+                          ${isDragging ? "border-[var(--lime)] bg-[var(--surface)] scale-[1.02]" : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--lime-border)]"}`}
                       >
-                        <div className="absolute inset-0 bg-gradient-to-b from-blue-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                        
 
                         <div
-                          className={`w-20 h-20 bg-white dark:bg-slate-900 shadow-xl border border-slate-100 dark:border-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-transform duration-300 ${isDragging ? "scale-110" : "group-hover:-translate-y-2"}`}
+                          className={`relative z-10 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-transform duration-300 bg-[var(--bg)] shadow-sm border ${isDragging ? "scale-110 border-[var(--lime-text)]" : "border-[var(--border-secondary)] group-hover:-translate-y-1 group-hover:border-[var(--lime-text)]"}`}
                         >
-                          <ImagePlus className="w-10 h-10 text-blue-600 dark:text-blue-400" />
+                          <ImagePlus className="w-10 h-10 text-[var(--lime-text)]" />
                         </div>
-                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+                        <h3 className="text-2xl font-bold text-[var(--text)] mb-3">
                           {isDragging
                             ? "Drop photos here"
                             : "Click or drag photos here"}
                         </h3>
-                        <p className="text-slate-500 dark:text-slate-400 font-medium max-w-xs">
+                        <p className="text-[var(--text-secondary)] font-medium max-w-xs">
                           Upload 1-5 selfies (JPG, PNG, HEIC)
                         </p>
                         <input
@@ -911,23 +954,32 @@ function UploadContent() {
                     </div>
 
                     <div className="md:col-span-2 space-y-4">
-                      <div className="bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800/50 p-6 rounded-[2rem]">
-                        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">
+                      <div className="border border-[var(--border-secondary)] p-8 rounded-[2rem] bg-[var(--surface)] relative overflow-hidden h-full shadow-sm">
+                        <h3 className="text-lg font-bold text-[var(--text)] mb-4">
                           Photo Requirements
                         </h3>
+                        
+                        {!faceDetectorSupported && (
+                          <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                            <p className="text-sm text-amber-800">
+                              <strong>⚠️ Note:</strong> Face detection is unsupported in this browser. Please ensure your face is clearly visible in all photos before paying.
+                            </p>
+                          </div>
+                        )}
+                        
                         <div className="flex flex-col gap-5">
                           {PHOTO_TIPS.map((tip, idx) => {
                             const Icon = tip.icon;
                             return (
                               <div key={idx} className="flex gap-4">
-                                <div className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-sm flex items-center justify-center shrink-0">
-                                  <Icon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                                <div className="w-10 h-10 rounded-full bg-[var(--bg)] shadow-sm border border-[var(--border-secondary)] flex items-center justify-center shrink-0">
+                                  <Icon className="w-5 h-5 text-[var(--lime-text)]" />
                                 </div>
                                 <div>
-                                  <div className="font-bold text-sm text-slate-900 dark:text-white">
+                                  <div className="font-bold text-sm text-[var(--text)]">
                                     {tip.text}
                                   </div>
-                                  <div className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+                                  <div className="text-sm text-[var(--text-secondary)] mt-0.5">
                                     {tip.desc}
                                   </div>
                                 </div>
@@ -942,11 +994,11 @@ function UploadContent() {
 
                 {/* Files Uploaded Preview */}
                 {files.length > 0 && (
-                  <div className="bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200 dark:border-slate-800 p-8 shadow-xl mb-10">
+                  <div className="rounded-[2rem] border border-[var(--border)] p-8 mb-10 shadow-sm bg-[var(--surface)]">
                     <div className="flex items-center justify-between mb-6">
-                      <span className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
+                      <span className="text-xl font-bold text-[var(--text)] flex items-center gap-3">
                         Uploaded Photos
-                        <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm py-1 px-3 rounded-full">
+                        <span className="bg-[var(--surface2)] text-[var(--text-secondary)] text-sm py-1 px-3 rounded-full border border-[var(--border)]">
                           {files.length} / 5
                         </span>
                       </span>
@@ -956,7 +1008,7 @@ function UploadContent() {
                       {objectUrls.map((url, i) => (
                         <div
                           key={i}
-                          className="relative aspect-[3/4] group rounded-2xl overflow-hidden shadow-md border border-slate-100 dark:border-slate-800"
+                          className="relative aspect-[3/4] group rounded-2xl overflow-hidden shadow-md border border-[var(--border)]"
                         >
                           <img
                             src={url}
@@ -966,14 +1018,14 @@ function UploadContent() {
                           <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                           <button
                             onClick={() => removeFile(i)}
-                            className="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-lg hover:bg-red-600 hover:scale-110"
+                            className="absolute top-2 right-2 w-8 h-8 bg-red-500 text-[var(--text)] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-lg hover:bg-red-600 hover:scale-110"
                           >
                             <X className="w-4 h-4" />
                           </button>
                         </div>
                       ))}
                       {files.length < 5 && (
-                        <label className="aspect-[3/4] border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/10 transition-colors group">
+                        <label className="aspect-[3/4] border-2 border-dashed border-[var(--border)] rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:border-[var(--lime-border)] hover:bg-[var(--lime-dim)] transition-colors group">
                           <input
                             type="file"
                             multiple
@@ -981,10 +1033,10 @@ function UploadContent() {
                             className="hidden"
                             onChange={(e) => handleFiles(e.target.files)}
                           />
-                          <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800 group-hover:bg-white dark:group-hover:bg-slate-700 rounded-full flex items-center justify-center mb-3 transition-colors shadow-sm">
-                            <Plus className="w-6 h-6 text-slate-400 group-hover:text-blue-600" />
+                          <div className="w-12 h-12 bg-[var(--surface2)] border border-[var(--border)] group-hover:border-[var(--lime-border)] rounded-full flex items-center justify-center mb-3 transition-colors shadow-sm">
+                            <Plus className="w-6 h-6 text-[var(--text-secondary)] group-hover:text-[var(--text)]:text-[var(--lime)]" />
                           </div>
-                          <span className="text-sm font-semibold text-slate-500 group-hover:text-blue-600 transition-colors">
+                          <span className="text-sm font-semibold text-[var(--text-secondary)] group-hover:text-[var(--text)]:text-[var(--lime)] transition-colors">
                             Add Photo
                           </span>
                         </label>
@@ -994,11 +1046,11 @@ function UploadContent() {
                 )}
 
                 {files.length > 0 && (
-                  <div className="flex justify-end pt-4 border-t border-slate-200 dark:border-slate-800">
+                  <div className="flex justify-end pt-4 border-t border-[var(--border)]">
                     <button
                       onClick={handleNextStep}
                       disabled={isUploadingBackground || isProcessing}
-                      className="bg-blue-600 text-white px-10 py-4 rounded-xl text-lg font-bold flex items-center gap-2 hover:bg-blue-700 transition shadow-xl hover:shadow-blue-600/30 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
+                      className="bg-[var(--lime)] text-[var(--lime-on)] px-10 py-4 rounded-xl text-lg font-bold flex items-center gap-2 hover:brightness-110 transition shadow-xl hover:shadow-[var(--shadow-lime)] disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
                     >
                       {isUploadingBackground ? (
                         <>
@@ -1033,10 +1085,10 @@ function UploadContent() {
                   transition={{ duration: 0.3, ease: "easeOut" }}
                 >
                   <div className="text-center mb-12">
-                    <h1 className="text-3xl font-extrabold mb-3 text-slate-900 dark:text-white">
+                    <h1 className="text-3xl font-black tracking-tighter mb-3 text-[var(--text)]">
                       Complete your order
                     </h1>
-                    <p className="text-lg text-slate-500 dark:text-slate-400">
+                    <p className="text-lg text-[var(--text-secondary)]">
                       Pick the package that fits your needs. Backed by our 100%
                       money-back guarantee.
                     </p>
@@ -1044,53 +1096,57 @@ function UploadContent() {
 
                   <div className="grid md:grid-cols-12 gap-8 lg:gap-12">
                     <div className="md:col-span-7 space-y-5">
-                      <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
+                      <h3 className="text-xl font-bold text-[var(--text)] mb-4">
                         Select a Package
                       </h3>
                       {PLANS_LIST.map((p) => (
                         <button
                           key={p.id}
                           onClick={() => setPlan(p.id)}
-                          className={`w-full p-6 rounded-[2rem] border-2 text-left transition-all relative overflow-hidden group ${plan === p.id ? "border-blue-600 bg-blue-50/30 dark:bg-blue-900/10 shadow-[0_8px_30px_rgba(37,99,235,0.12)]" : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-700"}`}
+                          className={`w-full p-6 rounded-2xl border text-left transition-all relative overflow-hidden group ${
+                            plan === p.id
+                              ? "border-[var(--lime-text)] bg-[var(--lime-dim)] shadow-md ring-1 ring-[var(--lime-text)]"
+                              : "border-[var(--border-secondary)] bg-[var(--surface)] hover:border-[var(--lime-text)] hover:bg-[var(--surface2)]"
+                          }`}
                         >
                           {plan === p.id && (
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl" />
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--lime-dim)] rounded-full blur-3xl" />
                           )}
                           {p.popular && (
-                            <div className="absolute top-0 right-6 bg-blue-600 text-white text-xs font-bold px-3 py-1.5 rounded-b-lg tracking-wider uppercase shadow-sm">
+                            <div className="absolute top-0 right-6 bg-[var(--lime)] text-[var(--lime-on)] text-xs font-bold px-3 py-1.5 rounded-b-lg tracking-wider uppercase shadow-sm">
                               Most Popular
                             </div>
                           )}
                           <div className="flex items-center justify-between mb-2">
-                            <span className="font-extrabold text-xl text-slate-900 dark:text-white">
+                            <span className="font-extrabold text-xl text-[var(--text)]">
                               {p.name}
                             </span>
-                            <span className="text-3xl font-black text-slate-900 dark:text-white">
+                            <span className="text-3xl font-black text-[var(--text)]">
                               ${p.price}
                             </span>
                           </div>
-                          <div className="text-slate-600 dark:text-slate-400 mt-4 grid grid-cols-2 gap-3 text-sm font-medium">
+                          <div className="mt-4 grid grid-cols-2 gap-3 text-sm font-medium text-[var(--text-secondary)]">
                             <div className="flex items-center gap-2">
                               <CheckCircle2
-                                className={`w-5 h-5 ${plan === p.id ? "text-blue-600" : "text-emerald-500"}`}
+                                className={`w-5 h-5 ${plan === p.id ? "text-[var(--lime-text)]" : "text-[var(--success)]"}`}
                               />
                               {p.shots} photos
                             </div>
                             <div className="flex items-center gap-2">
                               <CheckCircle2
-                                className={`w-5 h-5 ${plan === p.id ? "text-blue-600" : "text-emerald-500"}`}
+                                className={`w-5 h-5 ${plan === p.id ? "text-[var(--lime-text)]" : "text-[var(--success)]"}`}
                               />
                               {p.styles} styles
                             </div>
                             <div className="flex items-center gap-2">
                               <CheckCircle2
-                                className={`w-5 h-5 ${plan === p.id ? "text-blue-600" : "text-emerald-500"}`}
+                                className={`w-5 h-5 ${plan === p.id ? "text-[var(--lime-text)]" : "text-[var(--success)]"}`}
                               />
                               {p.resolution}
                             </div>
                             <div className="flex items-center gap-2">
                               <CheckCircle2
-                                className={`w-5 h-5 ${plan === p.id ? "text-blue-600" : "text-emerald-500"}`}
+                                className={`w-5 h-5 ${plan === p.id ? "text-[var(--lime-text)]" : "text-[var(--success)]"}`}
                               />
                               {p.turnaround}
                             </div>
@@ -1100,14 +1156,14 @@ function UploadContent() {
                     </div>
 
                     <div className="md:col-span-5">
-                      <div className="bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200 dark:border-slate-800 p-8 shadow-xl h-fit sticky top-24">
-                        <h3 className="text-xl font-bold mb-6 text-slate-900 dark:text-white">
+                      <div className="rounded-[2rem] border border-[var(--border)] p-8 h-fit sticky top-24 shadow-sm bg-[var(--surface)]">
+                        <h3 className="text-xl font-bold mb-6 text-[var(--text)]">
                           Order Details
                         </h3>
 
                         <div className="space-y-5 mb-8">
                           <div>
-                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                            <label className="block text-sm font-bold text-[var(--text-secondary)] mb-2">
                               Name This Shoot
                             </label>
                             <input
@@ -1118,13 +1174,13 @@ function UploadContent() {
                                 if (!shootName) setShootName("");
                               }}
                               placeholder={defaultShootName}
-                              className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 outline-none transition font-medium"
+                              className="w-full px-4 py-3 rounded-xl border border-[var(--border-secondary)] bg-[var(--bg)] text-[var(--text)] placeholder-[var(--text-muted)] focus:border-[var(--lime-text)] focus:ring-2 focus:ring-[var(--lime-dim)] outline-none transition font-semibold shadow-sm"
                               maxLength={100}
                             />
                           </div>
 
                           <div>
-                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                            <label className="block text-sm font-bold text-[var(--text-secondary)] mb-2">
                               Delivery Email
                             </label>
                             <input
@@ -1132,13 +1188,13 @@ function UploadContent() {
                               autoComplete="email"
                               value={email}
                               onChange={(e) => setEmail(e.target.value)}
-                              placeholder="Where should we send your photos?"
-                              className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 outline-none transition font-medium"
+                              placeholder="your@email.com"
+                              className="w-full px-4 py-3 rounded-xl border border-[var(--border-secondary)] bg-[var(--bg)] text-[var(--text)] placeholder-[var(--text-muted)] focus:border-[var(--lime-text)] focus:ring-2 focus:ring-[var(--lime-dim)] outline-none transition font-semibold shadow-sm"
                             />
                           </div>
                         </div>
 
-                        <div className="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-700/50 mb-8">
+                        <div className="bg-[var(--surface)] border border-[var(--border-secondary)] p-5 rounded-2xl mb-8 shadow-sm">
                           <label className="flex items-start gap-3 cursor-pointer group">
                             <div className="relative flex items-center justify-center mt-0.5">
                               <input
@@ -1147,17 +1203,17 @@ function UploadContent() {
                                 onChange={(e) =>
                                   setConsentChecked(e.target.checked)
                                 }
-                                className="peer appearance-none w-5 h-5 border-2 border-slate-300 dark:border-slate-600 rounded checked:bg-blue-600 checked:border-blue-600 transition-colors"
+                                className="peer appearance-none w-5 h-5 border-2 border-[var(--border-secondary)] rounded checked:bg-[var(--lime)] checked:border-[var(--lime)] transition-colors"
                               />
-                              <Check className="absolute w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity" />
+                              <Check className="absolute w-3.5 h-3.5 text-black opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity" />
                             </div>
-                            <span className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed group-hover:text-slate-800 dark:group-hover:text-slate-300 transition-colors">
+                            <span className="text-sm font-semibold text-[var(--text)] leading-relaxed transition-colors">
                               I consent to processing my photos to train a
                               temporary AI model. Data is automatically deleted
                               in 30 days per the{" "}
                               <Link
                                 href="/privacy"
-                                className="text-blue-600 font-medium hover:underline"
+                                className="text-[var(--lime)] font-medium hover:underline"
                               >
                                 Privacy Policy
                               </Link>
@@ -1167,35 +1223,33 @@ function UploadContent() {
                         </div>
 
                         {isProcessing ? (
-                          <div className="bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-2xl p-6 text-center border border-blue-100 dark:border-blue-800/50">
-                            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-3 text-blue-600 dark:text-blue-400" />
-                            <div className="font-bold text-lg">{progress}</div>
-                            <div className="text-sm opacity-75 mt-1">
+                          <div className="bg-[var(--lime-dim)] border border-[var(--lime-border)] rounded-2xl p-6 text-center">
+                            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-3 text-[var(--lime)]" />
+                            <div className="font-bold text-lg text-[var(--text)]">{progress}</div>
+                            <div className="text-sm text-[var(--text-secondary)] mt-1">
                               Redirecting to secure checkout...
                             </div>
                           </div>
                         ) : (
                           <button
                             onClick={handleSubmit}
-                            className="w-full bg-slate-900 dark:bg-blue-600 text-white py-4 rounded-xl text-lg font-bold hover:bg-slate-800 dark:hover:bg-blue-700 transition-all shadow-xl hover:shadow-2xl active:scale-95 flex items-center justify-center gap-2"
+                            className="w-full bg-[var(--lime)] text-[var(--lime-on)] py-4 rounded-xl text-lg font-bold hover:bg-lime-300 transition-all shadow-xl hover:shadow-lime-400/20 active:scale-95 flex items-center justify-center gap-2"
                           >
                             <Lock className="w-5 h-5" /> Continue to Payment
                           </button>
                         )}
 
                         <div className="mt-8 flex flex-col items-center gap-3">
-                          <div className="flex items-center justify-center gap-6 text-sm font-semibold text-slate-500 dark:text-slate-400 w-full">
-                            <div className="flex items-center gap-1.5 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-100 dark:border-slate-700">
-                              <Shield className="w-4 h-4 text-emerald-500" />{" "}
-                              SSL Secured
+                          <div className="grid grid-cols-2 gap-4 text-sm font-semibold text-[var(--text-secondary)] w-full">
+                            <div className="flex items-center justify-center gap-1.5 bg-[var(--surface2)] border border-[var(--border-secondary)] px-2 py-2.5 rounded-xl whitespace-nowrap shadow-sm">
+                              <Shield className="w-4 h-4 text-[var(--lime-text)]" /> SSL Secured
                             </div>
-                            <div className="flex items-center gap-1.5 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-100 dark:border-slate-700">
-                              <Star className="w-4 h-4 text-amber-400" />{" "}
-                              Guaranteed
+                            <div className="flex items-center justify-center gap-1.5 bg-[var(--surface2)] border border-[var(--border-secondary)] px-2 py-2.5 rounded-xl whitespace-nowrap shadow-sm">
+                              <Star className="w-4 h-4 text-amber-400" /> Guaranteed
                             </div>
                           </div>
 
-                          <div className="w-full mt-4 flex">
+                          <div className="w-full mt-4 flex shadow-sm rounded-xl">
                             <input
                               type="text"
                               value={coupon}
@@ -1203,27 +1257,30 @@ function UploadContent() {
                                 setCoupon(e.target.value.toUpperCase())
                               }
                               placeholder="Discount Code"
-                              className="w-full px-4 py-2 rounded-l-lg border border-r-0 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm outline-none uppercase font-medium"
+                              className="w-full px-4 py-2.5 rounded-l-xl border border-r-0 border-[var(--border-secondary)] bg-[var(--bg)] text-sm outline-none uppercase font-bold placeholder-[var(--text-muted)] text-[var(--text)] focus:border-[var(--lime-text)] focus:ring-1 focus:ring-[var(--lime-dim)]"
                             />
-                            <div className="bg-slate-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-700 border-l-0 px-4 py-2 rounded-r-lg text-sm font-semibold text-slate-500 flex items-center justify-center">
+                            <button
+                              onClick={(e) => e.preventDefault()}
+                              className="bg-[var(--surface2)] hover:bg-[var(--surface3)] transition cursor-pointer border border-[var(--border-secondary)] px-5 py-2.5 rounded-r-xl text-sm font-bold text-[var(--text)] flex items-center justify-center"
+                            >
                               Apply
-                            </div>
+                            </button>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="mt-12 flex items-center justify-between border-t border-slate-200 dark:border-slate-800 pt-8">
+                  <div className="mt-12 flex items-center justify-between border-t border-[var(--border-secondary)] pt-8">
                     <button
                       onClick={() => setStep(1)}
-                      className="text-slate-500 dark:text-slate-400 font-bold flex items-center gap-2 hover:text-slate-800 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-800 px-6 py-3 rounded-xl transition-colors active:scale-95"
+                      className="text-[var(--text)] font-bold flex items-center gap-2 bg-[var(--surface2)] hover:bg-[var(--surface3)] border border-[var(--border-secondary)] px-6 py-3 rounded-xl transition-colors active:scale-95 shadow-sm"
                     >
                       <ChevronLeft className="w-5 h-5" /> Back to Uploads
                     </button>
                     <button
                       onClick={handleStartOver}
-                      className="text-sm font-semibold text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+                      className="text-sm font-bold text-[var(--text-secondary)] hover:text-[var(--text)] underline underline-offset-4 transition-colors"
                     >
                       Start Over
                     </button>
@@ -1242,10 +1299,10 @@ export default function UploadPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center" style={{ background: "#07080A" }}>
           <div className="flex flex-col items-center gap-4">
-            <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
-            <p className="text-sm font-medium text-slate-500">
+            <div className="w-8 h-8 border-4 border-lime-400 border-t-transparent rounded-full animate-spin" />
+            <p className="text-sm font-medium text-[var(--text-secondary)]">
               Preparing studio...
             </p>
           </div>

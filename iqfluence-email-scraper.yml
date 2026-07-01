@@ -1,0 +1,296 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - link "logo" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "logo" [ref=e6]
+      - navigation [ref=e7]:
+        - list [ref=e8]:
+          - listitem [ref=e9]:
+            - generic [ref=e11]: Product
+          - listitem [ref=e12]:
+            - generic [ref=e14]: Free Tools
+          - listitem [ref=e15]:
+            - link "Blog" [ref=e16] [cursor=pointer]:
+              - /url: /public/blog
+          - listitem [ref=e17]:
+            - link "Pricing" [ref=e18] [cursor=pointer]:
+              - /url: /pricing
+      - generic [ref=e19]:
+        - link "Log in" [ref=e20] [cursor=pointer]:
+          - /url: /sign-in
+        - link "Free Trial" [ref=e21] [cursor=pointer]:
+          - /url: /sign-up
+        - link "Book a demo" [ref=e22] [cursor=pointer]:
+          - /url: https://calendly.com/iqfluence-io/30min
+    - main [ref=e23]:
+      - generic [ref=e25]:
+        - generic [ref=e28]:
+          - generic [ref=e29]:
+            - heading "Instagram Email Scraper" [level=1] [ref=e30]
+            - paragraph [ref=e315]: Stop hunting through bios and link-in-bio pages. Our free Instagram email scraper extracts the public contact email from any creator’s profile in seconds — then hands you a full performance snapshot so you know the outreach is actually worth sending. Type in a username and our IG email extractor does the rest.
+          - generic [ref=e34]:
+            - generic [ref=e35]:
+              - img "Instagram" [ref=e40]
+              - textbox "Enter Instagram username…" [ref=e41]
+              - button "View report" [ref=e42] [cursor=pointer]:
+                - generic [ref=e43]: View report
+            - generic [ref=e44]:
+              - generic [ref=e45] [cursor=pointer]: "@kaicenat"
+              - generic [ref=e46] [cursor=pointer]: "@animaledventures"
+              - generic [ref=e47] [cursor=pointer]: "@selahaestheticsdfw"
+        - generic [ref=e48]:
+          - generic [ref=e50]:
+            - heading "How to use the data from Instagram email scraper report" [level=2] [ref=e52]
+            - list [ref=e53]:
+              - listitem [ref=e54]:
+                - img "screenshot" [ref=e56]
+                - generic [ref=e57]:
+                  - heading "Check influencer followers growth" [level=3] [ref=e58]
+                  - generic [ref=e59]:
+                    - paragraph [ref=e316]: Total followers show you the room size. 30-day growth shows you whether people are still walking in. Our Instagram email extractor surfaces both — so your outreach list is built on trajectory, not just a snapshot.
+                    - list [ref=e317]:
+                      - listitem [ref=e318]:
+                        - strong [ref=e319]: Steady upward trend —
+                        - text: the algorithm is still backing them. They belong on your list.
+                      - listitem [ref=e320]:
+                        - strong [ref=e321]: Big spike, then silence —
+                        - text: a viral moment that already burned out. Their inbox can wait.
+                      - listitem [ref=e322]:
+                        - strong [ref=e323]: Flat line —
+                        - text: real audience, no momentum. Let your campaign goals decide.
+              - listitem [ref=e68]:
+                - img "screenshot" [ref=e70]
+                - generic [ref=e71]:
+                  - heading "Predict collab performance before you sign anything" [level=3] [ref=e72]
+                  - generic [ref=e73]:
+                    - paragraph [ref=e324]: Contact details are the starting line only. IG email scraper hands you both — the email and the evidence. 30 days of post-level data, surfaced before your outreach even lands.
+                    - list [ref=e325]:
+                      - listitem [ref=e326]: Avg Views
+                      - listitem [ref=e327]: Avg Comments
+                      - listitem [ref=e328]: Avg Likes
+                      - listitem [ref=e329]: Avg Saves
+                      - listitem [ref=e330]: Avg Shares
+              - listitem [ref=e81]:
+                - img "screenshot" [ref=e83]
+                - generic [ref=e84]:
+                  - heading "Benchmark their engagement rate against similar-sized creators" [level=3] [ref=e85]
+                  - generic [ref=e86]:
+                    - paragraph [ref=e331]: Comparing a 300K creator’s engagement to a 30K one is like judging a stadium act by open-mic standards.
+                    - paragraph [ref=e332]: Email extractor Instagram tool benchmarks every rate against accounts of a similar size, so the number you see actually means something.
+              - listitem [ref=e89]:
+                - img "screenshot" [ref=e91]
+                - generic [ref=e92]:
+                  - heading "Great content means nothing if their audience isn’t your customer" [level=3] [ref=e93]
+                  - generic [ref=e94]:
+                    - paragraph [ref=e333]: "Reach means nothing if it’s reaching the wrong people. The contact comes from the IG email extractor. Whether that contact is worth sending takes one more step — a full audience snapshot that covers every signal deciding campaign fit:"
+                    - list [ref=e334]:
+                      - listitem [ref=e335]: Gender + age split
+                      - listitem [ref=e336]: Top countries + language
+                      - listitem [ref=e337]: Reachability signals
+                      - listitem [ref=e338]: Lookalike profiles
+          - generic [ref=e103]:
+            - generic [ref=e104]:
+              - heading "Found the email? Analyze if the creator match your brand" [level=2] [ref=e105]
+              - generic [ref=e106]:
+                - paragraph [ref=e339]: "Contact details are the easy part. The real work is knowing what’s behind them. IQFluence influencer marketing platform gives you the full picture:"
+                - list [ref=e340]:
+                  - listitem [ref=e341]: Sustained growth vs. a one-off spike.
+                  - listitem [ref=e342]: Audience geo aligned with where you actually sell.
+                  - listitem [ref=e343]: Topics and hashtags you’re comfortable putting budget behind.
+                  - listitem [ref=e344]: The % of followers likely to see the content.
+              - link "Start 7-day trial" [ref=e114] [cursor=pointer]:
+                - /url: /sign-up
+            - img "banner picture" [ref=e116]
+          - generic [ref=e118]:
+            - heading "More tools to save time and boost results" [level=2] [ref=e119]
+            - list [ref=e120]:
+              - listitem [ref=e121]:
+                - img "Screenshot" [ref=e123]
+                - generic [ref=e125]:
+                  - link "Influencer Search" [ref=e126] [cursor=pointer]:
+                    - /url: /public/influencer-search
+                  - generic [ref=e127]: 13 filters. Zero gut feel. Niche, geo, language, follower count, engagement rate, views, posting frequency — across Instagram, TikTok, and YouTube.
+              - listitem [ref=e128]:
+                - img "Screenshot" [ref=e130]
+                - generic [ref=e132]:
+                  - link "Influencer Analysis" [ref=e133] [cursor=pointer]:
+                    - /url: /public/influencer-analysis
+                  - generic [ref=e134]: Recent performance, post-level patterns, content themes, audience age, gender, top locations — pulled together before you write a single brief.
+              - listitem [ref=e135]:
+                - img "Screenshot" [ref=e137]
+                - generic [ref=e139]:
+                  - link "Campaign Monitoring" [ref=e140] [cursor=pointer]:
+                    - /url: /public/influencer-campaign-reporting
+                  - generic [ref=e141]: IQFluence tracks performance, calculates conversions, and builds a clean report your team can actually use — without you touching a single formula.
+              - listitem [ref=e142]:
+                - img "Screenshot" [ref=e144]
+                - generic [ref=e146]:
+                  - link "Audience Overlap" [ref=e147] [cursor=pointer]:
+                    - /url: /public/audience-overlap
+                  - generic [ref=e148]: More creators doesn’t always mean more reach. IQFluence maps shared vs. unique audiences across Instagram, TikTok, and YouTube.
+          - generic [ref=e150]:
+            - generic [ref=e151]: Our Instagram email scraper tool is one of several free resources built for marketers who want real data before they commit. Explore the full toolkit and find what you need before a single deal is signed.
+            - heading "More free tools like Instagram email extractor" [level=2] [ref=e152]
+            - list [ref=e153]:
+              - listitem [ref=e154]:
+                - link "item icon Instagram audit tool Type in a creator’s account handle to see their latest public follower count." [ref=e155] [cursor=pointer]:
+                  - /url: /public/instagram-follower-tracker
+                  - img "item icon" [ref=e157]
+                  - generic [ref=e158]: Instagram audit tool
+                  - generic [ref=e159]: Type in a creator’s account handle to see their latest public follower count.
+              - listitem [ref=e160]:
+                - link "item icon Instagram bio search Search Instagram by bio, apply 13+ filters, and get a shortlist that’s ready to send straight to approvals." [ref=e161] [cursor=pointer]:
+                  - /url: /public/instagram-bio-search
+                  - img "item icon" [ref=e163]
+                  - generic [ref=e164]: Instagram bio search
+                  - generic [ref=e165]: Search Instagram by bio, apply 13+ filters, and get a shortlist that’s ready to send straight to approvals.
+              - listitem [ref=e166]:
+                - link "item icon TikTok user search Choose your niche topic, add necessary filters to find TikTok influencers that match your brand audience." [ref=e167] [cursor=pointer]:
+                  - /url: /public/tiktok-user-search
+                  - img "item icon" [ref=e169]
+                  - generic [ref=e170]: TikTok user search
+                  - generic [ref=e171]: Choose your niche topic, add necessary filters to find TikTok influencers that match your brand audience.
+              - listitem [ref=e172]:
+                - link "item icon Fake follower checker Check how many of influencer «fans» are bots, ghosts, or mass-follow accounts." [ref=e173] [cursor=pointer]:
+                  - /url: /public/fake-follower-check
+                  - img "item icon" [ref=e175]
+                  - generic [ref=e176]: Fake follower checker
+                  - generic [ref=e177]: Check how many of influencer «fans» are bots, ghosts, or mass-follow accounts.
+              - listitem [ref=e178]:
+                - link "item icon Instagram Follower Tracker Type in a creator’s account handle to see their latest public follower count. Ideal for brands and agencies." [ref=e179] [cursor=pointer]:
+                  - /url: /public/instagram-follower-tracker
+                  - img "item icon" [ref=e181]
+                  - generic [ref=e182]: Instagram Follower Tracker
+                  - generic [ref=e183]: Type in a creator’s account handle to see their latest public follower count. Ideal for brands and agencies.
+              - listitem [ref=e184]:
+                - link "item icon Instagram ER Calculator Check the IG engagement of any account with a single click." [ref=e185] [cursor=pointer]:
+                  - /url: /public/instagram-engagement-rate-calculator
+                  - img "item icon" [ref=e187]
+                  - generic [ref=e188]: Instagram ER Calculator
+                  - generic [ref=e189]: Check the IG engagement of any account with a single click.
+          - generic [ref=e191]:
+            - heading "FAQs on the Instagram email extractor" [level=2] [ref=e192]
+            - generic [ref=e193]:
+              - generic [ref=e194]:
+                - generic [ref=e195] [cursor=pointer]: Is the Instagram email scraper really free?
+                - paragraph [ref=e345]: Yes — no credit card, no time limit, no catch. Our instagram email scraper tool free tier lets you look up 5 creator profiles and get real contact data alongside a full performance snapshot. Need more? The 7-day trial removes the cap.
+              - generic [ref=e199]:
+                - generic [ref=e200] [cursor=pointer]: How accurate are the emails you extract?
+                - paragraph [ref=e346]: Every address our instagram email extractor free tool surfaces is one the creator published themselves — across their bio, linked pages, or other public profiles. If they want brand deals, the email is there. We just find it faster.
+              - generic [ref=e204]:
+                - generic [ref=e205] [cursor=pointer]: How many Instagram profiles can I scrape for free?
+                - paragraph [ref=e347]: Up to 5 per session. Enough to shortlist your top prospects and validate the data quality before committing to anything. Upgrade to the free trial for unlimited lookups.
+              - generic [ref=e209]:
+                - generic [ref=e210] [cursor=pointer]: Does it work for TikTok and YouTube creators too?
+                - paragraph [ref=e348]: Dedicated free tools for TikTok and YouTube are coming. In the meantime, signing up for IQFluence's 7-day trial gives you full cross-platform creator data — contacts, performance, and audience insights across all three.
+              - generic [ref=e214]:
+                - generic [ref=e215] [cursor=pointer]: Is it safe and legal to use creator contact data for outreach?
+                - paragraph [ref=e349]: Yes. To extract instagram emails through IQFluence, we only surface information creators have made publicly available themselves. No private data, no grey areas — just faster access to what's already out there.
+              - generic [ref=e219]:
+                - generic [ref=e220] [cursor=pointer]: What else is included in the free creator report?
+                - paragraph [ref=e350]: "More than a contact address. When you scrape email from instagram through IQFluence you also get: 30-day follower growth, engagement rate benchmarked against similar accounts, audience breakdown by gender, age and location, and avg views, likes, comments, saves and shares across the last 30 posts."
+              - generic [ref=e224]:
+                - generic [ref=e225] [cursor=pointer]: How is IQFluence different from checking a creator's bio manually?
+                - paragraph [ref=e351]: A bio check takes time and gives you one data point — if you're lucky. Our best instagram email extractor combines contact discovery with full creator analytics in a single report. The research that used to take 30 minutes per creator now takes seconds.
+              - generic [ref=e229]:
+                - generic [ref=e230] [cursor=pointer]: How do I scrape emails from Instagram?
+                - paragraph [ref=e352]: The simplest way is to use an instagram email scraper online — no setup, no downloads, no technical knowledge needed. Drop any handle into IQFluence, and the contact email and creator report are ready instantly.
+              - generic [ref=e234]:
+                - generic [ref=e235] [cursor=pointer]: What's the best Instagram email scraper?
+                - paragraph [ref=e353]: The best tool is one that goes beyond the email. An instagram email extractor online that also surfaces growth trends, engagement benchmarks, and audience data turns a contact into a confident outreach decision — that's exactly what IQFluence is built to do.
+              - generic [ref=e239]:
+                - generic [ref=e240] [cursor=pointer]: How to scrape emails from Instagram?
+                - paragraph [ref=e354]: "Three steps: open IQFluence's instagram email extractor online free tool, enter any creator's handle, and get their publicly listed contact email alongside a full performance report — instantly, no account required for the first 5 lookups."
+          - generic [ref=e246]:
+            - heading "Discover and analyze influencers for your next campaign" [level=2] [ref=e247]
+            - generic [ref=e248]: Whether you need YouTube, Instagram or TikTok influencer analysis — IQFluence platform does it all. Get all the data you need for a collaboration decision in one report.
+            - generic [ref=e249]:
+              - link "Start 7-day trial" [ref=e250] [cursor=pointer]:
+                - /url: /sign-up
+              - link "Book a demo" [ref=e251] [cursor=pointer]:
+                - /url: https://calendly.com/iqfluence-io/30min
+          - generic [ref=e253]:
+            - heading "Read also" [level=2] [ref=e254]
+            - generic [ref=e255]:
+              - generic [ref=e256]:
+                - link "Post thumbnail" [ref=e257] [cursor=pointer]:
+                  - /url: /public/blog/best-time-to-post-on-instagram
+                  - img "Post thumbnail" [ref=e258]
+                - generic [ref=e259]:
+                  - paragraph [ref=e355]:
+                    - link "The Best Time to Post on Instagram" [ref=e356] [cursor=pointer]:
+                      - /url: /public/blog/best-time-to-post-on-instagram
+                    - text: in 2026 for Brands
+                  - generic [ref=e263]: December 25, 2025 · 07:21
+              - generic [ref=e264]:
+                - link "Post thumbnail" [ref=e265] [cursor=pointer]:
+                  - /url: /public/blog/instagram-analytics-software
+                  - img "Post thumbnail" [ref=e266]
+                - generic [ref=e267]:
+                  - paragraph [ref=e357]:
+                    - text: Top 13
+                    - link "Instagram Analytics Tools" [ref=e358] [cursor=pointer]:
+                      - /url: /public/blog/instagram-analytics-software
+                    - text: for 2025
+                  - generic [ref=e271]: January 28, 2025 · 07:20
+              - generic [ref=e272]:
+                - link "Post thumbnail" [ref=e273] [cursor=pointer]:
+                  - /url: /public/blog/instagram-influencer-marketing
+                  - img "Post thumbnail" [ref=e274]
+                - generic [ref=e275]:
+                  - paragraph [ref=e359]:
+                    - text: How
+                    - link "Instagram Influencer Marketing" [ref=e360] [cursor=pointer]:
+                      - /url: /public/blog/instagram-influencer-marketing
+                    - text: Enhances Your ROI
+                  - generic [ref=e279]: June 13, 2025 · 03:30
+    - generic [ref=e281]:
+      - generic [ref=e282]:
+        - navigation [ref=e284]:
+          - list [ref=e285]:
+            - listitem [ref=e286]:
+              - link "Blog" [ref=e287] [cursor=pointer]:
+                - /url: /public/blog
+            - listitem [ref=e288]:
+              - link "Pricing" [ref=e289] [cursor=pointer]:
+                - /url: /pricing
+            - listitem [ref=e290]:
+              - link "Find Influencers" [ref=e291] [cursor=pointer]:
+                - /url: /public/find-influencers
+            - listitem [ref=e292]:
+              - link "Best TikTok Influencers" [ref=e293] [cursor=pointer]:
+                - /url: /public/top-tiktok-influencers
+            - listitem [ref=e294]:
+              - link "Best YouTube Influencers" [ref=e295] [cursor=pointer]:
+                - /url: /public/top-youtube-influencers
+            - listitem [ref=e296]:
+              - link "Best Instagram Influencers" [ref=e297] [cursor=pointer]:
+                - /url: /public/top-instagram-influencers
+            - listitem [ref=e298]:
+              - link "Top influencers" [ref=e299] [cursor=pointer]:
+                - /url: /public/top-influencers
+        - generic [ref=e300]:
+          - link "contact@iqfluence.io" [ref=e301] [cursor=pointer]:
+            - /url: mailto:contact@iqfluence.io
+            - generic [ref=e303]: contact@iqfluence.io
+          - link "LinkedIn" [ref=e304] [cursor=pointer]:
+            - /url: https://www.linkedin.com/company/iqfluence/
+            - generic [ref=e306]: LinkedIn
+      - generic [ref=e307]:
+        - link "logo" [ref=e308] [cursor=pointer]:
+          - /url: /
+          - img "logo" [ref=e309]
+        - generic [ref=e310]:
+          - generic [ref=e311]: © IQFluence 2026. Ritmos Austeros — Unipessoal LDA, Avenida Infante D Henrique 808 1C Cascais 2750-168
+          - generic [ref=e312]:
+            - link "Terms of Service" [ref=e313] [cursor=pointer]:
+              - /url: /public/terms
+            - link "Privacy Policy" [ref=e314] [cursor=pointer]:
+              - /url: /public/privacy-policy
+  - iframe [ref=e361]:
+    
+  - button "Open Intercom Messenger" [ref=e362] [cursor=pointer]:
+    - img [ref=e364]
+    - generic:
+      - img

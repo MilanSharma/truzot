@@ -1,58 +1,86 @@
+import JSZip from "jszip";
 import { supabase } from "@/lib/supabase/client";
 
-const ZIP_BATCH_SIZE = 100;
-
-export async function serverSideDownload(
+export async function downloadAsZip(
   urls: string[],
   orderId: string,
   filename: string,
   onProgress?: (current: number, total: number) => void,
-): Promise<void> {
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  const token = session?.access_token;
+): Promise<{ failedCount: number }> {
+  // Limit to 50 images to prevent browser memory crashes on mobile devices
+  const MAX_ZIP_IMAGES = 50;
+  if (urls.length > MAX_ZIP_IMAGES) {
+    throw new Error(`Cannot download more than ${MAX_ZIP_IMAGES} images at once. Please download in smaller batches.`);
+  }
 
-  const downloadBatch = async (batchUrls: string[], batchFilename: string) => {
-    const response = await fetch("/api/download/zip", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
-      body: JSON.stringify({ imageUrls: batchUrls, orderId }),
-    });
-    if (!response.ok) {
-      const err = await response.json().catch(() => ({}));
-      throw new Error(err.error || "Download failed");
-    }
-    const blob = await response.blob();
-    const url = URL.createObjectURL(blob);
+  const zip = new JSZip();
+  let completed = 0;
+  const failedUrls: string[] = [];
+
+  // Get authentication headers
+  const { data: { session } } = await supabase.auth.getSession();
+  const headers: Record<string, string> = {};
+  if (session?.access_token) {
+    headers["Authorization"] = `Bearer ${session.access_token}`;
+  }
+
+  // Get download_token from URL for guest access
+  const searchParams = new URLSearchParams(window.location.search);
+  const downloadToken = searchParams.get("download_token");
+
+  // Download chunks in parallel to prevent browser hanging, but limit concurrency
+  const chunkSize = 5;
+  for (let i = 0; i < urls.length; i += chunkSize) {
+    const chunk = urls.slice(i, i + chunkSize);
+    await Promise.all(chunk.map(async (url, idx) => {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 30000); // Increased to 30s timeout
+
+      try {
+        // Use streaming proxy to avoid CORS issues
+        let proxyUrl = `/api/download/proxy?url=${encodeURIComponent(url)}`;
+        if (downloadToken) {
+          proxyUrl += `&download_token=${downloadToken}`;
+        }
+        
+        const res = await fetch(proxyUrl, { headers, signal: controller.signal });
+        clearTimeout(timeout);
+        
+        if (res.ok) {
+            const blob = await res.blob();
+            zip.file(`headshot_${i + idx + 1}.jpg`, blob);
+        } else {
+          failedUrls.push(url);
+        }
+      } catch (e: any) {
+        clearTimeout(timeout);
+        if (e.name === 'AbortError') {
+          console.warn(`Timeout fetching ${url}`);
+        } else {
+          console.warn("Failed to fetch image", e);
+        }
+        failedUrls.push(url);
+      }
+      completed++;
+      onProgress?.(completed, urls.length);
+    }));
+  }
+
+  // Show zipping phase separately
+  onProgress?.(urls.length, urls.length + 1);
+  const zipBlob = await zip.generateAsync({ type: "blob" });
+  onProgress?.(urls.length + 1, urls.length + 1);
+  
+  const dlUrl = URL.createObjectURL(zipBlob);
+  try {
     const a = document.createElement("a");
-    a.href = url;
-    a.download = batchFilename;
+    a.href = dlUrl;
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
-  if (urls.length <= ZIP_BATCH_SIZE) {
-    onProgress?.(1, 1);
-    await downloadBatch(urls, filename);
-    onProgress?.(urls.length, urls.length);
-    return;
+  } finally {
+    URL.revokeObjectURL(dlUrl);
   }
 
-  const batches: string[][] = [];
-  for (let i = 0; i < urls.length; i += ZIP_BATCH_SIZE)
-    batches.push(urls.slice(i, i + ZIP_BATCH_SIZE));
-  for (let i = 0; i < batches.length; i++) {
-    onProgress?.(i + 1, batches.length);
-    await downloadBatch(
-      batches[i],
-      `${filename.replace(".zip", "")}_part${i + 1}.zip`,
-    );
-    if (i < batches.length - 1) await new Promise((r) => setTimeout(r, 500));
-  }
+  return { failedCount: failedUrls.length };
 }
