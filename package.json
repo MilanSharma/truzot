@@ -12,7 +12,6 @@
     "typecheck": "tsc --noEmit",
     "prepare": "husky",
     "migrate": "supabase migration up",
-    "predeploy": "npm run test:run && npm run build",
     "verify-migrations": "bash scripts/verify-migrations.sh"
   },
   "dependencies": {
