@@ -149,7 +149,7 @@ export default function AccountSettingsPage() {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email: user.email }),
                   });
-                  const data = await res.json();
+                  const data = await res.json() as { error?: string };
                   if (!res.ok)
                     setMessage(`Error: ${data.error || "Failed to send reset link"}`);
                   else
