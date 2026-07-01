@@ -73,7 +73,7 @@ export const DELETE = withContext(async (req: Request) => {
  origin,
  );
 
- const { id } = await req.json();
+ const { id } = await req.json() as { id?: string };
  if (!id)
  return addCors(
  NextResponse.json({ error: "Missing flag id" }, { status: 400 }),
