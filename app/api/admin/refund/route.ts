@@ -25,7 +25,7 @@ export const POST = withContext(async (req: Request) => {
  return NextResponse.json({ error: "Forbidden" }, { status: 403 });
  }
 
- const { orderId } = await req.json();
+ const { orderId } = await req.json() as { orderId?: string };
  if (!orderId)
  return NextResponse.json({ error: "Missing orderId" }, { status: 400 });
 
