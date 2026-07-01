@@ -53,7 +53,7 @@ export default function AdminDashboard() {
  headers: { Authorization: `Bearer ${token}` },
  });
  if (res.ok) {
- const data = await res.json();
+ const data = await res.json() as { orders?: any[]; nextCursor?: string | null; hasMore?: boolean };
  if (cursor) {
  setOrders((prev) => [...prev, ...(data.orders || [])]);
  } else {
@@ -143,7 +143,7 @@ export default function AdminDashboard() {
  },
  body: JSON.stringify({ orderId }),
  });
- const data = await res.json();
+ const data = await res.json() as { message?: string; error?: string };
  if (res.ok) {
  fetchOrders();
  toast(data.message || "Refund processed", "success");
@@ -162,7 +162,7 @@ export default function AdminDashboard() {
  },
  body: JSON.stringify({ orderId }),
  });
- const data = await res.json();
+ const data = await res.json() as { message?: string; error?: string };
  if (res.ok) {
  fetchOrders();
  toast(data.message || "Refund processed", "success");
