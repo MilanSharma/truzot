@@ -162,7 +162,7 @@ export const PAGE_SEO: Record<string, PageSEO> = {
     ogDescription:
       "Get studio-quality headshots for your entire team. Bulk pricing available. Perfect for company websites and LinkedIn.",
   },
-  {
+  free: {
     title: "Free AI Headshot Generator",
     description:
       "Try our AI headshot generator for free. Generate a professional headshot from your photo at no cost. See the quality before you buy. Upgrade to unlock all styles and HD downloads.",
