@@ -67,16 +67,15 @@ function OrderCardActions({
   onRename?: (id: string) => void;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [menuPosition, setMenuPosition] = useState<{ below: boolean; left: number; top: number } | null>(null);
+  const [menuPosition, setMenuPosition] = useState<{ below: boolean; left: number; top: number }>({ below: true, left: 0, top: 0 });
   const buttonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const calculatePosition = useCallback(() => {
-    if (!buttonRef.current || !menuRef.current) return;
+    if (!buttonRef.current) return;
     const buttonRect = buttonRef.current.getBoundingClientRect();
-    const menuRect = menuRef.current.getBoundingClientRect();
-    const menuWidth = menuRect.width || 192;
-    const menuHeight = menuRect.height || 200;
+    const menuWidth = 192;
+    const menuHeight = 200;
     const spaceBelow = window.innerHeight - buttonRect.bottom;
     const spaceAbove = buttonRect.top;
     const below = spaceBelow >= menuHeight || spaceBelow >= spaceAbove;
@@ -128,7 +127,6 @@ function OrderCardActions({
 
       {menuOpen &&
         typeof document !== "undefined" &&
-        menuPosition &&
         createPortal(
           <div
             ref={menuRef}
@@ -499,33 +497,43 @@ export default function ProjectLibrary({
             </button>
             <button
               onClick={async () => {
-                console.log("Clear All clicked, abandonedOrders:", abandonedOrders.length);
+                console.log("Clear All clicked, abandonedOrders:", abandonedOrders.length, abandonedOrders);
                 if (abandonedOrders.length === 0) {
                   console.log("No abandoned orders to delete");
+                  alert("No abandoned orders to delete");
                   return;
                 }
                 let successCount = 0;
+                let errorCount = 0;
                 for (const o of abandonedOrders) {
                   try {
                     const { data: { session } } = await supabase.auth.getSession();
-                    if (session?.access_token) {
-                      console.log("Deleting order:", o.id);
-                      const res = await fetch(`/api/orders?id=${o.id}`, { method: "DELETE", headers: { Authorization: `Bearer ${session.access_token}` } });
-                      console.log("Delete response:", res.status, res.statusText);
-                      const data = await res.json().catch(() => ({})) as { error?: string; success?: boolean };
-                      console.log("Delete response data:", data);
-                      if (res.ok) successCount++;
-                      else console.error("Delete failed:", data.error);
+                    if (!session?.access_token) {
+                      console.error("No session token for order:", o.id);
+                      errorCount++;
+                      continue;
+                    }
+                    console.log("Deleting order:", o.id);
+                    const res = await fetch(`/api/orders?id=${o.id}`, { method: "DELETE", headers: { Authorization: `Bearer ${session.access_token}` } });
+                    console.log("Delete response:", res.status, res.statusText);
+                    const data = await res.json().catch(() => ({})) as { error?: string; success?: boolean };
+                    console.log("Delete response data:", data);
+                    if (res.ok) {
+                      successCount++;
+                    } else {
+                      errorCount++;
+                      console.error("Delete failed for order:", o.id, data.error);
                     }
                   } catch (err) {
+                    errorCount++;
                     console.error("Failed to delete order:", o.id, err);
                   }
                 }
-                console.log("Successfully deleted:", successCount, "of", abandonedOrders.length);
+                console.log("Successfully deleted:", successCount, "Errors:", errorCount, "Total:", abandonedOrders.length);
                 if (successCount > 0) {
                   window.location.reload();
                 } else {
-                  alert("Failed to delete orders. Check console for details.");
+                  alert(`Failed to delete orders. ${errorCount} errors occurred. Check console for details.`);
                 }
               }}
               className="px-3 py-1.5 text-xs font-bold bg-amber-500 text-black hover:bg-amber-400 rounded-lg transition"
