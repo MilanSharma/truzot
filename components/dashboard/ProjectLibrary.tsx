@@ -120,7 +120,7 @@ function OrderCardActions({
           e.stopPropagation();
           setMenuOpen(!menuOpen);
         }}
-        className="p-1.5 text-white/40 hover:text-white hover:bg-slate-100 rounded-lg transition"
+        className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition"
         title="More actions"
       >
         <MoreHorizontal className="w-5 h-5" />
@@ -142,7 +142,7 @@ function OrderCardActions({
             {onRename && (
               <button
                 onClick={(e) => { e.stopPropagation(); onRename(order.id); setMenuOpen(false); }}
-                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-white/60 hover:bg-slate-50 transition text-left whitespace-nowrap"
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition text-left whitespace-nowrap"
               >
                 <Edit className="w-4 h-4 shrink-0" /> Rename Shoot
               </button>
@@ -158,7 +158,7 @@ function OrderCardActions({
             {order.status === "failed" && onRetry && (
               <button
                 onClick={(e) => { e.stopPropagation(); onRetry(order.id); setMenuOpen(false); }}
-                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-white/60 hover:bg-slate-50 transition text-left whitespace-nowrap"
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition text-left whitespace-nowrap"
               >
                 <RefreshCw className="w-4 h-4 shrink-0" /> Retry Generation
               </button>
@@ -166,7 +166,7 @@ function OrderCardActions({
             {order.status === "pending" && onResumeCheckout && (
               <button
                 onClick={(e) => { e.stopPropagation(); onResumeCheckout(order.id); setMenuOpen(false); }}
-                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-white/60 hover:bg-slate-50 transition text-left whitespace-nowrap"
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition text-left whitespace-nowrap"
               >
                 <ShoppingCart className="w-4 h-4 shrink-0" /> Resume Checkout
               </button>
@@ -498,20 +498,24 @@ export default function ProjectLibrary({
             </button>
             <button
               onClick={async () => {
+                console.log("Clear All clicked, abandonedOrders:", abandonedOrders.length);
                 let successCount = 0;
                 for (const o of abandonedOrders) {
                   try {
                     const { data: { session } } = await supabase.auth.getSession();
                     if (session?.access_token) {
+                      console.log("Deleting order:", o.id);
                       const res = await fetch(`/api/orders?id=${o.id}`, { method: "DELETE", headers: { Authorization: `Bearer ${session.access_token}` } });
+                      console.log("Delete response:", res.status);
                       if (res.ok) successCount++;
                     }
                   } catch (err) {
                     console.error("Failed to delete order:", o.id, err);
                   }
                 }
+                console.log("Successfully deleted:", successCount);
                 if (successCount > 0) {
-                  router.refresh();
+                  window.location.reload();
                 }
               }}
               className="px-3 py-1.5 text-xs font-bold bg-amber-500 text-black hover:bg-amber-400 rounded-lg transition"
@@ -563,7 +567,7 @@ export default function ProjectLibrary({
                 {groups[group].map((o) => (
                   <div
                     key={o.id}
-                    className={`bg-white rounded-3xl border shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-all duration-400 ease-out transform hover:-translate-y-1 group relative z-0 focus-within:z-10 hover:z-10 overflow-visible ${
+                    className={`bg-white rounded-3xl border shadow-sm hover:shadow-lg transition-all duration-300 ease-out transform hover:-translate-y-0.5 group relative z-0 focus-within:z-10 hover:z-10 overflow-visible ${
                       o.status === "failed"
                         ? "border-red-200 hover:border-red-400/30"
                         : o.status === "refunded"
