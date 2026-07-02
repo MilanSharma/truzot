@@ -41,14 +41,14 @@ const GALLERY_IMAGES = [
 // NEW: Truzot generated assets mapped for the gallery section.
 // Make sure to copy your files from the desktop into public/lora-images/
 const LORA_IMAGES = [
-  { src: "/lora-images/1.jpg", label: "Corporate", style: "Executive Suite" },
-  { src: "/lora-images/2.jpg", label: "LinkedIn", style: "LinkedIn Pro" },
-  { src: "/lora-images/3.jpg", label: "Founder", style: "Startup Founder" },
-  { src: "/lora-images/4.jpg", label: "Creative", style: "Creative Director" },
-  { src: "/lora-images/5.jpg", label: "Tech", style: "Tech Executive" },
-  { src: "/lora-images/6.jpg", label: "Premium", style: "C-Suite Portrait" },
-  { src: "/lora-images/7.jpg", label: "Casual Pro", style: "Relaxed Pro" },
-  { src: "/lora-images/8.jpg", label: "Editorial", style: "Editorial" },
+  { src: "/shots/man1 - after.jpeg", label: "Corporate", style: "Executive Suite" },
+  { src: "/shots/girl1 - after.jpeg", label: "LinkedIn", style: "LinkedIn Pro" },
+  { src: "/shots/man2- after.jpeg", label: "Founder", style: "Startup Founder" },
+  { src: "/shots/girl2 - after.jpeg", label: "Creative", style: "Creative Director" },
+  { src: "/shots/man5 - after.jpeg", label: "Tech", style: "Tech Executive" },
+  { src: "/shots/man6 - after.jpeg", label: "Premium", style: "C-Suite Portrait" },
+  { src: "/shots/girl3 - after.jpeg", label: "Casual Pro", style: "Relaxed Pro" },
+  { src: "/shots/girl4 - after.jpeg", label: "Editorial", style: "Editorial" },
 ];
 
 // Style preview categories for the Free Preview modal
@@ -141,11 +141,16 @@ const BEFORE_AFTER_EXAMPLES = [
 ];
 
 const AVATARS = [
-  "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&h=80&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&h=80&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&h=80&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=80&h=80&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=80&h=80&fit=crop&q=80",
+  "/shots/girl1 - after.jpeg",
+  "/shots/man1 - after.jpeg",
+  "/shots/girl2 - after.jpeg",
+  "/shots/man2- after.jpeg",
+  "/shots/girl3 - after.jpeg",
+  "/shots/man3 - after.jpeg",
+  "/shots/girl4 - after.jpeg",
+  "/shots/man4 - after.jpeg",
+  "/shots/man5 - after.jpeg",
+  "/shots/man6 - after.jpeg",
 ];
 
 // Who Truzot is for — replaces the fake "company logos" trust bar.
@@ -165,7 +170,6 @@ const TESTIMONIALS = [
   {
     name: "Sarah Chen",
     role: "VP of Product @ TechFlow",
-    image: "/shots/girl1 - before.jpg",
     text: "Indistinguishable from the $800 studio session I did in NYC last year. My entire executive team switched to Truzot.",
     rating: 5,
     metric: "36× more recruiter messages",
@@ -174,7 +178,6 @@ const TESTIMONIALS = [
   {
     name: "Marcus Johnson",
     role: "Commercial Actor, LA",
-    image: "/shots/man1 - before.jpg",
     text: "Fresh commercial and theatrical looks without paying for multiple wardrobe changes. Complete game-changer for my comp card.",
     rating: 5,
     metric: "3 auditions in first week",
@@ -183,7 +186,6 @@ const TESTIMONIALS = [
   {
     name: "Emily Rodriguez",
     role: "Principal Broker, Luxury RE",
-    image: "/shots/girl2 - before.jpg",
     text: "In luxury real estate, trust is everything. These photos elevated my listings and marketing materials overnight.",
     rating: 5,
     metric: "$2.4M in new listings",
@@ -192,7 +194,6 @@ const TESTIMONIALS = [
   {
     name: "David Park",
     role: "Senior Software Engineer",
-    image: "/shots/man2- before.jpg",
     text: "Updated LinkedIn in 10 minutes. Got 3× more profile views and two recruiter messages the first week. Worth every cent.",
     rating: 5,
     metric: "$45K salary increase",
@@ -201,7 +202,6 @@ const TESTIMONIALS = [
   {
     name: "Jessica Turner",
     role: "Creative Director @ Ogilvy",
-    image: "/shots/girl3 - before.jpg",
     text: "Skeptical of AI photography until I saw the skin textures and lighting logic. Flawless. Captured my actual features exactly.",
     rating: 5,
     metric: "Featured in Forbes",
@@ -210,7 +210,6 @@ const TESTIMONIALS = [
   {
     name: "Michael Brent",
     role: "Y Combinator Founder",
-    image: "/shots/man3 - before.jpg",
     text: "Used for Series A pitch deck and press kit. TechCrunch complimented the photography. They had no idea it was AI.",
     rating: 5,
     metric: "Closed $4M Series A",
@@ -1236,14 +1235,7 @@ export default function LandingPageContent() {
 
                   <div className="flex items-center gap-3 pt-5 border-t" style={{ borderColor: "var(--border)" }}>
                     <div className="relative w-10 h-10 rounded-full overflow-hidden border border-slate-900/8 shrink-0">
-                      <Image src={t.image} alt={t.name} fill className="object-cover" sizes="40px" />
-                    </div>
-                    {/* Their new AI headshot */}
-                    <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-lime-400/40 shrink-0 -ml-4 shadow-sm">
-                      <Image src={t.headshot} alt={`${t.name} AI headshot`} fill className="object-cover" sizes="40px" />
-                      <div className="absolute inset-0 flex items-center justify-center" style={{ background: "rgba(163,230,53,0.05)" }}>
-                        <Sparkles className="w-3 h-3 text-lime-600" />
-                      </div>
+                      <Image src={t.headshot} alt={t.name} fill className="object-cover" sizes="40px" />
                     </div>
                     <div className="ml-1">
                       <div className="text-sm font-bold text-slate-900 flex items-center gap-1">
