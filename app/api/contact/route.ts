@@ -8,7 +8,7 @@ const log = createLogger("contact");
 
 export const POST = withContext(async (req: Request) => {
  try {
- const body = await req.json();
+ const body = await req.json() as Record<string, unknown>;
  const parsed = validate(contactSchema, body);
  if (parsed.error) {
  return NextResponse.json({ error: parsed.error }, { status: 400 });

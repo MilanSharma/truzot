@@ -29,7 +29,7 @@ export const POST = withContext(async (req: Request) => {
  origin,
  );
 
- const body = await req.json();
+ const body = await req.json() as Record<string, unknown>;
  const parsed = validate(retrySchema, body);
  if (parsed.error)
  return addCors(

@@ -34,7 +34,7 @@ export const POST = withContext(async (req: Request) => {
  );
  }
 
- const { orderId, imageUrl } = await req.json();
+ const { orderId, imageUrl } = await req.json() as { orderId?: string; imageUrl?: string };
  if (!orderId || !imageUrl) {
  return addCors(
  NextResponse.json(

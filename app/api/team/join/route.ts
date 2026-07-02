@@ -19,7 +19,7 @@ export const POST = withContext(async (req: Request) => {
  return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
  }
 
- const { email: memberEmail } = await req.json();
+ const { email: memberEmail } = await req.json() as { email?: string };
  if (!memberEmail || typeof memberEmail !== "string") {
  return NextResponse.json({ error: "Email is required" }, { status: 400 });
  }

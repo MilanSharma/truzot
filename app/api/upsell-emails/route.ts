@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
  try {
- const { orderId, email, plan } = await req.json();
+ const { orderId, email, plan } = await req.json() as { orderId?: string; email?: string; plan?: string };
 
  if (!orderId || !email) {
  return NextResponse.json(

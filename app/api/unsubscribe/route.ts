@@ -7,7 +7,7 @@ const log = createLogger("unsubscribe");
 
 export const POST = withContext(async (req: Request) => {
  try {
- const { email, token } = await req.json();
+ const { email, token } = await req.json() as { email?: string; token?: string };
  if (!email || !token)
  return NextResponse.json(
  { error: "Missing email or token" },

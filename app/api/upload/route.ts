@@ -30,7 +30,7 @@ export const POST = withContext(async (req: Request) => {
  if (user) ownerId = user.id;
  }
 
- const body = await req.json();
+ const body = await req.json() as Record<string, unknown>;
  const parsed = validate(uploadActionSchema, body);
  if (parsed.error)
  return addCors(

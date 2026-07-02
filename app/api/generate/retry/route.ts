@@ -10,7 +10,7 @@ const log = createLogger("retry-generation");
 
 export async function POST(req: Request) {
  try {
- const { orderId } = await req.json();
+ const { orderId } = await req.json() as { orderId?: string };
  if (!orderId)
  return NextResponse.json({ error: "Missing orderId" }, { status: 400 });
 

@@ -11,7 +11,7 @@ export const POST = withContext(async (req: Request) => {
  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
  
  const stripe = getStripe();
- const { orderId, clothing, background } = await req.json();
+ const { orderId, clothing, background } = await req.json() as { orderId?: string; clothing?: string; background?: string };
  if (!orderId || !clothing || !background) {
  return NextResponse.json({ error: "Missing fields" }, { status: 400 });
  }

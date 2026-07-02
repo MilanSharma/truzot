@@ -17,7 +17,7 @@ export const POST = withContext(async (req: Request) => {
  if (!user)
  return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
- const { orderId } = await req.json();
+ const { orderId } = await req.json() as { orderId?: string };
  if (!orderId)
  return NextResponse.json({ error: "Missing orderId" }, { status: 400 });
 

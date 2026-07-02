@@ -22,7 +22,7 @@ export const POST = withContext(async (req: Request) => {
  return NextResponse.json({ error: "Invalid token" }, { status: 401 });
  }
 
- const { paymentIntent } = await req.json();
+ const { paymentIntent } = await req.json() as { paymentIntent?: string };
  if (!paymentIntent) {
  return NextResponse.json(
  { error: "Missing paymentIntent" },

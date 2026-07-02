@@ -86,7 +86,7 @@ export const POST = withContext(async (req: Request) => {
  }
 
  try {
- const body = await req.json();
+ const body = await req.json() as Record<string, unknown>;
  const parsed = validate(generateTriggerSchema, body);
  if (parsed.error)
  return addCors(

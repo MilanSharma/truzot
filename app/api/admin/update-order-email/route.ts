@@ -24,7 +24,7 @@ export const POST = withContext(async (req: Request) => {
  return NextResponse.json({ error: "Forbidden" }, { status: 403 });
  }
 
- const { orderId, newEmail } = await req.json();
+ const { orderId, newEmail } = await req.json() as { orderId?: string; newEmail?: string };
  if (!orderId || !newEmail || !emailField.safeParse(newEmail).success) {
  return NextResponse.json(
  { error: "orderId and newEmail are required" },

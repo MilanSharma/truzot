@@ -18,7 +18,7 @@ function generateDiscountCode(): string {
 
 export const POST = withContext(async (req: Request) => {
  try {
- const body = await req.json();
+ const body = await req.json() as { email?: string; source?: string };
  const { email, source } = body;
 
  if (!email || !email.includes("@")) {

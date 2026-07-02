@@ -18,7 +18,7 @@ export const OPTIONS = handleOptions;
 export const POST = withContext(async (req: Request) => {
  const origin = req.headers.get("origin");
  try {
- const body = await req.json();
+ const body = await req.json() as Record<string, unknown>;
  const parsed = validate(teamDemoSchema, body);
  if (parsed.error)
  return addCors(

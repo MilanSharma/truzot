@@ -154,7 +154,7 @@ export const GET = withContext(async (req: Request) => {
 export const POST = withContext(async (req: Request) => {
  const origin = req.headers.get("origin");
  try {
- const { imageUrls, orderId } = await req.json();
+ const { imageUrls, orderId } = await req.json() as { imageUrls?: string[]; orderId?: string };
 
  if (!Array.isArray(imageUrls) || imageUrls.length === 0 || !orderId) {
  return addCors(

@@ -8,7 +8,7 @@ const log = createLogger("send-headshots");
 
 export const POST = withContext(async (req: Request) => {
  try {
- const { orderId, email, imageUrls } = await req.json();
+ const { orderId, email, imageUrls } = await req.json() as { orderId?: string; email?: string; imageUrls?: string[] };
  if (!orderId || !email) {
  return NextResponse.json(
  { error: "Missing orderId or email" },
