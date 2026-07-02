@@ -7,7 +7,11 @@ import { withContext } from "@/lib/request-context";
 import { createLogger } from "@/lib/logger";
 
 const log = createLogger("free-preview");
-fal.config({ credentials: process.env.FAL_KEY });
+
+// Initialize FAL configuration if available
+if (process.env.FAL_KEY) {
+  fal.config({ credentials: process.env.FAL_KEY });
+}
 
 const hasRedisConfig =
   typeof process !== "undefined" &&
@@ -38,12 +42,6 @@ function getIp(req: Request): string {
   return req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
 }
 
-const PROMPTS = [
-  "A professional corporate headshot, studio lighting, neutral background",
-  "A creative headshot, soft natural light, slight smile",
-  "A casual professional headshot, outdoor blurred background",
-];
-
 export const OPTIONS = handleOptions;
 
 export const POST = withContext(async (req: Request) => {
@@ -66,6 +64,9 @@ export const POST = withContext(async (req: Request) => {
 
     const formData = await req.formData();
     const image = formData.get("image") as File;
+    const style = formData.get("style") as string || "Corporate office";
+    const outfit = formData.get("outfit") as string || "Business suit";
+    const hairstyle = formData.get("hairstyle") as string || "Neat and professional";
     
     if (!image) {
       return addCors(
@@ -74,31 +75,32 @@ export const POST = withContext(async (req: Request) => {
       );
     }
 
-    // Generate previews using text-to-image (no image input for cost efficiency)
-    // Note: Image-to-image requires different Fal.ai model which has higher cost
-    // Using text-to-image with generic prompts for free preview
-    const results = await Promise.all(
-      PROMPTS.map((prompt) =>
-        fal.run("fal-ai/flux/dev", {
-          input: {
-            prompt,
-            num_inference_steps: 28,
-            guidance_scale: 3.5,
-            num_images: 1,
-            image_size: "square_hd",
-            output_format: "jpeg",
-          },
-        })
-      )
-    );
+    // Convert image to base64 Data URL
+    const arrayBuffer = await image.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    const mimeType = image.type || 'image/jpeg';
+    const base64Image = `data:${mimeType};base64,${buffer.toString('base64')}`;
 
-    const urls = results.map((r) => (r as any).images[0].url);
+    const prompt = `A professional portrait of the person, wearing ${outfit}, ${hairstyle} hair, ${style} background. High quality photography, professional lighting. Large watermark text "FREE PREVIEW" across the center of the image.`;
 
-    return addCors(NextResponse.json({ urls }), origin);
+    const result = await fal.run("fal-ai/flux/dev/image-to-image", {
+      input: {
+        image_url: base64Image,
+        prompt: prompt,
+        strength: 0.85, 
+        num_inference_steps: 20, // Lowered for a faster "preview" look
+        guidance_scale: 3.5,
+        output_format: "jpeg",
+      },
+    });
+
+    const url = (result as any).images[0].url;
+
+    return addCors(NextResponse.json({ url }), origin);
   } catch (err) {
     log.error({ err }, "Free preview generation failed");
     return addCors(
-      NextResponse.json({ error: "Generation failed" }, { status: 500 }),
+      NextResponse.json({ error: "Generation failed. The AI provider might be experiencing high load." }, { status: 500 }),
       origin
     );
   }
