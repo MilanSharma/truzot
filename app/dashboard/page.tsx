@@ -366,9 +366,9 @@ function DashboardContent() {
         const res = await fetch(`/api/order-status?orderId=${id}`, {
           headers: { Authorization: `Bearer ${session?.access_token || ""}` },
         });
-        const data = await res.json() as { status?: string; headshots?: any[] };
+        const data = await res.json() as { status?: string; headshots?: any[]; count?: number; target?: number };
         if (data.status === "completed") {
-          if (data.headshots?.length > 0) {
+          if ((data.headshots?.length ?? 0) > 0) {
             setHeadshots(data.headshots as Headshot[]);
             setHasMoreHeadshots(false);
           } else {
@@ -665,7 +665,7 @@ function DashboardContent() {
         toast("Failed to create share link", "error");
         return;
       }
-      const { token: dlToken } = await res.json();
+      const { token: dlToken } = await res.json() as { token?: string };
       const shareUrl = `${window.location.origin}/dashboard?order=${orderId}&download_token=${dlToken}`;
       await navigator.clipboard.writeText(shareUrl);
       toast("Share link copied to clipboard!", "success");
@@ -821,7 +821,7 @@ function DashboardContent() {
             }
             toast("Shoot cancelled successfully", "success");
           } else {
-            const data = await res.json().catch(() => ({}));
+            const data = await res.json().catch(() => ({})) as { error?: string };
             toast(data.error || "Failed to cancel shoot", "error");
           }
         } catch (err) {
@@ -909,7 +909,7 @@ function DashboardContent() {
           if (res.ok) {
             toast("Shoot deleted successfully", "success");
           } else {
-            const data = await res.json().catch(() => ({}));
+            const data = await res.json().catch(() => ({})) as { error?: string };
             setOrders(previousOrders); // Rollback on fail
             toast(data.error || "Failed to delete shoot", "error");
           }
