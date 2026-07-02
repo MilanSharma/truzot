@@ -55,7 +55,7 @@ function ClaimOrderForm() {
       body: JSON.stringify({ orderId }),
     });
 
-    const body = await res.json().catch(() => ({}));
+    const body = await res.json().catch(() => ({})) as { isOwner?: boolean; error?: string };
     if (!res.ok) {
       if (body.isOwner) {
         router.push(`/dashboard?order=${orderId}`);
