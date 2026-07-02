@@ -8,7 +8,7 @@ const log = createLogger("claim-order");
 
 export async function POST(request: Request) {
  try {
- const { orderId } = await request.json();
+ const { orderId } = await request.json() as { orderId?: string };
  if (
  !orderId ||
  !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
