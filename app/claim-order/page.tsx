@@ -134,7 +134,7 @@ function ClaimOrderForm() {
         body: JSON.stringify({ email, password, name }),
       });
 
-      const body = await res.json().catch(() => ({}));
+      const body = await res.json().catch(() => ({})) as { error?: string };
       if (!res.ok) throw new Error(body.error || "Failed to create account");
 
       const { error: signInError } = await supabase.auth.signInWithPassword({
