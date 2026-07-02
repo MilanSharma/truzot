@@ -40,7 +40,7 @@ export default function InvoicesPage() {
  body: JSON.stringify({ paymentIntent: pi }),
  });
  if (res.ok) {
- const data = await res.json();
+ const data = await res.json() as { url?: string };
  setReceiptUrls((prev) => ({ ...prev, [orderId]: data.url }));
  }
  } catch {
