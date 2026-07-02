@@ -366,7 +366,7 @@ function DashboardContent() {
         const res = await fetch(`/api/order-status?orderId=${id}`, {
           headers: { Authorization: `Bearer ${session?.access_token || ""}` },
         });
-        const data = await res.json();
+        const data = await res.json() as { status?: string; headshots?: any[] };
         if (data.status === "completed") {
           if (data.headshots?.length > 0) {
             setHeadshots(data.headshots as Headshot[]);
