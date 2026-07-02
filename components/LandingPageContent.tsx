@@ -41,14 +41,14 @@ const GALLERY_IMAGES = [
 // NEW: Truzot generated assets mapped for the gallery section.
 // Make sure to copy your files from the desktop into public/lora-images/
 const LORA_IMAGES = [
-  { src: "/shots/man1 - after.jpeg", label: "Corporate", style: "Executive Suite" },
-  { src: "/shots/girl1 - after.jpeg", label: "LinkedIn", style: "LinkedIn Pro" },
-  { src: "/shots/man2- after.jpeg", label: "Founder", style: "Startup Founder" },
-  { src: "/shots/girl2 - after.jpeg", label: "Creative", style: "Creative Director" },
-  { src: "/shots/man5 - after.jpeg", label: "Tech", style: "Tech Executive" },
-  { src: "/shots/man6 - after.jpeg", label: "Premium", style: "C-Suite Portrait" },
-  { src: "/shots/girl3 - after.jpeg", label: "Casual Pro", style: "Relaxed Pro" },
-  { src: "/shots/girl4 - after.jpeg", label: "Editorial", style: "Editorial" },
+  { src: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=90&fit=crop", label: "Corporate", style: "Executive Suite" },
+  { src: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=90&fit=crop", label: "LinkedIn", style: "LinkedIn Pro" },
+  { src: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=90&fit=crop", label: "Founder", style: "Startup Founder" },
+  { src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=90&fit=crop", label: "Creative", style: "Creative Director" },
+  { src: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=90&fit=crop", label: "Tech", style: "Tech Executive" },
+  { src: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=90&fit=crop", label: "Premium", style: "C-Suite Portrait" },
+  { src: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=90&fit=crop", label: "Casual Pro", style: "Relaxed Pro" },
+  { src: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&q=90&fit=crop", label: "Editorial", style: "Editorial" },
 ];
 
 // Style preview categories for the Free Preview modal
@@ -141,16 +141,12 @@ const BEFORE_AFTER_EXAMPLES = [
 ];
 
 const AVATARS = [
-  "/shots/girl1 - after.jpeg",
-  "/shots/man1 - after.jpeg",
-  "/shots/girl2 - after.jpeg",
-  "/shots/man2- after.jpeg",
-  "/shots/girl3 - after.jpeg",
-  "/shots/man3 - after.jpeg",
-  "/shots/girl4 - after.jpeg",
-  "/shots/man4 - after.jpeg",
-  "/shots/man5 - after.jpeg",
-  "/shots/man6 - after.jpeg",
+  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80&fit=crop",
+  "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&q=80&fit=crop",
+  "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&q=80&fit=crop",
+  "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&q=80&fit=crop",
+  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&q=80&fit=crop",
+  "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&q=80&fit=crop",
 ];
 
 // Who Truzot is for — replaces the fake "company logos" trust bar.
@@ -173,7 +169,7 @@ const TESTIMONIALS = [
     text: "Indistinguishable from the $800 studio session I did in NYC last year. My entire executive team switched to Truzot.",
     rating: 5,
     metric: "36× more recruiter messages",
-    headshot: "/shots/girl1 - after.jpeg",
+    headshot: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&q=80&fit=crop",
   },
   {
     name: "Marcus Johnson",
@@ -181,7 +177,7 @@ const TESTIMONIALS = [
     text: "Fresh commercial and theatrical looks without paying for multiple wardrobe changes. Complete game-changer for my comp card.",
     rating: 5,
     metric: "3 auditions in first week",
-    headshot: "/shots/man1 - after.jpeg",
+    headshot: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&q=80&fit=crop",
   },
   {
     name: "Emily Rodriguez",
@@ -189,7 +185,7 @@ const TESTIMONIALS = [
     text: "In luxury real estate, trust is everything. These photos elevated my listings and marketing materials overnight.",
     rating: 5,
     metric: "$2.4M in new listings",
-    headshot: "/shots/girl2 - after.jpeg",
+    headshot: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&q=80&fit=crop",
   },
   {
     name: "David Park",
@@ -197,7 +193,7 @@ const TESTIMONIALS = [
     text: "Updated LinkedIn in 10 minutes. Got 3× more profile views and two recruiter messages the first week. Worth every cent.",
     rating: 5,
     metric: "$45K salary increase",
-    headshot: "/shots/man2- after.jpeg",
+    headshot: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&q=80&fit=crop",
   },
   {
     name: "Jessica Turner",
@@ -205,7 +201,7 @@ const TESTIMONIALS = [
     text: "Skeptical of AI photography until I saw the skin textures and lighting logic. Flawless. Captured my actual features exactly.",
     rating: 5,
     metric: "Featured in Forbes",
-    headshot: "/shots/girl3 - after.jpeg",
+    headshot: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&q=80&fit=crop",
   },
   {
     name: "Michael Brent",
@@ -213,7 +209,7 @@ const TESTIMONIALS = [
     text: "Used for Series A pitch deck and press kit. TechCrunch complimented the photography. They had no idea it was AI.",
     rating: 5,
     metric: "Closed $4M Series A",
-    headshot: "/shots/man3 - after.jpeg",
+    headshot: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&q=80&fit=crop",
   },
 ];
 
