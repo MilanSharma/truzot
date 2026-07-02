@@ -67,7 +67,7 @@ function OrderCardActions({
   onRename?: (id: string) => void;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [menuPosition, setMenuPosition] = useState<{ below: boolean; left: number; top: number }>({ below: true, left: 0, top: 0 });
+  const [menuPosition, setMenuPosition] = useState<{ below: boolean; left: number; top: number } | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -128,6 +128,7 @@ function OrderCardActions({
 
       {menuOpen &&
         typeof document !== "undefined" &&
+        menuPosition &&
         createPortal(
           <div
             ref={menuRef}
@@ -499,6 +500,10 @@ export default function ProjectLibrary({
             <button
               onClick={async () => {
                 console.log("Clear All clicked, abandonedOrders:", abandonedOrders.length);
+                if (abandonedOrders.length === 0) {
+                  console.log("No abandoned orders to delete");
+                  return;
+                }
                 let successCount = 0;
                 for (const o of abandonedOrders) {
                   try {
@@ -506,16 +511,21 @@ export default function ProjectLibrary({
                     if (session?.access_token) {
                       console.log("Deleting order:", o.id);
                       const res = await fetch(`/api/orders?id=${o.id}`, { method: "DELETE", headers: { Authorization: `Bearer ${session.access_token}` } });
-                      console.log("Delete response:", res.status);
+                      console.log("Delete response:", res.status, res.statusText);
+                      const data = await res.json().catch(() => ({})) as { error?: string; success?: boolean };
+                      console.log("Delete response data:", data);
                       if (res.ok) successCount++;
+                      else console.error("Delete failed:", data.error);
                     }
                   } catch (err) {
                     console.error("Failed to delete order:", o.id, err);
                   }
                 }
-                console.log("Successfully deleted:", successCount);
+                console.log("Successfully deleted:", successCount, "of", abandonedOrders.length);
                 if (successCount > 0) {
                   window.location.reload();
+                } else {
+                  alert("Failed to delete orders. Check console for details.");
                 }
               }}
               className="px-3 py-1.5 text-xs font-bold bg-amber-500 text-black hover:bg-amber-400 rounded-lg transition"
