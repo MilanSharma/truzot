@@ -74,27 +74,19 @@ export const POST = withContext(async (req: Request) => {
       );
     }
 
-    // Convert image to base64 for Fal.ai
-    const bytes = await image.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const base64Image = buffer.toString("base64");
-    const imageDataUrl = `data:${image.type};base64,${base64Image}`;
-
-    // Generate previews using image-to-image (no training, just style transfer)
+    // Generate previews using text-to-image (no image input for cost efficiency)
+    // Note: Image-to-image requires different Fal.ai model which has higher cost
+    // Using text-to-image with generic prompts for free preview
     const results = await Promise.all(
       PROMPTS.map((prompt) =>
         fal.run("fal-ai/flux/dev", {
           input: {
             prompt,
-            image: {
-              url: imageDataUrl,
-            },
             num_inference_steps: 28,
             guidance_scale: 3.5,
             num_images: 1,
             image_size: "square_hd",
             output_format: "jpeg",
-            strength: 0.7, // Controls how much the original image influences the output
           },
         })
       )
