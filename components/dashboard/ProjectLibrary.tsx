@@ -498,13 +498,21 @@ export default function ProjectLibrary({
             </button>
             <button
               onClick={async () => {
+                let successCount = 0;
                 for (const o of abandonedOrders) {
-                  const { data: { session } } = await supabase.auth.getSession();
-                  if (session?.access_token) {
-                    await fetch(`/api/orders?id=${o.id}`, { method: "DELETE", headers: { Authorization: `Bearer ${session.access_token}` } });
+                  try {
+                    const { data: { session } } = await supabase.auth.getSession();
+                    if (session?.access_token) {
+                      const res = await fetch(`/api/orders?id=${o.id}`, { method: "DELETE", headers: { Authorization: `Bearer ${session.access_token}` } });
+                      if (res.ok) successCount++;
+                    }
+                  } catch (err) {
+                    console.error("Failed to delete order:", o.id, err);
                   }
                 }
-                router.refresh();
+                if (successCount > 0) {
+                  router.refresh();
+                }
               }}
               className="px-3 py-1.5 text-xs font-bold bg-amber-500 text-black hover:bg-amber-400 rounded-lg transition"
             >
