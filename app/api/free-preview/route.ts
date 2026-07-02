@@ -86,7 +86,9 @@ export const POST = withContext(async (req: Request) => {
         fal.run("fal-ai/flux/dev", {
           input: {
             prompt,
-            image_url: imageDataUrl,
+            image: {
+              url: imageDataUrl,
+            },
             num_inference_steps: 28,
             guidance_scale: 3.5,
             num_images: 1,
