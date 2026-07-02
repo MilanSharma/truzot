@@ -290,8 +290,9 @@ export default function ProjectLibrary({
         fetch(`/api/training/progress?orderId=${o.id}`)
           .then((r) => r.json())
           .then((data) => {
-            if (typeof data.progress === "number")
-              setTrainingProgress((prev) => ({ ...prev, [o.id]: data.progress }));
+            const typedData = data as { progress?: number };
+            if (typeof typedData.progress === "number")
+              setTrainingProgress((prev) => ({ ...prev, [o.id]: typedData.progress! }));
           })
           .catch(() => {});
       }

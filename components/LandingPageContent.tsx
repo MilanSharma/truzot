@@ -277,7 +277,7 @@ function BlueskyIcon({ className }: { className?: string }) {
 /* ─────────────────────────────────────────────────────────────────── */
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } },
 };
 const stagger = {
   visible: { transition: { staggerChildren: 0.07 } },
@@ -372,7 +372,7 @@ function FreePreviewModal({ onClose }: { onClose: () => void }) {
         initial={{ scale: 0.92, opacity: 0, y: 20 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.96, opacity: 0, y: 10 }}
-        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
         className="relative w-full max-w-5xl bg-[#0E1016] border border-white/10 rounded-3xl shadow-2xl overflow-hidden"
         onClick={e => e.stopPropagation()}
       >
@@ -1675,7 +1675,7 @@ export default function LandingPageContent() {
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
               className="relative w-full max-w-md rounded-2xl p-8 text-center"
               style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
               onClick={e => e.stopPropagation()}

@@ -2,6 +2,8 @@
  * Mock utilities for external services to avoid API costs during testing
  */
 
+import { vi } from "vitest";
+
 // Mock Fal.ai
 export const mockFalQueue = {
   submit: vi.fn().mockResolvedValue({

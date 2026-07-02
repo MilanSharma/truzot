@@ -93,6 +93,7 @@ function getSavedState(): Record<string, unknown> | null {
   if (typeof window !== 'undefined' && !(window as any).__fetchIntercepted) {
     (window as any).__fetchIntercepted = true;
     const originalFetch = window.fetch;
+    // @ts-ignore - fetch interception for debugging
     window.fetch = async (url, options) => {
       try {
         const response = await originalFetch(url, options);
@@ -474,7 +475,11 @@ function UploadContent() {
           signedUrl,
           token: uploadToken,
           path,
-        } = await uploadUrlRes.json();
+        } = await uploadUrlRes.json() as { signedUrl: string; token?: string; path: string };
+
+        if (!signedUrl || !path) {
+          throw new Error("Invalid upload response");
+        }
 
         if (onProgress) onProgress("Uploading photos...");
         const zipBlob = await zip.generateAsync({
@@ -753,11 +758,11 @@ function UploadContent() {
       });
 
       if (!res.ok) {
-        const errBody = await res.json().catch(() => null);
+        const errBody = await res.json().catch(() => ({})) as { error?: string };
         throw new Error(errBody?.error || "Checkout failed");
       }
 
-      const { url } = await res.json();
+      const { url } = await res.json() as { url?: string };
 
       if (url) {
         window.location.href = url;

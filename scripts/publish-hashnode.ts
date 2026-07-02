@@ -90,15 +90,15 @@ async function publishToHashnode(filePath: string) {
     body: JSON.stringify({ query: mutation, variables }),
   });
 
-  const data = await res.json();
+  const data = await res.json() as { errors?: any[]; data?: { publishPost?: { post?: { url?: string; id?: string } } } };
 
   if (data.errors) {
     console.error("❌ Failed:", JSON.stringify(data.errors, null, 2));
     process.exit(1);
   }
 
-  console.log(`✅ Published! URL: ${data.data.publishPost.post.url}`);
-  console.log(`   Post ID: ${data.data.publishPost.post.id}`);
+  console.log(`✅ Published! URL: ${data.data?.publishPost?.post?.url}`);
+  console.log(`   Post ID: ${data.data?.publishPost?.post?.id}`);
   return data;
 }
 

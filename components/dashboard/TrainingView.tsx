@@ -47,7 +47,7 @@ export default function TrainingView({ order }: { order: Order }) {
             : {},
         });
         if (res.ok && !cancelled) {
-          const data = await res.json();
+          const data = await res.json() as ProgressData;
           setProgress(data);
         }
       } catch {

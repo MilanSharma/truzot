@@ -75,7 +75,7 @@ async function publishToDevTo(filePath: string) {
     body: JSON.stringify(payload),
   });
 
-  const data = await res.json();
+  const data = await res.json() as { url?: string; id?: string };
 
   if (!res.ok) {
     console.error("❌ Failed:", data);

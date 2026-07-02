@@ -61,15 +61,15 @@ async function publishToMedium(filePath: string) {
   const userRes = await fetch("https://api.medium.com/v1/me", {
     headers: { Authorization: `Bearer ${token}` },
   });
-  const userData = await userRes.json();
+  const userData = await userRes.json() as { data?: { id?: string; username?: string } };
   if (!userRes.ok) {
     console.error("❌ Auth failed:", userData);
     process.exit(1);
   }
-  const userId = userData.data.id;
+  const userId = userData.data?.id;
 
   console.log(`📤 Publishing to Medium: "${frontmatter.title}"`);
-  console.log(`   User: @${userData.data.username}`);
+  console.log(`   User: @${userData.data?.username}`);
   console.log(`   Tags: ${tags.join(", ")}`);
   console.log(`   Canonical: ${canonicalUrl}`);
 
@@ -82,15 +82,15 @@ async function publishToMedium(filePath: string) {
     body: JSON.stringify(payload),
   });
 
-  const data = await res.json();
+  const data = await res.json() as { data?: { url?: string; id?: string } };
 
   if (!res.ok) {
     console.error("❌ Failed:", data);
     process.exit(1);
   }
 
-  console.log(`✅ Published! URL: ${data.data.url}`);
-  console.log(`   Post ID: ${data.data.id}`);
+  console.log(`✅ Published! URL: ${data.data?.url}`);
+  console.log(`   Post ID: ${data.data?.id}`);
   return data;
 }
 

@@ -50,7 +50,7 @@ export default function CustomUpsellModal({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ orderId, clothing, background }),
       });
-      const data = await res.json();
+      const data = await res.json() as { url?: string; error?: string };
       if (data.url) window.location.href = data.url;
       else toast(data.error || "Failed to create checkout", "error");
     } catch (err) {
