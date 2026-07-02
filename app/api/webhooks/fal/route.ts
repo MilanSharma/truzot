@@ -60,7 +60,7 @@ export const POST = withContext(async (req: Request) => {
  if (token !== expected)
  return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
- const data = await req.json() as { id?: string };
+ const data = await req.json() as Record<string, unknown>;
  const falEventId = data.id || `fal-${Date.now()}`;
 
   const { data: existingEvent } = await supabaseAdmin.from("webhook_events").select("id").eq("event_id", falEventId).eq("status", "processed").maybeSingle();
