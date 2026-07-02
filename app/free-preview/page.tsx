@@ -1,9 +1,9 @@
 "use client";
 import { useState, useRef } from "react";
 import Image from "next/image";
-import { ArrowLeft, RefreshCw, Sparkles, Upload, X, ArrowRight, Camera } from "lucide-react";
+import { ArrowLeft, RefreshCw, Sparkles, Upload, X, ArrowRight, Camera, ChevronDown, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function FreePreviewPage() {
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -106,45 +106,50 @@ export default function FreePreviewPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg)] font-sans">
+    <div className="min-h-screen bg-[#07080A] font-sans text-white relative overflow-hidden">
+      {/* Ambient Dark Theme Background Glows */}
+      <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-lime-400/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none" />
+
       {/* Header */}
-      <div className="border-b border-[var(--border)] bg-[var(--surface)]">
+      <div className="relative z-10 border-b border-white/10 bg-[#0E1016]/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text)] transition font-semibold text-sm">
+          <Link href="/" className="inline-flex items-center gap-2 text-white/50 hover:text-white transition font-semibold text-sm">
             <ArrowLeft className="w-4 h-4" />
             Back to Home
           </Link>
-          <h1 className="text-lg font-bold text-[var(--text)] tracking-tight">Free Preview</h1>
+          <h1 className="text-lg font-bold text-white tracking-tight">Free Preview</h1>
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-6 py-12">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 py-12 lg:py-20">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-[var(--lime-dim)] border border-[var(--lime-border)] text-[var(--lime-text)] px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest mb-6 shadow-sm">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 bg-lime-400/10 border border-lime-400/20 text-lime-400 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest mb-6 shadow-sm">
             <Sparkles className="w-3.5 h-3.5" />
             No Account Required
-          </div>
-          <h2 className="text-4xl md:text-5xl font-black text-[var(--text)] mb-4 tracking-tighter">
-            See your AI headshot. <span className="text-[var(--text-faint)]">Instantly.</span>
-          </h2>
-          <p className="text-[var(--text-muted)] max-w-2xl mx-auto text-lg leading-relaxed">
+          </motion.div>
+          <motion.h2 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tighter">
+            See your AI headshot. <span className="text-white/30">Instantly.</span>
+          </motion.h2>
+          <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="text-white/50 max-w-2xl mx-auto text-lg leading-relaxed">
             Upload a selfie and get a free low-resolution watermarked preview of what our AI can do. Custom styles, outfits, and hairstyles.
-          </p>
+          </motion.p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-10 items-start">
+        <div className="grid lg:grid-cols-12 gap-8 items-start">
           
-          {/* Left Column - Input */}
-          <div className="space-y-6">
+          {/* Left Column - 5 cols (Steps) */}
+          <div className="lg:col-span-5 space-y-6">
             
             {/* Upload Area */}
-            <div className="bg-[var(--surface)] border border-[var(--border)] rounded-3xl p-6 shadow-sm">
-              <h3 className="text-lg font-bold text-[var(--text)] mb-4 flex items-center gap-2">
-                <Camera className="w-5 h-5 text-[var(--lime)]" /> 1. Upload your selfie
+            <div className={`bg-[#0E1016] border border-white/10 rounded-3xl p-6 shadow-2xl transition-all ${previewUrl ? 'opacity-60 hover:opacity-100' : 'ring-1 ring-lime-400/20 shadow-[0_0_30px_rgba(163,230,53,0.05)]'}`}>
+              <h3 className="text-lg font-bold text-white mb-4 flex items-center justify-between">
+                <span className="flex items-center gap-2"><Camera className="w-5 h-5 text-lime-400" /> 1. Upload your selfie</span>
+                {previewUrl && <CheckCircle2 className="w-5 h-5 text-lime-400" />}
               </h3>
               
               {!previewUrl ? (
-                <label className="border-2 border-dashed border-[var(--border-secondary)] bg-[var(--surface2)] hover:bg-[var(--surface3)] hover:border-[var(--lime-border)] transition-colors rounded-2xl flex flex-col items-center justify-center p-12 cursor-pointer group">
+                <label className="border-2 border-dashed border-white/15 bg-white/5 hover:bg-white/10 hover:border-lime-400/50 transition-all rounded-2xl flex flex-col items-center justify-center p-10 cursor-pointer group">
                   <input
                     type="file"
                     ref={fileInputRef}
@@ -152,18 +157,18 @@ export default function FreePreviewPage() {
                     className="hidden"
                     onChange={handleFileChange}
                   />
-                  <div className="w-14 h-14 bg-[var(--bg)] border border-[var(--border)] rounded-full flex items-center justify-center mb-4 group-hover:-translate-y-1 transition-transform shadow-sm">
-                    <Upload className="w-6 h-6 text-[var(--lime-text)]" />
+                  <div className="w-14 h-14 bg-[#07080A] border border-white/10 rounded-full flex items-center justify-center mb-4 group-hover:-translate-y-1 transition-transform shadow-sm">
+                    <Upload className="w-6 h-6 text-lime-400" />
                   </div>
-                  <span className="font-bold text-[var(--text)] text-lg mb-1">Click to upload</span>
-                  <span className="text-sm text-[var(--text-muted)] font-medium">JPG, PNG, WebP up to 10MB</span>
+                  <span className="font-bold text-white text-lg mb-1">Click to upload</span>
+                  <span className="text-sm text-white/40 font-medium">JPG, PNG, WebP up to 10MB</span>
                 </label>
               ) : (
-                <div className="relative aspect-square w-full max-w-sm mx-auto rounded-2xl overflow-hidden border border-[var(--border)] shadow-sm">
+                <div className="relative aspect-square w-full max-w-[200px] mx-auto rounded-2xl overflow-hidden border border-white/20 shadow-xl">
                   <Image src={previewUrl} alt="Your selfie" fill className="object-cover" unoptimized />
                   <button
                     onClick={clearImage}
-                    className="absolute top-3 right-3 bg-red-500 hover:bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center shadow-lg transition-colors"
+                    className="absolute top-2 right-2 bg-black/50 hover:bg-red-500 backdrop-blur-md text-white w-8 h-8 rounded-full flex items-center justify-center shadow-lg transition-all"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -172,52 +177,61 @@ export default function FreePreviewPage() {
             </div>
 
             {/* Customization Options */}
-            <div className="bg-[var(--surface)] border border-[var(--border)] rounded-3xl p-6 shadow-sm opacity-100 transition-opacity">
-              <h3 className="text-lg font-bold text-[var(--text)] mb-5 flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-[var(--lime)]" /> 2. Customize your look
+            <div className={`bg-[#0E1016] border border-white/10 rounded-3xl p-6 shadow-2xl transition-all ${!previewUrl ? 'opacity-40 pointer-events-none' : previewUrl && !emailSubmitted ? 'ring-1 ring-lime-400/20' : ''}`}>
+              <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-lime-400" /> 2. Customize your look
               </h3>
               
               <div className="space-y-5">
                 <div>
-                  <label className="block text-sm font-bold text-[var(--text-muted)] mb-2 uppercase tracking-wide">Style & Background</label>
-                  <select
-                    value={style}
-                    onChange={(e) => setStyle(e.target.value)}
-                    className="w-full bg-[var(--bg)] border border-[var(--border-secondary)] text-[var(--text)] text-sm rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[var(--lime-border)] transition-shadow font-medium"
-                  >
-                    {STYLES.map(s => <option key={s} value={s}>{s}</option>)}
-                  </select>
+                  <label className="block text-xs font-bold text-white/40 mb-2 uppercase tracking-wide">Style & Background</label>
+                  <div className="relative">
+                    <select
+                      value={style}
+                      onChange={(e) => setStyle(e.target.value)}
+                      className="w-full appearance-none bg-[#161820] border border-white/10 text-white text-sm rounded-xl pl-4 pr-10 py-3.5 outline-none focus:ring-1 focus:ring-lime-400/50 focus:border-lime-400/50 transition-all font-medium"
+                    >
+                      {STYLES.map(s => <option key={s} value={s}>{s}</option>)}
+                    </select>
+                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
+                  </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-[var(--text-muted)] mb-2 uppercase tracking-wide">Outfit</label>
-                  <select
-                    value={outfit}
-                    onChange={(e) => setOutfit(e.target.value)}
-                    className="w-full bg-[var(--bg)] border border-[var(--border-secondary)] text-[var(--text)] text-sm rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[var(--lime-border)] transition-shadow font-medium"
-                  >
-                    {OUTFITS.map(o => <option key={o} value={o}>{o}</option>)}
-                  </select>
+                  <label className="block text-xs font-bold text-white/40 mb-2 uppercase tracking-wide">Outfit</label>
+                  <div className="relative">
+                    <select
+                      value={outfit}
+                      onChange={(e) => setOutfit(e.target.value)}
+                      className="w-full appearance-none bg-[#161820] border border-white/10 text-white text-sm rounded-xl pl-4 pr-10 py-3.5 outline-none focus:ring-1 focus:ring-lime-400/50 focus:border-lime-400/50 transition-all font-medium"
+                    >
+                      {OUTFITS.map(o => <option key={o} value={o}>{o}</option>)}
+                    </select>
+                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
+                  </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-[var(--text-muted)] mb-2 uppercase tracking-wide">Hairstyle</label>
-                  <select
-                    value={hairstyle}
-                    onChange={(e) => setHairstyle(e.target.value)}
-                    className="w-full bg-[var(--bg)] border border-[var(--border-secondary)] text-[var(--text)] text-sm rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[var(--lime-border)] transition-shadow font-medium"
-                  >
-                    {HAIRSTYLES.map(h => <option key={h} value={h}>{h}</option>)}
-                  </select>
+                  <label className="block text-xs font-bold text-white/40 mb-2 uppercase tracking-wide">Hairstyle</label>
+                  <div className="relative">
+                    <select
+                      value={hairstyle}
+                      onChange={(e) => setHairstyle(e.target.value)}
+                      className="w-full appearance-none bg-[#161820] border border-white/10 text-white text-sm rounded-xl pl-4 pr-10 py-3.5 outline-none focus:ring-1 focus:ring-lime-400/50 focus:border-lime-400/50 transition-all font-medium"
+                    >
+                      {HAIRSTYLES.map(h => <option key={h} value={h}>{h}</option>)}
+                    </select>
+                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Email Capture */}
             {!emailSubmitted ? (
-              <div className="bg-[var(--surface)] border border-[var(--border)] rounded-3xl p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-[var(--text)] mb-4 flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-[var(--lime)]" /> 3. Get your results
+              <div className={`bg-[#0E1016] border border-white/10 rounded-3xl p-6 shadow-2xl transition-all ${(!previewUrl) ? 'opacity-40 pointer-events-none' : ''}`}>
+                <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-lime-400" /> 3. Get your results
                 </h3>
                 <form onSubmit={handleEmailSubmit} className="space-y-3">
                   <input
@@ -225,76 +239,79 @@ export default function FreePreviewPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
-                    className="w-full bg-[var(--bg)] border border-[var(--border-secondary)] text-[var(--text)] text-sm rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[var(--lime-border)] transition-shadow font-medium"
+                    className="w-full bg-[#161820] border border-white/10 text-white text-sm rounded-xl px-4 py-4 outline-none focus:ring-1 focus:ring-lime-400/50 transition-shadow font-medium"
                     required
                   />
                   <button
                     type="submit"
-                    className="w-full bg-[var(--surface2)] text-[var(--text)] border border-[var(--border)] px-6 py-3 rounded-xl font-bold hover:bg-[var(--surface3)] transition font-medium"
+                    className="w-full bg-white/10 text-white border border-white/10 px-6 py-4 rounded-xl font-bold hover:bg-white/15 transition font-medium"
                   >
                     Continue
                   </button>
-                  <p className="text-xs text-[var(--text-muted)] text-center">
+                  <p className="text-xs text-white/40 text-center">
                     We'll email you your preview and special offers
                   </p>
                 </form>
               </div>
             ) : (
-              <div className="bg-[var(--lime-dim)] border border-[var(--lime-border)] rounded-3xl p-6 shadow-sm">
-                <p className="text-[var(--lime-text)] font-bold text-center">
-                  ✓ Email confirmed! Ready to generate.
-                </p>
+              <div className="bg-lime-400/10 border border-lime-400/30 rounded-3xl p-6 shadow-sm flex items-center justify-center gap-2">
+                <CheckCircle2 className="w-5 h-5 text-lime-400" />
+                <span className="text-lime-400 font-bold">Ready to generate</span>
               </div>
             )}
 
             <button
               onClick={generatePreview}
               disabled={loading || !imageFile || !emailSubmitted}
-              className="w-full btn-primary py-4 text-lg flex items-center justify-center gap-2 shadow-[var(--shadow-lime)] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-lime-400 text-black rounded-2xl py-4 text-lg font-bold flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(163,230,53,0.15)] hover:bg-lime-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95"
             >
               {loading ? (
-                <><RefreshCw className="w-5 h-5 animate-spin" /> Generating Preview...</>
+                <><RefreshCw className="w-5 h-5 animate-spin" /> Rendering...</>
               ) : (
                 <><Sparkles className="w-5 h-5" /> Generate Free Preview</>
               )}
             </button>
             {error && (
-              <p className="text-red-500 text-sm font-semibold text-center mt-2">{error}</p>
+              <p className="text-red-400 bg-red-400/10 border border-red-400/20 p-3 rounded-xl text-sm font-semibold text-center mt-2">{error}</p>
             )}
           </div>
 
-          {/* Right Column - Result */}
-          <div className="bg-[var(--surface)] border border-[var(--border)] rounded-3xl p-6 lg:p-10 shadow-sm flex flex-col items-center justify-center min-h-[500px] h-full relative overflow-hidden">
+          {/* Right Column - 7 cols (Result) */}
+          <div className="lg:col-span-7 bg-[#0E1016] border border-white/10 rounded-3xl p-6 lg:p-10 shadow-2xl flex flex-col items-center justify-center min-h-[500px] h-full relative overflow-hidden">
             {loading ? (
               <div className="flex flex-col items-center gap-4 animate-in fade-in duration-300">
-                <div className="relative w-20 h-20">
-                  <div className="absolute inset-0 border-4 border-slate-200 rounded-full" />
-                  <div className="absolute inset-0 border-4 border-[var(--lime)] rounded-full border-t-transparent animate-spin" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Sparkles className="w-8 h-8 text-[var(--lime-text)]" />
+                {/* Scanner effect over uploaded image */}
+                {previewUrl && (
+                  <div className="relative w-48 h-48 rounded-2xl overflow-hidden shadow-2xl border-2 border-white/10 mb-4 opacity-50 blur-sm">
+                    <Image src={previewUrl} alt="Scanning" fill className="object-cover" />
+                    <motion.div
+                      animate={{ top: ["0%", "100%", "0%"] }}
+                      transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
+                      className="absolute left-0 right-0 h-1 bg-lime-400 shadow-[0_0_30px_rgba(163,230,53,1)] z-20"
+                    />
                   </div>
-                </div>
-                <p className="text-[var(--text)] font-bold text-lg">AI is working its magic...</p>
-                <p className="text-[var(--text-muted)] text-sm">Usually takes 5-10 seconds.</p>
+                )}
+                <p className="text-white font-bold text-xl mt-4">AI is rendering...</p>
+                <p className="text-white/40 text-sm">Usually takes 5-10 seconds.</p>
               </div>
             ) : resultUrl ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="w-full h-full flex flex-col items-center"
+                className="w-full h-full flex flex-col items-center justify-center"
               >
-                <div className="relative w-full max-w-md aspect-square rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-slate-800">
+                <div className="relative w-full max-w-md aspect-square rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border-4 border-white/10">
                   <Image src={resultUrl} alt="Generated Preview" fill className="object-cover" unoptimized />
                 </div>
                 
-                <div className="mt-8 text-center bg-[var(--surface2)] border border-[var(--border)] rounded-2xl p-6 w-full">
-                  <h4 className="text-xl font-black text-[var(--text)] mb-2 tracking-tight">Like what you see?</h4>
-                  <p className="text-sm text-[var(--text-muted)] mb-5">
+                <div className="mt-8 text-center bg-[#161820] border border-white/10 rounded-2xl p-6 w-full max-w-md">
+                  <h4 className="text-xl font-black text-white mb-2 tracking-tight">Like what you see?</h4>
+                  <p className="text-sm text-white/40 mb-6 leading-relaxed">
                     This is just a quick, low-res preview. Upgrade to get a custom AI model trained exactly on your face for ultra-realistic 4K results without watermarks.
                   </p>
                   <Link
                     href="/upload"
-                    className="inline-flex w-full items-center justify-center gap-2 bg-[var(--text)] text-[var(--bg)] px-6 py-3.5 rounded-xl font-bold hover:opacity-90 transition shadow-lg active:scale-95"
+                    className="inline-flex w-full items-center justify-center gap-2 bg-white text-black px-6 py-3.5 rounded-xl font-bold hover:bg-slate-200 transition shadow-lg active:scale-95"
                   >
                     Get 40+ HD Headshots <ArrowRight className="w-4 h-4" />
                   </Link>
@@ -302,9 +319,9 @@ export default function FreePreviewPage() {
               </motion.div>
             ) : (
               <div className="text-center opacity-50">
-                <ImagePlus className="w-16 h-16 text-[var(--text-muted)] mx-auto mb-4" />
-                <h4 className="text-lg font-bold text-[var(--text)]">Your preview will appear here</h4>
-                <p className="text-sm text-[var(--text-muted)] mt-2 max-w-xs mx-auto">Upload a selfie and click generate to see a free sample.</p>
+                <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-5 border border-white/10"><Sparkles className="w-8 h-8 text-white/50" /></div>
+                <h4 className="text-xl font-bold text-white mb-2">Your preview will appear here</h4>
+                <p className="text-sm text-white/50 max-w-xs mx-auto">Upload a selfie and hit generate to see a free low-resolution sample.</p>
               </div>
             )}
           </div>
@@ -312,17 +329,5 @@ export default function FreePreviewPage() {
         </div>
       </div>
     </div>
-  );
-}
-
-function ImagePlus({ className }: { className?: string }) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7" />
-      <line x1="16" x2="22" y1="5" y2="5" />
-      <line x1="19" x2="19" y1="2" y2="8" />
-      <circle cx="9" cy="9" r="2" />
-      <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-    </svg>
   );
 }

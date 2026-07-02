@@ -38,6 +38,19 @@ const GALLERY_IMAGES = [
   { src: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=90&fit=crop", label: "Editorial", style: "Editorial" },
 ];
 
+// NEW: Truzot generated assets mapped for the gallery section.
+// Make sure to copy your files from the desktop into public/lora-images/
+const LORA_IMAGES = [
+  { src: "/lora-images/1.jpg", label: "Corporate", style: "Executive Suite" },
+  { src: "/lora-images/2.jpg", label: "LinkedIn", style: "LinkedIn Pro" },
+  { src: "/lora-images/3.jpg", label: "Founder", style: "Startup Founder" },
+  { src: "/lora-images/4.jpg", label: "Creative", style: "Creative Director" },
+  { src: "/lora-images/5.jpg", label: "Tech", style: "Tech Executive" },
+  { src: "/lora-images/6.jpg", label: "Premium", style: "C-Suite Portrait" },
+  { src: "/lora-images/7.jpg", label: "Casual Pro", style: "Relaxed Pro" },
+  { src: "/lora-images/8.jpg", label: "Editorial", style: "Editorial" },
+];
+
 // Style preview categories for the Free Preview modal
 const STYLE_PREVIEWS = [
   {
@@ -46,9 +59,9 @@ const STYLE_PREVIEWS = [
     desc: "Navy suit · Neutral background · LinkedIn-ready",
     color: "#1E40AF",
     images: [
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=85&fit=crop",
-      "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&q=85&fit=crop",
-      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&q=85&fit=crop",
+      "/shots/man1 - after.jpeg",
+      "/shots/girl1 - after.jpeg",
+      "/shots/man5 - after.jpeg",
     ],
   },
   {
@@ -57,9 +70,9 @@ const STYLE_PREVIEWS = [
     desc: "Modern · Editorial · Artistic lighting",
     color: "#7C3AED",
     images: [
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&q=85&fit=crop",
-      "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=300&q=85&fit=crop",
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&q=85&fit=crop",
+      "/shots/girl2 - after.jpeg",
+      "/shots/man4 - after.jpeg",
+      "/shots/girl3 - after.jpeg",
     ],
   },
   {
@@ -68,9 +81,9 @@ const STYLE_PREVIEWS = [
     desc: "Casual blazer · Office · Confident & approachable",
     color: "#059669",
     images: [
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&q=85&fit=crop",
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&q=85&fit=crop",
-      "https://images.unsplash.com/photo-1463453091185-61582044d556?w=300&q=85&fit=crop",
+      "/shots/man2- after.jpeg",
+      "/shots/man6 - after.jpeg",
+      "/shots/girl4 - after.jpeg",
     ],
   },
   {
@@ -152,56 +165,56 @@ const TESTIMONIALS = [
   {
     name: "Sarah Chen",
     role: "VP of Product @ TechFlow",
-    image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=200",
+    image: "/shots/girl1 - before.jpg",
     text: "Indistinguishable from the $800 studio session I did in NYC last year. My entire executive team switched to Truzot.",
     rating: 5,
     metric: "36× more recruiter messages",
-    headshot: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&q=85&fit=crop",
+    headshot: "/shots/girl1 - after.jpeg",
   },
   {
     name: "Marcus Johnson",
     role: "Commercial Actor, LA",
-    image: "https://images.unsplash.com/photo-1614283233556-f35b0c801ef1?auto=format&fit=crop&q=80&w=200",
+    image: "/shots/man1 - before.jpg",
     text: "Fresh commercial and theatrical looks without paying for multiple wardrobe changes. Complete game-changer for my comp card.",
     rating: 5,
     metric: "3 auditions in first week",
-    headshot: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&q=85&fit=crop",
+    headshot: "/shots/man1 - after.jpeg",
   },
   {
     name: "Emily Rodriguez",
     role: "Principal Broker, Luxury RE",
-    image: "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=200",
+    image: "/shots/girl2 - before.jpg",
     text: "In luxury real estate, trust is everything. These photos elevated my listings and marketing materials overnight.",
     rating: 5,
     metric: "$2.4M in new listings",
-    headshot: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&q=85&fit=crop",
+    headshot: "/shots/girl2 - after.jpeg",
   },
   {
     name: "David Park",
     role: "Senior Software Engineer",
-    image: "https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?auto=format&fit=crop&q=80&w=200",
+    image: "/shots/man2- before.jpg",
     text: "Updated LinkedIn in 10 minutes. Got 3× more profile views and two recruiter messages the first week. Worth every cent.",
     rating: 5,
     metric: "$45K salary increase",
-    headshot: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=120&q=85&fit=crop",
+    headshot: "/shots/man2- after.jpeg",
   },
   {
     name: "Jessica Turner",
     role: "Creative Director @ Ogilvy",
-    image: "https://images.unsplash.com/photo-1557862921-37829c790f19?auto=format&fit=crop&q=80&w=200",
+    image: "/shots/girl3 - before.jpg",
     text: "Skeptical of AI photography until I saw the skin textures and lighting logic. Flawless. Captured my actual features exactly.",
     rating: 5,
     metric: "Featured in Forbes",
-    headshot: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=120&q=85&fit=crop",
+    headshot: "/shots/girl3 - after.jpeg",
   },
   {
     name: "Michael Brent",
     role: "Y Combinator Founder",
-    image: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&q=80&w=200",
+    image: "/shots/man3 - before.jpg",
     text: "Used for Series A pitch deck and press kit. TechCrunch complimented the photography. They had no idea it was AI.",
     rating: 5,
     metric: "Closed $4M Series A",
-    headshot: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&q=85&fit=crop",
+    headshot: "/shots/man3 - after.jpeg",
   },
 ];
 
@@ -860,7 +873,7 @@ export default function LandingPageContent() {
               initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-60px" }} variants={stagger}
               className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3"
             >
-              {GALLERY_IMAGES.slice(0, 8).map((img, i) => (
+              {LORA_IMAGES.map((img, i) => (
                 <motion.div
                   key={i}
                   variants={fadeUp}
