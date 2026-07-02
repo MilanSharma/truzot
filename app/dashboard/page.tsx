@@ -96,6 +96,7 @@ function PendingOrderPreviews({ storagePath }: { storagePath?: string }) {
         });
         if (!res.ok) throw new Error("failed");
         const { zipUrl } = await res.json() as { zipUrl?: string };
+        if (!zipUrl) throw new Error("No zipUrl returned");
 
         const zipRes = await fetch(zipUrl);
         const zipBlob = await zipRes.blob();
