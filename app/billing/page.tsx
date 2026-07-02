@@ -23,7 +23,7 @@ export default function BillingPage() {
  const res = await fetch("/api/billing/portal", {
  headers: { Authorization: `Bearer ${session?.access_token}` },
  });
- const json = await res.json();
+ const json = await res.json() as { url?: string };
  if (json.url) setPortalUrl(json.url);
  } catch {}
  setLoading(false);
