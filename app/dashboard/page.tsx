@@ -309,7 +309,7 @@ function DashboardContent() {
             ? { Authorization: `Bearer ${session.access_token}` }
             : {},
         });
-        const statusData = await res.json();
+        const statusData = await res.json() as { status?: string; plan?: string };
         if (statusData.status) {
           return {
             id,
