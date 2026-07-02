@@ -554,7 +554,7 @@ export default function ProjectLibrary({
                 console.log("Successfully deleted:", successCount, "Errors:", errorCount, "Total:", abandonedOrders.length);
                 
                 if (successCount > 0) {
-                  window.location.reload();
+                  router.refresh();
                 } else if (errorCount > 0) {
                   alert(`Failed to delete orders. ${errorCount} errors occurred. Check console for details.`);
                 }

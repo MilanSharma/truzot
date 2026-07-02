@@ -356,105 +356,6 @@ function LiveActivityToast() {
 }
 
 /* ─────────────────────────────────────────────────────────────────── */
-/*  FREE PREVIEW MODAL                                                */
-/* ─────────────────────────────────────────────────────────────────── */
-function FreePreviewModal({ onClose }: { onClose: () => void }) {
-  const [active, setActive] = useState(STYLE_PREVIEWS[0]);
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-md p-4"
-      onClick={onClose}
-    >
-      <motion.div
-        initial={{ scale: 0.92, opacity: 0, y: 20 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.96, opacity: 0, y: 10 }}
-        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-        className="relative w-full max-w-5xl bg-[#0E1016] border border-white/10 rounded-3xl shadow-2xl overflow-hidden"
-        onClick={e => e.stopPropagation()}
-      >
-        {/* Header */}
-        <div className="flex items-center justify-between px-8 py-6 border-b border-white/8">
-          <div>
-            <p className="text-xs font-bold text-lime-400 uppercase tracking-widest mb-1">Free Style Preview</p>
-            <h2 className="text-2xl font-bold text-white">See your headshot styles — before you pay</h2>
-          </div>
-          <button onClick={onClose} className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/60 hover:text-white transition">
-            <X size={20} />
-          </button>
-        </div>
-
-        <div className="flex flex-col md:flex-row h-[520px]">
-          {/* Style tabs */}
-          <div className="flex md:flex-col gap-2 p-4 md:p-6 md:w-64 overflow-x-auto md:overflow-x-visible md:border-r border-white/8 shrink-0">
-            {STYLE_PREVIEWS.map(s => (
-              <button
-                key={s.id}
-                onClick={() => setActive(s)}
-                className={`flex-shrink-0 text-left px-4 py-3 rounded-xl transition-all ${
-                  active.id === s.id
-                    ? "bg-white/10 border border-white/15 text-white"
-                    : "text-white/50 hover:text-white hover:bg-white/5"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: s.color }} />
-                  <span className="font-semibold text-sm whitespace-nowrap">{s.name}</span>
-                </div>
-                <p className="text-xs text-white/40 mt-1 ml-6 hidden md:block leading-relaxed">{s.desc}</p>
-              </button>
-            ))}
-          </div>
-
-          {/* Preview area */}
-          <div className="flex-1 p-6 flex flex-col">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={active.id}
-                initial={{ opacity: 0, x: 12 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -12 }}
-                transition={{ duration: 0.25 }}
-                className="flex-1 flex flex-col"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-4 h-4 rounded-full" style={{ backgroundColor: active.color }} />
-                  <span className="font-bold text-white text-lg">{active.name}</span>
-                  <span className="text-white/40 text-sm">· {active.desc}</span>
-                </div>
-                <div className="grid grid-cols-3 gap-3 flex-1">
-                  {active.images.map((img, i) => (
-                    <div key={i} className="relative rounded-2xl overflow-hidden bg-white/5 group">
-                      <Image src={img} alt={`${active.name} style sample ${i + 1}`} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
-                        <span className="text-xs font-semibold text-white">{active.name} · Style {i + 1}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-4 flex items-center gap-3">
-                  <p className="text-white/40 text-sm flex-1">These are sample outputs. Your AI model will be trained specifically on <em>your</em> face.</p>
-                  <Link
-                    href={`/upload?style=${active.id}`}
-                    onClick={onClose}
-                    className="shrink-0 bg-lime-400 text-black px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-lime-300 transition flex items-center gap-2"
-                  >
-                    Get {active.name} looks <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────────── */
 /*  WHO IT'S FOR — replaces fake company-logo marquee                  */
 /* ─────────────────────────────────────────────────────────────────── */
 function AudienceStrip() {
@@ -509,7 +410,6 @@ function HeroPhotoGrid() {
 /* ─────────────────────────────────────────────────────────────────── */
 export default function LandingPageContent() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showPreview, setShowPreview] = useState(false);
   const [showExitPopup, setShowExitPopup] = useState(false);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -670,11 +570,6 @@ export default function LandingPageContent() {
         {/* Live activity toast */}
         <LiveActivityToast />
 
-        {/* Free Preview Modal */}
-        <AnimatePresence>
-          {showPreview && <FreePreviewModal onClose={() => setShowPreview(false)} />}
-        </AnimatePresence>
-
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  NAVIGATION                                                */}
         {/* ═══════════════════════════════════════════════════════════ */}
@@ -700,9 +595,9 @@ export default function LandingPageContent() {
               )}
 
               {/* Free Preview CTA */}
-              <button onClick={() => setShowPreview(true)} className="flex items-center gap-2 border border-[var(--border)] px-4 py-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--lime-text)] hover:bg-[var(--surface2)] transition">
+              <Link href="/free-preview" className="flex items-center gap-2 border border-[var(--border)] px-4 py-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--lime-text)] hover:bg-[var(--surface2)] transition">
                 <Eye className="w-4 h-4" /> Free Preview
-              </button>
+              </Link>
 
               {/* Primary CTA */}
               <Link
@@ -729,9 +624,9 @@ export default function LandingPageContent() {
               ) : (
                 <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="text-white/60">Sign in</Link>
               )}
-              <button onClick={() => { setMobileMenuOpen(false); setShowPreview(true); }} className="border border-[var(--border)] text-[var(--text-muted)] px-4 py-3 rounded-xl text-left flex items-center gap-2">
+              <Link href="/free-preview" onClick={() => setMobileMenuOpen(false)} className="border border-[var(--border)] text-[var(--text-muted)] px-4 py-3 rounded-xl text-left flex items-center gap-2">
                 <Eye className="w-4 h-4" /> Free Preview
-              </button>
+              </Link>
               <Link href="/upload" onClick={() => setMobileMenuOpen(false)} className="bg-lime-400 text-black text-center px-5 py-3 rounded-xl font-bold">
                 Get headshots
               </Link>
@@ -811,12 +706,12 @@ export default function LandingPageContent() {
                   Create my headshots
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <button 
-                  onClick={() => setShowPreview(true)} 
+                <Link
+                  href="/free-preview"
                   className="w-full sm:w-auto bg-[var(--surface2)] backdrop-blur-sm text-[var(--text)] border border-[var(--border)] px-8 py-4 rounded-xl font-bold text-lg hover:bg-[var(--surface3)] transition flex items-center justify-center gap-2"
                 >
                   <Eye className="w-5 h-5" /> Free Preview
-                </button>
+                </Link>
               </motion.div>
 
               {/* Micro-proof */}
@@ -931,9 +826,9 @@ export default function LandingPageContent() {
                     </li>
                   ))}
                 </ul>
-                <button onClick={() => setShowPreview(true)} className="inline-flex items-center gap-2 text-[var(--lime-text)] font-bold hover:gap-3 transition-all text-sm">
+                <Link href="/free-preview" className="inline-flex items-center gap-2 text-[var(--lime-text)] font-bold hover:gap-3 transition-all text-sm">
                   Free preview <ArrowRight className="w-4 h-4" />
-                </button>
+                </Link>
               </motion.div>
               <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="rounded-3xl overflow-hidden">
                 <ComparisonSlider before="/shots/man5 - before.jpg" after="/shots/man5 - after.jpeg" />
@@ -955,9 +850,9 @@ export default function LandingPageContent() {
                 </motion.h2>
               </div>
               <motion.div variants={fadeUp}>
-                <button onClick={() => setShowPreview(true)} className="inline-flex items-center gap-2 border border-[var(--lime-border)] bg-[var(--lime-dim)] text-[var(--lime-text)] px-6 py-3 rounded-xl font-bold hover:bg-[var(--surface2)] transition">
+                <Link href="/free-preview" className="inline-flex items-center gap-2 border border-[var(--lime-border)] bg-[var(--lime-dim)] text-[var(--lime-text)] px-6 py-3 rounded-xl font-bold hover:bg-[var(--surface2)] transition">
                   <Eye className="w-4 h-4" /> Free preview
-                </button>
+                </Link>
               </motion.div>
             </motion.div>
 
@@ -970,27 +865,28 @@ export default function LandingPageContent() {
                   key={i}
                   variants={fadeUp}
                   className="relative group rounded-2xl overflow-hidden aspect-[3/4] cursor-pointer"
-                  onClick={() => setShowPreview(true)}
                 >
-                  <Image src={img.src} alt={img.label} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="300px" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <div className="absolute bottom-3 left-3 right-3">
-                    <span className="text-xs font-bold text-white/70 uppercase tracking-widest">{img.label}</span>
-                    <p className="text-sm font-bold text-white">{img.style}</p>
-                  </div>
-                  <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="bg-lime-400/90 rounded-full p-1.5">
-                      <Eye className="w-3.5 h-3.5 text-black" />
+                  <Link href="/free-preview" className="block w-full h-full">
+                    <Image src={img.src} alt={img.label} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="300px" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                    <div className="absolute bottom-3 left-3 right-3">
+                      <span className="text-xs font-bold text-white/70 uppercase tracking-widest">{img.label}</span>
+                      <p className="text-sm font-bold text-white">{img.style}</p>
                     </div>
-                  </div>
+                    <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="bg-lime-400/90 rounded-full p-1.5">
+                        <Eye className="w-3.5 h-3.5 text-black" />
+                      </div>
+                    </div>
+                  </Link>
                 </motion.div>
               ))}
             </motion.div>
 
             <div className="text-center mt-8">
-              <button onClick={() => setShowPreview(true)} className="text-[var(--text-muted)] hover:text-[var(--text)] text-sm font-semibold transition flex items-center gap-2 mx-auto">
+              <Link href="/free-preview" className="text-[var(--text-muted)] hover:text-[var(--text)] text-sm font-semibold transition flex items-center gap-2 mx-auto">
                 View all 6 style categories <ChevronRight className="w-4 h-4" />
-              </button>
+              </Link>
             </div>
           </div>
         </section>
@@ -1560,12 +1456,12 @@ export default function LandingPageContent() {
                     Create my headshots
                     <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                   </Link>
-                  <button 
-                    onClick={() => setShowPreview(true)} 
+                  <Link
+                    href="/free-preview"
                     className="inline-flex items-center justify-center gap-2 bg-white/5 text-white border border-white/10 px-8 py-5 rounded-2xl font-bold text-xl hover:bg-white/10 transition"
                   >
                     <Eye className="w-5 h-5" /> Preview styles first
-                  </button>
+                  </Link>
                 </div>
 
                 <p className="mt-6 text-sm text-white/30 font-medium">From $29 · 30-day money-back guarantee · Results in 30 minutes</p>
@@ -1623,11 +1519,7 @@ export default function LandingPageContent() {
               <h4 className="font-bold text-white text-sm mb-4 uppercase tracking-widest">Product</h4>
               <ul className="space-y-3 text-sm text-white/30">
                 <li><Link href="/upload" className="hover:text-white transition">Create headshots</Link></li>
-                <li>
-                  <button onClick={() => setShowPreview(true)} className="hover:text-[var(--text)] transition text-left">
-                    Free Preview
-                  </button>
-                </li>
+                <li><Link href="/free-preview" className="hover:text-[var(--text)] transition">Free Preview</Link></li>
                 <li><a href="#pricing" className="hover:text-white transition">Pricing</a></li>
                 <li><Link href="/team" className="hover:text-white transition">For teams</Link></li>
               </ul>
