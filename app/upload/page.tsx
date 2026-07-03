@@ -1047,7 +1047,7 @@ function UploadContent() {
                         >
                           <img
                             src={url}
-                            alt="Upload preview"
+                            alt={`Uploaded photo preview ${i + 1} for AI headshot generation`}
                             className="w-full h-full object-cover"
                           />
                           <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />

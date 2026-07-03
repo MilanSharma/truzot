@@ -27,12 +27,23 @@ if (typeof window === "undefined") {
   }
 }
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
-const serif = Instrument_Serif({ subsets: ["latin"], weight: "400", variable: "--font-serif", style: ["normal", "italic"], display: "swap" });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+const serif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-serif",
+  style: ["normal", "italic"],
+  display: "swap",
+});
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  maximumScale: 5,
   themeColor: "#A3E635",
 };
 
@@ -43,7 +54,7 @@ export const metadata: Metadata = {
     template: "%s — Truzot AI Headshots",
   },
   description:
-    "Generate AI-powered professional headshots from your photos. No studio, no photographer. Get LinkedIn-ready corporate headshots in under an hour.",
+    "Generate AI-powered professional headshots from your photos. Get LinkedIn-ready corporate headshots in under an hour.",
   keywords: [
     "AI headshots",
     "professional headshots",
@@ -92,7 +103,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html data-scroll-behavior="smooth"
+    <html
+      data-scroll-behavior="smooth"
       lang="en"
       className={`${inter.variable} ${serif.variable}`}
       suppressHydrationWarning
@@ -131,7 +143,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <>
             <Script
               id="rewardful-init"
-              strategy="afterInteractive"
+              strategy="lazyOnload"
               dangerouslySetInnerHTML={{
                 __html: `(function(w,r){w._rwq=r;w[r]=w[r]||function(){(w[r].q=w[r].q||[]).push(arguments)}})(window,'rewardful');`,
               }}
@@ -139,7 +151,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <Script
               src="https://r.wdfl.co/rw.js"
               data-rewardful={process.env.NEXT_PUBLIC_REWARDFUL_API_KEY}
-              strategy="afterInteractive"
+              strategy="lazyOnload"
             />
           </>
         )}

@@ -95,7 +95,7 @@ function PendingOrderPreviews({ storagePath }: { storagePath?: string }) {
           }),
         });
         if (!res.ok) throw new Error("failed");
-        const { zipUrl } = await res.json() as { zipUrl?: string };
+        const { zipUrl } = (await res.json()) as { zipUrl?: string };
         if (!zipUrl) throw new Error("No zipUrl returned");
 
         const zipRes = await fetch(zipUrl);
@@ -151,7 +151,7 @@ function PendingOrderPreviews({ storagePath }: { storagePath?: string }) {
           key={i}
           src={u}
           className="w-16 h-16 object-cover rounded-xl shadow-sm border border-slate-200 dark:border-slate-700"
-          alt="Uploaded preview"
+          alt={`Uploaded photo preview ${i + 1}`}
           width={64}
           height={64}
         />
@@ -309,7 +309,10 @@ function DashboardContent() {
             ? { Authorization: `Bearer ${session.access_token}` }
             : {},
         });
-        const statusData = await res.json() as { status?: string; plan?: string };
+        const statusData = (await res.json()) as {
+          status?: string;
+          plan?: string;
+        };
         if (statusData.status) {
           return {
             id,
@@ -366,7 +369,12 @@ function DashboardContent() {
         const res = await fetch(`/api/order-status?orderId=${id}`, {
           headers: { Authorization: `Bearer ${session?.access_token || ""}` },
         });
-        const data = await res.json() as { status?: string; headshots?: any[]; count?: number; target?: number };
+        const data = (await res.json()) as {
+          status?: string;
+          headshots?: any[];
+          count?: number;
+          target?: number;
+        };
         if (data.status === "completed") {
           if ((data.headshots?.length ?? 0) > 0) {
             setHeadshots(data.headshots as Headshot[]);
@@ -604,7 +612,7 @@ function DashboardContent() {
   ) => {
     // Use client-side download to avoid timeout on Vercel Hobby plan
     if (!orderId) throw new Error("No order ID");
-    
+
     // Implement automatic batching for large orders (Executive plan = 200 images)
     const BATCH_SIZE = 50;
     if (urls.length > BATCH_SIZE) {
@@ -612,36 +620,47 @@ function DashboardContent() {
       for (let i = 0; i < urls.length; i += BATCH_SIZE) {
         batches.push(urls.slice(i, i + BATCH_SIZE));
       }
-      
+
       if (batches.length > 1) {
         toast(`Downloading ${batches.length} ZIP files...`, "info");
       }
-      
+
       let totalFailed = 0;
       for (let i = 0; i < batches.length; i++) {
         const batchUrls = batches[i];
         const batchFilename = `${filename.replace(".zip", "")}_part${i + 1}.zip`;
-        
+
         if (onProgress) onProgress(i + 1, batches.length);
-        
+
         // Pass empty function to prevent inner image progress from overriding outer batch progress
-        const result = await downloadAsZip(batchUrls, orderId, batchFilename, () => {});
+        const result = await downloadAsZip(
+          batchUrls,
+          orderId,
+          batchFilename,
+          () => {},
+        );
         totalFailed += result.failedCount;
-        
+
         // Small delay between downloads to prevent browser blocking
         if (i < batches.length - 1) {
-          await new Promise(r => setTimeout(r, 1000));
+          await new Promise((r) => setTimeout(r, 1000));
         }
       }
-      
+
       toast(`Downloaded ${batches.length} ZIP files`, "success");
       if (totalFailed > 0) {
-        toast(`${totalFailed} images failed to download. Check console for details.`, "info");
+        toast(
+          `${totalFailed} images failed to download. Check console for details.`,
+          "info",
+        );
       }
     } else {
       const result = await downloadAsZip(urls, orderId, filename, onProgress);
       if (result.failedCount > 0) {
-        toast(`${result.failedCount} images failed to download. Check console for details.`, "info");
+        toast(
+          `${result.failedCount} images failed to download. Check console for details.`,
+          "info",
+        );
       }
     }
   };
@@ -665,7 +684,7 @@ function DashboardContent() {
         toast("Failed to create share link", "error");
         return;
       }
-      const { token: dlToken } = await res.json() as { token?: string };
+      const { token: dlToken } = (await res.json()) as { token?: string };
       const shareUrl = `${window.location.origin}/dashboard?order=${orderId}&download_token=${dlToken}`;
       await navigator.clipboard.writeText(shareUrl);
       toast("Share link copied to clipboard!", "success");
@@ -805,7 +824,7 @@ function DashboardContent() {
         try {
           const res = await fetch(`/api/orders/cancel?id=${id}`, {
             method: "POST",
-            headers: { 
+            headers: {
               Authorization: `Bearer ${token}`,
               "X-Requested-With": "XMLHttpRequest",
             },
@@ -821,7 +840,9 @@ function DashboardContent() {
             }
             toast("Shoot cancelled successfully", "success");
           } else {
-            const data = await res.json().catch(() => ({})) as { error?: string };
+            const data = (await res.json().catch(() => ({}))) as {
+              error?: string;
+            };
             toast(data.error || "Failed to cancel shoot", "error");
           }
         } catch (err) {
@@ -909,7 +930,9 @@ function DashboardContent() {
           if (res.ok) {
             toast("Shoot deleted successfully", "success");
           } else {
-            const data = await res.json().catch(() => ({})) as { error?: string };
+            const data = (await res.json().catch(() => ({}))) as {
+              error?: string;
+            };
             setOrders(previousOrders); // Rollback on fail
             toast(data.error || "Failed to delete shoot", "error");
           }
@@ -992,9 +1015,7 @@ function DashboardContent() {
               <h2 className="text-2xl font-bold text-slate-900 mb-3">
                 Order Not Found
               </h2>
-              <p className="text-slate-500 max-w-md mb-8">
-                {orderError}
-              </p>
+              <p className="text-slate-500 max-w-md mb-8">{orderError}</p>
               <Link
                 href="/dashboard"
                 className="inline-flex items-center justify-center bg-lime-500 text-white px-8 py-3 rounded-xl font-bold hover:bg-lime-600 transition"

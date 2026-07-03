@@ -67,7 +67,11 @@ function OrderCardActions({
   onRename?: (id: string) => void;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [menuPosition, setMenuPosition] = useState<{ below: boolean; left: number; top: number } | null>(null);
+  const [menuPosition, setMenuPosition] = useState<{
+    below: boolean;
+    left: number;
+    top: number;
+  } | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -82,8 +86,13 @@ function OrderCardActions({
     const viewportRight = window.innerWidth - 12;
     const buttonRight = buttonRect.right;
     const menuLeft = buttonRight - menuWidth;
-    const finalLeft = Math.max(12, Math.min(menuLeft, viewportRight - menuWidth));
-    const finalTop = below ? buttonRect.bottom + 8 : buttonRect.top - menuHeight - 8;
+    const finalLeft = Math.max(
+      12,
+      Math.min(menuLeft, viewportRight - menuWidth),
+    );
+    const finalTop = below
+      ? buttonRect.bottom + 8
+      : buttonRect.top - menuHeight - 8;
     setMenuPosition({ below, left: finalLeft, top: finalTop });
   }, []);
 
@@ -141,7 +150,11 @@ function OrderCardActions({
           >
             {onRename && (
               <button
-                onClick={(e) => { e.stopPropagation(); onRename(order.id); setMenuOpen(false); }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRename(order.id);
+                  setMenuOpen(false);
+                }}
                 className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition text-left whitespace-nowrap"
               >
                 <Edit className="w-4 h-4 shrink-0" /> Rename Shoot
@@ -149,7 +162,11 @@ function OrderCardActions({
             )}
             {["training", "generating"].includes(order.status) && onCancel && (
               <button
-                onClick={(e) => { e.stopPropagation(); onCancel(order.id); setMenuOpen(false); }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onCancel(order.id);
+                  setMenuOpen(false);
+                }}
                 className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-amber-700 hover:bg-amber-400/10 transition text-left whitespace-nowrap"
               >
                 <X className="w-4 h-4 shrink-0" /> Stop Processing
@@ -157,7 +174,11 @@ function OrderCardActions({
             )}
             {order.status === "failed" && onRetry && (
               <button
-                onClick={(e) => { e.stopPropagation(); onRetry(order.id); setMenuOpen(false); }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRetry(order.id);
+                  setMenuOpen(false);
+                }}
                 className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition text-left whitespace-nowrap"
               >
                 <RefreshCw className="w-4 h-4 shrink-0" /> Retry Generation
@@ -165,7 +186,11 @@ function OrderCardActions({
             )}
             {order.status === "pending" && onResumeCheckout && (
               <button
-                onClick={(e) => { e.stopPropagation(); onResumeCheckout(order.id); setMenuOpen(false); }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onResumeCheckout(order.id);
+                  setMenuOpen(false);
+                }}
                 className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition text-left whitespace-nowrap"
               >
                 <ShoppingCart className="w-4 h-4 shrink-0" /> Resume Checkout
@@ -173,7 +198,11 @@ function OrderCardActions({
             )}
             {onDelete && (
               <button
-                onClick={(e) => { e.stopPropagation(); onDelete(order.id); setMenuOpen(false); }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete(order.id);
+                  setMenuOpen(false);
+                }}
                 className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-red-400 hover:bg-red-400/10 transition text-left whitespace-nowrap"
               >
                 <Trash2 className="w-4 h-4 shrink-0" /> Delete Shoot
@@ -199,18 +228,40 @@ function ExpiryCountdown({ createdAt }: { createdAt: string }) {
   const remainingDays = Math.ceil(remainingMs / (24 * 60 * 60 * 1000));
 
   if (remainingMs <= 0) {
-    return <span className="text-[10px] font-bold text-red-400 bg-red-400/10 px-2 py-0.5 rounded">Expired</span>;
+    return (
+      <span className="text-[10px] font-bold text-red-400 bg-red-400/10 px-2 py-0.5 rounded">
+        Expired
+      </span>
+    );
   }
   if (remainingDays <= 3) {
-    return <span className="text-[10px] font-bold text-red-400 bg-red-400/10 px-2 py-0.5 rounded animate-pulse">Deletes in {remainingDays}d</span>;
+    return (
+      <span className="text-[10px] font-bold text-red-400 bg-red-400/10 px-2 py-0.5 rounded animate-pulse">
+        Deletes in {remainingDays}d
+      </span>
+    );
   }
   if (remainingDays <= 10) {
-    return <span className="text-[10px] font-bold text-amber-700 bg-amber-400/10 px-2 py-0.5 rounded">Deletes in {remainingDays}d</span>;
+    return (
+      <span className="text-[10px] font-bold text-amber-700 bg-amber-400/10 px-2 py-0.5 rounded">
+        Deletes in {remainingDays}d
+      </span>
+    );
   }
-  return <span className="text-[10px] text-white/30 font-medium">Deletes in {remainingDays}d</span>;
+  return (
+    <span className="text-[10px] text-white/30 font-medium">
+      Deletes in {remainingDays}d
+    </span>
+  );
 }
 
-function HeadshotPreviews({ orderId, count }: { orderId: string; count: number }) {
+function HeadshotPreviews({
+  orderId,
+  count,
+}: {
+  orderId: string;
+  count: number;
+}) {
   const [previews, setPreviews] = useState<string[]>([]);
   useEffect(() => {
     let cancelled = false;
@@ -223,14 +274,24 @@ function HeadshotPreviews({ orderId, count }: { orderId: string; count: number }
       .then(({ data }) => {
         if (!cancelled && data) setPreviews(data.map((h) => h.image_url));
       });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [orderId]);
 
   return (
     <div className="flex items-center gap-1.5 mb-3">
       {previews.map((url, i) => (
-        <div key={url} className="w-[calc(33.333%-4px)] aspect-[4/3] rounded-lg bg-white/5 overflow-hidden border border-slate-200">
-          <img src={url} alt="" className="w-full h-full object-cover" loading="lazy" />
+        <div
+          key={url}
+          className="w-[calc(33.333%-4px)] aspect-[4/3] rounded-lg bg-white/5 overflow-hidden border border-slate-200"
+        >
+          <img
+            src={url}
+            alt={`AI headshot preview ${i + 1}`}
+            className="w-full h-full object-cover"
+            loading="lazy"
+          />
         </div>
       ))}
       {previews.length === 0 && (
@@ -281,9 +342,13 @@ export default function ProjectLibrary({
     return () => clearInterval(interval);
   }, []);
 
-  const [trainingProgress, setTrainingProgress] = useState<Record<string, number>>({});
+  const [trainingProgress, setTrainingProgress] = useState<
+    Record<string, number>
+  >({});
   useEffect(() => {
-    const trainingOrders = (orders || []).filter((o) => o.status === "training");
+    const trainingOrders = (orders || []).filter(
+      (o) => o.status === "training",
+    );
     if (trainingOrders.length === 0) return;
     const poll = () => {
       for (const o of trainingOrders) {
@@ -292,7 +357,10 @@ export default function ProjectLibrary({
           .then((data) => {
             const typedData = data as { progress?: number };
             if (typeof typedData.progress === "number")
-              setTrainingProgress((prev) => ({ ...prev, [o.id]: typedData.progress! }));
+              setTrainingProgress((prev) => ({
+                ...prev,
+                [o.id]: typedData.progress!,
+              }));
           })
           .catch(() => {});
       }
@@ -302,35 +370,64 @@ export default function ProjectLibrary({
     return () => clearInterval(interval);
   }, [orders]);
 
-  const completedCount = useMemo(() => orders.filter((o) => o.status === "completed").length, [orders]);
-  const totalHeadshots = useMemo(() => orders.filter((o) => o.status === "completed").reduce((sum, o) => {
-    const p = PLANS[o.plan as keyof typeof PLANS];
-    return sum + (p?.shots || 0);
-  }, 0), [orders]);
+  const completedCount = useMemo(
+    () => orders.filter((o) => o.status === "completed").length,
+    [orders],
+  );
+  const totalHeadshots = useMemo(
+    () =>
+      orders
+        .filter((o) => o.status === "completed")
+        .reduce((sum, o) => {
+          const p = PLANS[o.plan as keyof typeof PLANS];
+          return sum + (p?.shots || 0);
+        }, 0),
+    [orders],
+  );
 
-  const abandonedOrders = useMemo(() => orders.filter((o) => {
-    if (o.status !== "pending") return false;
-    const created = new Date(o.created_at).getTime();
-    return now - created > ABANDONED_THRESHOLD_MS;
-  }), [orders, now]);
+  const abandonedOrders = useMemo(
+    () =>
+      orders.filter((o) => {
+        if (o.status !== "pending") return false;
+        const created = new Date(o.created_at).getTime();
+        return now - created > ABANDONED_THRESHOLD_MS;
+      }),
+    [orders, now],
+  );
 
   const filteredOrders = useMemo(() => {
     let result = [...orders];
     if (filterStatus !== "all") {
       if (filterStatus === "processing") {
-        result = result.filter((o) => ["training", "generating"].includes(o.status));
+        result = result.filter((o) =>
+          ["training", "generating"].includes(o.status),
+        );
       } else {
         result = result.filter((o) => o.status === filterStatus);
       }
     }
-    const activePending = result.filter((o) => !(o.status === "pending" && now - new Date(o.created_at).getTime() > ABANDONED_THRESHOLD_MS));
+    const activePending = result.filter(
+      (o) =>
+        !(
+          o.status === "pending" &&
+          now - new Date(o.created_at).getTime() > ABANDONED_THRESHOLD_MS
+        ),
+    );
     result = showAbandoned ? result : activePending;
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       result = result.filter((o) => {
-        const name = o.shoot_name || ((o.preferences as Record<string, any>)?.shootName as string) || "";
-        const planName = PLANS[o.plan as keyof typeof PLANS]?.name?.toLowerCase() || "";
-        return name.toLowerCase().includes(q) || o.id.toLowerCase().includes(q) || planName.includes(q);
+        const name =
+          o.shoot_name ||
+          ((o.preferences as Record<string, any>)?.shootName as string) ||
+          "";
+        const planName =
+          PLANS[o.plan as keyof typeof PLANS]?.name?.toLowerCase() || "";
+        return (
+          name.toLowerCase().includes(q) ||
+          o.id.toLowerCase().includes(q) ||
+          planName.includes(q)
+        );
       });
     }
     result.sort((a, b) => {
@@ -363,8 +460,12 @@ export default function ProjectLibrary({
       {/* Stats Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
         <div>
-          <h1 className="text-4xl font-black tracking-tight text-slate-900 mb-1">My Projects</h1>
-          <p className="text-sm text-slate-500 font-medium">{orders.length} {orders.length === 1 ? "shoot" : "shoots"} total</p>
+          <h1 className="text-4xl font-black tracking-tight text-slate-900 mb-1">
+            My Projects
+          </h1>
+          <p className="text-sm text-slate-500 font-medium">
+            {orders.length} {orders.length === 1 ? "shoot" : "shoots"} total
+          </p>
         </div>
         <button
           onClick={() => {
@@ -384,20 +485,36 @@ export default function ProjectLibrary({
       {completedCount > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
           <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border)] p-4">
-            <p className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider mb-1">Completed</p>
-            <p className="text-2xl font-black text-[var(--text)]">{completedCount}</p>
+            <p className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider mb-1">
+              Completed
+            </p>
+            <p className="text-2xl font-black text-[var(--text)]">
+              {completedCount}
+            </p>
           </div>
           <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border)] p-4">
-            <p className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider mb-1">Headshots</p>
-            <p className="text-2xl font-black text-[var(--text)]">{totalHeadshots.toLocaleString()}</p>
+            <p className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider mb-1">
+              Headshots
+            </p>
+            <p className="text-2xl font-black text-[var(--text)]">
+              {totalHeadshots.toLocaleString()}
+            </p>
           </div>
           <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border)] p-4">
-            <p className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider mb-1">Active</p>
-            <p className="text-2xl font-black text-[var(--lime)]">{orders.filter((o) => o.status !== "pending").length}</p>
+            <p className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider mb-1">
+              Active
+            </p>
+            <p className="text-2xl font-black text-[var(--lime)]">
+              {orders.filter((o) => o.status !== "pending").length}
+            </p>
           </div>
           <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border)] p-4">
-            <p className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider mb-1">Abandoned</p>
-            <p className="text-2xl font-black text-amber-600">{abandonedOrders.length}</p>
+            <p className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider mb-1">
+              Abandoned
+            </p>
+            <p className="text-2xl font-black text-amber-600">
+              {abandonedOrders.length}
+            </p>
           </div>
         </div>
       )}
@@ -453,7 +570,9 @@ export default function ProjectLibrary({
                 <ArrowUpDown className="w-3.5 h-3.5" />
                 <select
                   value={sortOrder}
-                  onChange={(e) => setSortOrder(e.target.value as "newest" | "oldest")}
+                  onChange={(e) =>
+                    setSortOrder(e.target.value as "newest" | "oldest")
+                  }
                   className="bg-[var(--surface2)] border border-[var(--border)] rounded-lg px-2 py-1.5 text-xs text-[var(--text-muted)] focus:outline-none focus:ring-1 focus:ring-[var(--lime)]"
                 >
                   <option value="newest">Newest First</option>
@@ -469,7 +588,11 @@ export default function ProjectLibrary({
                       : "bg-[var(--surface2)] text-[var(--text-muted)] border border-[var(--border)] hover:text-[var(--text)]"
                   }`}
                 >
-                  {showAbandoned ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
+                  {showAbandoned ? (
+                    <EyeOff className="w-3 h-3" />
+                  ) : (
+                    <Eye className="w-3 h-3" />
+                  )}
                   {abandonedOrders.length} Abandoned
                 </button>
               )}
@@ -486,7 +609,8 @@ export default function ProjectLibrary({
               <Clock className="w-4 h-4 text-amber-700" />
             </div>
             <p className="text-sm font-bold text-amber-700">
-              {abandonedOrders.length} abandoned checkout{abandonedOrders.length !== 1 ? "s" : ""} hidden
+              {abandonedOrders.length} abandoned checkout
+              {abandonedOrders.length !== 1 ? "s" : ""} hidden
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -498,43 +622,57 @@ export default function ProjectLibrary({
             </button>
             <button
               onClick={async () => {
-                console.log("Clear All clicked, abandonedOrders:", abandonedOrders.length, abandonedOrders);
+                console.log(
+                  "Clear All clicked, abandonedOrders:",
+                  abandonedOrders.length,
+                  abandonedOrders,
+                );
                 if (abandonedOrders.length === 0) {
                   console.log("No abandoned orders to delete");
                   return;
                 }
-                
-                const { data: { session } } = await supabase.auth.getSession();
+
+                const {
+                  data: { session },
+                } = await supabase.auth.getSession();
                 if (!session?.access_token) {
                   console.error("No session token available");
                   alert("You must be logged in to delete orders");
                   return;
                 }
-                
+
                 let successCount = 0;
                 let errorCount = 0;
-                
+
                 for (const o of abandonedOrders) {
                   try {
                     console.log("Deleting order:", o.id);
                     const res = await fetch(`/api/orders?id=${o.id}`, {
                       method: "DELETE",
-                      headers: { 
+                      headers: {
                         Authorization: `Bearer ${session.access_token}`,
-                        "X-Requested-With": "XMLHttpRequest"
-                      }
+                        "X-Requested-With": "XMLHttpRequest",
+                      },
                     });
                     console.log("Delete response:", res.status, res.statusText);
-                    
+
                     if (!res.ok) {
                       const errorText = await res.text();
-                      console.error("Delete failed for order:", o.id, res.status, errorText);
+                      console.error(
+                        "Delete failed for order:",
+                        o.id,
+                        res.status,
+                        errorText,
+                      );
                       errorCount++;
                       continue;
                     }
-                    
+
                     try {
-                      const data = await res.json() as { error?: string; success?: boolean };
+                      const data = (await res.json()) as {
+                        error?: string;
+                        success?: boolean;
+                      };
                       console.log("Delete response data:", data);
                       if (data.success) {
                         successCount++;
@@ -550,13 +688,22 @@ export default function ProjectLibrary({
                     console.error("Failed to delete order:", o.id, err);
                   }
                 }
-                
-                console.log("Successfully deleted:", successCount, "Errors:", errorCount, "Total:", abandonedOrders.length);
-                
+
+                console.log(
+                  "Successfully deleted:",
+                  successCount,
+                  "Errors:",
+                  errorCount,
+                  "Total:",
+                  abandonedOrders.length,
+                );
+
                 if (successCount > 0) {
                   router.refresh();
                 } else if (errorCount > 0) {
-                  alert(`Failed to delete orders. ${errorCount} errors occurred. Check console for details.`);
+                  alert(
+                    `Failed to delete orders. ${errorCount} errors occurred. Check console for details.`,
+                  );
                 }
               }}
               className="px-3 py-1.5 text-xs font-bold bg-amber-500 text-black hover:bg-amber-400 rounded-lg transition"
@@ -577,7 +724,9 @@ export default function ProjectLibrary({
               <Camera className="w-10 h-10 text-[var(--lime)]" />
             </div>
             <h2 className="text-3xl md:text-4xl font-black text-[var(--text)] mb-4 tracking-tight">
-              {searchQuery || filterStatus !== "all" ? "No matching shoots" : "Create your first AI studio"}
+              {searchQuery || filterStatus !== "all"
+                ? "No matching shoots"
+                : "Create your first AI studio"}
             </h2>
             <p className="text-lg text-[var(--text-muted)] max-w-lg mx-auto mb-10 leading-relaxed">
               {searchQuery || filterStatus !== "all"
@@ -618,7 +767,10 @@ export default function ProjectLibrary({
                             : "border-slate-200 hover:border-lime-200"
                     }`}
                   >
-                    <Link href={`/dashboard?order=${o.id}`} className="block p-6">
+                    <Link
+                      href={`/dashboard?order=${o.id}`}
+                      className="block p-6"
+                    >
                       {/* Status badge top-right */}
                       {o.status === "completed" && (
                         <div className="absolute top-0 right-0 w-16 h-16 bg-lime-400/10 rounded-tr-2xl rounded-bl-full flex items-start justify-end p-3">
@@ -630,27 +782,43 @@ export default function ProjectLibrary({
                       <div className="flex items-center gap-4 mb-4">
                         <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center overflow-hidden shrink-0 border border-slate-200">
                           {getThumbnail(o) ? (
-                            <img src={getThumbnail(o)!} alt="" className="w-full h-full object-cover" />
+                            <img
+                              src={getThumbnail(o)!}
+                              alt={`Headshot project thumbnail for ${getShootName(o)}`}
+                              className="w-full h-full object-cover"
+                            />
                           ) : (
                             <Camera className="w-6 h-6 text-white/30" />
                           )}
                         </div>
                         <div className="min-w-0 flex-1">
                           <span className="text-[10px] font-black text-lime-600 tracking-widest uppercase mb-0.5 block">
-                            {PLANS[o.plan as keyof typeof PLANS]?.name || "Shoot"}
+                            {PLANS[o.plan as keyof typeof PLANS]?.name ||
+                              "Shoot"}
                           </span>
-                          <h3 className="text-lg font-bold text-slate-900 truncate">{getShootName(o)}</h3>
+                          <h3 className="text-lg font-bold text-slate-900 truncate">
+                            {getShootName(o)}
+                          </h3>
                         </div>
                       </div>
 
                       {/* Headshot preview strip */}
                       {o.status === "completed" && (
-                        <HeadshotPreviews orderId={o.id} count={PLANS[o.plan as keyof typeof PLANS]?.shots || 40} />
+                        <HeadshotPreviews
+                          orderId={o.id}
+                          count={
+                            PLANS[o.plan as keyof typeof PLANS]?.shots || 40
+                          }
+                        />
                       )}
 
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs text-slate-500 font-medium">{timeAgo(o.created_at)}</span>
-                        {o.status === "completed" && <ExpiryCountdown createdAt={o.created_at} />}
+                        <span className="text-xs text-slate-500 font-medium">
+                          {timeAgo(o.created_at)}
+                        </span>
+                        {o.status === "completed" && (
+                          <ExpiryCountdown createdAt={o.created_at} />
+                        )}
                       </div>
 
                       {/* Progress bar */}
@@ -665,7 +833,9 @@ export default function ProjectLibrary({
                             />
                           </div>
                           <p className="text-[10px] text-lime-400 font-semibold mt-1">
-                            {o.status === "training" ? `Training AI model... ${trainingProgress[o.id] ?? 0}%` : "Generating headshots..."}
+                            {o.status === "training"
+                              ? `Training AI model... ${trainingProgress[o.id] ?? 0}%`
+                              : "Generating headshots..."}
                           </p>
                         </div>
                       )}
@@ -685,7 +855,24 @@ export default function ProjectLibrary({
                                     : "bg-red-50 text-red-700"
                           }`}
                         >
-                          {o.status === "completed" ? "Gallery Ready" : o.status === "failed" ? <><AlertCircle className="w-3 h-3" /> Failed</> : o.status === "refunded" ? <><AlertCircle className="w-3 h-3" /> Refunded</> : o.status === "pending" ? "Payment Pending" : <><div className="w-2 h-2 bg-indigo-400 rounded-full animate-pulse" /> Processing</>}
+                          {o.status === "completed" ? (
+                            "Gallery Ready"
+                          ) : o.status === "failed" ? (
+                            <>
+                              <AlertCircle className="w-3 h-3" /> Failed
+                            </>
+                          ) : o.status === "refunded" ? (
+                            <>
+                              <AlertCircle className="w-3 h-3" /> Refunded
+                            </>
+                          ) : o.status === "pending" ? (
+                            "Payment Pending"
+                          ) : (
+                            <>
+                              <div className="w-2 h-2 bg-indigo-400 rounded-full animate-pulse" />{" "}
+                              Processing
+                            </>
+                          )}
                         </span>
                       </div>
                     </Link>
@@ -694,15 +881,22 @@ export default function ProjectLibrary({
                     <div className="px-6 pb-4 pt-0 flex items-center gap-2 flex-wrap">
                       {o.status === "pending" && onResumeCheckout && (
                         <button
-                          onClick={(e) => { e.stopPropagation(); onResumeCheckout(o.id); }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onResumeCheckout(o.id);
+                          }}
                           className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-amber-50 text-amber-700 border border-amber-200 rounded-lg text-xs font-bold hover:bg-amber-400/20 transition"
                         >
-                          <ShoppingCart className="w-3.5 h-3.5" /> Resume Checkout
+                          <ShoppingCart className="w-3.5 h-3.5" /> Resume
+                          Checkout
                         </button>
                       )}
                       {o.status === "failed" && onRetry && (
                         <button
-                          onClick={(e) => { e.stopPropagation(); onRetry(o.id); }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onRetry(o.id);
+                          }}
                           className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-red-50 text-red-700 border border-red-200 rounded-lg text-xs font-bold hover:bg-red-400/20 transition"
                         >
                           <RefreshCw className="w-3.5 h-3.5" /> Retry Generation
@@ -710,14 +904,24 @@ export default function ProjectLibrary({
                       )}
                       {o.status === "completed" && (
                         <button
-                          onClick={(e) => { e.stopPropagation(); router.push(`/dashboard?order=${o.id}`); }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            router.push(`/dashboard?order=${o.id}`);
+                          }}
                           className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-blue-50 text-blue-700 border border-indigo-400/20 rounded-lg text-xs font-bold hover:bg-indigo-400/20 transition"
                         >
                           <Sparkles className="w-3.5 h-3.5" /> View Gallery
                         </button>
                       )}
                       <div className="ml-auto">
-                        <OrderCardActions order={o} onDelete={onDelete} onRetry={onRetry} onResumeCheckout={onResumeCheckout} onCancel={onCancel} onRename={onRename} />
+                        <OrderCardActions
+                          order={o}
+                          onDelete={onDelete}
+                          onRetry={onRetry}
+                          onResumeCheckout={onResumeCheckout}
+                          onCancel={onCancel}
+                          onRename={onRename}
+                        />
                       </div>
                     </div>
                   </div>
