@@ -5,7 +5,11 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { getPost, getAllPosts } from "@/lib/blog";
 import { SITE_CONFIG } from "@/lib/seo";
-import { BlogPostingSchema, BreadcrumbSchema } from "@/components/JsonLd";
+import {
+  BlogPostingSchema,
+  BreadcrumbSchema,
+  PersonSchema,
+} from "@/components/JsonLd";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -82,6 +86,11 @@ export default async function BlogPostPage({
 
   return (
     <div className="min-h-screen">
+      <PersonSchema
+        name={post.author || "Truzot Team"}
+        jobTitle="AI Headshot Expert"
+        url={`/blog/${post.slug}`}
+      />
       <BlogPostingSchema
         title={post.title}
         description={post.excerpt || post.title}

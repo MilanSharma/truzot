@@ -271,6 +271,37 @@ export function ServiceSchema() {
   );
 }
 
+export function PersonSchema({
+  name,
+  jobTitle,
+  url,
+  image,
+  sameAs,
+}: {
+  name: string;
+  jobTitle: string;
+  url: string;
+  image?: string;
+  sameAs?: string[];
+}) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name,
+    jobTitle,
+    url: `${siteUrl}${url}`,
+    image: image || `${siteUrl}/logo.png`,
+    sameAs: sameAs || [],
+    worksFor: { "@id": `${siteUrl}/#organization` },
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
 export function BreadcrumbSchema({
   items,
 }: {
