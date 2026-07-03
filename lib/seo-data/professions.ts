@@ -84,30 +84,44 @@ export const PROFESSIONS = [
     ],
   },
   {
-    id: "software-engineer",
-    name: "Software Engineer",
-    title: "Software Engineer Headshots",
+    id: "teacher",
+    name: "Teacher",
+    title: "Teacher Headshots",
     description:
-      "Professional tech headshots for software engineers, developers, and IT professionals",
-    keywords: ["software engineer headshot", "developer photo"],
+      "Professional educator headshots for teachers, professors, and academic profiles",
+    keywords: ["teacher headshot", "educator photo"],
     faq: [
       {
-        q: "Why do software engineers need headshots?",
-        a: "Professional headshots are essential for LinkedIn, conference profiles, and job applications.",
+        q: "Why do teachers need professional headshots?",
+        a: "Professional headshots build credibility with students, parents, and academic institutions.",
       },
     ],
   },
   {
-    id: "executive",
-    name: "Executive",
-    title: "Executive Headshots",
+    id: "real-estate-agent",
+    name: "Real Estate Agent",
+    title: "Real Estate Agent Headshots",
     description:
-      "High-end corporate headshots for CEOs, executives, and senior leadership",
-    keywords: ["executive headshot", "CEO photo"],
+      "Trustworthy and approachable headshots for real estate agents to build client confidence",
+    keywords: ["real estate agent headshot", "realtor photo"],
     faq: [
       {
-        q: "Why do executives need professional headshots?",
-        a: "Executive headshots convey authority and are essential for company websites and investor relations.",
+        q: "Why do real estate agents need professional headshots?",
+        a: "Real estate is a trust-based business. A professional headshot builds credibility.",
+      },
+    ],
+  },
+  {
+    id: "actor",
+    name: "Actor",
+    title: "Actor Headshots",
+    description:
+      "Industry-standard actor headshots for casting calls, auditions, and talent profiles",
+    keywords: ["actor headshot", "casting headshot"],
+    faq: [
+      {
+        q: "What are the requirements for actor headshots?",
+        a: "Actor headshots should be 8x10, show your face clearly, and capture your essence.",
       },
     ],
   },

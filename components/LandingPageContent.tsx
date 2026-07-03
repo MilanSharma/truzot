@@ -1164,7 +1164,7 @@ export default function LandingPageContent() {
                 <span>·</span>
                 <Link href="/profession/lawyer" className="hover:text-lime-400 transition">Lawyer headshots</Link>
                 <span>·</span>
-                <Link href="/profession/real-estate-agent" className="hover:text-lime-400 transition">Real estate headshots</Link>
+                <Link href="/profession/real-estate-agent" className="hover:text-lime-400 transition">Real estate agent headshots</Link>
                 <span>·</span>
                 <Link href="/profession/actor" className="hover:text-lime-400 transition">Actor headshots</Link>
                 <span>·</span>
