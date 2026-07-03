@@ -1,11 +1,12 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { ArrowLeft, RefreshCw, Sparkles, Upload, X, ArrowRight, Camera, ChevronDown, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { supabase } from "@/lib/supabase/client";
 
 export default function FreePreviewPage() {
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -15,6 +16,27 @@ export default function FreePreviewPage() {
   const [error, setError] = useState<string | null>(null);
   const [email, setEmail] = useState<string>("");
   const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [user, setUser] = useState<{
+    email?: string;
+    id?: string;
+    user_metadata?: { full_name?: string; avatar_url?: string };
+  } | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
+
+  useEffect(() => {
+    const loadUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        setUser({
+          email: session.user.email,
+          id: session.user.id,
+          user_metadata: session.user.user_metadata,
+        });
+      }
+      setAuthLoading(false);
+    };
+    loadUser();
+  }, []);
   
   const [style, setStyle] = useState("Corporate office");
   const [outfit, setOutfit] = useState("Business suit");
@@ -109,7 +131,7 @@ export default function FreePreviewPage() {
 
   return (
     <div className="min-h-screen bg-[var(--bg)] font-sans text-[var(--text)] flex flex-col relative overflow-hidden">
-      <Nav />
+      <Nav user={user} />
 
       <main className="flex-1 relative z-10 max-w-7xl mx-auto px-6 py-12 lg:py-24 w-full">
         <div className="text-center mb-12">
