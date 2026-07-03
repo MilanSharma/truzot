@@ -2,7 +2,11 @@
 import { useState, useMemo } from "react";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import { FAQSchema, SpeakableSchema } from "@/components/JsonLd";
+import {
+  FAQSchema,
+  SpeakableSchema,
+  BreadcrumbSchema,
+} from "@/components/JsonLd";
 import {
   Search,
   ChevronDown,
@@ -271,9 +275,7 @@ function AccordionItem({
         onClick={onToggle}
         className="faq-question w-full text-left px-5 py-4 font-semibold text-[var(--text)] hover:bg-white/[0.03] transition flex items-center justify-between gap-4 group"
       >
-        <span className="group-hover:text-lime-400 transition">
-          {question}
-        </span>
+        <span className="group-hover:text-lime-400 transition">{question}</span>
         <ChevronDown
           className={`w-4 h-4 text-[var(--text-muted)] shrink-0 transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
@@ -331,6 +333,12 @@ export default function FAQPage() {
 
   return (
     <div className="min-h-screen">
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "/" },
+          { name: "FAQ", url: "/faq" },
+        ]}
+      />
       <FAQSchema
         questions={[
           // (schema unchanged - still works)
@@ -433,7 +441,9 @@ export default function FAQPage() {
                     <h2 className="text-lg font-bold text-[var(--text)]">
                       {meta?.label}
                     </h2>
-                    <p className="text-xs text-[var(--text-muted)]">{meta?.desc}</p>
+                    <p className="text-xs text-[var(--text-muted)]">
+                      {meta?.desc}
+                    </p>
                   </div>
                 </div>
                 <div className="space-y-3">

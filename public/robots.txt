@@ -1,0 +1,22 @@
+# Robots.txt for Truzot AI Headshots
+# Allow all crawlers to access the site
+
+User-agent: *
+Allow: /
+
+# Disallow admin and private areas
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /account
+Disallow: /api
+Disallow: /invoices
+Disallow: /team/dashboard
+Disallow: /team/join
+
+# Disallow auth-related pages
+Disallow: /login
+Disallow: /signup
+Disallow: /reset-password
+
+# Sitemap location
+Sitemap: https://truzot.ai/sitemap.xml

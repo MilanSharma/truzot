@@ -11,6 +11,7 @@ import {
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Nav from "@/components/Nav";
+import { BreadcrumbSchema } from "@/components/JsonLd";
 
 import { supabase } from "@/lib/supabase/client";
 import { PLANS } from "@/lib/plans";
@@ -89,27 +90,34 @@ function getSavedState(): Record<string, unknown> | null {
   }
 }
 
-  // Debug: intercept fetch to log CORS errors
-  if (typeof window !== 'undefined' && !(window as any).__fetchIntercepted) {
-    (window as any).__fetchIntercepted = true;
-    const originalFetch = window.fetch;
-    // @ts-ignore - fetch interception for debugging
-    window.fetch = async (url, options) => {
-      try {
-        const response = await originalFetch(url, options);
-        if (!response.ok && response.status === 403) {
-          const text = await response.clone().text();
-          if (text.includes('Forbidden Origin')) {
-            console.error('CORS ERROR - URL:', url, 'Status:', response.status, 'Body:', text);
-          }
+// Debug: intercept fetch to log CORS errors
+if (typeof window !== "undefined" && !(window as any).__fetchIntercepted) {
+  (window as any).__fetchIntercepted = true;
+  const originalFetch = window.fetch;
+  // @ts-ignore - fetch interception for debugging
+  window.fetch = async (url, options) => {
+    try {
+      const response = await originalFetch(url, options);
+      if (!response.ok && response.status === 403) {
+        const text = await response.clone().text();
+        if (text.includes("Forbidden Origin")) {
+          console.error(
+            "CORS ERROR - URL:",
+            url,
+            "Status:",
+            response.status,
+            "Body:",
+            text,
+          );
         }
-        return response;
-      } catch (e) {
-        console.error('FETCH ERROR - URL:', url, 'Error:', e);
-        throw e;
       }
-    };
-  }
+      return response;
+    } catch (e) {
+      console.error("FETCH ERROR - URL:", url, "Error:", e);
+      throw e;
+    }
+  };
+}
 function UploadContent() {
   const searchParams = useSearchParams();
   const { toast } = useToast();
@@ -257,7 +265,9 @@ function UploadContent() {
       try {
         let session = null;
         try {
-          const { data: { session: s } } = await supabase.auth.getSession();
+          const {
+            data: { session: s },
+          } = await supabase.auth.getSession();
           session = s;
         } catch (e) {
           console.warn("Session check failed:", e);
@@ -468,14 +478,22 @@ function UploadContent() {
 
         if (!uploadUrlRes.ok) {
           const errorText = await uploadUrlRes.text();
-          console.error("Upload URL request failed:", uploadUrlRes.status, errorText);
+          console.error(
+            "Upload URL request failed:",
+            uploadUrlRes.status,
+            errorText,
+          );
           throw new Error("Failed to get upload URL");
         }
         const {
           signedUrl,
           token: uploadToken,
           path,
-        } = await uploadUrlRes.json() as { signedUrl: string; token?: string; path: string };
+        } = (await uploadUrlRes.json()) as {
+          signedUrl: string;
+          token?: string;
+          path: string;
+        };
 
         if (!signedUrl || !path) {
           throw new Error("Invalid upload response");
@@ -758,11 +776,13 @@ function UploadContent() {
       });
 
       if (!res.ok) {
-        const errBody = await res.json().catch(() => ({})) as { error?: string };
+        const errBody = (await res.json().catch(() => ({}))) as {
+          error?: string;
+        };
         throw new Error(errBody?.error || "Checkout failed");
       }
 
-      const { url } = await res.json() as { url?: string };
+      const { url } = (await res.json()) as { url?: string };
 
       if (url) {
         window.location.href = url;
@@ -811,6 +831,12 @@ function UploadContent() {
   // Inline CSS for the landing page theme
   return (
     <UploadErrorBoundary>
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Upload", url: "/upload" },
+        ]}
+      />
       <div
         id="main-content"
         className="min-h-screen font-sans text-[var(--text)] pb-20 overflow-x-hidden"
@@ -850,7 +876,7 @@ function UploadContent() {
             </div>
           </div>
 
-          <AnimatePresence >
+          <AnimatePresence>
             {error && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
@@ -879,14 +905,17 @@ function UploadContent() {
                   <p className="text-lg text-[var(--text-secondary)] max-w-xl mx-auto leading-relaxed">
                     Upload 1-5 clear photos of your face. We only need a few to
                     learn your features. Takes{" "}
-                    <span className="font-bold text-[var(--text)]">2 minutes</span>{" "}
+                    <span className="font-bold text-[var(--text)]">
+                      2 minutes
+                    </span>{" "}
                     instead of the 20 minutes other apps require.
                   </p>
                 </div>
 
                 {/* SAVED DATASET VIEW */}
                 {storagePath && files.length === 0 ? (
-                  <div className="relative rounded-2xl border border-emerald-500/20 p-10 mb-8 overflow-hidden group"
+                  <div
+                    className="relative rounded-2xl border border-emerald-500/20 p-10 mb-8 overflow-hidden group"
                     style={{ background: "var(--surface)" }}
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent pointer-events-none" />
@@ -931,8 +960,6 @@ function UploadContent() {
                         className={`group relative flex flex-col items-center justify-center w-full h-full min-h-[320px] p-8 text-center cursor-pointer border-2 border-dashed rounded-[2rem] transition-all duration-500 ease-out overflow-hidden shadow-sm hover:shadow-xl
                           ${isDragging ? "border-[var(--lime)] bg-[var(--surface)] scale-[1.02]" : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--lime-border)]"}`}
                       >
-                        
-
                         <div
                           className={`relative z-10 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-transform duration-300 bg-[var(--bg)] shadow-sm border ${isDragging ? "scale-110 border-[var(--lime-text)]" : "border-[var(--border-secondary)] group-hover:-translate-y-1 group-hover:border-[var(--lime-text)]"}`}
                         >
@@ -963,15 +990,18 @@ function UploadContent() {
                         <h3 className="text-lg font-bold text-[var(--text)] mb-4">
                           Photo Requirements
                         </h3>
-                        
+
                         {!faceDetectorSupported && (
                           <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
                             <p className="text-sm text-amber-800">
-                              <strong>⚠️ Note:</strong> Face detection is unsupported in this browser. Please ensure your face is clearly visible in all photos before paying.
+                              <strong>⚠️ Note:</strong> Face detection is
+                              unsupported in this browser. Please ensure your
+                              face is clearly visible in all photos before
+                              paying.
                             </p>
                           </div>
                         )}
-                        
+
                         <div className="flex flex-col gap-5">
                           {PHOTO_TIPS.map((tip, idx) => {
                             const Icon = tip.icon;
@@ -1230,7 +1260,9 @@ function UploadContent() {
                         {isProcessing ? (
                           <div className="bg-[var(--lime-dim)] border border-[var(--lime-border)] rounded-2xl p-6 text-center">
                             <Loader2 className="w-8 h-8 animate-spin mx-auto mb-3 text-[var(--lime)]" />
-                            <div className="font-bold text-lg text-[var(--text)]">{progress}</div>
+                            <div className="font-bold text-lg text-[var(--text)]">
+                              {progress}
+                            </div>
                             <div className="text-sm text-[var(--text-secondary)] mt-1">
                               Redirecting to secure checkout...
                             </div>
@@ -1247,10 +1279,12 @@ function UploadContent() {
                         <div className="mt-8 flex flex-col items-center gap-3">
                           <div className="grid grid-cols-2 gap-4 text-sm font-semibold text-[var(--text-secondary)] w-full">
                             <div className="flex items-center justify-center gap-1.5 bg-[var(--surface2)] border border-[var(--border-secondary)] px-2 py-2.5 rounded-xl whitespace-nowrap shadow-sm">
-                              <Shield className="w-4 h-4 text-[var(--lime-text)]" /> SSL Secured
+                              <Shield className="w-4 h-4 text-[var(--lime-text)]" />{" "}
+                              SSL Secured
                             </div>
                             <div className="flex items-center justify-center gap-1.5 bg-[var(--surface2)] border border-[var(--border-secondary)] px-2 py-2.5 rounded-xl whitespace-nowrap shadow-sm">
-                              <Star className="w-4 h-4 text-amber-400" /> Guaranteed
+                              <Star className="w-4 h-4 text-amber-400" />{" "}
+                              Guaranteed
                             </div>
                           </div>
 
@@ -1304,7 +1338,10 @@ export default function UploadPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center" style={{ background: "#07080A" }}>
+        <div
+          className="min-h-screen flex items-center justify-center"
+          style={{ background: "#07080A" }}
+        >
           <div className="flex flex-col items-center gap-4">
             <div className="w-8 h-8 border-4 border-lime-400 border-t-transparent rounded-full animate-spin" />
             <p className="text-sm font-medium text-[var(--text-secondary)]">
