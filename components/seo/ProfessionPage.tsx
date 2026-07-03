@@ -8,10 +8,13 @@ import {
   Users,
   TrendingUp,
   Award,
+  ChevronRight,
+  Home,
 } from "lucide-react";
 import { PLANS } from "@/lib/plans";
 import { Profession } from "@/lib/seo-data/professions";
 import { CITIES } from "@/lib/seo-data/cities";
+import { PROFESSIONS } from "@/lib/seo-data/professions";
 import RelatedPages from "./RelatedPages";
 import { BreadcrumbSchema, WebPageSchema } from "@/components/JsonLd";
 
@@ -32,6 +35,21 @@ export default function ProfessionPage({ profession }: ProfessionPageProps) {
         name={`${profession.title} | Truzot`}
         description={`Get professional ${profession.name.toLowerCase()} headshots with AI. ${profession.description} Starting at $29.`}
       />
+      
+      {/* Breadcrumb Navigation */}
+      <nav className="bg-white border-b border-[var(--border)]">
+        <div className="max-w-5xl mx-auto px-6 py-4">
+          <div className="flex items-center gap-2 text-sm">
+            <Link href="/" className="flex items-center gap-1 text-[var(--text-muted)] hover:text-[var(--text)] transition">
+              <Home className="w-4 h-4" />
+              Home
+            </Link>
+            <ChevronRight className="w-4 h-4 text-[var(--text-muted)]" />
+            <span className="text-[var(--text)] font-medium">{profession.name}</span>
+          </div>
+        </div>
+      </nav>
+
       <section className="py-20 px-6 bg-gradient-to-b from-slate-50 to-white -[var(--bg-primary)]">
         <div className="max-w-5xl mx-auto text-center">
           <div className="inline-flex items-center rounded-full border border-[var(--lime-border)]/60 bg-[var(--lime-dim)]/50 backdrop-blur-sm px-4 py-1.5 text-sm font-semibold text-blue-700 mb-6">
@@ -204,6 +222,32 @@ export default function ProfessionPage({ profession }: ProfessionPageProps) {
           </div>
         </div>
       </section>
+
+      {/* Other Professions Navigation */}
+      <section className="py-16 px-6 bg-[var(--bg)]">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl font-bold mb-8 text-center text-[var(--text)]">
+            Explore Other Profession Headshots
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {PROFESSIONS.filter((p) => p.id !== profession.id).map((p) => (
+              <Link
+                key={p.id}
+                href={`/profession/${p.id}`}
+                className="p-4 bg-white border border-[var(--border)] rounded-xl hover:border-blue-500 hover:shadow-md transition group"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="text-[var(--text-muted)] group-hover:text-[var(--lime)] transition">
+                    {p.name}
+                  </span>
+                  <ChevronRight className="w-4 h-4 text-[var(--text-muted)] group-hover:text-blue-500 transition" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <RelatedPages currentType="profession" currentId={profession.id} />
     </div>
   );

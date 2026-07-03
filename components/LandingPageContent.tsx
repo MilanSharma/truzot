@@ -1093,13 +1093,13 @@ export default function LandingPageContent() {
                 variants={fadeUp}
                 className="text-5xl md:text-7xl lg:text-[80px] font-black tracking-tighter leading-[0.92] mb-7"
               >
-                <span className="text-white">Studio headshots.</span>
+                <span className="text-white">AI headshots.</span>
                 <br />
                 <span className="relative">
-                  <span className="text-lime-400">30 minutes.</span>
+                  <span className="text-lime-400">Professional results.</span>
                 </span>
                 <br />
-                <span className="text-white/40">From your phone.</span>
+                <span className="text-white/40">30 minutes from your phone.</span>
               </motion.h1>
 
               {/* Sub */}
@@ -1108,12 +1108,12 @@ export default function LandingPageContent() {
                 className="text-lg md:text-xl text-white/50 mb-6 max-w-2xl mx-auto leading-relaxed"
               >
                 Upload <strong className="text-white">1–5 selfies</strong>. Our
-                AI trains a private model on your face and delivers
+                AI headshot generator trains a private model on your face and delivers
                 <strong className="text-white">
                   {" "}
-                  40–200 photorealistic headshots
+                  40–200 professional headshots
                 </strong>{" "}
-                in every style you need — for a fraction of what photographers
+                for LinkedIn, corporate profiles, and more — at a fraction of what photographers
                 charge.
               </motion.p>
 
@@ -1125,6 +1125,22 @@ export default function LandingPageContent() {
                 Lawyers, doctors, real estate agents, job seekers, actors,
                 models, students, founders — anyone can look this good.
               </motion.p>
+
+              {/* Internal links for SEO */}
+              <motion.div
+                variants={fadeUp}
+                className="flex flex-wrap items-center justify-center gap-3 text-xs text-white/30 mb-8"
+              >
+                <Link href="/profession/doctor" className="hover:text-lime-400 transition">Doctor headshots</Link>
+                <span>·</span>
+                <Link href="/profession/lawyer" className="hover:text-lime-400 transition">Lawyer headshots</Link>
+                <span>·</span>
+                <Link href="/profession/real-estate-agent" className="hover:text-lime-400 transition">Real estate headshots</Link>
+                <span>·</span>
+                <Link href="/profession/actor" className="hover:text-lime-400 transition">Actor headshots</Link>
+                <span>·</span>
+                <Link href="/profession/teacher" className="hover:text-lime-400 transition">Teacher headshots</Link>
+              </motion.div>
 
               {/* 1-5 selfies differentiator badge */}
               <motion.div
@@ -1302,10 +1318,10 @@ export default function LandingPageContent() {
                   variants={fadeUp}
                   className="text-4xl md:text-5xl font-black tracking-tighter mb-4 text-slate-900"
                 >
-                  These are real headshots.
+                  AI-generated professional headshots.
                   <br />
                   <span className="text-slate-400">
-                    Generated in under an hour.
+                    Delivered in under an hour.
                   </span>
                 </motion.h2>
                 <motion.p
@@ -1603,9 +1619,9 @@ export default function LandingPageContent() {
                   variants={fadeUp}
                   className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900"
                 >
-                  Three steps. Thirty minutes.
+                  Three steps to AI headshots.
                   <br />
-                  <span className="text-slate-400">Done.</span>
+                  <span className="text-slate-400">Thirty minutes.</span>
                 </motion.h2>
               </motion.div>
 
@@ -1621,7 +1637,7 @@ export default function LandingPageContent() {
                     n: "01",
                     icon: Camera,
                     title: "Upload 1–5 selfies",
-                    desc: "No studio. No lighting setup. Just phone photos taken in natural light — that&apos;s all we need.",
+                    desc: "No studio. No lighting setup. Just phone photos taken in natural light — that&apos;s all our AI headshot generator needs.",
                     detail:
                       "Most competitors require 15–25 photos. Ours needs just 1.",
                     color: "#65A30D",
@@ -1629,19 +1645,19 @@ export default function LandingPageContent() {
                   {
                     n: "02",
                     icon: Sparkles,
-                    title: "We train your AI",
+                    title: "We train your AI model",
                     desc: "Our Flux LoRA model learns your exact facial geometry, skin tone, and micro-expressions. Private. Just yours.",
                     detail:
-                      "Custom model, not a generic filter. Purged after 30 days.",
+                      "Custom AI headshot model, not a generic filter. Purged after 30 days.",
                     color: "#6366F1",
                   },
                   {
                     n: "03",
                     icon: Briefcase,
-                    title: "Download your gallery",
-                    desc: "40–200 studio-quality headshots across every style. High-res, full commercial rights, yours forever.",
+                    title: "Download professional headshots",
+                    desc: "40–200 AI-generated headshots across every style. High-res, full commercial rights, yours forever.",
                     detail:
-                      "Use on LinkedIn, pitch decks, press releases, anywhere.",
+                      "Use on LinkedIn, corporate profiles, pitch decks, press releases, anywhere.",
                     color: "#65A30D",
                   },
                 ].map((s, i) => {
@@ -2303,6 +2319,18 @@ export default function LandingPageContent() {
                   <Zap className="w-4 h-4" /> Instant delivery confirmation
                 </div>
               </div>
+
+              {/* Internal links for SEO - pricing related */}
+              <div className="mt-8 text-center">
+                <p className="text-xs text-slate-400 mb-3">Compare plans for your needs:</p>
+                <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-slate-500">
+                  <Link href="/pricing" className="hover:text-lime-600 transition">View all pricing</Link>
+                  <span>·</span>
+                  <Link href="/free-preview" className="hover:text-lime-600 transition">Free preview available</Link>
+                  <span>·</span>
+                  <Link href="/faq" className="hover:text-lime-600 transition">Pricing FAQ</Link>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -2556,6 +2584,11 @@ export default function LandingPageContent() {
                     For teams
                   </Link>
                 </li>
+                <li>
+                  <Link href="/profession" className="hover:text-white transition">
+                    Profession headshots
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>
@@ -2576,6 +2609,33 @@ export default function LandingPageContent() {
                 <li>
                   <Link href="/contact" className="hover:text-white transition">
                     Contact
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/faq" className="hover:text-white transition">
+                    FAQ
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold text-white text-sm mb-4 uppercase tracking-widest">
+                Resources
+              </h4>
+              <ul className="space-y-3 text-sm text-white/30">
+                <li>
+                  <Link href="/blog/how-to-choose-headshot-style" className="hover:text-white transition">
+                    Headshot style guide
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/blog/linkedin-headshot-tips" className="hover:text-white transition">
+                    LinkedIn headshot tips
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/blog/professional-headshot-ideas" className="hover:text-white transition">
+                    Headshot ideas
                   </Link>
                 </li>
               </ul>

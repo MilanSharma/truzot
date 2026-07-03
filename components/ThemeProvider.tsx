@@ -5,19 +5,22 @@ type Theme = "dark" | "light";
 const Ctx = createContext<{ theme: Theme; toggle: () => void }>({ theme: "light", toggle: () => {} });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("truzot-theme") as Theme | null;
+      return stored ?? "light";
+    }
+    return "light";
+  });
 
   useEffect(() => {
-    const stored = localStorage.getItem("truzot-theme") as Theme | null;
-    const resolved = stored ?? "light";
-    setTheme(resolved);
-    document.documentElement.setAttribute("data-theme", resolved);
-    if (resolved === "dark") {
+    document.documentElement.setAttribute("data-theme", theme);
+    if (theme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-  }, []);
+  }, [theme]);
 
   const toggle = () => {
     const next: Theme = theme === "dark" ? "light" : "dark";

@@ -43,9 +43,12 @@ export default function LightboxModal({
 
   useEffect(() => {
     // Show hints briefly on first open
-    setShowHints(true);
-    const t = setTimeout(() => setShowHints(false), 4000);
-    return () => clearTimeout(t);
+    const t = setTimeout(() => setShowHints(true), 0);
+    const t2 = setTimeout(() => setShowHints(false), 4000);
+    return () => {
+      clearTimeout(t);
+      clearTimeout(t2);
+    };
   }, []);
 
   useEffect(() => {

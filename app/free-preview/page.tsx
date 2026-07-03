@@ -260,7 +260,7 @@ export default function FreePreviewPage() {
                     Continue
                   </button>
                   <p className="text-xs text-[var(--text-faint)] text-center font-medium">
-                    We'll email you your preview and special offers
+                    We&apos;ll email you your preview and special offers
                   </p>
                 </form>
               </div>

@@ -19,7 +19,12 @@ const nextConfig = {
       { protocol: 'https', hostname: supabaseHost },
       { protocol: 'https', hostname: 'images.unsplash.com' },
     ],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60,
   },
+  compress: true,
+  productionBrowserSourceMaps: false,
   async headers() {
     return [
       {
@@ -39,6 +44,28 @@ const nextConfig = {
               "base-uri 'self'",
               "form-action 'self'",
             ].join('; '),
+          },
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on'
+          },
+        ],
+      },
+      {
+        source: '/images/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
           },
         ],
       },

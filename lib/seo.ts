@@ -5,7 +5,7 @@ export const SITE_CONFIG = {
   tagline: "AI Professional Headshots",
   url: siteUrl,
   logo: `${siteUrl}/logo.png`,
-  ogImage: "/og-image.png",
+  ogImage: `${siteUrl}/og-image.png`,
   twitterHandle: "@truzot",
   locale: "en_US",
 } as const;
