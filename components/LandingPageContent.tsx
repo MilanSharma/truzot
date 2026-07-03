@@ -1117,31 +1117,6 @@ export default function LandingPageContent() {
                 charge.
               </motion.p>
 
-              {/* Audience line — broadens beyond "professionals" */}
-              <motion.p
-                variants={fadeUp}
-                className="text-sm md:text-base text-white/40 mb-10 max-w-2xl mx-auto leading-relaxed"
-              >
-                Lawyers, doctors, real estate agents, job seekers, actors,
-                models, students, founders — anyone can look this good.
-              </motion.p>
-
-              {/* Internal links for SEO */}
-              <motion.div
-                variants={fadeUp}
-                className="flex flex-wrap items-center justify-center gap-3 text-xs text-white/30 mb-8"
-              >
-                <Link href="/profession/doctor" className="hover:text-lime-400 transition">Doctor headshots</Link>
-                <span>·</span>
-                <Link href="/profession/lawyer" className="hover:text-lime-400 transition">Lawyer headshots</Link>
-                <span>·</span>
-                <Link href="/profession/real-estate-agent" className="hover:text-lime-400 transition">Real estate headshots</Link>
-                <span>·</span>
-                <Link href="/profession/actor" className="hover:text-lime-400 transition">Actor headshots</Link>
-                <span>·</span>
-                <Link href="/profession/teacher" className="hover:text-lime-400 transition">Teacher headshots</Link>
-              </motion.div>
-
               {/* 1-5 selfies differentiator badge */}
               <motion.div
                 variants={fadeUp}
@@ -1169,6 +1144,31 @@ export default function LandingPageContent() {
                 >
                   <Eye className="w-5 h-5" /> Free Preview
                 </Link>
+              </motion.div>
+
+              {/* Audience line — broadens beyond "professionals" */}
+              <motion.p
+                variants={fadeUp}
+                className="text-sm md:text-base text-white/40 mb-8 max-w-2xl mx-auto leading-relaxed"
+              >
+                Lawyers, doctors, real estate agents, job seekers, actors,
+                models, students, founders — anyone can look this good.
+              </motion.p>
+
+              {/* Internal links for SEO */}
+              <motion.div
+                variants={fadeUp}
+                className="flex flex-wrap items-center justify-center gap-3 text-xs text-white/30 mb-10"
+              >
+                <Link href="/profession/doctor" className="hover:text-lime-400 transition">Doctor headshots</Link>
+                <span>·</span>
+                <Link href="/profession/lawyer" className="hover:text-lime-400 transition">Lawyer headshots</Link>
+                <span>·</span>
+                <Link href="/profession/real-estate-agent" className="hover:text-lime-400 transition">Real estate headshots</Link>
+                <span>·</span>
+                <Link href="/profession/actor" className="hover:text-lime-400 transition">Actor headshots</Link>
+                <span>·</span>
+                <Link href="/profession/teacher" className="hover:text-lime-400 transition">Teacher headshots</Link>
               </motion.div>
 
               {/* Micro-proof */}
