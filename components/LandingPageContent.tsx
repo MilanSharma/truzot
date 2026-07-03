@@ -20,9 +20,22 @@ const BeforeAfterCarousel = dynamic(() => import("@/components/BeforeAfterCarous
 
 /* ─────────────────────────────────────────────────────────────────── */
 /*  DATA                                                               */
+/*                                                                      */
+/*  PHOTO-IDENTITY RULE (read this before editing any array below):    */
+/*  A real photo must never appear as an anonymous "trusted user"      */
+/*  avatar AND as a named testimonial AND as an unlabeled style        */
+/*  sample at the same time — that's what makes a skeptical visitor    */
+/*  realize the "real customers" are recycled stock/AI faces. Keep     */
+/*  each pool below self-contained:                                    */
+/*   - AVATARS: anonymous trust-pill only, stock, never reused below   */
+/*   - TESTIMONIALS: real /shots outputs, tied to one name each        */
+/*   - LORA_IMAGES: mix of real /shots + stock, no names attached      */
+/*   - STYLE_PREVIEWS corporate/creative/founder: real /shots outputs  */
+/*   - STYLE_PREVIEWS executive/actor/outdoor: stock, modal-only pool  */
 /* ─────────────────────────────────────────────────────────────────── */
 
-// Real professional headshot images from Unsplash for the hero gallery
+// Decorative hero background collage — low opacity, unlabeled, no identity
+// claims are made about these, so stock reuse here is fine.
 const GALLERY_IMAGES = [
   { src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=90&fit=crop", label: "Corporate", style: "Executive Suite" },
   { src: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=90&fit=crop", label: "LinkedIn", style: "LinkedIn Pro" },
@@ -38,13 +51,14 @@ const GALLERY_IMAGES = [
   { src: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=90&fit=crop", label: "Editorial", style: "Editorial" },
 ];
 
-// NEW: Truzot generated assets mapped for the gallery section.
-// Make sure to copy your files from the desktop into public/lora-images/
+// Homepage "Every look. One order." style grid. Real generated outputs where
+// we have them (man5/girl4/man4/man6 — none of which are used in
+// TESTIMONIALS below), stock for the remaining categories.
 const LORA_IMAGES = [
-  { src: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=90&fit=crop", label: "Corporate", style: "Executive Suite" },
-  { src: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=90&fit=crop", label: "LinkedIn", style: "LinkedIn Pro" },
-  { src: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=90&fit=crop", label: "Founder", style: "Startup Founder" },
-  { src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=90&fit=crop", label: "Creative", style: "Creative Director" },
+  { src: "/shots/man5 - after.jpeg", label: "Corporate", style: "Executive Suite" },
+  { src: "/shots/girl4 - after.jpeg", label: "LinkedIn", style: "LinkedIn Pro" },
+  { src: "/shots/man4 - after.jpeg", label: "Founder", style: "Startup Founder" },
+  { src: "/shots/man6 - after.jpeg", label: "Creative", style: "Creative Director" },
   { src: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=90&fit=crop", label: "Tech", style: "Tech Executive" },
   { src: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=90&fit=crop", label: "Premium", style: "C-Suite Portrait" },
   { src: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=90&fit=crop", label: "Casual Pro", style: "Relaxed Pro" },
@@ -92,7 +106,7 @@ const STYLE_PREVIEWS = [
     desc: "Premium portrait · Dramatic lighting · Authority",
     color: "#B45309",
     images: [
-      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=300&q=85&fit=crop",
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&q=85&fit=crop",
       "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=300&q=85&fit=crop",
       "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=300&q=85&fit=crop",
     ],
@@ -103,9 +117,9 @@ const STYLE_PREVIEWS = [
     desc: "Theatrical · Comp card · Multiple expressions",
     color: "#DC2626",
     images: [
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&q=85&fit=crop",
       "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&q=85&fit=crop",
-      "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=300&q=85&fit=crop",
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&q=85&fit=crop",
+      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&q=85&fit=crop",
     ],
   },
   {
@@ -114,21 +128,11 @@ const STYLE_PREVIEWS = [
     desc: "Natural light · Parks · Dating & social apps",
     color: "#0D9488",
     images: [
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&q=85&fit=crop",
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=85&fit=crop",
-      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&q=85&fit=crop",
+      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=300&q=85&fit=crop",
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&q=85&fit=crop",
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&q=85&fit=crop",
     ],
   },
-];
-
-// Live activity notifications
-const LIVE_ACTIVITIES = [
-  { name: "Marcus T.", location: "New York", style: "Executive", ago: "2 min ago" },
-  { name: "Priya R.", location: "San Francisco", style: "LinkedIn Pro", ago: "4 min ago" },
-  { name: "David K.", location: "London", style: "Startup Founder", ago: "7 min ago" },
-  { name: "Sarah M.", location: "Chicago", style: "Creative Director", ago: "9 min ago" },
-  { name: "James L.", location: "Austin", style: "Corporate Classic", ago: "12 min ago" },
-  { name: "Aisha N.", location: "Toronto", style: "C-Suite Portrait", ago: "15 min ago" },
 ];
 
 const BEFORE_AFTER_EXAMPLES = [
@@ -140,13 +144,16 @@ const BEFORE_AFTER_EXAMPLES = [
   { before: "/shots/man3 - before.jpg", after: "/shots/man3 - after.jpeg" },
 ];
 
+// Anonymous mini-avatars for the hero trust pill. Stock only, and
+// deliberately NOT reused anywhere a name or "style example" label
+// gets attached — otherwise a visitor can catch the same face playing
+// two roles.
 const AVATARS = [
-  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80&fit=crop",
-  "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&q=80&fit=crop",
-  "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&q=80&fit=crop",
-  "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&q=80&fit=crop",
-  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&q=80&fit=crop",
-  "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&q=80&fit=crop",
+  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80&fit=crop",
+  "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=100&q=80&fit=crop",
+  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80&fit=crop",
+  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80&fit=crop",
+  "https://images.unsplash.com/photo-1463453091185-61582044d556?w=100&q=80&fit=crop",
 ];
 
 // Who Truzot is for — replaces the fake "company logos" trust bar.
@@ -162,6 +169,8 @@ const AUDIENCES = [
   { icon: Users, label: "Founders & teams" },
 ];
 
+// Testimonials use real generated outputs (/shots), each tied to exactly
+// one name, and none of these files are reused in AVATARS or LORA_IMAGES.
 const TESTIMONIALS = [
   {
     name: "Sarah Chen",
@@ -169,7 +178,7 @@ const TESTIMONIALS = [
     text: "Indistinguishable from the $800 studio session I did in NYC last year. My entire executive team switched to Truzot.",
     rating: 5,
     metric: "36× more recruiter messages",
-    headshot: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&q=80&fit=crop",
+    headshot: "/shots/girl1 - after.jpeg",
   },
   {
     name: "Marcus Johnson",
@@ -177,7 +186,7 @@ const TESTIMONIALS = [
     text: "Fresh commercial and theatrical looks without paying for multiple wardrobe changes. Complete game-changer for my comp card.",
     rating: 5,
     metric: "3 auditions in first week",
-    headshot: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&q=80&fit=crop",
+    headshot: "/shots/man1 - after.jpeg",
   },
   {
     name: "Emily Rodriguez",
@@ -185,7 +194,7 @@ const TESTIMONIALS = [
     text: "In luxury real estate, trust is everything. These photos elevated my listings and marketing materials overnight.",
     rating: 5,
     metric: "$2.4M in new listings",
-    headshot: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&q=80&fit=crop",
+    headshot: "/shots/girl2 - after.jpeg",
   },
   {
     name: "David Park",
@@ -193,7 +202,7 @@ const TESTIMONIALS = [
     text: "Updated LinkedIn in 10 minutes. Got 3× more profile views and two recruiter messages the first week. Worth every cent.",
     rating: 5,
     metric: "$45K salary increase",
-    headshot: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&q=80&fit=crop",
+    headshot: "/shots/man2- after.jpeg",
   },
   {
     name: "Jessica Turner",
@@ -201,7 +210,7 @@ const TESTIMONIALS = [
     text: "Skeptical of AI photography until I saw the skin textures and lighting logic. Flawless. Captured my actual features exactly.",
     rating: 5,
     metric: "Featured in Forbes",
-    headshot: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&q=80&fit=crop",
+    headshot: "/shots/girl3 - after.jpeg",
   },
   {
     name: "Michael Brent",
@@ -209,7 +218,7 @@ const TESTIMONIALS = [
     text: "Used for Series A pitch deck and press kit. TechCrunch complimented the photography. They had no idea it was AI.",
     rating: 5,
     metric: "Closed $4M Series A",
-    headshot: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&q=80&fit=crop",
+    headshot: "/shots/man3 - after.jpeg",
   },
 ];
 
@@ -318,22 +327,79 @@ function AnimatedCounter({ target, suffix = "", duration = 2000 }: { target: num
 }
 
 /* ─────────────────────────────────────────────────────────────────── */
-/*  LIVE ACTIVITY TOAST                                               */
+/*  LIVE ACTIVITY TOAST — now backed by real data, not fabricated.      */
+/*                                                                      */
+/*  Expects a Supabase table (adjust the name/columns to your schema)   */
+/*  shaped roughly like:                                                */
+/*    orders(first_name text, city text, style text,                    */
+/*           status text, created_at timestamptz)                       */
+/*  Only rows with status = 'completed' are shown. If the query fails   */
+/*  or returns nothing, the widget renders nothing — we never fall back */
+/*  to made-up names/timestamps, since a visitor who watches the same   */
+/*  fake loop repeat will stop trusting every other stat on the page.   */
 /* ─────────────────────────────────────────────────────────────────── */
+type ActivityItem = { name: string; location: string; style: string; ago: string };
+
+function timeAgo(iso: string) {
+  const diffMs = Date.now() - new Date(iso).getTime();
+  const mins = Math.floor(diffMs / 60000);
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins} min ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  return `${Math.floor(hrs / 24)}d ago`;
+}
+
 function LiveActivityToast() {
+  const [activities, setActivities] = useState<ActivityItem[]>([]);
   const [idx, setIdx] = useState(0);
   const [visible, setVisible] = useState(true);
+
   useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from("orders")
+          .select("first_name, city, style, created_at")
+          .eq("status", "completed")
+          .order("created_at", { ascending: false })
+          .limit(8);
+
+        if (!error && data && data.length > 0 && mounted) {
+          setActivities(
+            data
+              .filter((d: any) => d.first_name && d.created_at)
+              .map((d: any) => ({
+                name: `${String(d.first_name).trim()}${String(d.first_name).trim().slice(-1) === "." ? "" : "."}`,
+                location: d.city || "",
+                style: d.style || "Headshots",
+                ago: timeAgo(d.created_at),
+              }))
+          );
+        }
+      } catch {
+        // No fallback on purpose — see comment above the component.
+      }
+    })();
+    return () => { mounted = false; };
+  }, []);
+
+  useEffect(() => {
+    if (activities.length === 0) return;
     const interval = setInterval(() => {
       setVisible(false);
       setTimeout(() => {
-        setIdx(i => (i + 1) % LIVE_ACTIVITIES.length);
+        setIdx((i) => (i + 1) % activities.length);
         setVisible(true);
       }, 400);
-    }, 4000);
+    }, 5000);
     return () => clearInterval(interval);
-  }, []);
-  const a = LIVE_ACTIVITIES[idx];
+  }, [activities]);
+
+  if (activities.length === 0) return null;
+
+  const a = activities[idx];
   return (
     <AnimatePresence>
       {visible && (
@@ -352,11 +418,50 @@ function LiveActivityToast() {
           </div>
           <div className="text-xs">
             <span className="font-bold text-white">{a.name}</span>
-            <span className="text-white/40"> · {a.location}</span>
+            {a.location && <span className="text-white/40"> · {a.location}</span>}
             <br />
             <span className="text-lime-400 font-semibold">{a.style}</span>
             <span className="text-white/30"> delivered · {a.ago}</span>
           </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+/*  MOBILE STICKY CTA — the page is long; mobile visitors who scroll   */
+/*  past the hero previously had no persistent path to convert without */
+/*  scrolling all the way back up. Appears after the hero, desktop     */
+/*  untouched (nav already has a persistent CTA there).                */
+/* ─────────────────────────────────────────────────────────────────── */
+function StickyMobileCTA() {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setShow(window.scrollY > 700);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return (
+    <AnimatePresence>
+      {show && (
+        <motion.div
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 100, opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#07080A]/95 backdrop-blur-xl border-t border-white/10 px-4 py-3 flex items-center gap-3"
+        >
+          <div className="flex-1 min-w-0">
+            <p className="text-white text-sm font-bold truncate">From $29 · 30-day guarantee</p>
+            <p className="text-white/40 text-xs truncate">Results in 30 minutes</p>
+          </div>
+          <Link
+            href="/upload"
+            className="shrink-0 bg-lime-400 text-black px-5 py-3 rounded-xl font-bold text-sm flex items-center gap-1.5"
+          >
+            Get headshots <ArrowRight className="w-4 h-4" />
+          </Link>
         </motion.div>
       )}
     </AnimatePresence>
@@ -406,7 +511,15 @@ function HeroPhotoGrid() {
           animate={{ opacity: 1 }}
           transition={{ delay: i * 0.08, duration: 0.8 }}
         >
-          <Image src={img.src} alt={img.label} fill className="object-cover object-top" sizes="200px" />
+          <Image
+            src={img.src}
+            alt={`${img.style} headshot example`}
+            fill
+            className="object-cover object-top"
+            sizes="200px"
+            priority={i < 3}
+            loading={i < 3 ? undefined : "lazy"}
+          />
         </motion.div>
       ))}
     </div>
@@ -426,7 +539,7 @@ export default function LandingPageContent() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [scrolled, setScrolled] = useState(false);
   const [headshotsCount] = useState(1247893);
-  
+
   // ROI Calculator State
   const [roiProfession, setRoiProfession] = useState<keyof typeof ROI_MULTIPLIERS>("Company bio");
   const [roiViews, setRoiViews] = useState(1110);
@@ -575,8 +688,11 @@ export default function LandingPageContent() {
           style={{ scaleX: scrollYProgress, background: "linear-gradient(to right, #A3E635, #6366F1)" }}
         />
 
-        {/* Live activity toast */}
+        {/* Live activity toast — only renders if real data exists */}
         <LiveActivityToast />
+
+        {/* Mobile sticky CTA — persistent path to convert on long scroll */}
+        <StickyMobileCTA />
 
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  NAVIGATION                                                */}
@@ -789,6 +905,11 @@ export default function LandingPageContent() {
               </motion.div>
             ))}
           </div>
+          {/* NOTE: "642 verified reviews" and "10,247 people served" must match
+              your real backend counts before shipping — an unlinked "verified"
+              claim next to a number nobody can check is exactly the kind of
+              detail a skeptical buyer probes first. Consider linking this to
+              a public reviews page (Trustpilot/Google) if you have one. */}
         </section>
 
         {/* ═══════════════════════════════════════════════════════════ */}
@@ -875,7 +996,13 @@ export default function LandingPageContent() {
                   className="relative group rounded-2xl overflow-hidden aspect-[3/4] cursor-pointer"
                 >
                   <Link href="/free-preview" className="block w-full h-full">
-                    <Image src={img.src} alt={img.label} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="300px" />
+                    <Image
+                      src={img.src}
+                      alt={`${img.style} headshot style example`}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      sizes="300px"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                     <div className="absolute bottom-3 left-3 right-3">
                       <span className="text-xs font-bold text-white/70 uppercase tracking-widest">{img.label}</span>
@@ -990,7 +1117,7 @@ export default function LandingPageContent() {
                   >
                     {/* Premium Background Number */}
                     <div className="absolute -top-2 -right-2 text-[80px] font-black text-slate-900/[0.04] group-hover:text-slate-900/[0.06] transition-colors select-none pointer-events-none leading-none">{s.n}</div>
-                    
+
                     <div className="relative z-10">
                       <div
                         className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-105"
@@ -1172,13 +1299,15 @@ export default function LandingPageContent() {
                 <div className="border-t border-white/10 pt-6">
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-white/50 text-sm font-medium">From an investment of</span>
-                    <span className="text-3xl font-black text-white tracking-tight">$39</span>
+                    <span className="text-3xl font-black text-white tracking-tight">
+                      ${PLANS?.pro?.price ?? 39}
+                    </span>
                   </div>
                   <Link
                     href="/upload?plan=pro"
                     className="w-full bg-lime-400 text-black py-3.5 rounded-xl font-bold hover:bg-lime-300 transition flex items-center justify-center gap-2 shadow-sm hover:shadow-md"
                   >
-                    Get this ROI for $39 <ArrowRight className="w-4 h-4" />
+                    Get this ROI for ${PLANS?.pro?.price ?? 39} <ArrowRight className="w-4 h-4" />
                   </Link>
                   <p className="mt-4 text-center text-xs text-white/30 font-medium flex items-center justify-center gap-1.5">
                     <Shield className="w-3 h-3" /> 30-day money-back guarantee
