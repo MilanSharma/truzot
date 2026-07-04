@@ -3,14 +3,13 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { getAuthenticatedClient } from "@/lib/supabase/authenticated";
 import { addCors, handleOptions } from "@/lib/cors";
 import { createLogger } from "@/lib/logger";
-import { withContext } from "@/lib/request-context";
 import { deleteFalFiles } from "@/lib/ai/fal-cleanup";
 
 const log = createLogger("orders-delete");
 
 export const OPTIONS = handleOptions;
 
-export const DELETE = withContext(async (req: Request) => {
+export const DELETE = async (req: Request) => {
  const origin = req.headers.get("origin");
  try {
  const token = req.headers.get("Authorization")?.replace("Bearer ", "");
@@ -114,4 +113,4 @@ export const DELETE = withContext(async (req: Request) => {
  origin,
  );
  }
-});
+};
