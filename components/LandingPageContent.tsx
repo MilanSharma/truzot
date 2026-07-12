@@ -1285,8 +1285,7 @@ export default function LandingPageContent() {
                 </motion.div>
               ))}
             </div>
-            {/* NOTE: "642 verified reviews" and "10,247 people served" must match
-              your real backend counts before shipping — an unlinked "verified"
+            {/* NOTE: User count should match real backend counts before shipping — an unlinked
               claim next to a number nobody can check is exactly the kind of
               detail a skeptical buyer probes first. Consider linking this to
               a public reviews page (Trustpilot/Google) if you have one. */}
