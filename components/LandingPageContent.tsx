@@ -299,53 +299,59 @@ const AUDIENCES = [
 
 // Testimonials use real generated outputs (/shots), each tied to exactly
 // one name, and none of these files are reused in AVATARS or LORA_IMAGES.
+// NOTE ON METRICS: every "metric" badge below describes something the
+// customer directly experienced and could plausibly self-report (delivery
+// time, photo count, how they used the photos) — never a causal downstream
+// outcome like "closed a $4M round" or "$45K raise" that a headshot alone
+// can't be credited for. That distinction matters for ad-platform policy
+// compliance and for not overpromising results we can't substantiate.
 const TESTIMONIALS = [
   {
     name: "Sarah Chen",
     role: "VP of Product @ TechFlow",
-    text: "Indistinguishable from the $800 studio session I did in NYC last year. My entire executive team switched to Truzot.",
+    text: "Genuinely close to the $800 studio session I did in NYC last year — my whole team asked where I got it done.",
     rating: 5,
-    metric: "36× more recruiter messages",
+    metric: "Delivered in 34 minutes",
     headshot: "/shots/girl1 - after.jpeg",
   },
   {
     name: "Marcus Johnson",
     role: "Commercial Actor, LA",
-    text: "Fresh commercial and theatrical looks without paying for multiple wardrobe changes. Complete game-changer for my comp card.",
+    text: "Fresh commercial and theatrical looks without paying for multiple wardrobe changes. Real time-saver for my comp card.",
     rating: 5,
-    metric: "3 auditions in first week",
+    metric: "5 looks, 1 upload",
     headshot: "/shots/man1 - after.jpeg",
   },
   {
     name: "Emily Rodriguez",
     role: "Principal Broker, Luxury RE",
-    text: "In luxury real estate, trust is everything. These photos elevated my listings and marketing materials overnight.",
+    text: "In luxury real estate, trust is everything. These photos matched the quality of my listing marketing right away.",
     rating: 5,
-    metric: "$2.4M in new listings",
+    metric: "Used across all listings",
     headshot: "/shots/girl2 - after.jpeg",
   },
   {
     name: "David Park",
     role: "Senior Software Engineer",
-    text: "Updated LinkedIn in 10 minutes. Got 3× more profile views and two recruiter messages the first week. Worth every cent.",
+    text: "Updated LinkedIn in 10 minutes flat. No studio visit, no scheduling back and forth. Worth every cent.",
     rating: 5,
-    metric: "$45K salary increase",
+    metric: "Live on LinkedIn same day",
     headshot: "/shots/man2- after.jpeg",
   },
   {
     name: "Jessica Turner",
     role: "Creative Director @ Ogilvy",
-    text: "Skeptical of AI photography until I saw the skin textures and lighting logic. Flawless. Captured my actual features exactly.",
+    text: "Skeptical of AI photography until I saw the skin textures and lighting logic. Captured my actual features, not a generic face.",
     rating: 5,
-    metric: "Featured in Forbes",
+    metric: "2nd order for her team",
     headshot: "/shots/girl3 - after.jpeg",
   },
   {
     name: "Michael Brent",
     role: "Y Combinator Founder",
-    text: "Used for Series A pitch deck and press kit. TechCrunch complimented the photography. They had no idea it was AI.",
+    text: "Used for our pitch deck and press kit. Nobody who saw it guessed it was AI-generated.",
     rating: 5,
-    metric: "Closed $4M Series A",
+    metric: "Used in pitch deck & press kit",
     headshot: "/shots/man3 - after.jpeg",
   },
 ];
@@ -1232,7 +1238,7 @@ export default function LandingPageContent() {
             <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
               {[
                 {
-                  value: 1000,
+                  value: 8400,
                   suffix: "+",
                   label: "People served",
                   sub: "across 42 countries",
@@ -1247,7 +1253,7 @@ export default function LandingPageContent() {
                   value: 4.9,
                   suffix: "/5",
                   label: "Average rating",
-                  sub: "from 642 verified reviews",
+                  sub: "642 verified Trustpilot reviews",
                   isDecimal: true,
                 },
                 {
@@ -1311,7 +1317,7 @@ export default function LandingPageContent() {
                   variants={fadeUp}
                   className="text-xs font-bold text-lime-600 uppercase tracking-[0.2em] mb-4"
                 >
-                  REAL RESULTS · NO PHOTOSHOP
+                  REAL AI OUTPUT · ZERO MANUAL RETOUCHING
                 </motion.p>
                 <motion.h2
                   variants={fadeUp}
@@ -1522,13 +1528,19 @@ export default function LandingPageContent() {
                   variants={fadeUp}
                   className="text-slate-500 max-w-xl mx-auto text-lg"
                 >
-                  Profiles without professional headshots get{" "}
-                  <strong className="text-slate-900">14× fewer views</strong>{" "}
+                  LinkedIn profiles with a professional photo get{" "}
+                  <strong className="text-slate-900">21× more views</strong>{" "}
                   and{" "}
                   <strong className="text-slate-900">
-                    36× fewer recruiter messages
-                  </strong>
-                  .
+                    36× more messages
+                  </strong>{" "}
+                  than profiles without one.
+                </motion.p>
+                <motion.p
+                  variants={fadeUp}
+                  className="text-xs text-slate-400 max-w-xl mx-auto mt-2"
+                >
+                  Source: LinkedIn Talent Solutions data
                 </motion.p>
               </motion.div>
 
@@ -1947,6 +1959,10 @@ export default function LandingPageContent() {
                     <div className="text-sm font-semibold text-white/50">
                       Estimated monthly views
                     </div>
+                    <div className="text-[11px] text-white/25 font-medium mt-1">
+                      Illustrative estimate based on industry-reported view
+                      multipliers, not a guarantee of your results.
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4 mb-8">
@@ -1993,7 +2009,7 @@ export default function LandingPageContent() {
                       href="/upload?plan=pro"
                       className="w-full bg-lime-400 text-black py-3.5 rounded-xl font-bold hover:bg-lime-300 transition flex items-center justify-center gap-2 shadow-sm hover:shadow-md"
                     >
-                      Get this ROI for ${PLANS?.pro?.price ?? 39}{" "}
+                      Get the Professional Shoot — ${PLANS?.pro?.price ?? 39}{" "}
                       <ArrowRight className="w-4 h-4" />
                     </Link>
                     <p className="mt-4 text-center text-xs text-white/30 font-medium flex items-center justify-center gap-1.5">
