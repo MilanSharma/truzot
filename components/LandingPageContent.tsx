@@ -172,13 +172,13 @@ const LORA_IMAGES = [
     style: "Creative Director",
   },
   {
-    src: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=90&fit=crop",
+    src: "https://images.unsplash.com/photo-1584940120505-117038d90b05?w=400&q=90&fit=crop",
     label: "Tech",
-    style: "Tech Executive",
+    style: "Silicon Valley Exec",
   },
   {
-    src: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=90&fit=crop",
-    label: "Premium",
+    src: "https://images.unsplash.com/photo-1686434538659-bb72333a1054?w=400&q=90&fit=crop",
+    label: "Boardroom",
     style: "C-Suite Portrait",
   },
   {
@@ -187,8 +187,8 @@ const LORA_IMAGES = [
     style: "Relaxed Pro",
   },
   {
-    src: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&q=90&fit=crop",
-    label: "Editorial",
+    src: "https://images.unsplash.com/photo-1542190891-2093d38760f2?w=400&q=90&fit=crop",
+    label: "Monochrome",
     style: "Editorial",
   },
 ];
@@ -649,7 +649,7 @@ function StickyMobileCTA() {
               From $29 · 30-day guarantee
             </p>
             <p className="text-white/40 text-xs truncate">
-              Results in under 2 hours
+              Results in as fast as 30 min
             </p>
           </div>
           <Link
@@ -1099,13 +1099,13 @@ export default function LandingPageContent() {
                 variants={fadeUp}
                 className="text-5xl md:text-7xl lg:text-[80px] font-black tracking-tighter leading-[0.92] mb-7"
               >
-                <span className="text-white">AI headshots.</span>
+                <span className="text-white">AI headshots</span>
                 <br />
                 <span className="relative">
-                  <span className="text-lime-400">Professional results.</span>
+                  <span className="text-lime-400">that actually look like you.</span>
                 </span>
                 <br />
-                <span className="text-white/40">Under 2 hours from your phone.</span>
+                <span className="text-white/40">Not a stranger. Ready in as fast as 30 minutes.</span>
               </motion.h1>
 
               {/* Sub */}
@@ -2479,7 +2479,7 @@ export default function LandingPageContent() {
                   <h2 className="text-4xl md:text-6xl font-black text-white mb-5 tracking-tighter leading-[0.95]">
                     Your next great first impression
                     <br />
-                    <span className="text-lime-400">starts in under 2 hours.</span>
+                    <span className="text-lime-400">starts in 30 minutes.</span>
                   </h2>
                   <p className="text-xl text-white/40 mb-10 max-w-xl mx-auto leading-relaxed">
                     Join thousands of people who upgraded their personal brand —
@@ -2504,8 +2504,8 @@ export default function LandingPageContent() {
                   </div>
 
                   <p className="mt-6 text-sm text-white/30 font-medium">
-                    From $29 · 30-day money-back guarantee · Results in 30
-                    minutes
+                    From $29 · 30-day money-back guarantee · Results in as
+                    fast as 30 minutes
                   </p>
                 </div>
               </motion.div>
