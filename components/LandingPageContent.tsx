@@ -172,22 +172,22 @@ const LORA_IMAGES = [
     style: "Creative Director",
   },
   {
-    src: "https://images.unsplash.com/photo-1584940120505-117038d90b05?w=400&q=90&fit=crop",
+    src: "/shots/tech-executive.jpg",
     label: "Tech",
     style: "Silicon Valley Exec",
   },
   {
-    src: "https://images.unsplash.com/photo-1686434538659-bb72333a1054?w=400&q=90&fit=crop",
+    src: "/shots/c-suite-portrait.jpg",
     label: "Boardroom",
     style: "C-Suite Portrait",
   },
   {
-    src: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=90&fit=crop",
+    src: "/shots/relaxed-pro.jpg",
     label: "Casual Pro",
     style: "Relaxed Pro",
   },
   {
-    src: "https://images.unsplash.com/photo-1542190891-2093d38760f2?w=400&q=90&fit=crop",
+    src: "/shots/editorial.jpg",
     label: "Monochrome",
     style: "Editorial",
   },
