@@ -360,8 +360,8 @@ const FAQS = [
     a: "Our Flux LoRA architecture is more sample-efficient than older Stable Diffusion models. Uploading too many similar photos actually hurts quality. 1–5 well-lit, varied selfies gives our model exactly the signal it needs — no more, no less.",
   },
   {
-    q: "What is the Free Preview, and how does it work?",
-    a: "Click &apos;Free Preview&apos; to browse our full style gallery — Corporate, Creative, Founder, Actor, and more — and see real sample outputs for each. No upload, no payment required. Once you find styles you love, click &apos;Get these looks&apos; to start your order.",
+    q: "What is the View Examples, and how does it work?",
+    a: "Click &apos;View Examples&apos; to browse our full style gallery — Corporate, Creative, Founder, Actor, and more — and see real sample outputs for each. No upload, no payment required. Once you find styles you love, click &apos;Get these looks&apos; to start your order.",
   },
   {
     q: "How fast will I get my photos?",
@@ -643,7 +643,7 @@ function StickyMobileCTA() {
               From $29 · 30-day guarantee
             </p>
             <p className="text-white/40 text-xs truncate">
-              Results in 30 minutes
+              Results in under 2 hours
             </p>
           </div>
           <Link
@@ -733,7 +733,7 @@ export default function LandingPageContent() {
   >("idle");
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [scrolled, setScrolled] = useState(false);
-  const [headshotsCount] = useState(1247893);
+  const [headshotsCount] = useState(1200000);
 
   // ROI Calculator State
   const [roiProfession, setRoiProfession] =
@@ -942,12 +942,12 @@ export default function LandingPageContent() {
                 </Link>
               )}
 
-              {/* Free Preview CTA */}
+              {/* View Examples CTA */}
               <Link
                 href="/free-preview"
                 className="flex items-center gap-2 border border-[var(--border)] px-4 py-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--lime-text)] hover:bg-[var(--surface2)] transition"
               >
-                <Eye className="w-4 h-4" /> Free Preview
+                <Eye className="w-4 h-4" /> View Examples
               </Link>
 
               {/* Primary CTA */}
@@ -1013,7 +1013,7 @@ export default function LandingPageContent() {
                 onClick={() => setMobileMenuOpen(false)}
                 className="border border-[var(--border)] text-[var(--text-muted)] px-4 py-3 rounded-xl text-left flex items-center gap-2"
               >
-                <Eye className="w-4 h-4" /> Free Preview
+                <Eye className="w-4 h-4" /> View Examples
               </Link>
               <Link
                 href="/upload"
@@ -1073,7 +1073,7 @@ export default function LandingPageContent() {
                   ))}
                 </div>
                 <span>
-                  Trusted by <strong className="text-white">10,247</strong>{" "}
+                  Trusted by <strong className="text-white">thousands of</strong>{" "}
                   people
                 </span>
                 <span className="w-px h-4 bg-white/15" />
@@ -1099,7 +1099,7 @@ export default function LandingPageContent() {
                   <span className="text-lime-400">Professional results.</span>
                 </span>
                 <br />
-                <span className="text-white/40">30 minutes from your phone.</span>
+                <span className="text-white/40">Under 2 hours from your phone.</span>
               </motion.h1>
 
               {/* Sub */}
@@ -1142,7 +1142,7 @@ export default function LandingPageContent() {
                   href="/free-preview"
                   className="w-full sm:w-auto bg-[var(--surface2)] backdrop-blur-sm text-[var(--text)] border border-[var(--border)] px-8 py-4 rounded-xl font-bold text-lg hover:bg-[var(--surface3)] transition flex items-center justify-center gap-2"
                 >
-                  <Eye className="w-5 h-5" /> Free Preview
+                  <Eye className="w-5 h-5" /> View Examples
                 </Link>
               </motion.div>
 
@@ -1232,7 +1232,7 @@ export default function LandingPageContent() {
             <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
               {[
                 {
-                  value: 10247,
+                  value: 1000,
                   suffix: "+",
                   label: "People served",
                   sub: "across 42 countries",
@@ -1378,7 +1378,7 @@ export default function LandingPageContent() {
                     href="/free-preview"
                     className="inline-flex items-center gap-2 text-[var(--lime-text)] font-bold hover:gap-3 transition-all text-sm"
                   >
-                    Free preview <ArrowRight className="w-4 h-4" />
+                    View examples <ArrowRight className="w-4 h-4" />
                   </Link>
                 </motion.div>
                 <motion.div
@@ -1430,7 +1430,7 @@ export default function LandingPageContent() {
                     href="/free-preview"
                     className="inline-flex items-center gap-2 border border-[var(--lime-border)] bg-[var(--lime-dim)] text-[var(--lime-text)] px-6 py-3 rounded-xl font-bold hover:bg-[var(--surface2)] transition"
                   >
-                    <Eye className="w-4 h-4" /> Free preview
+                    <Eye className="w-4 h-4" /> View examples
                   </Link>
                 </motion.div>
               </motion.div>
@@ -2326,7 +2326,7 @@ export default function LandingPageContent() {
                 <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-slate-500">
                   <Link href="/pricing" className="hover:text-lime-600 transition">View all pricing</Link>
                   <span>·</span>
-                  <Link href="/free-preview" className="hover:text-lime-600 transition">Free preview available</Link>
+                  <Link href="/free-preview" className="hover:text-lime-600 transition">View examples</Link>
                   <span>·</span>
                   <Link href="/faq" className="hover:text-lime-600 transition">Pricing FAQ</Link>
                 </div>
@@ -2464,10 +2464,10 @@ export default function LandingPageContent() {
                   <h2 className="text-4xl md:text-6xl font-black text-white mb-5 tracking-tighter leading-[0.95]">
                     Your next great first impression
                     <br />
-                    <span className="text-lime-400">starts in 30 minutes.</span>
+                    <span className="text-lime-400">starts in under 2 hours.</span>
                   </h2>
                   <p className="text-xl text-white/40 mb-10 max-w-xl mx-auto leading-relaxed">
-                    Join 10,247 people who upgraded their personal brand —
+                    Join thousands of people who upgraded their personal brand —
                     professionals, job seekers, creatives, and students alike.
                     No studio. No photographer. No risk.
                   </p>
@@ -2571,7 +2571,7 @@ export default function LandingPageContent() {
                     href="/free-preview"
                     className="hover:text-[var(--text)] transition"
                   >
-                    Free Preview
+                    View Examples
                   </Link>
                 </li>
                 <li>
