@@ -110,6 +110,22 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       suppressHydrationWarning
     >
       <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18276640380"
+          strategy="afterInteractive"
+        />
+        <Script
+          id="google-ads-config"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-18276640380');
+            `,
+          }}
+        />
         <link rel="dns-prefetch" href="https://fal.ai" />
         <link rel="preconnect" href="https://fal.ai" />
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
