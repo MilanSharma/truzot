@@ -29,6 +29,13 @@ export const checkoutSchema = z.object({
   idempotencyKey: z.string().min(1, "Idempotency key is required"),
   shootName: z.string().max(100).optional(),
   coupon: z.string().max(50).optional(),
+  utmParams: z.object({
+    utm_source: z.string().optional(),
+    utm_medium: z.string().optional(),
+    utm_campaign: z.string().optional(),
+    utm_term: z.string().optional(),
+    utm_content: z.string().optional(),
+  }).optional(),
 });
 
 export const retrySchema = z.object({

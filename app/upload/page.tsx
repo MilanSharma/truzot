@@ -141,6 +141,16 @@ function UploadContent() {
   }, []);
 
   const urlStep = parseInt(searchParams.get("step") ?? "") as Step;
+  
+  // Extract UTM parameters for tracking
+  const utmParams = useMemo(() => ({
+    utm_source: searchParams.get("utm_source") || "",
+    utm_medium: searchParams.get("utm_medium") || "",
+    utm_campaign: searchParams.get("utm_campaign") || "",
+    utm_term: searchParams.get("utm_term") || "",
+    utm_content: searchParams.get("utm_content") || "",
+  }), [searchParams]);
+
   const [step, setStep] = useState<Step>(() => {
     const saved = getSavedState();
     if (
@@ -764,6 +774,7 @@ function UploadContent() {
         idempotencyKey,
         shootName: shootName || defaultShootName,
         coupon: coupon || undefined,
+        utmParams, // Include UTM parameters for tracking
       };
 
       const res = await fetch("/api/checkout", {
