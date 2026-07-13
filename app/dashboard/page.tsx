@@ -11,6 +11,7 @@ import {
 } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import Script from "next/script";
 import { supabase } from "@/lib/supabase/client";
 import { downloadAsZip } from "@/lib/download";
 import JSZip from "jszip";
@@ -1186,7 +1187,22 @@ function DashboardContent() {
                   )}
 
                   {currentOrder.status === "completed" && (
-                    <div className="flex flex-wrap items-center gap-3">
+                    <>
+                      <Script
+                        id="google-ads-conversion"
+                        strategy="afterInteractive"
+                        dangerouslySetInnerHTML={{
+                          __html: `
+                            gtag('event', 'conversion', {
+                              'send_to': 'AW-18276640380/bFSfCJb0pM8cEPzM_YpE',
+                              'value': ${(currentOrder.amount_cents || 0) / 100},
+                              'currency': 'USD',
+                              'transaction_id': '${currentOrder.id}'
+                            });
+                          `,
+                        }}
+                      />
+                      <div className="flex flex-wrap items-center gap-3">
                       <button
                         onClick={shareGallery}
                         className="px-4 py-2.5 rounded-xl text-sm font-bold border bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition flex items-center gap-2"
@@ -1264,6 +1280,7 @@ function DashboardContent() {
                         />
                       </Suspense>
                     </div>
+                    </>
                   )}
                 </div>
 
