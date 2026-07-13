@@ -54,7 +54,7 @@ async function sendMetaCAPIEvent(session: Stripe.Checkout.Session, orderId: stri
     const hashedCountry = hashValue(session.customer_details?.address?.country);
     const hashedZip = hashValue(session.customer_details?.address?.postal_code);
 
-    const capiPayload = {
+    const capiPayload: any = {
       data: [
         {
           event_name: "Purchase",
@@ -80,6 +80,11 @@ async function sendMetaCAPIEvent(session: Stripe.Checkout.Session, orderId: stri
         },
       ],
     };
+
+    // Add test event code if configured (for Meta testing)
+    if (process.env.META_TEST_EVENT_CODE) {
+      capiPayload.test_event_code = process.env.META_TEST_EVENT_CODE;
+    }
 
     const response = await fetch(
       `https://graph.facebook.com/v20.0/${pixelId}/events?access_token=${accessToken}`,
