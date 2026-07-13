@@ -11,7 +11,6 @@ import {
 } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import Script from "next/script";
 import { supabase } from "@/lib/supabase/client";
 import { downloadAsZip } from "@/lib/download";
 import JSZip from "jszip";
@@ -166,6 +165,7 @@ function DashboardContent() {
   const router = useRouter();
   const { toast } = useToast();
   const orderId = searchParams.get("order");
+  const sessionId = searchParams.get("session_id");
 
   const [currentTime, setCurrentTime] = useState(() => Date.now());
   useEffect(() => {
@@ -194,6 +194,63 @@ function DashboardContent() {
     if (!orderId) return null;
     return orders.find((o) => o.id === orderId) || fetchedOrder;
   }, [orderId, orders, fetchedOrder]);
+
+  // SHA-256 helper for Google Enhanced Conversions
+  const sha256 = async (message: string) => {
+    const msgBuffer = new TextEncoder().encode(message);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+  };
+
+  // Fetch session details and trigger value-based tracking
+  useEffect(() => {
+    if (!sessionId || !currentOrder || currentOrder.status !== "completed") return;
+
+    const triggerValueTracking = async () => {
+      try {
+        const res = await fetch(`/api/get-session?session_id=${sessionId}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        
+        if (data.amount && data.currency) {
+          // Meta Pixel with value-based tracking and deduplication
+          if (typeof window !== "undefined" && (window as any).fbq) {
+            (window as any).fbq("track", "Purchase", {
+              value: data.amount,
+              currency: data.currency,
+            }, { 
+              eventID: sessionId 
+            });
+          }
+
+          // Google Ads with value-based tracking and Enhanced Conversions
+          if (typeof window !== "undefined" && (window as any).gtag) {
+            // Set user data for Enhanced Conversions
+            if (data.email) {
+              const hashedEmail = await sha256(data.email.trim().toLowerCase());
+              (window as any).gtag("set", "user_data", {
+                sha256_email_address: hashedEmail,
+              });
+            }
+
+            // Fire conversion event
+            (window as any).gtag("event", "conversion", {
+              send_to: "AW-18276640380/bFSfCJb0pM8cEPzM_YpE",
+              value: data.amount,
+              currency: data.currency,
+              transaction_id: sessionId,
+            });
+          }
+        }
+      } catch (err) {
+        console.error("Error triggering value-based tracking:", err);
+      }
+    };
+
+    triggerValueTracking();
+  }, [sessionId, currentOrder]);
+
   const [generationProgress, setGenerationProgress] = useState({
     count: 0,
     target: 0,
@@ -1188,20 +1245,6 @@ function DashboardContent() {
 
                   {currentOrder.status === "completed" && (
                     <>
-                      <Script
-                        id="google-ads-conversion"
-                        strategy="afterInteractive"
-                        dangerouslySetInnerHTML={{
-                          __html: `
-                            gtag('event', 'conversion', {
-                              'send_to': 'AW-18276640380/bFSfCJb0pM8cEPzM_YpE',
-                              'value': ${(currentOrder.amount_cents || 0) / 100},
-                              'currency': 'USD',
-                              'transaction_id': '${currentOrder.id}'
-                            });
-                          `,
-                        }}
-                      />
                       <div className="flex flex-wrap items-center gap-3">
                       <button
                         onClick={shareGallery}
