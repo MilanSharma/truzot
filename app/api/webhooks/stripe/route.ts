@@ -11,10 +11,93 @@ import { createLogger } from "@/lib/logger";
 import { withContext } from "@/lib/request-context";
 import { getStripe } from "@/lib/stripe";
 import { isValidTransition } from "@/lib/order-status";
+import crypto from "crypto";
 
 const log = createLogger("stripe-webhook");
 
 const MAX_BODY_SIZE = 1_048_576; // 1MB
+
+// Helper function to hash PII for Meta CAPI (lowercase, trimmed SHA-256)
+function hashValue(value: string | undefined | null): string | null {
+  if (!value) return null;
+  const cleaned = value.trim().toLowerCase();
+  return crypto.createHash("sha256").update(cleaned).digest("hex");
+}
+
+// Send event to Meta CAPI
+async function sendMetaCAPIEvent(session: Stripe.Checkout.Session, orderId: string) {
+  try {
+    const pixelId = "1385221020153603";
+    const accessToken = process.env.META_CAPI_ACCESS_TOKEN;
+
+    if (!accessToken) {
+      log.warn("META_CAPI_ACCESS_TOKEN not configured, skipping CAPI event");
+      return;
+    }
+
+    const email = session.customer_details?.email;
+    const fullName = session.customer_details?.name || "";
+    const [firstName, ...lastNameArray] = fullName.trim().split(" ");
+    const lastName = lastNameArray.join(" ");
+
+    const currency = (session.currency || "USD").toUpperCase();
+    const value = session.amount_total ? session.amount_total / 100 : 0;
+    const eventId = session.id; // Stripe Checkout Session ID for deduplication
+
+    const clientIp = session.metadata?.client_ip || "";
+    const userAgent = session.metadata?.user_agent || "";
+
+    // Hash PII fields
+    const hashedEmail = hashValue(email);
+    const hashedFirstName = hashValue(firstName);
+    const hashedLastName = hashValue(lastName);
+    const hashedCountry = hashValue(session.customer_details?.address?.country);
+    const hashedZip = hashValue(session.customer_details?.address?.postal_code);
+
+    const capiPayload = {
+      data: [
+        {
+          event_name: "Purchase",
+          event_time: Math.floor(Date.now() / 1000),
+          event_id: eventId,
+          action_source: "website",
+          event_source_url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://truzot.com"}/dashboard`,
+          user_data: {
+            em: hashedEmail ? [hashedEmail] : [],
+            fn: hashedFirstName ? [hashedFirstName] : [],
+            ln: hashedLastName ? [hashedLastName] : [],
+            zp: hashedZip ? [hashedZip] : [],
+            country: hashedCountry ? [hashedCountry] : [],
+            client_ip_address: clientIp || undefined,
+            client_user_agent: userAgent || undefined,
+            fbp: session.metadata?.fbp || undefined,
+            fbc: session.metadata?.fbc || undefined,
+          },
+          custom_data: {
+            currency: currency,
+            value: value,
+          },
+        },
+      ],
+    };
+
+    const response = await fetch(
+      `https://graph.facebook.com/v20.0/${pixelId}/events?access_token=${accessToken}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(capiPayload),
+      }
+    );
+
+    const result = await response.json();
+    log.info({ result, orderId }, "Meta CAPI event sent");
+  } catch (err) {
+    log.error({ err, orderId }, "Failed to send Meta CAPI event");
+  }
+}
 
 export const POST = withContext(async (req: Request) => {
  const stripe = getStripe();
@@ -228,6 +311,9 @@ preferences: updatedPrefs,
  { error: "Failed to update order" },
  { status: 500 },
  );
+
+ // Send Meta CAPI event for purchase tracking
+ waitUntil(sendMetaCAPIEvent(session, orderId));
 
  const { error: trainingUpsertError } = await supabaseAdmin
  .from("trainings")
