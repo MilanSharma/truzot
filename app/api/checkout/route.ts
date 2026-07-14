@@ -694,16 +694,27 @@ export const POST = withContext(async (req: Request) => {
  }
  } catch (err) {
  Sentry.captureException(err);
- const message =
- err instanceof Error ? err.message : "Unknown checkout error";
+ let message = "Something went wrong. Please try again.";
+ 
+ if (err instanceof Error) {
+   // User-friendly error messages
+   if (err.message.includes("duplicate key") || err.message.includes("idx_orders_email_pending")) {
+     message = "You have an incomplete order. Please complete or cancel it before starting a new one.";
+   } else if (err.message.includes("coupon") || err.message.includes("discount")) {
+     message = "Invalid discount code. Please check and try again.";
+   } else if (err.message.includes("stripe")) {
+     message = "Payment processing failed. Please try again.";
+   }
+ }
+ 
  log.error(
- {
- err:
- err instanceof Error
- ? { message: err.message, stack: err.stack }
- : err,
- },
- "Checkout failed",
+   {
+     err:
+     err instanceof Error
+       ? { message: err.message, stack: err.stack }
+       : err,
+   },
+   "Checkout failed",
  );
  return addCors(
  NextResponse.json({ error: message }, { status: 500 }),
