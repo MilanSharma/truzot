@@ -770,6 +770,12 @@ function UploadContent() {
       }
       setStep(2);
       window.scrollTo(0, 0);
+      
+      // Track Step 1 Completion (Photos Uploaded)
+      if (typeof window !== "undefined") {
+        if ((window as any).fbq) (window as any).fbq('track', 'CustomizeProduct');
+        if ((window as any).gtag) (window as any).gtag('event', 'add_to_cart');
+      }
       return;
     }
   };
@@ -793,6 +799,27 @@ function UploadContent() {
     setIsProcessing(true);
     setError("");
     setProgress("Processing payment...");
+
+    // Track Checkout Initiated
+    if (typeof window !== "undefined") {
+      const planConfig = PLANS[plan as keyof typeof PLANS];
+      const planPrice = planConfig?.price || 0;
+      
+      if ((window as any).fbq) {
+        (window as any).fbq('track', 'InitiateCheckout', {
+          content_name: plan,
+          value: planPrice,
+          currency: 'USD',
+        });
+      }
+      if ((window as any).gtag) {
+        (window as any).gtag('event', 'begin_checkout', {
+          currency: 'USD',
+          value: planPrice,
+          items: [{ item_name: plan, price: planPrice }]
+        });
+      }
+    }
 
     try {
       const {
