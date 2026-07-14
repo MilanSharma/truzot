@@ -85,8 +85,39 @@ export const GET = withContext(async (req: Request) => {
  }
 
  try {
- // Stream the response instead of buffering to avoid memory issues
+ // Generate a signed URL from Supabase and redirect to avoid 4MB Vercel payload limit
+ // Extract the path from the Supabase URL
+ const urlObj = new URL(url);
+ const pathParts = urlObj.pathname.split('/');
+ 
+ // Supabase URLs are typically: https://[project].supabase.co/storage/v1/object/[bucket]/[path]
+ // We need to extract bucket and path
+ if (pathParts.includes('object')) {
+   const objectIndex = pathParts.indexOf('object');
+   if (objectIndex >= 0 && objectIndex + 2 < pathParts.length) {
+     const bucket = pathParts[objectIndex + 1];
+     const filePath = pathParts.slice(objectIndex + 2).join('/');
+     
+     const { data } = await supabaseAdmin.storage
+       .from(bucket)
+       .createSignedUrl(filePath, 3600);
+     
+     if (data?.signedUrl) {
+       return NextResponse.redirect(data.signedUrl);
+     }
+   }
+ }
+ 
+ // Fallback: if we can't extract Supabase path, try streaming with size check
  const response = await fetch(url);
+ const contentLength = response.headers.get('content-length');
+ 
+ // If file is larger than 3MB (safe margin below 4MB limit), redirect
+ if (contentLength && parseInt(contentLength) > 3 * 1024 * 1024) {
+   return NextResponse.redirect(url);
+ }
+ 
+ // For smaller files, stream the response
  return new NextResponse(response.body, {
  headers: {
  "Content-Type": response.headers.get("Content-Type") || "image/jpeg",
