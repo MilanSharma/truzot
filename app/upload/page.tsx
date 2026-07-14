@@ -205,6 +205,9 @@ function UploadContent() {
   const [coupon, setCoupon] = useState(
     () => (getSavedState()?.coupon as string) || "",
   );
+  const [couponValid, setCouponValid] = useState<boolean | null>(null);
+  const [couponMessage, setCouponMessage] = useState("");
+  const [validatingCoupon, setValidatingCoupon] = useState(false);
   const [storagePath, setStoragePath] = useState(
     () => (getSavedState()?.storagePath as string) || "",
   );
@@ -313,6 +316,44 @@ function UploadContent() {
       clearTimeout(timer);
     };
   }, [storagePath, step, toast, isProcessing]);
+
+  const validateCoupon = async () => {
+    if (!coupon.trim()) {
+      setCouponValid(null);
+      setCouponMessage("");
+      return;
+    }
+
+    setValidatingCoupon(true);
+    setCouponValid(null);
+    setCouponMessage("");
+
+    try {
+      const res = await fetch("/api/validate-coupon", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          coupon: coupon,
+          plan: plan,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.valid) {
+        setCouponValid(true);
+        setCouponMessage(`Coupon applied! $${(data.finalAmount / 100).toFixed(2)}`);
+      } else {
+        setCouponValid(false);
+        setCouponMessage(data.error || "Invalid coupon code");
+      }
+    } catch (err) {
+      setCouponValid(false);
+      setCouponMessage("Failed to validate coupon");
+    } finally {
+      setValidatingCoupon(false);
+    }
+  };
 
   useEffect(() => {
     try {
@@ -1306,19 +1347,35 @@ function UploadContent() {
                             <input
                               type="text"
                               value={coupon}
-                              onChange={(e) =>
-                                setCoupon(e.target.value.toUpperCase())
-                              }
+                              onChange={(e) => {
+                                setCoupon(e.target.value.toUpperCase());
+                                setCouponValid(null);
+                                setCouponMessage("");
+                              }}
                               placeholder="Discount Code"
                               className="w-full px-4 py-2.5 rounded-l-xl border border-r-0 border-[var(--border-secondary)] bg-[var(--bg)] text-sm outline-none uppercase font-bold placeholder-[var(--text-muted)] text-[var(--text)] focus:border-[var(--lime-text)] focus:ring-1 focus:ring-[var(--lime-dim)]"
                             />
                             <button
-                              onClick={(e) => e.preventDefault()}
-                              className="bg-[var(--surface2)] hover:bg-[var(--surface3)] transition cursor-pointer border border-[var(--border-secondary)] px-5 py-2.5 rounded-r-xl text-sm font-bold text-[var(--text)] flex items-center justify-center"
+                              onClick={validateCoupon}
+                              disabled={validatingCoupon}
+                              className="bg-[var(--surface2)] hover:bg-[var(--surface3)] transition cursor-pointer border border-[var(--border-secondary)] px-5 py-2.5 rounded-r-xl text-sm font-bold text-[var(--text)] flex items-center justify-center disabled:opacity-50"
                             >
-                              Apply
+                              {validatingCoupon ? (
+                                <Loader2 className="w-4 h-4 animate-spin" />
+                              ) : (
+                                "Apply"
+                              )}
                             </button>
                           </div>
+                          {couponMessage && (
+                            <div
+                              className={`mt-2 text-xs ${
+                                couponValid ? "text-lime-400" : "text-red-400"
+                              }`}
+                            >
+                              {couponMessage}
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
