@@ -38,7 +38,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: blob: https:",
               "font-src 'self' data:",
-              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.stripe.com https://api.fal.ai https://api.resend.com https://r.wdfl.co https://us.i.posthog.com https://va.vercel-scripts.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.google.com https://*.facebook.com https://*.facebook.net https://www.googletagmanager.com https://*.googletagmanager.com",
+              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.stripe.com https://api.fal.ai https://api.resend.com https://r.wdfl.co https://us.i.posthog.com https://va.vercel-scripts.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.doubleclick.net https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.google.com https://*.facebook.com https://*.facebook.net https://www.googletagmanager.com https://*.googletagmanager.com",
               "frame-src 'self' https://js.stripe.com https://challenges.cloudflare.com https://*.facebook.com https://*.googletagmanager.com https://*.google.com https://td.doubleclick.net https://bid.g.doubleclick.net",
               "object-src 'none'",
               "base-uri 'self'",
