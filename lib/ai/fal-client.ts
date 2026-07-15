@@ -238,8 +238,6 @@ export const trainModel = async (imageUrl: string, orderId: string, imageCount?:
   return await res.json();
 };
 
-const concurrencyLimit = pLimit(3);
-
 /** SHA-256 over the full image body - the old code only hashed the first 1000
  * bytes (the Range request), which mostly captures the JPEG header. Since every
  * image in a batch is generated with identical encoder settings, two genuinely
@@ -267,13 +265,15 @@ async function upscaleImage(imageUrl: string, factor: number): Promise<string> {
 }
 
 export const generateHeadshots = async (
-  modelId: string, plan: string, startIndex: number = 0, limit: number = 10000, prefs?: UserPreferences
+  modelId: string, plan: string, startIndex: number = 0, limit: number = 10000, prefs?: UserPreferences, concurrency: number = 3
 ): Promise<GenerateHeadshotsResponse> => {
   const planKey = resolvePlanKey(plan);
   const profile = QUALITY_PROFILE[planKey];
   const promisedTotal = PLAN_SHOTS[plan] ?? 40;
   const targetShots = Math.min(startIndex + limit, promisedTotal);
   const batchSize = targetShots - startIndex;
+
+  const concurrencyLimit = pLimit(concurrency);
 
   // Build extra prompts beyond the batch so we have fresh, never-before-tried
   // material to backfill with if some generations fail or get flagged as dupes -

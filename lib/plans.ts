@@ -92,6 +92,29 @@ export const PLAN_SHOTS: Record<string, number> = {
   custom_upsell: 20,
 };
 
+export type GenPlanKey = "basic" | "pro" | "executive" | "custom_upsell";
+
+export const GENERATION_CONFIG: Record<GenPlanKey, {
+  batchSize: number;      // shots attempted per invocation
+  concurrency: number;    // simultaneous fal.ai calls within that invocation
+}> = {
+  // No upscale pass — cheap per image, can go big in one shot.
+  basic:         { batchSize: 40,  concurrency: 6 },
+  // +1 upscale call per image (2.5x). Bigger batch still fits comfortably in 800s.
+  pro:           { batchSize: 100, concurrency: 8 },
+  // +1 upscale call per image (4x, slowest per-image cost). Reduced to 6 until
+  // fal.ai account rate limits are verified. Check fal.ai dashboard for actual limits.
+  executive:     { batchSize: 150, concurrency: 6 },
+  custom_upsell: { batchSize: 20,  concurrency: 6 },
+};
+
+export function resolveGenPlanKey(plan: string): GenPlanKey {
+  if (plan === "executive") return "executive";
+  if (plan === "pro") return "pro";
+  if (plan === "custom_upsell") return "custom_upsell";
+  return "basic";
+}
+
 export const STYLE_CATEGORIES = [
   {
     id: "corporate",

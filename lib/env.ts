@@ -14,6 +14,8 @@ const envSchema = z.object({
   FAL_WEBHOOK_SECRET: z.string().min(1),
   CRON_SECRET: z.string().min(1),
   QSTASH_TOKEN: z.string().optional(),
+  QSTASH_CURRENT_SIGNING_KEY: z.string().optional(),
+  QSTASH_NEXT_SIGNING_KEY: z.string().optional(),
   NEXT_PUBLIC_SITE_URL: z.string().url().optional(),
   ADMIN_EMAILS: z.string().optional(),
   SENTRY_DSN: z.string().url().optional(),
