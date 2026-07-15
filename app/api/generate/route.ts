@@ -146,12 +146,12 @@ export const POST = withContext(async (req: Request) => {
     }
 
     const planKey = resolveGenPlanKey(order.plan);
-    const { batchSize: maxBatch, concurrency } = GENERATION_CONFIG[planKey];
+    const { batchSize: maxBatch } = GENERATION_CONFIG[planKey];
     const batchSize = Math.min(maxBatch, targetCount - currentCount);
 
     let genResult;
     try {
-      genResult = await generateHeadshots(training.model_id, order.plan, currentCount, batchSize, order.preferences, concurrency);
+      genResult = await generateHeadshots(training.model_id, order.plan, currentCount, batchSize, order.preferences);
     } catch (genErr) {
       // CHANGED: no longer rethrown to the outer catch. A thrown error is treated
       // exactly like a zero-progress batch — it still enqueues the next attempt and

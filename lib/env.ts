@@ -16,6 +16,8 @@ const envSchema = z.object({
   QSTASH_TOKEN: z.string().optional(),
   QSTASH_CURRENT_SIGNING_KEY: z.string().optional(),
   QSTASH_NEXT_SIGNING_KEY: z.string().optional(),
+  UPSTASH_REDIS_REST_URL: z.string().optional(),
+  UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
   NEXT_PUBLIC_SITE_URL: z.string().url().optional(),
   ADMIN_EMAILS: z.string().optional(),
   SENTRY_DSN: z.string().url().optional(),

@@ -1,9 +1,9 @@
 import "server-only";
-import pLimit from "p-limit";
 import { createHmac, createHash } from "crypto";
 import { PLAN_SHOTS } from "@/lib/plans";
 import { createLogger } from "@/lib/logger";
 import type { GenerateHeadshotsResult, GenerateHeadshotsResponse, UserPreferences } from "@/lib/ai/types";
+import { withFalSlot } from "@/lib/fal-concurrency";
 
 const log = createLogger("fal-client");
 
@@ -265,15 +265,13 @@ async function upscaleImage(imageUrl: string, factor: number): Promise<string> {
 }
 
 export const generateHeadshots = async (
-  modelId: string, plan: string, startIndex: number = 0, limit: number = 10000, prefs?: UserPreferences, concurrency: number = 3
+  modelId: string, plan: string, startIndex: number = 0, limit: number = 10000, prefs?: UserPreferences
 ): Promise<GenerateHeadshotsResponse> => {
   const planKey = resolvePlanKey(plan);
   const profile = QUALITY_PROFILE[planKey];
   const promisedTotal = PLAN_SHOTS[plan] ?? 40;
   const targetShots = Math.min(startIndex + limit, promisedTotal);
   const batchSize = targetShots - startIndex;
-
-  const concurrencyLimit = pLimit(concurrency);
 
   // Build extra prompts beyond the batch so we have fresh, never-before-tried
   // material to backfill with if some generations fail or get flagged as dupes -
@@ -287,56 +285,55 @@ export const generateHeadshots = async (
   let consecutiveFailures = 0;
   const seenHashes = new Set<string>();
 
-  const generateOne = (prompt: string, index: number) =>
-    concurrencyLimit(async () => {
-      let attempt = 0;
-      while (attempt < 2) {
-        if (consecutiveFailures > 4) {
-          log.warn("Circuit breaker activated. Pausing generation requests for 15s.");
-          await new Promise(r => setTimeout(r, 15000));
-          consecutiveFailures = 0;
-        }
-        try {
-          const res = await falFetch("fal-ai/flux-lora", {
-            prompt,
-            negative_prompt: NEGATIVE_PROMPT,
-            loras: [{ path: modelId, scale: loraScale }],
-            num_inference_steps: profile.inferenceSteps,
-            guidance_scale: guidanceScale,
-            num_images: 1,
-            width: profile.baseWidth,
-            height: profile.baseHeight,
-            output_format: "jpeg",
-            enable_safety_checker: true,
-            acceleration: "none", // prioritize quality over speed
-          });
-
-          let imgUrl = res.data.images[0].url;
-
-          const hash = await hashImage(imgUrl);
-          if (hash) {
-            if (seenHashes.has(hash)) throw new Error("Duplicate image detected, rejecting.");
-            seenHashes.add(hash);
-          }
-
-          // Real resolution upscale for Pro/Executive so 4K/8K claims are true,
-          // not just labels. Portrait-specialized model preserves facial detail
-          // rather than just sharpening edges.
-          if (profile.upscaleFactor) {
-            imgUrl = await upscaleImage(imgUrl, profile.upscaleFactor);
-          }
-
-          consecutiveFailures = 0;
-          return { ...res.data, images: [{ ...res.data.images[0], url: imgUrl }], prompt, index };
-        } catch (e: any) {
-          consecutiveFailures++;
-          if (e.message?.includes("not found")) throw e; // fatal error, don't retry
-          attempt++;
-          if (attempt >= 2) throw e;
-          await new Promise(r => setTimeout(r, 2000 * attempt));
-        }
+  const generateOne = (prompt: string, index: number) => (async () => {
+    let attempt = 0;
+    while (attempt < 2) {
+      if (consecutiveFailures > 4) {
+        log.warn("Circuit breaker activated. Pausing generation requests for 15s.");
+        await new Promise(r => setTimeout(r, 15000));
+        consecutiveFailures = 0;
       }
-    });
+      try {
+        const res = await withFalSlot(() => falFetch("fal-ai/flux-lora", {
+          prompt,
+          negative_prompt: NEGATIVE_PROMPT,
+          loras: [{ path: modelId, scale: loraScale }],
+          num_inference_steps: profile.inferenceSteps,
+          guidance_scale: guidanceScale,
+          num_images: 1,
+          width: profile.baseWidth,
+          height: profile.baseHeight,
+          output_format: "jpeg",
+          enable_safety_checker: true,
+          acceleration: "none", // prioritize quality over speed
+        }));
+
+        let imgUrl = res.data.images[0].url;
+
+        const hash = await hashImage(imgUrl);
+        if (hash) {
+          if (seenHashes.has(hash)) throw new Error("Duplicate image detected, rejecting.");
+          seenHashes.add(hash);
+        }
+
+        // Real resolution upscale for Pro/Executive so 4K/8K claims are true,
+        // not just labels. Portrait-specialized model preserves facial detail
+        // rather than just sharpening edges.
+        if (profile.upscaleFactor) {
+          imgUrl = await withFalSlot(() => upscaleImage(imgUrl, profile.upscaleFactor!));
+        }
+
+        consecutiveFailures = 0;
+        return { ...res.data, images: [{ ...res.data.images[0], url: imgUrl }], prompt, index };
+      } catch (e: any) {
+        consecutiveFailures++;
+        if (e.message?.includes("not found")) throw e; // fatal error, don't retry
+        attempt++;
+        if (attempt >= 2) throw e;
+        await new Promise(r => setTimeout(r, 2000 * attempt));
+      }
+    }
+  })();
 
   const initialPrompts = Array.from({ length: batchSize }, (_, i) => ({ prompt: allPrompts[startIndex + i], index: startIndex + i }));
   const initialResults = await Promise.allSettled(initialPrompts.map(({ prompt, index }) => generateOne(prompt, index)));

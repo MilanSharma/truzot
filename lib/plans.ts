@@ -96,17 +96,16 @@ export type GenPlanKey = "basic" | "pro" | "executive" | "custom_upsell";
 
 export const GENERATION_CONFIG: Record<GenPlanKey, {
   batchSize: number;      // shots attempted per invocation
-  concurrency: number;    // simultaneous fal.ai calls within that invocation
 }> = {
   // No upscale pass — cheap per image, can go big in one shot.
-  basic:         { batchSize: 40,  concurrency: 6 },
+  basic:         { batchSize: 40 },
   // +1 upscale call per image (2.5x). Bigger batch still fits comfortably in 800s.
-  pro:           { batchSize: 100, concurrency: 8 },
-  // +1 upscale call per image (4x, slowest per-image cost). Concurrency limited to 6
-  // because fal.ai accounts start at 2 concurrent requests and scale to 40 based on
-  // credit purchases. Your current limit is likely 2-10; check fal.ai dashboard.
-  executive:     { batchSize: 150, concurrency: 6 },
-  custom_upsell: { batchSize: 20,  concurrency: 6 },
+  pro:           { batchSize: 100 },
+  // +1 upscale call per image (4x, slowest per-image cost). Concurrency is now
+  // globally controlled via Redis semaphore (lib/fal-concurrency.ts) to respect
+  // fal.ai's account-wide limit (8 slots with headroom).
+  executive:     { batchSize: 150 },
+  custom_upsell: { batchSize: 20 },
 };
 
 export function resolveGenPlanKey(plan: string): GenPlanKey {
