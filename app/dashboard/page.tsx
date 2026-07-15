@@ -671,7 +671,7 @@ function DashboardContent() {
     // Use client-side download to avoid timeout on Vercel Hobby plan
     if (!orderId) throw new Error("No order ID");
 
-    // Implement automatic batching for large orders (Executive plan = 200 images)
+    // Implement automatic batching for large orders (Executive plan = 150 images)
     const BATCH_SIZE = 50;
     if (urls.length > BATCH_SIZE) {
       const batches: string[][] = [];

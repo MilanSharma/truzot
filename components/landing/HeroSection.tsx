@@ -99,7 +99,7 @@ export default function HeroSection({
           Upload <strong className="text-[var(--text)]">1–5 selfies</strong>.
           Our AI trains a private model on your face and delivers{" "}
           <strong className="text-[var(--text)]">
-            40–200 photorealistic headshots
+            40–150 photorealistic headshots
           </strong>{" "}
           in every style you need.
         </motion.p>

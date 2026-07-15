@@ -1117,7 +1117,7 @@ export default function LandingPageContent() {
                 AI headshot generator trains a private model on your face and delivers
                 <strong className="text-white">
                   {" "}
-                  40–200 professional headshots
+                  40–150 professional headshots
                 </strong>{" "}
                 for LinkedIn, corporate profiles, and more — at a fraction of what photographers
                 charge.
@@ -1666,7 +1666,7 @@ export default function LandingPageContent() {
                     n: "03",
                     icon: Briefcase,
                     title: "Download professional headshots",
-                    desc: "40–200 AI-generated headshots across every style. High-res, full commercial rights, yours forever.",
+                    desc: "40–150 AI-generated headshots across every style. High-res, full commercial rights, yours forever.",
                     detail:
                       "Use on LinkedIn, corporate profiles, pitch decks, press releases, anywhere.",
                     color: "#65A30D",

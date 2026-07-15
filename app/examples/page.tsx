@@ -8,7 +8,7 @@ import { SITE_CONFIG } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Real AI Headshot Examples & Transformations | Truzot",
-  description: "See real before and after transformations. Truzot turns casual selfies into professional studio-quality headshots in minutes. Browse our gallery of 200+ examples.",
+  description: "See real before and after transformations. Truzot turns casual selfies into professional studio-quality headshots in minutes. Browse our gallery of 150+ examples.",
   alternates: { canonical: `${SITE_CONFIG.url}/examples` },
 };
 

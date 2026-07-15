@@ -30,7 +30,7 @@ export const PLANS = {
     name: "Executive Shoot",
     price: 59,
     amount: 5900,
-    shots: 200,
+    shots: 150,
     turnaround: "30 minutes",
     resolution: "Ultra 8K",
     styles: "All styles",
@@ -88,7 +88,7 @@ export const HEADSHOT_CATEGORIES = [
 export const PLAN_SHOTS: Record<string, number> = {
   basic: 40,
   pro: 100,
-  executive: 200,
+  executive: 150,
   custom_upsell: 20,
 };
 

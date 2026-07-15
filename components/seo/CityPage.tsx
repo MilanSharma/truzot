@@ -201,7 +201,7 @@ export default function CityPage({ city }: CityPageProps) {
                   Receive Your Headshots
                 </h3>
                 <p className="text-[var(--text-muted)]">
-                  Get 40-200 HD headshots delivered to your email in 30 minutes
+                  Get 40-150 HD headshots delivered to your email in 30 minutes
                   to 2 hours. Download and use them anywhere.
                 </p>
               </div>
