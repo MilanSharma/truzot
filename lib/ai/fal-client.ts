@@ -31,121 +31,90 @@ async function falFetch(endpoint: string, input: Record<string, unknown>): Promi
 function buildPrompts(plan: string, prefs?: UserPreferences): string[] {
   const target = PLAN_SHOTS[plan] ?? 40;
   const pool: string[] = [];
-  
-  let genderStr = "person";
-  if (prefs?.gender) {
-    const g = prefs.gender.toLowerCase();
-    if (g === "male") genderStr = "man";
-    else if (g === "female") genderStr = "woman";
-    else genderStr = g;
-  }
-  const subject = `a ${genderStr} TOK`;
 
   if (plan === "custom_upsell" || prefs?.is_upsell) {
     const c = prefs?.clothing || "professional attire";
     const b = prefs?.background || "studio background";
-    const basePrompt = `A high-end professional headshot of ${subject}, wearing ${c}, ${b}, 8k resolution, highly detailed, photorealistic`;
+    const basePrompt = `A premium professional portrait photograph of TOK wearing ${c}. The photo is taken with a ${b} background. Shot on medium format camera, 85mm lens, highly detailed, photorealistic.`;
     const suffixes = [
-      ", looking directly at camera, slight smile", ", three-quarter angle, relaxed posture", 
-      ", looking slightly off-camera", ", front-facing, neutral confident expression", ", warm approachable smile"
+      " The subject is looking directly at the camera with a subtle, confident smile.",
+      " The subject is facing forward with a warm, approachable expression.",
+      " The subject is captured in a relaxed, natural pose looking at the lens.",
+      " The portrait features flawless professional retouching while maintaining authentic facial features."
     ];
     for (let i = 0; i < target; i++) pool.push(basePrompt + suffixes[i % suffixes.length]);
     return pool;
   }
 
-  // Enhanced prompts for photorealism with skin tone and eye color preservation
-  const DIVERSE_BASE_PROMPTS_RAW = [
+  // Pure, conversational English prompts. Flux hates keyword spam and comma-salads.
+  // We use gender-neutral clothing to ensure the LoRA naturally dictates the gender.
+  const FLUX_PROMPTS = [
     // Corporate & Executive
-    "A professional corporate headshot of TOK, wearing a tailored dark navy business suit, modern bright office background, soft natural window light, photorealistic, natural skin texture, accurate skin tone, realistic eye color",
-    "An authoritative executive portrait of TOK, wearing a charcoal suit, wood-panelled boardroom background, cinematic lighting, natural skin pores, authentic complexion, precise eye color",
-    "A confident CEO headshot of TOK, standing in a high-rise glass office overlooking the city, wearing professional business attire, natural daylight, realistic skin texture, accurate skin tone",
-    "A classic corporate headshot of TOK, wearing a crisp white dress shirt and blazer, neutral office background, bright lighting, photorealistic, natural skin details, authentic eye color",
-    "A modern finance professional headshot of TOK, wearing a tailored suit, abstract blurred office background, natural skin texture, accurate complexion",
-    // Studio Locked (Style Consistency)
-    "A high-end studio portrait of TOK, wearing formal attire, solid white background, dramatic edge lighting, natural skin texture, accurate skin tone, realistic eye color",
-    "A timeless studio headshot of TOK, wearing business professional clothing, solid seamless grey background, rembrandt lighting, photorealistic, authentic complexion",
-    "A premium studio portrait of TOK, wearing smart casual clothes, solid dark background, moody cinematic lighting, natural skin pores, accurate eye color",
-    "A clean studio headshot of TOK, wearing business attire, solid light grey background, softbox lighting, realistic skin texture, authentic skin tone",
-    "A minimalist studio portrait of TOK, wearing professional clothing, solid white background, butterfly lighting, photorealistic, natural skin details",
-    // LinkedIn (Forward facing forced)
-    "A highly engaging LinkedIn profile photo of TOK, looking directly at camera, confident forward-facing pose, wearing smart casual attire, bright airy background, natural skin texture, accurate skin tone",
-    "A professional LinkedIn headshot of TOK, looking directly at camera, confident forward-facing pose, warm approachable smile, natural window light, photorealistic, realistic eye color",
-    "A modern networking profile photo of TOK, looking directly at camera, confident forward-facing pose, solid color background, natural skin pores, authentic complexion",
-    "A trustworthy LinkedIn portrait of TOK, looking directly at camera, professional smile, neutral background, realistic skin texture, accurate eye color",
-    "A polished LinkedIn headshot of TOK, looking directly at camera, confident expression, modern office background, photorealistic, natural skin tone",
+    "A premium corporate headshot of TOK wearing elegant business attire. The portrait is taken in a brightly lit modern office with large windows. Shot on medium format camera, 85mm lens, soft natural lighting, shallow depth of field, highly detailed, professional photography.",
+    "An authoritative executive portrait of TOK wearing refined corporate wear. Standing in a sophisticated wood-panelled boardroom. Professional studio lighting, cinematic composition, photorealistic, sharp focus.",
+    "A modern finance professional headshot of TOK wearing a tailored blazer. Abstract blurred office background, clean lighting, 8k resolution, photorealistic portrait.",
+    "A classic corporate photograph of TOK wearing professional clothing. Neutral office background with bright, flattering lighting. High quality corporate photography.",
+    
+    // Studio
+    "A high-end studio portrait of TOK wearing business professional clothing. Solid seamless grey background, flattering rembrandt lighting, sharp focus, unretouched natural skin texture.",
+    "A clean, minimalist studio headshot of TOK wearing smart casual attire. Solid white background, soft butterfly lighting, professional photography, crisp details, highly realistic.",
+    "A timeless studio headshot of TOK wearing elegant attire. Solid dark background, moody cinematic lighting, medium format photography.",
+    
+    // LinkedIn
+    "A highly engaging LinkedIn profile picture of TOK looking directly at the camera with a warm, confident smile. Wearing professional business attire. Bright airy background, natural daylight, DSLR photography.",
+    "A trustworthy professional networking portrait of TOK looking directly at the camera. Smart casual wear, solid muted color background, approachable and friendly expression, high quality.",
+    "A polished LinkedIn headshot of TOK looking directly at the camera. Confident expression, modern office background, photorealistic portrait.",
+    
     // Creative & Editorial
-    "A creative industry headshot of TOK, wearing a minimalist black turtleneck, bold color studio backdrop, artistic softbox lighting, natural skin texture, accurate skin tone, realistic eye color",
-    "An editorial portrait of TOK, wearing stylish modern fashion, concrete wall background, dramatic shadows, photorealistic, authentic complexion",
-    "A vibrant creative director headshot of TOK, wearing colorful smart casual, art gallery background, natural light, realistic skin texture, accurate eye color",
-    "An artistic professional photo of TOK, wearing layered clothing, exposed brick background, warm ambient lighting, natural skin pores, authentic skin tone",
-    "A modern designer headshot of TOK, wearing a sleek outfit, minimalist studio background, soft diffused lighting, photorealistic, natural skin details",
-    "A fashion-forward creative portrait of TOK, wearing contemporary style, geometric background, colorful lighting, realistic skin texture, accurate complexion",
-    "An innovative tech creative headshot of TOK, wearing modern casual, startup office background, natural skin texture, accurate skin tone",
+    "A creative industry portrait of TOK wearing stylish minimalist fashion. Concrete wall background with dramatic shadows. Editorial magazine photography, artistic softbox lighting.",
+    "A vibrant creative director headshot of TOK wearing contemporary clothing. Art gallery background, natural light, shallow depth of field, bokeh, highly detailed.",
+    "An artistic professional photo of TOK wearing layered clothing. Exposed brick background, warm ambient lighting, highly detailed photography.",
+    
     // Startup & Tech
-    "A modern tech startup headshot of TOK, wearing a stylish solid dark t-shirt, glass coworking space background, natural skin pores, realistic eye color",
-    "A relaxed founder portrait of TOK, wearing a casual hoodie, standing near a standing desk with monitors in background, photorealistic, authentic complexion",
-    "An approachable software engineer headshot of TOK, wearing a casual button-down, modern coffee shop background, natural skin texture, accurate skin tone",
-    "A dynamic tech entrepreneur photo of TOK, wearing a blazer over a t-shirt, industrial open-office background, realistic skin details, authentic eye color",
-    "A tech-focused professional headshot of TOK, wearing clean minimalist clothing, server room blurred background, photorealistic, natural skin texture",
-    "A product manager headshot of TOK, wearing smart casual, whiteboard background with diagrams, natural skin pores, accurate complexion",
-    "A developer advocate photo of TOK, wearing tech casual, conference background, realistic skin texture, accurate skin tone",
+    "A modern tech startup founder headshot of TOK wearing a stylish dark t-shirt. Glass coworking space background, bright natural lighting, relaxed but professional, 85mm lens.",
+    "An approachable software engineer portrait of TOK wearing a casual button-down shirt. Modern coffee shop background, shallow depth of field, candid and authentic, photorealistic.",
+    "A dynamic tech entrepreneur photo of TOK wearing a blazer over a t-shirt. Industrial open-office background, realistic details, sharp focus.",
+    
     // Casual & Outdoor
-    "A relaxed professional photo of TOK, outdoor urban park setting, blurred greenery background, golden hour lighting, photorealistic, natural skin details, accurate eye color",
-    "A friendly casual headshot of TOK, wearing a light sweater, cozy modern indoor background, bright natural lighting, realistic skin texture, authentic complexion",
-    "A sunny outdoor portrait of TOK, wearing a casual jacket, blurred city street background, bright daylight, natural skin pores, accurate skin tone",
-    "An approachable lifestyle headshot of TOK, wearing comfortable natural fabrics, outdoor cafe setting, photorealistic, realistic eye color",
-    "A warm outdoor professional photo of TOK, wearing a light-colored top, blurred nature background, soft morning light, natural skin texture, authentic skin tone",
-    "A casual weekend headshot of TOK, wearing relaxed attire, outdoor garden background, natural light, realistic skin details",
-    "A friendly outdoor portrait of TOK, wearing casual business, park bench background, photorealistic, accurate eye color",
-    // Medical & Real Estate
-    "A trustworthy doctor headshot of TOK, wearing a white lab coat, clean modern clinic background, bright lighting, natural skin texture, accurate skin tone, realistic eye color",
-    "A confident real estate agent photo of TOK, wearing a professional blazer, luxury home entrance background, sunny daylight, photorealistic, authentic complexion",
-    "A friendly healthcare professional headshot of TOK, wearing scrubs, soft blurred hospital background, realistic skin texture, accurate eye color",
-    "A premium real estate broker portrait of TOK, wearing high-end business attire, modern luxury kitchen background, natural skin pores, authentic skin tone",
-    "A compassionate nurse headshot of TOK, wearing scrubs, hospital corridor background, photorealistic, natural skin details",
-    "A professional dentist portrait of TOK, wearing clinical attire, modern dental office background, realistic skin texture, accurate complexion",
-    // Additional Angles & Lighting
-    "A three-quarter angle portrait of TOK, wearing business attire, studio lighting, professional background, natural skin texture, accurate skin tone, realistic eye color",
-    "A profile view headshot of TOK, wearing formal clothing, dramatic side lighting, dark background, photorealistic, authentic complexion",
-    "An over-the-shoulder portrait of TOK, wearing business casual, modern office background, natural skin pores, accurate eye color",
-    "A candid headshot of TOK, slight smile, natural lighting, blurred urban background, realistic skin texture, authentic skin tone",
-    "A close-up portrait of TOK, detailed facial features, professional lighting, neutral background, photorealistic, natural skin details, accurate eye color"
+    "A relaxed professional outdoor photograph of TOK. Blurred urban park background, golden hour lighting, natural authentic expression, crisp focus.",
+    "A friendly lifestyle headshot of TOK wearing comfortable but polished clothing. Outdoor cafe setting, bright daylight, candid professional photography.",
+    "A sunny outdoor portrait of TOK wearing a casual jacket. Blurred city street background, bright daylight, highly detailed photography."
   ];
 
   const suffixes = [
-    ", highly detailed, 8k resolution, photorealistic, perfect skin texture, visible pores, natural skin tone, no artificial sheen, no plastic skin, no airbrushing",
-    ", sharp focus, hyper-realistic, 8k, detailed facial features, accurate eye color, natural hair texture, authentic skin pores, no glossy finish",
-    ", dslr photography, 85mm lens, f/1.8, professional lighting, realistic skin details, authentic facial structure, no oversmoothing, no artificial shine",
-    ", professional photography, perfect lighting, 4k, natural complexion, detailed iris patterns, realistic hair, no synthetic appearance, no cgi look"
+    " The subject is looking directly at the camera with a subtle, confident smile.",
+    " The subject is facing forward with a warm, approachable expression.",
+    " The subject is captured in a relaxed, natural pose looking at the lens.",
+    " The portrait features flawless professional retouching while maintaining authentic facial features."
   ];
-
-  const DIVERSE_BASE_PROMPTS = DIVERSE_BASE_PROMPTS_RAW.map(p => p.replace(/TOK/g, subject));
 
   let bIdx = 0, sIdx = 0;
   while (pool.length < target) {
-    pool.push(DIVERSE_BASE_PROMPTS[bIdx % DIVERSE_BASE_PROMPTS.length] + suffixes[sIdx % suffixes.length]);
-    if (++bIdx % DIVERSE_BASE_PROMPTS.length === 0) sIdx++;
+    pool.push(FLUX_PROMPTS[bIdx % FLUX_PROMPTS.length] + suffixes[sIdx % suffixes.length]);
+    if (++bIdx % FLUX_PROMPTS.length === 0) sIdx++;
   }
   return pool;
 }
 
 export const trainModel = async (imageUrl: string, orderId: string): Promise<{ request_id: string }> => {
   const webhookUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhooks/fal?orderId=${orderId}&token=${generateWebhookToken(orderId)}`;
+  
+  // 800 steps is the absolute sweet spot for 1-5 selfies on Flux without deep-frying / overfitting.
   const res = await fetch(`https://queue.fal.run/fal-ai/flux-lora-fast-training?fal_webhook=${encodeURIComponent(webhookUrl)}`, {
     method: "POST",
     headers: { Authorization: `Key ${FAL_KEY}`, "Content-Type": "application/json" },
     body: JSON.stringify({ 
       images_data_url: imageUrl, 
-      steps: 1000,
+      steps: 800,
       trigger_word: "TOK" 
     }),
   });
+  
   if (!res.ok) throw new Error(`Training submit failed (HTTP ${res.status})`);
   return await res.json();
 };
 
 const concurrencyLimit = pLimit(3);
-const NEGATIVE_PROMPT = "blurry, low quality, distorted, extra fingers, bad anatomy, watermark, text, logo, cartoon, illustration, drawing, plastic skin, artificial sheen, glossy skin, oversmoothed, airbrushed, unnatural skin texture, wax-like, doll-like, synthetic, cgi, 3d render, artificial lighting, overprocessed, oversaturated, hdr, fake, unnatural colors";
 
 export const generateHeadshots = async (
   modelId: string, plan: string, startIndex: number = 0, limit: number = 10000, prefs?: UserPreferences
@@ -154,12 +123,16 @@ export const generateHeadshots = async (
   const targetShots = Math.min(startIndex + limit, PLAN_SHOTS[plan] ?? 40);
   const prompts = Array.from({ length: targetShots - startIndex }, (_, i) => ({ prompt: allPrompts[startIndex + i], index: startIndex + i }));
 
-  // LoRA scale tuning based on plan - adjusted for photorealism and avoiding over-fitting
-  const loraScale = plan === "executive" ? 0.85 : plan === "pro" ? 0.80 : 0.75;
+  // Flux LoRA scale - kept at 0.85 to allow the AI freedom to build high-quality environments 
+  // without distorting the facial structure.
+  const loraScale = 0.85; 
   
-  // Inference steps and guidance scale tuned for photorealism
-  const inferenceSteps = plan === "executive" ? 50 : plan === "pro" ? 45 : 40;
-  const guidanceScale = 7.5;
+  // Flux Dev optimal guidance scale is STRICTLY 3.5. 
+  // Higher scales (like 7.5 used previously) cause severe artifacts, intense contrast, and "plastic" looks.
+  const guidanceScale = 3.5;
+  
+  // Inference steps scaling by package tier
+  const inferenceSteps = plan === "executive" ? 40 : plan === "pro" ? 35 : 28;
   
   let consecutiveFailures = 0;
   const seenHashes = new Set<string>();
@@ -177,7 +150,6 @@ export const generateHeadshots = async (
           try {
             const res = await falFetch("fal-ai/flux-lora", {
               prompt, 
-              negative_prompt: NEGATIVE_PROMPT,
               loras: [{ path: modelId, scale: loraScale }],
               num_inference_steps: inferenceSteps,
               guidance_scale: guidanceScale,
