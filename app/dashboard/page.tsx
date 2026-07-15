@@ -1154,25 +1154,6 @@ function DashboardContent() {
                       </a>
                     </div>
                   )}
-                {!user && (
-                  <div className="mb-8 p-5 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in">
-                    <div>
-                      <h3 className="text-blue-900 dark:text-blue-100 font-bold text-lg mb-1">
-                        Save your progress
-                      </h3>
-                      <p className="text-blue-700 dark:text-blue-300 text-sm">
-                        Create an account to securely access your headshots
-                        anytime.
-                      </p>
-                    </div>
-                    <Link
-                      href={`/claim-order?order=${orderId}`}
-                      className="shrink-0 px-6 py-3 bg-lime-500 text-white rounded-xl font-bold text-sm hover:bg-lime-600 transition"
-                    >
-                      Create Account
-                    </Link>
-                  </div>
-                )}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                   <div>
                     <Link
