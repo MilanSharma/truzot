@@ -42,6 +42,8 @@ export const POST = withContext(async (req: Request) => {
  shootName,
  coupon,
  utmParams,
+ demographics,
+ imageCount,
  } = parsed.data!;
 
  // Email validation is securely handled by Zod schema (checkoutSchema)
@@ -323,6 +325,8 @@ export const POST = withContext(async (req: Request) => {
  selectedStyles: selectedStyles || [],
  storagePath: storagePath || null,
  idempotency_key: idempotencyKey,
+ ...demographics,
+ image_count: imageCount,
  },
  })
  .eq("id", existing.id);
@@ -354,6 +358,8 @@ export const POST = withContext(async (req: Request) => {
  selectedStyles: selectedStyles || [],
  storagePath: storagePath || null,
  idempotency_key: idempotencyKey || undefined,
+ ...demographics,
+ image_count: imageCount,
  },
  })
  .select("id")
@@ -403,6 +409,8 @@ export const POST = withContext(async (req: Request) => {
  selectedStyles: selectedStyles || [],
  storagePath: storagePath || null,
  idempotency_key: idempotencyKey,
+ ...demographics,
+ image_count: imageCount,
  },
  })
  .eq("id", existing.id);
@@ -499,6 +507,8 @@ export const POST = withContext(async (req: Request) => {
  selectedStyles: selectedStyles || [],
  storagePath: storagePath || null,
  idempotency_key: idempotencyKey,
+ ...demographics,
+ image_count: imageCount,
  },
  })
  .eq("id", existing.id);

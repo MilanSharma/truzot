@@ -164,7 +164,16 @@ function UploadContent() {
   });
 
   const [files, setFiles] = useState<File[]>([]);
+  const [fileQualityScores, setFileQualityScores] = useState<Record<number, number>>({});
   const [isDragging, setIsDragging] = useState(false);
+  
+  // Demographic form state
+  const [demographics, setDemographics] = useState({
+    age: "",
+    gender: "",
+    hairColor: "",
+    ethnicity: "",
+  });
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -432,8 +441,9 @@ function UploadContent() {
         const bitmap = await createImageBitmap(file);
         const { width, height } = bitmap;
         bitmap.close();
-        if (width < 300 || height < 300)
-          return `${file.name}: image too small (${width}x${height}). Minimum 300x300.`;
+        const minEdge = Math.min(width, height);
+        if (minEdge < 512)
+          return `${file.name}: image too small (${width}x${height}). Minimum 512px on the shortest edge.`;
         const ratio = width / height;
         if (ratio < 0.4 || ratio > 2.5)
           return `${file.name}: unusual aspect ratio (${ratio.toFixed(1)}). Use a standard photo.`;
@@ -453,6 +463,7 @@ function UploadContent() {
       file: File,
     ): Promise<{
       count: number;
+      prominence?: number; // face area as percentage of image area
       crop?: { x: number; y: number; w: number; h: number };
     } | null> => {
       if (!faceDetectorSupported) return null;
@@ -474,18 +485,67 @@ function UploadContent() {
             width: bmpW,
             height: bmpH,
           };
+        const faceArea = f.width * f.height;
+        const imageArea = bmpW * bmpH;
+        const prominence = faceArea / imageArea;
         const margin = 0.2;
         const x = Math.max(0, f.x - f.width * margin);
         const y = Math.max(0, f.y - f.height * margin);
         const w = Math.min(bitmap.width - x, f.width * (1 + margin * 2));
         const h = Math.min(bitmap.height - y, f.height * (1 + margin * 2));
-        return { count: faces.length, crop: { x, y, w, h } };
+        return { count: faces.length, prominence, crop: { x, y, w, h } };
       } catch {
         return null;
       }
     },
     [faceDetectorSupported],
   );
+
+  const detectBlur = useCallback(async (file: File): Promise<number> => {
+    try {
+      const bitmap = await createImageBitmap(file, { resizeWidth: 400, resizeHeight: 400 });
+      const canvas = document.createElement('canvas');
+      canvas.width = 400;
+      canvas.height = 400;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return 0;
+      ctx.drawImage(bitmap, 0, 0, 400, 400);
+      const imageData = ctx.getImageData(0, 0, 400, 400);
+      const data = imageData.data;
+      
+      // Convert to grayscale
+      const gray = new Float32Array(400 * 400);
+      for (let i = 0; i < data.length; i += 4) {
+        gray[i / 4] = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+      }
+      
+      // Apply Laplacian kernel [[0,1,0],[1,-4,1],[0,1,0]]
+      const laplacian = new Float32Array(400 * 400);
+      for (let y = 1; y < 399; y++) {
+        for (let x = 1; x < 399; x++) {
+          const idx = y * 400 + x;
+          laplacian[idx] = 
+            gray[idx - 400] + gray[idx + 400] + gray[idx - 1] + gray[idx + 1] - 4 * gray[idx];
+        }
+      }
+      
+      // Calculate variance
+      let sum = 0;
+      let sumSq = 0;
+      const count = (400 - 2) * (400 - 2);
+      for (let i = 400 + 1; i < 400 * 399 - 1; i++) {
+        sum += laplacian[i];
+        sumSq += laplacian[i] * laplacian[i];
+      }
+      const mean = sum / count;
+      const variance = (sumSq / count) - (mean * mean);
+      
+      bitmap.close();
+      return variance;
+    } catch {
+      return 0;
+    }
+  }, []);
 
   const computeFileFingerprint = useCallback(
     (file: File): string => `${file.name}|${file.size}`,
@@ -643,10 +703,24 @@ function UploadContent() {
                 { type: "image/jpeg" },
               );
               const faceResult = await detectFaces(jpegFile);
-              if (faceResult && faceResult.count === 0) {
-                warnings.push(
-                  `${jpegFile.name}: no face detected — model training may not work well`,
-                );
+              if (faceResult) {
+                if (faceResult.count === 0) {
+                  errors.push(`${jpegFile.name}: no face detected - please use a photo with a clear face`);
+                  continue;
+                }
+                if (faceResult.count > 1) {
+                  errors.push(`${jpegFile.name}: multiple faces detected - please use a photo with only one person`);
+                  continue;
+                }
+                if (faceResult.prominence !== undefined && faceResult.prominence < 0.04) {
+                  errors.push(`${jpegFile.name}: face too small - please use a closer photo`);
+                  continue;
+                }
+              }
+              const blurScore = await detectBlur(jpegFile);
+              if (blurScore < 60) {
+                errors.push(`${jpegFile.name}: photo is too blurry - please use a sharper image`);
+                continue;
               }
               converted.push(jpegFile);
             } catch {
@@ -667,14 +741,24 @@ function UploadContent() {
             continue;
           }
           const faceResult = await detectFaces(f);
-          if (faceResult && faceResult.count === 0) {
-            warnings.push(
-              `${f.name}: No face detected. Make sure your face is visible.`,
-            );
-          } else if (faceResult && faceResult.count > 1) {
-            warnings.push(
-              `${f.name}: Multiple faces detected. Results may be unpredictable.`,
-            );
+          if (faceResult) {
+            if (faceResult.count === 0) {
+              errors.push(`${f.name}: no face detected - please use a photo with a clear face`);
+              continue;
+            }
+            if (faceResult.count > 1) {
+              errors.push(`${f.name}: multiple faces detected - please use a photo with only one person`);
+              continue;
+            }
+            if (faceResult.prominence !== undefined && faceResult.prominence < 0.04) {
+              errors.push(`${f.name}: face too small - please use a closer photo`);
+              continue;
+            }
+          }
+          const blurScore = await detectBlur(f);
+          if (blurScore < 60) {
+            errors.push(`${f.name}: photo is too blurry - please use a sharper image`);
+            continue;
           }
           converted.push(f);
         } else {
@@ -687,8 +771,30 @@ function UploadContent() {
       if (errors.length > 0) {
         toast(errors.join("\n"), "error");
       }
-      const nextFiles = [...filesRef.current, ...converted].slice(0, 5);
+      const nextFiles = [...filesRef.current, ...converted].slice(0, 10);
       setFiles(nextFiles);
+      
+      // Calculate quality scores for new files
+      const newScores: Record<number, number> = {};
+      for (let i = filesRef.current.length; i < nextFiles.length; i++) {
+        const file = nextFiles[i];
+        const blurScore = await detectBlur(file);
+        const faceResult = await detectFaces(file);
+        let qualityScore = 50; // base score
+        
+        // Blur score contribution (0-100, higher is better)
+        qualityScore += Math.min(blurScore / 2, 30);
+        
+        // Face prominence contribution
+        if (faceResult && faceResult.prominence !== undefined) {
+          const prominenceScore = Math.min(faceResult.prominence * 1000, 20);
+          qualityScore += prominenceScore;
+        }
+        
+        newScores[i] = Math.min(Math.round(qualityScore), 100);
+      }
+      setFileQualityScores(prev => ({ ...prev, ...newScores }));
+      
       setStoragePath("");
       uploadPromiseRef.current = null;
       setIsUploadingBackground(false);
@@ -699,6 +805,7 @@ function UploadContent() {
       validatePhoto,
       computeFileFingerprint,
       detectFaces,
+      detectBlur,
       setIsUploadingBackground,
       setBackgroundProgress,
       setStoragePath,
@@ -707,6 +814,11 @@ function UploadContent() {
 
   const removeFile = (i: number) => {
     setFiles((f) => f.filter((_, idx) => idx !== i));
+    setFileQualityScores(prev => {
+      const newScores = { ...prev };
+      delete newScores[i];
+      return newScores;
+    });
     setStoragePath("");
     uploadPromiseRef.current = null;
     setIsUploadingBackground(false);
@@ -843,6 +955,10 @@ function UploadContent() {
         shootName: shootName || defaultShootName,
         coupon: coupon || undefined,
         utmParams, // Include UTM parameters for tracking
+        demographics: Object.fromEntries(
+          Object.entries(demographics).filter(([_, v]) => v.trim() !== "")
+        ) as Record<string, string>,
+        imageCount: files.length,
       };
 
       const res = await fetch("/api/checkout", {
@@ -883,6 +999,8 @@ function UploadContent() {
     setEmail("");
     setStoragePath("");
     setFiles([]);
+    setFileQualityScores({});
+    setDemographics({ age: "", gender: "", hairColor: "", ethnicity: "" });
     setPlan("pro");
     setShootName("");
     setCoupon("");
@@ -905,6 +1023,35 @@ function UploadContent() {
     localStorage.setItem("truzot-idempotency-key", newKey);
     setIdempotencyKey(newKey);
     filesRef.current = [];
+  };
+
+  // Calculate overall quality score
+  const qualityScore = useMemo(() => {
+    let score = 0;
+    
+    // Photo count contribution (0-30 points)
+    const photoCountScore = Math.min((files.length / 10) * 30, 30);
+    score += photoCountScore;
+    
+    // Average quality score contribution (0-50 points)
+    const scores = Object.values(fileQualityScores);
+    if (scores.length > 0) {
+      const avgQuality = scores.reduce((a, b) => a + b, 0) / scores.length;
+      score += (avgQuality / 100) * 50;
+    }
+    
+    // Profile completeness contribution (0-20 points)
+    const filledFields = Object.values(demographics).filter(v => v.trim() !== "").length;
+    score += (filledFields / 4) * 20;
+    
+    return Math.round(score);
+  }, [files.length, fileQualityScores, demographics]);
+
+  const getQualityTier = (score: number) => {
+    if (score >= 80) return { label: "Excellent", color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" };
+    if (score >= 60) return { label: "Good", color: "text-lime-400", bg: "bg-lime-500/10", border: "border-lime-500/20" };
+    if (score >= 40) return { label: "Fair", color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" };
+    return { label: "Needs Improvement", color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20" };
   };
 
   // Inline CSS for the landing page theme
@@ -982,8 +1129,8 @@ function UploadContent() {
                     Upload your selfies
                   </h1>
                   <p className="text-lg text-[var(--text-secondary)] max-w-xl mx-auto leading-relaxed">
-                    Upload 1-5 clear photos of your face. We only need a few to
-                    learn your features. Takes{" "}
+                    Upload 1-10 clear photos of your face. More photos = better
+                    results. Takes{" "}
                     <span className="font-bold text-[var(--text)]">
                       2 minutes
                     </span>{" "}
@@ -1054,7 +1201,7 @@ function UploadContent() {
                             : "Click or drag photos here"}
                         </h3>
                         <p className="text-[var(--text-secondary)] font-medium max-w-xs">
-                          Upload 1-5 selfies (JPG, PNG, HEIC)
+                          Upload 1-10 selfies (JPG, PNG, HEIC)
                         </p>
                         <input
                           type="file"
@@ -1116,9 +1263,35 @@ function UploadContent() {
                       <span className="text-xl font-bold text-[var(--text)] flex items-center gap-3">
                         Uploaded Photos
                         <span className="bg-[var(--surface2)] text-[var(--text-secondary)] text-sm py-1 px-3 rounded-full border border-[var(--border)]">
-                          {files.length} / 5
+                          {files.length} / 10
                         </span>
                       </span>
+                    </div>
+
+                    {/* Quality Bar */}
+                    <div className="mb-6 p-4 rounded-xl border border-[var(--border-secondary)] bg-[var(--bg)]">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-sm font-bold text-[var(--text)]">Photo Quality Score</span>
+                        <span className={`text-sm font-bold ${getQualityTier(qualityScore).color}`}>
+                          {qualityScore}/100 - {getQualityTier(qualityScore).label}
+                        </span>
+                      </div>
+                      <div className="w-full h-3 bg-[var(--surface2)] rounded-full overflow-hidden">
+                        <div
+                          className={`h-full transition-all duration-500 ${
+                            qualityScore >= 80 ? 'bg-emerald-500' :
+                            qualityScore >= 60 ? 'bg-lime-500' :
+                            qualityScore >= 40 ? 'bg-amber-500' : 'bg-red-500'
+                          }`}
+                          style={{ width: `${qualityScore}%` }}
+                        />
+                      </div>
+                      <p className="text-xs text-[var(--text-secondary)] mt-2">
+                        {qualityScore >= 80 ? "🎉 Excellent! Your photos are ready for stunning results." :
+                         qualityScore >= 60 ? "✨ Good quality! Adding more photos can improve results." :
+                         qualityScore >= 40 ? "💡 Fair quality. Consider adding sharper, closer photos." :
+                         "⚠️ Needs improvement. Add clearer, closer photos for better results."}
+                      </p>
                     </div>
 
                     <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
@@ -1133,6 +1306,11 @@ function UploadContent() {
                             className="w-full h-full object-cover"
                           />
                           <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          {fileQualityScores[i] !== undefined && (
+                            <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs font-bold px-2 py-1 rounded">
+                              {fileQualityScores[i]}%
+                            </div>
+                          )}
                           <button
                             onClick={() => removeFile(i)}
                             className="absolute top-2 right-2 w-8 h-8 bg-red-500 text-[var(--text)] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-lg hover:bg-red-600 hover:scale-110"
@@ -1141,7 +1319,7 @@ function UploadContent() {
                           </button>
                         </div>
                       ))}
-                      {files.length < 5 && (
+                      {files.length < 10 && (
                         <label className="aspect-[3/4] border-2 border-dashed border-[var(--border)] rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:border-[var(--lime-border)] hover:bg-[var(--lime-dim)] transition-colors group">
                           <input
                             type="file"
@@ -1158,6 +1336,94 @@ function UploadContent() {
                           </span>
                         </label>
                       )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Demographic Form */}
+                {files.length > 0 && (
+                  <div className="rounded-[2rem] border border-[var(--border)] p-8 mb-10 shadow-sm bg-[var(--surface)]">
+                    <h3 className="text-lg font-bold text-[var(--text)] mb-4">
+                      Help Us Personalize Your Results (Optional)
+                    </h3>
+                    <p className="text-sm text-[var(--text-secondary)] mb-6">
+                      Providing your details helps our AI generate more accurate and personalized headshots.
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-bold text-[var(--text-secondary)] mb-2">
+                          Age Range
+                        </label>
+                        <select
+                          value={demographics.age}
+                          onChange={(e) => setDemographics(prev => ({ ...prev, age: e.target.value }))}
+                          className="w-full px-4 py-3 rounded-xl border border-[var(--border-secondary)] bg-[var(--bg)] text-[var(--text)] focus:border-[var(--lime-text)] focus:ring-2 focus:ring-[var(--lime-dim)] outline-none transition font-semibold shadow-sm"
+                        >
+                          <option value="">Select age range</option>
+                          <option value="18-24">18-24</option>
+                          <option value="25-34">25-34</option>
+                          <option value="35-44">35-44</option>
+                          <option value="45-54">45-54</option>
+                          <option value="55-64">55-64</option>
+                          <option value="65+">65+</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-[var(--text-secondary)] mb-2">
+                          Gender
+                        </label>
+                        <select
+                          value={demographics.gender}
+                          onChange={(e) => setDemographics(prev => ({ ...prev, gender: e.target.value }))}
+                          className="w-full px-4 py-3 rounded-xl border border-[var(--border-secondary)] bg-[var(--bg)] text-[var(--text)] focus:border-[var(--lime-text)] focus:ring-2 focus:ring-[var(--lime-dim)] outline-none transition font-semibold shadow-sm"
+                        >
+                          <option value="">Select gender</option>
+                          <option value="female">Female</option>
+                          <option value="male">Male</option>
+                          <option value="non-binary">Non-binary</option>
+                          <option value="prefer-not-to-say">Prefer not to say</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-[var(--text-secondary)] mb-2">
+                          Hair Color
+                        </label>
+                        <select
+                          value={demographics.hairColor}
+                          onChange={(e) => setDemographics(prev => ({ ...prev, hairColor: e.target.value }))}
+                          className="w-full px-4 py-3 rounded-xl border border-[var(--border-secondary)] bg-[var(--bg)] text-[var(--text)] focus:border-[var(--lime-text)] focus:ring-2 focus:ring-[var(--lime-dim)] outline-none transition font-semibold shadow-sm"
+                        >
+                          <option value="">Select hair color</option>
+                          <option value="black">Black</option>
+                          <option value="brown">Brown</option>
+                          <option value="blonde">Blonde</option>
+                          <option value="red">Red</option>
+                          <option value="gray">Gray</option>
+                          <option value="white">White</option>
+                          <option value="other">Other</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-[var(--text-secondary)] mb-2">
+                          Ethnicity (Optional)
+                        </label>
+                        <select
+                          value={demographics.ethnicity}
+                          onChange={(e) => setDemographics(prev => ({ ...prev, ethnicity: e.target.value }))}
+                          className="w-full px-4 py-3 rounded-xl border border-[var(--border-secondary)] bg-[var(--bg)] text-[var(--text)] focus:border-[var(--lime-text)] focus:ring-2 focus:ring-[var(--lime-dim)] outline-none transition font-semibold shadow-sm"
+                        >
+                          <option value="">Select ethnicity (optional)</option>
+                          <option value="asian">Asian</option>
+                          <option value="black">Black / African</option>
+                          <option value="hispanic">Hispanic / Latino</option>
+                          <option value="middle-eastern">Middle Eastern</option>
+                          <option value="native-american">Native American</option>
+                          <option value="pacific-islander">Pacific Islander</option>
+                          <option value="white">White / Caucasian</option>
+                          <option value="mixed">Mixed</option>
+                          <option value="prefer-not-to-say">Prefer not to say</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
                 )}

@@ -39,7 +39,17 @@ const NEGATIVE_PROMPT =
   "asymmetrical eyes, cross-eyed, extra fingers, fused fingers, mutated hands, deformed face, " +
   "distorted features, blurry, out of focus, low resolution, jpeg artifacts, oversharpened, " +
   "harsh direct flash, overexposed, underexposed, watermark, text, logo, signature, frame, border, " +
-  "duplicate face, extra limbs, bad anatomy, grain, noise";
+  "duplicate face, extra limbs, bad anatomy, grain, noise, " +
+  "side profile, back of head, looking away, looking down, looking up, closed eyes, eyes closed, " +
+  "squinting, head turned, tilted head at extreme angle, full body, wide shot, distant subject";
+
+// Applied to every generated prompt, regardless of category, so "front-facing
+// close-up headshot" is a guarantee rather than something left to whichever
+// suffix happened to get picked in rotation (one of the old suffixes never
+// mentioned facing the camera at all).
+const FRAMING_CLAUSE =
+  " The framing is a tight head-and-shoulders close-up headshot, subject facing the camera directly, " +
+  "both eyes open and clearly visible, centered composition, tack-sharp focus on the eyes.";
 
 // ---------------------------------------------------------------------------
 // Per-plan technical quality profile.
@@ -84,11 +94,22 @@ function buildPrompts(plan: string, prefs: UserPreferences | undefined, count: n
   // trigger word "TOK" below gets replaced with a gendered subject tag so the
   // model has an explicit anchor.
   const gender = (prefs as any)?.gender as string | undefined;
-  const subjectTag =
-    gender === "male" ? "TOK, a man," :
-    gender === "female" ? "TOK, a woman," :
-    "TOK, a person,";
-  const applySubject = (s: string) => s.replace(/\bTOK\b/g, subjectTag);
+  const genderWord =
+    gender === "male" ? "a man" :
+    gender === "female" ? "a woman" :
+    "a person";
+
+  // Eye/hair color are on UserPreferences but were previously never read -
+  // the LoRA alone should capture these from the training selfies, but an
+  // explicit prompt anchor reduces drift, especially in stylized lighting
+  // (studio/editorial setups) that can otherwise wash out eye color.
+  const colorDescriptors: string[] = [];
+  if (prefs?.eyeColor) colorDescriptors.push(`${prefs.eyeColor} eyes`);
+  if (prefs?.hairColor) colorDescriptors.push(`${prefs.hairColor} hair`);
+  const subjectTag = colorDescriptors.length
+    ? `TOK, ${genderWord} with ${colorDescriptors.join(" and ")},`
+    : `TOK, ${genderWord},`;
+  const applySubject = (s: string) => s.replace(/\bTOK\b/g, subjectTag) + FRAMING_CLAUSE;
 
   if (plan === "custom_upsell" || prefs?.is_upsell) {
     const c = prefs?.clothing || "professional attire";
@@ -184,17 +205,32 @@ function buildPrompts(plan: string, prefs: UserPreferences | undefined, count: n
   return pool;
 }
 
-export const trainModel = async (imageUrl: string, orderId: string): Promise<{ request_id: string }> => {
+export const trainModel = async (imageUrl: string, orderId: string, imageCount?: number): Promise<{ request_id: string }> => {
   const webhookUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhooks/fal?orderId=${orderId}&token=${generateWebhookToken(orderId)}`;
 
-  // 800 steps is the sweet spot for 1-5 selfies on Flux without deep-frying / overfitting.
+  // Step count scales with how much training data actually came in.
+  // 800 steps was tuned for the 1-5 selfie case (any more and a thin dataset
+  // overfits - it memorizes the selfie's exact pose/background instead of
+  // generalizing the face). But every competitor in this space (Aragon
+  // minimum 6, HeadshotPro/Secta 15-25) runs on far more input photos than
+  // that, and a richer dataset needs more steps to actually converge on it -
+  // otherwise you're paying for better data and not using it.
+  // NOTE: the real fix here is upstream of this file - raising the minimum
+  // upload count in your onboarding flow. 1-5 selfies is below what any
+  // competitor accepts, and no amount of prompt/pipeline tuning compensates
+  // for a LoRA trained on too little reference data.
+  const steps = imageCount
+    ? Math.min(1500, Math.max(600, 500 + imageCount * 50))
+    : 800;
+
   const res = await fetch(`https://queue.fal.run/fal-ai/flux-lora-fast-training?fal_webhook=${encodeURIComponent(webhookUrl)}`, {
     method: "POST",
     headers: { Authorization: `Key ${FAL_KEY}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       images_data_url: imageUrl,
-      steps: 800,
-      trigger_word: "TOK"
+      steps,
+      trigger_word: "TOK",
+      create_masks: true, // face-segmentation mask weighting, on by default but explicit for clarity
     }),
   });
 

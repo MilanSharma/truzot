@@ -36,6 +36,8 @@ export const checkoutSchema = z.object({
     utm_term: z.string().optional(),
     utm_content: z.string().optional(),
   }).optional(),
+  demographics: z.record(z.string(), z.string()).optional(),
+  imageCount: z.number().int().positive().optional(),
 });
 
 export const retrySchema = z.object({

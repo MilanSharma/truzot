@@ -34,6 +34,8 @@ export interface UserPreferences {
   gender?: string;
   eyeColor?: string;
   hairColor?: string;
+  age?: string;
+  ethnicity?: string;
   clothing?: string;
   background?: string;
   framing?: string;

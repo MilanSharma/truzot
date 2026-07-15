@@ -350,7 +350,8 @@ preferences: updatedPrefs,
  // Trigger training in background to avoid webhook timeout
  waitUntil((async () => {
  try {
- const result = await trainModel(freshZipUrl, orderId);
+ const imageCount = (existingPrefs.image_count as number) || 5;
+ const result = await trainModel(freshZipUrl, orderId, imageCount);
  await supabaseAdmin
  .from("trainings")
  .update({ request_id: result.request_id })
