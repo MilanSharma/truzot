@@ -14,7 +14,42 @@ export const maxDuration = 30;
 async function triggerGenerate(orderId: string): Promise<boolean> {
  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
  const cronSecret = process.env.CRON_SECRET;
- if (!siteUrl || !cronSecret) return false;
+ const qstashToken = process.env.QSTASH_TOKEN;
+ 
+ if (!siteUrl || !cronSecret) {
+ log.error({ orderId }, "Missing siteUrl or cronSecret for generate trigger");
+ return false;
+ }
+
+ // Try QStash first for reliable background execution
+ if (qstashToken) {
+ try {
+ const res = await fetch(
+ `https://qstash.upstash.io/v2/publish/${siteUrl}/api/generate`,
+ {
+ method: "POST",
+ headers: {
+ Authorization: `Bearer ${qstashToken}`,
+ "Content-Type": "application/json",
+ "Upstash-Forward-x-truzot-secret": cronSecret,
+ },
+ body: JSON.stringify({ orderId }),
+ },
+ );
+ if (res.ok) {
+ log.info({ orderId }, "Generate trigger sent via QStash");
+ return true;
+ }
+ log.error(
+ { status: res.status, orderId },
+ "QStash generate trigger failed, falling back to direct",
+ );
+ } catch (err) {
+ log.error({ err, orderId }, "QStash generate trigger error, falling back to direct");
+ }
+ }
+
+ // Fallback to direct fetch
  for (let attempt = 1; attempt <= 3; attempt++) {
  try {
  const res = await fetch(`${siteUrl}/api/generate`, {
@@ -25,13 +60,16 @@ async function triggerGenerate(orderId: string): Promise<boolean> {
  },
  body: JSON.stringify({ orderId }),
  });
- if (res.ok) return true;
+ if (res.ok) {
+ log.info({ orderId, attempt }, "Generate trigger sent via direct fetch");
+ return true;
+ }
  log.error(
  { status: res.status, attempt, orderId },
- "Generate trigger attempt failed",
+ "Direct generate trigger attempt failed",
  );
  } catch (err) {
- log.error({ err, attempt, orderId }, "Generate trigger attempt error");
+ log.error({ err, attempt, orderId }, "Direct generate trigger attempt error");
  }
  if (attempt < 3) await new Promise((r) => setTimeout(r, 1000 * attempt));
  }
@@ -40,9 +78,20 @@ async function triggerGenerate(orderId: string): Promise<boolean> {
 
 async function triggerGenerateAsync(orderId: string): Promise<void> {
  waitUntil(
- triggerGenerate(orderId).then((success) => {
+ triggerGenerate(orderId).then(async (success) => {
  if (!success) {
- log.error({ orderId }, "All generate trigger attempts failed");
+ log.error({ orderId }, "All generate trigger attempts failed - marking order for retry");
+ // Mark order with a flag so a cron job can retry
+ await supabaseAdmin
+ .from("orders")
+ .update({
+ preferences: {
+ ...((await supabaseAdmin.from("orders").select("preferences").eq("id", orderId).single()).data?.preferences as Record<string, any> || {}),
+ generate_trigger_failed: true,
+ generate_trigger_failed_at: new Date().toISOString(),
+ },
+ })
+ .eq("id", orderId);
  }
  }),
  );
