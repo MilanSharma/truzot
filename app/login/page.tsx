@@ -169,8 +169,7 @@ function LoginContent() {
 
   return (
     <div
-      className="min-h-screen flex relative overflow-hidden"
-      style={{ background: "#07080A" }}
+      className="min-h-screen flex relative overflow-hidden bg-[var(--bg)]"
     >
       {/* Background grid – same as landing page */}
       <div className="absolute inset-0 grid grid-cols-4 md:grid-cols-6 gap-1 opacity-20 pointer-events-none">
@@ -194,8 +193,8 @@ function LoginContent() {
         ))}
       </div>
       {/* Gradient overlays */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#07080A]/60 via-[#07080A]/80 to-[#07080A]" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#07080A]/80 via-transparent to-[#07080A]/80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg)]/60 via-[var(--bg)]/80 to-[var(--bg)]" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[var(--bg)]/80 via-transparent to-[var(--bg)]/80" />
 
       {/* Left side – Form */}
       <div className="flex-1 flex flex-col justify-center px-6 py-12 lg:px-20 relative z-10">
@@ -208,7 +207,7 @@ function LoginContent() {
           <motion.div variants={itemVariants}>
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-white/40 hover:text-white/70 transition mb-10 text-sm font-semibold"
+              className="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text)] transition mb-10 text-sm font-semibold"
             >
               <ArrowLeft size={16} /> Back to home
             </Link>
@@ -225,14 +224,14 @@ function LoginContent() {
               transition={{ duration: 0.2 }}
               className="mb-8"
             >
-              <h1 className="text-4xl font-black text-white tracking-tight mb-3">
+              <h1 className="text-4xl font-black text-[var(--text)] tracking-tight mb-3">
                 {forgotPasswordMode
                   ? "Reset password"
                   : isSignUp
                     ? "Create an account"
                     : "Welcome back."}
               </h1>
-              <p className="text-white/40 text-lg">
+              <p className="text-[var(--text-muted)] text-lg">
                 {forgotPasswordMode
                   ? "Enter your email to receive a reset link."
                   : isSignUp
@@ -246,10 +245,10 @@ function LoginContent() {
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-6 bg-red-500/10 border border-red-500/20 rounded-2xl p-4 flex items-start gap-3"
+              className="mb-6 bg-[var(--error)]/10 border border-[var(--error)]/20 rounded-2xl p-4 flex items-start gap-3"
             >
-              <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-red-300">{error}</p>
+              <AlertCircle className="w-5 h-5 text-[var(--error)] flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-[var(--error)]">{error}</p>
             </motion.div>
           )}
 
@@ -257,10 +256,10 @@ function LoginContent() {
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-6 bg-lime-400/10 border border-lime-400/20 rounded-2xl p-4 flex items-start gap-3"
+              className="mb-6 bg-[var(--lime-dim)] border border-[var(--lime-border)] rounded-2xl p-4 flex items-start gap-3"
             >
-              <CheckCircle className="w-5 h-5 text-lime-400 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-lime-300">{success}</p>
+              <CheckCircle className="w-5 h-5 text-[var(--lime-text)] flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-[var(--lime-text)]">{success}</p>
             </motion.div>
           )}
 
@@ -268,22 +267,22 @@ function LoginContent() {
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-6 bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 flex items-start gap-3"
+              className="mb-6 bg-[var(--warning)]/10 border border-[var(--warning)]/20 rounded-2xl p-4 flex items-start gap-3"
             >
-              <AlertCircle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+              <AlertCircle className="w-5 h-5 text-[var(--warning)] flex-shrink-0 mt-0.5" />
               <div className="flex-1">
-                <p className="text-sm font-medium text-amber-300">
+                <p className="text-sm font-medium text-[var(--warning)]">
                   Email not confirmed yet.
                 </p>
                 <button
                   onClick={handleResendConfirmation}
                   disabled={resending}
-                  className="mt-2 text-sm text-lime-400 hover:text-lime-300 underline font-bold disabled:opacity-50"
+                  className="mt-2 text-sm text-[var(--lime-text)] hover:brightness-110 underline font-bold disabled:opacity-50"
                 >
                   {resending ? "Resending..." : "Resend confirmation email"}
                 </button>
                 {resendError && (
-                  <p className="text-xs text-red-400 mt-2">{resendError}</p>
+                  <p className="text-xs text-[var(--error)] mt-2">{resendError}</p>
                 )}
               </div>
             </motion.div>
@@ -295,21 +294,17 @@ function LoginContent() {
           >
             {isSignUp && !forgotPasswordMode && (
               <motion.div variants={itemVariants}>
-                <label className="block text-sm font-bold text-white/60 mb-2">
+                <label className="block text-sm font-bold text-[var(--text-secondary)] mb-2">
                   Full Name
                 </label>
                 <div className="relative">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/25" />
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-faint)]" />
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    className="w-full pl-12 pr-4 py-4 rounded-2xl text-white placeholder-white/20 outline-none focus:ring-1 focus:ring-lime-400/50 transition-all"
-                    style={{
-                      background: "#0E1016",
-                      border: "1px solid rgba(255,255,255,0.07)",
-                    }}
+                    className="w-full pl-12 pr-4 py-4 rounded-2xl text-[var(--text)] placeholder-[var(--text-faint)] outline-none focus:ring-1 focus:ring-[var(--lime)]/50 transition-all bg-[var(--surface)] border border-[var(--border)]"
                     placeholder="John Doe"
                   />
                 </div>
@@ -317,21 +312,17 @@ function LoginContent() {
             )}
 
             <motion.div variants={itemVariants}>
-              <label className="block text-sm font-bold text-white/60 mb-2">
+              <label className="block text-sm font-bold text-[var(--text-secondary)] mb-2">
                 Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/25" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-faint)]" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full pl-12 pr-4 py-4 rounded-2xl text-white placeholder-white/20 outline-none focus:ring-1 focus:ring-lime-400/50 transition-all"
-                  style={{
-                    background: "#0E1016",
-                    border: "1px solid rgba(255,255,255,0.07)",
-                  }}
+                  className="w-full pl-12 pr-4 py-4 rounded-2xl text-[var(--text)] placeholder-[var(--text-faint)] outline-none focus:ring-1 focus:ring-[var(--lime)]/50 transition-all bg-[var(--surface)] border border-[var(--border)]"
                   placeholder="you@example.com"
                 />
               </div>
@@ -340,37 +331,33 @@ function LoginContent() {
             {!forgotPasswordMode && (
               <motion.div variants={itemVariants}>
                 <div className="flex justify-between items-center mb-2">
-                  <label className="block text-sm font-bold text-white/60">
+                  <label className="block text-sm font-bold text-[var(--text-secondary)]">
                     Password
                   </label>
                   {!isSignUp && (
                     <button
                       type="button"
                       onClick={() => setForgotPasswordMode(true)}
-                      className="text-xs font-bold text-lime-400 hover:text-lime-300 transition"
+                      className="text-xs font-bold text-[var(--lime-text)] hover:brightness-110 transition"
                     >
                       Forgot password?
                     </button>
                   )}
                 </div>
                 <div className="relative">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/25" />
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-faint)]" />
                   <input
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="w-full pl-12 pr-12 py-4 rounded-2xl text-white placeholder-white/20 outline-none focus:ring-1 focus:ring-lime-400/50 transition-all"
-                    style={{
-                      background: "#0E1016",
-                      border: "1px solid rgba(255,255,255,0.07)",
-                    }}
+                    className="w-full pl-12 pr-12 py-4 rounded-2xl text-[var(--text)] placeholder-[var(--text-faint)] outline-none focus:ring-1 focus:ring-[var(--lime)]/50 transition-all bg-[var(--surface)] border border-[var(--border)]"
                     placeholder="••••••••"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white/25 hover:text-white/50 transition"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--text-faint)] hover:text-[var(--text-muted)] transition"
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
@@ -382,7 +369,7 @@ function LoginContent() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-lime-400 text-black py-4 rounded-2xl font-bold text-base hover:bg-lime-300 transition shadow-lg shadow-lime-400/20 disabled:opacity-60 flex items-center justify-center gap-2"
+                className="w-full bg-[var(--lime)] text-[var(--lime-on)] py-4 rounded-2xl font-bold text-base hover:brightness-110 transition shadow-lg shadow-[var(--shadow-lime)] disabled:opacity-60 flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
@@ -403,10 +390,10 @@ function LoginContent() {
             <>
               <motion.div variants={itemVariants} className="relative my-8">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-white/10"></div>
+                  <div className="w-full border-t border-[var(--border)]"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-4 text-white/40 bg-[#07080A] font-bold uppercase tracking-wider text-[10px]">
+                  <span className="px-4 text-[var(--text-muted)] bg-[var(--bg)] font-bold uppercase tracking-wider text-[10px]">
                     or continue with
                   </span>
                 </div>
@@ -415,7 +402,7 @@ function LoginContent() {
               <motion.div variants={itemVariants}>
                 <button
                   onClick={handleGoogleSignIn}
-                  className="w-full flex items-center justify-center gap-3 py-3.5 border border-white/10 rounded-2xl font-bold text-white/70 hover:bg-white/5 transition"
+                  className="w-full flex items-center justify-center gap-3 py-3.5 border border-[var(--border)] rounded-2xl font-bold text-[var(--text-secondary)] hover:bg-[var(--surface2)] transition"
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24">
                     <path
@@ -443,12 +430,12 @@ function LoginContent() {
 
           <motion.div
             variants={itemVariants}
-            className="mt-8 text-center text-sm text-white/30 font-semibold"
+            className="mt-8 text-center text-sm text-[var(--text-faint)] font-semibold"
           >
             {forgotPasswordMode ? (
               <button
                 onClick={() => setForgotPasswordMode(false)}
-                className="text-white/60 hover:text-white transition"
+                className="text-[var(--text-muted)] hover:text-[var(--text)] transition"
               >
                 Back to sign in
               </button>
@@ -457,7 +444,7 @@ function LoginContent() {
                 Already have an account?{" "}
                 <button
                   onClick={() => setIsSignUp(false)}
-                  className="text-lime-400 hover:underline"
+                  className="text-[var(--lime-text)] hover:brightness-110"
                 >
                   Sign in
                 </button>
@@ -467,7 +454,7 @@ function LoginContent() {
                 Don&apos;t have an account?{" "}
                 <button
                   onClick={() => setIsSignUp(true)}
-                  className="text-lime-400 hover:underline"
+                  className="text-[var(--lime-text)] hover:brightness-110"
                 >
                   Sign up
                 </button>
@@ -485,17 +472,17 @@ function LoginContent() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="relative max-w-lg w-full"
         >
-          <div className="absolute -inset-4 bg-gradient-to-br from-lime-400/10 to-indigo-500/10 rounded-3xl blur-2xl" />
-          <div className="relative bg-[#0E1016] border border-white/10 rounded-3xl p-10 shadow-2xl">
+          <div className="absolute -inset-4 bg-gradient-to-br from-[var(--lime-dim)] to-[var(--indigo-dim)] rounded-3xl blur-2xl" />
+          <div className="relative bg-[var(--surface)] border border-[var(--border)] rounded-3xl p-10 shadow-2xl">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-lime-400/10 border border-lime-400/20 rounded-2xl flex items-center justify-center">
-                <Sparkles className="w-6 h-6 text-lime-400" />
+              <div className="w-12 h-12 bg-[var(--lime-dim)] border border-[var(--lime-border)] rounded-2xl flex items-center justify-center">
+                <Sparkles className="w-6 h-6 text-[var(--lime-text)]" />
               </div>
               <div>
-                <p className="text-xs font-bold text-lime-400 uppercase tracking-widest">
+                <p className="text-xs font-bold text-[var(--lime-text)] uppercase tracking-widest">
                   Truzot AI
                 </p>
-                <p className="text-white/40 text-sm">
+                <p className="text-[var(--text-muted)] text-sm">
                   Professional headshots in minutes
                 </p>
               </div>
@@ -506,13 +493,13 @@ function LoginContent() {
                 {
                   icon: Zap,
                   text: "Only 1–5 selfies needed",
-                  color: "#A3E635",
+                  color: "var(--lime)",
                 },
-                { icon: Shield, text: "AES-256 encrypted", color: "#6366F1" },
+                { icon: Shield, text: "AES-256 encrypted", color: "var(--indigo)" },
                 {
                   icon: CheckCircle,
                   text: "30-day money-back guarantee",
-                  color: "#A3E635",
+                  color: "var(--lime)",
                 },
               ].map(({ icon: Icon, text, color }, i) => (
                 <motion.div
@@ -520,14 +507,13 @@ function LoginContent() {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3 + i * 0.1 }}
-                  className="flex items-center gap-3 p-4 rounded-2xl"
+                  className="flex items-center gap-3 p-4 rounded-2xl border border-[var(--border)]"
                   style={{
-                    background: `${color}08`,
-                    border: `1px solid ${color}20`,
+                    background: `var(--surface2)`,
                   }}
                 >
                   <Icon className="w-5 h-5" style={{ color }} />
-                  <span className="text-white/70 text-sm font-medium">
+                  <span className="text-[var(--text-secondary)] text-sm font-medium">
                     {text}
                   </span>
                 </motion.div>
@@ -544,7 +530,7 @@ export default function LoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen" style={{ background: "#07080A" }} />
+        <div className="min-h-screen bg-[var(--bg)]" />
       }
     >
       <LoginContent />

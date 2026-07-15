@@ -10,14 +10,14 @@ export default function FailedView({ order }: { order: Order }) {
   const { toast } = useToast();
 
   return (
-    <div className="bg-[#0E1016] rounded-3xl border border-white/10 p-10 max-w-2xl mx-auto shadow-2xl mt-12 text-center">
-      <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-        <X className="w-10 h-10 text-red-400" />
+    <div className="bg-[var(--surface)] rounded-3xl border border-[var(--border)] p-10 max-w-2xl mx-auto shadow-2xl mt-12 text-center">
+      <div className="w-20 h-20 bg-[var(--error)]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+        <X className="w-10 h-10 text-[var(--error)]" />
       </div>
-      <h2 className="text-2xl font-black text-white mb-2">
+      <h2 className="text-2xl font-black text-[var(--text)] mb-2">
         Generation Failed
       </h2>
-      <p className="text-sm text-white/40 mb-8">
+      <p className="text-sm text-[var(--text-muted)] mb-8">
         Something went wrong during processing. You can retry or contact
         support.
       </p>
@@ -45,20 +45,20 @@ export default function FailedView({ order }: { order: Order }) {
               );
             }
           }}
-          className="inline-flex items-center gap-2 bg-lime-400 text-black px-6 py-3 rounded-2xl font-bold hover:bg-lime-300 transition shadow-lg shadow-lime-400/20"
+          className="inline-flex items-center gap-2 bg-[var(--lime)] text-[var(--lime-on)] px-6 py-3 rounded-2xl font-bold hover:brightness-110 transition shadow-lg shadow-[var(--shadow-lime)]"
         >
           <Zap className="w-4 h-4" /> Retry Generation
         </button>
         <button
           onClick={() => router.push("/upload")}
-          className="inline-flex items-center gap-2 bg-white/5 text-white/70 px-6 py-3 rounded-2xl font-bold border border-white/10 hover:bg-white/10 transition"
+          className="inline-flex items-center gap-2 bg-[var(--surface2)] text-[var(--text)] px-6 py-3 rounded-2xl font-bold border border-[var(--border)] hover:bg-[var(--surface3)] transition"
         >
           Start New Shoot
         </button>
       </div>
-      <div className="mt-6 text-xs text-white/20 flex items-center justify-center gap-1">
+      <div className="mt-6 text-xs text-[var(--text-faint)] flex items-center justify-center gap-1">
         <Shield className="w-3 h-3" /> If the issue persists, email{" "}
-        <a href="mailto:hello@truzot.com" className="text-lime-400 underline">
+        <a href="mailto:hello@truzot.com" className="text-[var(--lime-text)] underline">
           hello@truzot.com
         </a>
       </div>

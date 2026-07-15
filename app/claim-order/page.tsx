@@ -152,40 +152,37 @@ function ClaimOrderForm() {
   };
 
   return (
-    <div className="min-h-screen" style={{ background: "#07080A" }}>
+    <div className="min-h-screen bg-[var(--bg)]">
       <Nav />
       <div className="max-w-md mx-auto px-6 py-12 md:py-20">
         {isCheckingSession ? (
           <div
-            className="rounded-2xl border p-10 shadow-2xl text-center flex flex-col items-center justify-center min-h-[400px]"
-            style={{ background: "#0E1016", borderColor: "rgba(255,255,255,0.07)" }}
+            className="rounded-2xl border p-10 shadow-2xl text-center flex flex-col items-center justify-center min-h-[400px] bg-[var(--surface)] border-[var(--border)]"
           >
-            <div className="w-8 h-8 border-4 border-lime-400 border-t-transparent rounded-full animate-spin mb-4" />
-            <p className="text-sm font-medium text-white/40">
+            <div className="w-8 h-8 border-4 border-[var(--lime)] border-t-transparent rounded-full animate-spin mb-4" />
+            <p className="text-sm font-medium text-[var(--text-muted)]">
               Verifying secure link...
             </p>
           </div>
         ) : !isValidUuid ? (
           <div
-            className="rounded-2xl border p-10 shadow-2xl text-center"
-            style={{ background: "#0E1016", borderColor: "rgba(255,255,255,0.07)" }}
+            className="rounded-2xl border p-10 shadow-2xl text-center bg-[var(--surface)] border-[var(--border)]"
           >
-            <h2 className="text-xl font-bold text-white mb-2">Invalid Link</h2>
-            <p className="text-white/40">
+            <h2 className="text-xl font-bold text-[var(--text)] mb-2">Invalid Link</h2>
+            <p className="text-[var(--text-muted)]">
               This order link is invalid or missing. Please check the URL and try again.
             </p>
           </div>
         ) : (
           <div
-            className="rounded-2xl border p-8 shadow-2xl"
-            style={{ background: "#0E1016", borderColor: "rgba(255,255,255,0.07)" }}
+            className="rounded-2xl border p-8 shadow-2xl bg-[var(--surface)] border-[var(--border)]"
           >
             <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-lime-400/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="w-8 h-8 text-lime-400" />
+              <div className="w-16 h-16 bg-[var(--lime-dim)] rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="w-8 h-8 text-[var(--lime-text)]" />
               </div>
-              <h1 className="text-2xl font-black text-white mb-2">Payment Successful!</h1>
-              <p className="text-white/40 text-sm">
+              <h1 className="text-2xl font-black text-[var(--text)] mb-2">Payment Successful!</h1>
+              <p className="text-[var(--text-muted)] text-sm">
                 {isSignIn
                   ? "Sign in to access your headshots and track your order."
                   : "Create an account to access your headshots and track your order."}
@@ -193,7 +190,7 @@ function ClaimOrderForm() {
             </div>
 
             {error && (
-              <div className="mb-4 p-3.5 bg-red-500/10 border border-red-500/20 rounded-2xl text-sm text-red-400">
+              <div className="mb-4 p-3.5 bg-[var(--error)]/10 border border-[var(--error)]/20 rounded-2xl text-sm text-[var(--error)]">
                 {error}
               </div>
             )}
@@ -204,48 +201,40 @@ function ClaimOrderForm() {
             >
               {!isSignIn && (
                 <div>
-                  <label className="block text-sm font-bold text-white/60 mb-1.5">
+                  <label className="block text-sm font-bold text-[var(--text-secondary)] mb-1.5">
                     Full Name
                   </label>
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/25" />
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-faint)]" />
                     <input
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       required
                       placeholder="John Doe"
-                      className="w-full pl-10 pr-4 py-3 rounded-2xl border text-white placeholder-white/20 focus:ring-2 focus:ring-lime-400/50 focus:border-lime-400/50 outline-none transition"
-                      style={{
-                        background: "#0E1016",
-                        borderColor: "rgba(255,255,255,0.07)",
-                      }}
+                      className="w-full pl-10 pr-4 py-3 rounded-2xl border text-[var(--text)] placeholder-[var(--text-faint)] focus:ring-2 focus:ring-[var(--lime)]/50 focus:border-[var(--lime)]/50 outline-none transition bg-[var(--bg)] border-[var(--border)]"
                     />
                   </div>
                 </div>
               )}
               <div>
-                <label className="block text-sm font-bold text-white/60 mb-1.5">Email</label>
+                <label className="block text-sm font-bold text-[var(--text-secondary)] mb-1.5">Email</label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/25" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-faint)]" />
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     placeholder="you@example.com"
-                    className="w-full pl-10 pr-4 py-3 rounded-2xl border text-white placeholder-white/20 focus:ring-2 focus:ring-lime-400/50 focus:border-lime-400/50 outline-none transition"
-                    style={{
-                      background: "#0E1016",
-                      borderColor: "rgba(255,255,255,0.07)",
-                    }}
+                    className="w-full pl-10 pr-4 py-3 rounded-2xl border text-[var(--text)] placeholder-[var(--text-faint)] focus:ring-2 focus:ring-[var(--lime)]/50 focus:border-[var(--lime)]/50 outline-none transition bg-[var(--bg)] border-[var(--border)]"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-bold text-white/60 mb-1.5">Password</label>
+                <label className="block text-sm font-bold text-[var(--text-secondary)] mb-1.5">Password</label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/25" />
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-faint)]" />
                   <input
                     type={showPassword ? "text" : "password"}
                     value={password}
@@ -253,16 +242,12 @@ function ClaimOrderForm() {
                     required
                     minLength={6}
                     placeholder="••••••••"
-                    className="w-full pl-10 pr-12 py-3 rounded-2xl border text-white placeholder-white/20 focus:ring-2 focus:ring-lime-400/50 focus:border-lime-400/50 outline-none transition"
-                    style={{
-                      background: "#0E1016",
-                      borderColor: "rgba(255,255,255,0.07)",
-                    }}
+                    className="w-full pl-10 pr-12 py-3 rounded-2xl border text-[var(--text)] placeholder-[var(--text-faint)] focus:ring-2 focus:ring-[var(--lime)]/50 focus:border-[var(--lime)]/50 outline-none transition bg-[var(--bg)] border-[var(--border)]"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-faint)] hover:text-[var(--text-muted)] transition"
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
@@ -270,11 +255,11 @@ function ClaimOrderForm() {
               </div>
               {!isSignIn && (
                 <div>
-                  <label className="block text-sm font-bold text-white/60 mb-1.5">
+                  <label className="block text-sm font-bold text-[var(--text-secondary)] mb-1.5">
                     Confirm Password
                   </label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/25" />
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-faint)]" />
                     <input
                       type={showPassword ? "text" : "password"}
                       value={confirmPassword}
@@ -282,11 +267,7 @@ function ClaimOrderForm() {
                       required
                       minLength={6}
                       placeholder="••••••••"
-                      className="w-full pl-10 pr-12 py-3 rounded-2xl border text-white placeholder-white/20 focus:ring-2 focus:ring-lime-400/50 focus:border-lime-400/50 outline-none transition"
-                      style={{
-                        background: "#0E1016",
-                        borderColor: "rgba(255,255,255,0.07)",
-                      }}
+                      className="w-full pl-10 pr-12 py-3 rounded-2xl border text-[var(--text)] placeholder-[var(--text-faint)] focus:ring-2 focus:ring-[var(--lime)]/50 focus:border-[var(--lime)]/50 outline-none transition bg-[var(--bg)] border-[var(--border)]"
                     />
                   </div>
                 </div>
@@ -294,7 +275,7 @@ function ClaimOrderForm() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-lime-400 text-black py-3 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-lime-300 transition disabled:opacity-50 shadow-lg shadow-lime-400/20"
+                className="w-full bg-[var(--lime)] text-[var(--lime-on)] py-3 rounded-2xl font-bold flex items-center justify-center gap-2 hover:brightness-110 transition disabled:opacity-50 shadow-lg shadow-[var(--shadow-lime)]"
               >
                 {loading ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
@@ -309,10 +290,10 @@ function ClaimOrderForm() {
 
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-white/10" />
+                <div className="w-full border-t border-[var(--border)]" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 text-white/40" style={{ background: "#0E1016" }}>
+                <span className="px-4 text-[var(--text-muted)] bg-[var(--surface)]">
                   or
                 </span>
               </div>
@@ -320,7 +301,7 @@ function ClaimOrderForm() {
 
             <button
               onClick={handleGoogleSignIn}
-              className="w-full flex items-center justify-center gap-3 py-3 border border-white/10 rounded-2xl font-semibold text-white/70 hover:bg-white/5 transition"
+              className="w-full flex items-center justify-center gap-3 py-3 border border-[var(--border)] rounded-2xl font-semibold text-[var(--text-secondary)] hover:bg-[var(--surface2)] transition"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path
@@ -349,7 +330,7 @@ function ClaimOrderForm() {
                   setIsSignIn(!isSignIn);
                   setError("");
                 }}
-                className="text-lime-400 text-sm hover:text-lime-300 font-medium transition"
+                className="text-[var(--lime-text)] hover:brightness-110 text-sm font-medium transition"
               >
                 {isSignIn
                   ? "Don't have an account? Create one"
@@ -357,7 +338,7 @@ function ClaimOrderForm() {
               </button>
               <button
                 onClick={() => orderId && router.push(`/dashboard?order=${orderId}`)}
-                className="text-white/40 text-sm hover:text-white/70 underline transition"
+                className="text-[var(--text-muted)] text-sm hover:text-[var(--text)] underline transition"
               >
                 Skip for now — view your order as a guest
               </button>
@@ -374,10 +355,9 @@ export default function ClaimOrderPage() {
     <Suspense
       fallback={
         <div
-          className="min-h-screen flex items-center justify-center"
-          style={{ background: "#07080A" }}
+          className="min-h-screen flex items-center justify-center bg-[var(--bg)]"
         >
-          <div className="w-8 h-8 border-4 border-lime-400 border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-4 border-[var(--lime)] border-t-transparent rounded-full animate-spin" />
         </div>
       }
     >

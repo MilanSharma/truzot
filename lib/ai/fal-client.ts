@@ -32,10 +32,19 @@ function buildPrompts(plan: string, prefs?: UserPreferences): string[] {
   const target = PLAN_SHOTS[plan] ?? 40;
   const pool: string[] = [];
   
+  let genderStr = "person";
+  if (prefs?.gender) {
+    const g = prefs.gender.toLowerCase();
+    if (g === "male") genderStr = "man";
+    else if (g === "female") genderStr = "woman";
+    else genderStr = g;
+  }
+  const subject = `a ${genderStr} TOK`;
+
   if (plan === "custom_upsell" || prefs?.is_upsell) {
     const c = prefs?.clothing || "professional attire";
     const b = prefs?.background || "studio background";
-    const basePrompt = `A high-end professional headshot of TOK, wearing ${c}, ${b}, 8k resolution, highly detailed, photorealistic`;
+    const basePrompt = `A high-end professional headshot of ${subject}, wearing ${c}, ${b}, 8k resolution, highly detailed, photorealistic`;
     const suffixes = [
       ", looking directly at camera, slight smile", ", three-quarter angle, relaxed posture", 
       ", looking slightly off-camera", ", front-facing, neutral confident expression", ", warm approachable smile"
@@ -45,7 +54,7 @@ function buildPrompts(plan: string, prefs?: UserPreferences): string[] {
   }
 
   // Enhanced prompts for photorealism with skin tone and eye color preservation
-  const DIVERSE_BASE_PROMPTS = [
+  const DIVERSE_BASE_PROMPTS_RAW = [
     // Corporate & Executive
     "A professional corporate headshot of TOK, wearing a tailored dark navy business suit, modern bright office background, soft natural window light, photorealistic, natural skin texture, accurate skin tone, realistic eye color",
     "An authoritative executive portrait of TOK, wearing a charcoal suit, wood-panelled boardroom background, cinematic lighting, natural skin pores, authentic complexion, precise eye color",
@@ -110,6 +119,8 @@ function buildPrompts(plan: string, prefs?: UserPreferences): string[] {
     ", professional photography, perfect lighting, 4k, natural complexion, detailed iris patterns, realistic hair, no synthetic appearance, no cgi look"
   ];
 
+  const DIVERSE_BASE_PROMPTS = DIVERSE_BASE_PROMPTS_RAW.map(p => p.replace(/TOK/g, subject));
+
   let bIdx = 0, sIdx = 0;
   while (pool.length < target) {
     pool.push(DIVERSE_BASE_PROMPTS[bIdx % DIVERSE_BASE_PROMPTS.length] + suffixes[sIdx % suffixes.length]);
@@ -125,7 +136,7 @@ export const trainModel = async (imageUrl: string, orderId: string): Promise<{ r
     headers: { Authorization: `Key ${FAL_KEY}`, "Content-Type": "application/json" },
     body: JSON.stringify({ 
       images_data_url: imageUrl, 
-      steps: 1200, // Increased for better facial detail capture and skin tone accuracy
+      steps: 1000,
       trigger_word: "TOK" 
     }),
   });
@@ -143,8 +154,8 @@ export const generateHeadshots = async (
   const targetShots = Math.min(startIndex + limit, PLAN_SHOTS[plan] ?? 40);
   const prompts = Array.from({ length: targetShots - startIndex }, (_, i) => ({ prompt: allPrompts[startIndex + i], index: startIndex + i }));
 
-  // LoRA scale tuning based on plan - increased for better facial resemblance
-  const loraScale = plan === "executive" ? 0.95 : plan === "pro" ? 0.92 : 0.88;
+  // LoRA scale tuning based on plan - adjusted for photorealism and avoiding over-fitting
+  const loraScale = plan === "executive" ? 0.85 : plan === "pro" ? 0.80 : 0.75;
   
   // Inference steps and guidance scale tuned for photorealism
   const inferenceSteps = plan === "executive" ? 50 : plan === "pro" ? 45 : 40;
