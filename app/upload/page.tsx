@@ -953,12 +953,12 @@ function UploadContent() {
         selectedStyles: ["auto"], // Styles are fully automated on backend now
         idempotencyKey,
         shootName: shootName || defaultShootName,
-        coupon: coupon || undefined,
+        coupon: couponValid && coupon ? coupon : undefined, // Only send coupon if validated
         utmParams, // Include UTM parameters for tracking
         demographics: Object.fromEntries(
           Object.entries(demographics).filter(([_, v]) => v.trim() !== "")
         ) as Record<string, string>,
-        imageCount: files.length,
+        imageCount: Math.max(files.length, 1), // Ensure at least 1 if storagePath exists
       };
 
       const res = await fetch("/api/checkout", {
