@@ -102,8 +102,9 @@ export const GENERATION_CONFIG: Record<GenPlanKey, {
   basic:         { batchSize: 40,  concurrency: 6 },
   // +1 upscale call per image (2.5x). Bigger batch still fits comfortably in 800s.
   pro:           { batchSize: 100, concurrency: 8 },
-  // +1 upscale call per image (4x, slowest per-image cost). Reduced to 6 until
-  // fal.ai account rate limits are verified. Check fal.ai dashboard for actual limits.
+  // +1 upscale call per image (4x, slowest per-image cost). Concurrency limited to 6
+  // because fal.ai accounts start at 2 concurrent requests and scale to 40 based on
+  // credit purchases. Your current limit is likely 2-10; check fal.ai dashboard.
   executive:     { batchSize: 150, concurrency: 6 },
   custom_upsell: { batchSize: 20,  concurrency: 6 },
 };

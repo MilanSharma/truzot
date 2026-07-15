@@ -93,7 +93,7 @@ export default function CityPage({ city }: CityPageProps) {
             {city.name} professionals need headshots that stand out in
             competitive markets like tech, finance, and real estate. Traditional
             photography studios in {city.name} charge $200-500 for a single
-            session with limited outfit changes. Truzot delivers 40-200
+            session with limited outfit changes. Truzot delivers 40-150
             headshots in multiple styles for a fraction of the cost, all without
             leaving your home.
           </p>

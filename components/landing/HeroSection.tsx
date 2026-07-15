@@ -120,7 +120,7 @@ export default function HeroSection({
             href="/examples"
             className="w-full sm:w-auto btn-secondary text-lg flex items-center justify-center gap-2"
           >
-            <Users className="w-5 h-5 text-[var(--text-muted)]" /> See 200+
+            <Users className="w-5 h-5 text-[var(--text-muted)]" /> See 150+
             examples
           </Link>
         </motion.div>

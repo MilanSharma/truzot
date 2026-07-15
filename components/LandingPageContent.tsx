@@ -1811,7 +1811,7 @@ export default function LandingPageContent() {
                   ["Turnaround", "30 min – 2 hrs", "2–4 weeks", "1–6 hours"],
                   [
                     "Output volume",
-                    "40–200 photos",
+                    "40–150 photos",
                     "10–30 photos",
                     "10–40 photos",
                   ],
