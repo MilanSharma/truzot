@@ -14,7 +14,7 @@ import { isValidTransition } from "@/lib/order-status";
 
 const log = createLogger("generate");
 export const maxDuration = 300;
-const BATCH_SIZE = 10;
+const BATCH_SIZE = 5; // Reduce batch size to avoid Vercel Hobby timeouts
 
 async function enqueueNextBatch(orderId: string): Promise<boolean> {
  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://truzot.com";
@@ -53,9 +53,13 @@ async function enqueueNextBatch(orderId: string): Promise<boolean> {
  body: JSON.stringify({ orderId }),
  },
  );
- if (res.ok) return true;
+ if (res.ok) {
+ log.info({ orderId, attempt }, "QStash enqueue successful");
+ return true;
+ }
+ const errorText = await res.text().catch(() => "No error text");
  log.error(
- { status: res.status, attempt, orderId },
+ { status: res.status, attempt, orderId, errorText },
  "QStash enqueue attempt failed",
  );
  } catch (err) {
