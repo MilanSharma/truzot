@@ -59,5 +59,25 @@ export const STYLES = [
     useCase:
       "Tailored for LinkedIn's dimensions and best practices to help you stand out on the platform",
   },
+  {
+    id: "editorial",
+    name: "Editorial",
+    title: "Editorial Headshots",
+    description:
+      "High-fashion editorial style headshots with dramatic lighting and artistic composition",
+    keywords: ["editorial headshot", "fashion headshot"],
+    useCase:
+      "Perfect for models, actors, and creative professionals seeking a magazine-quality aesthetic",
+  },
+  {
+    id: "vintage",
+    name: "Vintage",
+    title: "Vintage Headshots",
+    description:
+      "Classic vintage-style headshots with timeless aesthetics and traditional photography techniques",
+    keywords: ["vintage headshot", "classic headshot"],
+    useCase:
+      "Ideal for professionals who want a timeless, classic look that never goes out of style",
+  },
 ] as const;
 export type Style = (typeof STYLES)[number];

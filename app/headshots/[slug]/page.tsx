@@ -9,8 +9,8 @@ interface Props {
 }
 export async function generateStaticParams() {
  const params: { slug: string }[] = [];
- for (const profession of PROFESSIONS.slice(0, 10)) {
- for (const city of CITIES.slice(0, 50)) {
+ for (const profession of PROFESSIONS) {
+ for (const city of CITIES) {
  params.push({ slug: `${profession.id}-in-${city.id}` });
  }
  }

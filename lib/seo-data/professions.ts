@@ -125,5 +125,61 @@ export const PROFESSIONS = [
       },
     ],
   },
+  {
+    id: "personal-trainer",
+    name: "Personal Trainer",
+    title: "Personal Trainer Headshots",
+    description:
+      "Dynamic and energetic headshots for personal trainers and fitness professionals to attract clients",
+    keywords: ["personal trainer headshot", "fitness instructor photo"],
+    faq: [
+      {
+        q: "Why do personal trainers need professional headshots?",
+        a: "Professional headshots showcase your fitness expertise and help build trust with potential clients.",
+      },
+    ],
+  },
+  {
+    id: "entrepreneur",
+    name: "Entrepreneur",
+    title: "Entrepreneur Headshots",
+    description:
+      "Modern and professional headshots for entrepreneurs and startup founders to establish credibility",
+    keywords: ["entrepreneur headshot", "founder photo"],
+    faq: [
+      {
+        q: "Why do entrepreneurs need professional headshots?",
+        a: "Professional headshots build investor confidence and establish your personal brand.",
+      },
+    ],
+  },
+  {
+    id: "social-media-manager",
+    name: "Social Media Manager",
+    title: "Social Media Manager Headshots",
+    description:
+      "Professional headshots for social media managers and digital marketers to showcase expertise",
+    keywords: ["social media manager headshot", "digital marketer photo"],
+    faq: [
+      {
+        q: "Why do social media managers need professional headshots?",
+        a: "Professional headshots establish credibility with clients and reflect your personal brand.",
+      },
+    ],
+  },
+  {
+    id: "yoga-instructor",
+    name: "Yoga Instructor",
+    title: "Yoga Instructor Headshots",
+    description:
+      "Peaceful and professional headshots for yoga instructors and wellness practitioners",
+    keywords: ["yoga instructor headshot", "wellness professional photo"],
+    faq: [
+      {
+        q: "Why do yoga instructors need professional headshots?",
+        a: "Professional headshots help attract students and establish your teaching style and expertise.",
+      },
+    ],
+  },
 ] as const;
 export type Profession = (typeof PROFESSIONS)[number];
