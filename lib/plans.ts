@@ -6,7 +6,7 @@ export const PLANS = {
     amount: 2900,
     shots: 40,
     turnaround: "2 hours",
-    resolution: "HD (1080p)",
+    resolution: "High-Resolution",
     styles: "10+",
     backgrounds: "10+",
     popular: false,
@@ -19,7 +19,7 @@ export const PLANS = {
     amount: 3900,
     shots: 100,
     turnaround: "1 hour",
-    resolution: "Premium 4K",
+    resolution: "High-Resolution",
     styles: "30+",
     backgrounds: "30+",
     popular: true,
@@ -32,7 +32,7 @@ export const PLANS = {
     amount: 5900,
     shots: 150,
     turnaround: "30 minutes",
-    resolution: "Ultra 8K",
+    resolution: "High-Resolution",
     styles: "All styles",
     backgrounds: "50+",
     popular: false,
@@ -97,13 +97,12 @@ export type GenPlanKey = "basic" | "pro" | "executive" | "custom_upsell";
 export const GENERATION_CONFIG: Record<GenPlanKey, {
   batchSize: number;      // shots attempted per invocation
 }> = {
-  // No upscale pass — cheap per image, can go big in one shot.
+  // One fal.ai call per image (~1 MP, no upscale pass). Concurrency is globally
+  // controlled via a Redis semaphore (lib/fal-concurrency.ts) to respect fal.ai's
+  // account-wide limit, so a whole order can be requested in a single invocation
+  // and the semaphore paces the actual in-flight calls.
   basic:         { batchSize: 40 },
-  // +1 upscale call per image (2.5x). Bigger batch still fits comfortably in 800s.
   pro:           { batchSize: 100 },
-  // +1 upscale call per image (4x, slowest per-image cost). Concurrency is now
-  // globally controlled via Redis semaphore (lib/fal-concurrency.ts) to respect
-  // fal.ai's account-wide limit (8 slots with headroom).
   executive:     { batchSize: 150 },
   custom_upsell: { batchSize: 20 },
 };

@@ -827,7 +827,7 @@ function UploadContent() {
 
   useEffect(() => {
     if (
-      files.length >= 1 &&
+      files.length >= 2 &&
       !storagePath &&
       !isProcessing &&
       !isUploadingBackground
@@ -857,8 +857,8 @@ function UploadContent() {
   const handleNextStep = async () => {
     setError("");
     if (step === 1) {
-      if (files.length < 1 && !storagePath) {
-        setError("Please upload at least 1 photo to continue.");
+      if (files.length < 2 && !storagePath) {
+        setError("Please upload at least 2 photos to continue. We recommend 6–10 for the best, most accurate results.");
         return;
       }
       if (files.length > 0 && !storagePath) {
@@ -958,7 +958,7 @@ function UploadContent() {
         demographics: Object.fromEntries(
           Object.entries(demographics).filter(([_, v]) => v.trim() !== "")
         ) as Record<string, string>,
-        imageCount: Math.max(files.length, 1), // Ensure at least 1 if storagePath exists
+        imageCount: Math.max(files.length, 2), // Floor at the 2-photo minimum (covers the storagePath-only case)
       };
 
       const res = await fetch("/api/checkout", {
@@ -1267,6 +1267,24 @@ function UploadContent() {
                         </span>
                       </span>
                     </div>
+
+                    {/* Count-based quality guidance. Minimum is 2, but likeness
+                        improves sharply with more reference photos, so we tell the
+                        customer plainly what to expect before they pay. */}
+                    {files.length < 6 && (
+                      <div className="mb-6 p-4 rounded-xl border border-amber-300/40 bg-amber-50/60 dark:bg-amber-500/10">
+                        <p className="text-sm text-[var(--text)]">
+                          {files.length < 2 ? (
+                            <><span className="font-bold">Add at least 2 photos to continue.</span> </>
+                          ) : (
+                            <><span className="font-bold">You can continue with {files.length} photo{files.length === 1 ? "" : "s"}.</span> </>
+                          )}
+                          For the most accurate, natural-looking results we strongly recommend{" "}
+                          <span className="font-bold">6–10 varied photos</span> — different angles,
+                          lighting, and expressions. Fewer photos can produce a less consistent likeness.
+                        </p>
+                      </div>
+                    )}
 
                     {/* Quality Bar */}
                     <div className="mb-6 p-4 rounded-xl border border-[var(--border-secondary)] bg-[var(--bg)]">

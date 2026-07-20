@@ -57,25 +57,32 @@ const FRAMING_CLAUSE =
 // into "plastic" territory; loraScale 0.85 keeps likeness without dragging in
 // the selfie's bad lighting/background).
 //
-// Resolution: flux-lora's native output tops out around ~1MP regardless of
-// image_size preset - it does NOT natively produce 4K or 8K. To actually
-// deliver on "Premium 4K" / "Ultra 8K" (not just claim it), Pro and Executive
-// tiers now run a portrait-optimized upscale pass (clarityai/crystal-upscaler,
-// built specifically to preserve facial detail rather than just sharpen edges)
-// after generation. This adds real latency and fal.ai cost per image - see the
-// note at the bottom of this file about your delivery-time SLAs.
+// Resolution & COST: fal-ai/flux-lora bills $0.035 PER MEGAPIXEL of output, not
+// per image. We standardize every tier on a ~1MP portrait (832x1216 = 1.01 MP),
+// so each image costs a predictable ~$0.0354 regardless of plan. There is NO
+// upscale pass — the old clarityai/crystal-upscaler step (2.5x/4x) multiplied
+// output megapixels 6-16x, which would have cost $0.22-0.58 per image and blown
+// the per-image cost target. Native ~1MP Flux is sharp and more than sufficient
+// for web/LinkedIn/print-at-small-size headshots. Tiers differ by shot count and
+// style variety, not resolution. Higher tiers get more inference steps for
+// marginally finer detail — inference steps do NOT affect fal cost (only output
+// megapixels do), so this is a free quality lever, costing only a little latency.
 // ---------------------------------------------------------------------------
 type PlanKey = "basic" | "pro" | "executive";
+
+// 832x1216 is divisible by 16 (Flux requirement) and lands at 1.01 MP → ~$0.0354/image.
+const GEN_WIDTH = 832;
+const GEN_HEIGHT = 1216;
+const MEGAPIXELS_PER_IMAGE = (GEN_WIDTH * GEN_HEIGHT) / 1_000_000; // ~1.012
 
 const QUALITY_PROFILE: Record<PlanKey, {
   inferenceSteps: number;
   baseWidth: number;
   baseHeight: number;
-  upscaleFactor: number | null; // null = no upscale pass (base res already satisfies the tier's claim)
 }> = {
-  basic:     { inferenceSteps: 28, baseWidth: 896, baseHeight: 1152, upscaleFactor: null }, // ~1MP, exceeds 1080p on the short edge
-  pro:       { inferenceSteps: 36, baseWidth: 896, baseHeight: 1152, upscaleFactor: 2.5 },  // -> ~2240x2880, 4K-class detail
-  executive: { inferenceSteps: 42, baseWidth: 896, baseHeight: 1152, upscaleFactor: 4 },    // -> ~3584x4608, 8K-class detail
+  basic:     { inferenceSteps: 30, baseWidth: GEN_WIDTH, baseHeight: GEN_HEIGHT },
+  pro:       { inferenceSteps: 34, baseWidth: GEN_WIDTH, baseHeight: GEN_HEIGHT },
+  executive: { inferenceSteps: 38, baseWidth: GEN_WIDTH, baseHeight: GEN_HEIGHT },
 };
 
 function resolvePlanKey(plan: string): PlanKey {
@@ -208,29 +215,33 @@ function buildPrompts(plan: string, prefs: UserPreferences | undefined, count: n
 export const trainModel = async (imageUrl: string, orderId: string, imageCount?: number): Promise<{ request_id: string }> => {
   const webhookUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhooks/fal?orderId=${orderId}&token=${generateWebhookToken(orderId)}`;
 
-  // Step count scales with how much training data actually came in.
-  // 800 steps was tuned for the 1-5 selfie case (any more and a thin dataset
-  // overfits - it memorizes the selfie's exact pose/background instead of
-  // generalizing the face). But every competitor in this space (Aragon
-  // minimum 6, HeadshotPro/Secta 15-25) runs on far more input photos than
-  // that, and a richer dataset needs more steps to actually converge on it -
-  // otherwise you're paying for better data and not using it.
-  // NOTE: the real fix here is upstream of this file - raising the minimum
-  // upload count in your onboarding flow. 1-5 selfies is below what any
-  // competitor accepts, and no amount of prompt/pipeline tuning compensates
-  // for a LoRA trained on too little reference data.
-  const steps = imageCount
-    ? Math.min(1500, Math.max(600, 500 + imageCount * 50))
-    : 800;
+  // Trainer: fal-ai/flux-lora-portrait-trainer — purpose-built for faces
+  // (brighter highlights, better prompt-following, more facial detail) than the
+  // generic flux-lora-fast-training we used before. Its LoRA output
+  // (diffusers_lora_file) is the same format the fal webhook already parses and
+  // is used identically at inference by fal-ai/flux-lora.
+  //
+  // Step count scales with how much training data actually came in. The trainer
+  // defaults to 2500 steps, which (a) is expensive and (b) badly overfits the
+  // small datasets we accept — with only a handful of selfies, a high step count
+  // memorizes each photo's exact pose/background instead of generalizing the
+  // face. We keep it conservative: ~120 steps per image, floored at 500 and
+  // capped at 1400. This controls fal cost and produces a better-generalizing
+  // LoRA for small datasets. (Quality still improves most from MORE input
+  // photos — the onboarding flow now asks for at least 2 and nudges toward 6+.)
+  const imgs = imageCount && imageCount > 0 ? imageCount : 4;
+  const steps = Math.min(1400, Math.max(500, imgs * 120));
 
-  const res = await fetch(`https://queue.fal.run/fal-ai/flux-lora-fast-training?fal_webhook=${encodeURIComponent(webhookUrl)}`, {
+  const res = await fetch(`https://queue.fal.run/fal-ai/flux-lora-portrait-trainer?fal_webhook=${encodeURIComponent(webhookUrl)}`, {
     method: "POST",
     headers: { Authorization: `Key ${FAL_KEY}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       images_data_url: imageUrl,
       steps,
-      trigger_word: "TOK",
-      create_masks: true, // face-segmentation mask weighting, on by default but explicit for clarity
+      trigger_phrase: "TOK",   // portrait trainer uses trigger_phrase (fast-trainer used trigger_word)
+      subject_crop: true,       // auto-crop to the face/subject — better for headshot datasets
+      create_masks: true,       // face-segmentation mask weighting
+      multiresolution_training: true,
     }),
   });
 
@@ -253,15 +264,6 @@ async function hashImage(url: string): Promise<string | null> {
   } catch {
     return null; // fail open: never block delivery because a hash check failed
   }
-}
-
-async function upscaleImage(imageUrl: string, factor: number): Promise<string> {
-  const { data } = await falFetch("clarityai/crystal-upscaler", {
-    image_url: imageUrl,
-    scale_factor: factor,
-    output_format: "jpeg",
-  });
-  return data?.image?.url || imageUrl;
 }
 
 export const generateHeadshots = async (
@@ -289,7 +291,14 @@ export const generateHeadshots = async (
   let consecutiveFailures = 0;
   const seenHashes = new Set<string>();
   let totalMegapixels = 0;
-  const COST_PER_MEGAPIXEL = 0.035; // $0.035 per megapixel for FLUX LoRA
+  const COST_PER_MEGAPIXEL = 0.035; // fal-ai/flux-lora: $0.035 per output megapixel
+
+  // Per-invocation spend ceiling, derived from what THIS batch is responsible for
+  // (batchSize images at ~1 MP each) plus a 60% buffer to cover legitimate
+  // retries/backfill. With upscale removed, cost is now fully predictable, so this
+  // is a tight, plan-aware guard against any runaway loop — not the loose flat $5
+  // it used to be. Basic ≈ $2.3, Pro ≈ $5.7, Executive ≈ $8.5.
+  const MAX_GENERATION_COST = batchSize * 1.6 * MEGAPIXELS_PER_IMAGE * COST_PER_MEGAPIXEL;
 
   const generateOne = (prompt: string, index: number) => (async () => {
     let attempt = 0;
@@ -299,17 +308,16 @@ export const generateHeadshots = async (
         await new Promise(r => setTimeout(r, 15000));
         consecutiveFailures = 0;
       }
-      
-      // Cost tracking: check if we're approaching budget limit
+
+      // Cost tracking: stop before exceeding this batch's spend ceiling.
       const currentCost = totalMegapixels * COST_PER_MEGAPIXEL;
-      const estimatedNextCost = currentCost + COST_PER_MEGAPIXEL; // ~1MP per generation
-      const MAX_GENERATION_COST = 5.0; // $5 max per generation batch to prevent runaway costs
-      
+      const estimatedNextCost = currentCost + MEGAPIXELS_PER_IMAGE * COST_PER_MEGAPIXEL;
+
       if (estimatedNextCost > MAX_GENERATION_COST) {
         log.warn({ currentCost, maxCost: MAX_GENERATION_COST }, "Approaching cost limit, stopping generation");
         throw new Error("Cost limit exceeded for generation batch");
       }
-      
+
       try {
         const res = await withFalSlot(() => falFetch("fal-ai/flux-lora", {
           prompt,
@@ -325,7 +333,7 @@ export const generateHeadshots = async (
           acceleration: "none", // prioritize quality over speed
         }));
 
-        let imgUrl = res.data.images[0].url;
+        const imgUrl = res.data.images[0].url;
 
         const hash = await hashImage(imgUrl);
         if (hash) {
@@ -333,15 +341,8 @@ export const generateHeadshots = async (
           seenHashes.add(hash);
         }
 
-        // Real resolution upscale for Pro/Executive so 4K/8K claims are true,
-        // not just labels. Portrait-specialized model preserves facial detail
-        // rather than just sharpening edges.
-        if (profile.upscaleFactor) {
-          imgUrl = await withFalSlot(() => upscaleImage(imgUrl, profile.upscaleFactor!));
-        }
-
         consecutiveFailures = 0;
-        totalMegapixels += 1; // Track megapixels for cost monitoring
+        totalMegapixels += MEGAPIXELS_PER_IMAGE; // real output MP for accurate cost tracking
         return { ...res.data, images: [{ ...res.data.images[0], url: imgUrl }], prompt, index };
       } catch (e: any) {
         consecutiveFailures++;
@@ -399,18 +400,13 @@ export const generateHeadshots = async (
 };
 
 // ---------------------------------------------------------------------------
-// OPERATIONAL NOTE (not code - read before shipping):
-// Adding a real upscale pass for Pro/Executive means each of those images now
-// takes two sequential fal.ai calls instead of one. With concurrencyLimit=3,
-// 200 Executive images will comfortably blow past a 30-minute SLA. Either:
-//   (a) raise concurrencyLimit for paid tiers (fal.ai's account-level rate
-//       limit is the real ceiling here, check your plan), or
-//   (b) move Pro/Executive delivery to an async/webhook flow and adjust the
-//       "30 minutes" claim to reflect actual measured p95 turnaround, or
-//   (c) skip the upscale pass and be explicit that "8K" means AI-upscaled
-//       resolution rather than native capture resolution (standard industry
-//       practice, but the number should be one you've actually measured).
-// This file can generate the images; it can't fix a marketing promise made
-// before the pipeline was benchmarked. Load-test with real timings before
-// trusting the delivery-time claims on the pricing page.
+// OPERATIONAL NOTE (not code):
+// One fal.ai call per image now (upscale pass removed), each ~1 MP. With the
+// global concurrency semaphore at 8 (lib/fal-concurrency.ts), an Executive
+// order (150 images) runs ~19 sequential waves. Measure real p95 turnaround
+// against the pricing-page delivery claims ("2 hours"/"1 hour"/"30 minutes")
+// before trusting them, and raise the semaphore only up to your actual fal.ai
+// account-level concurrency limit. Per-image cost is now a predictable
+// ~$0.0354 (1.012 MP × $0.035), so a full order costs roughly:
+//   Basic 40 → ~$1.42 + training   Pro 100 → ~$3.54 + training   Exec 150 → ~$5.31 + training
 // ---------------------------------------------------------------------------

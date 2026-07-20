@@ -31,7 +31,7 @@ export default function GeneratingView({ count, target }: GeneratingViewProps) {
     "Rendering Corporate & Executive styles...",
     "Generating authentic outdoor backgrounds...",
     "Perfecting skin textures and micro‑expressions...",
-    "Enhancing 4K/8K resolution details...",
+    "Enhancing fine facial details...",
     "Packaging final gallery...",
   ];
 

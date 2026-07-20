@@ -19,6 +19,7 @@ export async function GET(request: Request) {
       amount: session.amount_total ? session.amount_total / 100 : 0,
       currency: (session.currency || "USD").toUpperCase(),
       email: session.customer_details?.email || "",
+      paymentStatus: session.payment_status, // "paid" | "unpaid" | "no_payment_required"
     });
   } catch (err: any) {
     log.error({ err }, "Failed to fetch Stripe session");

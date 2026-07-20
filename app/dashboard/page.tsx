@@ -203,17 +203,31 @@ function DashboardContent() {
     return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
   };
 
-  // Fetch session details and trigger value-based tracking
+  // Fire purchase conversions as soon as the customer lands back from Stripe
+  // checkout (this page is the success_url), NOT when generation finishes.
+  // Ad platforms optimize on the *purchase*, and most buyers won't still be on
+  // the dashboard hours later when images are ready — gating on "completed"
+  // silently under-reported (often zero) conversions to Google/Meta. We dedupe
+  // per Stripe session via localStorage so a refresh can't double-count.
   useEffect(() => {
-    if (!sessionId || !currentOrder || currentOrder.status !== "completed") return;
+    if (!sessionId) return;
+
+    const dedupeKey = `truzot_conv_fired_${sessionId}`;
+    try {
+      if (localStorage.getItem(dedupeKey)) return;
+    } catch { /* localStorage unavailable — fall through and still fire */ }
 
     const triggerValueTracking = async () => {
       try {
         const res = await fetch(`/api/get-session?session_id=${sessionId}`);
         if (!res.ok) return;
         const data = await res.json();
-        
+
+        // Only count genuinely paid sessions.
+        if (data.paymentStatus && data.paymentStatus !== "paid") return;
+
         if (data.amount && data.currency) {
+          try { localStorage.setItem(dedupeKey, "1"); } catch { /* ignore */ }
           // Meta Pixel with value-based tracking and deduplication
           if (typeof window !== "undefined" && (window as any).fbq) {
             (window as any).fbq("track", "Purchase", {
@@ -249,7 +263,7 @@ function DashboardContent() {
     };
 
     triggerValueTracking();
-  }, [sessionId, currentOrder]);
+  }, [sessionId]);
 
   const [generationProgress, setGenerationProgress] = useState({
     count: 0,

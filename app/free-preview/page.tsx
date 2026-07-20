@@ -318,7 +318,7 @@ export default function FreePreviewPage() {
                 <div className="mt-8 text-center bg-[var(--surface2)] border border-[var(--border)] rounded-2xl p-6 w-full max-w-md shadow-sm">
                   <h4 className="text-xl font-black text-[var(--text)] mb-2 tracking-tight">Like what you see?</h4>
                   <p className="text-sm text-[var(--text-muted)] mb-6 leading-relaxed">
-                    This is just a quick, low-res preview. Upgrade to get a custom AI model trained exactly on your face for ultra-realistic 4K results without watermarks.
+                    This is just a quick, low-res preview. Upgrade to get a custom AI model trained exactly on your face for ultra-realistic, high-resolution results without watermarks.
                   </p>
                   <Link
                     href="/upload"

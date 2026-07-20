@@ -101,7 +101,7 @@ export function ProductSchema() {
         price: "39",
         priceCurrency: "USD",
         description:
-          "100 premium 4K headshots with 30+ styles. 1-hour delivery.",
+          "100 high-resolution headshots with 30+ styles. 1-hour delivery.",
         priceValidUntil,
         availability: "https://schema.org/InStock",
         url: `${siteUrl}/upload?plan=pro`,
@@ -112,7 +112,7 @@ export function ProductSchema() {
         price: "59",
         priceCurrency: "USD",
         description:
-          "150 ultra 8K headshots with all styles. 30-minute priority delivery.",
+          "150 high-resolution headshots with all styles. 30-minute priority delivery.",
         priceValidUntil,
         availability: "https://schema.org/InStock",
         url: `${siteUrl}/upload?plan=executive`,
