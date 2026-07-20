@@ -218,14 +218,22 @@ export const POST = withContext(async (req: Request) => {
       
       if (!insertSuccess) {
         log.error({ orderId, count: headshotsToInsert.length }, "Failed to insert headshots after all retries");
-        // Continue anyway - don't fail the entire batch due to DB issues
+        Sentry.captureMessage("Headshot batch insert failed after retries", {
+          level: "error",
+          tags: { orderId },
+          extra: { count: headshotsToInsert.length },
+        });
+        // Continue anyway - don't fail the entire batch outright; the finalCount
+        // check below verifies whether anything was actually persisted and treats
+        // a no-op insert as zero progress rather than silently looping forever.
       }
     }
 
     const { count: finalCount } = await supabaseAdmin
       .from("headshots").select("id", { count: "exact", head: true }).eq("order_id", orderId);
-    const newTotal = finalCount ?? currentCount + headshotsToInsert.length;
-    log.info({ orderId, batch: headshotsToInsert.length, total: newTotal, target: targetCount }, "Batch generated");
+    const newTotal = finalCount ?? currentCount;
+    const persisted = newTotal - currentCount;
+    log.info({ orderId, batch: headshotsToInsert.length, persisted, total: newTotal, target: targetCount }, "Batch generated");
 
     if (newTotal >= targetCount) {
       await completeOrder(orderId, order, newTotal, targetCount);
@@ -233,7 +241,11 @@ export const POST = withContext(async (req: Request) => {
       return addCors(NextResponse.json({ status: "completed", count: newTotal, target: targetCount }), origin);
     }
 
-    if (headshotsToInsert.length === 0) {
+    // Base failure tracking on rows actually persisted to the DB, not on how many
+    // images fal.ai returned — an insert that fails (e.g. schema drift) must count
+    // as zero progress, otherwise the order loops forever re-billing fal.ai without
+    // ever delivering images.
+    if (persisted <= 0) {
       const failed = await handleZeroProgress(orderId, order);
       await releaseLock(orderId);
       if (failed) {
