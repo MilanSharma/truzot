@@ -27,6 +27,13 @@ export const GET = withContext(async (req: Request) => {
   for (const order of stalled) {
     const prefs = (order.preferences as Record<string, any>) || {};
     const reconcileKicks = (prefs.reconcile_kicks as number) || 0;
+    
+    // Check if there's an active lease - don't kill a running batch
+    const leaseUntil = prefs.batch_lease_until ? new Date(prefs.batch_lease_until as string).getTime() : 0;
+    if (leaseUntil > Date.now()) {
+      log.info({ orderId: order.id, leaseUntil: new Date(leaseUntil).toISOString() }, "Order has active lease, skipping reconcile");
+      continue;
+    }
 
     if (reconcileKicks >= MAX_RETRY_KICKS) {
       log.error({ orderId: order.id }, "Reconciler exhausted retries, failing order");

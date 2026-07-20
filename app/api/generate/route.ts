@@ -140,6 +140,15 @@ export const POST = withContext(async (req: Request) => {
       .from("headshots").select("id", { count: "exact", head: true }).eq("order_id", orderId);
     const currentCount = totalGenerated ?? 0;
 
+    // Hard spend ceiling: 15% max buffer to prevent cost overruns, coupon-aware
+    const MAX_IMAGES = Math.ceil(targetCount * 1.15);
+    if (currentCount >= MAX_IMAGES) {
+      log.warn({ orderId, currentCount, targetCount, maxImages: MAX_IMAGES }, "Reached max image limit, completing order");
+      await completeOrder(orderId, order, currentCount, targetCount);
+      await releaseLock(orderId);
+      return addCors(NextResponse.json({ status: "completed", count: currentCount, target: targetCount }), origin);
+    }
+
     if (currentCount >= targetCount) {
       await completeOrder(orderId, order, currentCount, targetCount);
       await releaseLock(orderId);
@@ -149,6 +158,18 @@ export const POST = withContext(async (req: Request) => {
     const planKey = resolveGenPlanKey(order.plan);
     const { batchSize: maxBatch } = GENERATION_CONFIG[planKey];
     const batchSize = Math.min(maxBatch, targetCount - currentCount);
+
+    // Extend lease before starting generation to prevent reconciler from killing this batch
+    const prefs = (order.preferences as Record<string, any>) || {};
+    await supabaseAdmin.from("orders")
+      .update({ 
+        updated_at: new Date().toISOString(),
+        preferences: { 
+          ...prefs, 
+          batch_lease_until: new Date(Date.now() + 5 * 60_000).toISOString() // 5 minute lease
+        } 
+      })
+      .eq("id", orderId);
 
     let genResult;
     try {

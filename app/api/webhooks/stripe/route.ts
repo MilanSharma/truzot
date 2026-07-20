@@ -104,6 +104,59 @@ async function sendMetaCAPIEvent(session: Stripe.Checkout.Session, orderId: stri
   }
 }
 
+// Send event to Google Ads Offline Conversions
+async function sendGoogleAdsOfflineConversion(session: Stripe.Checkout.Session, orderId: string) {
+  try {
+    const conversionId = process.env.GOOGLE_ADS_CONVERSION_ID;
+    const accessToken = process.env.GOOGLE_ADS_ACCESS_TOKEN;
+
+    if (!conversionId || !accessToken) {
+      log.warn("GOOGLE_ADS_CONVERSION_ID or GOOGLE_ADS_ACCESS_TOKEN not configured, skipping Google Ads event");
+      return;
+    }
+
+    const currency = (session.currency || "USD").toUpperCase();
+    const value = session.amount_total ? session.amount_total / 100 : 0;
+    const orderIdForGA = session.id; // Use Stripe session ID as Google order ID
+
+    // Get gclid/gbraid from session metadata if available
+    const gclid = session.metadata?.gclid;
+    const gbraid = session.metadata?.gbraid;
+
+    const payload = {
+      conversions: [
+        {
+          conversion_id: orderIdForGA,
+          conversion_name: "purchase",
+          conversion_date_time: new Date().toISOString(),
+          conversion_value: value,
+          conversion_currency_code: currency,
+          gclid: gclid || undefined,
+          gbraid: gbraid || undefined,
+        },
+      ],
+    };
+
+    const response = await fetch(
+      `https://googleads.googleapis.com/v17/customers/${conversionId}/offlineUserDataUploads:uploadUserData`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${accessToken}`,
+          "developer-token": process.env.GOOGLE_ADS_DEVELOPER_TOKEN || "",
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    const result = await response.json();
+    log.info({ result, orderId }, "Google Ads offline conversion sent");
+  } catch (err) {
+    log.error({ err, orderId }, "Failed to send Google Ads offline conversion");
+  }
+}
+
 export const POST = withContext(async (req: Request) => {
  const stripe = getStripe();
  const contentLength = parseInt(req.headers.get("content-length") || "0", 10);
@@ -319,6 +372,9 @@ preferences: updatedPrefs,
 
  // Send Meta CAPI event for purchase tracking
  waitUntil(sendMetaCAPIEvent(session, orderId));
+
+ // Send Google Ads offline conversion for purchase tracking
+ waitUntil(sendGoogleAdsOfflineConversion(session, orderId));
 
  const { error: trainingUpsertError } = await supabaseAdmin
  .from("trainings")
