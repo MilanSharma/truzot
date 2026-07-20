@@ -21,13 +21,12 @@ export async function POST(req: Request) {
     let appliedDiscountCode: string | undefined;
 
     // Calculate minimum viable price based on fal.ai generation costs
-    // Basic: 40 shots + 30% buffer = 52 images × $0.035 = $1.82 minimum
-    // Pro: 100 shots + 30% buffer = 130 images × $0.035 = $4.55 minimum  
-    // Executive: 150 shots + 30% buffer = 195 images × $0.035 = $6.83 minimum
+    // Basic: 40 images × $0.035 = $1.40 minimum
+    // Pro: 100 images × $0.035 = $3.50 minimum  
+    // Executive: 150 images × $0.035 = $5.25 minimum
     const PLAN_SHOTS = { basic: 40, pro: 100, executive: 150 };
     const COST_PER_IMAGE = 0.035; // $0.035 per megapixel
-    const BUFFER_MULTIPLIER = 1.3; // 30% buffer for retries
-    const expectedShots = Math.ceil(PLAN_SHOTS[plan as keyof typeof PLAN_SHOTS] * BUFFER_MULTIPLIER);
+    const expectedShots = PLAN_SHOTS[plan as keyof typeof PLAN_SHOTS];
     const minimumViablePrice = Math.ceil(expectedShots * COST_PER_IMAGE * 100); // Convert to cents
 
     // Check waitlist discount codes
