@@ -178,9 +178,26 @@ export const POST = withContext(async (req: Request) => {
     });
 
     if (headshotsToInsert.length > 0) {
-      const { error: insertError } = await supabaseAdmin.from("headshots").insert(headshotsToInsert);
-      if (insertError && (insertError as any)?.code !== "23505") {
-        log.error({ err: insertError, orderId }, "Failed to insert headshots");
+      // Retry database insert with exponential backoff
+      let insertSuccess = false;
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        const { error: insertError } = await supabaseAdmin.from("headshots").insert(headshotsToInsert);
+        if (!insertError) {
+          insertSuccess = true;
+          break;
+        }
+        if ((insertError as any)?.code === "23505") {
+          // Unique constraint violation - duplicate, skip retry
+          log.warn({ orderId, attempt }, "Duplicate headshot insert, skipping retry");
+          break;
+        }
+        log.error({ err: insertError, orderId, attempt }, "Failed to insert headshots, retrying...");
+        if (attempt < 3) await new Promise(r => setTimeout(r, 1000 * attempt));
+      }
+      
+      if (!insertSuccess) {
+        log.error({ orderId, count: headshotsToInsert.length }, "Failed to insert headshots after all retries");
+        // Continue anyway - don't fail the entire batch due to DB issues
       }
     }
 

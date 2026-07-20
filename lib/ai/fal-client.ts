@@ -273,17 +273,23 @@ export const generateHeadshots = async (
   const targetShots = Math.min(startIndex + limit, promisedTotal);
   const batchSize = targetShots - startIndex;
 
+  // Hard cap on total generations to prevent cost overruns
+  const MAX_RETRY_MULTIPLIER = 1.5; // Never exceed 150% of promised count
+  const maxAttempts = Math.ceil(promisedTotal * MAX_RETRY_MULTIPLIER);
+
   // Build extra prompts beyond the batch so we have fresh, never-before-tried
   // material to backfill with if some generations fail or get flagged as dupes -
   // guaranteeing the customer actually receives the count they paid for.
   const BACKFILL_BUFFER = Math.max(10, Math.ceil(batchSize * 0.3));
-  const allPrompts = buildPrompts(plan, prefs, targetShots + BACKFILL_BUFFER);
+  const allPrompts = buildPrompts(plan, prefs, Math.min(targetShots + BACKFILL_BUFFER, maxAttempts));
 
   const loraScale = 0.85; // sweet spot for likeness without dragging in selfie lighting/pose
   const guidanceScale = 3.5; // Flux Dev breaks (plastic look, artifacts) above ~4.0
 
   let consecutiveFailures = 0;
   const seenHashes = new Set<string>();
+  let totalMegapixels = 0;
+  const COST_PER_MEGAPIXEL = 0.035; // $0.035 per megapixel for FLUX LoRA
 
   const generateOne = (prompt: string, index: number) => (async () => {
     let attempt = 0;
@@ -293,6 +299,17 @@ export const generateHeadshots = async (
         await new Promise(r => setTimeout(r, 15000));
         consecutiveFailures = 0;
       }
+      
+      // Cost tracking: check if we're approaching budget limit
+      const currentCost = totalMegapixels * COST_PER_MEGAPIXEL;
+      const estimatedNextCost = currentCost + COST_PER_MEGAPIXEL; // ~1MP per generation
+      const MAX_GENERATION_COST = 5.0; // $5 max per generation batch to prevent runaway costs
+      
+      if (estimatedNextCost > MAX_GENERATION_COST) {
+        log.warn({ currentCost, maxCost: MAX_GENERATION_COST }, "Approaching cost limit, stopping generation");
+        throw new Error("Cost limit exceeded for generation batch");
+      }
+      
       try {
         const res = await withFalSlot(() => falFetch("fal-ai/flux-lora", {
           prompt,
@@ -324,6 +341,7 @@ export const generateHeadshots = async (
         }
 
         consecutiveFailures = 0;
+        totalMegapixels += 1; // Track megapixels for cost monitoring
         return { ...res.data, images: [{ ...res.data.images[0], url: imgUrl }], prompt, index };
       } catch (e: any) {
         consecutiveFailures++;

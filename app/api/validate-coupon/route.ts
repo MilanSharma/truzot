@@ -20,6 +20,16 @@ export async function POST(req: Request) {
     let discountAmount = 0;
     let appliedDiscountCode: string | undefined;
 
+    // Calculate minimum viable price based on fal.ai generation costs
+    // Basic: 40 shots + 30% buffer = 52 images × $0.035 = $1.82 minimum
+    // Pro: 100 shots + 30% buffer = 130 images × $0.035 = $4.55 minimum  
+    // Executive: 150 shots + 30% buffer = 195 images × $0.035 = $6.83 minimum
+    const PLAN_SHOTS = { basic: 40, pro: 100, executive: 150 };
+    const COST_PER_IMAGE = 0.035; // $0.035 per megapixel
+    const BUFFER_MULTIPLIER = 1.3; // 30% buffer for retries
+    const expectedShots = Math.ceil(PLAN_SHOTS[plan as keyof typeof PLAN_SHOTS] * BUFFER_MULTIPLIER);
+    const minimumViablePrice = Math.ceil(expectedShots * COST_PER_IMAGE * 100); // Convert to cents
+
     // Check waitlist discount codes
     if (couponUpper.startsWith("TRUZOT-")) {
       const possibleCodes = Array.from(
@@ -40,6 +50,14 @@ export async function POST(req: Request) {
       if (entry) {
         discountAmount = 500;
         appliedDiscountCode = entry.discount_code || couponUpper;
+        
+        // Validate that final price doesn't fall below minimum viable cost
+        const finalAmount = planConfig.amount - discountAmount;
+        if (finalAmount < minimumViablePrice) {
+          return NextResponse.json({ 
+            error: `Discount too large. Minimum price for ${plan} plan is $${(minimumViablePrice / 100).toFixed(2)} to cover generation costs.` 
+          }, { status: 400 });
+        }
       } else {
         return NextResponse.json({ error: "Invalid discount code" }, { status: 400 });
       }
@@ -58,6 +76,14 @@ export async function POST(req: Request) {
           discountAmount = stripeCoupon.amount_off;
         } else if (stripeCoupon.percent_off) {
           discountAmount = Math.round(planConfig.amount * (stripeCoupon.percent_off / 100));
+        }
+        
+        // Validate that final price doesn't fall below minimum viable cost
+        const finalAmount = planConfig.amount - discountAmount;
+        if (finalAmount < minimumViablePrice) {
+          return NextResponse.json({ 
+            error: `Discount too large. Minimum price for ${plan} plan is $${(minimumViablePrice / 100).toFixed(2)} to cover generation costs.` 
+          }, { status: 400 });
         }
       } catch (err) {
         return NextResponse.json({ error: "Invalid discount code" }, { status: 400 });
