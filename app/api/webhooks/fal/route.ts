@@ -32,6 +32,7 @@ async function triggerGenerate(orderId: string): Promise<boolean> {
  Authorization: `Bearer ${qstashToken}`,
  "Content-Type": "application/json",
  "Upstash-Forward-x-truzot-secret": cronSecret,
+ "Upstash-Region": "us-east-1",
  },
  body: JSON.stringify({ orderId }),
  },

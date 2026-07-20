@@ -43,6 +43,7 @@ async function enqueueNextBatch(orderId: string): Promise<boolean> {
           "Content-Type": "application/json",
           "Upstash-Forward-x-truzot-secret": cronSecret || "",
           "Upstash-Retries": "3",
+          "Upstash-Region": "us-east-1",
           // NEW — fires when QStash itself exhausts retries, so a fully dead chain
           // still resolves the order instead of dying silently in the DLQ.
           "Upstash-Failure-Callback": `${siteUrl}/api/webhooks/qstash-failure`,
