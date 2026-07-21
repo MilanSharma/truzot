@@ -95,8 +95,12 @@ export const GET = withContext(async (req: Request) => {
  if (pathParts.includes('object')) {
    const objectIndex = pathParts.indexOf('object');
    if (objectIndex >= 0 && objectIndex + 2 < pathParts.length) {
-     const bucket = pathParts[objectIndex + 1];
-     const filePath = pathParts.slice(objectIndex + 2).join('/');
+     // Public-bucket URLs insert a literal "public" segment between /object/
+     // and the bucket name (/object/public/headshots/...) — skip it so we
+     // sign against the real bucket instead of a bucket named "public".
+     const shift = pathParts[objectIndex + 1] === 'public' ? 1 : 0;
+     const bucket = pathParts[objectIndex + 1 + shift];
+     const filePath = pathParts.slice(objectIndex + 2 + shift).join('/');
      
      const { data } = await supabaseAdmin.storage
        .from(bucket)

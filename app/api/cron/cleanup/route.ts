@@ -371,6 +371,23 @@ export const GET = withContext(async (req: Request) => {
  await deleteFalFiles(modelIds);
  }
 
+ // Delete our persisted copies of the generated headshots (storage bucket
+ // "headshots", one folder per order) — this is what actually fulfills the
+ // "permanently deleted after 30 days" privacy promise now that images are
+ // stored on our side rather than only on fal.media.
+ try {
+ const { data: persisted } = await supabaseAdmin.storage
+ .from("headshots")
+ .list(order.id, { limit: 1000 });
+ if (persisted && persisted.length > 0) {
+ await supabaseAdmin.storage
+ .from("headshots")
+ .remove(persisted.map((f) => `${order.id}/${f.name}`));
+ }
+ } catch (err) {
+ log.error({ err, orderId: order.id }, "Failed to purge persisted headshots");
+ }
+
  // Delete headshot records
  await supabaseAdmin.from("headshots").delete().eq("order_id", order.id);
 

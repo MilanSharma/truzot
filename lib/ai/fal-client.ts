@@ -1,7 +1,8 @@
 import "server-only";
-import { createHmac, createHash } from "crypto";
+import { createHmac, createHash, randomUUID } from "crypto";
 import { PLAN_SHOTS } from "@/lib/plans";
 import { createLogger } from "@/lib/logger";
+import { supabaseAdmin } from "@/lib/supabase/admin";
 import type { GenerateHeadshotsResult, GenerateHeadshotsResponse, UserPreferences } from "@/lib/ai/types";
 import { withFalSlot } from "@/lib/fal-concurrency";
 
@@ -357,25 +358,49 @@ export const trainModel = async (imageUrl: string, orderId: string, imageCount?:
   return await res.json();
 };
 
-/** SHA-256 over the full image body - the old code only hashed the first 1000
- * bytes (the Range request), which mostly captures the JPEG header. Since every
- * image in a batch is generated with identical encoder settings, two genuinely
- * different photos can share an identical header and get hashed the same way -
- * causing valid, unique photos to be wrongly discarded as duplicates. That
- * silently shrank the delivered pack below what the customer paid for. */
-async function hashImage(url: string): Promise<string | null> {
+/** Download the generated image once, then reuse the bytes for BOTH the
+ * duplicate check (SHA-256 over the full body) AND persistence to our own
+ * Supabase storage. Persistence matters because fal.media output files expire
+ * after ~7 days by default, while we promise customers a 30-day gallery — if
+ * we only stored fal URLs, a customer returning on day 10 would find every
+ * photo dead. Storage paths are unguessable ({orderId}/{uuid}.jpg) in a
+ * public-read bucket — the same effective access model as the fal.media URLs
+ * they replace. Fails open: if download or upload fails, the fal URL is kept
+ * so the batch still delivers (the customer just relies on fal's retention). */
+async function fetchHashAndPersist(
+  falUrl: string,
+  orderId: string | undefined,
+  isDuplicate: (hash: string) => boolean,
+): Promise<{ hash: string | null; url: string; duplicate: boolean }> {
   try {
-    const res = await fetch(url);
-    if (!res.ok) return null;
-    const buffer = await res.arrayBuffer();
-    return createHash("sha256").update(Buffer.from(buffer)).digest("hex");
+    const res = await fetch(falUrl);
+    if (!res.ok) return { hash: null, url: falUrl, duplicate: false };
+    const buffer = Buffer.from(await res.arrayBuffer());
+    const hash = createHash("sha256").update(buffer).digest("hex");
+    // Reject duplicates BEFORE uploading so we never store orphaned copies.
+    if (isDuplicate(hash)) return { hash, url: falUrl, duplicate: true };
+
+    if (orderId) {
+      const path = `${orderId}/${randomUUID()}.jpg`;
+      const { error: upErr } = await supabaseAdmin.storage
+        .from("headshots")
+        .upload(path, buffer, { contentType: "image/jpeg", upsert: false });
+      if (!upErr) {
+        const { data } = supabaseAdmin.storage.from("headshots").getPublicUrl(path);
+        if (data?.publicUrl) return { hash, url: data.publicUrl, duplicate: false };
+      } else {
+        log.warn({ err: upErr, orderId }, "Headshot persist to storage failed — keeping fal URL");
+      }
+    }
+    return { hash, url: falUrl, duplicate: false };
   } catch {
-    return null; // fail open: never block delivery because a hash check failed
+    return { hash: null, url: falUrl, duplicate: false }; // fail open: never block delivery
   }
 }
 
 export const generateHeadshots = async (
-  modelId: string, plan: string, startIndex: number = 0, limit: number = 10000, prefs?: UserPreferences
+  modelId: string, plan: string, startIndex: number = 0, limit: number = 10000, prefs?: UserPreferences,
+  orderId?: string, // enables persistence of outputs to our own storage (see fetchHashAndPersist)
 ): Promise<GenerateHeadshotsResponse> => {
   const planKey = resolvePlanKey(plan);
   const profile = QUALITY_PROFILE[planKey];
@@ -442,13 +467,15 @@ export const generateHeadshots = async (
           acceleration: "none", // prioritize quality over speed
         }));
 
-        const imgUrl = res.data.images[0].url;
+        const falUrl = res.data.images[0].url;
 
-        const hash = await hashImage(imgUrl);
-        if (hash) {
-          if (seenHashes.has(hash)) throw new Error("Duplicate image detected, rejecting.");
-          seenHashes.add(hash);
-        }
+        // One download serves the dedupe hash AND persistence to our storage
+        // (fal.media URLs expire in ~7 days; our gallery promise is 30).
+        const { hash, url: imgUrl, duplicate } = await fetchHashAndPersist(
+          falUrl, orderId, (h) => seenHashes.has(h),
+        );
+        if (duplicate) throw new Error("Duplicate image detected, rejecting.");
+        if (hash) seenHashes.add(hash);
 
         consecutiveFailures = 0;
         totalMegapixels += MEGAPIXELS_PER_IMAGE; // real output MP for accurate cost tracking
@@ -513,7 +540,7 @@ export const generateHeadshots = async (
  * guidance / resolution as the main batch pipeline (via QUALITY_PROFILE) so a
  * regenerated photo is never lower quality than the rest of the delivered set. */
 export async function regenerateOne(
-  modelId: string, plan: string, prompt: string,
+  modelId: string, plan: string, prompt: string, orderId?: string,
 ): Promise<{ url: string }> {
   const profile = QUALITY_PROFILE[resolvePlanKey(plan)];
   const { data } = await falFetch("fal-ai/flux-lora", {
@@ -530,7 +557,10 @@ export async function regenerateOne(
     enable_safety_checker: true,
     acceleration: "none",
   });
-  return { url: data.images[0].url };
+  // Persist like the main pipeline so a regenerated photo outlives fal's ~7-day
+  // retention just like the rest of the customer's set.
+  const { url } = await fetchHashAndPersist(data.images[0].url, orderId, () => false);
+  return { url };
 }
 
 // ---------------------------------------------------------------------------

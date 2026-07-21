@@ -211,17 +211,28 @@ export default function CompletedGallery({
     setDownloadingAll(true);
     try {
       const allUrls = sortedFiltered.map((h) => h.image_url);
+      // Organized deliverable: name each file by its style category with a
+      // per-category counter (truzot-corporate-01.jpg …) instead of a flat
+      // headshot_N.jpg dump — this is what a studio would hand over.
+      const catCounters: Record<string, number> = {};
+      const allNames = sortedFiltered.map((h) => {
+        const cat = (h.category || "headshot").replace(/[^a-z0-9]/gi, "-").toLowerCase();
+        catCounters[cat] = (catCounters[cat] || 0) + 1;
+        return `truzot-${cat}-${String(catCounters[cat]).padStart(2, "0")}.jpg`;
+      });
       const BATCH_SIZE = 50;
-      
+
       if (allUrls.length > BATCH_SIZE) {
         // Download in batches of 50 to prevent memory crashes
         for (let i = 0; i < allUrls.length; i += BATCH_SIZE) {
           const batch = allUrls.slice(i, i + BATCH_SIZE);
+          const batchNames = allNames.slice(i, i + BATCH_SIZE);
           await downloadAsZip(
             batch,
             orderId,
             `truzot-batch-${Math.floor(i / BATCH_SIZE) + 1}-${Math.ceil(allUrls.length / BATCH_SIZE)}.zip`,
             () => {},
+            batchNames,
           );
         }
         toast(`Downloaded ${allUrls.length} photos in ${Math.ceil(allUrls.length / BATCH_SIZE)} files`, "success");
@@ -231,6 +242,7 @@ export default function CompletedGallery({
           orderId,
           `truzot-all-${sortedFiltered.length}.zip`,
           () => {},
+          allNames,
         );
         toast("Download started", "success");
       }

@@ -801,10 +801,22 @@ function DashboardContent() {
 
   const downloadSingle = async (url: string) => {
     try {
-      // Use proxy to bypass CORS
-      const proxyUrl = `/api/download/proxy?url=${encodeURIComponent(url)}`;
-      const res = await fetch(proxyUrl);
-      if (!res.ok) return;
+      // Use proxy to bypass CORS. The proxy REQUIRES auth (Bearer token or a
+      // guest download_token) — the old call sent neither, so this button
+      // silently did nothing: 401 → early return with no error surfaced.
+      let proxyUrl = `/api/download/proxy?url=${encodeURIComponent(url)}`;
+      const guestToken = new URLSearchParams(window.location.search).get("download_token");
+      if (guestToken) proxyUrl += `&download_token=${guestToken}`;
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      const headers: Record<string, string> = {};
+      if (session?.access_token) headers.Authorization = `Bearer ${session.access_token}`;
+      const res = await fetch(proxyUrl, { headers });
+      if (!res.ok) {
+        toast("Download failed. Please try again or use Download All.", "error");
+        return;
+      }
       const blob = await res.blob();
       const blobUrl = URL.createObjectURL(blob);
       const a = document.createElement("a");

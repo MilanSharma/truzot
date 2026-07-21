@@ -6,6 +6,9 @@ export async function downloadAsZip(
   orderId: string,
   filename: string,
   onProgress?: (current: number, total: number) => void,
+  /** Optional per-URL filenames (aligned with `urls`). Falls back to
+   * headshot_N.jpg — pass category-based names for an organized deliverable. */
+  names?: string[],
 ): Promise<{ failedCount: number }> {
   // Limit to 50 images to prevent browser memory crashes on mobile devices
   const MAX_ZIP_IMAGES = 50;
@@ -48,7 +51,7 @@ export async function downloadAsZip(
         
         if (res.ok) {
             const blob = await res.blob();
-            zip.file(`headshot_${i + idx + 1}.jpg`, blob);
+            zip.file(names?.[i + idx] || `headshot_${i + idx + 1}.jpg`, blob);
         } else {
           failedUrls.push(url);
         }

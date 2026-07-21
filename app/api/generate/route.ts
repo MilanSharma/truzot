@@ -173,7 +173,7 @@ export const POST = withContext(async (req: Request) => {
 
     let genResult;
     try {
-      genResult = await generateHeadshots(training.model_id, order.plan, currentCount, batchSize, order.preferences);
+      genResult = await generateHeadshots(training.model_id, order.plan, currentCount, batchSize, order.preferences, orderId);
     } catch (genErr) {
       // CHANGED: no longer rethrown to the outer catch. A thrown error is treated
       // exactly like a zero-progress batch — it still enqueues the next attempt and
@@ -287,7 +287,13 @@ async function completeOrder(orderId: string, order: any, count: number, target:
     .eq("id", orderId).eq("status", "generating");
   await supabaseAdmin.from("trainings").update({ status: "completed" }).eq("order_id", orderId).in("status", ["training", "generating"]);
   if (order.email) {
-    await sendHeadshotsReadyEmail(order.email, orderId, count, order.shoot_name)
+    // Include a few real thumbnails — seeing your own new face in the email is
+    // the single strongest pull back to the gallery (and to sharing/buying more).
+    const { data: thumbs } = await supabaseAdmin
+      .from("headshots").select("image_url").eq("order_id", orderId)
+      .order("created_at", { ascending: true }).limit(4);
+    const thumbnailUrls = (thumbs || []).map((t) => t.image_url as string);
+    await sendHeadshotsReadyEmail(order.email, orderId, count, order.shoot_name, thumbnailUrls)
       .catch((err) => log.error({ err, orderId }, "Email send failed"));
   }
   log.info({ orderId, count, target }, "Generation completed");

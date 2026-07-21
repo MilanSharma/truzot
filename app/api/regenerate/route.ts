@@ -113,7 +113,7 @@ export const POST = withContext(async (req: Request) => {
 
  try {
  const { url: newUrl } = await withFalSlot(() =>
- regenerateOne(training.model_id!, order.plan, prompt),
+ regenerateOne(training.model_id!, order.plan, prompt, orderId),
  );
 
  // Insert-then-delete (not the reverse) so a crash between the two steps
