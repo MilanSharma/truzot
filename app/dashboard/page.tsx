@@ -283,7 +283,8 @@ function DashboardContent() {
     const timer = setTimeout(() => {
       try {
         const stored = localStorage.getItem(`truzot-favs-${orderId}`);
-        setFavorites(stored ? JSON.parse(stored) : []);
+        const parsed = stored ? JSON.parse(stored) : [];
+        setFavorites(Array.isArray(parsed) ? parsed : []);
       } catch {
         setFavorites([]);
       }
@@ -832,27 +833,14 @@ function DashboardContent() {
 
   const downloadSingle = async (url: string) => {
     try {
-      // Use proxy to bypass CORS. The proxy REQUIRES auth (Bearer token or a
-      // guest download_token) — the old call sent neither, so this button
-      // silently did nothing: 401 → early return with no error surfaced.
-      let proxyUrl = `/api/download/proxy?url=${encodeURIComponent(url)}`;
-      const guestToken = new URLSearchParams(window.location.search).get("download_token");
-      if (guestToken) proxyUrl += `&download_token=${guestToken}`;
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      const headers: Record<string, string> = {};
-      if (session?.access_token) headers.Authorization = `Bearer ${session.access_token}`;
-      const res = await fetch(proxyUrl, { headers });
-      if (!res.ok) {
-        toast("Download failed. Please try again or use Download All.", "error");
-        return;
-      }
+      // Direct fetch bypasses proxy CORS issues entirely for public bucket
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("Download failed");
       const blob = await res.blob();
       const blobUrl = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = blobUrl;
-      a.download = "headshot.jpg";
+      a.download = `truzot-headshot-${Date.now()}.jpg`;
       a.click();
       URL.revokeObjectURL(blobUrl);
     } catch {

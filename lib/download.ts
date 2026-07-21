@@ -37,15 +37,11 @@ export async function downloadAsZip(
     const chunk = urls.slice(i, i + chunkSize);
     await Promise.all(chunk.map(async (url, idx) => {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 30000); // Increased to 30s timeout
+      const timeout = setTimeout(() => controller.abort(), 30000);
 
       try {
-        // Pass tokens to the proxy securely
-        let proxyUrl = `/api/download/proxy?url=${encodeURIComponent(url)}&orderId=${orderId}`;
-        if (downloadToken) proxyUrl += `&download_token=${downloadToken}`;
-        if (emailToken) proxyUrl += `&email_token=${emailToken}`;
-        
-        const res = await fetch(proxyUrl, { headers, signal: controller.signal });
+        // Direct fetch! Bypasses the proxy and CORS issues entirely for public buckets.
+        const res = await fetch(url, { signal: controller.signal });
         clearTimeout(timeout);
         
         if (res.ok) {
@@ -56,11 +52,7 @@ export async function downloadAsZip(
         }
       } catch (e: any) {
         clearTimeout(timeout);
-        if (e.name === 'AbortError') {
-          console.warn(`Timeout fetching ${url}`);
-        } else {
-          console.warn("Failed to fetch image", e);
-        }
+        console.warn("Failed to fetch image", e);
         failedUrls.push(url);
       }
       completed++;

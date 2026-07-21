@@ -14,6 +14,7 @@ export const POST = withContext(async (req: Request) => {
    const { data: order } = await supabaseAdmin.from("orders").select("user_id").eq("id", orderId).single();
    if (!order) return NextResponse.json({ error: "Order not found" }, { status: 404 });
 
+   let isAuthorized = false;
    let authorizedUserId: string | null = null;
    const authHeader = req.headers.get("Authorization")?.replace("Bearer ", "");
 
@@ -21,16 +22,17 @@ export const POST = withContext(async (req: Request) => {
      const { data: { user } } = await supabaseAdmin.auth.getUser(authHeader);
      if (user && user.id === order.user_id) {
        authorizedUserId = user.id;
+       isAuthorized = true;
      }
    } else if (email_token) {
      const expected = createHmac("sha256", process.env.CRON_SECRET!).update(orderId).digest("hex").substring(0, 32);
      if (email_token === expected) {
-       // Allow token creation bound to the original order's user_id, or a dummy id if guest
-       authorizedUserId = order.user_id || "00000000-0000-0000-0000-000000000000";
+       authorizedUserId = order.user_id; // Will be null for guests
+       isAuthorized = true;
      }
    }
 
-   if (!authorizedUserId) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+   if (!isAuthorized) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
    const { data: tokenRow, error } = await supabaseAdmin
      .from("download_tokens")
@@ -43,13 +45,11 @@ export const POST = withContext(async (req: Request) => {
      .single();
 
    if (error || !tokenRow) {
-     log.error({ err: error }, "Failed to create download token");
      return NextResponse.json({ error: "Failed to create download token" }, { status: 500 });
    }
 
    return NextResponse.json({ token: tokenRow.id });
  } catch (err) {
-   log.error({ err }, "Download token error");
    return NextResponse.json({ error: "Internal error" }, { status: 500 });
  }
 });

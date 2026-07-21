@@ -32,11 +32,12 @@ async function falFetch(endpoint: string, input: Record<string, unknown>): Promi
 // Highly optimized negative prompt to strip out the "plastic AI sheen"
 const NEGATIVE_PROMPT =
   "plastic, waxy, smooth skin, airbrushed, retouched, CGI, 3D render, digital art, illustration, painting, doll-like, uncanny valley, " +
-  "asymmetrical eyes, extra fingers, mutated hands, deformed face, distorted features, blurry, out of focus, jpeg artifacts, " +
-  "harsh direct flash, overexposed, watermark, logo, duplicate face, bad anatomy, grain, noise, side profile, looking away";
+  "asymmetrical eyes, cross-eyed, looking away, averted gaze, side glance, extra fingers, mutated hands, deformed face, distorted features, " +
+  "blurry, out of focus, jpeg artifacts, harsh direct flash, overexposed, watermark, logo, duplicate face, bad anatomy, " +
+  "helmet hair, plastic hair, solid hair, unrealistic hair, excessive shine, oily skin, glossy skin";
 
 const FRAMING_CLAUSE =
-  " The framing is a tight head-and-shoulders close-up headshot. Medium format photography, shot on 85mm lens f/1.8, raw unedited photo, authentic, highly detailed, realistic natural skin texture, visible fine pores.";
+  " The framing is a professional head-and-shoulders close-up. Shot on Kodak Portra 400, 85mm lens f/1.8, raw unedited DSLR photography. Extremely authentic, highly detailed, realistic natural skin texture, visible fine pores, subtle natural imperfections, highly detailed individual hair strands, natural hair fall with slight flyaways, cinematic lighting. The subject is looking directly into the camera lens with perfect eye contact.";
 
 type PlanKey = "basic" | "pro" | "executive";
 const GEN_WIDTH = 832;
@@ -133,10 +134,9 @@ const SCENES: Record<string, Scene> = {
 
 const POSES = [
   "facing the camera directly with squared shoulders",
-  "with shoulders angled in a subtle 3/4 turn, head turned to face the lens",
-  "in a dynamic over-the-shoulder pose, looking back at the camera",
-  "leaning slightly forward, engaging directly with the camera",
-  "with a relaxed posture and slightly dropped shoulders, looking straight ahead"
+  "with shoulders angled in a subtle 3/4 turn but face looking directly into the lens",
+  "leaning slightly forward, engaging directly with the camera lens",
+  "with a relaxed, natural posture, looking straight into the camera"
 ];
 
 const LIGHTING = [
@@ -148,11 +148,12 @@ const LIGHTING = [
 ];
 
 const EXPRESSIONS = [
-  "with a warm, approachable smile showing teeth",
-  "with a confident, closed-mouth smile",
-  "with a serious, focused, and professional expression",
-  "with a relaxed, candid, and friendly demeanor",
-  "with a subtle, knowing smirk"
+  "with a warm, genuine smile showing teeth",
+  "with a confident, subtle closed-mouth smile",
+  "with a serious, focused, and professional gaze",
+  "with a relaxed, friendly, and approachable demeanor",
+  "with an energetic, bright, and engaging smile",
+  "with a thoughtful, composed, and trustworthy expression"
 ];
 
 // Strict gender-specific wardrobe with explicit colors and styles to guarantee variety
