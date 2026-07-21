@@ -27,9 +27,9 @@ export async function downloadAsZip(
     headers["Authorization"] = `Bearer ${session.access_token}`;
   }
 
-  // Get download_token from URL for guest access
   const searchParams = new URLSearchParams(window.location.search);
   const downloadToken = searchParams.get("download_token");
+  const emailToken = searchParams.get("email_token");
 
   // Download chunks in parallel to prevent browser hanging, but limit concurrency
   const chunkSize = 5;
@@ -40,11 +40,10 @@ export async function downloadAsZip(
       const timeout = setTimeout(() => controller.abort(), 30000); // Increased to 30s timeout
 
       try {
-        // Use streaming proxy to avoid CORS issues
-        let proxyUrl = `/api/download/proxy?url=${encodeURIComponent(url)}`;
-        if (downloadToken) {
-          proxyUrl += `&download_token=${downloadToken}`;
-        }
+        // Pass tokens to the proxy securely
+        let proxyUrl = `/api/download/proxy?url=${encodeURIComponent(url)}&orderId=${orderId}`;
+        if (downloadToken) proxyUrl += `&download_token=${downloadToken}`;
+        if (emailToken) proxyUrl += `&email_token=${emailToken}`;
         
         const res = await fetch(proxyUrl, { headers, signal: controller.signal });
         clearTimeout(timeout);

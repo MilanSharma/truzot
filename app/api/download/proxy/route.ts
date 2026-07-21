@@ -3,6 +3,7 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { createLogger } from "@/lib/logger";
 import { withContext } from "@/lib/request-context";
 import { isAllowedDomain } from "@/lib/url-utils";
+import { createHmac } from "crypto";
 
 const log = createLogger("download-proxy");
 
@@ -29,6 +30,9 @@ async function resolveUserIdFromDownloadToken(
 export const GET = withContext(async (req: Request) => {
  const { searchParams } = new URL(req.url);
  const url = searchParams.get("url");
+ const orderId = searchParams.get("orderId");
+ const emailToken = searchParams.get("email_token");
+
  if (!url)
  return NextResponse.json({ error: "Missing url param" }, { status: 400 });
 
@@ -36,52 +40,38 @@ export const GET = withContext(async (req: Request) => {
  return NextResponse.json({ error: "Forbidden domain" }, { status: 403 });
  }
 
- // Resolve userId from (in order of preference): Authorization header, download_token, token param
+ let isAuthorized = false;
+
+ // 1. Verify via standard user token or download token
  const authHeader = req.headers.get("Authorization") ?? "";
  const bearerToken = authHeader.replace("Bearer ", "").trim();
  let userId: string | null = null;
+ 
  if (bearerToken) {
- const {
- data: { user },
- } = await supabaseAdmin.auth.getUser(bearerToken);
- userId = user?.id ?? null;
+   const { data: { user } } = await supabaseAdmin.auth.getUser(bearerToken);
+   userId = user?.id ?? null;
  }
  if (!userId) userId = await resolveUserIdFromDownloadToken(req);
- if (!userId) {
- const tokenParam = searchParams.get("token");
- if (tokenParam) {
- const {
- data: { user },
- } = await supabaseAdmin.auth.getUser(tokenParam);
- userId = user?.id ?? null;
- }
+
+ if (userId) {
+   const { data: headshot } = await supabaseAdmin.from("headshots").select("order_id").eq("image_url", url).maybeSingle();
+   if (headshot) {
+     const { data: order } = await supabaseAdmin.from("orders").select("user_id").eq("id", headshot.order_id).single();
+     if (order?.user_id && order.user_id === userId) isAuthorized = true;
+   }
  }
 
- if (!userId) {
- return NextResponse.json(
- { error: "Authentication required" },
- { status: 401 },
- );
+ // 2. Verify via HMAC email_token (guest access)
+ if (!isAuthorized && emailToken && orderId) {
+   const expected = createHmac("sha256", process.env.CRON_SECRET!).update(orderId).digest("hex").substring(0, 32);
+   if (emailToken === expected) {
+     const { data: headshot } = await supabaseAdmin.from("headshots").select("id").eq("order_id", orderId).eq("image_url", url).maybeSingle();
+     if (headshot) isAuthorized = true;
+   }
  }
 
- // Verify the requesting user actually owns this headshot
- const { data: headshot } = await supabaseAdmin
- .from("headshots")
- .select("order_id")
- .eq("image_url", url)
- .maybeSingle();
- if (headshot) {
- const { data: order } = await supabaseAdmin
- .from("orders")
- .select("user_id")
- .eq("id", headshot.order_id)
- .single();
- if (order?.user_id && order.user_id !== userId) {
- return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
- }
- } else {
- // URL doesn't match any known headshot — reject to prevent open proxy abuse
- return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+ if (!isAuthorized) {
+   return NextResponse.json({ error: "Forbidden" }, { status: 403 });
  }
 
  try {

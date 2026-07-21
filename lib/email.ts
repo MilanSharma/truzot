@@ -77,7 +77,7 @@ export async function sendHeadshotsReadyEmail(email: string, orderId: string, sh
   await withRetry(() => getResend().emails.send({
     from: "Truzot <hello@truzot.com>",
     to: email,
-    subject: `Your ${shotCount} headshots are ready ✨`,
+    subject: `Your ${shotCount} headshots are ready`,
     html: baseTemplate("Your AI headshots have finished generating and are ready to view.", "Your Headshots are Ready", content),
   }));
 }

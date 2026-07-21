@@ -404,21 +404,48 @@ function DashboardContent() {
 
   const fetchHeadshots = useCallback(async (id: string, page = 0) => {
     setLoadingHeadshots(true);
-    const from = page * PAGE_SIZE;
-    const to = from + PAGE_SIZE - 1;
-    const { data, count } = await supabase
-      .from("headshots")
-      .select("id, image_url, style, category", { count: "exact" })
-      .eq("order_id", id)
-      .order("created_at", { ascending: false })
-      .range(from, to);
-    if (data) {
-      setHeadshots(
-        (prev) => (page === 0 ? data : [...prev, ...data]) as Headshot[],
-      );
-      setHasMoreHeadshots((count ?? 0) > from + PAGE_SIZE);
+    
+    // Check if we are operating via guest tokens
+    const emailToken = new URLSearchParams(window.location.search).get("email_token");
+    const downloadToken = new URLSearchParams(window.location.search).get("download_token");
+
+    if (emailToken || downloadToken) {
+      // Guest users cannot query the DB directly due to RLS. Use the secure backend API.
+      let apiUrl = `/api/order-status?orderId=${id}`;
+      if (emailToken) apiUrl += `&email_token=${emailToken}`;
+      if (downloadToken) apiUrl += `&download_token=${downloadToken}`;
+      
+      try {
+        const res = await fetch(apiUrl);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.headshots) {
+             // API returns all headshots. Just set them all and disable further pagination.
+             setHeadshots(data.headshots);
+             setHasMoreHeadshots(false);
+          }
+        }
+      } catch (e) {
+        console.error("Failed to load gallery for guest", e);
+      }
+    } else {
+      // Logged-in users can use standard paginated Supabase calls
+      const from = page * PAGE_SIZE;
+      const to = from + PAGE_SIZE - 1;
+      const { data, count } = await supabase
+        .from("headshots")
+        .select("id, image_url, style, category", { count: "exact" })
+        .eq("order_id", id)
+        .order("created_at", { ascending: false })
+        .range(from, to);
+      if (data) {
+        setHeadshots(
+          (prev) => (page === 0 ? data : [...prev, ...data]) as Headshot[],
+        );
+        setHasMoreHeadshots((count ?? 0) > from + PAGE_SIZE);
+      }
+      setHeadshotPage(page);
     }
-    setHeadshotPage(page);
     setLoadingHeadshots(false);
   }, []);
 
@@ -746,13 +773,17 @@ function DashboardContent() {
         data: { session },
       } = await supabase.auth.getSession();
       const token = session?.access_token;
+      const emailToken = new URLSearchParams(window.location.search).get("email_token");
+      
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      if (token) headers.Authorization = `Bearer ${token}`;
+
       const res = await fetch("/api/download/token", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ orderId }),
+        headers,
+        body: JSON.stringify({ orderId, email_token: emailToken }),
       });
       if (!res.ok) {
         toast("Failed to create share link", "error");
