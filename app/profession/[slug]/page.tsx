@@ -15,7 +15,8 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
  if (!profession) return { title: "Not Found" };
  // Use profession.title directly — it's already grammatical (e.g. "LinkedIn
  // Headshots"). The old `${name}s` template produced "LinkedIns"/"Resumes".
- const title = `${profession.title} | AI Headshots | Truzot`;
+ // Bare of brand; the root layout template appends " — Truzot AI Headshots".
+ const title = `${profession.title} | AI Headshots`;
  const description = `Get professional ${profession.name.toLowerCase()} headshots with AI. ${profession.description} Starting at $29.`;
  return {
  title,

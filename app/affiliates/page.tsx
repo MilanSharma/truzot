@@ -9,7 +9,7 @@ import {
  ArrowRight,
 } from "lucide-react";
 export const metadata: Metadata = {
- title: "Affiliate Program — Earn 40% Commission | Truzot AI Headshots",
+ title: "Affiliate Program — Earn 40% Commission",
  description:
  "Join the Truzot Affiliate Program and earn 40% commission on every sale. High conversion rate, 60-day cookies, monthly payouts. Perfect for creators, career coaches, and publishers.",
 };

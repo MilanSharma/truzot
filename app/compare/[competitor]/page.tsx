@@ -21,7 +21,9 @@ export async function generateMetadata(props: any): Promise<Metadata> {
   const comp = COMPETITORS[params.competitor as keyof typeof COMPETITORS];
   if (!comp) return { title: "Not Found" };
   return {
-    title: `Truzot vs ${comp.name} — Best AI Headshot Alternative 2026`,
+    // absolute → bypass the root "— Truzot AI Headshots" suffix so the brand
+    // isn't repeated (the title already leads with "Truzot vs …").
+    title: { absolute: `Truzot vs ${comp.name}: Best AI Headshot Alternative 2026` },
     description: `Comparing Truzot and ${comp.name} for AI headshots. See why professionals choose Truzot for better likeness, more styles, and guaranteed results.`,
     alternates: { canonical: `${SITE_CONFIG.url}/compare/${params.competitor}` }
   };

@@ -23,7 +23,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
  const profession = PROFESSIONS.find((p) => p.id === match[1]);
  const city = CITIES.find((c) => c.id === match[2]);
  if (!profession || !city) return { title: "Not Found" };
- const title = `${profession.title} in ${city.name}, ${city.state} | Truzot AI`;
+ const title = `${profession.title} in ${city.name}, ${city.state}`;
  const description = `Get professional ${profession.name.toLowerCase()} headshots in ${city.name} without a studio. Starting at $29.`;
  return {
  title,

@@ -50,10 +50,12 @@ const H_KEYWORDS = [
 
 export const PAGE_SEO: Record<string, PageSEO> = {
   home: {
+    // Titles here are bare of brand — the root layout template appends
+    // " — Truzot AI Headshots" (adding it here doubled the brand in SERPs).
     title:
-      "AI Headshot Generator | Professional AI Headshots for LinkedIn in Minutes | Truzot",
+      "AI Headshot Generator | Professional AI Headshots for LinkedIn in Minutes",
     description:
-      "Generate studio-quality AI headshots from your selfies. The #1 AI photo generator for LinkedIn, actors, models, dating profiles, and teams. Get 40-200+ HD headshots in minutes. Starting at $29. 100% money-back guarantee.",
+      "Generate studio-quality AI headshots from your selfies. An AI photo generator for LinkedIn, actors, models, dating profiles, and teams. Get 40-150 high-resolution headshots in minutes. Starting at $29. 30-day money-back guarantee.",
     keywords: [
       "AI headshot generator",
       "professional AI headshots",
@@ -71,9 +73,9 @@ export const PAGE_SEO: Record<string, PageSEO> = {
     ],
     canonical: siteUrl,
     ogTitle:
-      "Truzot | #1 AI Headshot Generator for Professional LinkedIn Photos",
+      "Truzot | AI Headshot Generator for Professional LinkedIn Photos",
     ogDescription:
-      "Turn your selfies into studio-quality professional headshots in minutes. AI-powered. 10-minute delivery. Trusted by thousands of professionals.",
+      "Turn your selfies into studio-quality professional headshots in minutes. AI-powered, delivered in under an hour. From $29, no subscription.",
   },
   upload: {
     title:
@@ -92,11 +94,11 @@ export const PAGE_SEO: Record<string, PageSEO> = {
     ogTitle:
       "Create AI Headshots Online — Upload Your Photos, Get Professional Results",
     ogDescription:
-      "Upload 1-5 selfies and get 40-200 professional AI headshots delivered in minutes. Corporate, LinkedIn, creative styles available.",
+      "Upload 2-10 selfies and get 40-150 professional AI headshots delivered in minutes. Corporate, LinkedIn, creative styles available.",
   },
   faq: {
     title:
-      "AI Headshots FAQ — Everything About Professional AI Headshots | Truzot",
+      "AI Headshots FAQ — Everything About Professional AI Headshots",
     description:
       "Frequently asked questions about AI headshot generation. Learn how AI headshots work, turnaround times, privacy and security, pricing, team plans, and our 100% money-back guarantee.",
     keywords: [
@@ -128,7 +130,7 @@ export const PAGE_SEO: Record<string, PageSEO> = {
     ogTitle: "Contact Truzot AI Headshots — We're Here to Help",
   },
   blog: {
-    title: "AI Headshots Blog — Tips, Guides & Professional Branding | Truzot",
+    title: "AI Headshots Blog — Tips, Guides & Professional Branding",
     description:
       "Expert tips, comprehensive guides, and insights about AI headshots, professional photography alternatives, LinkedIn profile optimization, personal branding, and career advancement.",
     keywords: [
@@ -144,7 +146,7 @@ export const PAGE_SEO: Record<string, PageSEO> = {
   },
   team: {
     title:
-      "Team AI Headshots — Consistent Corporate Headshots for Teams | Truzot",
+      "Team AI Headshots — Consistent Corporate Headshots for Teams",
     description:
       "Get consistent, professional AI headshots for your entire team or organization. Bulk pricing for companies, startups, and remote teams. Perfect for company pages, LinkedIn, and internal directories.",
     keywords: [
@@ -177,7 +179,7 @@ export const PAGE_SEO: Record<string, PageSEO> = {
   about: {
     title: "About Truzot — AI Headshot Platform for Professionals",
     description:
-      "Learn about Truzot, the AI-powered headshot platform helping thousands of professionals get studio-quality photos from home. Our mission, team, and technology.",
+      "Learn about Truzot, the AI-powered headshot platform helping professionals get studio-quality photos from home. Our mission, technology, and approach.",
     keywords: [
       "about Truzot",
       "AI headshot company",
@@ -189,9 +191,9 @@ export const PAGE_SEO: Record<string, PageSEO> = {
     ogTitle: "About Truzot — High-End AI Photography for Everyone",
   },
   pricing: {
-    title: "AI Headshot Pricing — Professional Headshots from $29 | Truzot",
+    title: "AI Headshot Pricing — Professional Headshots from $29",
     description:
-      "Choose the perfect AI headshot plan for your needs. Basic ($29) — 40 HD headshots. Pro ($39) — 100 premium headshots. Executive ($59) — 200 ultra HD headshots. 100% money-back guarantee.",
+      "Choose the perfect AI headshot plan for your needs. Basic ($29) — 40 high-resolution headshots. Pro ($39) — 100 headshots. Executive ($59) — 150 headshots. 30-day money-back guarantee.",
     keywords: [
       "AI headshot pricing",
       "professional headshot cost",
@@ -205,27 +207,27 @@ export const PAGE_SEO: Record<string, PageSEO> = {
       "Basic ($29), Pro ($39), or Executive ($59). One-time payment, no subscription. 100% money-back guarantee.",
   },
   login: {
-    title: "Sign In — Truzot AI Headshots Dashboard",
+    title: "Sign In",
     description:
       "Sign in to your Truzot account to access your AI headshots, order history, and dashboard.",
     noindex: true,
   },
   privacy: {
-    title: "Privacy Policy — Truzot AI Headshots",
+    title: "Privacy Policy",
     description:
       "How Truzot collects, processes, stores, and protects your personal data and uploaded photos. GDPR and CCPA compliant.",
     noindex: true,
   },
   terms: {
-    title: "Terms of Service — Truzot AI Headshots",
+    title: "Terms of Service",
     description:
       "Terms and conditions governing the use of Truzot's AI headshot generation service.",
     noindex: true,
   },
   refund: {
-    title: "Refund Policy — Truzot AI Headshots",
+    title: "Refund Policy",
     description:
-      "Truzot's 100% satisfaction guarantee and refund policy for AI headshot orders. Full refund within 14 days if not satisfied.",
+      "Truzot's 100% satisfaction guarantee and refund policy for AI headshot orders. Full refund within 30 days if not satisfied.",
     noindex: true,
   },
 };

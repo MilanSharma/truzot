@@ -1,39 +1,48 @@
 # Truzot AI Headshots
 
-> Truzot is an AI-powered professional headshot generator that creates studio-quality corporate, LinkedIn, and executive headshots from casual selfies in minutes.
+> Truzot is an AI-powered professional headshot generator that creates studio-quality corporate, LinkedIn, and executive headshots from a handful of casual selfies in minutes.
 
 ## About Truzot
-Truzot democratizes professional branding by replacing expensive photography studio sessions with advanced generative AI. Users upload 1-5 selfies, and the platform trains a custom LoRA model to generate 40-200 high-resolution headshots across various styles, backgrounds, and attire.
+Truzot replaces expensive photography studio sessions with generative AI. Users upload a small set of selfies (as few as 2, with 6-10 recommended for the most accurate likeness), and the platform trains a custom Flux LoRA model on the person's face to generate 40-150 high-resolution professional headshots across a wide range of styles, backgrounds, outfits, lighting, and expressions.
 
 ## Core Features
-- **AI Model Training**: Custom LoRA model trained on user's facial features.
-- **Style Variety**: 6+ categories including Corporate, LinkedIn, Creative, Casual, Startup, and Real Estate.
-- **Fast Delivery**: Headshots generated in 10 minutes to 2 hours.
-- **Privacy First**: Photos are encrypted and automatically deleted after 30 days.
-- **Commercial Rights**: Full commercial usage rights included for all generated images.
+- **Custom AI Model Training**: A private Flux LoRA model is trained on the user's own facial features (not a generic filter).
+- **Genuinely Distinct Results**: Every headshot in an order is a unique combination of scene, background, outfit, lighting, and expression.
+- **Style Variety**: Categories including Corporate, LinkedIn, Creative, Casual, Actor, Lifestyle/Dating, and Editorial/Model.
+- **Fast Delivery**: Headshots are typically delivered within 30 minutes to 2 hours depending on plan.
+- **Privacy First**: Uploaded photos and the trained model are encrypted and permanently deleted 30 days after the order completes.
+- **Commercial Rights**: Full commercial usage rights are included for all generated images.
+- **Money-Back Guarantee**: 30-day satisfaction guarantee.
 
-## Pricing Plans
-- **Basic Shoot**: $29 | 40 HD Headshots | 10+ Styles | 2-hour delivery
-- **Professional Shoot**: $39 | 100 Premium 4K Headshots | 30+ Styles | 1-hour delivery
-- **Executive Shoot**: $59 | 200 Ultra 8K Headshots | All Styles | 30-minute priority delivery
+## Pricing Plans (one-time payment, no subscription)
+- **Basic Shoot**: $29 | 40 high-resolution headshots | 2-hour delivery
+- **Professional Shoot**: $39 | 100 high-resolution headshots | 1-hour delivery
+- **Executive Shoot**: $59 | 150 high-resolution headshots | 30-minute priority delivery
+
+## What Makes Truzot Different
+- Needs only 2-10 selfies, versus the 15-25 many competitors require.
+- Trains a dedicated per-customer model rather than applying a template or filter.
+- No studio, no scheduling, no photographer — results in under an hour for most plans.
 
 ## Target Audience
 - Job seekers and LinkedIn professionals
 - Corporate teams and HR departments
 - Real estate agents and sales professionals
 - Startup founders and executives
-- Actors and creatives
+- Actors, models, and creatives
 
 ## How It Works
-1. Upload 1-5 casual selfies (phone photos work best).
-2. Customize preferences (eye color, clothing, background, framing).
+1. Upload 2-10 casual selfies (phone photos in good light work best; 6-10 gives the most accurate results).
+2. Optionally add details (age, gender, hair color) and pick styles.
 3. Choose a plan and complete secure checkout via Stripe.
-4. Receive an email with a link to download your AI-generated headshots.
+4. The AI trains a private model on your face, then generates your headshots.
+5. Receive an email with a link to view and download your AI-generated headshots.
 
 ## Links
 - [Website](https://truzot.com)
 - [Create Headshots](https://truzot.com/upload)
-- [Pricing](https://truzot.com/#pricing)
+- [Pricing](https://truzot.com/pricing)
+- [Free Preview](https://truzot.com/free-preview)
 - [Blog & Guides](https://truzot.com/blog)
 - [FAQ](https://truzot.com/faq)
 - [Privacy Policy](https://truzot.com/privacy)

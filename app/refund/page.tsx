@@ -3,7 +3,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Refund Policy — Truzot AI Headshots",
+  title: "Refund Policy",
   description:
     "Truzot's 100% satisfaction guarantee and refund policy for AI headshot orders.",
   robots: { index: false },

@@ -32,7 +32,7 @@ export async function generateMetadata({
     };
   }
   return {
-    title: `${post.title} - Truzot AI Headshots Blog`,
+    title: post.title, // root template appends " — Truzot AI Headshots"
     description:
       post.excerpt ||
       `Read "${post.title}" on the Truzot Blog. Expert insights on AI headshots and professional branding.`,

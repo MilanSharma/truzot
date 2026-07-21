@@ -13,7 +13,8 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
  const params = await props.params;
  const city = CITIES.find((c) => c.id === params.slug);
  if (!city) return { title: "Not Found" };
- const title = `Professional Headshots in ${city.name}, ${city.state} | AI Headshots | Truzot`;
+ // Bare title — the root layout template appends " — Truzot AI Headshots".
+ const title = `Professional AI Headshots in ${city.name}, ${city.state}`;
  const description = `Get professional headshots in ${city.name}, ${city.state} without leaving home. AI-generated studio-quality photos starting at $29.`;
  return {
  title,

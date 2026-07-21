@@ -3,7 +3,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Truzot AI Headshots",
+  title: "Privacy Policy",
   description:
     "How Truzot collects, processes, stores, and protects your personal data and uploaded photos.",
   robots: { index: false },

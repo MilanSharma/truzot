@@ -13,7 +13,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
  const params = await props.params;
  const style = STYLES.find((s) => s.id === params.slug);
  if (!style) return { title: "Not Found" };
- const title = `${style.title} | AI Headshots | Truzot`;
+ const title = `${style.title} | AI Headshots`;
  const description = `${style.description} Perfect for ${style.useCase.toLowerCase()}. Starting at $29.`;
  return {
  title,

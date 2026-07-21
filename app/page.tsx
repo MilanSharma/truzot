@@ -4,7 +4,7 @@ import LandingPageContent from "@/components/LandingPageContent";
 import { WebPageSchema } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
-  title: "AI Professional Headshots in Minutes | Truzot",
+  title: "AI Professional Headshots in Minutes",
   description: PAGE_SEO.home.description,
   keywords: PAGE_SEO.home.keywords,
   alternates: { canonical: SITE_CONFIG.url },
