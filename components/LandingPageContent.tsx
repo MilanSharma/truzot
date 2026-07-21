@@ -8,7 +8,6 @@ import {
   Clock,
   Sparkles,
   Lock,
-  Star,
   Zap,
   Camera,
   Briefcase,
@@ -272,18 +271,6 @@ const BEFORE_AFTER_EXAMPLES = [
   { before: "/shots/man3 - before.jpg", after: "/shots/man3 - after.jpeg" },
 ];
 
-// Anonymous mini-avatars for the hero trust pill. Stock only, and
-// deliberately NOT reused anywhere a name or "style example" label
-// gets attached — otherwise a visitor can catch the same face playing
-// two roles.
-const AVATARS = [
-  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80&fit=crop",
-  "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=100&q=80&fit=crop",
-  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80&fit=crop",
-  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80&fit=crop",
-  "https://images.unsplash.com/photo-1463453091185-61582044d556?w=100&q=80&fit=crop",
-];
-
 // Who Truzot is for — replaces the fake "company logos" trust bar.
 // Broadens the positioning beyond corporate professionals.
 const AUDIENCES = [
@@ -297,64 +284,9 @@ const AUDIENCES = [
   { icon: Users, label: "Founders & teams" },
 ];
 
-// Testimonials use real generated outputs (/shots), each tied to exactly
-// one name, and none of these files are reused in AVATARS or LORA_IMAGES.
-// NOTE ON METRICS: every "metric" badge below describes something the
-// customer directly experienced and could plausibly self-report (delivery
-// time, photo count, how they used the photos) — never a causal downstream
-// outcome like "closed a $4M round" or "$45K raise" that a headshot alone
-// can't be credited for. That distinction matters for ad-platform policy
-// compliance and for not overpromising results we can't substantiate.
-const TESTIMONIALS = [
-  {
-    name: "Sarah Chen",
-    role: "VP of Product @ TechFlow",
-    text: "Genuinely close to the $800 studio session I did in NYC last year — my whole team asked where I got it done.",
-    rating: 5,
-    metric: "Delivered in 34 minutes",
-    headshot: "/shots/girl1 - after.jpeg",
-  },
-  {
-    name: "Marcus Johnson",
-    role: "Commercial Actor, LA",
-    text: "Fresh commercial and theatrical looks without paying for multiple wardrobe changes. Real time-saver for my comp card.",
-    rating: 5,
-    metric: "5 looks, 1 upload",
-    headshot: "/shots/man1 - after.jpeg",
-  },
-  {
-    name: "Emily Rodriguez",
-    role: "Principal Broker, Luxury RE",
-    text: "In luxury real estate, trust is everything. These photos matched the quality of my listing marketing right away.",
-    rating: 5,
-    metric: "Used across all listings",
-    headshot: "/shots/girl2 - after.jpeg",
-  },
-  {
-    name: "David Park",
-    role: "Senior Software Engineer",
-    text: "Updated LinkedIn in 10 minutes flat. No studio visit, no scheduling back and forth. Worth every cent.",
-    rating: 5,
-    metric: "Live on LinkedIn same day",
-    headshot: "/shots/man2- after.jpeg",
-  },
-  {
-    name: "Jessica Turner",
-    role: "Creative Director @ Ogilvy",
-    text: "Skeptical of AI photography until I saw the skin textures and lighting logic. Captured my actual features, not a generic face.",
-    rating: 5,
-    metric: "2nd order for her team",
-    headshot: "/shots/girl3 - after.jpeg",
-  },
-  {
-    name: "Michael Brent",
-    role: "Y Combinator Founder",
-    text: "Used for our pitch deck and press kit. Nobody who saw it guessed it was AI-generated.",
-    rating: 5,
-    metric: "Used in pitch deck & press kit",
-    headshot: "/shots/man3 - after.jpeg",
-  },
-];
+// TESTIMONIALS previously lived here — removed along with the "Wall of
+// love" section it fed (fabricated names/quotes attributed to real-sounding
+// companies). Re-add with genuine testimonials once they exist.
 
 const FAQS = [
   {
@@ -466,48 +398,6 @@ const fadeUp = {
 const stagger = {
   visible: { transition: { staggerChildren: 0.07 } },
 };
-
-/* ─────────────────────────────────────────────────────────────────── */
-/*  ANIMATED COUNTER                                                   */
-/* ─────────────────────────────────────────────────────────────────── */
-function AnimatedCounter({
-  target,
-  suffix = "",
-  duration = 2000,
-}: {
-  target: number;
-  suffix?: string;
-  duration?: number;
-}) {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const animated = useRef(false);
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting && !animated.current) {
-          animated.current = true;
-          const t0 = Date.now();
-          const step = () => {
-            const p = Math.min((Date.now() - t0) / duration, 1);
-            setCount(Math.floor((1 - Math.pow(1 - p, 3)) * target));
-            if (p < 1) requestAnimationFrame(step);
-          };
-          step();
-        }
-      },
-      { threshold: 0.5 },
-    );
-    if (ref.current) obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, [target, duration]);
-  return (
-    <span ref={ref} className="tabular-nums">
-      {count.toLocaleString()}
-      {suffix}
-    </span>
-  );
-}
 
 /* ─────────────────────────────────────────────────────────────────── */
 /*  LIVE ACTIVITY TOAST — now backed by real data, not fabricated.      */
@@ -739,7 +629,6 @@ export default function LandingPageContent() {
   >("idle");
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [scrolled, setScrolled] = useState(false);
-  const [headshotsCount] = useState(1200000);
 
   // ROI Calculator State
   const [roiProfession, setRoiProfession] =
@@ -1057,43 +946,6 @@ export default function LandingPageContent() {
             className="relative z-10 max-w-5xl mx-auto text-center"
           >
             <motion.div initial="hidden" animate="visible" variants={stagger}>
-              {/* Trust pill */}
-              <motion.div
-                variants={fadeUp}
-                className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm px-5 py-2.5 text-sm font-semibold text-white/70 mb-10"
-              >
-                <div className="flex -space-x-2">
-                  {AVATARS.map((src, i) => (
-                    <div
-                      key={i}
-                      className="w-7 h-7 rounded-full border-2 border-[#07080A] overflow-hidden"
-                    >
-                      <Image
-                        src={src}
-                        alt=""
-                        width={28}
-                        height={28}
-                        className="object-cover"
-                      />
-                    </div>
-                  ))}
-                </div>
-                <span>
-                  Trusted by <strong className="text-white">thousands of</strong>{" "}
-                  people
-                </span>
-                <span className="w-px h-4 bg-white/15" />
-                <div className="flex items-center gap-1">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star
-                      key={i}
-                      className="w-3.5 h-3.5 fill-amber-400 text-amber-400"
-                    />
-                  ))}
-                  <span className="ml-1 font-bold text-white">4.9</span>
-                </div>
-              </motion.div>
-
               {/* Headline */}
               <motion.h1
                 variants={fadeUp}
@@ -1231,71 +1083,11 @@ export default function LandingPageContent() {
             <AudienceStrip />
           </section>
 
-          {/* ═══════════════════════════════════════════════════════════ */}
-          {/*  STATS                                                     */}
-          {/* ═══════════════════════════════════════════════════════════ */}
-          <section className="py-20 px-6" style={{ background: "var(--bg)" }}>
-            <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
-              {[
-                {
-                  value: 8400,
-                  suffix: "+",
-                  label: "People served",
-                  sub: "across 42 countries",
-                },
-                {
-                  value: 1200000,
-                  suffix: "+",
-                  label: "Headshots generated",
-                  sub: "and counting live",
-                },
-                {
-                  value: 4.9,
-                  suffix: "/5",
-                  label: "Average rating",
-                  sub: "642 verified Trustpilot reviews",
-                  isDecimal: true,
-                },
-                {
-                  value: 30,
-                  suffix: " min",
-                  label: "Average delivery",
-                  sub: "Executive plan",
-                },
-              ].map((stat, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="text-center group"
-                >
-                  <div className="text-4xl md:text-5xl font-black text-slate-900 mb-1 tracking-tight tabular-nums">
-                    {stat.isDecimal ? (
-                      <span>
-                        {stat.value}
-                        {stat.suffix}
-                      </span>
-                    ) : (
-                      <AnimatedCounter
-                        target={stat.value}
-                        suffix={stat.suffix}
-                      />
-                    )}
-                  </div>
-                  <div className="text-sm font-bold text-slate-600 mb-0.5">
-                    {stat.label}
-                  </div>
-                  <div className="text-xs text-slate-400">{stat.sub}</div>
-                </motion.div>
-              ))}
-            </div>
-            {/* NOTE: User count should match real backend counts before shipping — an unlinked
-              claim next to a number nobody can check is exactly the kind of
-              detail a skeptical buyer probes first. Consider linking this to
-              a public reviews page (Trustpilot/Google) if you have one. */}
-          </section>
+          {/* STATS section intentionally removed — it previously claimed
+              8,400 people served, 1.2M+ headshots generated, and 4.9/5 from
+              642 Trustpilot reviews, none of which are real yet (this project
+              has zero completed paid orders). Re-add once genuine numbers
+              exist; don't restore placeholder figures. */}
 
           {/* ═══════════════════════════════════════════════════════════ */}
           {/*  BEFORE / AFTER GALLERY                                    */}
@@ -2021,115 +1813,15 @@ export default function LandingPageContent() {
             </div>
           </section>
 
-          {/* ═══════════════════════════════════════════════════════════ */}
-          {/*  TESTIMONIALS                                               */}
-          {/* ═══════════════════════════════════════════════════════════ */}
-          <section
-            className="py-24 px-6 border-y"
-            style={{
-              background: "var(--surface)",
-              borderColor: "var(--border)",
-            }}
-          >
-            <div className="max-w-7xl mx-auto">
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-80px" }}
-                variants={stagger}
-                className="text-center mb-14"
-              >
-                <motion.p
-                  variants={fadeUp}
-                  className="text-xs font-bold text-amber-600 uppercase tracking-[0.2em] mb-4 flex items-center justify-center gap-2"
-                >
-                  <Star className="w-3.5 h-3.5 fill-current" /> Wall of love
-                </motion.p>
-                <motion.h2
-                  variants={fadeUp}
-                  className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 mb-3"
-                >
-                  Don&apos;t take our word for it.
-                </motion.h2>
-                <motion.div
-                  variants={fadeUp}
-                  className="flex items-center justify-center gap-1.5 text-amber-600 mb-1"
-                >
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star key={i} className="w-5 h-5 fill-current" />
-                  ))}
-                  <span className="ml-2 text-slate-900 font-bold text-lg">
-                    4.9
-                  </span>
-                  <span className="text-slate-400 text-sm font-medium">
-                    from 642 verified reviews
-                  </span>
-                </motion.div>
-              </motion.div>
-
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={stagger}
-                className="grid md:grid-cols-3 gap-5"
-              >
-                {TESTIMONIALS.map((t, i) => (
-                  <motion.div
-                    key={i}
-                    variants={fadeUp}
-                    className="p-7 rounded-2xl border hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-200/50 transition-all duration-300 flex flex-col"
-                    style={{
-                      background: "var(--bg)",
-                      borderColor: "var(--border)",
-                    }}
-                  >
-                    {/* Metric badge */}
-                    <div className="inline-flex items-center gap-1.5 bg-lime-400/10 border border-lime-400/20 text-lime-600 px-3 py-1.5 rounded-full text-xs font-bold mb-5 w-fit">
-                      <TrendingUp className="w-3 h-3" /> {t.metric}
-                    </div>
-
-                    <div className="flex gap-0.5 mb-4">
-                      {Array.from({ length: t.rating }).map((_, j) => (
-                        <Star
-                          key={j}
-                          className="w-4 h-4 fill-amber-400 text-amber-500"
-                        />
-                      ))}
-                    </div>
-
-                    <p className="text-slate-600 text-sm leading-relaxed mb-6 flex-1">
-                      &ldquo;{t.text}&rdquo;
-                    </p>
-
-                    <div
-                      className="flex items-center gap-3 pt-5 border-t"
-                      style={{ borderColor: "var(--border)" }}
-                    >
-                      <div className="relative w-10 h-10 rounded-full overflow-hidden border border-slate-900/8 shrink-0">
-                        <Image
-                          src={t.headshot}
-                          alt={t.name}
-                          fill
-                          className="object-cover"
-                          sizes="40px"
-                        />
-                      </div>
-                      <div className="ml-1">
-                        <div className="text-sm font-bold text-slate-900 flex items-center gap-1">
-                          {t.name}
-                          <CheckCircle className="w-3.5 h-3.5 text-indigo-500" />
-                        </div>
-                        <div className="text-xs text-slate-400 font-medium">
-                          {t.role}
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
-          </section>
+          {/* "Wall of love" testimonials section intentionally removed — it
+              attributed fabricated quotes to named people with fake job
+              titles at real companies (e.g. "Creative Director @ Ogilvy") and
+              a fake "4.9 from 642 verified reviews" line. This project has
+              zero completed paid orders and no real reviews. Re-add with
+              genuine customer testimonials once they exist — fabricated
+              named endorsements are a real legal/policy risk (FTC
+              endorsement rules, Google Ads misrepresentation policy), not
+              just a style choice. */}
 
           {/* ═══════════════════════════════════════════════════════════ */}
           {/*  GUARANTEE                                                  */}
@@ -2466,15 +2158,11 @@ export default function LandingPageContent() {
                 />
 
                 <div className="relative z-10">
-                  {/* Live counter */}
-                  <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm font-semibold text-white/50 mb-8">
-                    <div className="w-2 h-2 bg-lime-400 rounded-full animate-ping" />
-                    <div className="w-2 h-2 bg-lime-400 rounded-full absolute" />
-                    <span>
-                      <AnimatedCounter target={headshotsCount} suffix="+" />{" "}
-                      headshots generated and counting
-                    </span>
-                  </div>
+                  {/* "Live counter" removed — it was a hardcoded 1,200,000
+                      constant, not real data, with a pulsing dot implying
+                      otherwise. This project has zero completed orders so
+                      far; re-add once /api/stats has real numbers worth
+                      showing. */}
 
                   <h2 className="text-4xl md:text-6xl font-black text-white mb-5 tracking-tighter leading-[0.95]">
                     Your next great first impression

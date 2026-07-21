@@ -18,7 +18,7 @@ import { useState } from "react";
 const FAQ_ITEMS = [
   {
     q: "How does the 100% money-back guarantee work?",
-    a: "We are confident in our AI. If you are not completely satisfied with your headshots, simply request a refund from your dashboard within 14 days, and we will refund your payment in full. No questions asked.",
+    a: "We are confident in our AI. If you are not completely satisfied with your headshots, simply request a refund from your dashboard within 30 days, and we will refund your payment in full. No questions asked.",
   },
   {
     q: "Do I get full commercial rights to the photos?",

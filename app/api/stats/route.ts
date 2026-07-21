@@ -5,15 +5,13 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    // Attempt to get exact counts from DB, fallback to conservative realistic base
-    const { count } = await supabaseAdmin.from("orders").select("*", { count: "exact", head: true });
-    const totalOrders = count || 10247;
-    const totalHeadshots = totalOrders * 100 + 47893; 
-    
+    const { count: totalOrders } = await supabaseAdmin.from("orders").select("*", { count: "exact", head: true }).eq("status", "completed");
+    const { count: totalHeadshots } = await supabaseAdmin.from("headshots").select("*", { count: "exact", head: true });
+
     const res = NextResponse.json({
-      orders: totalOrders,
-      headshots: totalHeadshots,
-      professionals: totalOrders
+      orders: totalOrders ?? 0,
+      headshots: totalHeadshots ?? 0,
+      professionals: totalOrders ?? 0,
     });
     
     // stale-while-revalidate for edge performance (reduced from 24h to 1h for fresher stats)
