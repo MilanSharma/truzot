@@ -96,7 +96,7 @@ export default function HeroSection({
           transition={{ delay: 0.2 }}
           className="text-lg md:text-xl text-[var(--text-muted)] mb-10 max-w-2xl mx-auto leading-relaxed"
         >
-          Upload <strong className="text-[var(--text)]">1–5 selfies</strong>.
+          Upload <strong className="text-[var(--text)]">2–10 selfies</strong>.
           Our AI trains a private model on your face and delivers{" "}
           <strong className="text-[var(--text)]">
             40–150 photorealistic headshots

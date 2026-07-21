@@ -667,7 +667,8 @@ function DashboardContent() {
   };
 
   const getFilteredHeadshots = () => {
-    if (activeCategory === "all") return headshots;
+    // "best" shows everything; CompletedGallery sorts favorites to the top for it.
+    if (activeCategory === "all" || activeCategory === "best") return headshots;
     if (activeCategory === "favorites")
       return headshots.filter((h) => favorites.includes(h.image_url));
     return headshots.filter(

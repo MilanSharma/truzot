@@ -190,11 +190,18 @@ export const POST = withContext(async (req: Request) => {
 
     const headshotsToInsert = genResult.results.flatMap((res) => {
       const promptText = res.prompt ?? "";
+      // Each prompt begins with its scene label (see buildPrompts in fal-client),
+      // so we can tag the true category rather than guessing from incidental
+      // background words. Order matters: match the most specific tokens first.
+      const p = promptText.toLowerCase();
       let category = "corporate";
-      if (promptText.toLowerCase().includes("casual")) category = "casual";
-      else if (promptText.toLowerCase().includes("creative")) category = "creative";
-      else if (promptText.toLowerCase().includes("studio")) category = "studio";
-      else if (promptText.toLowerCase().includes("outdoor")) category = "outdoor";
+      if (p.includes("linkedin")) category = "linkedin";
+      else if (p.includes("creative-industry")) category = "creative";
+      else if (p.includes("casual-professional")) category = "casual";
+      else if (p.includes("actor headshot")) category = "actor";
+      else if (p.includes("candid lifestyle")) category = "dating";
+      else if (p.includes("high-fashion editorial")) category = "model";
+      else if (p.includes("corporate")) category = "corporate";
       return (res.images ?? []).map((img) => ({ order_id: orderId, image_url: img.url, style: promptText, category }));
     });
 

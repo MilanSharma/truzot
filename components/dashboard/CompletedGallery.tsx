@@ -38,15 +38,19 @@ interface CompletedGalleryProps {
   onRegenerate?: (url: string) => void;
 }
 
+// Mirrors the scene categories produced by the generation engine
+// (lib/ai/fal-client.ts SCENES) so filtering reflects what's actually in the set.
 const CATEGORY_TABS = [
   { id: "all", name: "All Photos" },
   { id: "best", name: "Best Headshots" },
   { id: "favorites", name: "Favorites" },
   { id: "corporate", name: "Corporate" },
-  { id: "casual", name: "Casual" },
+  { id: "linkedin", name: "LinkedIn" },
   { id: "creative", name: "Creative" },
-  { id: "studio", name: "Studio" },
-  { id: "outdoor", name: "Outdoor" },
+  { id: "casual", name: "Casual" },
+  { id: "actor", name: "Actor" },
+  { id: "dating", name: "Lifestyle" },
+  { id: "model", name: "Editorial" },
 ];
 
 const GRID_DENSITIES = [

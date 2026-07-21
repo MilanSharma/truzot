@@ -91,123 +91,231 @@ function resolvePlanKey(plan: string): PlanKey {
   return "basic";
 }
 
-function buildPrompts(plan: string, prefs: UserPreferences | undefined, count: number): string[] {
-  const pool: string[] = [];
+// ---------------------------------------------------------------------------
+// Combinatorial prompt engine.
+//
+// The old version had ~29 base prompts × 4 suffixes ≈ 116 unique strings, so a
+// 150-shot Executive order literally could not be filled with distinct prompts —
+// it wrapped around and re-used them. This builds each prompt from independent
+// dimensions (scene → background → outfit + shared lighting/expression pools),
+// so every tier's images are genuinely varied and no (scene+bg+outfit+lighting+
+// expression) combination repeats until the whole space is exhausted. Even the
+// smallest category's space (≈ 5 bg × 5 outfit × 4 light × 4 expr = 400) dwarfs
+// the 150-image Executive plan, and generation also passes a unique random seed
+// per image (see generateOne) so no two outputs are identical.
+// ---------------------------------------------------------------------------
+type Scene = { label: string; backgrounds: string[]; outfits: string[] };
 
+const SCENES: Record<string, Scene> = {
+  corporate: {
+    label: "a premium corporate headshot",
+    backgrounds: [
+      "in a brightly lit modern office with floor-to-ceiling windows",
+      "against a solid seamless grey studio backdrop",
+      "in a sophisticated wood-panelled boardroom",
+      "against a softly blurred open-plan office background",
+      "against a clean neutral off-white wall",
+    ],
+    outfits: [
+      "wearing a tailored charcoal suit with a crisp white shirt",
+      "wearing an elegant navy blazer over a light dress shirt",
+      "wearing a refined dark business suit and tie",
+      "wearing a smart grey blazer and a subtle patterned shirt",
+      "wearing professional business attire in a muted tone",
+    ],
+  },
+  linkedin: {
+    label: "a polished LinkedIn profile headshot",
+    backgrounds: [
+      "against a bright airy light-toned background",
+      "against a solid muted blue background",
+      "in a softly blurred modern office",
+      "against a clean white studio background",
+      "against a warm neutral beige backdrop",
+    ],
+    outfits: [
+      "wearing smart business casual attire",
+      "wearing a fitted blazer over a plain top",
+      "wearing a professional collared shirt",
+      "wearing a tasteful knit sweater over a collar",
+      "wearing a simple well-fitted blouse or shirt",
+    ],
+  },
+  creative: {
+    label: "a creative-industry editorial portrait",
+    backgrounds: [
+      "against a raw concrete wall with dramatic shadows",
+      "in a bright modern art gallery",
+      "against an exposed brick wall with warm ambient light",
+      "in a sunlit glass coworking space",
+      "against a moody dark textured backdrop",
+    ],
+    outfits: [
+      "wearing stylish minimalist contemporary fashion",
+      "wearing a fashionable dark turtleneck",
+      "wearing an effortless layered designer outfit",
+      "wearing a modern well-cut casual blazer",
+      "wearing a clean monochrome creative outfit",
+    ],
+  },
+  casual: {
+    label: "a relaxed casual-professional portrait",
+    backgrounds: [
+      "against a blurred green urban park in golden-hour light",
+      "at a bright outdoor cafe",
+      "against a blurred city street in soft daylight",
+      "in a cozy modern coffee shop with shallow depth of field",
+      "against a sunlit natural outdoor background",
+    ],
+    outfits: [
+      "wearing a casual button-down shirt",
+      "wearing a comfortable but polished light jacket",
+      "wearing a smart crew-neck sweater",
+      "wearing a relaxed open collared shirt",
+      "wearing an approachable everyday smart-casual outfit",
+    ],
+  },
+  actor: {
+    label: "an industry-standard actor headshot",
+    backgrounds: [
+      "against a plain seamless neutral background",
+      "against a solid mid-grey studio backdrop",
+      "against a soft light-grey background",
+      "against an evenly lit muted backdrop",
+      "against a clean dark grey background",
+    ],
+    outfits: [
+      "wearing simple well-fitted clothing in a solid neutral color",
+      "wearing a plain dark top",
+      "wearing a muted-tone casual top",
+      "wearing an unadorned fitted shirt",
+      "wearing a simple flattering solid-color top",
+    ],
+  },
+  dating: {
+    label: "a natural, candid lifestyle portrait",
+    backgrounds: [
+      "in soft outdoor golden-hour light",
+      "against a blurred park background",
+      "against a warm blurred city background",
+      "in bright natural daylight outdoors",
+      "against a soft sunlit background with gentle bokeh",
+    ],
+    outfits: [
+      "wearing relaxed casual everyday clothing",
+      "wearing a comfortable stylish casual outfit",
+      "wearing a simple flattering top",
+      "wearing an easygoing weekend outfit",
+      "wearing a soft-textured casual sweater",
+    ],
+  },
+  model: {
+    label: "a high-fashion editorial portrait",
+    backgrounds: [
+      "against a minimalist seamless studio backdrop",
+      "against a clean bright beauty-lit background",
+      "against a solid bold-colored backdrop",
+      "against a moody dark studio background",
+      "against a neutral high-fashion seamless background",
+    ],
+    outfits: [
+      "wearing sleek modern tailored clothing",
+      "wearing simple elegant high-fashion attire",
+      "wearing a sharp contemporary designer look",
+      "wearing a refined minimalist ensemble",
+      "wearing a polished editorial outfit",
+    ],
+  },
+};
+
+const LIGHTING = [
+  "soft natural window lighting",
+  "flattering three-point studio lighting",
+  "gentle Rembrandt lighting",
+  "bright even softbox lighting",
+];
+
+const EXPRESSIONS = [
+  "with a warm, confident smile, looking directly at the camera",
+  "with a calm, approachable expression, facing the camera",
+  "with a subtle, self-assured closed-mouth smile",
+  "with a relaxed, genuine and friendly expression",
+];
+
+function buildPrompts(plan: string, prefs: UserPreferences | undefined, count: number): string[] {
   // --- Gender-aware subject tag -------------------------------------------
-  // The training comments claimed this already existed ("a man TOK" / "a
-  // woman TOK") to stop the LoRA drifting toward the wrong gender in business
-  // wear - but it was never actually wired in. Every occurrence of the raw
-  // trigger word "TOK" below gets replaced with a gendered subject tag so the
-  // model has an explicit anchor.
+  // Every occurrence of the raw trigger word "TOK" gets replaced with a
+  // gendered subject tag so the LoRA has an explicit anchor and doesn't drift
+  // toward the wrong gender in business wear.
   const gender = (prefs as any)?.gender as string | undefined;
   const genderWord =
     gender === "male" ? "a man" :
     gender === "female" ? "a woman" :
     "a person";
 
-  // Eye/hair color are on UserPreferences but were previously never read -
-  // the LoRA alone should capture these from the training selfies, but an
-  // explicit prompt anchor reduces drift, especially in stylized lighting
-  // (studio/editorial setups) that can otherwise wash out eye color.
+  // Eye/hair color anchors reduce drift under stylized lighting.
   const colorDescriptors: string[] = [];
   if (prefs?.eyeColor) colorDescriptors.push(`${prefs.eyeColor} eyes`);
   if (prefs?.hairColor) colorDescriptors.push(`${prefs.hairColor} hair`);
-  const subjectTag = colorDescriptors.length
-    ? `TOK, ${genderWord} with ${colorDescriptors.join(" and ")},`
-    : `TOK, ${genderWord},`;
-  const applySubject = (s: string) => s.replace(/\bTOK\b/g, subjectTag) + FRAMING_CLAUSE;
+  const subject = colorDescriptors.length
+    ? `${genderWord} with ${colorDescriptors.join(" and ")}`
+    : genderWord;
+  const finish = " Shot on an 85mm lens, professional photography, photorealistic, sharp focus on the eyes, natural skin texture." + FRAMING_CLAUSE;
 
+  // Upsell / custom pack: honor the customer's explicit clothing/background but
+  // still vary lighting + expression so a 20-pack isn't 20 identical frames.
   if (plan === "custom_upsell" || prefs?.is_upsell) {
     const c = prefs?.clothing || "professional attire";
-    const b = prefs?.background || "studio background";
-    const basePrompt = `A premium professional portrait photograph of TOK wearing ${c}. The photo is taken with a ${b} background. Shot on medium format camera, 85mm lens, highly detailed, photorealistic.`;
-    const suffixes = [
-      " The subject is looking directly at the camera with a subtle, confident smile.",
-      " The subject is facing forward with a warm, approachable expression.",
-      " The subject is captured in a relaxed, natural pose looking at the lens.",
-      " The portrait features flawless professional retouching while maintaining authentic facial features."
-    ];
-    for (let i = 0; i < count; i++) pool.push(applySubject(basePrompt + suffixes[i % suffixes.length]));
+    const b = prefs?.background || "a clean studio background";
+    const pool: string[] = [];
+    for (let i = 0; i < count; i++) {
+      const light = LIGHTING[i % LIGHTING.length];
+      const expr = EXPRESSIONS[Math.floor(i / LIGHTING.length) % EXPRESSIONS.length];
+      pool.push(`A premium professional portrait of TOK, ${subject}, wearing ${c}, against ${b}. ${light}, ${expr}.${finish}`);
+    }
     return pool;
   }
 
-  // Pure, conversational English prompts, keyed by category id so a customer's
-  // selected styles (prefs.selectedStyles, matched against HEADSHOT_CATEGORIES
-  // in lib/plans.ts) actually change what gets generated. Previously every
-  // customer got the same corporate/studio/LinkedIn rotation regardless of
-  // what they picked, and 3 of the 7 advertised categories (Actor, Dating &
-  // Social, Model) had no prompt content at all.
-  const suffixes = [
-    " The subject is looking directly at the camera with a subtle, confident smile.",
-    " The subject is facing forward with a warm, approachable expression.",
-    " The subject is captured in a relaxed, natural pose looking at the lens.",
-    " The portrait features flawless professional retouching while maintaining authentic facial features."
-  ];
-
-  const STYLE_POOLS: Record<string, string[]> = {
-    corporate: [
-      "A premium corporate headshot of TOK wearing elegant business attire. The portrait is taken in a brightly lit modern office with large windows. Shot on medium format camera, 85mm lens, soft natural lighting, shallow depth of field, highly detailed, professional photography.",
-      "An authoritative executive portrait of TOK wearing refined corporate wear. Standing in a sophisticated wood-panelled boardroom. Professional studio lighting, cinematic composition, photorealistic, sharp focus.",
-      "A modern finance professional headshot of TOK wearing a tailored blazer. Abstract blurred office background, clean lighting, 8k resolution, photorealistic portrait.",
-      "A classic corporate photograph of TOK wearing professional clothing. Neutral office background with bright, flattering lighting. High quality corporate photography.",
-      "A high-end studio portrait of TOK wearing business professional clothing. Solid seamless grey background, flattering rembrandt lighting, sharp focus, unretouched natural skin texture.",
-    ],
-    linkedin: [
-      "A highly engaging LinkedIn profile picture of TOK looking directly at the camera with a warm, confident smile. Wearing professional business attire. Bright airy background, natural daylight, DSLR photography.",
-      "A trustworthy professional networking portrait of TOK looking directly at the camera. Smart casual wear, solid muted color background, approachable and friendly expression, high quality.",
-      "A polished LinkedIn headshot of TOK looking directly at the camera. Confident expression, modern office background, photorealistic portrait.",
-      "A clean, minimalist studio headshot of TOK wearing smart casual attire. Solid white background, soft butterfly lighting, professional photography, crisp details, highly realistic.",
-    ],
-    creative: [
-      "A creative industry portrait of TOK wearing stylish minimalist fashion. Concrete wall background with dramatic shadows. Editorial magazine photography, artistic softbox lighting.",
-      "A vibrant creative director headshot of TOK wearing contemporary clothing. Art gallery background, natural light, shallow depth of field, bokeh, highly detailed.",
-      "An artistic professional photo of TOK wearing layered clothing. Exposed brick background, warm ambient lighting, highly detailed photography.",
-      "A modern tech startup founder headshot of TOK wearing a stylish dark t-shirt. Glass coworking space background, bright natural lighting, relaxed but professional, 85mm lens.",
-    ],
-    casual: [
-      "A relaxed professional outdoor photograph of TOK. Blurred urban park background, golden hour lighting, natural authentic expression, crisp focus.",
-      "A friendly lifestyle headshot of TOK wearing comfortable but polished clothing. Outdoor cafe setting, bright daylight, candid professional photography.",
-      "A sunny outdoor portrait of TOK wearing a casual jacket. Blurred city street background, bright daylight, highly detailed photography.",
-      "An approachable software engineer portrait of TOK wearing a casual button-down shirt. Modern coffee shop background, shallow depth of field, candid and authentic, photorealistic.",
-    ],
-    actor: [
-      "A classic actor headshot of TOK wearing simple, well-fitted clothing in a solid neutral color. Plain seamless background, even soft lighting, sharp focus on the eyes, industry-standard casting photography.",
-      "A theatrical headshot of TOK with a natural, engaged expression, wearing simple dark clothing. Solid grey backdrop, three-point studio lighting, crisp detail, no distracting elements.",
-      "An authentic commercial-print style headshot of TOK, warm genuine expression, wearing a simple top in a muted tone. Soft neutral background, flattering catchlight in the eyes, high-resolution casting photography.",
-      "A versatile talent headshot of TOK with a confident, open expression. Plain light-grey background, clean even lighting, sharp focus, minimal retouching to preserve authentic detail.",
-    ],
-    dating: [
-      "A natural, candid lifestyle portrait of TOK with a genuine warm smile, wearing casual everyday clothing. Soft outdoor golden-hour light, relaxed authentic pose, high quality photography.",
-      "A friendly, approachable portrait of TOK laughing naturally, wearing a comfortable casual outfit. Blurred park or city background, natural daylight, candid and unposed feel.",
-      "An inviting lifestyle headshot of TOK with a relaxed, genuine expression, wearing a simple flattering outfit. Warm natural lighting, soft background blur, authentic and personable.",
-      "A cheerful casual portrait of TOK enjoying an everyday moment, natural smile, comfortable stylish clothing. Bright natural light, candid composition, high quality photography.",
-    ],
-    model: [
-      "A high-fashion editorial portrait of TOK wearing sleek modern clothing. Bold studio lighting with dramatic shadow, minimalist background, sharp focus, magazine-quality photography.",
-      "A striking beauty portrait of TOK with polished styling, wearing simple elegant clothing. Clean studio background, professional beauty lighting, crisp detail, photorealistic.",
-      "A contemporary fashion portfolio shot of TOK wearing stylish contemporary clothing. Neutral seamless backdrop, directional studio lighting, sharp focus, editorial composition.",
-      "An editorial portrait of TOK with a strong, confident expression, wearing tailored modern clothing. Moody studio lighting, solid dark background, high-fashion photography.",
-    ],
-  };
-
-  const availableCategories = Object.keys(STYLE_POOLS);
-  const requested = (prefs?.selectedStyles || []).filter((id: string) => STYLE_POOLS[id]);
+  const availableCategories = Object.keys(SCENES);
+  const requested = (prefs?.selectedStyles || []).filter((id: string) => SCENES[id]);
   const activeCategories = requested.length > 0 ? requested : availableCategories;
-  const maxPoolLen = Math.max(...activeCategories.map((c: string) => STYLE_POOLS[c].length));
 
-  let catIdx = 0, promptIdx = 0, sIdx = 0;
-  while (pool.length < count) {
-    const category = activeCategories[catIdx % activeCategories.length];
-    const categoryPrompts = STYLE_POOLS[category];
-    const base = categoryPrompts[promptIdx % categoryPrompts.length];
-    pool.push(applySubject(base + suffixes[sIdx % suffixes.length]));
-
-    catIdx++;
-    if (catIdx % activeCategories.length === 0) {
-      promptIdx++;
-      if (promptIdx % maxPoolLen === 0) sIdx++;
+  // Build a distinct combo list per category (mixed-radix counter over
+  // background × outfit × lighting × expression), then interleave categories
+  // round-robin so the delivered gallery spreads variety instead of showing all
+  // of one look before the next.
+  const perCategory: string[][] = activeCategories.map((cat: string) => {
+    const scene = SCENES[cat];
+    const combos: string[] = [];
+    const nb = scene.backgrounds.length, no = scene.outfits.length, nl = LIGHTING.length, ne = EXPRESSIONS.length;
+    const total = nb * no * nl * ne;
+    // Only generate as many as we could plausibly need from this category.
+    const need = Math.ceil(count / activeCategories.length) + 4;
+    for (let i = 0; i < Math.min(total, need); i++) {
+      const bg = scene.backgrounds[i % nb];
+      const outfit = scene.outfits[Math.floor(i / nb) % no];
+      const light = LIGHTING[Math.floor(i / (nb * no)) % nl];
+      const expr = EXPRESSIONS[Math.floor(i / (nb * no * nl)) % ne];
+      combos.push(`${scene.label} of TOK, ${subject}, ${outfit}, ${bg}. ${light}, ${expr}.${finish}`);
     }
+    return combos;
+  });
+
+  const pool: string[] = [];
+  let round = 0;
+  while (pool.length < count) {
+    let addedThisRound = 0;
+    for (const combos of perCategory) {
+      if (round < combos.length) {
+        pool.push(combos[round]);
+        addedThisRound++;
+        if (pool.length >= count) break;
+      }
+    }
+    round++;
+    // Safety: if every category is exhausted (only possible when count exceeds
+    // the entire combinatorial space — it never does for our plans), stop.
+    if (addedThisRound === 0) break;
   }
   return pool;
 }
@@ -328,6 +436,7 @@ export const generateHeadshots = async (
           num_images: 1,
           width: profile.baseWidth,
           height: profile.baseHeight,
+          seed: Math.floor(Math.random() * 2_147_483_647), // unique per image so no two outputs collide
           output_format: "jpeg",
           enable_safety_checker: true,
           acceleration: "none", // prioritize quality over speed
@@ -416,6 +525,7 @@ export async function regenerateOne(
     num_images: 1,
     width: profile.baseWidth,
     height: profile.baseHeight,
+    seed: Math.floor(Math.random() * 2_147_483_647), // fresh seed so a regen differs from the original
     output_format: "jpeg",
     enable_safety_checker: true,
     acceleration: "none",

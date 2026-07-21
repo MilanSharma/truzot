@@ -67,6 +67,36 @@ const PHOTO_TIPS = [
   },
 ];
 
+const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
+
+// Turn raw image measurements into a precise, explainable 0-100 quality score.
+// Weights: sharpness 45, resolution 30, exposure 25 — the three things that
+// actually determine whether a selfie trains a good face model. Returns the
+// score plus the single most useful improvement hint for that photo.
+function scoreFile(a: { sharpness: number; brightness: number; width: number; height: number }): {
+  score: number;
+  hint: string | null;
+} {
+  const minEdge = Math.min(a.width, a.height);
+  const resScore = clamp((minEdge - 400) / (1200 - 400), 0, 1) * 30;
+  const sharpScore = clamp((a.sharpness - 50) / (500 - 50), 0, 1) * 45;
+
+  let expScore: number;
+  if (a.brightness >= 90 && a.brightness <= 170) expScore = 25;
+  else if (a.brightness < 90) expScore = clamp((a.brightness - 40) / 50, 0, 1) * 25;
+  else expScore = clamp((215 - a.brightness) / 45, 0, 1) * 25;
+
+  const score = Math.round(clamp(resScore + sharpScore + expScore, 0, 100));
+
+  // Surface the weakest dimension as an actionable hint.
+  let hint: string | null = null;
+  if (sharpScore < 25) hint = "a bit soft — a sharper, in-focus photo will train better";
+  else if (a.brightness < 90) hint = "a little dark — try brighter, even lighting";
+  else if (a.brightness > 170) hint = "slightly overexposed — avoid direct harsh light";
+  else if (resScore < 18) hint = "low resolution — a larger, closer photo helps";
+  return { score, hint };
+}
+
 type Step = 1 | 2;
 
 const SESSION_KEY = "truzot-upload";
@@ -455,97 +485,65 @@ function UploadContent() {
     [],
   );
 
-  const faceDetectorSupported =
-    typeof window !== "undefined" && "FaceDetector" in window;
-
-  const detectFaces = useCallback(
+  // Browser-universal image analysis. We deliberately do NOT use the
+  // experimental FaceDetector API — it only exists in Chrome/Edge behind a flag,
+  // so it was unavailable for ~all real visitors, made the quality score
+  // meaningless, and triggered a scary "face detection unsupported" warning on
+  // nearly every browser. Instead we measure objective signals that work
+  // everywhere: sharpness (Laplacian variance), exposure (mean luminance), and
+  // native resolution.
+  const analyzeImage = useCallback(
     async (
       file: File,
-    ): Promise<{
-      count: number;
-      prominence?: number; // face area as percentage of image area
-      crop?: { x: number; y: number; w: number; h: number };
-    } | null> => {
-      if (!faceDetectorSupported) return null;
+    ): Promise<{ sharpness: number; brightness: number; width: number; height: number }> => {
+      const S = 400;
       try {
         const bitmap = await createImageBitmap(file);
-        const bmpW = bitmap.width;
-        const bmpH = bitmap.height;
-        const detector = new (window as any).FaceDetector({
-          maxDetectedFaces: 5,
-          fastMode: true,
-        });
-        const faces = await detector.detect(bitmap);
+        const width = bitmap.width;
+        const height = bitmap.height;
+        const canvas = document.createElement("canvas");
+        canvas.width = S;
+        canvas.height = S;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          bitmap.close();
+          return { sharpness: 0, brightness: 128, width, height };
+        }
+        ctx.drawImage(bitmap, 0, 0, S, S);
         bitmap.close();
-        if (faces.length === 0) return { count: 0 };
-        const f = faces[0].boundingBox ||
-          faces[0].boundingRect || {
-            x: 0,
-            y: 0,
-            width: bmpW,
-            height: bmpH,
-          };
-        const faceArea = f.width * f.height;
-        const imageArea = bmpW * bmpH;
-        const prominence = faceArea / imageArea;
-        const margin = 0.2;
-        const x = Math.max(0, f.x - f.width * margin);
-        const y = Math.max(0, f.y - f.height * margin);
-        const w = Math.min(bitmap.width - x, f.width * (1 + margin * 2));
-        const h = Math.min(bitmap.height - y, f.height * (1 + margin * 2));
-        return { count: faces.length, prominence, crop: { x, y, w, h } };
+        const data = ctx.getImageData(0, 0, S, S).data;
+
+        const gray = new Float32Array(S * S);
+        let brightSum = 0;
+        for (let i = 0; i < data.length; i += 4) {
+          const g = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+          gray[i / 4] = g;
+          brightSum += g;
+        }
+        const brightness = brightSum / (S * S);
+
+        // Laplacian kernel [[0,1,0],[1,-4,1],[0,1,0]] → variance = sharpness proxy
+        let sum = 0;
+        let sumSq = 0;
+        let count = 0;
+        for (let y = 1; y < S - 1; y++) {
+          for (let x = 1; x < S - 1; x++) {
+            const idx = y * S + x;
+            const lap = gray[idx - S] + gray[idx + S] + gray[idx - 1] + gray[idx + 1] - 4 * gray[idx];
+            sum += lap;
+            sumSq += lap * lap;
+            count++;
+          }
+        }
+        const mean = sum / count;
+        const sharpness = sumSq / count - mean * mean;
+        return { sharpness, brightness, width, height };
       } catch {
-        return null;
+        return { sharpness: 0, brightness: 128, width: 0, height: 0 };
       }
     },
-    [faceDetectorSupported],
+    [],
   );
-
-  const detectBlur = useCallback(async (file: File): Promise<number> => {
-    try {
-      const bitmap = await createImageBitmap(file, { resizeWidth: 400, resizeHeight: 400 });
-      const canvas = document.createElement('canvas');
-      canvas.width = 400;
-      canvas.height = 400;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return 0;
-      ctx.drawImage(bitmap, 0, 0, 400, 400);
-      const imageData = ctx.getImageData(0, 0, 400, 400);
-      const data = imageData.data;
-      
-      // Convert to grayscale
-      const gray = new Float32Array(400 * 400);
-      for (let i = 0; i < data.length; i += 4) {
-        gray[i / 4] = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
-      }
-      
-      // Apply Laplacian kernel [[0,1,0],[1,-4,1],[0,1,0]]
-      const laplacian = new Float32Array(400 * 400);
-      for (let y = 1; y < 399; y++) {
-        for (let x = 1; x < 399; x++) {
-          const idx = y * 400 + x;
-          laplacian[idx] = 
-            gray[idx - 400] + gray[idx + 400] + gray[idx - 1] + gray[idx + 1] - 4 * gray[idx];
-        }
-      }
-      
-      // Calculate variance
-      let sum = 0;
-      let sumSq = 0;
-      const count = (400 - 2) * (400 - 2);
-      for (let i = 400 + 1; i < 400 * 399 - 1; i++) {
-        sum += laplacian[i];
-        sumSq += laplacian[i] * laplacian[i];
-      }
-      const mean = sum / count;
-      const variance = (sumSq / count) - (mean * mean);
-      
-      bitmap.close();
-      return variance;
-    } catch {
-      return 0;
-    }
-  }, []);
 
   const computeFileFingerprint = useCallback(
     (file: File): string => `${file.name}|${file.size}`,
@@ -671,6 +669,9 @@ function UploadContent() {
       const converted: File[] = [];
       const errors: string[] = [];
       const warnings: string[] = [];
+      // Cache each accepted file's analysis (keyed by fingerprint) so we score
+      // once here instead of re-decoding every image again below.
+      const analyses = new Map<string, { sharpness: number; brightness: number; width: number; height: number }>();
       for (const f of Array.from(incoming)) {
         if (f.size >= 10 * 1024 * 1024) {
           errors.push(`${f.name}: file too large (max 10MB)`);
@@ -702,26 +703,12 @@ function UploadContent() {
                 f.name.replace(/\.(heic|heif)$/i, ".jpg"),
                 { type: "image/jpeg" },
               );
-              const faceResult = await detectFaces(jpegFile);
-              if (faceResult) {
-                if (faceResult.count === 0) {
-                  errors.push(`${jpegFile.name}: no face detected - please use a photo with a clear face`);
-                  continue;
-                }
-                if (faceResult.count > 1) {
-                  errors.push(`${jpegFile.name}: multiple faces detected - please use a photo with only one person`);
-                  continue;
-                }
-                if (faceResult.prominence !== undefined && faceResult.prominence < 0.04) {
-                  errors.push(`${jpegFile.name}: face too small - please use a closer photo`);
-                  continue;
-                }
-              }
-              const blurScore = await detectBlur(jpegFile);
-              if (blurScore < 60) {
-                errors.push(`${jpegFile.name}: photo is too blurry - please use a sharper image`);
+              const analysis = await analyzeImage(jpegFile);
+              if (analysis.sharpness > 0 && analysis.sharpness < 50) {
+                errors.push(`${jpegFile.name}: photo is too blurry — please use a sharper image`);
                 continue;
               }
+              analyses.set(computeFileFingerprint(jpegFile), analysis);
               converted.push(jpegFile);
             } catch {
               errors.push(
@@ -740,26 +727,12 @@ function UploadContent() {
             errors.push(`${f.name}: duplicate photo detected — skip`);
             continue;
           }
-          const faceResult = await detectFaces(f);
-          if (faceResult) {
-            if (faceResult.count === 0) {
-              errors.push(`${f.name}: no face detected - please use a photo with a clear face`);
-              continue;
-            }
-            if (faceResult.count > 1) {
-              errors.push(`${f.name}: multiple faces detected - please use a photo with only one person`);
-              continue;
-            }
-            if (faceResult.prominence !== undefined && faceResult.prominence < 0.04) {
-              errors.push(`${f.name}: face too small - please use a closer photo`);
-              continue;
-            }
-          }
-          const blurScore = await detectBlur(f);
-          if (blurScore < 60) {
-            errors.push(`${f.name}: photo is too blurry - please use a sharper image`);
+          const analysis = await analyzeImage(f);
+          if (analysis.sharpness > 0 && analysis.sharpness < 50) {
+            errors.push(`${f.name}: photo is too blurry — please use a sharper image`);
             continue;
           }
+          analyses.set(fp, analysis);
           converted.push(f);
         } else {
           errors.push(`${f.name}: unsupported format`);
@@ -773,28 +746,17 @@ function UploadContent() {
       }
       const nextFiles = [...filesRef.current, ...converted].slice(0, 10);
       setFiles(nextFiles);
-      
-      // Calculate quality scores for new files
+
+      // Score each newly added file from its cached analysis (falls back to a
+      // fresh analysis for the rare case it wasn't cached, e.g. odd code paths).
       const newScores: Record<number, number> = {};
       for (let i = filesRef.current.length; i < nextFiles.length; i++) {
         const file = nextFiles[i];
-        const blurScore = await detectBlur(file);
-        const faceResult = await detectFaces(file);
-        let qualityScore = 50; // base score
-        
-        // Blur score contribution (0-100, higher is better)
-        qualityScore += Math.min(blurScore / 2, 30);
-        
-        // Face prominence contribution
-        if (faceResult && faceResult.prominence !== undefined) {
-          const prominenceScore = Math.min(faceResult.prominence * 1000, 20);
-          qualityScore += prominenceScore;
-        }
-        
-        newScores[i] = Math.min(Math.round(qualityScore), 100);
+        const analysis = analyses.get(computeFileFingerprint(file)) ?? (await analyzeImage(file));
+        newScores[i] = scoreFile(analysis).score;
       }
       setFileQualityScores(prev => ({ ...prev, ...newScores }));
-      
+
       setStoragePath("");
       uploadPromiseRef.current = null;
       setIsUploadingBackground(false);
@@ -804,8 +766,7 @@ function UploadContent() {
       toast,
       validatePhoto,
       computeFileFingerprint,
-      detectFaces,
-      detectBlur,
+      analyzeImage,
       setIsUploadingBackground,
       setBackgroundProgress,
       setStoragePath,
@@ -1025,27 +986,23 @@ function UploadContent() {
     filesRef.current = [];
   };
 
-  // Calculate overall quality score
+  // Overall quality score = how many photos (0-40) + how good they are (0-60).
+  // Deliberately excludes the optional demographics form — that's personalization,
+  // not photo quality, and folding it in made the number confusing (a single
+  // great photo used to read "43/100 Fair"). Photo count is weighted so 6+ sharp
+  // photos reach "Excellent" while 2 caps you around "Good", matching the
+  // guidance to upload 6-10.
   const qualityScore = useMemo(() => {
-    let score = 0;
-    
-    // Photo count contribution (0-30 points)
-    const photoCountScore = Math.min((files.length / 10) * 30, 30);
-    score += photoCountScore;
-    
-    // Average quality score contribution (0-50 points)
+    const n = files.length;
+    if (n === 0) return 0;
+    const countScore = Math.min(40, n * 5.5); // 2→11, 6→33, 8+→40
     const scores = Object.values(fileQualityScores);
-    if (scores.length > 0) {
-      const avgQuality = scores.reduce((a, b) => a + b, 0) / scores.length;
-      score += (avgQuality / 100) * 50;
-    }
-    
-    // Profile completeness contribution (0-20 points)
-    const filledFields = Object.values(demographics).filter(v => v.trim() !== "").length;
-    score += (filledFields / 4) * 20;
-    
-    return Math.round(score);
-  }, [files.length, fileQualityScores, demographics]);
+    const avgQuality = scores.length > 0
+      ? scores.reduce((a, b) => a + b, 0) / scores.length
+      : 60; // neutral placeholder until per-file scores finish computing
+    const qualityContribution = (avgQuality / 100) * 60;
+    return Math.round(countScore + qualityContribution);
+  }, [files.length, fileQualityScores]);
 
   const getQualityTier = (score: number) => {
     if (score >= 80) return { label: "Excellent", color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" };
@@ -1129,8 +1086,8 @@ function UploadContent() {
                     Upload your selfies
                   </h1>
                   <p className="text-lg text-[var(--text-secondary)] max-w-xl mx-auto leading-relaxed">
-                    Upload 1-10 clear photos of your face. More photos = better
-                    results. Takes{" "}
+                    Upload 2–10 clear photos of your face — we recommend 6–10 for
+                    the best, most accurate results. Takes{" "}
                     <span className="font-bold text-[var(--text)]">
                       2 minutes
                     </span>{" "}
@@ -1201,7 +1158,7 @@ function UploadContent() {
                             : "Click or drag photos here"}
                         </h3>
                         <p className="text-[var(--text-secondary)] font-medium max-w-xs">
-                          Upload 1-10 selfies (JPG, PNG, HEIC)
+                          Upload 2–10 selfies (JPG, PNG, HEIC)
                         </p>
                         <input
                           type="file"
@@ -1219,17 +1176,6 @@ function UploadContent() {
                         <h3 className="text-lg font-bold text-[var(--text)] mb-4">
                           Photo Requirements
                         </h3>
-
-                        {!faceDetectorSupported && (
-                          <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
-                            <p className="text-sm text-amber-800">
-                              <strong>⚠️ Note:</strong> Face detection is
-                              unsupported in this browser. Please ensure your
-                              face is clearly visible in all photos before
-                              paying.
-                            </p>
-                          </div>
-                        )}
 
                         <div className="flex flex-col gap-5">
                           {PHOTO_TIPS.map((tip, idx) => {
@@ -1305,10 +1251,13 @@ function UploadContent() {
                         />
                       </div>
                       <p className="text-xs text-[var(--text-secondary)] mt-2">
-                        {qualityScore >= 80 ? "🎉 Excellent! Your photos are ready for stunning results." :
-                         qualityScore >= 60 ? "✨ Good quality! Adding more photos can improve results." :
-                         qualityScore >= 40 ? "💡 Fair quality. Consider adding sharper, closer photos." :
-                         "⚠️ Needs improvement. Add clearer, closer photos for better results."}
+                        {files.length < 6
+                          ? `✨ ${files.length} photo${files.length === 1 ? "" : "s"} added. Add ${6 - files.length} more (6–10 total) for the most accurate, consistent results.`
+                          : qualityScore >= 80
+                            ? "🎉 Excellent — this set will train a strong, accurate model."
+                            : qualityScore >= 60
+                              ? "✅ Good set. For an even better model, swap any softer or dim photos for sharper, well-lit ones."
+                              : "💡 Replace the lowest-scoring photos (see the % on each) with sharper, brighter, closer shots."}
                       </p>
                     </div>
 
@@ -1325,8 +1274,17 @@ function UploadContent() {
                           />
                           <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                           {fileQualityScores[i] !== undefined && (
-                            <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs font-bold px-2 py-1 rounded">
-                              {fileQualityScores[i]}%
+                            <div
+                              className={`absolute bottom-2 left-2 text-white text-xs font-bold px-2 py-1 rounded ${
+                                fileQualityScores[i] >= 75
+                                  ? "bg-emerald-600/90"
+                                  : fileQualityScores[i] >= 55
+                                    ? "bg-amber-600/90"
+                                    : "bg-red-600/90"
+                              }`}
+                              title="Photo quality: sharpness, lighting and resolution"
+                            >
+                              {fileQualityScores[i]}/100
                             </div>
                           )}
                           <button

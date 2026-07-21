@@ -169,7 +169,7 @@ export function HowToSchema() {
       {
         "@type": "HowToStep",
         name: "Upload your photos",
-        text: "Upload 1-5 casual selfies from your phone. No professional photography required.",
+        text: "Upload 2-10 casual selfies from your phone. No professional photography required.",
         image: `${siteUrl}/howto-upload.jpg`,
         url: `${siteUrl}/upload`,
       },

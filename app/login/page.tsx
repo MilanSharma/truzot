@@ -505,7 +505,7 @@ function LoginContent() {
               {[
                 {
                   icon: Zap,
-                  text: "Only 1–5 selfies needed",
+                  text: "As few as 2 selfies needed",
                   color: "#A3E635",
                 },
                 { icon: Shield, text: "AES-256 encrypted", color: "#6366F1" },

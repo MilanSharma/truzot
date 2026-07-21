@@ -26,7 +26,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "How many photos do I need to upload?",
-    a: "You only need to upload 1 to 5 casual selfies. Our advanced AI model requires significantly fewer photos than older generators to capture your exact likeness.",
+    a: "You can upload as few as 2 casual selfies, though we recommend 6–10 varied photos (different angles, lighting, and expressions) for the most accurate likeness. That's still far fewer than the 15–25 older generators require.",
   },
   {
     q: "Is my data private and secure?",

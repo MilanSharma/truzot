@@ -294,8 +294,8 @@ const FAQS = [
     a: "Yes — that&apos;s the core difference. Unlike apps that apply a filter, Truzot trains a private custom LoRA model on your exact facial geometry, skin texture, and micro-expressions using Flux architecture. The result looks like you had a studio session, not like a plastic AI avatar.",
   },
   {
-    q: "Why do you only need 1–5 photos? Competitors ask for 15–25.",
-    a: "Our Flux LoRA architecture is more sample-efficient than older Stable Diffusion models. Uploading too many similar photos actually hurts quality. 1–5 well-lit, varied selfies gives our model exactly the signal it needs — no more, no less.",
+    q: "How many photos do I need? Competitors ask for 15–25.",
+    a: "You can start with as few as 2, and our Flux LoRA architecture is more sample-efficient than older models — but for the most accurate, consistent likeness we recommend 6–10 varied selfies (different angles, lighting, and expressions). That's still far fewer than the 15–25 most competitors demand, and the upload page shows a live quality score so you know your set is strong before you pay.",
   },
   {
     q: "What is the View Examples, and how does it work?",
@@ -965,7 +965,7 @@ export default function LandingPageContent() {
                 variants={fadeUp}
                 className="text-lg md:text-xl text-white/50 mb-6 max-w-2xl mx-auto leading-relaxed"
               >
-                Upload <strong className="text-white">1–5 selfies</strong>. Our
+                Upload <strong className="text-white">2–10 selfies</strong>. Our
                 AI headshot generator trains a private model on your face and delivers
                 <strong className="text-white">
                   {" "}
@@ -975,13 +975,13 @@ export default function LandingPageContent() {
                 charge.
               </motion.p>
 
-              {/* 1-5 selfies differentiator badge */}
+              {/* selfies differentiator badge */}
               <motion.div
                 variants={fadeUp}
                 className="inline-flex items-center gap-2 bg-white/5 border border-lime-400/25 text-lime-400 px-4 py-2 rounded-full text-sm font-bold mb-8"
               >
                 <Zap className="w-4 h-4" />
-                Only 1–5 selfies needed — competitors require 15–25
+                Just 2–10 selfies — far fewer than the 15–25 competitors require
               </motion.div>
 
               {/* CTAs */}
@@ -1439,10 +1439,10 @@ export default function LandingPageContent() {
                   {
                     n: "01",
                     icon: Camera,
-                    title: "Upload 1–5 selfies",
+                    title: "Upload 2–10 selfies",
                     desc: "No studio. No lighting setup. Just phone photos taken in natural light — that&apos;s all our AI headshot generator needs.",
                     detail:
-                      "Most competitors require 15–25 photos. Ours needs just 1.",
+                      "Most competitors require 15–25 photos. Ours works with as few as 2 (6–10 is ideal).",
                     color: "#65A30D",
                   },
                   {
@@ -1596,7 +1596,7 @@ export default function LandingPageContent() {
                   ["Price", "$29–$59", "$400–$800", "$20–$60"],
                   [
                     "Photos needed",
-                    "1–5 selfies",
+                    "2–10 selfies",
                     "Photographer present",
                     "12–25 selfies",
                   ],

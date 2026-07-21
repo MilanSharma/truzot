@@ -172,7 +172,7 @@ export default function CityPage({ city }: CityPageProps) {
                   Upload Your Photos
                 </h3>
                 <p className="text-[var(--text-muted)]">
-                  Take 1-5 selfies with your phone in good lighting. No
+                  Take 2-10 selfies with your phone in good lighting. No
                   professional equipment needed.
                 </p>
               </div>
