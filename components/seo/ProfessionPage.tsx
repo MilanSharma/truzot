@@ -23,6 +23,13 @@ interface ProfessionPageProps {
 }
 
 export default function ProfessionPage({ profession }: ProfessionPageProps) {
+  // Most profession names pluralize with a plain "s", but two entries aren't
+  // people ("LinkedIn", "Resume"), which produced "LinkedIns"/"Resumes". Handle
+  // those as special cases so the body copy reads naturally everywhere.
+  const plural =
+    profession.name === "LinkedIn" ? "LinkedIn users" :
+    profession.name === "Resume" ? "resumes" :
+    `${profession.name}s`;
   return (
     <div className="min-h-screen bg-[var(--bg-primary)]">
       <BreadcrumbSchema
@@ -99,7 +106,7 @@ export default function ProfessionPage({ profession }: ProfessionPageProps) {
               </h3>
               <p className="text-[var(--text-muted)]">
                 Studio-grade lighting and composition that meets industry
-                standards for {profession.name}s.
+                standards for {plural}.
               </p>
             </div>
             <div className="p-6 bg-[var(--bg)] rounded-2xl border border-[var(--border)]">
@@ -130,13 +137,13 @@ export default function ProfessionPage({ profession }: ProfessionPageProps) {
       <section className="py-16 px-6 bg-[var(--bg)]">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-3xl font-bold mb-6 text-[var(--text)]">
-            Why {profession.name}s Need Professional Headshots
+            Why {plural} Need Professional Headshots
           </h2>
           <p className="text-lg text-[var(--text-muted)] mb-8 leading-relaxed">
             In today&apos;s digital-first professional landscape, your headshot
             is often the first impression you make. Research shows that profiles
             with professional photos receive significantly more engagement,
-            connection requests, and opportunities. For {profession.name}s
+            connection requests, and opportunities. For {plural}
             specifically, a high-quality headshot conveys trustworthiness,
             competence, and attention to detail—qualities that clients,
             employers, and partners actively seek.
