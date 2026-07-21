@@ -51,8 +51,8 @@ export default function FreePreviewPage() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 10 * 1024 * 1024) {
-        setError("File is too large. Maximum size is 10MB.");
+      if (file.size > 4 * 1024 * 1024) {
+        setError("File is too large. Maximum size is 4MB.");
         return;
       }
       setImageFile(file);
@@ -172,7 +172,7 @@ export default function FreePreviewPage() {
                     <Upload className="w-6 h-6 text-[var(--lime-text)]" />
                   </div>
                   <span className="font-bold text-[var(--text)] text-lg mb-1">Click to upload</span>
-                  <span className="text-sm text-[var(--text-muted)] font-medium">JPG, PNG, WebP up to 10MB</span>
+                  <span className="text-sm text-[var(--text-muted)] font-medium">JPG, PNG, WebP up to 4MB</span>
                 </label>
               ) : (
                 <div className="relative aspect-square w-full max-w-[200px] mx-auto rounded-2xl overflow-hidden border border-[var(--border)] shadow-md">
