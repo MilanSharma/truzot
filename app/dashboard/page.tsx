@@ -174,6 +174,7 @@ function DashboardContent() {
   }, []);
 
   const [headshots, setHeadshots] = useState<Headshot[]>([]);
+  const [regeneratingUrls, setRegeneratingUrls] = useState<string[]>([]);
   const [headshotPage, setHeadshotPage] = useState<number>(0);
   const [hasMoreHeadshots, setHasMoreHeadshots] = useState<boolean>(true);
   const [loadingHeadshots, setLoadingHeadshots] = useState<boolean>(false);
@@ -815,6 +816,38 @@ function DashboardContent() {
     }
   };
 
+  const handleRegenerate = async (url: string) => {
+    if (!orderId || regeneratingUrls.includes(url)) return;
+    setRegeneratingUrls((prev) => [...prev, url]);
+    try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      const res = await fetch("/api/regenerate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session?.access_token || ""}`,
+        },
+        body: JSON.stringify({ orderId, imageUrl: url }),
+      });
+      const data = await res.json() as { success: boolean; headshot?: Headshot; message?: string; error?: string };
+      if (res.ok && data.success && data.headshot) {
+        setHeadshots((prev) => prev.map((h) => (h.image_url === url ? data.headshot! : h)));
+        // The URL changed, so any reference to the old one is now dangling.
+        setSelectedImages((prev) => prev.filter((u) => u !== url));
+        setFavorites((prev) => prev.filter((u) => u !== url));
+        toast("New photo generated.", "success");
+      } else {
+        toast(data.message || data.error || "Regeneration failed. Please try again.", "error");
+      }
+    } catch {
+      toast("Regeneration failed. Please try again.", "error");
+    } finally {
+      setRegeneratingUrls((prev) => prev.filter((u) => u !== url));
+    }
+  };
+
   const downloadSelected = async () => {
     if (selectedImages.length === 0 || !orderId) return;
     setDownloading(true);
@@ -1403,6 +1436,7 @@ function DashboardContent() {
                       multiSelectMode={multiSelectMode}
                       hasMore={hasMoreHeadshots}
                       loadingMore={loadingHeadshots}
+                      regeneratingUrls={regeneratingUrls}
                       onLoadMore={loadMoreHeadshots}
                       onCategoryChange={(cat) => {
                         setActiveCategory(cat);
@@ -1412,6 +1446,7 @@ function DashboardContent() {
                       onToggleFavorite={toggleFavorite}
                       onView={(url) => setSelected(url)}
                       onDownload={downloadSingle}
+                      onRegenerate={handleRegenerate}
                     />
                   </GalleryErrorBoundary>
                 )}

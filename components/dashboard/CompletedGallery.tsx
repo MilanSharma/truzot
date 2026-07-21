@@ -28,12 +28,14 @@ interface CompletedGalleryProps {
   multiSelectMode: boolean;
   hasMore: boolean;
   loadingMore: boolean;
+  regeneratingUrls?: string[];
   onLoadMore: () => void;
   onCategoryChange: (cat: string) => void;
   onToggleSelect: (url: string, e?: React.MouseEvent) => void;
   onToggleFavorite: (url: string, e?: React.MouseEvent) => void;
   onView: (url: string) => void;
   onDownload: (url: string) => void;
+  onRegenerate?: (url: string) => void;
 }
 
 const CATEGORY_TABS = [
@@ -68,12 +70,14 @@ export default function CompletedGallery({
   multiSelectMode,
   hasMore,
   loadingMore,
+  regeneratingUrls,
   onLoadMore,
   onCategoryChange,
   onToggleSelect,
   onToggleFavorite,
   onView,
   onDownload,
+  onRegenerate,
 }: CompletedGalleryProps) {
   const [showUpsellModal, setShowUpsellModal] = useState(false);
   const [sortBy, setSortBy] = useState<"newest" | "oldest" | "favorites">(
@@ -469,10 +473,12 @@ export default function CompletedGallery({
             multiSelectMode={multiSelectMode}
             orderId={orderId}
             minColWidth={gridMinWidth}
+            regeneratingUrls={regeneratingUrls}
             onToggleSelect={onToggleSelect}
             onToggleFavorite={onToggleFavorite}
             onView={(url) => onView(url)}
             onDownload={onDownload}
+            onRegenerate={onRegenerate}
           />
           {hasMore && <div ref={sentinelRef} className="h-10 w-full" />}
           {loadingMore && (

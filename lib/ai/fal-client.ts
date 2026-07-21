@@ -399,6 +399,30 @@ export const generateHeadshots = async (
   return { results: sequenced, failures, totalRequested: batchSize };
 };
 
+/** Generate a single replacement image for the dashboard's per-photo
+ * "Regenerate" action. Reuses the exact same negative prompt / LoRA scale /
+ * guidance / resolution as the main batch pipeline (via QUALITY_PROFILE) so a
+ * regenerated photo is never lower quality than the rest of the delivered set. */
+export async function regenerateOne(
+  modelId: string, plan: string, prompt: string,
+): Promise<{ url: string }> {
+  const profile = QUALITY_PROFILE[resolvePlanKey(plan)];
+  const { data } = await falFetch("fal-ai/flux-lora", {
+    prompt,
+    negative_prompt: NEGATIVE_PROMPT,
+    loras: [{ path: modelId, scale: 0.85 }],
+    num_inference_steps: profile.inferenceSteps,
+    guidance_scale: 3.5,
+    num_images: 1,
+    width: profile.baseWidth,
+    height: profile.baseHeight,
+    output_format: "jpeg",
+    enable_safety_checker: true,
+    acceleration: "none",
+  });
+  return { url: data.images[0].url };
+}
+
 // ---------------------------------------------------------------------------
 // OPERATIONAL NOTE (not code):
 // One fal.ai call per image now (upscale pass removed), each ~1 MP. With the

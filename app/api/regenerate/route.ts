@@ -1,14 +1,17 @@
 import { NextResponse } from "next/server";
-import { fal } from "@fal-ai/client";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { getAuthenticatedClient } from "@/lib/supabase/authenticated";
+import { regenerateOne } from "@/lib/ai/fal-client";
+import { withFalSlot } from "@/lib/fal-concurrency";
 import { createLogger } from "@/lib/logger";
 import { addCors, handleOptions } from "@/lib/cors";
 import { withContext } from "@/lib/request-context";
 
 const log = createLogger("regenerate");
 
-fal.config({ credentials: process.env.FAL_KEY });
+// A single fal-ai/flux-lora call typically finishes in 5-15s; 60s gives
+// generous headroom without holding the customer's browser open indefinitely.
+export const maxDuration = 60;
 
 export const OPTIONS = handleOptions;
 
@@ -89,21 +92,55 @@ export const POST = withContext(async (req: Request) => {
  );
  }
 
- // Find the original prompt for this image
+ // Find the original prompt/category for this image
  const { data: originalHeadshot } = await supabaseAdmin
  .from("headshots")
- .select("style")
+ .select("id, style, category")
  .eq("image_url", imageUrl)
  .eq("order_id", orderId)
  .maybeSingle();
 
+ if (!originalHeadshot) {
+ return addCors(
+ NextResponse.json({ error: "Headshot not found" }, { status: 404 }),
+ origin,
+ );
+ }
+
  const prompt =
- originalHeadshot?.style ||
- "A professional headshot of TOK, studio lighting, 8k";
+ originalHeadshot.style ||
+ "A professional headshot of TOK wearing business attire, studio lighting, professional photography.";
 
- // Removed synchronous fal.run to prevent timeouts. Relying on manual review flagging.
+ try {
+ const { url: newUrl } = await withFalSlot(() =>
+ regenerateOne(training.model_id!, order.plan, prompt),
+ );
 
- // Fallback: flag for manual review if auto-generation fails
+ // Insert-then-delete (not the reverse) so a crash between the two steps
+ // leaves the customer with an extra photo, never zero — replacing their
+ // set is best-effort, but losing a photo outright is not.
+ const { data: inserted, error: insertErr } = await supabaseAdmin
+ .from("headshots")
+ .insert({
+ order_id: orderId,
+ image_url: newUrl,
+ style: prompt,
+ category: originalHeadshot.category,
+ })
+ .select("id, image_url, style, category, created_at")
+ .single();
+ if (insertErr || !inserted) throw insertErr || new Error("Insert returned no row");
+
+ await supabaseAdmin.from("headshots").delete().eq("id", originalHeadshot.id);
+
+ log.info({ orderId, userId: user.id }, "Regenerated headshot");
+ return addCors(
+ NextResponse.json({ success: true, headshot: inserted }),
+ origin,
+ );
+ } catch (genErr) {
+ log.error({ err: genErr, orderId, userId: user.id }, "Auto-regeneration failed, flagging for manual review");
+
  await supabaseAdmin.from("headshot_flags").upsert(
  {
  order_id: orderId,
@@ -115,19 +152,15 @@ export const POST = withContext(async (req: Request) => {
  { onConflict: "order_id,image_url" },
  );
 
- log.info(
- { orderId, userId: user.id, imageUrl: imageUrl.substring(0, 80) },
- "Auto-regeneration failed, flagged for manual review",
- );
-
  return addCors(
  NextResponse.json({
- success: true,
+ success: false,
  message:
- "Auto-regeneration failed. Our team will review and generate a replacement.",
- }),
+ "Regeneration failed. We've flagged this for manual review and will follow up by email.",
+ }, { status: 502 }),
  origin,
  );
+ }
  } catch (err) {
  log.error({ err }, "Regenerate request failed");
  return addCors(

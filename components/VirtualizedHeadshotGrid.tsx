@@ -15,7 +15,7 @@ import {
  Maximize2,
  Square,
  CheckSquare,
- Flag,
+ RefreshCw,
 } from "lucide-react";
 
 interface Headshot {
@@ -32,11 +32,12 @@ interface VirtualizedHeadshotGridProps {
  multiSelectMode: boolean;
  orderId?: string;
  minColWidth?: number;
+ regeneratingUrls?: string[];
  onToggleSelect: (url: string, e?: React.MouseEvent) => void;
  onToggleFavorite: (url: string, e?: React.MouseEvent) => void;
  onView: (url: string) => void;
  onDownload: (url: string) => void;
- onFlag?: (url: string) => void;
+ onRegenerate?: (url: string) => void;
 }
 
 const CARD_ASPECT = 3 / 4;
@@ -50,11 +51,12 @@ const HeadshotCard = React.memo(function HeadshotCard({
  multiSelectMode,
  style,
  orderId,
+ isRegenerating,
  onToggleSelect,
  onToggleFavorite,
  onView,
  onDownload,
- onFlag,
+ onRegenerate,
 }: {
  headshot: Headshot;
  isFav: boolean;
@@ -62,11 +64,12 @@ const HeadshotCard = React.memo(function HeadshotCard({
  multiSelectMode: boolean;
  style: React.CSSProperties;
  orderId?: string;
+ isRegenerating?: boolean;
  onToggleSelect: (url: string, e?: React.MouseEvent) => void;
  onToggleFavorite: (url: string, e?: React.MouseEvent) => void;
  onView: (url: string) => void;
  onDownload: (url: string) => void;
- onFlag?: (url: string) => void;
+ onRegenerate?: (url: string) => void;
 }) {
  const [loaded, setLoaded] = useState(false);
 
@@ -137,13 +140,15 @@ const HeadshotCard = React.memo(function HeadshotCard({
  >
  <Download className="w-3.5 h-3.5" />
  </button>
- {onFlag && (
+ {onRegenerate && (
  <button
- onClick={() => onFlag(headshot.image_url)}
- className="w-9 h-9 bg-[var(--warning)] hover:bg-amber-600 text-white rounded-lg flex items-center justify-center transition shadow-sm"
- aria-label="Flag for review"
+ onClick={() => onRegenerate(headshot.image_url)}
+ disabled={isRegenerating}
+ className="w-9 h-9 bg-white/20 hover:bg-white/40 disabled:opacity-60 disabled:cursor-wait text-white rounded-lg flex items-center justify-center transition backdrop-blur-sm shadow-sm"
+ aria-label="Regenerate this photo"
+ title="Not happy with this one? Regenerate it"
  >
- <Flag className="w-3.5 h-3.5" />
+ <RefreshCw className={`w-3.5 h-3.5 ${isRegenerating ? "animate-spin" : ""}`} />
  </button>
  )}
  </div>
@@ -173,11 +178,12 @@ const GridCell = React.memo(function GridCell({
  selectedImages,
  multiSelectMode,
  orderId,
+ regeneratingUrls,
  onToggleSelect,
  onToggleFavorite,
  onView,
  onDownload,
- onFlag,
+ onRegenerate,
 }: {
  columnIndex: number;
  rowIndex: number;
@@ -188,11 +194,12 @@ const GridCell = React.memo(function GridCell({
  selectedImages: string[];
  multiSelectMode: boolean;
  orderId?: string;
+ regeneratingUrls?: string[];
  onToggleSelect: (url: string, e?: React.MouseEvent) => void;
  onToggleFavorite: (url: string, e?: React.MouseEvent) => void;
  onView: (url: string) => void;
  onDownload: (url: string) => void;
- onFlag?: (url: string) => void;
+ onRegenerate?: (url: string) => void;
 }) {
  const index = rowIndex * columnCount + columnIndex;
  if (index >= headshots.length) return null;
@@ -205,11 +212,12 @@ const GridCell = React.memo(function GridCell({
  multiSelectMode={multiSelectMode}
  style={style}
  orderId={orderId}
+ isRegenerating={regeneratingUrls?.includes(h.image_url)}
  onToggleSelect={onToggleSelect}
  onToggleFavorite={onToggleFavorite}
  onView={onView}
  onDownload={onDownload}
- onFlag={onFlag}
+ onRegenerate={onRegenerate}
  />
  );
 });
@@ -251,11 +259,12 @@ export default function VirtualizedHeadshotGrid(
  selectedImages: props.selectedImages,
  multiSelectMode: props.multiSelectMode,
  orderId: props.orderId,
+ regeneratingUrls: props.regeneratingUrls,
  onToggleSelect: props.onToggleSelect,
  onToggleFavorite: props.onToggleFavorite,
  onView: props.onView,
  onDownload: props.onDownload,
- onFlag: props.onFlag,
+ onRegenerate: props.onRegenerate,
  }),
  [
  props.headshots,
@@ -264,11 +273,12 @@ export default function VirtualizedHeadshotGrid(
  props.selectedImages,
  props.multiSelectMode,
  props.orderId,
+ props.regeneratingUrls,
  props.onToggleSelect,
  props.onToggleFavorite,
  props.onView,
  props.onDownload,
- props.onFlag,
+ props.onRegenerate,
  ],
  );
 
