@@ -36,8 +36,7 @@ const NEGATIVE_PROMPT =
   "harsh direct flash, overexposed, watermark, logo, duplicate face, bad anatomy, grain, noise, side profile, looking away";
 
 const FRAMING_CLAUSE =
-  " The framing is a tight head-and-shoulders close-up headshot, subject facing the camera directly, " +
-  "centered composition, tack-sharp focus on the eyes. Medium format photography, shot on 85mm lens f/1.8, raw unedited photo, authentic, highly detailed, realistic natural skin texture, visible fine pores.";
+  " The framing is a tight head-and-shoulders close-up headshot. Medium format photography, shot on 85mm lens f/1.8, raw unedited photo, authentic, highly detailed, realistic natural skin texture, visible fine pores.";
 
 type PlanKey = "basic" | "pro" | "executive";
 const GEN_WIDTH = 832;
@@ -56,61 +55,68 @@ function resolvePlanKey(plan: string): PlanKey {
   return "basic";
 }
 
+// --- MASSIVE COMBINATORIAL VARIETY DATA ---
 type Scene = { label: string; backgrounds: string[] };
 
 const SCENES: Record<string, Scene> = {
   corporate: {
     label: "a corporate headshot",
     backgrounds: [
-      "in a brightly lit modern office with floor-to-ceiling windows",
-      "against a solid seamless grey studio backdrop",
-      "in a sophisticated wood-panelled boardroom",
-      "against a softly blurred open-plan office background",
+      "in a brightly lit modern glass office with city views",
+      "against a solid seamless dark charcoal studio backdrop",
+      "in a sophisticated mahogany wood-panelled boardroom",
+      "against a softly blurred bright corporate lobby",
+      "against a clean neutral light-grey office wall",
     ],
   },
   linkedin: {
     label: "a polished LinkedIn profile headshot",
     backgrounds: [
-      "against a bright airy light-toned background",
-      "against a solid muted blue background",
-      "in a softly blurred modern office",
-      "against a clean white studio background",
+      "against a bright airy white background",
+      "against a solid muted navy blue studio backdrop",
+      "in a softly blurred creative agency office",
+      "against a clean textured beige backdrop",
+      "standing in a modern glass hallway",
     ],
   },
   creative: {
     label: "a creative-industry editorial portrait",
     backgrounds: [
-      "against a raw concrete wall with dramatic shadows",
-      "in a bright modern art gallery",
-      "against an exposed brick wall with warm ambient light",
-      "in a sunlit glass coworking space",
+      "against a raw exposed brick wall",
+      "in a bright modern art studio",
+      "against a dark dramatic concrete wall",
+      "in a vibrant colorful coworking space",
+      "against a seamless mustard yellow studio backdrop",
     ],
   },
   casual: {
     label: "a relaxed casual-professional portrait",
     backgrounds: [
-      "against a blurred green urban park in golden-hour light",
-      "at a bright outdoor cafe",
-      "against a blurred city street in soft daylight",
+      "against a blurred green urban park",
+      "at a bright sunlit outdoor cafe",
+      "against a blurred city streetscape",
       "in a cozy modern coffee shop with shallow depth of field",
+      "against a natural wooden fence outdoors",
     ],
   },
   actor: {
     label: "an industry-standard actor headshot",
     backgrounds: [
-      "against a plain seamless neutral background",
+      "against a plain seamless white backdrop",
       "against a solid mid-grey studio backdrop",
-      "against a soft light-grey background",
-      "against a clean dark grey background",
+      "against a dramatic black studio background",
+      "against a soft pastel blue backdrop",
+      "against a textured canvas studio backdrop",
     ],
   },
   dating: {
     label: "a natural, candid lifestyle portrait",
     backgrounds: [
-      "in soft outdoor golden-hour light",
-      "against a blurred park background",
-      "against a warm blurred city background",
-      "in bright natural daylight outdoors",
+      "in soft outdoor golden-hour sunlight",
+      "against a blurred lush green park background",
+      "against a warm blurred city skyline at dusk",
+      "in bright natural daylight on a city sidewalk",
+      "relaxing at an outdoor restaurant patio",
     ],
   },
   model: {
@@ -118,47 +124,106 @@ const SCENES: Record<string, Scene> = {
     backgrounds: [
       "against a minimalist seamless studio backdrop",
       "against a clean bright beauty-lit background",
-      "against a solid bold-colored backdrop",
-      "against a moody dark studio background",
+      "against a solid bold crimson-colored backdrop",
+      "against a moody dark fashion studio background",
+      "against a highly textured artistic plaster wall",
     ],
   },
 };
 
+const POSES = [
+  "facing the camera directly with squared shoulders",
+  "with shoulders angled in a subtle 3/4 turn, head turned to face the lens",
+  "in a dynamic over-the-shoulder pose, looking back at the camera",
+  "leaning slightly forward, engaging directly with the camera",
+  "with a relaxed posture and slightly dropped shoulders, looking straight ahead"
+];
+
 const LIGHTING = [
-  "soft natural window lighting",
-  "flattering three-point studio lighting",
-  "gentle Rembrandt lighting",
-  "bright even softbox lighting",
+  "soft, diffused window light from the side",
+  "dramatic cinematic lighting with a subtle rim light",
+  "bright, clean, flat studio lighting",
+  "warm golden hour sunlight",
+  "moody, high-contrast Rembrandt lighting"
 ];
 
 const EXPRESSIONS = [
-  "with a warm, confident smile, looking directly at the camera",
-  "with a calm, approachable expression, making eye contact",
-  "with a subtle, self-assured closed-mouth smile, looking into the lens",
-  "with a relaxed, genuine and friendly expression, facing the camera",
+  "with a warm, approachable smile showing teeth",
+  "with a confident, closed-mouth smile",
+  "with a serious, focused, and professional expression",
+  "with a relaxed, candid, and friendly demeanor",
+  "with a subtle, knowing smirk"
 ];
 
-// Strict gender-specific wardrobe prevents Flux from swapping masculine/feminine features
+// Strict gender-specific wardrobe with explicit colors and styles to guarantee variety
 function getOutfitsForGenderAndScene(gender: string | undefined, scene: string): string[] {
   const isFemale = gender === "female";
   const isMale = gender === "male";
 
   if (scene === "corporate" || scene === "linkedin") {
-    if (isFemale) return ["wearing an elegant tailored blazer over a silk blouse", "wearing a professional high-neck business dress", "wearing a chic corporate suit jacket", "wearing a sophisticated office blouse"];
-    if (isMale) return ["wearing a tailored charcoal suit and silk tie", "wearing a sharp navy blazer over a crisp white dress shirt", "wearing a premium dark business suit", "wearing a tailored professional dress shirt with no tie"];
-    return ["wearing professional business attire", "wearing a smart corporate blazer", "wearing a crisp button-down", "wearing formal office attire"];
+    if (isFemale) return [
+      "wearing a navy blue tailored blazer over a white silk blouse", 
+      "wearing a charcoal grey professional business dress", 
+      "wearing a light beige suit jacket", 
+      "wearing a burgundy structured office blouse",
+      "wearing a classic black blazer with a subtle necklace"
+    ];
+    if (isMale) return [
+      "wearing a tailored navy suit with a crisp white shirt and light blue tie", 
+      "wearing a charcoal grey suit with no tie", 
+      "wearing a light grey blazer over a black dress shirt", 
+      "wearing a classic black suit with a silver tie",
+      "wearing a crisp, well-fitted white button-down dress shirt"
+    ];
+    return [
+      "wearing professional dark business attire", 
+      "wearing a smart light-grey corporate blazer", 
+      "wearing a crisp white button-down", 
+      "wearing formal navy office attire",
+      "wearing a charcoal sweater over a collared shirt"
+    ];
   }
   
   if (scene === "creative" || scene === "startup") {
-    if (isFemale) return ["wearing a stylish contemporary knit top", "wearing a fashionable dark turtleneck", "wearing an effortless designer blouse"];
-    if (isMale) return ["wearing a fitted dark turtleneck", "wearing a modern casual blazer over a t-shirt", "wearing a clean monochrome creative outfit"];
-    return ["wearing stylish minimalist contemporary fashion", "wearing a fashionable dark turtleneck", "wearing a clean monochrome creative outfit"];
+    if (isFemale) return [
+      "wearing a stylish black turtleneck sweater", 
+      "wearing an olive green casual blazer", 
+      "wearing a mustard yellow knit top", 
+      "wearing a crisp oversized white button-down shirt"
+    ];
+    if (isMale) return [
+      "wearing a fitted black turtleneck", 
+      "wearing a navy blue smart-casual sweater", 
+      "wearing an olive green bomber jacket over a t-shirt", 
+      "wearing a casual denim overshirt"
+    ];
+    return [
+      "wearing stylish minimalist contemporary fashion", 
+      "wearing a fashionable black turtleneck", 
+      "wearing an olive green casual jacket",
+      "wearing a clean monochrome creative outfit"
+    ];
   }
 
   // Casual / Actor / Dating / Default
-  if (isFemale) return ["wearing a flattering casual top", "wearing a comfortable stylish knit sweater", "wearing an easygoing weekend outfit"];
-  if (isMale) return ["wearing a casual button-down shirt", "wearing a smart crew-neck sweater", "wearing a relaxed open collared shirt"];
-  return ["wearing relaxed casual everyday clothing", "wearing a comfortable stylish casual outfit", "wearing a simple flattering top"];
+  if (isFemale) return [
+    "wearing a cream oversized knit sweater", 
+    "wearing a denim jacket over a white tee", 
+    "wearing a light blue linen shirt", 
+    "wearing a camel colored cardigan"
+  ];
+  if (isMale) return [
+    "wearing a grey marl crew-neck sweater", 
+    "wearing a light blue denim shirt", 
+    "wearing a navy bomber jacket", 
+    "wearing a burgundy casual pullover"
+  ];
+  return [
+    "wearing relaxed casual everyday clothing", 
+    "wearing a comfortable grey sweater", 
+    "wearing a light denim jacket",
+    "wearing a simple flattering top"
+  ];
 }
 
 function buildPrompts(plan: string, prefs: UserPreferences | undefined, count: number): string[] {
@@ -179,9 +244,10 @@ function buildPrompts(plan: string, prefs: UserPreferences | undefined, count: n
     const b = prefs?.background || "a clean studio background";
     const pool: string[] = [];
     for (let i = 0; i < count; i++) {
-      const light = LIGHTING[i % LIGHTING.length];
-      const expr = EXPRESSIONS[Math.floor(i / LIGHTING.length) % EXPRESSIONS.length];
-      pool.push(`Raw unedited photograph of TOK, a ${subject}, wearing ${c}, against ${b}. ${light}, ${expr}.${FRAMING_CLAUSE}`);
+      const pose = POSES[i % POSES.length];
+      const light = LIGHTING[Math.floor(i / POSES.length) % LIGHTING.length];
+      const expr = EXPRESSIONS[Math.floor(i / (POSES.length * LIGHTING.length)) % EXPRESSIONS.length];
+      pool.push(`Raw unedited photograph of TOK, a ${subject}, ${pose}, wearing ${c}, against ${b}. ${light}, ${expr}.${FRAMING_CLAUSE}`);
     }
     return pool;
   }
@@ -194,16 +260,20 @@ function buildPrompts(plan: string, prefs: UserPreferences | undefined, count: n
     const scene = SCENES[cat];
     const outfits = getOutfitsForGenderAndScene(gender, cat);
     const combos: string[] = [];
-    const nb = scene.backgrounds.length, no = outfits.length, nl = LIGHTING.length, ne = EXPRESSIONS.length;
-    const total = nb * no * nl * ne;
-    const need = Math.ceil(count / activeCategories.length) + 4;
+    
+    // Total combinatorial space per category: 5 BGs * 5 Outfits * 5 Poses * 5 Lights * 5 Exprs = 3125 unique combinations
+    const nb = scene.backgrounds.length, no = outfits.length, np = POSES.length, nl = LIGHTING.length, ne = EXPRESSIONS.length;
+    const total = nb * no * np * nl * ne;
+    
+    const need = Math.ceil(count / activeCategories.length) + 10; // Pad for backfills
     for (let i = 0; i < Math.min(total, need); i++) {
       const bg = scene.backgrounds[i % nb];
       const outfit = outfits[Math.floor(i / nb) % no];
-      const light = LIGHTING[Math.floor(i / (nb * no)) % nl];
-      const expr = EXPRESSIONS[Math.floor(i / (nb * no * nl)) % ne];
-      // Anti-AI Prompt Structure -> "Raw unedited photograph of TOK..."
-      combos.push(`Raw unedited photograph of TOK, a ${subject}, ${outfit}, ${bg}. ${light}, ${expr}.${FRAMING_CLAUSE}`);
+      const pose = POSES[Math.floor(i / (nb * no)) % np];
+      const light = LIGHTING[Math.floor(i / (nb * no * np)) % nl];
+      const expr = EXPRESSIONS[Math.floor(i / (nb * no * np * nl)) % ne];
+      
+      combos.push(`Raw unedited photograph of TOK, a ${subject}, ${pose}, ${outfit}, ${bg}. ${light}, ${expr}.${FRAMING_CLAUSE}`);
     }
     return combos;
   });
@@ -228,9 +298,9 @@ function buildPrompts(plan: string, prefs: UserPreferences | undefined, count: n
 export const trainModel = async (imageUrl: string, orderId: string, imageCount?: number): Promise<{ request_id: string }> => {
   const webhookUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhooks/fal?orderId=${orderId}&token=${generateWebhookToken(orderId)}`;
 
-  // Use fast-training. It processes the whole image and won't hallucinate missing faces.
+  // Fast-training endpoint: Does not hallucinate faces/genders
   const imgs = imageCount && imageCount > 0 ? imageCount : 4;
-  const iter = Math.min(1000, Math.max(700, imgs * 120)); // Keep iterations tightly bounded
+  const iter = Math.min(1000, Math.max(700, imgs * 120)); 
 
   const res = await fetch(`https://queue.fal.run/fal-ai/flux-lora-fast-training?fal_webhook=${encodeURIComponent(webhookUrl)}`, {
     method: "POST",
@@ -293,7 +363,7 @@ export const generateHeadshots = async (
   const BACKFILL_BUFFER = Math.max(10, Math.ceil(batchSize * 0.3));
   const allPrompts = buildPrompts(plan, prefs, Math.min(targetShots + BACKFILL_BUFFER, maxAttempts));
 
-  const loraScale = 1.0; // Locked 1.0 ensures maximum likeness binding to the trained face
+  const loraScale = 1.0; // Locked 1.0 ensures maximum likeness binding
   const guidanceScale = 2.5; // Dropped to 2.5 (forces photorealism over waxy AI smoothness)
 
   let consecutiveFailures = 0;
