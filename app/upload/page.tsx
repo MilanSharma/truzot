@@ -822,6 +822,18 @@ function UploadContent() {
         setError("Please upload at least 2 photos to continue. We recommend 6–10 for the best, most accurate results.");
         return;
       }
+      // Required, not optional: without it every prompt uses a gender-neutral
+      // "a person" anchor, and a live end-to-end test showed this isn't a
+      // strong enough signal to keep the LoRA's identity consistent against
+      // Flux's own per-category gender bias — some style categories (e.g.
+      // "model", "creative") skew toward generating a different-gendered
+      // person entirely. Explicitly selecting male/female/non-binary fixes
+      // this for the customer; only "prefer not to say" keeps the neutral
+      // wording (a smaller, accepted residual risk for that choice).
+      if (!demographics.gender) {
+        setError("Please select a gender so we can generate consistent, accurate results.");
+        return;
+      }
       if (files.length > 0 && !storagePath) {
         setIsProcessing(true);
         try {
@@ -1320,10 +1332,10 @@ function UploadContent() {
                 {files.length > 0 && (
                   <div className="rounded-[2rem] border border-[var(--border)] p-8 mb-10 shadow-sm bg-[var(--surface)]">
                     <h3 className="text-lg font-bold text-[var(--text)] mb-4">
-                      Help Us Personalize Your Results (Optional)
+                      Help Us Personalize Your Results
                     </h3>
                     <p className="text-sm text-[var(--text-secondary)] mb-6">
-                      Providing your details helps our AI generate more accurate and personalized headshots.
+                      Gender is required so every generated photo consistently looks like you. The rest is optional but helps accuracy further.
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
@@ -1346,14 +1358,15 @@ function UploadContent() {
                       </div>
                       <div>
                         <label className="block text-sm font-bold text-[var(--text-secondary)] mb-2">
-                          Gender
+                          Gender <span className="text-red-500">*</span>
                         </label>
                         <select
                           value={demographics.gender}
                           onChange={(e) => setDemographics(prev => ({ ...prev, gender: e.target.value }))}
+                          required
                           className="w-full px-4 py-3 rounded-xl border border-[var(--border-secondary)] bg-[var(--bg)] text-[var(--text)] focus:border-[var(--lime-text)] focus:ring-2 focus:ring-[var(--lime-dim)] outline-none transition font-semibold shadow-sm"
                         >
-                          <option value="">Select gender</option>
+                          <option value="">Select gender (required)</option>
                           <option value="female">Female</option>
                           <option value="male">Male</option>
                           <option value="non-binary">Non-binary</option>

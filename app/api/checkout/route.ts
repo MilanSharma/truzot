@@ -48,6 +48,24 @@ export const POST = withContext(async (req: Request) => {
 
  // Email validation is securely handled by Zod schema (checkoutSchema)
 
+ // Gender drives the "a man"/"a woman" subject anchor in every generation
+ // prompt (lib/ai/fal-client.ts). A live end-to-end test proved the neutral
+ // fallback ("a person") isn't a strong enough signal to keep results
+ // consistent — several style categories have their own gender bias baked
+ // into the base model and will drift to a different-gendered person without
+ // an explicit anchor. Required server-side too since the client check can be
+ // bypassed. (custom_upsell orders reuse an already-trained model and go
+ // through /api/upsell-custom instead, never through this route.)
+ if (!(demographics as Record<string, string> | undefined)?.gender) {
+ return addCors(
+ NextResponse.json(
+ { error: "Gender is required to generate consistent results." },
+ { status: 400 },
+ ),
+ origin,
+ );
+ }
+
  // Verify storage path exists before creating Stripe session
  if (!zipUrl && storagePath) {
  try {

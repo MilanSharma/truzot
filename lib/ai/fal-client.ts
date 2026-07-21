@@ -459,8 +459,13 @@ export const generateHeadshots = async (
           num_inference_steps: profile.inferenceSteps,
           guidance_scale: guidanceScale,
           num_images: 1,
-          width: profile.baseWidth,
-          height: profile.baseHeight,
+          // fal-ai/flux-lora has NO top-level width/height param — it takes
+          // `image_size` (object or preset string, default "landscape_4_3").
+          // Sending bare width/height is silently ignored, so every image was
+          // generated at the API's landscape default instead of our portrait
+          // framing. Confirmed via a live end-to-end test order: images came
+          // back 1024x768 despite this code specifying 832x1216.
+          image_size: { width: profile.baseWidth, height: profile.baseHeight },
           seed: Math.floor(Math.random() * 2_147_483_647), // unique per image so no two outputs collide
           output_format: "jpeg",
           enable_safety_checker: true,
@@ -550,8 +555,7 @@ export async function regenerateOne(
     num_inference_steps: profile.inferenceSteps,
     guidance_scale: 3.5,
     num_images: 1,
-    width: profile.baseWidth,
-    height: profile.baseHeight,
+    image_size: { width: profile.baseWidth, height: profile.baseHeight }, // see generateOne for why this must be image_size, not width/height
     seed: Math.floor(Math.random() * 2_147_483_647), // fresh seed so a regen differs from the original
     output_format: "jpeg",
     enable_safety_checker: true,
