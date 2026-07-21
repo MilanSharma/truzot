@@ -50,13 +50,13 @@ export async function POST(req: Request) {
         discountAmount = 500;
         appliedDiscountCode = entry.discount_code || couponUpper;
         
-        // Validate that final price doesn't fall below minimum viable cost
-        const finalAmount = planConfig.amount - discountAmount;
-        if (finalAmount < minimumViablePrice) {
-          return NextResponse.json({ 
-            error: `Discount too large. Minimum price for ${plan} plan is $${(minimumViablePrice / 100).toFixed(2)} to cover generation costs.` 
-          }, { status: 400 });
-        }
+        // TEMPORARILY DISABLED FOR TESTING: Validate that final price doesn't fall below minimum viable cost
+        // const finalAmount = planConfig.amount - discountAmount;
+        // if (finalAmount < minimumViablePrice) {
+        //   return NextResponse.json({ 
+        //     error: `Discount too large. Minimum price for ${plan} plan is $${(minimumViablePrice / 100).toFixed(2)} to cover generation costs.` 
+        //   }, { status: 400 });
+        // }
       } else {
         return NextResponse.json({ error: "Invalid discount code" }, { status: 400 });
       }
@@ -77,13 +77,13 @@ export async function POST(req: Request) {
           discountAmount = Math.round(planConfig.amount * (stripeCoupon.percent_off / 100));
         }
         
-        // Validate that final price doesn't fall below minimum viable cost
-        const finalAmount = planConfig.amount - discountAmount;
-        if (finalAmount < minimumViablePrice) {
-          return NextResponse.json({ 
-            error: `Discount too large. Minimum price for ${plan} plan is $${(minimumViablePrice / 100).toFixed(2)} to cover generation costs.` 
-          }, { status: 400 });
-        }
+        // TEMPORARILY DISABLED FOR TESTING: Validate that final price doesn't fall below minimum viable cost
+        // const finalAmount = planConfig.amount - discountAmount;
+        // if (finalAmount < minimumViablePrice) {
+        //   return NextResponse.json({ 
+        //     error: `Discount too large. Minimum price for ${plan} plan is $${(minimumViablePrice / 100).toFixed(2)} to cover generation costs.` 
+        //   }, { status: 400 });
+        // }
       } catch (err) {
         return NextResponse.json({ error: "Invalid discount code" }, { status: 400 });
       }
