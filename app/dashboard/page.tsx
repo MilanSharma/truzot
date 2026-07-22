@@ -103,7 +103,7 @@ function PendingOrderPreviews({ storagePath }: { storagePath?: string }) {
         const zip = await JSZip.loadAsync(zipBlob);
 
         const imgUrls: string[] = [];
-        for (const [filename, file] of Object.entries(zip.files)) {
+        for (const [filename, file] of Object.entries(zip.files ?? {})) {
           if (!file.dir && filename.match(/\.(jpg|jpeg|png|heic)$/i)) {
             const blob = await file.async("blob");
             imgUrls.push(URL.createObjectURL(blob));

@@ -116,7 +116,13 @@ export const GET = withContext(async (req: Request) => {
  .select("id, image_url, style, category, created_at")
  .eq("order_id", orderId)
  .order("created_at", { ascending: true });
- headshots = shots || [];
+ headshots = (shots || []).map((h) => ({
+   id: h.id,
+   image_url: h.image_url,
+   style: h.style ?? "",
+   category: h.category ?? "",
+   created_at: h.created_at,
+ }));
  count = headshots.length;
  } else if (order.status === "generating") {
  const { count: generatedCount } = await supabaseAdmin

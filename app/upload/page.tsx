@@ -929,7 +929,7 @@ function UploadContent() {
         coupon: couponValid && coupon ? coupon : undefined, // Only send coupon if validated
         utmParams, // Include UTM parameters for tracking
         demographics: Object.fromEntries(
-          Object.entries(demographics).filter(([_, v]) => v.trim() !== "")
+          Object.entries(demographics ?? {}).filter(([_, v]) => v.trim() !== "")
         ) as Record<string, string>,
         imageCount: Math.max(files.length, 2), // Floor at the 2-photo minimum (covers the storagePath-only case)
       };
@@ -1008,7 +1008,7 @@ function UploadContent() {
     const n = files.length;
     if (n === 0) return 0;
     const countScore = Math.min(40, n * 5.5); // 2→11, 6→33, 8+→40
-    const scores = Object.values(fileQualityScores);
+    const scores = Object.values(fileQualityScores ?? {});
     const avgQuality = scores.length > 0
       ? scores.reduce((a, b) => a + b, 0) / scores.length
       : 60; // neutral placeholder until per-file scores finish computing

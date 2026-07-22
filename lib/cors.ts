@@ -51,7 +51,7 @@ export function addCors(
   origin?: string | null,
 ): NextResponse {
   const headers = corsHeaders(origin);
-  Object.entries(headers).forEach(([key, value]) =>
+  Object.entries(headers ?? {}).forEach(([key, value]) =>
     res.headers.set(key, value),
   );
   return res;

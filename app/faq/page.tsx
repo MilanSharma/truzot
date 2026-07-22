@@ -429,7 +429,7 @@ export default function FAQPage() {
 
         {/* FAQ Categories */}
         <div className="space-y-8">
-          {Object.entries(groupedFiltered).map(([section, items]) => {
+          {Object.entries(groupedFiltered ?? {}).map(([section, items]) => {
             const meta = CATEGORY_META[section];
             return (
               <div key={section}>
