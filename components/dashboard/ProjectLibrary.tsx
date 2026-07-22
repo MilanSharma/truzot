@@ -249,7 +249,7 @@ function ExpiryCountdown({ createdAt }: { createdAt: string }) {
     );
   }
   return (
-    <span className="text-[10px] text-white/30 font-medium">
+    <span className="text-[10px] text-slate-400 font-medium">
       Deletes in {remainingDays}d
     </span>
   );
@@ -284,7 +284,7 @@ function HeadshotPreviews({
       {previews.map((url, i) => (
         <div
           key={url}
-          className="w-[calc(33.333%-4px)] aspect-[4/3] rounded-lg bg-white/5 overflow-hidden border border-slate-200"
+          className="w-[calc(33.333%-4px)] aspect-[4/3] rounded-lg bg-slate-100 overflow-hidden border border-slate-200"
         >
           <img
             src={url}
@@ -295,7 +295,7 @@ function HeadshotPreviews({
         </div>
       ))}
       {previews.length === 0 && (
-        <div className="flex items-center gap-2 text-xs text-white/40 py-2">
+        <div className="flex items-center gap-2 text-xs text-slate-400 py-2">
           <Camera className="w-4 h-4" />
           <span>{count} headshots</span>
         </div>
@@ -731,7 +731,7 @@ export default function ProjectLibrary({
             <p className="text-lg text-[var(--text-muted)] max-w-lg mx-auto mb-10 leading-relaxed">
               {searchQuery || filterStatus !== "all"
                 ? "Try a different search or filter."
-                : "Generate premium corporate headshots without leaving your home. Results in under an hour."}
+                : "Generate premium corporate headshots without leaving your home. Results in as fast as 5 minutes."}
             </p>
             {!searchQuery && filterStatus === "all" && (
               <Link
@@ -780,7 +780,7 @@ export default function ProjectLibrary({
 
                       {/* Thumbnail + info row */}
                       <div className="flex items-center gap-4 mb-4">
-                        <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center overflow-hidden shrink-0 border border-slate-200">
+                        <div className="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center overflow-hidden shrink-0 border border-slate-200">
                           {getThumbnail(o) ? (
                             <img
                               src={getThumbnail(o)!}
@@ -788,7 +788,7 @@ export default function ProjectLibrary({
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <Camera className="w-6 h-6 text-white/30" />
+                            <Camera className="w-6 h-6 text-slate-300" />
                           )}
                         </div>
                         <div className="min-w-0 flex-1">
@@ -824,7 +824,7 @@ export default function ProjectLibrary({
                       {/* Progress bar */}
                       {["training", "generating"].includes(o.status) && (
                         <div className="mt-3 mb-3">
-                          <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                          <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
                             <div
                               className="h-full bg-gradient-to-r from-lime-500 to-lime-400 rounded-full transition-all duration-700"
                               style={{

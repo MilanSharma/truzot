@@ -67,7 +67,7 @@ export default async function ComparePage(props: any) {
           
           {[
             ["Price", "From $29", comp.price],
-            ["Turnaround", "30-60 minutes", comp.turnaround],
+            ["Turnaround", "5-20 minutes", comp.turnaround],
             ["Styles", "6+ Categories (Customizable)", comp.styles],
             ["Facial Likeness", "Unmatched (Flux LoRA)", comp.likeness],
             ["Refund Policy", "100% No-questions-asked (30 days)", comp.refund],

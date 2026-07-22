@@ -20,7 +20,7 @@ export default function LandingPage() {
     <>
       <WebPageSchema
         name="Truzot AI Headshots"
-        description="Generate AI-powered professional headshots from your photos. No studio, no photographer. Get LinkedIn-ready corporate headshots in under an hour."
+        description="Generate AI-powered professional headshots from your photos. No studio, no photographer. Get LinkedIn-ready corporate headshots in as fast as 5 minutes."
       />
       <LandingPageContent />
     </>

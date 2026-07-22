@@ -525,7 +525,7 @@ export default function CompletedGallery({
           )}
         </>
       ) : (
-        <div className="text-center py-20 bg-[#0E1016] rounded-3xl border border-slate-200 max-w-2xl mx-auto">
+        <div className="text-center py-20 bg-white rounded-3xl border border-slate-200 max-w-2xl mx-auto">
           <ImageIcon className="w-12 h-12 text-slate-900/10 mx-auto mb-4" />
           <h4 className="text-xl font-bold text-slate-900 mb-2">
             {searchQuery || dateFilter.from || dateFilter.to

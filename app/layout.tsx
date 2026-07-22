@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     template: "%s — Truzot AI Headshots",
   },
   description:
-    "Generate AI-powered professional headshots from your photos. Get LinkedIn-ready corporate headshots in under an hour.",
+    "Generate AI-powered professional headshots from your photos. Get LinkedIn-ready corporate headshots in as fast as 5 minutes.",
   keywords: [
     "AI headshots",
     "professional headshots",
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Truzot AI Headshots — Professional Headshots in Minutes",
     description:
-      "Generate AI-powered professional headshots from your photos. No studio, no photographer. Get LinkedIn-ready corporate headshots in under an hour.",
+      "Generate AI-powered professional headshots from your photos. No studio, no photographer. Get LinkedIn-ready corporate headshots in as fast as 5 minutes.",
     url: SITE_CONFIG.url,
     siteName: "Truzot",
     images: [

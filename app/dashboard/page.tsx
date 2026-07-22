@@ -1240,12 +1240,14 @@ function DashboardContent() {
                   )}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                   <div>
-                    <Link
-                      href="/dashboard"
-                      className="text-xs font-bold text-slate-400 hover:text-blue-600 mb-2 flex items-center gap-1 transition"
-                    >
-                      ← Back to library
-                    </Link>
+                    {user && (
+                      <Link
+                        href="/dashboard"
+                        className="text-xs font-bold text-slate-400 hover:text-blue-600 mb-2 flex items-center gap-1 transition"
+                      >
+                        ← Back to library
+                      </Link>
+                    )}
                     <div className="flex items-center gap-3">
                       <h1 className="text-3xl font-black text-slate-900">
                         {PLANS[currentOrder.plan as keyof typeof PLANS]?.name ||

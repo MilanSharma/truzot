@@ -75,7 +75,7 @@ export const PAGE_SEO: Record<string, PageSEO> = {
     ogTitle:
       "Truzot | AI Headshot Generator for Professional LinkedIn Photos",
     ogDescription:
-      "Turn your selfies into studio-quality professional headshots in minutes. AI-powered, delivered in under an hour. From $29, no subscription.",
+      "Turn your selfies into studio-quality professional headshots in minutes. AI-powered, delivered in as fast as 5 minutes. From $29, no subscription.",
   },
   upload: {
     title:

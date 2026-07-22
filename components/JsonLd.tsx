@@ -51,7 +51,7 @@ export function WebSiteSchema() {
     name: "Truzot",
     url: siteUrl,
     description:
-      "Generate AI-powered professional headshots from your photos. No studio, no photographer. Get LinkedIn-ready corporate headshots in under an hour.",
+      "Generate AI-powered professional headshots from your photos. No studio, no photographer. Get LinkedIn-ready corporate headshots in as fast as 5 minutes.",
     publisher: { "@id": `${siteUrl}/#organization` },
     inLanguage: "en-US",
     potentialAction: {
@@ -90,7 +90,7 @@ export function ProductSchema() {
         name: "Basic",
         price: "29",
         priceCurrency: "USD",
-        description: "40 HD headshots with 10+ styles. 2-hour delivery.",
+        description: "40 HD headshots with 10+ styles. 20-minute delivery.",
         priceValidUntil,
         availability: "https://schema.org/InStock",
         url: `${siteUrl}/upload?plan=basic`,
@@ -101,7 +101,7 @@ export function ProductSchema() {
         price: "39",
         priceCurrency: "USD",
         description:
-          "100 high-resolution headshots with 30+ styles. 1-hour delivery.",
+          "100 high-resolution headshots with 30+ styles. 10-minute delivery.",
         priceValidUntil,
         availability: "https://schema.org/InStock",
         url: `${siteUrl}/upload?plan=pro`,
@@ -112,7 +112,7 @@ export function ProductSchema() {
         price: "59",
         priceCurrency: "USD",
         description:
-          "150 high-resolution headshots with all styles. 30-minute priority delivery.",
+          "150 high-resolution headshots with all styles. 5-minute priority delivery.",
         priceValidUntil,
         availability: "https://schema.org/InStock",
         url: `${siteUrl}/upload?plan=executive`,

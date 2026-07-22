@@ -1118,7 +1118,7 @@ export default function LandingPageContent() {
                   AI-generated professional headshots.
                   <br />
                   <span className="text-slate-400">
-                    Delivered in under an hour.
+                    Delivered in as fast as 5 minutes.
                   </span>
                 </motion.h2>
                 <motion.p
@@ -1600,7 +1600,7 @@ export default function LandingPageContent() {
                     "Photographer present",
                     "12–25 selfies",
                   ],
-                  ["Turnaround", "30 min – 2 hrs", "2–4 weeks", "1–6 hours"],
+                  ["Turnaround", "5–20 minutes", "2–4 weeks", "1–6 hours"],
                   [
                     "Output volume",
                     "40–150 photos",
