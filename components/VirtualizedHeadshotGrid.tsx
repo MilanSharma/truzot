@@ -17,6 +17,7 @@ import {
  CheckSquare,
  RefreshCw,
 } from "lucide-react";
+import CardErrorBoundary from "./CardErrorBoundary";
 
 const IMG_ALLOWED_HOSTS = ["fal.media", "supabase.co", "unsplash.com", "googleusercontent.com", "googleapis.com"];
 
@@ -245,6 +246,7 @@ const GridCell = React.memo(function GridCell({
  if (index >= headshots.length) return null;
  const h = headshots[index];
  return (
+ <CardErrorBoundary key={h.id}>
  <HeadshotCard
  headshot={h}
  isFav={favorites.includes(h.image_url)}
@@ -259,6 +261,7 @@ const GridCell = React.memo(function GridCell({
  onDownload={onDownload}
  onRegenerate={onRegenerate}
  />
+ </CardErrorBoundary>
  );
 });
 
