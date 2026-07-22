@@ -7,8 +7,7 @@ import React, {
  useMemo,
 } from "react";
 import Image from "next/image";
-import { Grid as GridBase } from "react-window";
-const Grid = GridBase as React.ComponentType<any>;
+import { Grid } from "react-window";
 import {
  Download,
  Heart,
@@ -354,13 +353,14 @@ export default function VirtualizedHeadshotGrid(
  <Grid
  columnCount={columnCount}
  columnWidth={columnWidth}
- defaultHeight={containerHeight}
- defaultWidth={width}
+ height={containerHeight}
+ width={width}
  rowCount={rowCount}
  rowHeight={rowHeight}
- cellComponent={Cell}
- style={{ height: containerHeight, width }}
- />
+ style={{ height: containerHeight, width, overflowX: "hidden" }}
+ >
+ {Cell}
+ </Grid>
  </div>
  );
 }
