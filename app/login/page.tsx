@@ -2,7 +2,6 @@
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import { supabase } from "@/lib/supabase/client";
 import {
   CheckCircle,
@@ -168,35 +167,7 @@ function LoginContent() {
   };
 
   return (
-    <div
-      className="min-h-screen flex relative overflow-hidden"
-      style={{ background: "#07080A" }}
-    >
-      {/* Background grid – same as landing page */}
-      <div className="absolute inset-0 grid grid-cols-4 md:grid-cols-6 gap-1 opacity-20 pointer-events-none">
-        {[
-          "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80&fit=crop",
-          "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80&fit=crop",
-          "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80&fit=crop",
-          "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=400&q=80&fit=crop",
-          "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80&fit=crop",
-          "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80&fit=crop",
-        ].map((src, i) => (
-          <div key={i} className="relative overflow-hidden">
-            <Image
-              src={src}
-              alt=""
-              fill
-              className="object-cover"
-              sizes="200px"
-            />
-          </div>
-        ))}
-      </div>
-      {/* Gradient overlays */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#07080A]/60 via-[#07080A]/80 to-[#07080A]" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#07080A]/80 via-transparent to-[#07080A]/80" />
-
+    <div className="min-h-screen flex bg-white">
       {/* Left side – Form */}
       <div className="flex-1 flex flex-col justify-center px-6 py-12 lg:px-20 relative z-10">
         <motion.div
@@ -208,7 +179,7 @@ function LoginContent() {
           <motion.div variants={itemVariants}>
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-white/40 hover:text-white/70 transition mb-10 text-sm font-semibold"
+              className="inline-flex items-center gap-2 text-slate-400 hover:text-slate-700 transition mb-10 text-sm font-semibold"
             >
               <ArrowLeft size={16} /> Back to home
             </Link>
@@ -225,14 +196,14 @@ function LoginContent() {
               transition={{ duration: 0.2 }}
               className="mb-8"
             >
-              <h1 className="text-4xl font-black text-white tracking-tight mb-3">
+              <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-3">
                 {forgotPasswordMode
                   ? "Reset password"
                   : isSignUp
                     ? "Create an account"
                     : "Welcome back."}
               </h1>
-              <p className="text-white/40 text-lg">
+              <p className="text-slate-500 text-lg">
                 {forgotPasswordMode
                   ? "Enter your email to receive a reset link."
                   : isSignUp
@@ -246,10 +217,10 @@ function LoginContent() {
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-6 bg-red-500/10 border border-red-500/20 rounded-2xl p-4 flex items-start gap-3"
+              className="mb-6 bg-red-50 border border-red-200 rounded-2xl p-4 flex items-start gap-3"
             >
-              <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-red-300">{error}</p>
+              <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-red-700">{error}</p>
             </motion.div>
           )}
 
@@ -257,10 +228,10 @@ function LoginContent() {
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-6 bg-lime-400/10 border border-lime-400/20 rounded-2xl p-4 flex items-start gap-3"
+              className="mb-6 bg-lime-50 border border-lime-200 rounded-2xl p-4 flex items-start gap-3"
             >
-              <CheckCircle className="w-5 h-5 text-lime-400 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-lime-300">{success}</p>
+              <CheckCircle className="w-5 h-5 text-lime-600 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-lime-700">{success}</p>
             </motion.div>
           )}
 
@@ -268,22 +239,22 @@ function LoginContent() {
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-6 bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 flex items-start gap-3"
+              className="mb-6 bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start gap-3"
             >
-              <AlertCircle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+              <AlertCircle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
               <div className="flex-1">
-                <p className="text-sm font-medium text-amber-300">
+                <p className="text-sm font-medium text-amber-700">
                   Email not confirmed yet.
                 </p>
                 <button
                   onClick={handleResendConfirmation}
                   disabled={resending}
-                  className="mt-2 text-sm text-lime-400 hover:text-lime-300 underline font-bold disabled:opacity-50"
+                  className="mt-2 text-sm text-lime-600 hover:text-lime-700 underline font-bold disabled:opacity-50"
                 >
                   {resending ? "Resending..." : "Resend confirmation email"}
                 </button>
                 {resendError && (
-                  <p className="text-xs text-red-400 mt-2">{resendError}</p>
+                  <p className="text-xs text-red-500 mt-2">{resendError}</p>
                 )}
               </div>
             </motion.div>
@@ -295,21 +266,17 @@ function LoginContent() {
           >
             {isSignUp && !forgotPasswordMode && (
               <motion.div variants={itemVariants}>
-                <label className="block text-sm font-bold text-white/60 mb-2">
+                <label className="block text-sm font-bold text-slate-600 mb-2">
                   Full Name
                 </label>
                 <div className="relative">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/25" />
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    className="w-full pl-12 pr-4 py-4 rounded-2xl text-white placeholder-white/20 outline-none focus:ring-1 focus:ring-lime-400/50 transition-all"
-                    style={{
-                      background: "#0E1016",
-                      border: "1px solid rgba(255,255,255,0.07)",
-                    }}
+                    className="w-full pl-12 pr-4 py-4 rounded-2xl text-slate-900 placeholder-slate-400 bg-white border border-slate-200 outline-none focus:ring-2 focus:ring-lime-400/50 focus:border-transparent transition-all"
                     placeholder="John Doe"
                   />
                 </div>
@@ -317,21 +284,17 @@ function LoginContent() {
             )}
 
             <motion.div variants={itemVariants}>
-              <label className="block text-sm font-bold text-white/60 mb-2">
+              <label className="block text-sm font-bold text-slate-600 mb-2">
                 Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/25" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full pl-12 pr-4 py-4 rounded-2xl text-white placeholder-white/20 outline-none focus:ring-1 focus:ring-lime-400/50 transition-all"
-                  style={{
-                    background: "#0E1016",
-                    border: "1px solid rgba(255,255,255,0.07)",
-                  }}
+                  className="w-full pl-12 pr-4 py-4 rounded-2xl text-slate-900 placeholder-slate-400 bg-white border border-slate-200 outline-none focus:ring-2 focus:ring-lime-400/50 focus:border-transparent transition-all"
                   placeholder="you@example.com"
                 />
               </div>
@@ -340,37 +303,33 @@ function LoginContent() {
             {!forgotPasswordMode && (
               <motion.div variants={itemVariants}>
                 <div className="flex justify-between items-center mb-2">
-                  <label className="block text-sm font-bold text-white/60">
+                  <label className="block text-sm font-bold text-slate-600">
                     Password
                   </label>
                   {!isSignUp && (
                     <button
                       type="button"
                       onClick={() => setForgotPasswordMode(true)}
-                      className="text-xs font-bold text-lime-400 hover:text-lime-300 transition"
+                      className="text-xs font-bold text-lime-600 hover:text-lime-700 transition"
                     >
                       Forgot password?
                     </button>
                   )}
                 </div>
                 <div className="relative">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/25" />
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
                   <input
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="w-full pl-12 pr-12 py-4 rounded-2xl text-white placeholder-white/20 outline-none focus:ring-1 focus:ring-lime-400/50 transition-all"
-                    style={{
-                      background: "#0E1016",
-                      border: "1px solid rgba(255,255,255,0.07)",
-                    }}
+                    className="w-full pl-12 pr-12 py-4 rounded-2xl text-slate-900 placeholder-slate-400 bg-white border border-slate-200 outline-none focus:ring-2 focus:ring-lime-400/50 focus:border-transparent transition-all"
                     placeholder="••••••••"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white/25 hover:text-white/50 transition"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-500 transition"
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
@@ -403,10 +362,10 @@ function LoginContent() {
             <>
               <motion.div variants={itemVariants} className="relative my-8">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-white/10"></div>
+                  <div className="w-full border-t border-slate-200"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-4 text-white/40 bg-[#07080A] font-bold uppercase tracking-wider text-[10px]">
+                  <span className="px-4 text-slate-400 bg-white font-bold uppercase tracking-wider text-[10px]">
                     or continue with
                   </span>
                 </div>
@@ -415,7 +374,7 @@ function LoginContent() {
               <motion.div variants={itemVariants}>
                 <button
                   onClick={handleGoogleSignIn}
-                  className="w-full flex items-center justify-center gap-3 py-3.5 border border-white/10 rounded-2xl font-bold text-white/70 hover:bg-white/5 transition"
+                  className="w-full flex items-center justify-center gap-3 py-3.5 border border-slate-200 rounded-2xl font-bold text-slate-700 hover:bg-slate-50 transition"
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24">
                     <path
@@ -443,12 +402,12 @@ function LoginContent() {
 
           <motion.div
             variants={itemVariants}
-            className="mt-8 text-center text-sm text-white/30 font-semibold"
+            className="mt-8 text-center text-sm text-slate-400 font-semibold"
           >
             {forgotPasswordMode ? (
               <button
                 onClick={() => setForgotPasswordMode(false)}
-                className="text-white/60 hover:text-white transition"
+                className="text-slate-600 hover:text-slate-900 transition"
               >
                 Back to sign in
               </button>
@@ -457,7 +416,7 @@ function LoginContent() {
                 Already have an account?{" "}
                 <button
                   onClick={() => setIsSignUp(false)}
-                  className="text-lime-400 hover:underline"
+                  className="text-lime-600 hover:underline"
                 >
                   Sign in
                 </button>
@@ -467,7 +426,7 @@ function LoginContent() {
                 Don&apos;t have an account?{" "}
                 <button
                   onClick={() => setIsSignUp(true)}
-                  className="text-lime-400 hover:underline"
+                  className="text-lime-600 hover:underline"
                 >
                   Sign up
                 </button>
@@ -478,24 +437,23 @@ function LoginContent() {
       </div>
 
       {/* Right side – Hero card */}
-      <div className="hidden lg:flex flex-1 relative items-center justify-center p-12">
+      <div className="hidden lg:flex flex-1 relative items-center justify-center p-12 bg-gradient-to-br from-lime-50 via-white to-blue-50">
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="relative max-w-lg w-full"
         >
-          <div className="absolute -inset-4 bg-gradient-to-br from-lime-400/10 to-indigo-500/10 rounded-3xl blur-2xl" />
-          <div className="relative bg-[#0E1016] border border-white/10 rounded-3xl p-10 shadow-2xl">
+          <div className="relative bg-white border border-slate-200 rounded-3xl p-10 shadow-xl">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-lime-400/10 border border-lime-400/20 rounded-2xl flex items-center justify-center">
-                <Sparkles className="w-6 h-6 text-lime-400" />
+              <div className="w-12 h-12 bg-lime-50 border border-lime-200 rounded-2xl flex items-center justify-center">
+                <Sparkles className="w-6 h-6 text-lime-600" />
               </div>
               <div>
-                <p className="text-xs font-bold text-lime-400 uppercase tracking-widest">
+                <p className="text-xs font-bold text-lime-600 uppercase tracking-widest">
                   Truzot AI
                 </p>
-                <p className="text-white/40 text-sm">
+                <p className="text-slate-500 text-sm">
                   Professional headshots in minutes
                 </p>
               </div>
@@ -506,13 +464,13 @@ function LoginContent() {
                 {
                   icon: Zap,
                   text: "As few as 2 selfies needed",
-                  color: "#A3E635",
+                  color: "#65A30D",
                 },
-                { icon: Shield, text: "AES-256 encrypted", color: "#6366F1" },
+                { icon: Shield, text: "AES-256 encrypted", color: "#4F46E5" },
                 {
                   icon: CheckCircle,
                   text: "30-day money-back guarantee",
-                  color: "#A3E635",
+                  color: "#65A30D",
                 },
               ].map(({ icon: Icon, text, color }, i) => (
                 <motion.div
@@ -522,12 +480,12 @@ function LoginContent() {
                   transition={{ delay: 0.3 + i * 0.1 }}
                   className="flex items-center gap-3 p-4 rounded-2xl"
                   style={{
-                    background: `${color}08`,
-                    border: `1px solid ${color}20`,
+                    background: `${color}0D`,
+                    border: `1px solid ${color}25`,
                   }}
                 >
                   <Icon className="w-5 h-5" style={{ color }} />
-                  <span className="text-white/70 text-sm font-medium">
+                  <span className="text-slate-700 text-sm font-medium">
                     {text}
                   </span>
                 </motion.div>
@@ -542,11 +500,7 @@ function LoginContent() {
 
 export default function LoginPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen" style={{ background: "#07080A" }} />
-      }
-    >
+    <Suspense fallback={<div className="min-h-screen bg-white" />}>
       <LoginContent />
     </Suspense>
   );

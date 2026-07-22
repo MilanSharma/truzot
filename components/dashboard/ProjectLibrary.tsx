@@ -726,7 +726,7 @@ export default function ProjectLibrary({
             <h2 className="text-3xl md:text-4xl font-black text-[var(--text)] mb-4 tracking-tight">
               {searchQuery || filterStatus !== "all"
                 ? "No matching shoots"
-                : "Create your first AI studio"}
+                : "Create your first shoot"}
             </h2>
             <p className="text-lg text-[var(--text-muted)] max-w-lg mx-auto mb-10 leading-relaxed">
               {searchQuery || filterStatus !== "all"

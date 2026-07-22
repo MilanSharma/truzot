@@ -423,7 +423,7 @@ export default function FAQPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search questions..."
-            className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-[var(--border)] bg-[#0E1016] text-[var(--text)] placeholder-[var(--text-faint)] focus:ring-2 focus:ring-lime-400/50 outline-none transition shadow-sm"
+            className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-[var(--text)] placeholder-[var(--text-faint)] focus:ring-2 focus:ring-lime-400/50 outline-none transition shadow-sm"
           />
         </div>
 
@@ -517,7 +517,7 @@ export default function FAQPage() {
         )}
 
         {/* Contact CTA */}
-        <div className="mt-12 bg-[#0E1016] rounded-2xl border border-[var(--border)] p-8 text-center shadow-sm">
+        <div className="mt-12 bg-[var(--surface)] rounded-2xl border border-[var(--border)] p-8 text-center shadow-sm">
           <h2 className="text-xl font-bold text-[var(--text)] mb-2">
             Still have questions?
           </h2>

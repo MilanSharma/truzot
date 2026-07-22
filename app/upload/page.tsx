@@ -1693,7 +1693,7 @@ export default function UploadPage() {
       fallback={
         <div
           className="min-h-screen flex items-center justify-center"
-          style={{ background: "#07080A" }}
+          style={{ background: "var(--bg)" }}
         >
           <div className="flex flex-col items-center gap-4">
             <div className="w-8 h-8 border-4 border-lime-400 border-t-transparent rounded-full animate-spin" />
