@@ -29,25 +29,26 @@ async function falFetch(endpoint: string, input: Record<string, unknown>): Promi
   return { data: await res.json(), requestId: res.headers.get("x-fal-request-id") || "" };
 }
 
-// Highly optimized negative prompt to strip out the "plastic AI sheen"
 const NEGATIVE_PROMPT =
   "plastic, waxy, smooth skin, airbrushed, retouched, CGI, 3D render, digital art, illustration, painting, doll-like, uncanny valley, " +
   "asymmetrical eyes, cross-eyed, looking away, averted gaze, side glance, looking down, looking up, profile, extra fingers, mutated hands, deformed face, distorted features, " +
   "blurry, out of focus, jpeg artifacts, harsh direct flash, overexposed, watermark, logo, duplicate face, bad anatomy, " +
   "helmet hair, plastic hair, solid hair, unrealistic hair, wig-like hair, excessive shine, oily skin, glossy skin, perfect skin, cartoon, anime";
 
-const FRAMING_CLAUSE =
-  " The framing is a professional head-and-shoulders close-up. Shot on 35mm film, Kodak Portra 400, 85mm lens f/1.8, raw unedited DSLR photography. Extremely authentic, highly detailed, realistic natural skin texture with visible pores and subtle blemishes, highly detailed individual hair strands, natural hair fall, cinematic lighting. The subject is looking directly into the camera lens with perfect, symmetrical eye contact.";
+// OPTIMIZATION: Moved to front of prompt generation
+const PHOTOGRAPHY_PREFIX = "A professional head-and-shoulders close-up photograph shot on 35mm film, Kodak Portra 400, 85mm lens f/1.8. Raw unedited DSLR photography.";
+const REALISM_SUFFIX = "Extremely authentic, highly detailed, realistic natural skin texture with visible pores and subtle blemishes, highly detailed individual hair strands, natural hair fall, cinematic lighting. The subject is looking directly into the camera lens with perfect, symmetrical eye contact.";
 
 type PlanKey = "basic" | "pro" | "executive";
 const GEN_WIDTH = 832;
 const GEN_HEIGHT = 1216;
 const MEGAPIXELS_PER_IMAGE = (GEN_WIDTH * GEN_HEIGHT) / 1_000_000;
 
+// OPTIMIZATION: Lowered inference steps. Flux converges at 25-28. Higher steps waste money and time with 0 quality gain.
 const QUALITY_PROFILE: Record<PlanKey, { inferenceSteps: number; baseWidth: number; baseHeight: number; }> = {
-  basic:     { inferenceSteps: 30, baseWidth: GEN_WIDTH, baseHeight: GEN_HEIGHT },
-  pro:       { inferenceSteps: 35, baseWidth: GEN_WIDTH, baseHeight: GEN_HEIGHT },
-  executive: { inferenceSteps: 40, baseWidth: GEN_WIDTH, baseHeight: GEN_HEIGHT },
+  basic:     { inferenceSteps: 25, baseWidth: GEN_WIDTH, baseHeight: GEN_HEIGHT },
+  pro:       { inferenceSteps: 28, baseWidth: GEN_WIDTH, baseHeight: GEN_HEIGHT },
+  executive: { inferenceSteps: 28, baseWidth: GEN_WIDTH, baseHeight: GEN_HEIGHT },
 };
 
 function resolvePlanKey(plan: string): PlanKey {
@@ -147,13 +148,14 @@ const LIGHTING = [
   "moody, high-contrast Rembrandt lighting"
 ];
 
+// OPTIMIZATION: Flux uses a T5 text encoder. It responds to heavy, vivid natural language, NOT (word:1.3) syntax.
 const EXPRESSIONS = [
-  "(broad open-mouth laugh, showing teeth, eyes crinkled with joy:1.3)",
-  "(closed-mouth gentle smile, lips together, no teeth visible:1.3)",
-  "(neutral confident expression, mouth closed, relaxed brow:1.3)",
-  "(subtle one-sided smirk, lips closed, playful:1.25)",
-  "(thoughtful pensive look, lips pressed together, calm gaze:1.25)",
-  "(soft warm smile with teeth, but relaxed natural eyes:1.25)",
+  "exhibiting a vivid, joyful, broad open-mouth laugh showing teeth, with highly expressive happy eyes",
+  "exhibiting a gentle, warm, closed-mouth smile, lips pressed together gracefully",
+  "exhibiting a highly confident, serious, and focused professional gaze with a relaxed brow",
+  "exhibiting a playful, subtle one-sided smirk with closed lips",
+  "exhibiting a calm, pensive, and thoughtful look with a steady, trustworthy expression",
+  "exhibiting a bright, highly approachable, and energetic smile showing teeth",
 ];
 
 // Strict gender-specific wardrobe with explicit colors and styles to guarantee variety
@@ -248,7 +250,7 @@ function buildPrompts(plan: string, prefs: UserPreferences | undefined, count: n
       const pose = POSES[i % POSES.length];
       const light = LIGHTING[Math.floor(i / POSES.length) % LIGHTING.length];
       const expr = EXPRESSIONS[Math.floor(i / (POSES.length * LIGHTING.length)) % EXPRESSIONS.length];
-      pool.push(`Raw unedited photograph of TOK, a ${subject}, ${pose}, wearing ${c}, against ${b}. ${light}, ${expr}.${FRAMING_CLAUSE}`);
+      pool.push(`${PHOTOGRAPHY_PREFIX} Featuring TOK, a ${subject}, ${pose}, wearing ${c}, against ${b}. ${light}. ${expr}. ${REALISM_SUFFIX}`);
     }
     return pool;
   }
@@ -262,20 +264,20 @@ function buildPrompts(plan: string, prefs: UserPreferences | undefined, count: n
     const outfits = getOutfitsForGenderAndScene(gender, cat);
     const combos: string[] = [];
     
-    // Total combinatorial space per category: 5 BGs * 5 Outfits * 5 Poses * 5 Lights * 5 Exprs = 3125 unique combinations
+    // Total combinatorial space per category: 5 BGs * 5 Outfits * 5 Poses * 5 Lights * 6 Exprs
     const nb = scene.backgrounds.length, no = outfits.length, np = POSES.length, nl = LIGHTING.length, ne = EXPRESSIONS.length;
     const total = nb * no * np * nl * ne;
     
     const need = Math.ceil(count / activeCategories.length) + 10; // Pad for backfills
     for (let i = 0; i < Math.min(total, need); i++) {
-      // Use prime multipliers to guarantee rapid combinatorial mixing!
       const bg = scene.backgrounds[i % nb];
       const outfit = outfits[(i * 3) % no];
       const pose = POSES[(i * 5) % np];
       const light = LIGHTING[(i * 7) % nl];
       const expr = EXPRESSIONS[(i * 11) % ne];
       
-      combos.push(`Raw unedited photograph of TOK, a ${subject}, ${pose}, ${outfit}, ${bg}. ${light}, ${expr}.${FRAMING_CLAUSE}`);
+      // OPTIMIZATION: Restructured prompt macro-to-micro for Flux
+      combos.push(`${PHOTOGRAPHY_PREFIX} Featuring TOK, a ${subject}, ${pose}, ${outfit}, ${bg}. ${light}. ${expr}. ${REALISM_SUFFIX}`);
     }
     return combos;
   });
@@ -300,7 +302,6 @@ function buildPrompts(plan: string, prefs: UserPreferences | undefined, count: n
 export const trainModel = async (imageUrl: string, orderId: string, imageCount?: number): Promise<{ request_id: string }> => {
   const webhookUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhooks/fal?orderId=${orderId}&token=${generateWebhookToken(orderId)}`;
 
-  // Fast-training endpoint: Does not hallucinate faces/genders
   const imgs = imageCount && imageCount > 0 ? imageCount : 4;
   const iter = Math.min(1000, Math.max(700, imgs * 120)); 
 
@@ -349,6 +350,15 @@ async function fetchHashAndPersist(
   }
 }
 
+function expressionNegative(prompt: string): string {
+  const p = prompt.toLowerCase();
+  const wantsTeeth = /laugh|showing teeth|open-mouth/.test(p);
+  const wantsClosed = /closed-mouth|lips together|neutral|serious|pensive|smirk|thoughtful/.test(p);
+  if (wantsClosed) return ", smiling, showing teeth, grin, open mouth, laughing";
+  if (wantsTeeth)  return ", closed mouth, frown, pursed lips, sad, neutral flat face";
+  return "";
+}
+
 export const generateHeadshots = async (
   modelId: string, plan: string, startIndex: number = 0, limit: number = 10000, prefs?: UserPreferences,
   orderId?: string,
@@ -365,23 +375,14 @@ export const generateHeadshots = async (
   const BACKFILL_BUFFER = Math.max(10, Math.ceil(batchSize * 0.3));
   const allPrompts = buildPrompts(plan, prefs, Math.min(targetShots + BACKFILL_BUFFER, maxAttempts));
 
-  const loraScale = 0.9; // 0.9 is the sweet spot: identity stays locked, expression/pose text gains real influence
-  const guidanceScale = 2.5; // Dropped to 2.5 (forces photorealism over waxy AI smoothness)
-
-  function expressionNegative(prompt: string): string {
-    const p = prompt.toLowerCase();
-    const wantsTeeth = /laugh|showing teeth|open-mouth/.test(p);
-    const wantsClosed = /closed-mouth|lips together|neutral|serious|pensive|smirk|thoughtful/.test(p);
-    if (wantsClosed) return ", smiling, showing teeth, grin, open mouth, laughing";
-    if (wantsTeeth)  return ", closed mouth, frown, pursed lips, sad, neutral flat face";
-    return "";
-  }
+  const loraScale = 0.9; 
+  const guidanceScale = 2.5; 
 
   let consecutiveFailures = 0;
   const seenHashes = new Set<string>();
   let totalMegapixels = 0;
-  const COST_PER_MEGAPIXEL = 0.035; 
-  const MAX_GENERATION_COST = batchSize * 1.6 * MEGAPIXELS_PER_IMAGE * COST_PER_MEGAPIXEL;
+  const COST_PER_MEGAPIXEl = 0.035; 
+  const MAX_GENERATION_COST = batchSize * 1.6 * MEGAPIXELS_PER_IMAGE * COST_PER_MEGAPIXEl;
 
   const generateOne = (prompt: string, index: number) => (async () => {
     let attempt = 0;
@@ -390,8 +391,8 @@ export const generateHeadshots = async (
         await new Promise(r => setTimeout(r, 15000));
         consecutiveFailures = 0;
       }
-      const currentCost = totalMegapixels * COST_PER_MEGAPIXEL;
-      const estimatedNextCost = currentCost + MEGAPIXELS_PER_IMAGE * COST_PER_MEGAPIXEL;
+      const currentCost = totalMegapixels * COST_PER_MEGAPIXEl;
+      const estimatedNextCost = currentCost + MEGAPIXELS_PER_IMAGE * COST_PER_MEGAPIXEl;
 
       if (estimatedNextCost > MAX_GENERATION_COST) throw new Error("Cost limit exceeded for generation batch");
 
@@ -401,6 +402,7 @@ export const generateHeadshots = async (
           negative_prompt: NEGATIVE_PROMPT + expressionNegative(prompt),
           loras: [{ path: modelId, scale: loraScale }],
           num_inference_steps: profile.inferenceSteps,
+          // Jitter the guidance scale slightly for more variance, keeping it tightly around 2.5
           guidance_scale: guidanceScale + ((index % 3) - 1) * 0.25,
           num_images: 1,
           image_size: { width: profile.baseWidth, height: profile.baseHeight },
@@ -461,12 +463,13 @@ export const generateHeadshots = async (
   return { results: sequenced, failures, totalRequested: batchSize };
 };
 
+// OPTIMIZATION: Updated to match generateHeadshots parity
 export async function regenerateOne(modelId: string, plan: string, prompt: string, orderId?: string): Promise<{ url: string }> {
   const profile = QUALITY_PROFILE[resolvePlanKey(plan)];
   const { data } = await falFetch("fal-ai/flux-lora", {
     prompt,
-    negative_prompt: NEGATIVE_PROMPT,
-    loras: [{ path: modelId, scale: 1.0 }],
+    negative_prompt: NEGATIVE_PROMPT + expressionNegative(prompt),
+    loras: [{ path: modelId, scale: 0.9 }],
     num_inference_steps: profile.inferenceSteps,
     guidance_scale: 2.5,
     num_images: 1,
