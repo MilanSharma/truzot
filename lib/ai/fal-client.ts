@@ -32,12 +32,12 @@ async function falFetch(endpoint: string, input: Record<string, unknown>): Promi
 // Highly optimized negative prompt to strip out the "plastic AI sheen"
 const NEGATIVE_PROMPT =
   "plastic, waxy, smooth skin, airbrushed, retouched, CGI, 3D render, digital art, illustration, painting, doll-like, uncanny valley, " +
-  "asymmetrical eyes, cross-eyed, looking away, averted gaze, side glance, extra fingers, mutated hands, deformed face, distorted features, " +
+  "asymmetrical eyes, cross-eyed, looking away, averted gaze, side glance, looking down, looking up, profile, extra fingers, mutated hands, deformed face, distorted features, " +
   "blurry, out of focus, jpeg artifacts, harsh direct flash, overexposed, watermark, logo, duplicate face, bad anatomy, " +
-  "helmet hair, plastic hair, solid hair, unrealistic hair, excessive shine, oily skin, glossy skin";
+  "helmet hair, plastic hair, solid hair, unrealistic hair, wig-like hair, excessive shine, oily skin, glossy skin, perfect skin, cartoon, anime";
 
 const FRAMING_CLAUSE =
-  " The framing is a professional head-and-shoulders close-up. Shot on Kodak Portra 400, 85mm lens f/1.8, raw unedited DSLR photography. Extremely authentic, highly detailed, realistic natural skin texture, visible fine pores, subtle natural imperfections, highly detailed individual hair strands, natural hair fall with slight flyaways, cinematic lighting. The subject is looking directly into the camera lens with perfect eye contact.";
+  " The framing is a professional head-and-shoulders close-up. Shot on 35mm film, Kodak Portra 400, 85mm lens f/1.8, raw unedited DSLR photography. Extremely authentic, highly detailed, realistic natural skin texture with visible pores and subtle blemishes, highly detailed individual hair strands, natural hair fall, cinematic lighting. The subject is looking directly into the camera lens with perfect, symmetrical eye contact.";
 
 type PlanKey = "basic" | "pro" | "executive";
 const GEN_WIDTH = 832;
@@ -268,11 +268,12 @@ function buildPrompts(plan: string, prefs: UserPreferences | undefined, count: n
     
     const need = Math.ceil(count / activeCategories.length) + 10; // Pad for backfills
     for (let i = 0; i < Math.min(total, need); i++) {
+      // Use prime multipliers to guarantee rapid combinatorial mixing!
       const bg = scene.backgrounds[i % nb];
-      const outfit = outfits[Math.floor(i / nb) % no];
-      const pose = POSES[Math.floor(i / (nb * no)) % np];
-      const light = LIGHTING[Math.floor(i / (nb * no * np)) % nl];
-      const expr = EXPRESSIONS[Math.floor(i / (nb * no * np * nl)) % ne];
+      const outfit = outfits[(i * 3) % no];
+      const pose = POSES[(i * 5) % np];
+      const light = LIGHTING[(i * 7) % nl];
+      const expr = EXPRESSIONS[(i * 11) % ne];
       
       combos.push(`Raw unedited photograph of TOK, a ${subject}, ${pose}, ${outfit}, ${bg}. ${light}, ${expr}.${FRAMING_CLAUSE}`);
     }

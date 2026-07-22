@@ -243,10 +243,10 @@ export default function VirtualizedHeadshotGrid(
  1,
  Math.floor((width + GAP) / (minColWidth + GAP)),
  );
- const columnWidth = Math.floor(
+ const columnWidth = Math.max(1, Math.floor(
  (width - GAP * (columnCount - 1)) / columnCount,
- );
- const rowHeight = Math.floor(columnWidth / CARD_ASPECT + GAP);
+ ));
+ const rowHeight = Math.max(1, Math.floor(columnWidth / CARD_ASPECT + GAP));
  const rowCount = Math.ceil(props.headshots.length / columnCount);
  const visibleRows = Math.min(rowCount, MAX_VISIBLE_ROWS);
  const containerHeight = Math.max(400, visibleRows * rowHeight);

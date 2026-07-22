@@ -105,6 +105,7 @@ export const GET = withContext(async (req: Request) => {
  image_url: string;
  style: string;
  category: string;
+ created_at: string;
  }[] = [];
  let count = 0;
  const target = PLAN_SHOTS[order.plan] ?? 40;
@@ -112,7 +113,7 @@ export const GET = withContext(async (req: Request) => {
  if (order.status === "completed") {
  const { data: shots } = await supabaseAdmin
  .from("headshots")
- .select("id, image_url, style, category")
+ .select("id, image_url, style, category, created_at")
  .eq("order_id", orderId)
  .order("created_at", { ascending: true });
  headshots = shots || [];
