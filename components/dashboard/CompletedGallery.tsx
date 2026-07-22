@@ -335,9 +335,9 @@ export default function CompletedGallery({
               )}
             </button>
             {showDatePicker && (
-              <div className="absolute top-full left-0 mt-1 z-50 bg-[#0E1016] border border-slate-200 rounded-2xl shadow-2xl p-4 w-72">
+              <div className="absolute top-full left-0 mt-1 z-50 bg-[#0E1016] border border-white/10 rounded-2xl shadow-2xl p-4 w-72">
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-medium text-slate-900/40">
+                  <label className="text-xs font-medium text-white/60">
                     From
                   </label>
                   <input
@@ -353,9 +353,9 @@ export default function CompletedGallery({
                         from: e.target.value ? new Date(e.target.value) : null,
                       }))
                     }
-                    className="px-3 py-1.5 text-sm border border-slate-200 bg-white/5 text-slate-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400/50"
+                    className="px-3 py-1.5 text-sm border border-white/10 bg-white/10 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400/50"
                   />
-                  <label className="text-xs font-medium text-slate-900/40">To</label>
+                  <label className="text-xs font-medium text-white/60">To</label>
                   <input
                     type="date"
                     value={
@@ -369,12 +369,12 @@ export default function CompletedGallery({
                         to: e.target.value ? new Date(e.target.value) : null,
                       }))
                     }
-                    className="px-3 py-1.5 text-sm border border-slate-200 bg-white/5 text-slate-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400/50"
+                    className="px-3 py-1.5 text-sm border border-white/10 bg-white/10 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400/50"
                   />
                   <div className="flex justify-end gap-2 mt-2">
                     <button
                       onClick={() => setShowDatePicker(false)}
-                      className="px-3 py-1.5 text-sm text-slate-900/50 hover:bg-white/10 rounded-lg"
+                      className="px-3 py-1.5 text-sm text-white/60 hover:bg-white/10 rounded-lg"
                     >
                       Close
                     </button>

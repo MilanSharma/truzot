@@ -99,8 +99,7 @@ export default function Sidebar({
       <div className="mt-auto p-5">
         {/* Enterprise API upsell card - only show for logged in users */}
         {user && (
-          <div className="bg-gradient-to-br from-lime-400/10 to-lime-400/5 rounded-2xl p-5 mb-6 relative overflow-hidden shadow-[0_8px_30px_rgba(163,230,53,0.08)] group border border-lime-400/10">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-lime-400/10 rounded-full blur-2xl group-hover:bg-lime-400/20 transition-all duration-500" />
+          <div className="bg-gradient-to-br from-lime-400/10 to-lime-400/5 rounded-2xl p-5 mb-6 relative overflow-hidden shadow-[0_8px_30px_rgba(163,230,53,0.08)] border border-lime-400/10">
             <div className="relative z-10">
               <div className="flex items-center gap-2 font-black text-sm text-lime-400 mb-2">
                 <Zap className="w-4 h-4 fill-lime-400" /> Enterprise API
