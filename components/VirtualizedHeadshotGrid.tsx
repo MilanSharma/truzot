@@ -358,26 +358,6 @@ export default function VirtualizedHeadshotGrid(
     ],
   );
 
-  const Cell = useCallback(
-    ({
-      columnIndex,
-      rowIndex,
-      style,
-    }: {
-      columnIndex: number;
-      rowIndex: number;
-      style: React.CSSProperties;
-    }) => (
-      <GridCell
-        columnIndex={columnIndex}
-        rowIndex={rowIndex}
-        style={style}
-        {...cellArgs}
-      />
-    ),
-    [cellArgs],
-  );
-
   return (
     <div
       ref={containerRef}
@@ -393,7 +373,14 @@ export default function VirtualizedHeadshotGrid(
         rowHeight={rowHeight}
         style={{ overflowX: "hidden" }}
       >
-        {Cell}
+        {({ columnIndex, rowIndex, style }: { columnIndex: number; rowIndex: number; style: React.CSSProperties }) => (
+          <GridCell
+            columnIndex={columnIndex}
+            rowIndex={rowIndex}
+            style={style}
+            {...cellArgs}
+          />
+        )}
       </GridComponent>
     </div>
   );
