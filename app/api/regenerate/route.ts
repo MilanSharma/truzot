@@ -107,6 +107,31 @@ export const POST = withContext(async (req: Request) => {
  originalHeadshot.style ||
  "A professional headshot of TOK wearing business attire, studio lighting, professional photography.";
 
+ // Regeneration burns real fal.ai spend, so it's metered: each call spends
+ // one pre-purchased credit atomically (spend_regenerate_credit is a single
+ // conditional UPDATE, so two concurrent clicks can't both succeed off a
+ // balance of 1). No credit on the order means no generation call.
+ const { data: newBalance, error: spendErr } = await supabaseAdmin.rpc(
+ "spend_regenerate_credit",
+ { p_order_id: orderId },
+ );
+ if (spendErr) {
+ log.error({ err: spendErr, orderId }, "Failed to check regenerate credit balance");
+ return addCors(
+ NextResponse.json({ error: "Request failed" }, { status: 500 }),
+ origin,
+ );
+ }
+ if (newBalance === null) {
+ return addCors(
+ NextResponse.json(
+ { error: "No regenerate credits remaining", code: "NO_CREDITS" },
+ { status: 402 },
+ ),
+ origin,
+ );
+ }
+
  try {
  const { url: newUrl } = await withFalSlot(() =>
  regenerateOne(training.model_id!, order.plan, prompt, orderId),
@@ -136,6 +161,12 @@ export const POST = withContext(async (req: Request) => {
  );
  } catch (genErr) {
  log.error({ err: genErr, orderId, userId }, "Auto-regeneration failed, flagging for manual review");
+
+ // Don't charge for a regeneration that never actually happened.
+ await supabaseAdmin.rpc("increment_regenerate_credits", {
+ p_order_id: orderId,
+ p_amount: 1,
+ });
 
  await supabaseAdmin.from("headshot_flags").upsert(
  {

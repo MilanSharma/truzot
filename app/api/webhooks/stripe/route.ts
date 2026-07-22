@@ -208,6 +208,31 @@ export const POST = withContext(async (req: Request) => {
  .single();
  if (fetchError)
  return NextResponse.json({ error: "Order not found" }, { status: 400 });
+
+ // Regenerate-credit top-ups purchase against an order that's already
+ // "completed" (that's the whole point), so this has to run before the
+ // training-pipeline status short-circuit below, which would otherwise
+ // silently swallow the event.
+ if (session.metadata?.type === "regenerate_credits") {
+ const credits = parseInt(session.metadata?.credits || "0", 10);
+ if (credits > 0) {
+ await supabaseAdmin.rpc("increment_regenerate_credits", {
+ p_order_id: orderId,
+ p_amount: credits,
+ });
+ log.info({ orderId, credits }, "Regenerate credits purchased");
+ }
+ if (event.id) {
+ await supabaseAdmin
+ .from("webhook_events")
+ .update({ status: "processed" })
+ .eq("event_id", event.id)
+ .eq("source", "stripe")
+ .eq("status", "received");
+ }
+ return NextResponse.json({ received: true });
+ }
+
  if (["training", "generating", "completed"].includes(order.status))
  return NextResponse.json({ received: true });
 

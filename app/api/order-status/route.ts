@@ -23,8 +23,12 @@ export const GET = withContext(async (req: Request) => {
 
  const token = req.headers.get("Authorization")?.replace("Bearer ", "");
  let userId: string | null = null;
- let order: { status: string; plan: string; user_id: string | null } | null =
- null;
+ let order: {
+ status: string;
+ plan: string;
+ user_id: string | null;
+ regenerate_credits: number | null;
+ } | null = null;
 
  // 1. Try download_token first for anonymous access
  if (downloadToken) {
@@ -38,7 +42,7 @@ export const GET = withContext(async (req: Request) => {
  userId = tokenRow.user_id;
  const { data: tokOrder } = await supabaseAdmin
  .from("orders")
- .select("status, plan, user_id")
+ .select("status, plan, user_id, regenerate_credits")
  .eq("id", orderId)
  .maybeSingle();
  order = tokOrder;
@@ -55,7 +59,7 @@ export const GET = withContext(async (req: Request) => {
  if (emailToken === expected) {
  const { data: tokOrder } = await supabaseAdmin
  .from("orders")
- .select("status, plan, user_id")
+ .select("status, plan, user_id, regenerate_credits")
  .eq("id", orderId)
  .maybeSingle();
  if (tokOrder) {
@@ -75,7 +79,7 @@ export const GET = withContext(async (req: Request) => {
  userId = user.id;
  const { data: authOrder } = await supabase
  .from("orders")
- .select("status, plan, user_id")
+ .select("status, plan, user_id, regenerate_credits")
  .eq("id", orderId)
  .maybeSingle();
  order = authOrder;
@@ -133,7 +137,13 @@ export const GET = withContext(async (req: Request) => {
  }
 
  return addCors(
- NextResponse.json({ status: order.status, headshots, count, target }),
+ NextResponse.json({
+ status: order.status,
+ headshots,
+ count,
+ target,
+ regenerateCredits: order.regenerate_credits ?? 0,
+ }),
  origin,
  );
 });

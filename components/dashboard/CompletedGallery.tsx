@@ -11,6 +11,7 @@ import {
   Download,
   X,
   Sparkles,
+  RefreshCw,
 } from "lucide-react";
 import VirtualizedHeadshotGrid from "@/components/VirtualizedHeadshotGrid";
 import type { Headshot } from "@/lib/types";
@@ -29,6 +30,7 @@ interface CompletedGalleryProps {
   hasMore: boolean;
   loadingMore: boolean;
   regeneratingUrls?: string[];
+  regenerateCredits?: number;
   onLoadMore: () => void;
   onCategoryChange: (cat: string) => void;
   onToggleSelect: (url: string, e?: React.MouseEvent) => void;
@@ -36,6 +38,7 @@ interface CompletedGalleryProps {
   onView: (url: string) => void;
   onDownload: (url: string) => void;
   onRegenerate?: (url: string) => void;
+  onBuyCredits?: () => void;
 }
 
 // Mirrors the scene categories produced by the generation engine
@@ -75,6 +78,7 @@ export default function CompletedGallery({
   hasMore,
   loadingMore,
   regeneratingUrls,
+  regenerateCredits = 0,
   onLoadMore,
   onCategoryChange,
   onToggleSelect,
@@ -82,6 +86,7 @@ export default function CompletedGallery({
   onView,
   onDownload,
   onRegenerate,
+  onBuyCredits,
 }: CompletedGalleryProps) {
   const [showUpsellModal, setShowUpsellModal] = useState(false);
   const [sortBy, setSortBy] = useState<"newest" | "oldest" | "favorites">(
@@ -335,9 +340,9 @@ export default function CompletedGallery({
               )}
             </button>
             {showDatePicker && (
-              <div className="absolute top-full left-0 mt-1 z-50 bg-[#0E1016] border border-white/10 rounded-2xl shadow-2xl p-4 w-72">
+              <div className="absolute top-full left-0 mt-1 z-50 bg-white border border-slate-200 rounded-2xl shadow-2xl p-4 w-72">
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-medium text-white/60">
+                  <label className="text-xs font-medium text-slate-500">
                     From
                   </label>
                   <input
@@ -353,9 +358,9 @@ export default function CompletedGallery({
                         from: e.target.value ? new Date(e.target.value) : null,
                       }))
                     }
-                    className="[color-scheme:dark] px-3 py-1.5 text-sm border border-white/10 bg-white/10 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400/50"
+                    className="[color-scheme:light] px-3 py-1.5 text-sm border border-slate-200 bg-white text-slate-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400/50"
                   />
-                  <label className="text-xs font-medium text-white/60">To</label>
+                  <label className="text-xs font-medium text-slate-500">To</label>
                   <input
                     type="date"
                     value={
@@ -369,12 +374,12 @@ export default function CompletedGallery({
                         to: e.target.value ? new Date(e.target.value) : null,
                       }))
                     }
-                    className="[color-scheme:dark] px-3 py-1.5 text-sm border border-white/10 bg-white/10 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400/50"
+                    className="[color-scheme:light] px-3 py-1.5 text-sm border border-slate-200 bg-white text-slate-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400/50"
                   />
                   <div className="flex justify-end gap-2 mt-2">
                     <button
                       onClick={() => setShowDatePicker(false)}
-                      className="px-3 py-1.5 text-sm text-white/60 hover:bg-white/10 rounded-lg"
+                      className="px-3 py-1.5 text-sm text-slate-500 hover:bg-slate-100 rounded-lg"
                     >
                       Close
                     </button>
@@ -402,6 +407,22 @@ export default function CompletedGallery({
             {downloadingAll
               ? "Downloading..."
               : `Download All (${sortedFiltered.length})`}
+          </button>
+
+          {/* Regenerate credits */}
+          <button
+            onClick={onBuyCredits}
+            className={`flex items-center gap-1.5 px-3 py-2 text-sm border rounded-lg transition font-bold ${
+              regenerateCredits > 0
+                ? "bg-lime-400/10 border-lime-400/30 text-lime-600 hover:bg-lime-400/20"
+                : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
+            }`}
+            title="Buy credits to regenerate individual photos ($1 each)"
+          >
+            <RefreshCw className="w-4 h-4" />
+            {regenerateCredits > 0
+              ? `${regenerateCredits} regenerate credit${regenerateCredits === 1 ? "" : "s"}`
+              : "Buy regenerate credits"}
           </button>
         </div>
 

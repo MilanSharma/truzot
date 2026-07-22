@@ -54,6 +54,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import { useToast } from "@/components/Toast";
 import ConfirmModal from "@/components/ConfirmModal";
 import PromptModal from "@/components/PromptModal";
+import BuyRegenerateCreditsModal from "@/components/dashboard/BuyRegenerateCreditsModal";
 import { motion, AnimatePresence } from "framer-motion";
 
 const LightboxModal = lazy(
@@ -297,6 +298,7 @@ function DashboardContent() {
   const [authChecked, setAuthChecked] = useState(true);
   const [isSigningOut, setIsSigningOut] = useState(false);
   const [resumingPayment, setResumingPayment] = useState(false);
+  const [showBuyCreditsModal, setShowBuyCreditsModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState<{
     isOpen: boolean;
     title: string;
@@ -386,6 +388,7 @@ function DashboardContent() {
         const statusData = (await res.json()) as {
           status?: string;
           plan?: string;
+          regenerateCredits?: number;
         };
         if (statusData.status) {
           return {
@@ -393,6 +396,7 @@ function DashboardContent() {
             plan: statusData.plan || "unknown",
             status: statusData.status,
             created_at: new Date().toISOString(),
+            regenerate_credits: statusData.regenerateCredits ?? 0,
           } as Order;
         }
       } catch {}
@@ -862,13 +866,15 @@ function DashboardContent() {
         headers,
         body: JSON.stringify({ orderId, imageUrl: url }),
       });
-      const data = await res.json() as { success: boolean; headshot?: Headshot; message?: string; error?: string };
+      const data = await res.json() as { success: boolean; headshot?: Headshot; message?: string; error?: string; code?: string };
       if (res.ok && data.success && data.headshot) {
         setHeadshots((prev) => prev.map((h) => (h.image_url === url ? data.headshot! : h)));
         // The URL changed, so any reference to the old one is now dangling.
         setSelectedImages((prev) => prev.filter((u) => u !== url));
         setFavorites((prev) => prev.filter((u) => u !== url));
         toast("New photo generated.", "success");
+      } else if (res.status === 402 && data.code === "NO_CREDITS") {
+        setShowBuyCreditsModal(true);
       } else {
         toast(data.message || data.error || "Regeneration failed. Please try again.", "error");
       }
@@ -1478,6 +1484,8 @@ function DashboardContent() {
                       onView={(url) => setSelected(url)}
                       onDownload={downloadSingle}
                       onRegenerate={handleRegenerate}
+                      regenerateCredits={currentOrder.regenerate_credits ?? 0}
+                      onBuyCredits={() => setShowBuyCreditsModal(true)}
                     />
                   </GalleryErrorBoundary>
                 )}
@@ -1558,6 +1566,12 @@ function DashboardContent() {
           initialValue={promptModal.initialValue}
           onConfirm={promptModal.action}
           onCancel={() => setPromptModal(null)}
+        />
+      )}
+      {showBuyCreditsModal && orderId && (
+        <BuyRegenerateCreditsModal
+          orderId={orderId}
+          onClose={() => setShowBuyCreditsModal(false)}
         />
       )}
     </div>

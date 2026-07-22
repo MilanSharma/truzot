@@ -42,6 +42,7 @@ export interface Order {
   discount_code?: string | null;
   discount_amount_cents?: number | null;
   original_amount_cents?: number | null;
+  regenerate_credits?: number;
 }
 
 export interface User {
@@ -64,6 +65,7 @@ export interface OrderStatusResponse {
   headshots?: Headshot[];
   count?: number;
   target?: number;
+  regenerateCredits?: number;
 }
 
 export interface CheckoutResponse {
