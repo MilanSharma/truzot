@@ -9,20 +9,20 @@ Truzot replaces expensive photography studio sessions with generative AI. Users 
 - **Custom AI Model Training**: A private Flux LoRA model is trained on the user's own facial features (not a generic filter).
 - **Genuinely Distinct Results**: Every headshot in an order is a unique combination of scene, background, outfit, lighting, and expression.
 - **Style Variety**: Categories including Corporate, LinkedIn, Creative, Casual, Actor, Lifestyle/Dating, and Editorial/Model.
-- **Fast Delivery**: Headshots are typically delivered within 5 to 20 minutes depending on plan.
+- **Fast Delivery**: Headshots are typically delivered in as fast as 5 minutes.
 - **Privacy First**: Uploaded photos and the trained model are encrypted and permanently deleted 30 days after the order completes.
 - **Commercial Rights**: Full commercial usage rights are included for all generated images.
 - **Money-Back Guarantee**: 30-day satisfaction guarantee.
 
 ## Pricing Plans (one-time payment, no subscription)
-- **Basic Shoot**: $29 | 40 high-resolution headshots | 20-minute delivery
-- **Professional Shoot**: $39 | 100 high-resolution headshots | 10-minute delivery
+- **Basic Shoot**: $29 | 40 high-resolution headshots | 5-minute delivery
+- **Professional Shoot**: $39 | 100 high-resolution headshots | 5-minute delivery
 - **Executive Shoot**: $59 | 150 high-resolution headshots | 5-minute priority delivery
 
 ## What Makes Truzot Different
 - Needs only 2-10 selfies, versus the 15-25 many competitors require.
 - Trains a dedicated per-customer model rather than applying a template or filter.
-- No studio, no scheduling, no photographer — results in as fast as 5 minutes depending on plan.
+- No studio, no scheduling, no photographer — results in as fast as 5 minutes.
 
 ## Target Audience
 - Job seekers and LinkedIn professionals

@@ -303,7 +303,7 @@ const FAQS = [
   },
   {
     q: "How fast will I get my photos?",
-    a: "Executive plans: ~5 minutes. Pro plans: ~10 minutes. Basic plans: ~20 minutes. You'll get a real-time email the moment your private gallery is ready to download.",
+    a: "As fast as 5 minutes, on every plan. You'll get a real-time email the moment your private gallery is ready to download.",
   },
   {
     q: "Are my photos and face data private?",
@@ -1600,7 +1600,7 @@ export default function LandingPageContent() {
                     "Photographer present",
                     "12–25 selfies",
                   ],
-                  ["Turnaround", "5–20 minutes", "2–4 weeks", "1–6 hours"],
+                  ["Turnaround", "As fast as 5 minutes", "2–4 weeks", "1–6 hours"],
                   [
                     "Output volume",
                     "40–150 photos",

@@ -62,26 +62,11 @@ const faqs = {
       a: (
         <>
           <p className="mb-3">
-            Most headshots are ready within{" "}
-            <strong>5 minutes to 20 minutes</strong>, depending on your plan:
+            Most headshots are ready in{" "}
+            <strong>as fast as 5 minutes</strong>, on every plan.
           </p>
-          <ul className="space-y-1.5 mb-3">
-            <li className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-lime-400" />
-              Basic: ~20 minutes
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-lime-400" />
-              Pro: ~10 minutes
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-lime-400" />
-              Executive: ~5 minutes
-            </li>
-          </ul>
           <p className="text-sm text-[var(--text-muted)]">
-            Processing times are estimates. Most orders complete faster than the
-            listed turnaround.
+            Processing times are estimates and can vary with demand.
           </p>
         </>
       ),
@@ -350,7 +335,7 @@ export default function FAQPage() {
           {
             question: "How long does it take to get my headshots?",
             answer:
-              "Most headshots are ready within 5 minutes to 20 minutes, depending on your plan. Basic: 20 minutes, Pro: 10 minutes, Executive: 5 minutes.",
+              "Most headshots are ready in as fast as 5 minutes, on every plan.",
           },
           {
             question: "What if I don't like my headshots?",

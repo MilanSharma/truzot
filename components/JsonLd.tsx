@@ -90,7 +90,7 @@ export function ProductSchema() {
         name: "Basic",
         price: "29",
         priceCurrency: "USD",
-        description: "40 HD headshots with 10+ styles. 20-minute delivery.",
+        description: "40 HD headshots with 10+ styles. 5-minute delivery.",
         priceValidUntil,
         availability: "https://schema.org/InStock",
         url: `${siteUrl}/upload?plan=basic`,
@@ -101,7 +101,7 @@ export function ProductSchema() {
         price: "39",
         priceCurrency: "USD",
         description:
-          "100 high-resolution headshots with 30+ styles. 10-minute delivery.",
+          "100 high-resolution headshots with 30+ styles. 5-minute delivery.",
         priceValidUntil,
         availability: "https://schema.org/InStock",
         url: `${siteUrl}/upload?plan=pro`,
@@ -183,7 +183,7 @@ export function HowToSchema() {
       {
         "@type": "HowToStep",
         name: "Download your headshots",
-        text: "Get 40-150 HD headshots delivered in as fast as 10 minutes. Use them on LinkedIn, resumes, company pages, company pages, and anywhere you need a professional image.",
+        text: "Get 40-150 HD headshots delivered in as fast as 5 minutes. Use them on LinkedIn, resumes, company pages, company pages, and anywhere you need a professional image.",
         image: `${siteUrl}/howto-download.jpg`,
         url: `${siteUrl}/upload`,
       },

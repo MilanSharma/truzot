@@ -179,7 +179,7 @@ export default function CustomUpsellModal({
           )}
         </button>
         <p className="text-center text-xs text-white/20 mt-4 font-semibold">
-          Delivered in ~10 minutes. No uploading required.
+          Delivered in as fast as ~5 minutes. No uploading required.
         </p>
       </motion.div>
     </motion.div>
