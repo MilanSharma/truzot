@@ -85,7 +85,7 @@ export default function HeroSection({
         >
           Studio headshots.
           <br />
-          <span className="text-[var(--lime)]">30 minutes.</span>
+          <span className="text-[var(--lime)]">5 minutes.</span>
           <br />
           <span className="text-[var(--text-faint)]">From your phone.</span>
         </motion.h1>

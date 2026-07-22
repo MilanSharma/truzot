@@ -303,7 +303,7 @@ const FAQS = [
   },
   {
     q: "How fast will I get my photos?",
-    a: "Executive plans: ~30 minutes. Pro plans: ~1 hour. Basic plans: ~2 hours. You'll get a real-time email the moment your private gallery is ready to download.",
+    a: "Executive plans: ~5 minutes. Pro plans: ~10 minutes. Basic plans: ~20 minutes. You'll get a real-time email the moment your private gallery is ready to download.",
   },
   {
     q: "Are my photos and face data private?",
@@ -957,7 +957,7 @@ export default function LandingPageContent() {
                   <span className="text-lime-400">that actually look like you.</span>
                 </span>
                 <br />
-                <span className="text-white/40">Not a stranger. Ready in as fast as 30 minutes.</span>
+                <span className="text-white/40">Not a stranger. Ready in as fast as 5 minutes.</span>
               </motion.h1>
 
               {/* Sub */}
@@ -2167,7 +2167,7 @@ export default function LandingPageContent() {
                   <h2 className="text-4xl md:text-6xl font-black text-white mb-5 tracking-tighter leading-[0.95]">
                     Your next great first impression
                     <br />
-                    <span className="text-lime-400">starts in 30 minutes.</span>
+                    <span className="text-lime-400">starts in 5 minutes.</span>
                   </h2>
                   <p className="text-xl text-white/40 mb-10 max-w-xl mx-auto leading-relaxed">
                     Join thousands of people who upgraded their personal brand —

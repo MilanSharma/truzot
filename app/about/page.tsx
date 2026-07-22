@@ -40,7 +40,7 @@ export default function AboutPage() {
  {[
  { value: "10K+", label: "Professionals served" },
  { value: "1.2M+", label: "Headshots generated" },
- { value: "30 min", label: "Average delivery" },
+ { value: "5 min", label: "Average delivery" },
  { value: "4.9/5", label: "Average rating" },
  ].map((stat, i) => (
  <motion.div
