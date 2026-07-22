@@ -1,8 +1,20 @@
 import { Resend } from "resend";
+import { createHmac } from "crypto";
 
 function getResend() {
   if (!process.env.RESEND_API_KEY) throw new Error("RESEND_API_KEY is not configured");
   return new Resend(process.env.RESEND_API_KEY);
+}
+
+// Same HMAC scheme that /api/order-status and /api/download/token validate.
+// Guest orders have no account, so the gallery link MUST carry this token or a
+// guest clicking "View Full Gallery" lands unauthenticated — the gallery then
+// falls back to a direct (RLS-blocked) DB read and errors, and Share/Download
+// have no credential to present.
+function makeEmailToken(orderId: string): string {
+  const secret = process.env.CRON_SECRET;
+  if (!secret) return "";
+  return createHmac("sha256", secret).update(orderId).digest("hex").substring(0, 32);
 }
 
 async function withRetry<T>(
@@ -53,7 +65,8 @@ const baseTemplate = (preview: string, title: string, content: string) => `
 `;
 
 export async function sendHeadshotsReadyEmail(email: string, orderId: string, shotCount: number, shootName?: string | null, thumbnails?: string[]) {
-  const dashboardUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard?order=${orderId}`;
+  const emailToken = makeEmailToken(orderId);
+  const dashboardUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard?order=${orderId}${emailToken ? `&email_token=${emailToken}` : ""}`;
   
   let thumbnailsHtml = "";
   if (thumbnails && thumbnails.length > 0) {
