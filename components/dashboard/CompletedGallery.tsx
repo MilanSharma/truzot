@@ -353,7 +353,7 @@ export default function CompletedGallery({
                         from: e.target.value ? new Date(e.target.value) : null,
                       }))
                     }
-                    className="px-3 py-1.5 text-sm border border-white/10 bg-white/10 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400/50"
+                    className="[color-scheme:dark] px-3 py-1.5 text-sm border border-white/10 bg-white/10 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400/50"
                   />
                   <label className="text-xs font-medium text-white/60">To</label>
                   <input
@@ -369,7 +369,7 @@ export default function CompletedGallery({
                         to: e.target.value ? new Date(e.target.value) : null,
                       }))
                     }
-                    className="px-3 py-1.5 text-sm border border-white/10 bg-white/10 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400/50"
+                    className="[color-scheme:dark] px-3 py-1.5 text-sm border border-white/10 bg-white/10 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400/50"
                   />
                   <div className="flex justify-end gap-2 mt-2">
                     <button

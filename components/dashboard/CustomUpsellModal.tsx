@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { supabase } from "@/lib/supabase/client";
 import { useToast } from "@/components/Toast";
 import {
   X,
@@ -45,10 +46,11 @@ export default function CustomUpsellModal({
   const handleCheckout = async () => {
     setLoading(true);
     try {
-      // Get auth token from localStorage
-      const token = localStorage.getItem("sb-truzot-auth-token");
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       const headers: Record<string, string> = { "Content-Type": "application/json" };
-      if (token) headers.Authorization = `Bearer ${token}`;
+      if (session?.access_token) headers.Authorization = `Bearer ${session.access_token}`;
 
       const res = await fetch("/api/upsell-custom", {
         method: "POST",

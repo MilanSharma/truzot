@@ -855,12 +855,11 @@ function DashboardContent() {
       const {
         data: { session },
       } = await supabase.auth.getSession();
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (session?.access_token) headers.Authorization = `Bearer ${session.access_token}`;
       const res = await fetch("/api/regenerate", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${session?.access_token || ""}`,
-        },
+        headers,
         body: JSON.stringify({ orderId, imageUrl: url }),
       });
       const data = await res.json() as { success: boolean; headshot?: Headshot; message?: string; error?: string };

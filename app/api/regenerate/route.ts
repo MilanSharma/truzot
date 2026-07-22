@@ -18,25 +18,6 @@ export const OPTIONS = handleOptions;
 export const POST = withContext(async (req: Request) => {
  const origin = req.headers.get("origin");
  try {
- const authHeader = req.headers.get("Authorization") ?? "";
- const accessToken = authHeader.replace("Bearer ", "").trim();
- if (!accessToken) {
- return addCors(
- NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
- origin,
- );
- }
- const supabase = getAuthenticatedClient(accessToken);
- const {
- data: { user },
- } = await supabase.auth.getUser();
- if (!user) {
- return addCors(
- NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
- origin,
- );
- }
-
  const { orderId, imageUrl } = await req.json() as { orderId?: string; imageUrl?: string };
  if (!orderId || !imageUrl) {
  return addCors(
@@ -46,6 +27,21 @@ export const POST = withContext(async (req: Request) => {
  ),
  origin,
  );
+ }
+
+ // Resolve the caller's identity if a session token was sent. Guest
+ // orders (order.user_id is null) have no owner to match against, so
+ // they're reachable by anyone holding the order id — same trust model
+ // as /api/download. Claimed orders require the token to match.
+ const authHeader = req.headers.get("Authorization") ?? "";
+ const accessToken = authHeader.replace("Bearer ", "").trim();
+ let userId: string | null = null;
+ if (accessToken) {
+ const supabase = getAuthenticatedClient(accessToken);
+ const {
+ data: { user },
+ } = await supabase.auth.getUser();
+ userId = user?.id ?? null;
  }
 
  const { data: order } = await supabaseAdmin
@@ -59,9 +55,9 @@ export const POST = withContext(async (req: Request) => {
  origin,
  );
  }
- if (order.user_id !== user.id) {
+ if (order.user_id && order.user_id !== userId) {
  return addCors(
- NextResponse.json({ error: "Forbidden" }, { status: 403 }),
+ NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
  origin,
  );
  }
@@ -133,19 +129,19 @@ export const POST = withContext(async (req: Request) => {
 
  await supabaseAdmin.from("headshots").delete().eq("id", originalHeadshot.id);
 
- log.info({ orderId, userId: user.id }, "Regenerated headshot");
+ log.info({ orderId, userId }, "Regenerated headshot");
  return addCors(
  NextResponse.json({ success: true, headshot: inserted }),
  origin,
  );
  } catch (genErr) {
- log.error({ err: genErr, orderId, userId: user.id }, "Auto-regeneration failed, flagging for manual review");
+ log.error({ err: genErr, orderId, userId }, "Auto-regeneration failed, flagging for manual review");
 
  await supabaseAdmin.from("headshot_flags").upsert(
  {
  order_id: orderId,
  image_url: imageUrl,
- user_id: user.id,
+ user_id: userId,
  reason: "regenerate_request",
  created_at: new Date().toISOString(),
  },

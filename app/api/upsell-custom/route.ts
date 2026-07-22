@@ -5,15 +5,22 @@ import { withContext } from "@/lib/request-context";
 
 export const POST = withContext(async (req: Request) => {
  try {
- const authHeader = req.headers.get("Authorization")?.replace("Bearer ", "");
- if (!authHeader) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
- const { data: { user } } = await supabaseAdmin.auth.getUser(authHeader);
- if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
- 
  const stripe = getStripe();
  const { orderId, clothing, background } = await req.json() as { orderId?: string; clothing?: string; background?: string };
  if (!orderId || !clothing || !background) {
  return NextResponse.json({ error: "Missing fields" }, { status: 400 });
+ }
+
+ // Resolve the caller's identity if a session token was sent. Guest
+ // orders (order.user_id is null) have no owner to match against, so
+ // they're reachable by anyone holding the order id — same trust model
+ // as /api/download and /api/regenerate. Claimed orders require the
+ // token to match the owner.
+ const authHeader = req.headers.get("Authorization")?.replace("Bearer ", "");
+ let userId: string | null = null;
+ if (authHeader) {
+ const { data: { user } } = await supabaseAdmin.auth.getUser(authHeader);
+ userId = user?.id ?? null;
  }
 
  const { data: order } = await supabaseAdmin
@@ -25,8 +32,8 @@ export const POST = withContext(async (req: Request) => {
  if (!order)
  return NextResponse.json({ error: "Order not found" }, { status: 404 });
 
- if (order.user_id !== user.id)
- return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+ if (order.user_id && order.user_id !== userId)
+ return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
  const { data: training } = await supabaseAdmin
  .from("trainings")

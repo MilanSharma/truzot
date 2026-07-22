@@ -24,7 +24,7 @@ export default function Sidebar({
   const router = useRouter();
 
   return (
-    <aside className="w-[280px] bg-[#0E1016]/90 backdrop-blur-2xl border-r border-white/10 flex flex-col justify-between hidden md:flex shrink-0 z-20">
+    <aside className="w-[280px] bg-[#0E1016] border-r border-white/10 flex flex-col justify-between hidden md:flex shrink-0 z-20">
       {/* Top section */}
       <div>
         <div className="h-20 flex items-center px-8 border-b border-white/10">
