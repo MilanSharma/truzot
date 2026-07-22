@@ -1262,7 +1262,7 @@ function DashboardContent() {
                         {currentOrder.status}
                       </span>
                     </div>
-                    <p className="text-xs text-slate-400 font-medium mt-1">
+                    <p className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-1">
                       Created{" "}
                       {new Date(currentOrder.created_at).toLocaleDateString(
                         undefined,

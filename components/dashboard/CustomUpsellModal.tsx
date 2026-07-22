@@ -45,9 +45,14 @@ export default function CustomUpsellModal({
   const handleCheckout = async () => {
     setLoading(true);
     try {
+      // Get auth token from localStorage
+      const token = localStorage.getItem("sb-truzot-auth-token");
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (token) headers.Authorization = `Bearer ${token}`;
+
       const res = await fetch("/api/upsell-custom", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({ orderId, clothing, background }),
       });
       const data = await res.json() as { url?: string; error?: string };
