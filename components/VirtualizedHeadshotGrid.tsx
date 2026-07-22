@@ -8,7 +8,6 @@ import React, {
   useMemo,
 } from "react";
 import Image from "next/image";
-import { Grid } from "react-window";
 import {
   Download,
   Heart,
@@ -18,8 +17,6 @@ import {
   RefreshCw,
 } from "lucide-react";
 import CardErrorBoundary from "./CardErrorBoundary";
-
-const GridComponent = Grid as React.ComponentType<any>;
 
 const IMG_ALLOWED_HOSTS = [
   "fal.media",
@@ -313,6 +310,15 @@ export default function VirtualizedHeadshotGrid(
     return () => observer.disconnect();
   }, []);
 
+  // Guard against empty or invalid headshots
+  if (!props.headshots || props.headshots.length === 0) {
+    return (
+      <div className="w-full flex items-center justify-center py-20">
+        <p className="text-slate-400">No headshots to display</p>
+      </div>
+    );
+  }
+
   const minColWidth = props.minColWidth ?? 200;
   const columnCount = Math.max(
     1,
@@ -358,30 +364,32 @@ export default function VirtualizedHeadshotGrid(
     ],
   );
 
+  // Use simple CSS grid instead of react-window for reliability
   return (
     <div
       ref={containerRef}
       className="w-full"
       style={{ height: containerHeight }}
     >
-      <GridComponent
-        columnCount={columnCount}
-        columnWidth={columnWidth}
-        height={containerHeight}
-        width={width}
-        rowCount={rowCount}
-        rowHeight={rowHeight}
-        style={{ overflowX: "hidden" }}
-      >
-        {({ columnIndex, rowIndex, style }: { columnIndex: number; rowIndex: number; style: React.CSSProperties }) => (
-          <GridCell
-            columnIndex={columnIndex}
-            rowIndex={rowIndex}
-            style={style}
-            {...cellArgs}
-          />
-        )}
-      </GridComponent>
+      <div className="grid gap-6" style={{ gridTemplateColumns: `repeat(${columnCount}, 1fr)` }}>
+        {props.headshots.map((headshot, index) => {
+          const columnIndex = index % columnCount;
+          const rowIndex = Math.floor(index / columnCount);
+          const style: React.CSSProperties = {
+            width: columnWidth,
+            height: rowHeight,
+          };
+          return (
+            <GridCell
+              key={headshot.id}
+              columnIndex={columnIndex}
+              rowIndex={rowIndex}
+              style={style}
+              {...cellArgs}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }
