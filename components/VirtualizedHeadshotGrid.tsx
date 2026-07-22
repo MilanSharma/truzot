@@ -18,6 +18,49 @@ import {
  RefreshCw,
 } from "lucide-react";
 
+const IMG_ALLOWED_HOSTS = ["fal.media", "supabase.co", "unsplash.com", "googleusercontent.com", "googleapis.com"];
+
+function isNextImageSafe(url: string): boolean {
+  try {
+    const h = new URL(url).hostname.toLowerCase();
+    return (
+      IMG_ALLOWED_HOSTS.some((d) => h === d || h.endsWith("." + d)) ||
+      (typeof window !== "undefined" && h === window.location.hostname)
+    );
+  } catch {
+    return false;
+  }
+}
+
+function SafeImage({ src, alt, loaded, onLoad }: { src?: string | null; alt: string; loaded: boolean; onLoad: () => void }) {
+  if (!src) {
+    return <div className="absolute inset-0 bg-slate-200 animate-pulse" />;
+  }
+  if (isNextImageSafe(src)) {
+    return (
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(max-width: 768px) 50vw, 25vw"
+        className={`object-cover select-none transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
+        onLoad={onLoad}
+      />
+    );
+  }
+  // Unknown host or empty → plain <img> can't throw the way next/image does.
+  // eslint-disable-next-line @next/next/no-img-element
+  return (
+    <img
+      src={src}
+      alt={alt}
+      loading="lazy"
+      className={`absolute inset-0 w-full h-full object-cover select-none transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
+      onLoad={onLoad}
+    />
+  );
+}
+
 interface Headshot {
  id: string;
  image_url: string;
@@ -81,13 +124,10 @@ const HeadshotCard = React.memo(function HeadshotCard({
  {!loaded && (
  <div className="absolute inset-0 bg-slate-200 animate-pulse" />
  )}
- <Image
+ <SafeImage
  src={headshot.image_url}
  alt="AI Headshot"
- fill
- sizes="(max-width: 768px) 50vw, 25vw"
- className={`object-cover select-none transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
- onDoubleClick={() => onToggleSelect(headshot.image_url)}
+ loaded={loaded}
  onLoad={() => setLoaded(true)}
  />
  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-slate-900/40 opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-between p-3">

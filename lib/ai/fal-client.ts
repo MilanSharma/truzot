@@ -148,12 +148,12 @@ const LIGHTING = [
 ];
 
 const EXPRESSIONS = [
-  "with a warm, genuine smile showing teeth",
-  "with a confident, subtle closed-mouth smile",
-  "with a serious, focused, and professional gaze",
-  "with a relaxed, friendly, and approachable demeanor",
-  "with an energetic, bright, and engaging smile",
-  "with a thoughtful, composed, and trustworthy expression"
+  "(broad open-mouth laugh, showing teeth, eyes crinkled with joy:1.3)",
+  "(closed-mouth gentle smile, lips together, no teeth visible:1.3)",
+  "(neutral confident expression, mouth closed, relaxed brow:1.3)",
+  "(subtle one-sided smirk, lips closed, playful:1.25)",
+  "(thoughtful pensive look, lips pressed together, calm gaze:1.25)",
+  "(soft warm smile with teeth, but relaxed natural eyes:1.25)",
 ];
 
 // Strict gender-specific wardrobe with explicit colors and styles to guarantee variety
@@ -365,8 +365,17 @@ export const generateHeadshots = async (
   const BACKFILL_BUFFER = Math.max(10, Math.ceil(batchSize * 0.3));
   const allPrompts = buildPrompts(plan, prefs, Math.min(targetShots + BACKFILL_BUFFER, maxAttempts));
 
-  const loraScale = 1.0; // Locked 1.0 ensures maximum likeness binding
+  const loraScale = 0.9; // 0.9 is the sweet spot: identity stays locked, expression/pose text gains real influence
   const guidanceScale = 2.5; // Dropped to 2.5 (forces photorealism over waxy AI smoothness)
+
+  function expressionNegative(prompt: string): string {
+    const p = prompt.toLowerCase();
+    const wantsTeeth = /laugh|showing teeth|open-mouth/.test(p);
+    const wantsClosed = /closed-mouth|lips together|neutral|serious|pensive|smirk|thoughtful/.test(p);
+    if (wantsClosed) return ", smiling, showing teeth, grin, open mouth, laughing";
+    if (wantsTeeth)  return ", closed mouth, frown, pursed lips, sad, neutral flat face";
+    return "";
+  }
 
   let consecutiveFailures = 0;
   const seenHashes = new Set<string>();
@@ -389,16 +398,16 @@ export const generateHeadshots = async (
       try {
         const res = await withFalSlot(() => falFetch("fal-ai/flux-lora", {
           prompt,
-          negative_prompt: NEGATIVE_PROMPT,
+          negative_prompt: NEGATIVE_PROMPT + expressionNegative(prompt),
           loras: [{ path: modelId, scale: loraScale }],
           num_inference_steps: profile.inferenceSteps,
-          guidance_scale: guidanceScale,
+          guidance_scale: guidanceScale + ((index % 3) - 1) * 0.25,
           num_images: 1,
           image_size: { width: profile.baseWidth, height: profile.baseHeight },
-          seed: Math.floor(Math.random() * 2_147_483_647), 
+          seed: Math.floor(Math.random() * 2_147_483_647),
           output_format: "jpeg",
           enable_safety_checker: true,
-          acceleration: "none", 
+          acceleration: "none",
         }));
 
         const falUrl = res.data.images[0].url;

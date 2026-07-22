@@ -11,7 +11,7 @@ export const POST = withContext(async (req: Request) => {
    const { orderId, email_token } = await req.json() as { orderId?: string; email_token?: string };
    if (!orderId) return NextResponse.json({ error: "Missing orderId" }, { status: 400 });
 
-   const { data: order } = await supabaseAdmin.from("orders").select("user_id").eq("id", orderId).single();
+   const { data: order } = await supabaseAdmin.from("orders").select("user_id, status").eq("id", orderId).single();
    if (!order) return NextResponse.json({ error: "Order not found" }, { status: 404 });
 
    let isAuthorized = false;
@@ -28,6 +28,15 @@ export const POST = withContext(async (req: Request) => {
      const expected = createHmac("sha256", process.env.CRON_SECRET!).update(orderId).digest("hex").substring(0, 32);
      if (email_token === expected) {
        authorizedUserId = order.user_id; // Will be null for guests
+       isAuthorized = true;
+     }
+   } else {
+     // Guest with only the order UUID. The UUID is an unguessable v4 secret
+     // (same model as the public headshots bucket), so possession of it is
+     // sufficient to view/share a *completed* order. authorizedUserId stays
+     // null for true guest orders, which the read paths already handle.
+     if (order.status === "completed") {
+       authorizedUserId = order.user_id; // null for guest orders
        isAuthorized = true;
      }
    }

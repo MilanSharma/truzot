@@ -16,6 +16,8 @@ const nextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: 'fal.media' },
       { protocol: 'https', hostname: '*.fal.media' },
+      { protocol: 'https', hostname: 'storage.googleapis.com' },
+      { protocol: 'https', hostname: '*.googleusercontent.com' },
       { protocol: 'https', hostname: supabaseHost },
       { protocol: 'https', hostname: 'images.unsplash.com' },
     ],
