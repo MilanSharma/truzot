@@ -7,7 +7,7 @@ import React, {
  useMemo,
 } from "react";
 import Image from "next/image";
-import { Grid } from "react-window";
+import { FixedSizeGrid } from "react-window";
 import {
  Download,
  Heart,
@@ -350,7 +350,7 @@ export default function VirtualizedHeadshotGrid(
  className="w-full"
  style={{ height: containerHeight }}
  >
- <Grid
+ <FixedSizeGrid
  columnCount={columnCount}
  columnWidth={columnWidth}
  height={containerHeight}
@@ -359,8 +359,8 @@ export default function VirtualizedHeadshotGrid(
  rowHeight={rowHeight}
  style={{ height: containerHeight, width, overflowX: "hidden" }}
  >
- {Cell}
- </Grid>
+ {Cell as any}
+ </FixedSizeGrid>
  </div>
  );
 }
