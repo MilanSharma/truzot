@@ -2170,9 +2170,9 @@ export default function LandingPageContent() {
                     <span className="text-lime-400">starts in 5 minutes.</span>
                   </h2>
                   <p className="text-xl text-white/40 mb-10 max-w-xl mx-auto leading-relaxed">
-                    Join thousands of people who upgraded their personal brand —
-                    professionals, job seekers, creatives, and students alike.
-                    No studio. No photographer. No risk.
+                    Professionals, job seekers, creatives, and students alike
+                    are upgrading their personal brand without a studio or a
+                    photographer — backed by a 30-day money-back guarantee.
                   </p>
 
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -2193,7 +2193,7 @@ export default function LandingPageContent() {
 
                   <p className="mt-6 text-sm text-white/30 font-medium">
                     From $29 · 30-day money-back guarantee · Results in as
-                    fast as 30 minutes
+                    fast as 5 minutes
                   </p>
                 </div>
               </motion.div>
