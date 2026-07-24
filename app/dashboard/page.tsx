@@ -240,23 +240,41 @@ function DashboardContent() {
             });
           }
 
-          // Google Ads with value-based tracking and Enhanced Conversions
-          if (typeof window !== "undefined" && (window as any).gtag) {
-            // Set user data for Enhanced Conversions
-            if (data.email) {
-              const hashedEmail = await sha256(data.email.trim().toLowerCase());
-              (window as any).gtag("set", "user_data", {
-                sha256_email_address: hashedEmail,
-              });
-            }
+          // Google Ads with value-based tracking and Enhanced Conversions.
+          // gtag.js loads via Script strategy="afterInteractive", which can
+          // still be mid-flight when this fetch resolves on a cold page load
+          // (e.g. a fresh tab opened by Tag Assistant). Poll briefly instead
+          // of checking once, so a slow script load doesn't silently drop
+          // the conversion.
+          if (typeof window !== "undefined") {
+            const waitForGtag = async (timeoutMs = 4000, intervalMs = 100) => {
+              const start = Date.now();
+              while (!(window as any).gtag) {
+                if (Date.now() - start > timeoutMs) return false;
+                await new Promise((r) => setTimeout(r, intervalMs));
+              }
+              return true;
+            };
 
-            // Fire conversion event
-            (window as any).gtag("event", "conversion", {
-              send_to: "AW-18276640380/bFSfCJb0pM8cEPzM_YpE",
-              value: data.amount,
-              currency: data.currency,
-              transaction_id: sessionId,
-            });
+            if (await waitForGtag()) {
+              // Set user data for Enhanced Conversions
+              if (data.email) {
+                const hashedEmail = await sha256(data.email.trim().toLowerCase());
+                (window as any).gtag("set", "user_data", {
+                  sha256_email_address: hashedEmail,
+                });
+              }
+
+              // Fire conversion event
+              (window as any).gtag("event", "conversion", {
+                send_to: "AW-18276640380/bFSfCJb0pM8cEPzM_YpE",
+                value: data.amount,
+                currency: data.currency,
+                transaction_id: sessionId,
+              });
+            } else {
+              console.error("gtag not available after 4s — Google Ads conversion not fired", { sessionId });
+            }
           }
         }
       } catch (err) {
@@ -1215,29 +1233,6 @@ function DashboardContent() {
                     </Link>
                   </div>
                 )}
-
-                {currentOrder &&
-                  ["training", "generating"].includes(currentOrder.status) &&
-                  currentTime > 0 &&
-                  currentTime - new Date(currentOrder.created_at).getTime() >
-                    30 * 60 * 1000 && (
-                    <div className="mb-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in">
-                      <div className="text-sm text-amber-800 dark:text-amber-300">
-                        <span className="font-bold flex items-center gap-1 mb-1">
-                          <AlertCircle className="w-4 h-4" /> Processing is
-                          taking longer than usual.
-                        </span>
-                        Our AI cluster might be under heavy load. If this
-                        continues, please contact support.
-                      </div>
-                      <a
-                        href={`mailto:hello@truzot.com?subject=Delayed Order: ${currentOrder.id}`}
-                        className="shrink-0 px-4 py-2 bg-amber-600 text-white text-sm font-bold rounded-lg hover:bg-amber-700 transition"
-                      >
-                        Contact Support
-                      </a>
-                    </div>
-                  )}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                   <div>
                     {user && (
