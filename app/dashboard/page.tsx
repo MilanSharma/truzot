@@ -265,9 +265,17 @@ function DashboardContent() {
                 });
               }
 
-              // Fire conversion event
+              // Fire conversion event. Sent to both labels: the original
+              // account-level "Purchase" goal, and the campaign-specific one
+              // Google's own campaign diagnostics wizard created after
+              // reporting "conversion tracking setup is incomplete" for
+              // Search_Sniper_US_PRO — its conversions-based goal was
+              // evidently never linked to the original label at all.
               (window as any).gtag("event", "conversion", {
-                send_to: "AW-18276640380/bFSfCJb0pM8cEPzM_YpE",
+                send_to: [
+                  "AW-18276640380/bFSfCJb0pM8cEPzM_YpE",
+                  "AW-18276640380/9txDCKLe3tUcEPzM_YpE",
+                ],
                 value: data.amount,
                 currency: data.currency,
                 transaction_id: sessionId,
