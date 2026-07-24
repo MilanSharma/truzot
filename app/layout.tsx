@@ -121,6 +121,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
+              // Consent Mode v2 default must be set before 'config' or Google
+              // Ads sends conversion pings with no gcs parameter at all, which
+              // its backend appears to silently discard rather than count.
+              // US-only audience, cookie banner allows opt-out via 'update'.
+              gtag('consent', 'default', {
+                'ad_storage': 'granted',
+                'ad_user_data': 'granted',
+                'ad_personalization': 'granted',
+                'analytics_storage': 'granted'
+              });
               gtag('js', new Date());
               gtag('config', 'AW-18276640380');
             `,

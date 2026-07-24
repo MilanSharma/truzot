@@ -6,22 +6,39 @@ export default function CookieConsent() {
  const [visible, setVisible] = useState(false);
  const [mounted, setMounted] = useState(false);
 
+ const updateConsent = (granted: boolean) => {
+ const state = granted ? "granted" : "denied";
+ (window as any).gtag?.("consent", "update", {
+ ad_storage: state,
+ ad_user_data: state,
+ ad_personalization: state,
+ analytics_storage: state,
+ });
+ };
+
  useEffect(() => {
  setTimeout(() => {
  setMounted(true);
- if (!localStorage.getItem("truzot-cookie-consent")) {
+ const stored = localStorage.getItem("truzot-cookie-consent");
+ if (!stored) {
  setVisible(true);
+ } else {
+ // Re-apply a returning visitor's choice — the default set in layout.tsx
+ // is granted, so a prior "rejected" must be re-asserted on every load.
+ updateConsent(stored === "accepted");
  }
  }, 0);
  }, []);
 
  const accept = () => {
  localStorage.setItem("truzot-cookie-consent", "accepted");
+ updateConsent(true);
  setVisible(false);
  };
 
  const reject = () => {
  localStorage.setItem("truzot-cookie-consent", "rejected");
+ updateConsent(false);
  setVisible(false);
  };
 
