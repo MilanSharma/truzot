@@ -134,13 +134,17 @@ export function ProductSchema() {
 
 export function FAQSchema({
   questions,
+  pagePath = "/faq/",
 }: {
   questions: { question: string; answer: string }[];
+  /** Path this FAQ block lives on. Keeps @id unique when more than one page
+   *  carries an FAQPage block (e.g. the homepage FAQ and /faq). */
+  pagePath?: string;
 }) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "@id": `${siteUrl}/faq/#faq`,
+    "@id": `${siteUrl}${pagePath}#faq`,
     mainEntity: questions.map((q) => ({
       "@type": "Question",
       name: q.question,

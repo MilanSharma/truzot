@@ -54,6 +54,7 @@ import {
   ProductSchema,
   SpeakableSchema,
   BreadcrumbSchema,
+  FAQSchema,
 } from "@/components/JsonLd";
 
 const ComparisonSlider = dynamic(
@@ -688,6 +689,19 @@ export default function LandingPageContent() {
     <>
       <ProductSchema />
       <SpeakableSchema />
+      {/* The homepage carries its own FAQ block; without FAQPage markup that
+          copy is invisible to AI answer engines and rich results. Entities are
+          decoded because JSON-LD wants plain text, not HTML-escaped strings. */}
+      <FAQSchema
+        pagePath="/"
+        questions={FAQS.map((f) => ({
+          question: f.q,
+          answer: f.a
+            .replace(/&apos;/g, "'")
+            .replace(/&quot;/g, '"')
+            .replace(/&amp;/g, "&"),
+        }))}
+      />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }]} />
 
       {/* CSS Variables — dark photographic theme */}

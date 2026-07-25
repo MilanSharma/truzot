@@ -3,6 +3,8 @@ import { getAllPosts } from "@/lib/blog";
 import { PROFESSIONS } from "@/lib/seo-data/professions";
 import { CITIES } from "@/lib/seo-data/cities";
 import { STYLES } from "@/lib/seo-data/styles";
+import { isFeaturedCombo } from "@/lib/seo-data/featured-combos";
+import { COMPARE_SLUGS } from "@/lib/seo-data/competitors";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://truzot.com";
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [
@@ -67,14 +69,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.5,
     lastModified: new Date(),
   }));
-  const comboEntries = PROFESSIONS.slice(0, 20).flatMap((profession) =>
-    CITIES.slice(0, 100).map((city) => ({
-      url: `${siteUrl}/headshots/${profession.id}-in-${city.id}`,
-      changeFrequency: "monthly" as const,
-      priority: 0.4,
-      lastModified: new Date(),
-    })),
+  // Only the curated, genuinely-local combos are submitted — see
+  // lib/seo-data/featured-combos.ts for why the other ~250 are noindexed.
+  const comboEntries = PROFESSIONS.flatMap((profession) =>
+    CITIES.filter((city) => isFeaturedCombo(profession.id, city.id)).map(
+      (city) => ({
+        url: `${siteUrl}/headshots/${profession.id}-in-${city.id}`,
+        changeFrequency: "monthly" as const,
+        priority: 0.4,
+        lastModified: new Date(),
+      }),
+    ),
   );
+  const compareEntries = COMPARE_SLUGS.map((slug) => ({
+    url: `${siteUrl}/compare/${slug}`,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+    lastModified: new Date(),
+  }));
   return [
     ...staticPages,
     ...blogPosts,
@@ -82,5 +94,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...cityEntries,
     ...styleEntries,
     ...comboEntries,
+    ...compareEntries,
   ];
 }

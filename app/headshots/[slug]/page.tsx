@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import ComboPage from "@/components/seo/ComboPage";
 import { PROFESSIONS } from "@/lib/seo-data/professions";
 import { CITIES } from "@/lib/seo-data/cities";
+import { isFeaturedCombo } from "@/lib/seo-data/featured-combos";
 import { SITE_CONFIG } from "@/lib/seo";
 interface Props {
  params: Promise<{ slug: string }>;
@@ -25,9 +26,14 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
  if (!profession || !city) return { title: "Not Found" };
  const title = `${profession.title} in ${city.name}, ${city.state}`;
  const description = `Get professional ${profession.name.toLowerCase()} headshots in ${city.name} without a studio. Starting at $29.`;
+ // These 286 combos come from one template and differ only by two variables,
+ // which reads as doorway/thin content at scale. Only the curated set with
+ // genuine local intent is indexable — see lib/seo-data/featured-combos.ts.
+ const indexable = isFeaturedCombo(profession.id, city.id);
  return {
  title,
  description,
+ robots: indexable ? undefined : { index: false, follow: true },
  openGraph: {
  title,
  description,

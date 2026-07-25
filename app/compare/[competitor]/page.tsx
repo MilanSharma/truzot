@@ -5,12 +5,7 @@ import Footer from "@/components/Footer";
 import Link from "next/link";
 import { SITE_CONFIG } from "@/lib/seo";
 
-const COMPETITORS = {
-  "aragon-alternative": { name: "Aragon AI", price: "$29-$69", turnaround: "60-120 mins", styles: "Limited", likeness: "Hit or miss", refund: "Strict / Case-by-case" },
-  "headshotpro-alternative": { name: "HeadshotPro", price: "$29-$59", turnaround: "2 hours", styles: "Corporate only", likeness: "Good", refund: "14 days" },
-  "betterphoto-alternative": { name: "BetterPicture", price: "$25-$45", turnaround: "2-4 hours", styles: "Basic", likeness: "Average", refund: "No refunds" },
-  "secta-alternative": { name: "Secta AI", price: "$49-$99", turnaround: "1-2 hours", styles: "Good", likeness: "Good", refund: "Partial" },
-};
+import { COMPETITORS } from "@/lib/seo-data/competitors";
 
 export function generateStaticParams() {
   return Object.keys(COMPETITORS).map((c) => ({ competitor: c }));
@@ -37,14 +32,32 @@ export default async function ComparePage(props: any) {
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [{
-      "@type": "Question",
-      "name": `Is Truzot better than ${comp.name}?`,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": `Truzot offers superior facial likeness using custom Flux LoRA models, a 100% money-back guarantee, and faster turnaround times compared to ${comp.name}.`
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `How is Truzot different from ${comp.name}?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `Truzot needs only 2-10 selfies (${comp.name} requires ${comp.selfies.toLowerCase()}), delivers in as fast as 5 minutes versus ${comp.turnaround}, and backs every order with a 30-day money-back guarantee where you keep the photos either way.`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `How much does Truzot cost compared to ${comp.name}?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `Truzot is a one-time payment from $29 to $59 with no subscription, and includes full commercial rights on every plan. ${comp.name} is priced at ${comp.price}.`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `Can I get a refund if I don't like my Truzot headshots?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `Yes. Truzot offers a 30-day money-back guarantee with no questions asked, and you keep your photos either way. ${comp.name}'s policy is ${comp.refund}.`
+        }
       }
-    }]
+    ]
   };
 
   return (
@@ -66,12 +79,12 @@ export default async function ComparePage(props: any) {
           </div>
           
           {[
-            ["Price", "From $29", comp.price],
+            ["Price", "$29-$59", comp.price],
+            ["Selfies you upload", "Just 2-10", comp.selfies],
             ["Turnaround", "As fast as 5 minutes", comp.turnaround],
-            ["Styles", "6+ Categories (Customizable)", comp.styles],
-            ["Facial Likeness", "Unmatched (Flux LoRA)", comp.likeness],
-            ["Refund Policy", "100% No-questions-asked (30 days)", comp.refund],
-            ["Data Privacy", "Auto-delete after 30 days", "Varies"],
+            ["Refund policy", "30 days — and you keep the photos", comp.refund],
+            ["Commercial rights", "Included on every plan", "Varies"],
+            ["Photo data deleted", "Automatically after 30 days", "Varies"],
           ].map((row, i) => (
             <div key={i} className="grid grid-cols-3 border-b border-[var(--border)] last:border-0 text-sm">
               <div className="p-4 md:p-6 font-semibold text-[var(--text-muted)]">{row[0]}</div>

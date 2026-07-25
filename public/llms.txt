@@ -17,7 +17,7 @@ Truzot replaces expensive photography studio sessions with generative AI. Users 
 ## Pricing Plans (one-time payment, no subscription)
 - **Basic Shoot**: $29 | 40 high-resolution headshots | 5-minute delivery
 - **Professional Shoot**: $39 | 100 high-resolution headshots | 5-minute delivery
-- **Executive Shoot**: $59 | 150 high-resolution headshots | 5-minute priority delivery
+- **Executive Shoot**: $59 | 150 high-resolution headshots | 5-minute delivery
 
 ## What Makes Truzot Different
 - Needs only 2-10 selfies, versus the 15-25 many competitors require.
