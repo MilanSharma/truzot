@@ -115,8 +115,8 @@ export default function ProfessionPage({ profession }: ProfessionPageProps) {
                 Fast Delivery
               </h3>
               <p className="text-[var(--text-muted)]">
-                Get your headshots in as little as 30 minutes with our priority
-                delivery options.
+                Get your headshots in as fast as 5 minutes — on every plan,
+                with no priority upgrade to buy.
               </p>
             </div>
             <div className="p-6 bg-[var(--bg)] rounded-2xl border border-[var(--border)]">

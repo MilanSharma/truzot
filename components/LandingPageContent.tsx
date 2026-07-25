@@ -539,7 +539,7 @@ function StickyMobileCTA() {
               From $29 · 30-day guarantee
             </p>
             <p className="text-white/40 text-xs truncate">
-              Results in as fast as 30 min
+              Results in as fast as 5 min
             </p>
           </div>
           <Link
@@ -1424,7 +1424,7 @@ export default function LandingPageContent() {
                 >
                   Three steps to AI headshots.
                   <br />
-                  <span className="text-slate-400">Thirty minutes.</span>
+                  <span className="text-slate-400">As fast as five minutes.</span>
                 </motion.h2>
               </motion.div>
 
@@ -2219,8 +2219,8 @@ export default function LandingPageContent() {
               </div>
               <p className="text-white/30 text-sm leading-relaxed mb-6 max-w-xs">
                 Studio-quality AI headshots for anyone — professionals, job
-                seekers, creatives, and students. From your phone. In 30
-                minutes. Backed by a 30-day guarantee.
+                seekers, creatives, and students. From your phone. In as fast
+                as 5 minutes. Backed by a 30-day guarantee.
               </p>
 
               {/* Social links */}

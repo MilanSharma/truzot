@@ -22,8 +22,8 @@ export default function ComboPage({
  </h1>
  <p className="text-xl text-[var(--text-muted)] max-w-3xl mx-auto mb-10">
  {profession.description}. Skip the expensive {city.name} photography
- studios. Get perfect, AI-generated headshots from home in just 30
- minutes.
+ studios. Get perfect, AI-generated headshots from home in as fast as
+ 5 minutes.
  </p>
  <div className="flex flex-col sm:flex-row gap-4 justify-center">
  <Link

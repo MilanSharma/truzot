@@ -47,7 +47,7 @@ export default function CityPage({ city }: CityPageProps) {
       />
       <WebPageSchema
         name={`Professional Headshots in ${city.name}, ${city.state} | Truzot`}
-        description={`Get studio-quality AI headshots without leaving ${city.name}. Starting at just $29. Delivered in 30 minutes.`}
+        description={`Get studio-quality AI headshots without leaving ${city.name}. Starting at just $29. Delivered in as fast as 5 minutes.`}
       />
       <script
         type="application/ld+json"
@@ -64,7 +64,7 @@ export default function CityPage({ city }: CityPageProps) {
           </h1>
           <p className="text-xl text-[var(--text-muted)] max-w-3xl mx-auto mb-10">
             Get studio-quality AI headshots without leaving {city.name}.
-            Starting at just $29. Delivered in 30 minutes.
+            Starting at just $29. Delivered in as fast as 5 minutes.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
@@ -114,8 +114,8 @@ export default function CityPage({ city }: CityPageProps) {
                 Fast Delivery
               </h3>
               <p className="text-[var(--text-muted)]">
-                Receive your headshots in as little as 30 minutes with our
-                priority delivery option.
+                Receive your headshots in as fast as 5 minutes — on every
+                plan, with no priority upgrade to buy.
               </p>
             </div>
             <div className="p-6 bg-[var(--bg)] rounded-2xl border border-[var(--border)]">
@@ -201,8 +201,8 @@ export default function CityPage({ city }: CityPageProps) {
                   Receive Your Headshots
                 </h3>
                 <p className="text-[var(--text-muted)]">
-                  Get 40-150 HD headshots delivered to your email in 30 minutes
-                  to 2 hours. Download and use them anywhere.
+                  Get 40-150 HD headshots delivered to your email in as fast as
+                  5 minutes. Download and use them anywhere.
                 </p>
               </div>
             </div>
