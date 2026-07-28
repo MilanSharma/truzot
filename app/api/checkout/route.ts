@@ -316,7 +316,7 @@ export const POST = withContext(async (req: Request) => {
  utm_term: utmParams?.utm_term || "",
  utm_content: utmParams?.utm_content || "",
  },
- success_url: `${baseUrl}/dashboard?order=${existing.id}&email_token=${emailToken}&session_id={CHECKOUT_SESSION_ID}`,
+ success_url: `${baseUrl}/dashboard?order=${existing.id}&email_token=${emailToken}&session_id={CHECKOUT_SESSION_ID}&value_cents=${finalAmount}`,
  cancel_url: `${baseUrl}/upload?cancelled=1`,
  ...(discount && !discountAmount ? { discounts: [discount] } : {}),
  });
@@ -493,7 +493,7 @@ export const POST = withContext(async (req: Request) => {
  utm_term: utmParams?.utm_term || "",
  utm_content: utmParams?.utm_content || "",
  },
- success_url: `${baseUrl}/dashboard?order=${existing.id}&email_token=${emailToken}&session_id={CHECKOUT_SESSION_ID}`,
+ success_url: `${baseUrl}/dashboard?order=${existing.id}&email_token=${emailToken}&session_id={CHECKOUT_SESSION_ID}&value_cents=${finalAmount}`,
  cancel_url: `${baseUrl}/upload?cancelled=1`,
  ...(discount && !discountAmount ? { discounts: [discount] } : {}),
  });
@@ -590,7 +590,7 @@ export const POST = withContext(async (req: Request) => {
  utm_term: utmParams?.utm_term || "",
  utm_content: utmParams?.utm_content || "",
  },
- success_url: `${baseUrl}/dashboard?order=${latestOrder.id}&email_token=${emailToken}&session_id={CHECKOUT_SESSION_ID}`,
+ success_url: `${baseUrl}/dashboard?order=${latestOrder.id}&email_token=${emailToken}&session_id={CHECKOUT_SESSION_ID}&value_cents=${finalAmount}`,
  cancel_url: `${baseUrl}/upload?cancelled=1`,
  ...(discount && !discountAmount ? { discounts: [discount] } : {}),
  });
@@ -701,7 +701,7 @@ export const POST = withContext(async (req: Request) => {
  utm_term: utmParams?.utm_term || "",
  utm_content: utmParams?.utm_content || "",
  },
- success_url: `${baseUrl}/dashboard?order=${orderId}&email_token=${emailToken}&session_id={CHECKOUT_SESSION_ID}`,
+ success_url: `${baseUrl}/dashboard?order=${orderId}&email_token=${emailToken}&session_id={CHECKOUT_SESSION_ID}&value_cents=${finalAmount}`,
  cancel_url: `${baseUrl}/upload?cancelled=1`,
  ...(discount && !discountAmount ? { discounts: [discount] } : {}),
  };

@@ -219,6 +219,74 @@ function DashboardContent() {
       if (localStorage.getItem(dedupeKey)) return;
     } catch { /* localStorage unavailable — fall through and still fire */ }
 
+    const waitForGtag = async (timeoutMs = 4000, intervalMs = 100) => {
+      const start = Date.now();
+      while (!(window as any).gtag) {
+        if (Date.now() - start > timeoutMs) return false;
+        await new Promise((r) => setTimeout(r, intervalMs));
+      }
+      return true;
+    };
+
+    // Fires the actual pixels. hashedEmail is optional — the instant path
+    // below has no email available (never put raw email in a URL) and skips
+    // Enhanced Conversions enrichment for that trade-off; the fallback path
+    // still fetches it from Stripe and attaches it as before.
+    const fireConversion = async (
+      amount: number,
+      currency: string,
+      hashedEmail?: string,
+    ) => {
+      try { localStorage.setItem(dedupeKey, "1"); } catch { /* ignore */ }
+
+      if (typeof window !== "undefined" && (window as any).fbq) {
+        (window as any).fbq("track", "Purchase", { value: amount, currency }, {
+          eventID: sessionId,
+        });
+      }
+
+      if (typeof window === "undefined") return;
+      if (!(await waitForGtag())) {
+        console.error("gtag not available after 4s — Google Ads conversion not fired", { sessionId });
+        return;
+      }
+      if (hashedEmail) {
+        (window as any).gtag("set", "user_data", {
+          sha256_email_address: hashedEmail,
+        });
+      }
+      // "Purchase (1)" is the action Search_Sniper_US_PRO's conversions-based
+      // goal is actually linked to (created by Google's own campaign
+      // diagnostics wizard). We briefly fired the older "Purchase" label too
+      // while diagnosing which one the campaign expected; that double-counted
+      // every sale, so it's removed.
+      (window as any).gtag("event", "conversion", {
+        send_to: "AW-18276640380/9txDCKLe3tUcEPzM_YpE",
+        value: amount,
+        currency,
+        transaction_id: sessionId,
+      });
+    };
+
+    // Instant path: checkout/route.ts now puts the exact charged amount
+    // (cents) straight in the success_url, since it already knows it at
+    // redirect time. Firing off this synchronously-available value — instead
+    // of waiting ~1-2s on a /api/get-session round trip to Stripe — means an
+    // impatient mobile user closing the tab a second after landing still gets
+    // counted.
+    const valueCentsParam = searchParams.get("value_cents");
+    const instantAmount = valueCentsParam ? Number(valueCentsParam) : NaN;
+
+    if (Number.isFinite(instantAmount) && instantAmount > 0) {
+      fireConversion(instantAmount / 100, "USD");
+      return;
+    }
+
+    // Fallback path: any link without value_cents (upsell-custom and
+    // regenerate-credits checkouts don't set it, and it covers old in-flight
+    // Stripe sessions from before this change). Asks Stripe directly, so it
+    // stays correct even though it costs the round trip this instant path
+    // exists to avoid.
     const triggerValueTracking = async () => {
       try {
         const res = await fetch(`/api/get-session?session_id=${sessionId}`);
@@ -227,68 +295,19 @@ function DashboardContent() {
 
         // Only count genuinely paid sessions.
         if (data.paymentStatus && data.paymentStatus !== "paid") return;
+        if (!data.amount || !data.currency) return;
 
-        if (data.amount && data.currency) {
-          try { localStorage.setItem(dedupeKey, "1"); } catch { /* ignore */ }
-          // Meta Pixel with value-based tracking and deduplication
-          if (typeof window !== "undefined" && (window as any).fbq) {
-            (window as any).fbq("track", "Purchase", {
-              value: data.amount,
-              currency: data.currency,
-            }, { 
-              eventID: sessionId 
-            });
-          }
-
-          // Google Ads with value-based tracking and Enhanced Conversions.
-          // gtag.js loads via Script strategy="afterInteractive", which can
-          // still be mid-flight when this fetch resolves on a cold page load
-          // (e.g. a fresh tab opened by Tag Assistant). Poll briefly instead
-          // of checking once, so a slow script load doesn't silently drop
-          // the conversion.
-          if (typeof window !== "undefined") {
-            const waitForGtag = async (timeoutMs = 4000, intervalMs = 100) => {
-              const start = Date.now();
-              while (!(window as any).gtag) {
-                if (Date.now() - start > timeoutMs) return false;
-                await new Promise((r) => setTimeout(r, intervalMs));
-              }
-              return true;
-            };
-
-            if (await waitForGtag()) {
-              // Set user data for Enhanced Conversions
-              if (data.email) {
-                const hashedEmail = await sha256(data.email.trim().toLowerCase());
-                (window as any).gtag("set", "user_data", {
-                  sha256_email_address: hashedEmail,
-                });
-              }
-
-              // Fire conversion to the "Purchase (1)" action — the one
-              // Search_Sniper_US_PRO's conversions-based goal is actually
-              // linked to (created by Google's own campaign diagnostics
-              // wizard). We briefly fired to the older "Purchase" label
-              // too while diagnosing which one the campaign expected;
-              // that double-counted every sale, so it's removed.
-              (window as any).gtag("event", "conversion", {
-                send_to: "AW-18276640380/9txDCKLe3tUcEPzM_YpE",
-                value: data.amount,
-                currency: data.currency,
-                transaction_id: sessionId,
-              });
-            } else {
-              console.error("gtag not available after 4s — Google Ads conversion not fired", { sessionId });
-            }
-          }
-        }
+        const hashedEmail = data.email
+          ? await sha256(data.email.trim().toLowerCase())
+          : undefined;
+        await fireConversion(data.amount, data.currency, hashedEmail);
       } catch (err) {
         console.error("Error triggering value-based tracking:", err);
       }
     };
 
     triggerValueTracking();
-  }, [sessionId]);
+  }, [sessionId, searchParams]);
 
   const [generationProgress, setGenerationProgress] = useState({
     count: 0,
