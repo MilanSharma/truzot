@@ -657,6 +657,26 @@ export default function LandingPageContent() {
     };
   }, []);
 
+  // Next.js App Router doesn't reliably honor the browser's native hash-anchor
+  // scroll on first paint (every ad click lands on /#pricing) — retry until
+  // the target section has laid out.
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) return;
+    const id = hash.slice(1);
+    let attempts = 0;
+    const tryScroll = () => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+      attempts += 1;
+      if (attempts < 20) setTimeout(tryScroll, 100);
+    };
+    tryScroll();
+  }, []);
+
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || isSubmitting) return;
