@@ -6,6 +6,7 @@ import { Redis } from "@upstash/redis";
 import { addCors, handleOptions } from "@/lib/cors";
 import { withContext } from "@/lib/request-context";
 import { createLogger } from "@/lib/logger";
+import { WATERMARK_FONT_BASE64 } from "@/lib/assets/watermark-font";
 
 const log = createLogger("free-preview");
 
@@ -30,6 +31,13 @@ const PREVIEW_MAX_EDGE = 480;
 // croppable margins a free preview could just be used as-is. Tiling via an
 // SVG <pattern> guarantees no gap anywhere in the frame is left unmarked,
 // regardless of the image's aspect ratio, so it can't be cropped around.
+//
+// Font is embedded as a data: URI, not left as font-family: sans-serif.
+// Vercel's serverless runtime has no system fonts / fontconfig (confirmed
+// live via "Fontconfig error: Cannot load default config file" in
+// production logs), so sharp/librsvg silently rendered every glyph as an
+// empty box instead of throwing — the watermark still covered the frame,
+// but as unreadable tofu, not legible branding.
 async function watermark(imageBuffer: Buffer, width: number, height: number): Promise<Buffer> {
   const fontSize = Math.max(14, Math.round(width / 16));
   const tileW = fontSize * 8;
@@ -37,11 +45,18 @@ async function watermark(imageBuffer: Buffer, width: number, height: number): Pr
   const svg = `
     <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
       <defs>
+        <style>
+          @font-face {
+            font-family: 'WM';
+            font-weight: 900;
+            src: url(data:font/woff2;base64,${WATERMARK_FONT_BASE64}) format('woff2');
+          }
+        </style>
         <pattern id="wm" width="${tileW}" height="${tileH}" patternUnits="userSpaceOnUse" patternTransform="rotate(-30)">
-          <text x="0" y="${Math.round(tileH * 0.4)}" font-family="sans-serif" font-weight="900"
+          <text x="0" y="${Math.round(tileH * 0.4)}" font-family="WM" font-weight="900"
                 font-size="${fontSize}px" fill="rgba(255,255,255,0.5)"
                 stroke="rgba(0,0,0,0.4)" stroke-width="1">TRUZOT PREVIEW</text>
-          <text x="${Math.round(tileW * 0.5)}" y="${Math.round(tileH * 0.9)}" font-family="sans-serif" font-weight="900"
+          <text x="${Math.round(tileW * 0.5)}" y="${Math.round(tileH * 0.9)}" font-family="WM" font-weight="900"
                 font-size="${fontSize}px" fill="rgba(255,255,255,0.5)"
                 stroke="rgba(0,0,0,0.4)" stroke-width="1">TRUZOT PREVIEW</text>
         </pattern>
