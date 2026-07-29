@@ -7,6 +7,7 @@ import { addCors, handleOptions } from "@/lib/cors";
 import { withContext } from "@/lib/request-context";
 import { createLogger } from "@/lib/logger";
 import { WATERMARK_PATTERN_PNG_BASE64 } from "@/lib/assets/watermark-pattern";
+import { supabaseAdmin } from "@/lib/supabase/admin";
 
 const watermarkPatternBuffer = Buffer.from(WATERMARK_PATTERN_PNG_BASE64, "base64");
 
@@ -111,10 +112,51 @@ export const POST = withContext(async (req: Request) => {
     const style = formData.get("style") as string || "Corporate office";
     const outfit = formData.get("outfit") as string || "Business suit";
     const hairstyle = formData.get("hairstyle") as string || "Neat and professional";
-    
+    const email = (formData.get("email") as string || "").trim();
+
     if (!image) {
       return addCors(
         NextResponse.json({ error: "No image provided" }, { status: 400 }),
+        origin
+      );
+    }
+    if (!email || !email.includes("@")) {
+      return addCors(
+        NextResponse.json({ error: "A valid email is required." }, { status: 400 }),
+        origin
+      );
+    }
+
+    // One free preview per email, forever — not just a burst rate limit.
+    // A usable-looking free result with no purchase required is exactly what
+    // undermines the funnel; capping generation itself (not just watermarking
+    // the output) also avoids re-billing fal for repeat "free" attempts from
+    // the same person. Case-insensitive so Name@x.com and name@x.com collide.
+    const { data: waitlistEntry, error: waitlistLookupErr } = await supabaseAdmin
+      .from("waitlist")
+      .select("id, free_preview_used_at")
+      .ilike("email", email)
+      .maybeSingle();
+
+    if (waitlistLookupErr) {
+      log.error({ err: waitlistLookupErr, email }, "Waitlist lookup failed");
+      return addCors(
+        NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 }),
+        origin
+      );
+    }
+    if (!waitlistEntry) {
+      return addCors(
+        NextResponse.json({ error: "Please submit your email first." }, { status: 400 }),
+        origin
+      );
+    }
+    if (waitlistEntry.free_preview_used_at) {
+      return addCors(
+        NextResponse.json(
+          { error: "You've already used your free preview. Upgrade to get your full, watermark-free set." },
+          { status: 403 }
+        ),
         origin
       );
     }
@@ -149,6 +191,17 @@ export const POST = withContext(async (req: Request) => {
     const meta = await sharp(genBuffer).metadata();
     const watermarked = await watermark(genBuffer, meta.width ?? PREVIEW_MAX_EDGE, meta.height ?? PREVIEW_MAX_EDGE);
     const url = `data:image/jpeg;base64,${watermarked.toString("base64")}`;
+
+    // Only spend the one-time allowance on an actual delivered result — a
+    // transient fal failure above hits the catch block and skips this, so a
+    // real error doesn't lock someone out of the free preview they never got.
+    const { error: markUsedErr } = await supabaseAdmin
+      .from("waitlist")
+      .update({ free_preview_used_at: new Date().toISOString() })
+      .eq("id", waitlistEntry.id);
+    if (markUsedErr) {
+      log.error({ err: markUsedErr, email }, "Failed to mark free preview as used");
+    }
 
     return addCors(NextResponse.json({ url }), origin);
   } catch (err) {

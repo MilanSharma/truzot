@@ -99,16 +99,21 @@ export default function FreePreviewPage() {
       setError("Please upload a photo first.");
       return;
     }
-    
+    if (!email) {
+      setError("Please enter your email first.");
+      return;
+    }
+
     setLoading(true);
     setError(null);
-    
+
     try {
       const formData = new FormData();
       formData.append("image", imageFile);
       formData.append("style", style);
       formData.append("outfit", outfit);
       formData.append("hairstyle", hairstyle);
+      formData.append("email", email);
 
       const res = await fetch("/api/free-preview", {
         method: "POST",
