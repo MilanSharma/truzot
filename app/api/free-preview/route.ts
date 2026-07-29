@@ -15,29 +15,42 @@ const log = createLogger("free-preview");
 // at full resolution, undermining both the "low-resolution" promise and
 // blowing up fal cost per free, unauthenticated preview (fal bills per output
 // megapixel). Downscaling the INPUT guarantees a genuinely low-res output.
-const PREVIEW_MAX_EDGE = 640;
+// Deliberately small — this must look enough like the real product to prove
+// the tech works, but be unusable as an actual headshot (no LinkedIn/resume
+// use), so the paid product is the only way to get something usable.
+const PREVIEW_MAX_EDGE = 480;
 
 // Composited server-side after generation, not left to the model to render
 // as prompt text. AI-drawn text is unreliable (garbled, illegible, or simply
 // skipped depending on what else is competing for the model's attention) —
 // this guarantees every preview is unmistakably marked regardless of what
 // the diffusion model does with the prompt.
+//
+// Tiled full-bleed, not two centered lines — a sparse watermark leaves clean,
+// croppable margins a free preview could just be used as-is. Tiling via an
+// SVG <pattern> guarantees no gap anywhere in the frame is left unmarked,
+// regardless of the image's aspect ratio, so it can't be cropped around.
 async function watermark(imageBuffer: Buffer, width: number, height: number): Promise<Buffer> {
-  const fontSize = Math.round(width / 11);
+  const fontSize = Math.max(14, Math.round(width / 16));
+  const tileW = fontSize * 8;
+  const tileH = fontSize * 5;
   const svg = `
     <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
-      <style>
-        .wm { fill: rgba(255,255,255,0.55); font-family: sans-serif; font-weight: 900;
-              font-size: ${fontSize}px; }
-      </style>
-      <g transform="rotate(-30 ${width / 2} ${height / 2})">
-        <text class="wm" x="50%" y="35%" text-anchor="middle">TRUZOT PREVIEW</text>
-        <text class="wm" x="50%" y="65%" text-anchor="middle">TRUZOT PREVIEW</text>
-      </g>
+      <defs>
+        <pattern id="wm" width="${tileW}" height="${tileH}" patternUnits="userSpaceOnUse" patternTransform="rotate(-30)">
+          <text x="0" y="${Math.round(tileH * 0.4)}" font-family="sans-serif" font-weight="900"
+                font-size="${fontSize}px" fill="rgba(255,255,255,0.5)"
+                stroke="rgba(0,0,0,0.4)" stroke-width="1">TRUZOT PREVIEW</text>
+          <text x="${Math.round(tileW * 0.5)}" y="${Math.round(tileH * 0.9)}" font-family="sans-serif" font-weight="900"
+                font-size="${fontSize}px" fill="rgba(255,255,255,0.5)"
+                stroke="rgba(0,0,0,0.4)" stroke-width="1">TRUZOT PREVIEW</text>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#wm)" />
     </svg>`;
   return sharp(imageBuffer)
     .composite([{ input: Buffer.from(svg), top: 0, left: 0 }])
-    .jpeg({ quality: 80 })
+    .jpeg({ quality: 65 })
     .toBuffer();
 }
 
