@@ -154,7 +154,32 @@ export const POST = withContext(async (req: Request) => {
     if (waitlistEntry.free_preview_used_at) {
       return addCors(
         NextResponse.json(
-          { error: "You've already used your free preview. Upgrade to get your full, watermark-free set." },
+          { error: "You've already used your free preview. Buy a full package to get high-quality, watermark-free headshots." },
+          { status: 403 }
+        ),
+        origin
+      );
+    }
+
+    // The per-email gate above is trivially defeated by typing a new address —
+    // nothing verifies the mailbox before generating. This caps the same
+    // network too, so cycling emails stops paying off. Deliberately not 1:
+    // offices, universities and mobile carriers NAT many real people behind
+    // one address, and blocking a genuine second buyer costs more than the
+    // ~$0.035 a third preview costs us.
+    const ip = getIp(req);
+    const windowStart = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+    const { count: ipUses } = await supabaseAdmin
+      .from("free_preview_usage")
+      .select("id", { count: "exact", head: true })
+      .eq("ip", ip)
+      .gte("created_at", windowStart);
+
+    if (ip !== "unknown" && (ipUses ?? 0) >= 2) {
+      log.warn({ ip, email, ipUses }, "Free preview blocked by per-IP cap");
+      return addCors(
+        NextResponse.json(
+          { error: "You've already used your free preview. Buy a full package to get high-quality, watermark-free headshots." },
           { status: 403 }
         ),
         origin
@@ -201,6 +226,12 @@ export const POST = withContext(async (req: Request) => {
       .eq("id", waitlistEntry.id);
     if (markUsedErr) {
       log.error({ err: markUsedErr, email }, "Failed to mark free preview as used");
+    }
+    const { error: usageErr } = await supabaseAdmin
+      .from("free_preview_usage")
+      .insert({ ip, email });
+    if (usageErr) {
+      log.error({ err: usageErr, ip }, "Failed to record free preview IP usage");
     }
 
     return addCors(NextResponse.json({ url }), origin);

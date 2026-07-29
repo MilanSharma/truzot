@@ -148,7 +148,9 @@ export default function FreePreviewPage() {
             See your AI headshot. <span className="text-[var(--text-faint)]">Instantly.</span>
           </motion.h2>
           <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="text-[var(--text-muted)] max-w-2xl mx-auto text-lg leading-relaxed">
-            Upload a selfie and get a free low-resolution watermarked preview of what our AI can do. Custom styles, outfits, and hairstyles.
+            One free low-resolution, watermarked sample per person — just to show
+            you what the AI can do. Buy a full package to get the high-quality,
+            watermark-free headshots you can actually use.
           </motion.p>
         </div>
 
@@ -321,9 +323,15 @@ export default function FreePreviewPage() {
                 </div>
                 
                 <div className="mt-8 text-center bg-[var(--surface2)] border border-[var(--border)] rounded-2xl p-6 w-full max-w-md shadow-sm">
-                  <h4 className="text-xl font-black text-[var(--text)] mb-2 tracking-tight">Like what you see?</h4>
+                  <h4 className="text-xl font-black text-[var(--text)] mb-2 tracking-tight">
+                    This is a watermarked sample — not your real headshots.
+                  </h4>
                   <p className="text-sm text-[var(--text-muted)] mb-6 leading-relaxed">
-                    This is just a quick, low-res preview. Upgrade to get a custom AI model trained exactly on your face for ultra-realistic, high-resolution results without watermarks.
+                    Buy a full package to get the high-quality, real images: a
+                    custom AI model trained on your face, 40–150 high-resolution
+                    headshots, no watermark, full commercial rights. This preview
+                    is low-resolution and watermarked on purpose, and it&apos;s one
+                    per person.
                   </p>
                   <Link
                     href="/upload"

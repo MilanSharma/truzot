@@ -20,14 +20,14 @@ export async function POST(req: Request) {
     let discountAmount = 0;
     let appliedDiscountCode: string | undefined;
 
-    // Calculate minimum viable price based on fal.ai generation costs
-    // Basic: 40 images × $0.035 = $1.40 minimum
-    // Pro: 100 images × $0.035 = $3.50 minimum  
-    // Executive: 150 images × $0.035 = $5.25 minimum
+    // Mirrors the authoritative floor in /api/checkout — inference + one-time
+    // LoRA training + Stripe's cut. This endpoint is advisory (it only drives
+    // the UI's price preview); /api/checkout is what actually enforces it.
     const PLAN_SHOTS = { basic: 40, pro: 100, executive: 150 };
-    const COST_PER_IMAGE = 0.035; // $0.035 per megapixel
     const expectedShots = PLAN_SHOTS[plan as keyof typeof PLAN_SHOTS];
-    const minimumViablePrice = Math.ceil(expectedShots * COST_PER_IMAGE * 100); // Convert to cents
+    const minimumViablePrice = Math.ceil(
+      (expectedShots * 3.54 + 200 + 30) / (1 - 0.029),
+    );
 
     // Check waitlist discount codes
     if (couponUpper.startsWith("TRUZOT-")) {
@@ -39,24 +39,28 @@ export async function POST(req: Request) {
         ]),
       );
 
+      const staleBefore = new Date(Date.now() - 30 * 60 * 1000).toISOString();
       const { data: entry } = await supabaseAdmin
         .from("waitlist")
         .select("id, discount_code")
         .in("discount_code", possibleCodes)
         .eq("used", false)
+        // Don't green-light a code that another in-flight checkout already
+        // holds — otherwise the UI promises a discount that /api/checkout
+        // will then correctly refuse.
+        .or(`reserved_at.is.null,reserved_at.lt.${staleBefore}`)
         .maybeSingle();
 
       if (entry) {
         discountAmount = 500;
         appliedDiscountCode = entry.discount_code || couponUpper;
-        
-        // TEMPORARILY DISABLED FOR TESTING: Validate that final price doesn't fall below minimum viable cost
-        // const finalAmount = planConfig.amount - discountAmount;
-        // if (finalAmount < minimumViablePrice) {
-        //   return NextResponse.json({ 
-        //     error: `Discount too large. Minimum price for ${plan} plan is $${(minimumViablePrice / 100).toFixed(2)} to cover generation costs.` 
-        //   }, { status: 400 });
-        // }
+
+        if (planConfig.amount - discountAmount < minimumViablePrice) {
+          return NextResponse.json(
+            { error: "This discount can't be applied to that plan." },
+            { status: 400 },
+          );
+        }
       } else {
         return NextResponse.json({ error: "Invalid discount code" }, { status: 400 });
       }
@@ -77,13 +81,12 @@ export async function POST(req: Request) {
           discountAmount = Math.round(planConfig.amount * (stripeCoupon.percent_off / 100));
         }
         
-        // TEMPORARILY DISABLED FOR TESTING: Validate that final price doesn't fall below minimum viable cost
-        // const finalAmount = planConfig.amount - discountAmount;
-        // if (finalAmount < minimumViablePrice) {
-        //   return NextResponse.json({ 
-        //     error: `Discount too large. Minimum price for ${plan} plan is $${(minimumViablePrice / 100).toFixed(2)} to cover generation costs.` 
-        //   }, { status: 400 });
-        // }
+        if (planConfig.amount - discountAmount < minimumViablePrice) {
+          return NextResponse.json(
+            { error: "This discount can't be applied to that plan." },
+            { status: 400 },
+          );
+        }
       } catch (err) {
         return NextResponse.json({ error: "Invalid discount code" }, { status: 400 });
       }

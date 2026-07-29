@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createHmac } from "crypto";
+import { createHmac, randomUUID } from "crypto";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { getAuthenticatedClient } from "@/lib/supabase/authenticated";
 import { PLANS } from "@/lib/plans";
@@ -143,6 +143,9 @@ export const POST = withContext(async (req: Request) => {
  let discount: Stripe.Checkout.SessionCreateParams.Discount | undefined;
  let appliedDiscountCode: string | undefined;
  let discountAmount = 0;
+ // Tracked so an abandoned/failed checkout releases the code instead of
+ // silently consuming it (see rollback in the catch blocks below).
+ let claimedWaitlistId: string | null = null;
 
  if (coupon) {
  const couponUpper = coupon.toUpperCase();
@@ -161,16 +164,34 @@ export const POST = withContext(async (req: Request) => {
  ]),
  );
 
- // Check if discount code exists and is valid (but don't mark as used yet)
+ // ATOMICALLY claim the code — don't just read it. This was previously a
+ // plain SELECT ... WHERE used = false, and `used` only got flipped later by
+ // the Stripe webhook after payment. That meant the same $5 code could be
+ // carried through any number of checkout sessions opened before the first
+ // one paid, and every one of them got the discount. A single conditional
+ // UPDATE closes it: the first request to match flips reserved_at, and every
+ // concurrent request then fails the predicate.
+ //
+ // Reservations go stale after 30 minutes so an abandoned checkout doesn't
+ // permanently burn a legitimate customer's code.
+ const reservationToken = randomUUID();
+ const staleBefore = new Date(Date.now() - 30 * 60 * 1000).toISOString();
+
  const { data: entry, error: err } = await supabaseAdmin
  .from("waitlist")
- .select("id, discount_code")
+ .update({
+ reserved_order_id: reservationToken,
+ reserved_at: new Date().toISOString(),
+ })
  .in("discount_code", possibleCodes)
  .eq("used", false)
+ .or(`reserved_at.is.null,reserved_at.lt.${staleBefore}`)
+ .select("id, discount_code")
  .maybeSingle();
 
  waitlistEntry = entry;
  waitlistError = err;
+ if (entry) claimedWaitlistId = entry.id;
 
  if (waitlistError) {
  return addCors(
@@ -237,6 +258,45 @@ export const POST = withContext(async (req: Request) => {
  discountAmount > 0
  ? planConfig.amount - discountAmount
  : planConfig.amount;
+
+ // Hard floor so no discount can ever take an order below what it costs us to
+ // fulfil. The equivalent check existed only in /api/validate-coupon — which
+ // is advisory UI-only and trivially bypassed by posting straight to this
+ // route — and was commented out there anyway ("TEMPORARILY DISABLED FOR
+ // TESTING"). Enforcing it here, on the path that actually creates the
+ // Stripe session, is what makes it real.
+ //
+ // Cost basis (see lib/ai/fal-client.ts): ~$0.0354/image inference at
+ // 832x1216, plus ~$2 one-time LoRA training per order, plus Stripe's
+ // ~2.9% + $0.30. Floor is that total rounded up with a small margin.
+ const FAL_COST_PER_IMAGE_CENTS = 3.54;
+ const FAL_TRAINING_COST_CENTS = 200;
+ const STRIPE_FIXED_FEE_CENTS = 30;
+ const STRIPE_PCT = 0.029;
+ const shots = planConfig.shots;
+ const rawCost =
+ shots * FAL_COST_PER_IMAGE_CENTS + FAL_TRAINING_COST_CENTS + STRIPE_FIXED_FEE_CENTS;
+ const minimumViablePrice = Math.ceil(rawCost / (1 - STRIPE_PCT));
+
+ if (finalAmount < minimumViablePrice) {
+ log.warn(
+ { plan, coupon, discountAmount, finalAmount, minimumViablePrice },
+ "Rejected checkout below cost floor",
+ );
+ if (claimedWaitlistId) {
+ await supabaseAdmin
+ .from("waitlist")
+ .update({ reserved_order_id: null, reserved_at: null })
+ .eq("id", claimedWaitlistId);
+ }
+ return addCors(
+ NextResponse.json(
+ { error: "This discount can't be applied to that plan." },
+ { status: 400 },
+ ),
+ origin,
+ );
+ }
 
  const url = new URL(req.url);
  const baseUrl = `${url.protocol}//${url.host}`;
@@ -716,8 +776,16 @@ export const POST = withContext(async (req: Request) => {
 
  return addCors(NextResponse.json({ url: session.url }), origin);
  } catch (err) {
- // Discount code is no longer marked at checkout time, so no rollback needed
  await supabase.from("orders").delete().eq("id", orderId);
+ // Release the coupon reservation — the order never became payable, so the
+ // customer must be able to use their code again immediately rather than
+ // waiting out the 30-minute stale window.
+ if (claimedWaitlistId) {
+ await supabaseAdmin
+ .from("waitlist")
+ .update({ reserved_order_id: null, reserved_at: null })
+ .eq("id", claimedWaitlistId);
+ }
  throw err;
  }
  } catch (err) {
