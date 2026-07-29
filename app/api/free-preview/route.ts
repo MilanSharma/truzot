@@ -132,7 +132,7 @@ export const POST = withContext(async (req: Request) => {
       },
     });
 
-    const falUrl = (result as any).images[0].url;
+    const falUrl = (result as any).data.images[0].url;
     const genRes = await fetch(falUrl);
     const genBuffer = Buffer.from(await genRes.arrayBuffer());
     const meta = await sharp(genBuffer).metadata();
