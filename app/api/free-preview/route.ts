@@ -6,7 +6,9 @@ import { Redis } from "@upstash/redis";
 import { addCors, handleOptions } from "@/lib/cors";
 import { withContext } from "@/lib/request-context";
 import { createLogger } from "@/lib/logger";
-import { WATERMARK_FONT_BASE64 } from "@/lib/assets/watermark-font";
+import { WATERMARK_PATTERN_PNG_BASE64 } from "@/lib/assets/watermark-pattern";
+
+const watermarkPatternBuffer = Buffer.from(WATERMARK_PATTERN_PNG_BASE64, "base64");
 
 const log = createLogger("free-preview");
 
@@ -28,43 +30,24 @@ const PREVIEW_MAX_EDGE = 480;
 // the diffusion model does with the prompt.
 //
 // Tiled full-bleed, not two centered lines — a sparse watermark leaves clean,
-// croppable margins a free preview could just be used as-is. Tiling via an
-// SVG <pattern> guarantees no gap anywhere in the frame is left unmarked,
-// regardless of the image's aspect ratio, so it can't be cropped around.
+// croppable margins a free preview could just be used as-is. No gap anywhere
+// in the frame is left unmarked, regardless of the image's aspect ratio, so
+// it can't be cropped around.
 //
-// Font is embedded as a data: URI, not left as font-family: sans-serif.
-// Vercel's serverless runtime has no system fonts / fontconfig (confirmed
-// live via "Fontconfig error: Cannot load default config file" in
-// production logs), so sharp/librsvg silently rendered every glyph as an
-// empty box instead of throwing — the watermark still covered the frame,
-// but as unreadable tofu, not legible branding.
+// This composites a PRE-RENDERED PNG, not SVG <text> rasterized at request
+// time. Vercel's serverless runtime has no system fonts / fontconfig
+// ("Fontconfig error: Cannot load default config file" is live in
+// production logs on every generation) — that held true even for a font
+// embedded via @font-face data: URI (confirmed live: still rendered as
+// empty boxes instead of throwing), so text-based SVG can't be made to
+// render here at all. The pattern below was rasterized locally, where
+// fonts exist, once — see lib/assets/watermark-pattern.ts.
 async function watermark(imageBuffer: Buffer, width: number, height: number): Promise<Buffer> {
-  const fontSize = Math.max(14, Math.round(width / 16));
-  const tileW = fontSize * 8;
-  const tileH = fontSize * 5;
-  const svg = `
-    <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <style>
-          @font-face {
-            font-family: 'WM';
-            font-weight: 900;
-            src: url(data:font/woff2;base64,${WATERMARK_FONT_BASE64}) format('woff2');
-          }
-        </style>
-        <pattern id="wm" width="${tileW}" height="${tileH}" patternUnits="userSpaceOnUse" patternTransform="rotate(-30)">
-          <text x="0" y="${Math.round(tileH * 0.4)}" font-family="WM" font-weight="900"
-                font-size="${fontSize}px" fill="rgba(255,255,255,0.5)"
-                stroke="rgba(0,0,0,0.4)" stroke-width="1">TRUZOT PREVIEW</text>
-          <text x="${Math.round(tileW * 0.5)}" y="${Math.round(tileH * 0.9)}" font-family="WM" font-weight="900"
-                font-size="${fontSize}px" fill="rgba(255,255,255,0.5)"
-                stroke="rgba(0,0,0,0.4)" stroke-width="1">TRUZOT PREVIEW</text>
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#wm)" />
-    </svg>`;
+  const overlay = await sharp(watermarkPatternBuffer)
+    .resize(width, height, { fit: "cover" })
+    .toBuffer();
   return sharp(imageBuffer)
-    .composite([{ input: Buffer.from(svg), top: 0, left: 0 }])
+    .composite([{ input: overlay, top: 0, left: 0 }])
     .jpeg({ quality: 65 })
     .toBuffer();
 }
