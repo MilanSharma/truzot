@@ -299,8 +299,8 @@ const FAQS = [
     a: "You can start with as few as 2, and our Flux LoRA architecture is more sample-efficient than older models — but for the most accurate, consistent likeness we recommend 6–10 varied selfies (different angles, lighting, and expressions). That's still far fewer than the 15–25 most competitors demand, and the upload page shows a live quality score so you know your set is strong before you pay.",
   },
   {
-    q: "What is the View Examples, and how does it work?",
-    a: "Click &apos;View Examples&apos; to browse our full style gallery — Corporate, Creative, Founder, Actor, and more — and see real sample outputs for each. No upload, no payment required. Once you find styles you love, click &apos;Get these looks&apos; to start your order.",
+    q: "What is the free preview, and how does it work?",
+    a: "Upload one selfie and get a real, watermarked, low-resolution AI headshot of yourself back in about a minute — no payment required, just an email so we can send it to you. It's limited to one per person and deliberately lower quality than a paid order, but it's real proof the tech works on your actual face before you pay for the full set.",
   },
   {
     q: "How fast will I get my photos?",
@@ -1034,7 +1034,7 @@ export default function LandingPageContent() {
                   href="/free-preview"
                   className="w-full sm:w-auto bg-[var(--surface2)] backdrop-blur-sm text-[var(--text)] border border-[var(--border)] px-8 py-4 rounded-xl font-bold text-lg hover:bg-[var(--surface3)] transition flex items-center justify-center gap-2"
                 >
-                  <Eye className="w-5 h-5" /> View Examples
+                  <Eye className="w-5 h-5" /> Try a Free Preview
                 </Link>
               </motion.div>
 
