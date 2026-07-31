@@ -1124,23 +1124,55 @@ export default function LandingPageContent() {
               exist; don't restore placeholder figures. Replaced below with
               a real founder note — the honest version of "why trust this":
               a named, accountable person instead of an invented number. */}
-          <section
-            className="py-14 px-6 border-b"
-            style={{ background: "var(--bg)", borderColor: "var(--border)" }}
-          >
-            <div className="max-w-2xl mx-auto text-center">
-              <p className="text-sm leading-relaxed text-slate-500">
-                <span className="font-bold text-slate-900">
-                  Hi, I&apos;m Milan.
-                </span>{" "}
-                I built Truzot after running into the same problem twice: a
-                studio session costs $400–800 and takes weeks to book, and
-                every AI alternative I tried demanded 15–25 selfies and still
-                came back looking like someone else. Truzot needs as few as
-                2 and trains a model on your actual face, not a generic
-                filter. If something&apos;s off with your order, reply to any
-                email from us — I read them myself.
-              </p>
+          <section className="py-20 px-6" style={{ background: "var(--bg)" }}>
+            <div className="max-w-3xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+                className="relative rounded-3xl px-8 py-10 md:px-14 md:py-12 overflow-hidden border"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(163,230,53,0.07) 0%, rgba(163,230,53,0.02) 100%)",
+                  borderColor: "rgba(163,230,53,0.18)",
+                }}
+              >
+                <div
+                  className="absolute -left-16 -bottom-16 w-64 h-64 rounded-full pointer-events-none"
+                  style={{
+                    background:
+                      "radial-gradient(circle, rgba(163,230,53,0.10) 0%, transparent 70%)",
+                  }}
+                />
+                <div className="relative z-10 flex flex-col md:flex-row gap-6 md:gap-8 items-start">
+                  <div
+                    className="shrink-0 w-14 h-14 rounded-full flex items-center justify-center text-lg font-black"
+                    style={{
+                      background: "rgba(163,230,53,0.15)",
+                      border: "1px solid rgba(163,230,53,0.3)",
+                      color: "#65a30d",
+                    }}
+                  >
+                    M
+                  </div>
+                  <div>
+                    <p className="text-lg md:text-xl font-medium text-slate-800 leading-snug mb-4">
+                      &quot;A studio headshot shouldn&apos;t cost $500 and
+                      take three weeks — and an AI one shouldn&apos;t need 20
+                      selfies to still get you wrong. That&apos;s why I built
+                      Truzot to work with as few as 2.&quot;
+                    </p>
+                    <p className="text-sm text-slate-500">
+                      <span className="font-bold text-slate-900">
+                        Milan
+                      </span>
+                      , Founder — reply to any order email if something&apos;s
+                      off, I read them myself.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
             </div>
           </section>
 
