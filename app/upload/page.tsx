@@ -242,7 +242,10 @@ function UploadContent() {
       : true;
   });
   const [coupon, setCoupon] = useState(
-    () => (getSavedState()?.coupon as string) || "",
+    () =>
+      searchParams.get("coupon")?.toUpperCase() ||
+      (getSavedState()?.coupon as string) ||
+      "",
   );
   const [couponValid, setCouponValid] = useState<boolean | null>(null);
   const [couponMessage, setCouponMessage] = useState("");
@@ -393,6 +396,16 @@ function UploadContent() {
       setValidatingCoupon(false);
     }
   };
+
+  // Auto-apply a coupon that arrived via ?coupon= (e.g. the sitewide discount
+  // banner) so clicking through already shows the discounted price instead of
+  // requiring the visitor to retype the code and hit "Apply" themselves.
+  useEffect(() => {
+    if (searchParams.get("coupon")) {
+      validateCoupon();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     try {

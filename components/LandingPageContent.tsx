@@ -556,6 +556,44 @@ function StickyMobileCTA() {
 }
 
 /* ─────────────────────────────────────────────────────────────────── */
+/*  PROMO BANNER — real, evergreen discount. No fake countdown/expiry: */
+/*  WELCOME10 never expires, so it isn&apos;t framed as a ticking deadline. */
+/* ─────────────────────────────────────────────────────────────────── */
+function PromoBanner() {
+  const [dismissed, setDismissed] = useState(true);
+
+  useEffect(() => {
+    setDismissed(localStorage.getItem("promoBannerDismissed") === "1");
+  }, []);
+
+  if (dismissed) return null;
+
+  return (
+    <div
+      className="fixed top-0 left-0 right-0 z-[51] h-9 flex items-center justify-center px-4"
+      style={{ background: "#A3E635" }}
+    >
+      <Link
+        href="/upload?coupon=WELCOME10"
+        className="text-black text-xs md:text-sm font-bold text-center truncate hover:underline"
+      >
+        New here? Get 10% off your first order — code WELCOME10 applied at checkout
+      </Link>
+      <button
+        onClick={() => {
+          localStorage.setItem("promoBannerDismissed", "1");
+          setDismissed(true);
+        }}
+        aria-label="Dismiss"
+        className="absolute right-3 text-black/60 hover:text-black"
+      >
+        <X className="w-4 h-4" />
+      </button>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
 /*  WHO IT&apos;S FOR — replaces fake company-logo marquee                  */
 /* ─────────────────────────────────────────────────────────────────── */
 function AudienceStrip() {
@@ -828,11 +866,14 @@ export default function LandingPageContent() {
         {/* Mobile sticky CTA — persistent path to convert on long scroll */}
         <StickyMobileCTA />
 
+        {/* Sitewide 10% new-customer discount banner */}
+        <PromoBanner />
+
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  NAVIGATION                                                */}
         {/* ═══════════════════════════════════════════════════════════ */}
         <nav
-          className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+          className={`fixed top-9 w-full z-50 transition-all duration-300 ${
             scrolled
               ? "bg-[#07080A]/90 backdrop-blur-xl border-b border-transparent shadow-md"
               : "bg-transparent"
@@ -958,7 +999,7 @@ export default function LandingPageContent() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  HERO                                                       */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <section className="relative min-h-[100vh] flex flex-col items-center justify-center pt-24 pb-16 px-6 overflow-hidden">
+        <section className="relative min-h-[100vh] flex flex-col items-center justify-center pt-[132px] pb-16 px-6 overflow-hidden">
           {/* Background: photographic grid */}
           <HeroPhotoGrid />
 
