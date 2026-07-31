@@ -1167,8 +1167,7 @@ export default function LandingPageContent() {
                       <span className="font-bold text-slate-900">
                         Milan
                       </span>
-                      , Founder — reply to any order email if something&apos;s
-                      off, I read them myself.
+                      , Founder
                     </p>
                   </div>
                 </div>
