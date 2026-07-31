@@ -1121,7 +1121,28 @@ export default function LandingPageContent() {
               8,400 people served, 1.2M+ headshots generated, and 4.9/5 from
               642 Trustpilot reviews, none of which are real yet (this project
               has zero completed paid orders). Re-add once genuine numbers
-              exist; don't restore placeholder figures. */}
+              exist; don't restore placeholder figures. Replaced below with
+              a real founder note — the honest version of "why trust this":
+              a named, accountable person instead of an invented number. */}
+          <section
+            className="py-14 px-6 border-b"
+            style={{ background: "var(--bg)", borderColor: "var(--border)" }}
+          >
+            <div className="max-w-2xl mx-auto text-center">
+              <p className="text-sm leading-relaxed text-slate-500">
+                <span className="font-bold text-slate-900">
+                  Hi, I&apos;m Milan.
+                </span>{" "}
+                I built Truzot after running into the same problem twice: a
+                studio session costs $400–800 and takes weeks to book, and
+                every AI alternative I tried demanded 15–25 selfies and still
+                came back looking like someone else. Truzot needs as few as
+                2 and trains a model on your actual face, not a generic
+                filter. If something&apos;s off with your order, reply to any
+                email from us — I read them myself.
+              </p>
+            </div>
+          </section>
 
           {/* ═══════════════════════════════════════════════════════════ */}
           {/*  BEFORE / AFTER GALLERY                                    */}
@@ -1964,6 +1985,18 @@ export default function LandingPageContent() {
                 >
                   Every plan backed by our 30-day money-back guarantee.
                 </motion.p>
+                <motion.p
+                  variants={fadeUp}
+                  className="text-sm text-slate-400 max-w-xl mx-auto mt-3"
+                >
+                  Worried it won&apos;t look like you? That&apos;s the one
+                  thing we optimize hardest for — see how on the{" "}
+                  <Link href="/faq" className="underline hover:text-lime-600 transition">
+                    FAQ
+                  </Link>
+                  , or don&apos;t pay for it: full refund, no questions, any
+                  time in the first 30 days.
+                </motion.p>
               </motion.div>
 
               <motion.div
@@ -2049,15 +2082,24 @@ export default function LandingPageContent() {
                 ))}
               </motion.div>
 
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm font-semibold text-slate-400">
-                <div className="flex items-center gap-2">
-                  <Lock className="w-4 h-4" /> Secured by Stripe
-                </div>
-                <div className="flex items-center gap-2">
-                  <Shield className="w-4 h-4" /> 30-day guarantee
-                </div>
-                <div className="flex items-center gap-2">
-                  <Zap className="w-4 h-4" /> Instant delivery confirmation
+              <div
+                className="mt-10 max-w-2xl mx-auto rounded-2xl border px-6 py-5"
+                style={{ borderColor: "var(--border)", background: "var(--surface)" }}
+              >
+                <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm font-semibold text-slate-500">
+                  <div className="flex items-center gap-2">
+                    <Lock className="w-4 h-4 text-lime-600" /> Card details go
+                    to Stripe&apos;s own checkout page — never typed into our
+                    site
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Shield className="w-4 h-4 text-lime-600" /> Full refund,
+                    30 days, no questions
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-lime-600" /> Instant delivery
+                    confirmation by email
+                  </div>
                 </div>
               </div>
 
