@@ -235,11 +235,15 @@ function UploadContent() {
     () => (getSavedState()?.email as string) || "",
   );
   const [userId, setUserId] = useState<string | null>(null);
+  // Defaults unchecked — this consents to biometric data processing, and
+  // pre-ticking that kind of consent is exactly the dark pattern being
+  // avoided elsewhere on this site (and a real compliance risk under
+  // biometric privacy laws like Illinois BIPA, which require an affirmative,
+  // non-pre-ticked opt-in). Still remembered across the session once a real
+  // visitor actually checks it, same as every other field here.
   const [consentChecked, setConsentChecked] = useState(() => {
     const saved = getSavedState();
-    return saved?.consentChecked !== undefined
-      ? (saved.consentChecked as boolean)
-      : true;
+    return saved?.consentChecked === true;
   });
   const [coupon, setCoupon] = useState(
     () =>
@@ -1385,6 +1389,9 @@ function UploadContent() {
                           <option value="non-binary">Non-binary</option>
                           <option value="prefer-not-to-say">Prefer not to say</option>
                         </select>
+                        <p className="text-xs text-[var(--text-muted)] mt-1.5">
+                          Required — without it, results can drift toward a different-looking person in some styles.
+                        </p>
                       </div>
                       <div>
                         <label className="block text-sm font-bold text-[var(--text-secondary)] mb-2">
