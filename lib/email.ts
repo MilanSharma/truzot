@@ -17,6 +17,18 @@ function makeEmailToken(orderId: string): string {
   return createHmac("sha256", secret).update(orderId).digest("hex").substring(0, 32);
 }
 
+// Same SHA-256(email + secret) scheme /api/unsubscribe and the abandoned-cart
+// email in /api/cron/cleanup already use — must match exactly or the link 404s
+// with "Invalid token" when the recipient clicks it.
+async function buildUnsubscribeUrl(email: string): Promise<string> {
+  const secret = process.env.UNSUBSCRIBE_SECRET || process.env.CRON_SECRET || "fallback-secret";
+  const encoder = new TextEncoder();
+  const data = encoder.encode(email + secret);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const token = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, "0")).join("");
+  return `${process.env.NEXT_PUBLIC_SITE_URL}/unsubscribe?email=${encodeURIComponent(email)}&token=${token}`;
+}
+
 async function withRetry<T>(
   fn: () => Promise<T>,
   maxAttempts = 3,
@@ -55,6 +67,37 @@ const baseTemplate = (preview: string, title: string, content: string) => `
           <p style="margin: 0; font-size: 12px; color: #6B7280;">
             © ${new Date().getFullYear()} Truzot AI Headshots<br/>
             <a href="${process.env.NEXT_PUBLIC_SITE_URL}/unsubscribe" style="color: #059669; text-decoration: none;">Manage Email Preferences</a>
+          </p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>
+`;
+
+// Marketing (not transactional) email — needs a real, working unsubscribe
+// link, unlike baseTemplate's footer link which drops straight to /unsubscribe
+// with no email/token and can't actually unsubscribe anyone.
+const baseTemplateWithUnsubscribe = (preview: string, title: string, content: string, unsubscribeUrl: string) => `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${title}</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #F9FAFB; color: #111827; margin: 0; padding: 0; -webkit-font-smoothing: antialiased;">
+  <div style="display: none; max-height: 0px; overflow: hidden; opacity: 0; color: transparent; mso-hide: all;">${preview}</div>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background: #F9FAFB; padding: 40px 20px;">
+    <tr><td align="center">
+      <table width="100%" max-width="600" border="0" cellspacing="0" cellpadding="0" style="max-width: 600px; background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 24px; overflow: hidden;">
+        <tr><td style="padding: 40px;">
+          ${content}
+        </td></tr>
+        <tr><td style="background: #F9FAFB; padding: 24px; text-align: center; border-top: 1px solid #E5E7EB;">
+          <p style="margin: 0; font-size: 12px; color: #6B7280;">
+            © ${new Date().getFullYear()} Truzot AI Headshots<br/>
+            <a href="${unsubscribeUrl}" style="color: #059669; text-decoration: none;">Unsubscribe</a>
           </p>
         </td></tr>
       </table>
@@ -148,5 +191,34 @@ export async function sendDiscountCodeEmail(email: string, discountCode: string)
     to: email,
     subject: "Your $5 discount code for Truzot headshots 🎁",
     html: baseTemplate("Your exclusive discount code is inside.", "Your Discount Code", content),
+  }));
+}
+
+export async function sendPreviewFollowupEmail(email: string, discountCode: string | null) {
+  const unsubscribeUrl = await buildUnsubscribeUrl(email);
+  const discountBlock = discountCode
+    ? `
+    <div style="background: rgba(163,230,53,0.1); border: 2px dashed #A3E635; border-radius: 16px; padding: 24px; text-align: center; margin: 32px 0;">
+      <p style="margin: 0 0 8px; font-size: 14px; color: #4B5563;">Your $5 code (still active):</p>
+      <span style="font-size: 32px; font-weight: 900; color: #A3E635; letter-spacing: 4px; font-family: monospace;">${discountCode}</span>
+    </div>`
+    : "";
+
+  const content = `
+    <h1 style="margin: 0 0 16px; font-size: 28px; font-weight: 900; color: #111827;">That was the low-res version.</h1>
+    <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: #4B5563;">You just got a free preview of your AI headshot — small, watermarked, and deliberately held back from full quality. It's real proof the tech works on your actual face, not a demo.</p>
+    <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: #4B5563;">The paid version trains a custom model on you and delivers 40–150 full-resolution, watermark-free headshots across multiple styles — ready for LinkedIn, a resume, or a company site.</p>
+    ${discountBlock}
+    <div style="text-align: center; margin-bottom: 24px;">
+      <a href="${process.env.NEXT_PUBLIC_SITE_URL}/upload" style="background: #A3E635; color: #000000; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-size: 16px; font-weight: 700; display: inline-block;">Get My Real Headshots &rarr;</a>
+    </div>
+    <p style="margin: 0; font-size: 14px; color: #6B7280;">Backed by a 30-day money-back guarantee — full refund, no questions, if it's not you.</p>
+  `;
+
+  await withRetry(() => getResend().emails.send({
+    from: "Truzot <hello@truzot.com>",
+    to: email,
+    subject: "That preview was the low-res version",
+    html: baseTemplateWithUnsubscribe("The full-quality version is one upload away.", "Your Free Preview", content, unsubscribeUrl),
   }));
 }

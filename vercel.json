@@ -5,6 +5,10 @@
       "schedule": "0 9 * * *"
     },
     {
+      "path": "/api/cron/preview-followup",
+      "schedule": "0 */2 * * *"
+    },
+    {
       "path": "/api/cron/cleanup",
       "schedule": "0 0 * * *"
     },
