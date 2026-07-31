@@ -1025,7 +1025,16 @@ export default function LandingPageContent() {
             style={{ y: heroY }}
             className="relative z-10 max-w-5xl mx-auto text-center"
           >
-            <motion.div initial="hidden" animate="visible" variants={stagger}>
+            {/* initial={false}, not "hidden" — this wraps the LCP element (the
+                H1) plus both primary CTAs. A traced Lighthouse run measured
+                2,238ms of the 2,268ms LCP as pure "element render delay":
+                the hero was sitting at opacity:0 until JS hydrated and the
+                fade-in animation ran, so on every single ad click the buy
+                buttons were invisible for 2+ seconds. initial={false} skips
+                animating from the hidden state on mount — content paints
+                immediately, with no animation, since there's nothing to
+                animate from. */}
+            <motion.div initial={false} animate="visible" variants={stagger}>
               {/* Headline */}
               <motion.h1
                 variants={fadeUp}
