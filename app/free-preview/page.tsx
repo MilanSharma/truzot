@@ -43,6 +43,16 @@ export default function FreePreviewPage() {
   const [hairstyle, setHairstyle] = useState("Neat and professional");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
+
+  // Result panel renders below the form on mobile (single-column stack) — a
+  // visitor tapping "Get My Free Preview" would otherwise get no visible
+  // feedback that anything happened unless they scroll down on their own.
+  useEffect(() => {
+    if (loading) {
+      resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [loading]);
 
   const STYLES = ["Corporate office", "Creative studio", "Outdoor park", "Modern startup office", "Neutral grey background"];
   const OUTFITS = ["Business suit", "Smart casual blazer", "Turtleneck", "Plain T-shirt", "Formal dress"];
@@ -75,31 +85,38 @@ export default function FreePreviewPage() {
       setError("Please enter a valid email address");
       return;
     }
-    
+
     try {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-      
+
       if (!res.ok) {
         throw new Error("Failed to submit email");
       }
-      
+
       setEmailSubmitted(true);
       setError(null);
+      // Chain straight into generation — a separate second click here was the
+      // actual drop-off point: every real lead submitted their email (waitlist
+      // rows exist) but none ever clicked the further "Generate Free Preview"
+      // button below, which sat out of view / read as a redundant extra step
+      // once the "Ready to generate" success state appeared.
+      await generatePreview(email);
     } catch (err) {
       setError("Failed to submit email. Please try again.");
     }
   };
 
-  const generatePreview = async () => {
+  const generatePreview = async (emailOverride?: string) => {
+    const effectiveEmail = emailOverride ?? email;
     if (!imageFile) {
       setError("Please upload a photo first.");
       return;
     }
-    if (!email) {
+    if (!effectiveEmail) {
       setError("Please enter your email first.");
       return;
     }
@@ -113,18 +130,18 @@ export default function FreePreviewPage() {
       formData.append("style", style);
       formData.append("outfit", outfit);
       formData.append("hairstyle", hairstyle);
-      formData.append("email", email);
+      formData.append("email", effectiveEmail);
 
       const res = await fetch("/api/free-preview", {
         method: "POST",
         body: formData,
       });
-      
+
       if (!res.ok) {
         const data = await res.json() as { error?: string };
         throw new Error(data.error || "Failed to generate preview");
       }
-      
+
       const data = await res.json() as { url: string };
       setResultUrl(data.url);
     } catch (err) {
@@ -262,9 +279,14 @@ export default function FreePreviewPage() {
                   />
                   <button
                     type="submit"
-                    className="w-full bg-[var(--surface2)] text-[var(--text)] border border-[var(--border)] px-6 py-4 rounded-xl font-bold hover:bg-[var(--surface3)] transition-colors shadow-sm"
+                    disabled={loading}
+                    className="w-full bg-[var(--lime)] text-[var(--lime-on)] px-6 py-4 rounded-xl font-bold hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm flex items-center justify-center gap-2"
                   >
-                    Continue
+                    {loading ? (
+                      <><RefreshCw className="w-5 h-5 animate-spin" /> Rendering...</>
+                    ) : (
+                      <><Sparkles className="w-5 h-5" /> Get My Free Preview</>
+                    )}
                   </button>
                   <p className="text-xs text-[var(--text-faint)] text-center font-medium">
                     We&apos;ll email you your preview and special offers
@@ -274,28 +296,31 @@ export default function FreePreviewPage() {
             ) : (
               <div className="bg-[var(--lime-dim)] border border-[var(--lime-border)] rounded-[2rem] p-6 shadow-sm flex items-center justify-center gap-2">
                 <CheckCircle2 className="w-5 h-5 text-[var(--lime-text)]" />
-                <span className="text-[var(--lime-text)] font-bold">Ready to generate</span>
+                <span className="text-[var(--lime-text)] font-bold">
+                  {loading ? "Generating your preview..." : "Preview ready below"}
+                </span>
               </div>
             )}
 
-            <button
-              onClick={generatePreview}
-              disabled={loading || !imageFile || !emailSubmitted}
-              className="w-full bg-[var(--lime)] text-[var(--lime-on)] rounded-2xl py-4 text-lg font-bold flex items-center justify-center gap-2 shadow-[var(--shadow-lime)] hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95"
-            >
-              {loading ? (
-                <><RefreshCw className="w-5 h-5 animate-spin" /> Rendering...</>
-              ) : (
-                <><Sparkles className="w-5 h-5" /> Generate Free Preview</>
-              )}
-            </button>
+            {emailSubmitted && !loading && !resultUrl && (
+              <button
+                onClick={() => generatePreview()}
+                disabled={loading || !imageFile}
+                className="w-full bg-[var(--lime)] text-[var(--lime-on)] rounded-2xl py-4 text-lg font-bold flex items-center justify-center gap-2 shadow-[var(--shadow-lime)] hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95"
+              >
+                <Sparkles className="w-5 h-5" /> Retry Generation
+              </button>
+            )}
             {error && (
               <p className="text-red-600 bg-red-50 border border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20 p-3 rounded-xl text-sm font-semibold text-center mt-2">{error}</p>
             )}
           </div>
 
           {/* Right Column - 7 cols (Result) */}
-          <div className="lg:col-span-7 bg-[var(--surface)] border border-[var(--border)] rounded-[2rem] p-6 lg:p-10 shadow-sm flex flex-col items-center justify-center min-h-[500px] h-full relative overflow-hidden">
+          <div
+            ref={resultRef}
+            className="lg:col-span-7 bg-[var(--surface)] border border-[var(--border)] rounded-[2rem] p-6 lg:p-10 shadow-sm flex flex-col items-center justify-center min-h-[500px] h-full relative overflow-hidden"
+          >
             {loading ? (
               <div className="flex flex-col items-center gap-4 animate-in fade-in duration-300">
                 {/* Scanner effect over uploaded image */}
