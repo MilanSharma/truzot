@@ -556,8 +556,12 @@ function StickyMobileCTA() {
 }
 
 /* ─────────────────────────────────────────────────────────────────── */
-/*  PROMO BANNER — real, evergreen discount. No fake countdown/expiry: */
-/*  WELCOME10 never expires, so it isn&apos;t framed as a ticking deadline. */
+/*  PROMO BANNER — real, evergreen discount. No fake countdown/expiry:  */
+/*  WELCOME10 never expires, so it isn&apos;t framed as a ticking deadline.  */
+/*  Sits in normal flow (scrolls away) so it doesn&apos;t permanently eat    */
+/*  viewport height above the nav — the nav below it is `sticky`, not   */
+/*  `fixed`, so it settles into place right under the banner and only   */
+/*  pins to the top once the banner scrolls past.                      */
 /* ─────────────────────────────────────────────────────────────────── */
 function PromoBanner() {
   const [dismissed, setDismissed] = useState(true);
@@ -570,14 +574,15 @@ function PromoBanner() {
 
   return (
     <div
-      className="fixed top-0 left-0 right-0 z-[51] h-9 flex items-center justify-center px-4"
-      style={{ background: "#A3E635" }}
+      className="relative w-full z-[51] h-9 flex items-center justify-center px-4"
+      style={{ background: "#07080A", borderBottom: "1px solid rgba(163,230,53,0.2)" }}
     >
       <Link
         href="/upload?coupon=WELCOME10"
-        className="text-black text-xs md:text-sm font-bold text-center truncate hover:underline"
+        className="text-white/80 text-xs md:text-sm font-semibold text-center truncate hover:text-white transition"
       >
-        New here? Get 10% off your first order — code WELCOME10 applied at checkout
+        New here? Get <span className="font-bold" style={{ color: "#A3E635" }}>10% off</span> your first order — code{" "}
+        <span className="font-mono font-bold" style={{ color: "#A3E635" }}>WELCOME10</span> applied at checkout
       </Link>
       <button
         onClick={() => {
@@ -585,7 +590,7 @@ function PromoBanner() {
           setDismissed(true);
         }}
         aria-label="Dismiss"
-        className="absolute right-3 text-black/60 hover:text-black"
+        className="absolute right-3 text-white/40 hover:text-white"
       >
         <X className="w-4 h-4" />
       </button>
@@ -873,7 +878,7 @@ export default function LandingPageContent() {
         {/*  NAVIGATION                                                */}
         {/* ═══════════════════════════════════════════════════════════ */}
         <nav
-          className={`fixed top-9 w-full z-50 transition-all duration-300 ${
+          className={`sticky top-0 w-full z-50 transition-all duration-300 ${
             scrolled
               ? "bg-[#07080A]/90 backdrop-blur-xl border-b border-transparent shadow-md"
               : "bg-transparent"
@@ -999,7 +1004,7 @@ export default function LandingPageContent() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  HERO                                                       */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <section className="relative min-h-[100vh] flex flex-col items-center justify-center pt-[132px] pb-16 px-6 overflow-hidden">
+        <section className="relative min-h-[100vh] flex flex-col items-center justify-center pt-6 pb-16 px-6 overflow-hidden">
           {/* Background: photographic grid */}
           <HeroPhotoGrid />
 
