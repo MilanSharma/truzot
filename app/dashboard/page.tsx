@@ -161,6 +161,18 @@ function PendingOrderPreviews({ storagePath }: { storagePath?: string }) {
   );
 }
 
+// Guards against the supabase-js client hanging forever instead of
+// resolving or rejecting - observed specifically on cold hard-reloads
+// landing directly on an authenticated ?order= deep link.
+function withTimeout<T>(promise: PromiseLike<T>, ms: number): Promise<T> {
+  return Promise.race([
+    Promise.resolve(promise),
+    new Promise<T>((_, reject) =>
+      setTimeout(() => reject(new Error(`Timed out after ${ms}ms`)), ms),
+    ),
+  ]);
+}
+
 function DashboardContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -403,11 +415,22 @@ function DashboardContent() {
 
   const fetchOrderById = useCallback(
     async (id: string, downloadToken?: string) => {
-      const { data } = await supabase
-        .from("orders")
-        .select("*")
-        .eq("id", id)
-        .single();
+      // A raw REST call to this exact query returns instantly, but the
+      // supabase-js client version of it has been observed to hang
+      // indefinitely on a cold hard-reload landing directly on an
+      // ?order= deep link - no error, no timeout, just never resolves.
+      // withTimeout turns that hang into a rejection so the fallback path
+      // below (plain fetch, not the client library) still gets a chance.
+      let data: Order | null = null;
+      try {
+        const result = await withTimeout(
+          supabase.from("orders").select("*").eq("id", id).single(),
+          8000,
+        );
+        data = (result as { data: Order | null }).data;
+      } catch (err) {
+        console.error("Direct order fetch failed or timed out:", err);
+      }
       if (data) return data as Order;
       // If RLS blocks (guest order or different owner), try via API
       try {
@@ -479,12 +502,15 @@ function DashboardContent() {
         // Logged-in users can use standard paginated Supabase calls
         const from = page * PAGE_SIZE;
         const to = from + PAGE_SIZE - 1;
-        const { data, count } = await supabase
-          .from("headshots")
-          .select("id, image_url, style, category", { count: "exact" })
-          .eq("order_id", id)
-          .order("created_at", { ascending: false })
-          .range(from, to);
+        const { data, count } = await withTimeout(
+          supabase
+            .from("headshots")
+            .select("id, image_url, style, category", { count: "exact" })
+            .eq("order_id", id)
+            .order("created_at", { ascending: false })
+            .range(from, to),
+          8000,
+        );
         if (data) {
           setHeadshots(
             (prev) => (page === 0 ? data : [...prev, ...data]) as Headshot[],
