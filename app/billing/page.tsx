@@ -9,6 +9,7 @@ export default function BillingPage() {
  const router = useRouter();
  const [loading, setLoading] = useState(true);
  const [portalUrl, setPortalUrl] = useState("");
+ const [user, setUser] = useState<{ email?: string; id?: string; user_metadata?: any } | null>(null);
 
  useEffect(() => {
  supabase.auth.getUser().then(async ({ data }) => {
@@ -16,6 +17,7 @@ export default function BillingPage() {
  router.push("/login");
  return;
  }
+ setUser({ id: data.user.id, email: data.user.email, user_metadata: data.user.user_metadata });
  const {
  data: { session },
  } = await supabase.auth.getSession();
@@ -39,7 +41,7 @@ export default function BillingPage() {
 
  return (
  <div className="min-h-screen bg-[var(--bg)] ">
- <Nav />
+ <Nav user={user} />
  <div className="max-w-2xl mx-auto px-6 py-16 text-center">
  <h1 className="text-3xl font-bold mb-4 text-[var(--text)]">
  Billing & Invoices

@@ -1,7 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { supabase } from "@/lib/supabase/client";
 
 export default function TeamPage() {
   const [email, setEmail] = useState("");
@@ -10,6 +11,15 @@ export default function TeamPage() {
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [user, setUser] = useState<{ email?: string; id?: string; user_metadata?: any } | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user) {
+        setUser({ id: data.user.id, email: data.user.email, user_metadata: data.user.user_metadata });
+      }
+    });
+  }, []);
 
   const handleRequestDemo = async () => {
     setStatus("loading");
@@ -33,7 +43,7 @@ export default function TeamPage() {
 
   return (
     <div className="min-h-screen text-white" style={{ background: "#07080A" }}>
-      <Nav />
+      <Nav user={user} />
       <div className="max-w-5xl mx-auto px-6 py-16">
         <h1 className="text-4xl font-black tracking-tight mb-2 text-white">
           Team Headshots, Unified Brand

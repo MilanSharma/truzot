@@ -18,21 +18,54 @@ export default function TeamDashboard() {
   const [inviteEmail, setInviteEmail] = useState("");
   const [loading, setLoading] = useState(true);
   const [brandStyle, setBrandStyle] = useState("Corporate Executive");
+  const [savingBrand, setSavingBrand] = useState(false);
+  const [user, setUser] = useState<{ email?: string; id?: string; user_metadata?: any } | null>(null);
   const { toast } = useToast();
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const fetchMembers = async () => {
+    const load = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      if (!session) return;
-      const res = await fetch("/api/team/members", {
-        headers: { Authorization: `Bearer ${session.access_token}` },
-      });
-      if (res.ok) setMembers(await res.json());
+      if (!session) {
+        setLoading(false);
+        return;
+      }
+      setUser({ id: session.user.id, email: session.user.email, user_metadata: session.user.user_metadata });
+      const authHeaders = { Authorization: `Bearer ${session.access_token}` };
+      const [membersRes, brandRes] = await Promise.all([
+        fetch("/api/team/members", { headers: authHeaders }),
+        fetch("/api/team/brand-settings", { headers: authHeaders }),
+      ]);
+      if (membersRes.ok) setMembers(await membersRes.json());
+      if (brandRes.ok) {
+        const { brandStyle: saved } = await brandRes.json() as { brandStyle: string };
+        setBrandStyle(saved);
+      }
       setLoading(false);
     };
-    fetchMembers();
+    load();
   }, []);
+
+  const saveBrandSettings = async () => {
+    setSavingBrand(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch("/api/team/brand-settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${session?.access_token}` },
+        body: JSON.stringify({ brandStyle }),
+      });
+      if (res.ok) {
+        toast("Brand settings saved", "success");
+      } else {
+        toast("Failed to save brand settings", "error");
+      }
+    } catch {
+      toast("Failed to save brand settings", "error");
+    } finally {
+      setSavingBrand(false);
+    }
+  };
 
   const sendInvite = async (email: string) => {
     const { data: { session } } = await supabase.auth.getSession();
@@ -69,7 +102,7 @@ export default function TeamDashboard() {
 
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
-      <Nav />
+      <Nav user={user} />
       <div className="max-w-5xl mx-auto px-6 py-24">
         <div className="flex items-center gap-3 mb-8">
           <div className="p-3 bg-[var(--lime-dim)] rounded-xl border border-[var(--lime-border)] text-[var(--lime)]">
@@ -150,7 +183,9 @@ export default function TeamDashboard() {
               <option>Outdoor Natural</option>
             </select>
 
-            <button className="btn-secondary w-full">Save Brand Settings</button>
+            <button onClick={saveBrandSettings} disabled={savingBrand} className="btn-secondary w-full disabled:opacity-50">
+              {savingBrand ? "Saving..." : "Save Brand Settings"}
+            </button>
           </div>
         </div>
 

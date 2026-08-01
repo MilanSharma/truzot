@@ -113,16 +113,21 @@ function LoginContent() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password, name }),
         });
-        const data = (await res.json()) as { error?: string };
+        const data = (await res.json()) as { error?: string; message?: string };
         if (!res.ok) {
           setError(data.error ?? "Signup failed");
         } else {
-          const { error: signInErr } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-          });
-          if (signInErr) throw signInErr;
-          window.location.href = "/dashboard";
+          // Signup always requires email confirmation (see /api/auth/signup),
+          // so an immediate sign-in attempt here would always fail — it used
+          // to, and showed the raw "Email not confirmed" Supabase error
+          // instead of ever surfacing the friendly message the API already
+          // returns. Show that message directly instead.
+          setSuccess(
+            data.message ??
+              "Account created! Please check your email to verify your account before logging in.",
+          );
+          setIsSignUp(false);
+          setPassword("");
         }
       } else {
         const { error } = await supabase.auth.signInWithPassword({
