@@ -21,7 +21,8 @@ export default function FloatingSelectionBar({
   return (
     <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-[#0E1016] text-white px-6 py-4 rounded-2xl shadow-2xl z-50 flex items-center gap-6 border border-white/10 animate-in slide-in-from-bottom-8">
       <div className="text-sm font-bold">
-        <span className="text-lime-400">{selectedCount}</span> images selected
+        <span className="text-lime-400">{selectedCount}</span>{" "}
+        {selectedCount === 1 ? "image" : "images"} selected
       </div>
       <div className="h-6 w-px bg-white/10" />
       <div className="flex items-center gap-3">
