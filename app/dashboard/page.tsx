@@ -179,9 +179,6 @@ function DashboardContent() {
   const { toast } = useToast();
   const orderId = searchParams.get("order");
   const sessionId = searchParams.get("session_id");
-  if (typeof window !== "undefined") {
-    console.log("[QA-DEBUG] DashboardContent render, orderId=", orderId);
-  }
 
   const [currentTime, setCurrentTime] = useState(() => Date.now());
   useEffect(() => {
@@ -349,6 +346,24 @@ function DashboardContent() {
     }, 0);
     return () => clearTimeout(timer);
   }, [orderId]);
+  // Safety net for a real, still-unresolved bug: on some page loads (seen
+  // specifically landing directly on an authenticated ?order= deep link via
+  // a hard navigation) the page can get stuck showing a loading skeleton
+  // indefinitely even though the underlying data fetch completes - a
+  // rendering issue downstream of loadOrderDetail, not a data or auth
+  // problem (verified: the fetches themselves resolve fine). Root cause not
+  // yet found. Until it is, don't leave the user staring at a dead skeleton
+  // with no way out.
+  const [loadStuck, setLoadStuck] = useState(false);
+  useEffect(() => {
+    if (!loading && !orderLoading) {
+      setLoadStuck(false);
+      return;
+    }
+    const t = setTimeout(() => setLoadStuck(true), 12000);
+    return () => clearTimeout(t);
+  }, [loading, orderLoading, orderId]);
+
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [multiSelectMode, setMultiSelectMode] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -671,9 +686,7 @@ function DashboardContent() {
   }, []);
 
   useEffect(() => {
-    console.log("[QA-DEBUG] loadOrderDetail effect firing, orderId=", orderId);
     const loadOrderDetail = async () => {
-      console.log("[QA-DEBUG] loadOrderDetail started");
       setOrderError(null);
       const existingOrder = ordersRef.current.find((o) => o.id === orderId);
 
@@ -699,11 +712,9 @@ function DashboardContent() {
       try {
         if (!initRef.current) {
           initRef.current = true;
-          console.log("[QA-DEBUG] calling getSession()");
           const {
             data: { session },
           } = await supabase.auth.getSession();
-          console.log("[QA-DEBUG] getSession() resolved, session=", !!session);
           if (session) {
             const u = session.user;
             userIdRef.current = u.id;
@@ -712,7 +723,6 @@ function DashboardContent() {
               email: u.email,
               user_metadata: u.user_metadata as User["user_metadata"],
             });
-            console.log("[QA-DEBUG] fetching full orders list");
             const { data } = await withTimeout(
               supabase
                 .from("orders")
@@ -721,7 +731,6 @@ function DashboardContent() {
                 .order("created_at", { ascending: false }),
               8000,
             );
-            console.log("[QA-DEBUG] full orders list resolved, count=", data?.length);
             if (data) {
               setOrders(data as Order[]);
               if (orderId && !existingOrder) {
@@ -742,16 +751,12 @@ function DashboardContent() {
           const downloadToken =
             new URLSearchParams(window.location.search).get("download_token") ??
             undefined;
-          console.log("[QA-DEBUG] calling fetchOrderById");
           const order = await fetchOrderById(orderId, downloadToken);
-          console.log("[QA-DEBUG] fetchOrderById returned, order=", !!order, order?.status);
           if (order) {
             setOrderError(null);
             setFetchedOrder(order);
             if (order.status !== "pending") {
-              console.log("[QA-DEBUG] calling fetchHeadshots");
               await fetchHeadshots(orderId, 0);
-              console.log("[QA-DEBUG] fetchHeadshots returned");
             }
             const channel = subscribeToOrder(orderId);
             subsRef.current = channel;
@@ -786,7 +791,6 @@ function DashboardContent() {
           );
         }
       } finally {
-        console.log("[QA-DEBUG] loadOrderDetail finally block reached");
         setOrderLoading(false);
         setLoading(false);
       }
@@ -1216,6 +1220,32 @@ function DashboardContent() {
         >
           Sign In
         </Link>
+      </div>
+    );
+  }
+
+  if (loadStuck) {
+    return (
+      <div className="flex h-screen bg-white font-sans text-[var(--text-primary)] overflow-hidden">
+        <Sidebar user={user} active={!orderId} />
+        <main className="flex-1 overflow-y-auto relative flex flex-col items-center justify-center px-6 text-center">
+          <div className="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mb-6">
+            <AlertCircle className="w-8 h-8 text-amber-500" />
+          </div>
+          <h2 className="text-2xl font-bold text-slate-900 mb-3">
+            Taking longer than expected
+          </h2>
+          <p className="text-slate-500 max-w-md mb-8">
+            This page is stuck loading. Your data is fine — reloading almost
+            always fixes it.
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-lime-500 text-white px-8 py-3 rounded-xl font-bold hover:bg-lime-600 transition"
+          >
+            Reload
+          </button>
+        </main>
       </div>
     );
   }
