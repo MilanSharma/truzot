@@ -346,26 +346,6 @@ function DashboardContent() {
     }, 0);
     return () => clearTimeout(timer);
   }, [orderId]);
-  // Safety net for a real, still-unresolved bug: on some page loads (seen
-  // specifically landing directly on an authenticated ?order= deep link via
-  // a hard navigation) the page can get stuck showing a loading skeleton
-  // indefinitely, with nothing ever rendering, even though the underlying
-  // data fetch completes - confirmed via tracing that loading/orderLoading
-  // DO both clear to false in this state, so watching them isn't a reliable
-  // signal here; whatever's actually stuck is downstream of that in
-  // rendering. Root cause not yet found. This is deliberately unconditional
-  // (fires 15s after every orderId change, full stop) rather than trying to
-  // key off state that's been shown not to correlate with what's on screen
-  // - the tradeoff is a rare false trigger on a genuinely slow load, which
-  // is a far smaller cost than leaving someone on a silent, permanent hang.
-  const [loadStuck, setLoadStuck] = useState(false);
-  useEffect(() => {
-    setLoadStuck(false);
-    if (!orderId) return;
-    const t = setTimeout(() => setLoadStuck(true), 15000);
-    return () => clearTimeout(t);
-  }, [orderId]);
-
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [multiSelectMode, setMultiSelectMode] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -1222,32 +1202,6 @@ function DashboardContent() {
         >
           Sign In
         </Link>
-      </div>
-    );
-  }
-
-  if (loadStuck) {
-    return (
-      <div className="flex h-screen bg-white font-sans text-[var(--text-primary)] overflow-hidden">
-        <Sidebar user={user} active={!orderId} />
-        <main className="flex-1 overflow-y-auto relative flex flex-col items-center justify-center px-6 text-center">
-          <div className="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mb-6">
-            <AlertCircle className="w-8 h-8 text-amber-500" />
-          </div>
-          <h2 className="text-2xl font-bold text-slate-900 mb-3">
-            Taking longer than expected
-          </h2>
-          <p className="text-slate-500 max-w-md mb-8">
-            This page is stuck loading. Your data is fine — reloading almost
-            always fixes it.
-          </p>
-          <button
-            onClick={() => window.location.reload()}
-            className="bg-lime-500 text-white px-8 py-3 rounded-xl font-bold hover:bg-lime-600 transition"
-          >
-            Reload
-          </button>
-        </main>
       </div>
     );
   }
