@@ -562,10 +562,17 @@ function StickyMobileCTA() {
 /*  pins to the top once the banner scrolls past.                      */
 /* ─────────────────────────────────────────────────────────────────── */
 function PromoBanner() {
-  const [dismissed, setDismissed] = useState(true);
+  // Default to visible: almost all traffic (esp. fresh ad clicks) has never
+  // dismissed this before, and SSR has no localStorage to check anyway.
+  // Defaulting to hidden-then-reveal made the banner pop in after the page
+  // had already painted, shoving the sticky nav down a beat late. Defaulting
+  // to shown-then-hide-if-dismissed means it renders in place from the first
+  // paint for the common case, at the cost of a quick disappear for the
+  // rare returning visitor who already dismissed it.
+  const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
-    setDismissed(localStorage.getItem("promoBannerDismissed") === "1");
+    if (localStorage.getItem("promoBannerDismissed") === "1") setDismissed(true);
   }, []);
 
   if (dismissed) return null;

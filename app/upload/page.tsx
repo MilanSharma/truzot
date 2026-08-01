@@ -1169,10 +1169,6 @@ function UploadContent() {
                         onDragOver={handleDragOver}
                         onDragLeave={handleDragLeave}
                         onDrop={handleDrop}
-                        onClick={() => {
-                          const input = document.getElementById('file-input') as HTMLInputElement;
-                          if (input) input.click();
-                        }}
                         className={`group relative flex flex-col items-center justify-center w-full h-full min-h-[320px] p-8 text-center cursor-pointer border-2 border-dashed rounded-[2rem] transition-all duration-500 ease-out overflow-hidden shadow-sm hover:shadow-xl
                           ${isDragging ? "border-[var(--lime)] bg-[var(--surface)] scale-[1.02]" : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--lime-border)]"}`}
                       >
