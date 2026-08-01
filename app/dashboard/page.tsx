@@ -179,6 +179,9 @@ function DashboardContent() {
   const { toast } = useToast();
   const orderId = searchParams.get("order");
   const sessionId = searchParams.get("session_id");
+  if (typeof window !== "undefined") {
+    console.log("[QA-DEBUG] DashboardContent render, orderId=", orderId);
+  }
 
   const [currentTime, setCurrentTime] = useState(() => Date.now());
   useEffect(() => {
@@ -668,7 +671,9 @@ function DashboardContent() {
   }, []);
 
   useEffect(() => {
+    console.log("[QA-DEBUG] loadOrderDetail effect firing, orderId=", orderId);
     const loadOrderDetail = async () => {
+      console.log("[QA-DEBUG] loadOrderDetail started");
       setOrderError(null);
       const existingOrder = ordersRef.current.find((o) => o.id === orderId);
 
@@ -694,9 +699,11 @@ function DashboardContent() {
       try {
         if (!initRef.current) {
           initRef.current = true;
+          console.log("[QA-DEBUG] calling getSession()");
           const {
             data: { session },
           } = await supabase.auth.getSession();
+          console.log("[QA-DEBUG] getSession() resolved, session=", !!session);
           if (session) {
             const u = session.user;
             userIdRef.current = u.id;
