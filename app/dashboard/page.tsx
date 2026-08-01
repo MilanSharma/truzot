@@ -742,12 +742,16 @@ function DashboardContent() {
           const downloadToken =
             new URLSearchParams(window.location.search).get("download_token") ??
             undefined;
+          console.log("[QA-DEBUG] calling fetchOrderById");
           const order = await fetchOrderById(orderId, downloadToken);
+          console.log("[QA-DEBUG] fetchOrderById returned, order=", !!order, order?.status);
           if (order) {
             setOrderError(null);
             setFetchedOrder(order);
             if (order.status !== "pending") {
+              console.log("[QA-DEBUG] calling fetchHeadshots");
               await fetchHeadshots(orderId, 0);
+              console.log("[QA-DEBUG] fetchHeadshots returned");
             }
             const channel = subscribeToOrder(orderId);
             subsRef.current = channel;
@@ -782,6 +786,7 @@ function DashboardContent() {
           );
         }
       } finally {
+        console.log("[QA-DEBUG] loadOrderDetail finally block reached");
         setOrderLoading(false);
         setLoading(false);
       }
