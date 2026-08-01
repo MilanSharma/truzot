@@ -42,6 +42,14 @@ const nextConfig = {
               "font-src 'self' data:",
               "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.stripe.com https://api.fal.ai https://api.resend.com https://r.wdfl.co https://us.i.posthog.com https://va.vercel-scripts.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.doubleclick.net https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.google.com https://*.facebook.com https://*.facebook.net https://www.googletagmanager.com https://*.googletagmanager.com",
               "frame-src 'self' https://js.stripe.com https://challenges.cloudflare.com https://*.facebook.com https://*.googletagmanager.com https://*.google.com https://td.doubleclick.net https://bid.g.doubleclick.net",
+              // Without this, worker-src falls back to script-src, which has
+              // no blob: source - and heic2any (used on every upload, not
+              // just HEIC files, since its module is imported unconditionally
+              // on the first file selected) spawns a worker from a blob URL
+              // during its own init. That got silently blocked here: no
+              // thrown error reached any of the surrounding try/catches, the
+              // whole upload handler just hung forever with zero feedback.
+              "worker-src 'self' blob:",
               "object-src 'none'",
               "base-uri 'self'",
               "form-action 'self' https://www.facebook.com",
