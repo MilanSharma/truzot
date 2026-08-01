@@ -712,11 +712,16 @@ function DashboardContent() {
               email: u.email,
               user_metadata: u.user_metadata as User["user_metadata"],
             });
-            const { data } = await supabase
-              .from("orders")
-              .select("*")
-              .eq("user_id", u.id)
-              .order("created_at", { ascending: false });
+            console.log("[QA-DEBUG] fetching full orders list");
+            const { data } = await withTimeout(
+              supabase
+                .from("orders")
+                .select("*")
+                .eq("user_id", u.id)
+                .order("created_at", { ascending: false }),
+              8000,
+            );
+            console.log("[QA-DEBUG] full orders list resolved, count=", data?.length);
             if (data) {
               setOrders(data as Order[]);
               if (orderId && !existingOrder) {
