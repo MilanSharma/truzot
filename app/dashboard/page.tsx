@@ -451,49 +451,58 @@ function DashboardContent() {
 
   const fetchHeadshots = useCallback(async (id: string, page = 0) => {
     setLoadingHeadshots(true);
-    
-    // Check if we are operating via guest tokens
-    const emailToken = new URLSearchParams(window.location.search).get("email_token");
-    const downloadToken = new URLSearchParams(window.location.search).get("download_token");
+    try {
+      // Check if we are operating via guest tokens
+      const emailToken = new URLSearchParams(window.location.search).get("email_token");
+      const downloadToken = new URLSearchParams(window.location.search).get("download_token");
 
-    if (emailToken || downloadToken) {
-      // Guest users cannot query the DB directly due to RLS. Use the secure backend API.
-      let apiUrl = `/api/order-status?orderId=${id}`;
-      if (emailToken) apiUrl += `&email_token=${emailToken}`;
-      if (downloadToken) apiUrl += `&download_token=${downloadToken}`;
-      
-      try {
-        const res = await fetch(apiUrl);
-        if (res.ok) {
-          const data = await res.json();
-          if (data.headshots) {
-             // API returns all headshots. Just set them all and disable further pagination.
-             setHeadshots(data.headshots);
-             setHasMoreHeadshots(false);
+      if (emailToken || downloadToken) {
+        // Guest users cannot query the DB directly due to RLS. Use the secure backend API.
+        let apiUrl = `/api/order-status?orderId=${id}`;
+        if (emailToken) apiUrl += `&email_token=${emailToken}`;
+        if (downloadToken) apiUrl += `&download_token=${downloadToken}`;
+
+        try {
+          const res = await fetch(apiUrl);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.headshots) {
+               // API returns all headshots. Just set them all and disable further pagination.
+               setHeadshots(data.headshots);
+               setHasMoreHeadshots(false);
+            }
           }
+        } catch (e) {
+          console.error("Failed to load gallery for guest", e);
         }
-      } catch (e) {
-        console.error("Failed to load gallery for guest", e);
+      } else {
+        // Logged-in users can use standard paginated Supabase calls
+        const from = page * PAGE_SIZE;
+        const to = from + PAGE_SIZE - 1;
+        const { data, count } = await supabase
+          .from("headshots")
+          .select("id, image_url, style, category", { count: "exact" })
+          .eq("order_id", id)
+          .order("created_at", { ascending: false })
+          .range(from, to);
+        if (data) {
+          setHeadshots(
+            (prev) => (page === 0 ? data : [...prev, ...data]) as Headshot[],
+          );
+          setHasMoreHeadshots((count ?? 0) > from + PAGE_SIZE);
+        }
+        setHeadshotPage(page);
       }
-    } else {
-      // Logged-in users can use standard paginated Supabase calls
-      const from = page * PAGE_SIZE;
-      const to = from + PAGE_SIZE - 1;
-      const { data, count } = await supabase
-        .from("headshots")
-        .select("id, image_url, style, category", { count: "exact" })
-        .eq("order_id", id)
-        .order("created_at", { ascending: false })
-        .range(from, to);
-      if (data) {
-        setHeadshots(
-          (prev) => (page === 0 ? data : [...prev, ...data]) as Headshot[],
-        );
-        setHasMoreHeadshots((count ?? 0) > from + PAGE_SIZE);
-      }
-      setHeadshotPage(page);
+    } catch (err) {
+      // A thrown error here used to leave loadingHeadshots stuck true forever
+      // - the initial-load caller (loadOrderDetail) would hang on the
+      // skeleton, and the "Load more" button would just go permanently
+      // inert with no feedback. Fail loud in the console, but always let
+      // the UI recover.
+      console.error("Failed to fetch headshots:", err);
+    } finally {
+      setLoadingHeadshots(false);
     }
-    setLoadingHeadshots(false);
   }, []);
 
   const loadMoreHeadshots = useCallback(() => {
@@ -656,72 +665,88 @@ function DashboardContent() {
         setOrderLoading(false);
       }
 
-      if (!initRef.current) {
-        initRef.current = true;
-        const {
-          data: { session },
-        } = await supabase.auth.getSession();
-        if (session) {
-          const u = session.user;
-          userIdRef.current = u.id;
-          setUser({
-            id: u.id,
-            email: u.email,
-            user_metadata: u.user_metadata as User["user_metadata"],
-          });
-          const { data } = await supabase
-            .from("orders")
-            .select("*")
-            .eq("user_id", u.id)
-            .order("created_at", { ascending: false });
-          if (data) {
-            setOrders(data as Order[]);
-            if (orderId && !existingOrder) {
-              const prefilled = (data as Order[]).find((o) => o.id === orderId);
-              if (prefilled) {
-                setFetchedOrder(prefilled);
-                setOrderLoading(false);
+      try {
+        if (!initRef.current) {
+          initRef.current = true;
+          const {
+            data: { session },
+          } = await supabase.auth.getSession();
+          if (session) {
+            const u = session.user;
+            userIdRef.current = u.id;
+            setUser({
+              id: u.id,
+              email: u.email,
+              user_metadata: u.user_metadata as User["user_metadata"],
+            });
+            const { data } = await supabase
+              .from("orders")
+              .select("*")
+              .eq("user_id", u.id)
+              .order("created_at", { ascending: false });
+            if (data) {
+              setOrders(data as Order[]);
+              if (orderId && !existingOrder) {
+                const prefilled = (data as Order[]).find((o) => o.id === orderId);
+                if (prefilled) {
+                  setFetchedOrder(prefilled);
+                  setOrderLoading(false);
+                }
               }
             }
           }
         }
-      }
-      if (subsRef.current) {
-        supabase.removeChannel(subsRef.current);
-        subsRef.current = null;
-      }
-      if (orderId) {
-        const downloadToken =
-          new URLSearchParams(window.location.search).get("download_token") ??
-          undefined;
-        const order = await fetchOrderById(orderId, downloadToken);
-        if (order) {
-          setOrderError(null);
-          setFetchedOrder(order);
-          if (order.status !== "pending") {
-            await fetchHeadshots(orderId, 0);
-          }
-          const channel = subscribeToOrder(orderId);
-          subsRef.current = channel;
-          if (order.status === "generating") {
-            checkOrderStatusRef.current(orderId);
+        if (subsRef.current) {
+          supabase.removeChannel(subsRef.current);
+          subsRef.current = null;
+        }
+        if (orderId) {
+          const downloadToken =
+            new URLSearchParams(window.location.search).get("download_token") ??
+            undefined;
+          const order = await fetchOrderById(orderId, downloadToken);
+          if (order) {
+            setOrderError(null);
+            setFetchedOrder(order);
+            if (order.status !== "pending") {
+              await fetchHeadshots(orderId, 0);
+            }
+            const channel = subscribeToOrder(orderId);
+            subsRef.current = channel;
+            if (order.status === "generating") {
+              checkOrderStatusRef.current(orderId);
+            }
+          } else {
+            setOrderError(
+              "Order not found. It may have been deleted or expired.",
+            );
+            setFetchedOrder(null);
+            setHeadshots([]);
           }
         } else {
-          setOrderError(
-            "Order not found. It may have been deleted or expired.",
-          );
+          setOrderError(null);
           setFetchedOrder(null);
           setHeadshots([]);
+          setHeadshotPage(0);
+          setHasMoreHeadshots(true);
         }
-      } else {
-        setOrderError(null);
-        setFetchedOrder(null);
-        setHeadshots([]);
-        setHeadshotPage(0);
-        setHasMoreHeadshots(true);
+      } catch (err) {
+        // Any of the calls above throwing (transient network blip, a
+        // Supabase client hiccup, whatever) used to leave the whole page
+        // stuck on the loading skeleton forever - nothing after the throw
+        // ever ran, including the setLoading(false) that would end it.
+        // Surface the existing "order not found / retry" UI instead of an
+        // infinite spinner with no way out short of reloading blind.
+        console.error("Failed to load dashboard order detail:", err);
+        if (orderId) {
+          setOrderError(
+            "Something went wrong loading this shoot. Please try again.",
+          );
+        }
+      } finally {
+        setOrderLoading(false);
+        setLoading(false);
       }
-      setOrderLoading(false);
-      setLoading(false);
     };
     loadOrderDetail();
     return () => {
