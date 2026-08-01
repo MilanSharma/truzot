@@ -349,20 +349,22 @@ function DashboardContent() {
   // Safety net for a real, still-unresolved bug: on some page loads (seen
   // specifically landing directly on an authenticated ?order= deep link via
   // a hard navigation) the page can get stuck showing a loading skeleton
-  // indefinitely even though the underlying data fetch completes - a
-  // rendering issue downstream of loadOrderDetail, not a data or auth
-  // problem (verified: the fetches themselves resolve fine). Root cause not
-  // yet found. Until it is, don't leave the user staring at a dead skeleton
-  // with no way out.
+  // indefinitely, with nothing ever rendering, even though the underlying
+  // data fetch completes - confirmed via tracing that loading/orderLoading
+  // DO both clear to false in this state, so watching them isn't a reliable
+  // signal here; whatever's actually stuck is downstream of that in
+  // rendering. Root cause not yet found. This is deliberately unconditional
+  // (fires 15s after every orderId change, full stop) rather than trying to
+  // key off state that's been shown not to correlate with what's on screen
+  // - the tradeoff is a rare false trigger on a genuinely slow load, which
+  // is a far smaller cost than leaving someone on a silent, permanent hang.
   const [loadStuck, setLoadStuck] = useState(false);
   useEffect(() => {
-    if (!loading && !orderLoading) {
-      setLoadStuck(false);
-      return;
-    }
-    const t = setTimeout(() => setLoadStuck(true), 12000);
+    setLoadStuck(false);
+    if (!orderId) return;
+    const t = setTimeout(() => setLoadStuck(true), 15000);
     return () => clearTimeout(t);
-  }, [loading, orderLoading, orderId]);
+  }, [orderId]);
 
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [multiSelectMode, setMultiSelectMode] = useState(false);
