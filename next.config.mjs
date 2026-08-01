@@ -44,7 +44,7 @@ const nextConfig = {
               "frame-src 'self' https://js.stripe.com https://challenges.cloudflare.com https://*.facebook.com https://*.googletagmanager.com https://*.google.com https://td.doubleclick.net https://bid.g.doubleclick.net",
               "object-src 'none'",
               "base-uri 'self'",
-              "form-action 'self'",
+              "form-action 'self' https://www.facebook.com",
             ].join('; '),
           },
           {

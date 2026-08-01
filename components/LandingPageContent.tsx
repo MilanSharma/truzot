@@ -413,9 +413,7 @@ const stagger = {
 /*  fake loop repeat will stop trusting every other stat on the page.   */
 /* ─────────────────────────────────────────────────────────────────── */
 type ActivityItem = {
-  name: string;
-  location: string;
-  style: string;
+  planName: string;
   ago: string;
 };
 
@@ -438,9 +436,13 @@ function LiveActivityToast() {
     let mounted = true;
     (async () => {
       try {
+        // orders has no name/city column - never did, this always 400'd
+        // silently (caught below) since the day this component shipped.
+        // plan and created_at are real columns; that's honest, real
+        // recency-based social proof without needing data nobody collects.
         const { data, error } = await supabase
           .from("orders")
-          .select("first_name, city, style, created_at")
+          .select("plan, created_at")
           .eq("status", "completed")
           .order("created_at", { ascending: false })
           .limit(8);
@@ -448,11 +450,10 @@ function LiveActivityToast() {
         if (!error && data && data.length > 0 && mounted) {
           setActivities(
             data
-              .filter((d: any) => d.first_name && d.created_at)
+              .filter((d: any) => d.created_at)
               .map((d: any) => ({
-                name: `${String(d.first_name).trim()}${String(d.first_name).trim().slice(-1) === "." ? "" : "."}`,
-                location: d.city || "",
-                style: d.style || "Headshots",
+                planName:
+                  PLANS[d.plan as keyof typeof PLANS]?.name || "Headshots",
                 ago: timeAgo(d.created_at),
               })),
           );
@@ -498,13 +499,10 @@ function LiveActivityToast() {
             <Camera className="w-5 h-5 text-white/60" />
           </div>
           <div className="text-xs">
-            <span className="font-bold text-white">{a.name}</span>
-            {a.location && (
-              <span className="text-white/40"> · {a.location}</span>
-            )}
+            <span className="font-bold text-white">{a.planName}</span>
             <br />
-            <span className="text-lime-400 font-semibold">{a.style}</span>
-            <span className="text-white/30"> delivered · {a.ago}</span>
+            <span className="text-lime-400 font-semibold">Delivered</span>
+            <span className="text-white/30"> · {a.ago}</span>
           </div>
         </motion.div>
       )}
