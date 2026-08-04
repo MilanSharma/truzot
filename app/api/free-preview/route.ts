@@ -3,11 +3,13 @@ import { fal } from "@fal-ai/client";
 import sharp from "sharp";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import { waitUntil } from "@vercel/functions";
 import { addCors, handleOptions } from "@/lib/cors";
 import { withContext } from "@/lib/request-context";
 import { createLogger } from "@/lib/logger";
 import { WATERMARK_PATTERN_PNG_BASE64 } from "@/lib/assets/watermark-pattern";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { sendFreePreviewResultEmail } from "@/lib/email";
 
 const watermarkPatternBuffer = Buffer.from(WATERMARK_PATTERN_PNG_BASE64, "base64");
 
@@ -134,7 +136,7 @@ export const POST = withContext(async (req: Request) => {
     // the same person. Case-insensitive so Name@x.com and name@x.com collide.
     const { data: waitlistEntry, error: waitlistLookupErr } = await supabaseAdmin
       .from("waitlist")
-      .select("id, free_preview_used_at")
+      .select("id, free_preview_used_at, discount_code")
       .ilike("email", email)
       .maybeSingle();
 
@@ -233,6 +235,15 @@ export const POST = withContext(async (req: Request) => {
     if (usageErr) {
       log.error({ err: usageErr, ip }, "Failed to record free preview IP usage");
     }
+
+    // Fulfills the "We'll email you your preview" promise shown right next
+    // to the email field on this page. Backgrounded so it doesn't delay the
+    // on-page result the user is actively waiting for.
+    waitUntil(
+      sendFreePreviewResultEmail(email, url, waitlistEntry.discount_code ?? null).catch((err) =>
+        log.error({ err, email }, "Failed to send free preview result email"),
+      ),
+    );
 
     return addCors(NextResponse.json({ url }), origin);
   } catch (err) {

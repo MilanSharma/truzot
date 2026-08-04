@@ -8,6 +8,7 @@ import { getEnv } from "@/lib/env";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import { ToastProvider } from "@/components/Toast";
 import CookieConsent from "@/components/CookieConsent";
+import ExitIntentOffer from "@/components/ExitIntentOffer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import AuthSync from "@/components/AuthSync";
 import {
@@ -215,6 +216,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               {children}
               <Analytics />
               <CookieConsent />
+              <ExitIntentOffer />
             </ToastProvider>
           </PostHogProvider>
         </ThemeProvider>

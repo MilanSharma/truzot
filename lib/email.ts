@@ -223,6 +223,55 @@ export async function sendPreviewFollowupEmail(email: string, discountCode: stri
   }));
 }
 
+// Fires immediately after a free-preview generation succeeds. The
+// free-preview page promises "We'll email you your preview" right next to
+// the email field, but until now nothing ever actually sent one — the only
+// email in that flow was the 3-hour-delayed sales pitch. Sent as a real
+// attachment rather than an inline data: URI, since inline base64 images
+// are stripped or unreliable in several major email clients.
+export async function sendFreePreviewResultEmail(
+  email: string,
+  imageBase64: string,
+  discountCode: string | null,
+) {
+  const unsubscribeUrl = await buildUnsubscribeUrl(email);
+  const discountBlock = discountCode
+    ? `
+    <div style="background: rgba(163,230,53,0.1); border: 2px dashed #A3E635; border-radius: 16px; padding: 24px; text-align: center; margin: 32px 0;">
+      <p style="margin: 0 0 8px; font-size: 14px; color: #4B5563;">Your $5 code:</p>
+      <span style="font-size: 32px; font-weight: 900; color: #A3E635; letter-spacing: 4px; font-family: monospace;">${discountCode}</span>
+    </div>`
+    : "";
+
+  const content = `
+    <h1 style="margin: 0 0 16px; font-size: 28px; font-weight: 900; color: #111827;">Here's your free preview.</h1>
+    <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: #4B5563;">Attached — small, watermarked, and deliberately held back from full quality, but it's real proof the AI works on your actual face, not a demo.</p>
+    <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: #4B5563;">The paid version trains a custom model on you and delivers 40–150 full-resolution, watermark-free headshots across multiple styles.</p>
+    ${discountBlock}
+    <div style="text-align: center; margin-bottom: 24px;">
+      <a href="${process.env.NEXT_PUBLIC_SITE_URL}/upload" style="background: #A3E635; color: #000000; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-size: 16px; font-weight: 700; display: inline-block;">Get My Real Headshots &rarr;</a>
+    </div>
+    <p style="margin: 0; font-size: 14px; color: #6B7280;">Backed by a 30-day money-back guarantee — full refund, no questions, if it's not you.</p>
+  `;
+
+  const base64Data = imageBase64.startsWith("data:")
+    ? imageBase64.split(",")[1]
+    : imageBase64;
+
+  await withRetry(() => getResend().emails.send({
+    from: "Truzot <hello@truzot.com>",
+    to: email,
+    subject: "Your free AI headshot preview is attached",
+    html: baseTemplateWithUnsubscribe("Your free preview is attached to this email.", "Your Free Preview", content, unsubscribeUrl),
+    attachments: [
+      {
+        filename: "truzot-free-preview.jpg",
+        content: base64Data,
+      },
+    ],
+  }));
+}
+
 // One-time manual nudge for waitlist leads who claimed a discount code but
 // never actually tried the free preview — the automated preview-followup
 // cron can't reach them since it's gated on free_preview_used_at being set.

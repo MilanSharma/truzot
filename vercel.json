@@ -9,6 +9,14 @@
       "schedule": "0 */2 * * *"
     },
     {
+      "path": "/api/cron/second-touch-followup",
+      "schedule": "0 12 * * *"
+    },
+    {
+      "path": "/api/cron/cold-waitlist-nudge",
+      "schedule": "0 13 * * *"
+    },
+    {
       "path": "/api/cron/cleanup",
       "schedule": "0 0 * * *"
     },
