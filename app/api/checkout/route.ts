@@ -341,7 +341,10 @@ export const POST = withContext(async (req: Request) => {
  .digest("hex")
  .substring(0, 32);
  const existingSession = await stripe.checkout.sessions.create({
- automatic_payment_methods: { enabled: true },
+ // No payment_method_types specified: Checkout Sessions (unlike
+ // PaymentIntents) automatically show every method enabled in the
+ // Stripe Dashboard - card, Apple Pay, Google Pay, Link, etc. - based on
+ // the buyer's browser/device when this is simply omitted.
  mode: "payment",
  customer: customerId,
  customer_email: customerId ? undefined : existing.email || email,
@@ -518,7 +521,10 @@ export const POST = withContext(async (req: Request) => {
  let existingSession: Stripe.Checkout.Session;
  try {
  existingSession = await stripe.checkout.sessions.create({
- automatic_payment_methods: { enabled: true },
+ // No payment_method_types specified: Checkout Sessions (unlike
+ // PaymentIntents) automatically show every method enabled in the
+ // Stripe Dashboard - card, Apple Pay, Google Pay, Link, etc. - based on
+ // the buyer's browser/device when this is simply omitted.
  mode: "payment",
  customer: customerId,
  customer_email: customerId ? undefined : existing.email || email,
@@ -615,7 +621,10 @@ export const POST = withContext(async (req: Request) => {
  .digest("hex")
  .substring(0, 32);
  const retrySession = await stripe.checkout.sessions.create({
- automatic_payment_methods: { enabled: true },
+ // No payment_method_types specified: Checkout Sessions (unlike
+ // PaymentIntents) automatically show every method enabled in the
+ // Stripe Dashboard - card, Apple Pay, Google Pay, Link, etc. - based on
+ // the buyer's browser/device when this is simply omitted.
  mode: "payment",
  customer: customerId,
  customer_email: customerId ? undefined : latestOrder.email || email,
@@ -726,7 +735,10 @@ export const POST = withContext(async (req: Request) => {
  .digest("hex")
  .substring(0, 32);
  const sessionParams: Stripe.Checkout.SessionCreateParams = {
- automatic_payment_methods: { enabled: true },
+ // No payment_method_types specified: Checkout Sessions (unlike
+ // PaymentIntents) automatically show every method enabled in the
+ // Stripe Dashboard - card, Apple Pay, Google Pay, Link, etc. - based on
+ // the buyer's browser/device when this is simply omitted.
  mode: "payment",
  customer: customerId,
  customer_email: customerId ? undefined : email,

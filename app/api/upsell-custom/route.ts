@@ -87,7 +87,8 @@ export const POST = withContext(async (req: Request) => {
  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
  try {
       const session = await stripe.checkout.sessions.create({
- automatic_payment_methods: { enabled: true },
+ // No payment_method_types specified: Checkout Sessions automatically
+ // show every method enabled in the Stripe Dashboard when omitted.
  line_items: [
  {
  price_data: {
