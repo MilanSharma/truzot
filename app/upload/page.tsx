@@ -1122,6 +1122,10 @@ function UploadContent() {
                     </span>{" "}
                     instead of the 20 minutes other apps require.
                   </p>
+                  <p className="text-sm text-[var(--text-secondary)] mt-3 flex items-center justify-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                    Your progress saves automatically — safe to close this tab and come back anytime.
+                  </p>
                 </div>
 
                 {/* SAVED DATASET VIEW */}

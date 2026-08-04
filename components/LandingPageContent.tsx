@@ -542,7 +542,7 @@ function StickyMobileCTA() {
 
 /* ─────────────────────────────────────────────────────────────────── */
 /*  PROMO BANNER — real, evergreen discount. No fake countdown/expiry:  */
-/*  WELCOME10 never expires, so it isn&apos;t framed as a ticking deadline.  */
+/*  WELCOME20 never expires, so it isn&apos;t framed as a ticking deadline.  */
 /*  Sits in normal flow (scrolls away) so it doesn&apos;t permanently eat    */
 /*  viewport height above the nav — the nav below it is `sticky`, not   */
 /*  `fixed`, so it settles into place right under the banner and only   */
@@ -570,11 +570,11 @@ function PromoBanner() {
       style={{ background: "#07080A", borderBottom: "1px solid rgba(163,230,53,0.2)" }}
     >
       <Link
-        href="/upload?coupon=WELCOME10"
+        href="/upload?coupon=WELCOME20"
         className="text-white/80 text-xs md:text-sm font-semibold text-center truncate hover:text-white transition"
       >
-        New here? Get <span className="font-bold" style={{ color: "#A3E635" }}>10% off</span> your first order — code{" "}
-        <span className="font-mono font-bold" style={{ color: "#A3E635" }}>WELCOME10</span> applied at checkout
+        New here? Get <span className="font-bold" style={{ color: "#A3E635" }}>20% off</span> your first order — code{" "}
+        <span className="font-mono font-bold" style={{ color: "#A3E635" }}>WELCOME20</span> applied at checkout
       </Link>
       <button
         onClick={() => {
@@ -863,7 +863,7 @@ export default function LandingPageContent() {
         {/* Mobile sticky CTA — persistent path to convert on long scroll */}
         <StickyMobileCTA />
 
-        {/* Sitewide 10% new-customer discount banner */}
+        {/* Sitewide 20% new-customer discount banner */}
         <PromoBanner />
 
         {/* ═══════════════════════════════════════════════════════════ */}

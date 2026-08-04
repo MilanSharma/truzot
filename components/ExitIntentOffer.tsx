@@ -8,7 +8,7 @@ import { X, ArrowRight } from "lucide-react";
 // exists in components/PopupSmart.tsx but was never actually wired up
 // anywhere (no campaignId, never mounted) - it needs a PopupSmart.com
 // account this repo has no credentials for. This is a self-contained
-// replacement: same real WELCOME10 discount already used elsewhere on the
+// replacement: same real WELCOME20 discount already used elsewhere on the
 // site, no fake countdown/urgency, desktop-only (exit-intent has no mobile
 // equivalent; StickyMobileCTA already covers mobile persuasion).
 export default function ExitIntentOffer() {
@@ -86,18 +86,18 @@ export default function ExitIntentOffer() {
               BEFORE YOU GO
             </p>
             <h2 className="text-2xl font-black text-[var(--text,#fff)] mb-3">
-              Take 10% off your headshots
+              Take 20% off your headshots
             </h2>
             <p className="text-[var(--text-secondary,#9CA3AF)] text-sm mb-6">
               Code applies automatically at checkout. No expiry games — it's yours whenever you're ready.
             </p>
             <div className="rounded-2xl border-2 border-dashed border-[var(--lime,#A3E635)] bg-[rgba(163,230,53,0.1)] py-4 mb-6">
               <span className="font-mono font-bold text-2xl tracking-widest text-[var(--lime,#A3E635)]">
-                WELCOME10
+                WELCOME20
               </span>
             </div>
             <Link
-              href="/upload?coupon=WELCOME10"
+              href="/upload?coupon=WELCOME20"
               onClick={dismiss}
               className="w-full bg-[var(--lime,#A3E635)] text-black px-6 py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-1.5"
             >
