@@ -414,18 +414,7 @@ const stagger = {
 /* ─────────────────────────────────────────────────────────────────── */
 type ActivityItem = {
   planName: string;
-  ago: string;
 };
-
-function timeAgo(iso: string) {
-  const diffMs = Date.now() - new Date(iso).getTime();
-  const mins = Math.floor(diffMs / 60000);
-  if (mins < 1) return "just now";
-  if (mins < 60) return `${mins} min ago`;
-  const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return `${hrs}h ago`;
-  return `${Math.floor(hrs / 24)}d ago`;
-}
 
 function LiveActivityToast() {
   const [activities, setActivities] = useState<ActivityItem[]>([]);
@@ -454,7 +443,6 @@ function LiveActivityToast() {
               .map((d: any) => ({
                 planName:
                   PLANS[d.plan as keyof typeof PLANS]?.name || "Headshots",
-                ago: timeAgo(d.created_at),
               })),
           );
         }
@@ -502,7 +490,6 @@ function LiveActivityToast() {
             <span className="font-bold text-white">{a.planName}</span>
             <br />
             <span className="text-lime-400 font-semibold">Delivered</span>
-            <span className="text-white/30"> · {a.ago}</span>
           </div>
         </motion.div>
       )}
