@@ -222,3 +222,68 @@ export async function sendPreviewFollowupEmail(email: string, discountCode: stri
     html: baseTemplateWithUnsubscribe("The full-quality version is one upload away.", "Your Free Preview", content, unsubscribeUrl),
   }));
 }
+
+// One-time manual nudge for waitlist leads who claimed a discount code but
+// never actually tried the free preview — the automated preview-followup
+// cron can't reach them since it's gated on free_preview_used_at being set.
+export async function sendColdWaitlistNudgeEmail(email: string, discountCode: string | null) {
+  const unsubscribeUrl = await buildUnsubscribeUrl(email);
+  const discountBlock = discountCode
+    ? `
+    <div style="background: rgba(163,230,53,0.1); border: 2px dashed #A3E635; border-radius: 16px; padding: 24px; text-align: center; margin: 32px 0;">
+      <p style="margin: 0 0 8px; font-size: 14px; color: #4B5563;">Your $5 code (still active):</p>
+      <span style="font-size: 32px; font-weight: 900; color: #A3E635; letter-spacing: 4px; font-family: monospace;">${discountCode}</span>
+    </div>`
+    : "";
+
+  const content = `
+    <h1 style="margin: 0 0 16px; font-size: 28px; font-weight: 900; color: #111827;">Your free preview is still waiting.</h1>
+    <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: #4B5563;">You grabbed a spot and a $5 code, but never actually tried the free preview — takes about 10 seconds and shows you a real AI-generated headshot of <em>your</em> face, not a demo. No card required.</p>
+    <div style="text-align: center; margin-bottom: 24px;">
+      <a href="${process.env.NEXT_PUBLIC_SITE_URL}/free-preview" style="background: #A3E635; color: #000000; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-size: 16px; font-weight: 700; display: inline-block;">See My Free Preview &rarr;</a>
+    </div>
+    ${discountBlock}
+    <p style="margin: 0; font-size: 14px; color: #6B7280;">Your $5 code is still active whenever you're ready for the full-resolution set.</p>
+  `;
+
+  await withRetry(() => getResend().emails.send({
+    from: "Truzot <hello@truzot.com>",
+    to: email,
+    subject: "Your free preview is still waiting",
+    html: baseTemplateWithUnsubscribe("See a real AI headshot of your own face in 10 seconds.", "Your Free Preview", content, unsubscribeUrl),
+  }));
+}
+
+// One-time manual second-touch for leads who already tried the preview and
+// received the single automated preview-followup email, but still haven't
+// bought. Different angle from the first email: addresses the #1 objection
+// (authenticity) and adds the concrete competitor price comparison instead
+// of repeating the "low-res vs high-res" pitch they already saw.
+export async function sendSecondTouchFollowupEmail(email: string, discountCode: string | null) {
+  const unsubscribeUrl = await buildUnsubscribeUrl(email);
+  const discountBlock = discountCode
+    ? `
+    <div style="background: rgba(163,230,53,0.1); border: 2px dashed #A3E635; border-radius: 16px; padding: 24px; text-align: center; margin: 32px 0;">
+      <p style="margin: 0 0 8px; font-size: 14px; color: #4B5563;">Your $5 code (still active):</p>
+      <span style="font-size: 32px; font-weight: 900; color: #A3E635; letter-spacing: 4px; font-family: monospace;">${discountCode}</span>
+    </div>`
+    : "";
+
+  const content = `
+    <h1 style="margin: 0 0 16px; font-size: 28px; font-weight: 900; color: #111827;">Is it really you, or just... AI?</h1>
+    <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: #4B5563;">That's the #1 question people ask before buying — fair one. Truzot trains a private model on your actual face, not a generic filter, which is why your preview looked like <em>you</em>, just sharper.</p>
+    <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: #4B5563;">Quick numbers, since you're probably comparing options: Truzot starts at <strong>$29 for 40 photos</strong>. HeadshotPro's cheapest plan is also $29 but gives you 30. Aragon starts at $35. InstaHeadshots starts at $49. You already found the cheapest one — with more photos than any of them.</p>
+    ${discountBlock}
+    <div style="text-align: center; margin-bottom: 24px;">
+      <a href="${process.env.NEXT_PUBLIC_SITE_URL}/upload" style="background: #A3E635; color: #000000; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-size: 16px; font-weight: 700; display: inline-block;">Get My Real Headshots &rarr;</a>
+    </div>
+    <p style="margin: 0; font-size: 14px; color: #6B7280;">Backed by a 30-day money-back guarantee — full refund, no questions, if it's not you.</p>
+  `;
+
+  await withRetry(() => getResend().emails.send({
+    from: "Truzot <hello@truzot.com>",
+    to: email,
+    subject: "Is it really you, or just... AI?",
+    html: baseTemplateWithUnsubscribe("Why the preview actually looked like you, and how the price compares.", "Still deciding?", content, unsubscribeUrl),
+  }));
+}
