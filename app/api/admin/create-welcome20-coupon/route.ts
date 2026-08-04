@@ -30,3 +30,20 @@ export async function POST(req: Request) {
 
   return NextResponse.json({ message: "Created", coupon });
 }
+
+// Delete the superseded WELCOME10 coupon so stale bookmarked/cached links
+// stop applying the smaller discount once WELCOME20 is confirmed live.
+export async function DELETE(req: Request) {
+  const authHeader = req.headers.get("x-truzot-secret");
+  if (authHeader !== ONE_TIME_SECRET) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const stripe = getStripe();
+  try {
+    const deleted = await stripe.coupons.del("WELCOME10");
+    return NextResponse.json({ message: "Deleted", deleted });
+  } catch (err) {
+    return NextResponse.json({ message: "Not found or already deleted", error: String(err) });
+  }
+}
