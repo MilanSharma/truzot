@@ -127,7 +127,10 @@ export async function sendHeadshotsReadyEmail(email: string, orderId: string, sh
     <div style="text-align: center; margin: 32px 0;">
       <a href="${dashboardUrl}" style="background: #A3E635; color: #000000; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-size: 16px; font-weight: 700; display: inline-block;">View Full Gallery &rarr;</a>
     </div>
-    <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #6B7280;">For your privacy, all photos will be permanently deleted from our servers in 30 days. Please download your favorites before then.</p>
+    <p style="margin: 0 0 24px; font-size: 14px; line-height: 1.6; color: #6B7280;">For your privacy, all photos will be permanently deleted from our servers in 30 days. Please download your favorites before then.</p>
+    <div style="background: #F9FAFB; border: 1px solid #E5E7EB; padding: 20px 24px; border-radius: 16px;">
+      <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #374151;">Know someone who needs a better headshot? Share your link and earn <strong>40% commission</strong> on every order — <a href="${process.env.NEXT_PUBLIC_SITE_URL}/affiliates" style="color: #059669; font-weight: 600;">join the affiliate program</a>.</p>
+    </div>
   `;
 
   await withRetry(() => getResend().emails.send({

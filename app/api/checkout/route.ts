@@ -341,7 +341,7 @@ export const POST = withContext(async (req: Request) => {
  .digest("hex")
  .substring(0, 32);
  const existingSession = await stripe.checkout.sessions.create({
- payment_method_types: ["card"],
+ automatic_payment_methods: { enabled: true },
  mode: "payment",
  customer: customerId,
  customer_email: customerId ? undefined : existing.email || email,
@@ -518,7 +518,7 @@ export const POST = withContext(async (req: Request) => {
  let existingSession: Stripe.Checkout.Session;
  try {
  existingSession = await stripe.checkout.sessions.create({
- payment_method_types: ["card"],
+ automatic_payment_methods: { enabled: true },
  mode: "payment",
  customer: customerId,
  customer_email: customerId ? undefined : existing.email || email,
@@ -615,7 +615,7 @@ export const POST = withContext(async (req: Request) => {
  .digest("hex")
  .substring(0, 32);
  const retrySession = await stripe.checkout.sessions.create({
- payment_method_types: ["card"],
+ automatic_payment_methods: { enabled: true },
  mode: "payment",
  customer: customerId,
  customer_email: customerId ? undefined : latestOrder.email || email,
@@ -726,7 +726,7 @@ export const POST = withContext(async (req: Request) => {
  .digest("hex")
  .substring(0, 32);
  const sessionParams: Stripe.Checkout.SessionCreateParams = {
- payment_method_types: ["card"],
+ automatic_payment_methods: { enabled: true },
  mode: "payment",
  customer: customerId,
  customer_email: customerId ? undefined : email,

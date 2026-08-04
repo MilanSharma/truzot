@@ -87,7 +87,7 @@ export const POST = withContext(async (req: Request) => {
  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
  try {
       const session = await stripe.checkout.sessions.create({
- payment_method_types: ["card"],
+ automatic_payment_methods: { enabled: true },
  line_items: [
  {
  price_data: {
