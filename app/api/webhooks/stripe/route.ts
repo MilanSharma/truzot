@@ -11,6 +11,7 @@ import { createLogger } from "@/lib/logger";
 import { withContext } from "@/lib/request-context";
 import { getStripe } from "@/lib/stripe";
 import { isValidTransition } from "@/lib/order-status";
+import { uploadGoogleAdsClickConversion } from "@/lib/google-ads";
 import crypto from "crypto";
 
 const log = createLogger("stripe-webhook");
@@ -104,15 +105,21 @@ async function sendMetaCAPIEvent(session: Stripe.Checkout.Session, orderId: stri
   }
 }
 
-// NOTE: Google Ads conversions are tracked CLIENT-SIDE via gtag Enhanced
-// Conversions on the post-checkout dashboard (app/dashboard/page.tsx), which is
-// the correct, working mechanism (Google's tag handles gclid/consent/attribution
-// automatically). A prior server-side "offline conversion" upload lived here but
-// used the wrong API (offlineUserDataUploads is Customer Match, not click
-// conversions) and had no gclid plumbed through, so it never worked — it was
-// removed to avoid the false impression that server-side GA tracking is active.
-// Meta conversions ARE sent server-side below (CAPI), deduped against the client
-// pixel via event_id = Stripe session id.
+// NOTE: Google Ads conversions fire from TWO places now, both feeding the
+// same "Purchase (1)" conversion action, deduped against each other by
+// order/transaction ID:
+// 1. Client-side gtag on the post-checkout dashboard (app/dashboard/page.tsx).
+// 2. Server-side click-conversion upload below (lib/google-ads.ts), added
+//    after Google Ads' own diagnostics showed zero conversions recorded for
+//    7+ days despite real completed sales in that window — the client-only
+//    pixel has no fallback when a customer's browser blocks it.
+// A prior server-side attempt lived here using the WRONG API
+// (offlineUserDataUploads is Customer Match, not click conversions) and had
+// no gclid plumbed through anywhere, so it never worked and was removed.
+// This one uses the correct uploadClickConversions endpoint with a real
+// captured gclid (see app/upload/page.tsx).
+// Meta conversions are also sent server-side below (CAPI), deduped against
+// its own client pixel via event_id = Stripe session id.
 
 export const POST = withContext(async (req: Request) => {
  const stripe = getStripe();
@@ -336,10 +343,10 @@ const updatedPrefs: Record<string, any> = { ...existingPrefs, stripe_customer_id
 if (affiliateCode) {
  updatedPrefs.promotekit_referral = affiliateCode;
 }
-// Stored so a server-side Google Ads click-conversion upload can be built
-// as a backup to the client-side gtag pixel later - see dashboard's
-// conversion-firing effect for why that's currently the only path and has
-// no redundancy against ad blockers.
+// Stored on the order for records/analysis, and reused below to fire the
+// server-side click-conversion upload (lib/google-ads.ts) - the backup to
+// the client-side gtag pixel, which has zero redundancy against ad blockers
+// on its own.
 const gclid = session.metadata?.gclid;
 if (gclid) {
  updatedPrefs.gclid = gclid;
@@ -360,9 +367,24 @@ preferences: updatedPrefs,
  { status: 500 },
  );
 
- // Send Meta CAPI event for purchase tracking (Google Ads is tracked
- // client-side via gtag on the dashboard — see note above).
+ // Send Meta CAPI event for purchase tracking.
  waitUntil(sendMetaCAPIEvent(session, orderId));
+
+ // Server-side backup for the client-side gtag conversion pixel — see
+ // lib/google-ads.ts for why this exists. Only fires when a gclid was
+ // actually captured (i.e. this order came from an ad click); orderId
+ // matches the transaction_id the client pixel sends, so Google Ads
+ // dedupes the two instead of double-counting.
+ if (gclid && session.amount_total) {
+ waitUntil(
+ uploadGoogleAdsClickConversion({
+ gclid,
+ orderId: session.id,
+ valueDollars: session.amount_total / 100,
+ currencyCode: session.currency || "usd",
+ }),
+ );
+ }
 
  const { error: trainingUpsertError } = await supabaseAdmin
  .from("trainings")
