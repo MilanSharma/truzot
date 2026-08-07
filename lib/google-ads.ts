@@ -19,7 +19,9 @@ const API_VERSION = "v18";
 
 let cachedAccessToken: { token: string; expiresAt: number } | null = null;
 
-async function getAccessToken(): Promise<string> {
+// Exported so a one-off diagnostic route can confirm the OAuth credentials
+// actually work without needing to wait for (or fabricate) a real order.
+export async function getAccessToken(): Promise<string> {
   if (cachedAccessToken && Date.now() < cachedAccessToken.expiresAt - 60_000) {
     return cachedAccessToken.token;
   }
