@@ -181,6 +181,17 @@ function UploadContent() {
     utm_content: searchParams.get("utm_content") || "",
   }), [searchParams]);
 
+  // Google Ads appends ?gclid= to the final URL on auto-tagged ad clicks -
+  // this campaign's ads land directly on /upload, so it's present in the URL
+  // on arrival. Stored so a server-side conversion upload can be built later
+  // as a backup to the client-side gtag pixel, which real customers' ad
+  // blockers can (and per Google's own diagnostics, evidently do) silently
+  // block with zero redundancy today. Persisted like the coupon/plan state
+  // below so it survives the multi-step flow, not just re-read live.
+  const [gclid] = useState(
+    () => searchParams.get("gclid") || (getSavedState()?.gclid as string) || "",
+  );
+
   const [step, setStep] = useState<Step>(() => {
     const saved = getSavedState();
     if (
@@ -423,6 +434,7 @@ function UploadContent() {
         filesCount: files.length,
         shootName,
         idempotencyKey,
+        gclid,
       };
       const stateStr = JSON.stringify(stateObj);
       sessionStorage.setItem(SESSION_KEY, stateStr);
@@ -945,6 +957,7 @@ function UploadContent() {
         shootName: shootName || defaultShootName,
         coupon: couponValid && coupon ? coupon : undefined, // Only send coupon if validated
         utmParams, // Include UTM parameters for tracking
+        gclid: gclid || undefined,
         demographics: Object.fromEntries(
           Object.entries(demographics ?? {}).filter(([_, v]) => v.trim() !== "")
         ) as Record<string, string>,

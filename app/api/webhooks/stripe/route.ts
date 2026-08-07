@@ -336,6 +336,14 @@ const updatedPrefs: Record<string, any> = { ...existingPrefs, stripe_customer_id
 if (affiliateCode) {
  updatedPrefs.promotekit_referral = affiliateCode;
 }
+// Stored so a server-side Google Ads click-conversion upload can be built
+// as a backup to the client-side gtag pixel later - see dashboard's
+// conversion-firing effect for why that's currently the only path and has
+// no redundancy against ad blockers.
+const gclid = session.metadata?.gclid;
+if (gclid) {
+ updatedPrefs.gclid = gclid;
+}
 
 const { error: orderUpdateError } = await supabaseAdmin
 .from("orders")
