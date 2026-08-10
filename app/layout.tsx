@@ -11,6 +11,7 @@ import CookieConsent from "@/components/CookieConsent";
 import ExitIntentOffer from "@/components/ExitIntentOffer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import AuthSync from "@/components/AuthSync";
+import AttributionCapture from "@/components/AttributionCapture";
 import {
   OrganizationSchema,
   WebSiteSchema,
@@ -213,6 +214,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <PostHogProvider>
             <ToastProvider>
               <AuthSync />
+              <AttributionCapture />
               {children}
               <Analytics />
               <CookieConsent />

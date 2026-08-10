@@ -909,20 +909,25 @@ export default function LandingPageContent() {
                 </Link>
               )}
 
-              {/* View Examples CTA */}
-              <Link
-                href="/free-preview"
-                className="flex items-center gap-2 border border-[var(--border)] px-4 py-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--lime-text)] hover:bg-[var(--surface2)] transition"
-              >
-                <Eye className="w-4 h-4" /> View Examples
-              </Link>
-
-              {/* Primary CTA */}
+              {/* Secondary CTA — paid flow. Free preview (below) is primary:
+                  it's the lower-commitment path for cold ad traffic that's
+                  never heard of Truzot, and Google Ads weighs Landing Page
+                  Experience (one of the 3 Quality Score pillars) partly on
+                  whether the page matches what a first-time visitor actually
+                  wants before being asked to commit. */}
               <Link
                 href="/upload"
-                className="relative group bg-lime-400 text-black px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-lime-300 transition shadow-lg shadow-lime-400/20 flex items-center gap-1.5"
+                className="flex items-center gap-2 border border-[var(--border)] px-4 py-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--lime-text)] hover:bg-[var(--surface2)] transition"
               >
                 Get headshots
+              </Link>
+
+              {/* Primary CTA — free, no-commitment preview */}
+              <Link
+                href="/free-preview"
+                className="relative group bg-lime-400 text-black px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-lime-300 transition shadow-lg shadow-lime-400/20 flex items-center gap-1.5"
+              >
+                <Eye className="w-4 h-4" /> Try Free Preview
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
@@ -976,18 +981,18 @@ export default function LandingPageContent() {
                 </Link>
               )}
               <Link
-                href="/free-preview"
+                href="/upload"
                 onClick={() => setMobileMenuOpen(false)}
                 className="border border-[var(--border)] text-[var(--text-muted)] px-4 py-3 rounded-xl text-left flex items-center gap-2"
               >
-                <Eye className="w-4 h-4" /> View Examples
+                Get headshots
               </Link>
               <Link
-                href="/upload"
+                href="/free-preview"
                 onClick={() => setMobileMenuOpen(false)}
-                className="bg-lime-400 text-black text-center px-5 py-3 rounded-xl font-bold"
+                className="bg-lime-400 text-black text-center px-5 py-3 rounded-xl font-bold flex items-center justify-center gap-2"
               >
-                Get headshots
+                <Eye className="w-4 h-4" /> Try Free Preview
               </Link>
             </div>
           )}
@@ -1070,18 +1075,24 @@ export default function LandingPageContent() {
                 variants={fadeUp}
                 className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10"
               >
+                {/* Primary CTA — free, no-commitment preview. Cold ad traffic
+                    with zero reviews/brand trust converts better into "see
+                    it work on my own face, free" than straight into a paid
+                    upload flow — this is also the lever for Landing Page
+                    Experience under Google Ads Quality Score, not just
+                    conversion rate. */}
                 <Link
-                  href="/upload"
+                  href="/free-preview"
                   className="group w-full sm:w-auto bg-lime-400 text-black px-8 py-4 rounded-xl font-bold text-lg hover:bg-lime-300 transition-all shadow-xl shadow-lime-400/25 flex items-center justify-center gap-2 hover:-translate-y-0.5 active:translate-y-0"
                 >
-                  Create my headshots
+                  <Eye className="w-5 h-5" /> See My Free Headshot
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link
-                  href="/free-preview"
+                  href="/upload"
                   className="w-full sm:w-auto bg-[var(--surface2)] backdrop-blur-sm text-[var(--text)] border border-[var(--border)] px-8 py-4 rounded-xl font-bold text-lg hover:bg-[var(--surface3)] transition flex items-center justify-center gap-2"
                 >
-                  <Eye className="w-5 h-5" /> Try a Free Preview
+                  Create my headshots
                 </Link>
               </motion.div>
 

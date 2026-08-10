@@ -14,6 +14,7 @@ import Nav from "@/components/Nav";
 import { BreadcrumbSchema } from "@/components/JsonLd";
 
 import { supabase } from "@/lib/supabase/client";
+import { getStoredAttribution } from "@/lib/attribution";
 import { PLANS } from "@/lib/plans";
 import { useToast } from "@/components/Toast";
 import UploadErrorBoundary from "@/components/UploadErrorBoundary";
@@ -172,24 +173,36 @@ function UploadContent() {
 
   const urlStep = parseInt(searchParams.get("step") ?? "") as Step;
   
-  // Extract UTM parameters for tracking
-  const utmParams = useMemo(() => ({
-    utm_source: searchParams.get("utm_source") || "",
-    utm_medium: searchParams.get("utm_medium") || "",
-    utm_campaign: searchParams.get("utm_campaign") || "",
-    utm_term: searchParams.get("utm_term") || "",
-    utm_content: searchParams.get("utm_content") || "",
-  }), [searchParams]);
+  // Extract UTM parameters for tracking. Falls back to lib/attribution.ts's
+  // localStorage capture, not just this page's own URL - every ad in this
+  // account lands on the homepage, not here, and the homepage's CTAs don't
+  // forward query params, so reading searchParams alone left this blank for
+  // effectively all ad and campaign traffic. Confirmed live.
+  const utmParams = useMemo(() => {
+    const stored = getStoredAttribution();
+    return {
+      utm_source: searchParams.get("utm_source") || stored.utm_source,
+      utm_medium: searchParams.get("utm_medium") || stored.utm_medium,
+      utm_campaign: searchParams.get("utm_campaign") || stored.utm_campaign,
+      utm_term: searchParams.get("utm_term") || stored.utm_term,
+      utm_content: searchParams.get("utm_content") || stored.utm_content,
+    };
+  }, [searchParams]);
 
-  // Google Ads appends ?gclid= to the final URL on auto-tagged ad clicks -
-  // this campaign's ads land directly on /upload, so it's present in the URL
-  // on arrival. Stored so a server-side conversion upload can be built later
-  // as a backup to the client-side gtag pixel, which real customers' ad
-  // blockers can (and per Google's own diagnostics, evidently do) silently
-  // block with zero redundancy today. Persisted like the coupon/plan state
-  // below so it survives the multi-step flow, not just re-read live.
+  // Google Ads appends ?gclid= to the final URL on auto-tagged ad clicks, but
+  // every ad lands on the homepage, not here - same query-param-forwarding
+  // gap as utmParams above, so the lib/attribution.ts fallback applies here
+  // too. Stored so a server-side conversion upload can be built later as a
+  // backup to the client-side gtag pixel, which real customers' ad blockers
+  // can (and per Google's own diagnostics, evidently do) silently block with
+  // zero redundancy today. Persisted like the coupon/plan state below so it
+  // survives the multi-step flow, not just re-read live.
   const [gclid] = useState(
-    () => searchParams.get("gclid") || (getSavedState()?.gclid as string) || "",
+    () =>
+      searchParams.get("gclid") ||
+      (getSavedState()?.gclid as string) ||
+      getStoredAttribution().gclid ||
+      "",
   );
 
   const [step, setStep] = useState<Step>(() => {
