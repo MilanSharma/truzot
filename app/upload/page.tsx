@@ -221,12 +221,27 @@ function UploadContent() {
   const [fileQualityScores, setFileQualityScores] = useState<Record<number, number>>({});
   const [isDragging, setIsDragging] = useState(false);
   
-  // Demographic form state
-  const [demographics, setDemographics] = useState({
-    age: "",
-    gender: "",
-    hairColor: "",
-    ethnicity: "",
+  // Demographic form state. Restored from saved state like every other field
+  // on this page (plan/email/coupon/storagePath) - it wasn't before, which
+  // was a real dead end: gender is required server-side, but the only UI
+  // that collects it is gated on files.length > 0 (real File objects, which
+  // can't survive sessionStorage/localStorage). So anyone who reached step 2,
+  // left, and came back later resumed correctly at step 2 with gender
+  // silently wiped - and had no way back to the gender field short of
+  // "Replace Photos" and re-uploading everything from scratch, with nothing
+  // in the checkout error explaining that. Confirmed live: /upload's own
+  // "safe to close this tab and come back anytime" promise didn't actually
+  // hold past this one field.
+  const [demographics, setDemographics] = useState(() => {
+    const saved = getSavedState()?.demographics as
+      | Partial<{ age: string; gender: string; hairColor: string; ethnicity: string }>
+      | undefined;
+    return {
+      age: saved?.age ?? "",
+      gender: saved?.gender ?? "",
+      hairColor: saved?.hairColor ?? "",
+      ethnicity: saved?.ethnicity ?? "",
+    };
   });
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -448,6 +463,7 @@ function UploadContent() {
         shootName,
         idempotencyKey,
         gclid,
+        demographics,
       };
       const stateStr = JSON.stringify(stateObj);
       sessionStorage.setItem(SESSION_KEY, stateStr);
@@ -469,6 +485,7 @@ function UploadContent() {
     shootName,
     idempotencyKey,
     userId,
+    demographics,
   ]);
 
   useEffect(() => {
