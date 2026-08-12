@@ -367,7 +367,7 @@ export default function FreePreviewPage() {
                       applied. */}
                   {discountCode && (
                     <div className="mb-6 rounded-xl border-2 border-dashed border-[var(--lime-border)] bg-[var(--lime-dim)] px-4 py-3">
-                      <p className="text-xs font-semibold text-[var(--text-muted)] mb-1">Your $5 code — already applied below</p>
+                      <p className="text-xs font-semibold text-[var(--text-muted)] mb-1">Your 20% off code — already applied below</p>
                       <span className="font-mono text-lg font-black tracking-widest text-[var(--lime-text)]">{discountCode}</span>
                     </div>
                   )}

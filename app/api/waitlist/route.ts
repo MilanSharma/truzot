@@ -79,7 +79,7 @@ export const POST = withContext(async (req: Request) => {
  }
 
  return NextResponse.json(
- { message: "Successfully registered", discount: "$5 off", discountCode },
+ { message: "Successfully registered", discount: "20% off", discountCode },
  { status: 201 },
  );
  } catch (err) {

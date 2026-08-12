@@ -211,8 +211,11 @@ export const POST = withContext(async (req: Request) => {
  origin,
  );
  } else {
- // Apply $5 flat discount (500 cents) matching the exit intent popup
- discountAmount = 500;
+ // 20% (not a flat $5) - matches /api/validate-coupon and WELCOME20,
+ // the sitewide code any anonymous visitor already gets for free.
+ // See validate-coupon's comment for why the flat $5 was a real
+ // problem, not just a rounding choice.
+ discountAmount = Math.round(planConfig.amount * 0.2);
  appliedDiscountCode = waitlistEntry.discount_code || couponUpper;
 
  // Mark discount for Stripe (using amount_off)

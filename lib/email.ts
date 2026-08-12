@@ -179,8 +179,8 @@ export async function sendPasswordResetEmail(email: string, resetUrl: string) {
 
 export async function sendDiscountCodeEmail(email: string, discountCode: string) {
   const content = `
-    <h1 style="margin: 0 0 16px; font-size: 28px; font-weight: 900; color: #111827;">Your $5 discount is ready!</h1>
-    <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: #4B5563;">Thanks for signing up. Use this exclusive code at checkout to get $5 off your headshot plan:</p>
+    <h1 style="margin: 0 0 16px; font-size: 28px; font-weight: 900; color: #111827;">Your 20% discount is ready!</h1>
+    <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: #4B5563;">Thanks for signing up. Use this exclusive code at checkout to get 20% off your headshot plan:</p>
     <div style="background: rgba(163,230,53,0.1); border: 2px dashed #A3E635; border-radius: 16px; padding: 24px; text-align: center; margin: 32px 0;">
       <span style="font-size: 32px; font-weight: 900; color: #A3E635; letter-spacing: 4px; font-family: monospace;">${discountCode}</span>
     </div>
@@ -192,7 +192,7 @@ export async function sendDiscountCodeEmail(email: string, discountCode: string)
   await withRetry(() => getResend().emails.send({
     from: "Truzot <hello@truzot.com>",
     to: email,
-    subject: "Your $5 discount code for Truzot headshots 🎁",
+    subject: "Your 20% discount code for Truzot headshots 🎁",
     html: baseTemplate("Your exclusive discount code is inside.", "Your Discount Code", content),
   }));
 }
@@ -202,7 +202,7 @@ export async function sendPreviewFollowupEmail(email: string, discountCode: stri
   const discountBlock = discountCode
     ? `
     <div style="background: rgba(163,230,53,0.1); border: 2px dashed #A3E635; border-radius: 16px; padding: 24px; text-align: center; margin: 32px 0;">
-      <p style="margin: 0 0 8px; font-size: 14px; color: #4B5563;">Your $5 code (still active):</p>
+      <p style="margin: 0 0 8px; font-size: 14px; color: #4B5563;">Your 20% code (still active):</p>
       <span style="font-size: 32px; font-weight: 900; color: #A3E635; letter-spacing: 4px; font-family: monospace;">${discountCode}</span>
     </div>`
     : "";
@@ -246,7 +246,7 @@ export async function sendFreePreviewResultEmail(
   const discountBlock = discountCode
     ? `
     <div style="background: rgba(163,230,53,0.1); border: 2px dashed #A3E635; border-radius: 16px; padding: 24px; text-align: center; margin: 32px 0;">
-      <p style="margin: 0 0 8px; font-size: 14px; color: #4B5563;">Your $5 code:</p>
+      <p style="margin: 0 0 8px; font-size: 14px; color: #4B5563;">Your 20% code:</p>
       <span style="font-size: 32px; font-weight: 900; color: #A3E635; letter-spacing: 4px; font-family: monospace;">${discountCode}</span>
     </div>`
     : "";
@@ -291,19 +291,19 @@ export async function sendColdWaitlistNudgeEmail(email: string, discountCode: st
   const discountBlock = discountCode
     ? `
     <div style="background: rgba(163,230,53,0.1); border: 2px dashed #A3E635; border-radius: 16px; padding: 24px; text-align: center; margin: 32px 0;">
-      <p style="margin: 0 0 8px; font-size: 14px; color: #4B5563;">Your $5 code (still active):</p>
+      <p style="margin: 0 0 8px; font-size: 14px; color: #4B5563;">Your 20% code (still active):</p>
       <span style="font-size: 32px; font-weight: 900; color: #A3E635; letter-spacing: 4px; font-family: monospace;">${discountCode}</span>
     </div>`
     : "";
 
   const content = `
     <h1 style="margin: 0 0 16px; font-size: 28px; font-weight: 900; color: #111827;">Your free preview is still waiting.</h1>
-    <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: #4B5563;">You grabbed a spot and a $5 code, but never actually tried the free preview — takes about 10 seconds and shows you a real AI-generated headshot of <em>your</em> face, not a demo. No card required.</p>
+    <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: #4B5563;">You grabbed a spot and a 20%-off code, but never actually tried the free preview — takes about 10 seconds and shows you a real AI-generated headshot of <em>your</em> face, not a demo. No card required.</p>
     <div style="text-align: center; margin-bottom: 24px;">
       <a href="${process.env.NEXT_PUBLIC_SITE_URL}/free-preview" style="background: #A3E635; color: #000000; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-size: 16px; font-weight: 700; display: inline-block;">See My Free Preview &rarr;</a>
     </div>
     ${discountBlock}
-    <p style="margin: 0; font-size: 14px; color: #6B7280;">Your $5 code is still active whenever you're ready for the full-resolution set.</p>
+    <p style="margin: 0; font-size: 14px; color: #6B7280;">Your 20% code is still active whenever you're ready for the full-resolution set.</p>
   `;
 
   await withRetry(() => getResend().emails.send({
@@ -324,7 +324,7 @@ export async function sendSecondTouchFollowupEmail(email: string, discountCode: 
   const discountBlock = discountCode
     ? `
     <div style="background: rgba(163,230,53,0.1); border: 2px dashed #A3E635; border-radius: 16px; padding: 24px; text-align: center; margin: 32px 0;">
-      <p style="margin: 0 0 8px; font-size: 14px; color: #4B5563;">Your $5 code (still active):</p>
+      <p style="margin: 0 0 8px; font-size: 14px; color: #4B5563;">Your 20% code (still active):</p>
       <span style="font-size: 32px; font-weight: 900; color: #A3E635; letter-spacing: 4px; font-family: monospace;">${discountCode}</span>
     </div>`
     : "";

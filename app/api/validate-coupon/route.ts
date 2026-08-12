@@ -52,7 +52,14 @@ export async function POST(req: Request) {
         .maybeSingle();
 
       if (entry) {
-        discountAmount = 500;
+        // 20% (not a flat $5) - matches WELCOME20, the sitewide code any
+        // anonymous visitor already gets from the homepage banner. A flat $5
+        // was worth LESS than WELCOME20 on every single plan ($5.80-$11.80),
+        // meaning the "exclusive" reward for someone who actually tried the
+        // product and gave their email was a worse deal than what a visitor
+        // gets for doing nothing. Same rate already approved for WELCOME20,
+        // not a new discount decision.
+        discountAmount = Math.round(planConfig.amount * 0.2);
         appliedDiscountCode = entry.discount_code || couponUpper;
 
         if (planConfig.amount - discountAmount < minimumViablePrice) {
