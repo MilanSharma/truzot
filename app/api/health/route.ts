@@ -48,7 +48,14 @@ export const GET = withContext(async (req: Request) => {
 
  try {
  if (process.env.FAL_KEY) {
- const res = await fetch("https://rest.fal.ai/v1/health", {
+ // rest.fal.ai/v1/health was never a real fal.ai endpoint - this always
+ // 404'd regardless of actual account health, silently marking the whole
+ // health check "degraded" since whenever this route was added. fal's
+ // real platform API base is api.fal.ai/v1 (confirmed against fal's own
+ // docs); /meta is a real, lightweight, key-authenticated endpoint with
+ // no side effects, so a 200 here actually means the key and connectivity
+ // are good - unlike the old check, which never meant anything.
+ const res = await fetch("https://api.fal.ai/v1/meta", {
  headers: { Authorization: `Key ${process.env.FAL_KEY}` },
  });
  checks.fal = res.ok ? "ok" : `fail: status ${res.status}`;
