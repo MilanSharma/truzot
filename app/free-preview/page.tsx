@@ -375,7 +375,7 @@ export default function FreePreviewPage() {
                     href={discountCode ? `/upload?coupon=${encodeURIComponent(discountCode)}` : "/upload"}
                     className="inline-flex w-full items-center justify-center gap-2 bg-[var(--text)] text-[var(--bg)] px-6 py-3.5 rounded-xl font-bold hover:opacity-90 transition shadow-lg active:scale-95"
                   >
-                    Get 40+ HD Headshots <ArrowRight className="w-4 h-4" />
+                    Get 40–150 HD Headshots <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
               </motion.div>
