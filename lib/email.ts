@@ -185,7 +185,7 @@ export async function sendDiscountCodeEmail(email: string, discountCode: string)
       <span style="font-size: 32px; font-weight: 900; color: #A3E635; letter-spacing: 4px; font-family: monospace;">${discountCode}</span>
     </div>
     <div style="text-align: center; margin-bottom: 24px;">
-      <a href="${process.env.NEXT_PUBLIC_SITE_URL}/upload" style="background: #A3E635; color: #000000; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-size: 16px; font-weight: 700; display: inline-block;">Redeem Now &rarr;</a>
+      <a href="${process.env.NEXT_PUBLIC_SITE_URL}/upload?coupon=${encodeURIComponent(discountCode)}" style="background: #A3E635; color: #000000; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-size: 16px; font-weight: 700; display: inline-block;">Redeem Now &rarr;</a>
     </div>
     <p style="margin: 0; font-size: 14px; color: #6B7280;">Code expires in 30 days. Valid on all plans.</p>
   `;
@@ -206,6 +206,11 @@ export async function sendPreviewFollowupEmail(email: string, discountCode: stri
       <span style="font-size: 32px; font-weight: 900; color: #A3E635; letter-spacing: 4px; font-family: monospace;">${discountCode}</span>
     </div>`
     : "";
+  // Carries the code straight into checkout instead of leaving the reader
+  // to copy-paste it themselves - one less place to drop off.
+  const uploadHref = discountCode
+    ? `${process.env.NEXT_PUBLIC_SITE_URL}/upload?coupon=${encodeURIComponent(discountCode)}`
+    : `${process.env.NEXT_PUBLIC_SITE_URL}/upload`;
 
   const content = `
     <h1 style="margin: 0 0 16px; font-size: 28px; font-weight: 900; color: #111827;">That was the low-res version.</h1>
@@ -213,7 +218,7 @@ export async function sendPreviewFollowupEmail(email: string, discountCode: stri
     <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: #4B5563;">The paid version trains a custom model on you and delivers 40–150 full-resolution, watermark-free headshots across multiple styles — ready for LinkedIn, a resume, or a company site.</p>
     ${discountBlock}
     <div style="text-align: center; margin-bottom: 24px;">
-      <a href="${process.env.NEXT_PUBLIC_SITE_URL}/upload" style="background: #A3E635; color: #000000; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-size: 16px; font-weight: 700; display: inline-block;">Get My Real Headshots &rarr;</a>
+      <a href="${uploadHref}" style="background: #A3E635; color: #000000; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-size: 16px; font-weight: 700; display: inline-block;">Get My Real Headshots &rarr;</a>
     </div>
     <p style="margin: 0; font-size: 14px; color: #6B7280;">Backed by a 30-day money-back guarantee — full refund, no questions, if it's not you.</p>
   `;
@@ -245,6 +250,9 @@ export async function sendFreePreviewResultEmail(
       <span style="font-size: 32px; font-weight: 900; color: #A3E635; letter-spacing: 4px; font-family: monospace;">${discountCode}</span>
     </div>`
     : "";
+  const uploadHref = discountCode
+    ? `${process.env.NEXT_PUBLIC_SITE_URL}/upload?coupon=${encodeURIComponent(discountCode)}`
+    : `${process.env.NEXT_PUBLIC_SITE_URL}/upload`;
 
   const content = `
     <h1 style="margin: 0 0 16px; font-size: 28px; font-weight: 900; color: #111827;">Here's your free preview.</h1>
@@ -252,7 +260,7 @@ export async function sendFreePreviewResultEmail(
     <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: #4B5563;">The paid version trains a custom model on you and delivers 40–150 full-resolution, watermark-free headshots across multiple styles.</p>
     ${discountBlock}
     <div style="text-align: center; margin-bottom: 24px;">
-      <a href="${process.env.NEXT_PUBLIC_SITE_URL}/upload" style="background: #A3E635; color: #000000; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-size: 16px; font-weight: 700; display: inline-block;">Get My Real Headshots &rarr;</a>
+      <a href="${uploadHref}" style="background: #A3E635; color: #000000; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-size: 16px; font-weight: 700; display: inline-block;">Get My Real Headshots &rarr;</a>
     </div>
     <p style="margin: 0; font-size: 14px; color: #6B7280;">Backed by a 30-day money-back guarantee — full refund, no questions, if it's not you.</p>
   `;
@@ -320,6 +328,9 @@ export async function sendSecondTouchFollowupEmail(email: string, discountCode: 
       <span style="font-size: 32px; font-weight: 900; color: #A3E635; letter-spacing: 4px; font-family: monospace;">${discountCode}</span>
     </div>`
     : "";
+  const uploadHref = discountCode
+    ? `${process.env.NEXT_PUBLIC_SITE_URL}/upload?coupon=${encodeURIComponent(discountCode)}`
+    : `${process.env.NEXT_PUBLIC_SITE_URL}/upload`;
 
   const content = `
     <h1 style="margin: 0 0 16px; font-size: 28px; font-weight: 900; color: #111827;">Is it really you, or just... AI?</h1>
@@ -327,7 +338,7 @@ export async function sendSecondTouchFollowupEmail(email: string, discountCode: 
     <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: #4B5563;">Quick numbers, since you're probably comparing options: Truzot starts at <strong>$29 for 40 photos</strong>. HeadshotPro's cheapest plan is also $29 but gives you 30. Aragon starts at $35. InstaHeadshots starts at $49. You already found the cheapest one — with more photos than any of them.</p>
     ${discountBlock}
     <div style="text-align: center; margin-bottom: 24px;">
-      <a href="${process.env.NEXT_PUBLIC_SITE_URL}/upload" style="background: #A3E635; color: #000000; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-size: 16px; font-weight: 700; display: inline-block;">Get My Real Headshots &rarr;</a>
+      <a href="${uploadHref}" style="background: #A3E635; color: #000000; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-size: 16px; font-weight: 700; display: inline-block;">Get My Real Headshots &rarr;</a>
     </div>
     <p style="margin: 0; font-size: 14px; color: #6B7280;">Backed by a 30-day money-back guarantee — full refund, no questions, if it's not you.</p>
   `;

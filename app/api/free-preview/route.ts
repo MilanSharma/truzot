@@ -245,7 +245,12 @@ export const POST = withContext(async (req: Request) => {
       ),
     );
 
-    return addCors(NextResponse.json({ url }), origin);
+    // Returning the code here (not just emailing it) lets the result page
+    // show it and carry it straight into checkout - see app/free-preview/page.tsx.
+    return addCors(
+      NextResponse.json({ url, discountCode: waitlistEntry.discount_code ?? null }),
+      origin,
+    );
   } catch (err) {
     log.error({ err }, "Free preview generation failed");
     return addCors(

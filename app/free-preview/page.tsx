@@ -12,6 +12,7 @@ export default function FreePreviewPage() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
+  const [discountCode, setDiscountCode] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [email, setEmail] = useState<string>("");
@@ -142,8 +143,9 @@ export default function FreePreviewPage() {
         throw new Error(data.error || "Failed to generate preview");
       }
 
-      const data = await res.json() as { url: string };
+      const data = await res.json() as { url: string; discountCode?: string | null };
       setResultUrl(data.url);
+      if (data.discountCode) setDiscountCode(data.discountCode);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to generate preview");
     } finally {
@@ -358,8 +360,19 @@ export default function FreePreviewPage() {
                     is low-resolution and watermarked on purpose, and it&apos;s one
                     per person.
                   </p>
+                  {/* Shown right here, at the moment of highest interest, instead
+                      of only in a follow-up email the visitor may never open -
+                      and carried straight into the checkout link below so there's
+                      no copy-paste step between "I have a code" and it being
+                      applied. */}
+                  {discountCode && (
+                    <div className="mb-6 rounded-xl border-2 border-dashed border-[var(--lime-border)] bg-[var(--lime-dim)] px-4 py-3">
+                      <p className="text-xs font-semibold text-[var(--text-muted)] mb-1">Your $5 code — already applied below</p>
+                      <span className="font-mono text-lg font-black tracking-widest text-[var(--lime-text)]">{discountCode}</span>
+                    </div>
+                  )}
                   <Link
-                    href="/upload"
+                    href={discountCode ? `/upload?coupon=${encodeURIComponent(discountCode)}` : "/upload"}
                     className="inline-flex w-full items-center justify-center gap-2 bg-[var(--text)] text-[var(--bg)] px-6 py-3.5 rounded-xl font-bold hover:opacity-90 transition shadow-lg active:scale-95"
                   >
                     Get 40+ HD Headshots <ArrowRight className="w-4 h-4" />
