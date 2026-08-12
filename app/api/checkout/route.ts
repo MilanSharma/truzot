@@ -43,6 +43,7 @@ export const POST = withContext(async (req: Request) => {
  coupon,
  utmParams,
  gclid,
+ affiliateCode,
  demographics,
  imageCount,
  } = parsed.data!;
@@ -376,6 +377,13 @@ export const POST = withContext(async (req: Request) => {
  coupon: coupon || "",
  discount_code: appliedDiscountCode || "",
  discount_amount: discountAmount.toString(),
+ // First-party replacement for PromoteKit - its tracking script was never
+ // actually loaded on the site (confirmed: CSP allowlists cdn.promotekit.com
+ // but no <script> tag anywhere ever requests it), so pkReferral here has
+ // always been empty in practice. affiliateCode comes from lib/attribution.ts
+ // (?ref=CODE, same capture mechanism already proven for gclid/UTM) and is
+ // the one that actually works. pkReferral kept as a harmless fallback.
+ affiliate_code: affiliateCode || pkReferral || "",
  promotekit_referral: pkReferral || "",
  utm_source: utmParams?.utm_source || "",
  utm_medium: utmParams?.utm_medium || "",
@@ -557,6 +565,13 @@ export const POST = withContext(async (req: Request) => {
  coupon: coupon || "",
  discount_code: appliedDiscountCode || "",
  discount_amount: discountAmount.toString(),
+ // First-party replacement for PromoteKit - its tracking script was never
+ // actually loaded on the site (confirmed: CSP allowlists cdn.promotekit.com
+ // but no <script> tag anywhere ever requests it), so pkReferral here has
+ // always been empty in practice. affiliateCode comes from lib/attribution.ts
+ // (?ref=CODE, same capture mechanism already proven for gclid/UTM) and is
+ // the one that actually works. pkReferral kept as a harmless fallback.
+ affiliate_code: affiliateCode || pkReferral || "",
  promotekit_referral: pkReferral || "",
  utm_source: utmParams?.utm_source || "",
  utm_medium: utmParams?.utm_medium || "",
@@ -658,6 +673,13 @@ export const POST = withContext(async (req: Request) => {
  coupon: coupon || "",
  discount_code: appliedDiscountCode || "",
  discount_amount: discountAmount.toString(),
+ // First-party replacement for PromoteKit - its tracking script was never
+ // actually loaded on the site (confirmed: CSP allowlists cdn.promotekit.com
+ // but no <script> tag anywhere ever requests it), so pkReferral here has
+ // always been empty in practice. affiliateCode comes from lib/attribution.ts
+ // (?ref=CODE, same capture mechanism already proven for gclid/UTM) and is
+ // the one that actually works. pkReferral kept as a harmless fallback.
+ affiliate_code: affiliateCode || pkReferral || "",
  promotekit_referral: pkReferral || "",
  utm_source: utmParams?.utm_source || "",
  utm_medium: utmParams?.utm_medium || "",
@@ -773,6 +795,13 @@ export const POST = withContext(async (req: Request) => {
  coupon: coupon || "",
  discount_code: appliedDiscountCode || "",
  discount_amount: discountAmount.toString(),
+ // First-party replacement for PromoteKit - its tracking script was never
+ // actually loaded on the site (confirmed: CSP allowlists cdn.promotekit.com
+ // but no <script> tag anywhere ever requests it), so pkReferral here has
+ // always been empty in practice. affiliateCode comes from lib/attribution.ts
+ // (?ref=CODE, same capture mechanism already proven for gclid/UTM) and is
+ // the one that actually works. pkReferral kept as a harmless fallback.
+ affiliate_code: affiliateCode || pkReferral || "",
  promotekit_referral: pkReferral || "",
  utm_source: utmParams?.utm_source || "",
  utm_medium: utmParams?.utm_medium || "",

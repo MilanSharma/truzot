@@ -338,7 +338,12 @@ export const POST = withContext(async (req: Request) => {
  }
  }
 
- const affiliateCode = session.metadata?.promotekit_referral;
+ // affiliate_code is the first-party replacement (lib/attribution.ts's
+ // ?ref=CODE capture) - promotekit_referral has always been empty in
+ // practice since PromoteKit's tracking script was never actually loaded
+ // anywhere on the site, despite the checkout/webhook code expecting its
+ // cookie. Kept as a fallback in case that ever gets fixed independently.
+ const affiliateCode = session.metadata?.affiliate_code || session.metadata?.promotekit_referral;
 const updatedPrefs: Record<string, any> = { ...existingPrefs, stripe_customer_id: customerId };
 if (affiliateCode) {
  updatedPrefs.promotekit_referral = affiliateCode;
@@ -359,6 +364,7 @@ status: "training",
 zip_url: freshZipUrl,
 stripe_payment_intent: session.payment_intent as string,
 preferences: updatedPrefs,
+affiliate_code: affiliateCode || null,
 })
 .eq("id", orderId);
  if (orderUpdateError)
@@ -366,6 +372,35 @@ preferences: updatedPrefs,
  { error: "Failed to update order" },
  { status: 500 },
  );
+
+ // Records the commission as "pending" for manual monthly payout (see
+ // supabase/migrations/20260629000000_add_affiliate_tracking.sql) - this
+ // table existed with a status/paid_at column ready for exactly this since
+ // June, but nothing ever inserted into it because affiliateCode was always
+ // empty until the attribution fix above. 40% matches the rate promoted on
+ // /affiliates. Best-effort: a failure here shouldn't block order fulfillment.
+ if (affiliateCode && session.amount_total) {
+ const { error: referralError } = await supabaseAdmin
+ .from("affiliate_referrals")
+ .insert({
+ affiliate_code: affiliateCode,
+ order_id: orderId,
+ commission_cents: Math.round(session.amount_total * 0.4),
+ commission_rate: 40.0,
+ status: "pending",
+ });
+ if (referralError) {
+ log.error(
+ { err: referralError, orderId, affiliateCode },
+ "Failed to record affiliate referral",
+ );
+ } else {
+ log.info(
+ { orderId, affiliateCode, commissionCents: Math.round(session.amount_total * 0.4) },
+ "Affiliate referral recorded",
+ );
+ }
+ }
 
  // Send Meta CAPI event for purchase tracking.
  waitUntil(sendMetaCAPIEvent(session, orderId));

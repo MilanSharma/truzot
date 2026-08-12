@@ -37,6 +37,7 @@ export const checkoutSchema = z.object({
     utm_content: z.string().optional(),
   }).optional(),
   gclid: z.string().max(200).optional(),
+  affiliateCode: z.string().max(100).optional(),
   demographics: z.record(z.string(), z.string()).optional(),
   imageCount: z.number().int().positive().optional(),
 });

@@ -204,6 +204,15 @@ function UploadContent() {
       getStoredAttribution().gclid ||
       "",
   );
+  // Same fallback chain as gclid, same reason: an affiliate's ?ref=CODE link
+  // lands on the homepage, not here, and has to survive that click-through.
+  const [affiliateCode] = useState(
+    () =>
+      searchParams.get("ref") ||
+      (getSavedState()?.affiliateCode as string) ||
+      getStoredAttribution().ref ||
+      "",
+  );
 
   const [step, setStep] = useState<Step>(() => {
     const saved = getSavedState();
@@ -473,6 +482,7 @@ function UploadContent() {
         shootName,
         idempotencyKey,
         gclid,
+        affiliateCode,
         demographics,
       };
       const stateStr = JSON.stringify(stateObj);
@@ -496,6 +506,7 @@ function UploadContent() {
     idempotencyKey,
     userId,
     demographics,
+    affiliateCode,
   ]);
 
   useEffect(() => {
@@ -998,6 +1009,7 @@ function UploadContent() {
         coupon: couponValid && coupon ? coupon : undefined, // Only send coupon if validated
         utmParams, // Include UTM parameters for tracking
         gclid: gclid || undefined,
+        affiliateCode: affiliateCode || undefined,
         demographics: Object.fromEntries(
           Object.entries(demographics ?? {}).filter(([_, v]) => v.trim() !== "")
         ) as Record<string, string>,

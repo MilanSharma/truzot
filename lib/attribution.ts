@@ -1,6 +1,6 @@
-// Captures ad-click/campaign attribution (gclid + UTM params) the moment it
-// shows up in any page's URL, and makes it recoverable later regardless of
-// which page a visitor eventually converts on.
+// Captures ad-click/campaign attribution (gclid + UTM params + affiliate ref)
+// the moment it shows up in any page's URL, and makes it recoverable later
+// regardless of which page a visitor eventually converts on.
 //
 // Why this exists: every ad in this account's final URL is the homepage (or
 // homepage#pricing), never /upload directly. The homepage's CTAs link to
@@ -11,8 +11,17 @@
 // ?gclid=X&utm_source=google landed on /upload with no query string at all.
 // This localStorage layer decouples capture (any page, on load) from usage
 // (/upload, wherever the visitor eventually lands) to fix that.
+//
+// `ref` (affiliate code) rides the same mechanism for the same reason: an
+// affiliate's shared link (?ref=CODE) lands on the homepage, not /upload,
+// and needs to survive the same click-through. Built as a first-party
+// replacement for PromoteKit - the checkout/webhook code already expected a
+// promotekit_referral cookie that nothing on the site ever actually set
+// (PromoteKit's own tracking script was never added, and the account's free
+// tier caps at 3 referrals total regardless), so orders.affiliate_code and
+// the affiliate_referrals table existed but could never receive real data.
 const STORAGE_KEY = "truzot-attribution";
-const TTL_MS = 90 * 24 * 60 * 60 * 1000; // matches Google Ads' typical 90-day click-through conversion window
+const TTL_MS = 90 * 24 * 60 * 60 * 1000; // matches Google Ads' typical 90-day click-through conversion window; generous vs. the 60-day affiliate cookie window promised on /affiliates
 
 export type Attribution = {
   gclid: string;
@@ -21,6 +30,7 @@ export type Attribution = {
   utm_campaign: string;
   utm_term: string;
   utm_content: string;
+  ref: string;
 };
 
 const EMPTY: Attribution = {
@@ -30,6 +40,7 @@ const EMPTY: Attribution = {
   utm_campaign: "",
   utm_term: "",
   utm_content: "",
+  ref: "",
 };
 
 export function captureAttributionFromUrl(): void {
@@ -43,6 +54,7 @@ export function captureAttributionFromUrl(): void {
       utm_campaign: params.get("utm_campaign") || "",
       utm_term: params.get("utm_term") || "",
       utm_content: params.get("utm_content") || "",
+      ref: params.get("ref") || "",
     };
     // Nothing new on this page load - leave any previously stored
     // attribution alone rather than overwriting it with blanks.
