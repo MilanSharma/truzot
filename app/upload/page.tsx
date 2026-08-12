@@ -293,6 +293,16 @@ function UploadContent() {
   const [couponValid, setCouponValid] = useState<boolean | null>(null);
   const [couponMessage, setCouponMessage] = useState("");
   const [validatingCoupon, setValidatingCoupon] = useState(false);
+  // TRUZOT- codes are only ever issued at free-preview signup (see
+  // app/api/waitlist/route.ts) - WELCOME20 and any real Stripe coupon look
+  // different, so this is a free, already-available signal that this
+  // visitor already saw a real AI result of their own face before arriving
+  // here. Used to show confidence-building copy instead of a generic cold
+  // "upload your selfies" ask, without persisting or reusing the actual
+  // free-preview photo (a deliberate choice - that page has no biometric
+  // consent checkbox today, and quietly starting to store/reuse that photo
+  // would change its privacy posture without one).
+  const cameFromFreePreview = coupon.toUpperCase().startsWith("TRUZOT-");
   const [storagePath, setStoragePath] = useState(
     () => (getSavedState()?.storagePath as string) || "",
   );
@@ -1154,16 +1164,32 @@ function UploadContent() {
                 transition={{ duration: 0.2 }}
               >
                 <div className="text-center mb-10">
+                  {cameFromFreePreview && (
+                    <p className="inline-flex items-center gap-1.5 bg-[var(--lime-dim)] border border-[var(--lime-border)] text-[var(--lime-text)] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide mb-4">
+                      <Sparkles className="w-3.5 h-3.5" /> You've already seen it work on you
+                    </p>
+                  )}
                   <h1 className="text-4xl font-black tracking-tighter mb-4 text-[var(--text)]">
-                    Upload your selfies
+                    {cameFromFreePreview ? "Let's get your real set" : "Upload your selfies"}
                   </h1>
                   <p className="text-lg text-[var(--text-secondary)] max-w-xl mx-auto leading-relaxed">
-                    Upload 2–10 clear photos of your face — we recommend 6–10 for
-                    the best, most accurate results. Takes{" "}
-                    <span className="font-bold text-[var(--text)]">
-                      2 minutes
-                    </span>{" "}
-                    instead of the 20 minutes other apps require.
+                    {cameFromFreePreview ? (
+                      <>
+                        That was one low-res, watermarked sample. Upload{" "}
+                        <span className="font-bold text-[var(--text)]">2–10 clear photos</span> and
+                        get the real thing: 40–150 full-resolution headshots, no watermark, full
+                        commercial rights.
+                      </>
+                    ) : (
+                      <>
+                        Upload 2–10 clear photos of your face — we recommend 6–10 for
+                        the best, most accurate results. Takes{" "}
+                        <span className="font-bold text-[var(--text)]">
+                          2 minutes
+                        </span>{" "}
+                        instead of the 20 minutes other apps require.
+                      </>
+                    )}
                   </p>
                   <p className="text-sm text-[var(--text-secondary)] mt-3 flex items-center justify-center gap-1.5">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
