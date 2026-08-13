@@ -40,16 +40,49 @@ export async function POST(req: Request) {
       );
 
       const staleBefore = new Date(Date.now() - 30 * 60 * 1000).toISOString();
+      // Real, honest urgency: the code was never time-limited before, so
+      // nothing ever pushed a cold ad-click lead to act today instead of
+      // "later" (which data shows means never - see DISCOUNT_VALID_HOURS
+      // in /api/checkout for the matching enforcement).
+      // 96h (not 72h) so it comfortably outlives the full nurture sequence
+      // (preview-followup at +3h, second-touch at preview-followup+3d) -
+      // otherwise the highest-effort touchpoint would be promising a code
+      // that's already dead.
+      const DISCOUNT_VALID_HOURS = 96;
+      const expiryCutoff = new Date(
+        Date.now() - DISCOUNT_VALID_HOURS * 60 * 60 * 1000,
+      ).toISOString();
+
       const { data: entry } = await supabaseAdmin
         .from("waitlist")
         .select("id, discount_code")
         .in("discount_code", possibleCodes)
         .eq("used", false)
+        .gte("created_at", expiryCutoff)
         // Don't green-light a code that another in-flight checkout already
         // holds — otherwise the UI promises a discount that /api/checkout
         // will then correctly refuse.
         .or(`reserved_at.is.null,reserved_at.lt.${staleBefore}`)
         .maybeSingle();
+
+      if (!entry) {
+        const { data: expired } = await supabaseAdmin
+          .from("waitlist")
+          .select("id")
+          .in("discount_code", possibleCodes)
+          .eq("used", false)
+          .lt("created_at", expiryCutoff)
+          .maybeSingle();
+        if (expired) {
+          return NextResponse.json(
+            {
+              error:
+                "This discount code has expired (valid for 96 hours from your free preview).",
+            },
+            { status: 400 },
+          );
+        }
+      }
 
       if (entry) {
         // 20% (not a flat $5) - matches WELCOME20, the sitewide code any

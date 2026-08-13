@@ -178,6 +178,17 @@ export const POST = withContext(async (req: Request) => {
  // permanently burn a legitimate customer's code.
  const reservationToken = randomUUID();
  const staleBefore = new Date(Date.now() - 30 * 60 * 1000).toISOString();
+ // Real, honest urgency: this code was never time-limited before, so
+ // nothing ever pushed a cold ad-click lead to act today instead of
+ // "later" (data shows "later" means never). Mirrors /api/validate-coupon.
+ // 96h (not 72h) so it comfortably outlives the full nurture sequence
+ // (preview-followup at +3h, second-touch at preview-followup+3d) -
+ // otherwise the highest-effort touchpoint would be promising a code
+ // that's already dead.
+ const DISCOUNT_VALID_HOURS = 96;
+ const expiryCutoff = new Date(
+ Date.now() - DISCOUNT_VALID_HOURS * 60 * 60 * 1000,
+ ).toISOString();
 
  const { data: entry, error: err } = await supabaseAdmin
  .from("waitlist")
@@ -187,6 +198,7 @@ export const POST = withContext(async (req: Request) => {
  })
  .in("discount_code", possibleCodes)
  .eq("used", false)
+ .gte("created_at", expiryCutoff)
  .or(`reserved_at.is.null,reserved_at.lt.${staleBefore}`)
  .select("id, discount_code")
  .maybeSingle();
@@ -204,9 +216,20 @@ export const POST = withContext(async (req: Request) => {
  origin,
  );
  } else if (!waitlistEntry) {
+ const { data: expired } = await supabaseAdmin
+ .from("waitlist")
+ .select("id")
+ .in("discount_code", possibleCodes)
+ .eq("used", false)
+ .lt("created_at", expiryCutoff)
+ .maybeSingle();
  return addCors(
  NextResponse.json(
- { error: "This discount code has already been used or is invalid." },
+ {
+ error: expired
+ ? "This discount code has expired (valid for 96 hours from your free preview)."
+ : "This discount code has already been used or is invalid.",
+ },
  { status: 400 },
  ),
  origin,

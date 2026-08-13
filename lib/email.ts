@@ -187,7 +187,7 @@ export async function sendDiscountCodeEmail(email: string, discountCode: string)
     <div style="text-align: center; margin-bottom: 24px;">
       <a href="${process.env.NEXT_PUBLIC_SITE_URL}/upload?coupon=${encodeURIComponent(discountCode)}" style="background: #A3E635; color: #000000; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-size: 16px; font-weight: 700; display: inline-block;">Redeem Now &rarr;</a>
     </div>
-    <p style="margin: 0; font-size: 14px; color: #6B7280;">Code expires in 30 days. Valid on all plans.</p>
+    <p style="margin: 0; font-size: 14px; color: #6B7280;">Code expires 96 hours after you claimed it. Valid on all plans.</p>
   `;
   await withRetry(() => getResend().emails.send({
     from: "Truzot <hello@truzot.com>",
@@ -202,7 +202,7 @@ export async function sendPreviewFollowupEmail(email: string, discountCode: stri
   const discountBlock = discountCode
     ? `
     <div style="background: rgba(163,230,53,0.1); border: 2px dashed #A3E635; border-radius: 16px; padding: 24px; text-align: center; margin: 32px 0;">
-      <p style="margin: 0 0 8px; font-size: 14px; color: #4B5563;">Your 20% code (still active):</p>
+      <p style="margin: 0 0 8px; font-size: 14px; color: #4B5563;">Your 20% code (expires 96 hours after you claimed it):</p>
       <span style="font-size: 32px; font-weight: 900; color: #A3E635; letter-spacing: 4px; font-family: monospace;">${discountCode}</span>
     </div>`
     : "";
@@ -246,7 +246,7 @@ export async function sendFreePreviewResultEmail(
   const discountBlock = discountCode
     ? `
     <div style="background: rgba(163,230,53,0.1); border: 2px dashed #A3E635; border-radius: 16px; padding: 24px; text-align: center; margin: 32px 0;">
-      <p style="margin: 0 0 8px; font-size: 14px; color: #4B5563;">Your 20% code:</p>
+      <p style="margin: 0 0 8px; font-size: 14px; color: #4B5563;">Your 20% code (expires 96 hours after you claimed it):</p>
       <span style="font-size: 32px; font-weight: 900; color: #A3E635; letter-spacing: 4px; font-family: monospace;">${discountCode}</span>
     </div>`
     : "";
@@ -291,7 +291,7 @@ export async function sendColdWaitlistNudgeEmail(email: string, discountCode: st
   const discountBlock = discountCode
     ? `
     <div style="background: rgba(163,230,53,0.1); border: 2px dashed #A3E635; border-radius: 16px; padding: 24px; text-align: center; margin: 32px 0;">
-      <p style="margin: 0 0 8px; font-size: 14px; color: #4B5563;">Your 20% code (still active):</p>
+      <p style="margin: 0 0 8px; font-size: 14px; color: #4B5563;">Your 20% code (expires 96 hours after you claimed it):</p>
       <span style="font-size: 32px; font-weight: 900; color: #A3E635; letter-spacing: 4px; font-family: monospace;">${discountCode}</span>
     </div>`
     : "";
@@ -303,7 +303,7 @@ export async function sendColdWaitlistNudgeEmail(email: string, discountCode: st
       <a href="${process.env.NEXT_PUBLIC_SITE_URL}/free-preview" style="background: #A3E635; color: #000000; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-size: 16px; font-weight: 700; display: inline-block;">See My Free Preview &rarr;</a>
     </div>
     ${discountBlock}
-    <p style="margin: 0; font-size: 14px; color: #6B7280;">Your 20% code is still active whenever you're ready for the full-resolution set.</p>
+    <p style="margin: 0; font-size: 14px; color: #6B7280;">Your 20% code expires 96 hours after you claimed it.</p>
   `;
 
   await withRetry(() => getResend().emails.send({
@@ -324,7 +324,7 @@ export async function sendSecondTouchFollowupEmail(email: string, discountCode: 
   const discountBlock = discountCode
     ? `
     <div style="background: rgba(163,230,53,0.1); border: 2px dashed #A3E635; border-radius: 16px; padding: 24px; text-align: center; margin: 32px 0;">
-      <p style="margin: 0 0 8px; font-size: 14px; color: #4B5563;">Your 20% code (still active):</p>
+      <p style="margin: 0 0 8px; font-size: 14px; color: #4B5563;">Your 20% code (expires 96 hours after you claimed it):</p>
       <span style="font-size: 32px; font-weight: 900; color: #A3E635; letter-spacing: 4px; font-family: monospace;">${discountCode}</span>
     </div>`
     : "";
