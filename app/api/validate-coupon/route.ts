@@ -19,6 +19,10 @@ export async function POST(req: Request) {
     const couponUpper = coupon.toUpperCase();
     let discountAmount = 0;
     let appliedDiscountCode: string | undefined;
+    // Only ever set for TRUZOT- codes - lets /upload render the same live
+    // countdown shown on the free-preview result page (single source of
+    // truth: waitlist.created_at + DISCOUNT_VALID_HOURS).
+    let expiresAt: string | null = null;
 
     // Mirrors the authoritative floor in /api/checkout — inference + one-time
     // LoRA training + Stripe's cut. This endpoint is advisory (it only drives
@@ -55,7 +59,7 @@ export async function POST(req: Request) {
 
       const { data: entry } = await supabaseAdmin
         .from("waitlist")
-        .select("id, discount_code")
+        .select("id, discount_code, created_at")
         .in("discount_code", possibleCodes)
         .eq("used", false)
         .gte("created_at", expiryCutoff)
@@ -94,6 +98,12 @@ export async function POST(req: Request) {
         // not a new discount decision.
         discountAmount = Math.round(planConfig.amount * 0.2);
         appliedDiscountCode = entry.discount_code || couponUpper;
+        expiresAt = entry.created_at
+          ? new Date(
+              new Date(entry.created_at).getTime() +
+                DISCOUNT_VALID_HOURS * 60 * 60 * 1000,
+            ).toISOString()
+          : null;
 
         if (planConfig.amount - discountAmount < minimumViablePrice) {
           return NextResponse.json(
@@ -139,6 +149,7 @@ export async function POST(req: Request) {
       discountAmount,
       finalAmount,
       appliedDiscountCode,
+      expiresAt,
     });
   } catch (err) {
     console.error("Coupon validation error:", err);

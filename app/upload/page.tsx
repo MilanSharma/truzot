@@ -19,6 +19,7 @@ import { PLANS } from "@/lib/plans";
 import { useToast } from "@/components/Toast";
 import UploadErrorBoundary from "@/components/UploadErrorBoundary";
 import PaymentErrorBoundary from "@/components/PaymentErrorBoundary";
+import { DiscountCountdown } from "@/components/DiscountCountdown";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Upload,
@@ -280,7 +281,10 @@ function UploadContent() {
       searchParams.get("plan") || (getSavedState()?.plan as string) || "pro",
   );
   const [email, setEmail] = useState(
-    () => (getSavedState()?.email as string) || "",
+    () =>
+      searchParams.get("email") ||
+      (getSavedState()?.email as string) ||
+      "",
   );
   const [userId, setUserId] = useState<string | null>(null);
   // Defaults unchecked — this consents to biometric data processing, and
@@ -301,6 +305,9 @@ function UploadContent() {
   );
   const [couponValid, setCouponValid] = useState<boolean | null>(null);
   const [couponMessage, setCouponMessage] = useState("");
+  // Real deadline for TRUZOT- codes (waitlist.created_at + 96h, computed
+  // server-side) - null for WELCOME20/Stripe coupons, which aren't time-limited.
+  const [discountExpiresAt, setDiscountExpiresAt] = useState<string | null>(null);
   const [validatingCoupon, setValidatingCoupon] = useState(false);
   // TRUZOT- codes are only ever issued at free-preview signup (see
   // app/api/waitlist/route.ts) - WELCOME20 and any real Stripe coupon look
@@ -447,13 +454,16 @@ function UploadContent() {
       if (res.ok && data.valid) {
         setCouponValid(true);
         setCouponMessage(`Coupon applied! $${(data.finalAmount / 100).toFixed(2)}`);
+        setDiscountExpiresAt(data.expiresAt || null);
       } else {
         setCouponValid(false);
         setCouponMessage(data.error || "Invalid coupon code");
+        setDiscountExpiresAt(null);
       }
     } catch (err) {
       setCouponValid(false);
       setCouponMessage("Failed to validate coupon");
+      setDiscountExpiresAt(null);
     } finally {
       setValidatingCoupon(false);
     }
@@ -1758,6 +1768,12 @@ function UploadContent() {
                             >
                               {couponMessage}
                             </div>
+                          )}
+                          {couponValid && discountExpiresAt && (
+                            <DiscountCountdown
+                              expiresAt={discountExpiresAt}
+                              className="mt-1 text-xs font-semibold text-lime-400"
+                            />
                           )}
                         </div>
                       </div>

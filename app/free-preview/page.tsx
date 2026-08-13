@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { DiscountCountdown } from "@/components/DiscountCountdown";
 import { supabase } from "@/lib/supabase/client";
 
 export default function FreePreviewPage() {
@@ -13,6 +14,7 @@ export default function FreePreviewPage() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
   const [discountCode, setDiscountCode] = useState<string | null>(null);
+  const [discountExpiresAt, setDiscountExpiresAt] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [email, setEmail] = useState<string>("");
@@ -143,9 +145,14 @@ export default function FreePreviewPage() {
         throw new Error(data.error || "Failed to generate preview");
       }
 
-      const data = await res.json() as { url: string; discountCode?: string | null };
+      const data = await res.json() as {
+        url: string;
+        discountCode?: string | null;
+        expiresAt?: string | null;
+      };
       setResultUrl(data.url);
       if (data.discountCode) setDiscountCode(data.discountCode);
+      if (data.expiresAt) setDiscountExpiresAt(data.expiresAt);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to generate preview");
     } finally {
@@ -369,11 +376,20 @@ export default function FreePreviewPage() {
                     <div className="mb-6 rounded-xl border-2 border-dashed border-[var(--lime-border)] bg-[var(--lime-dim)] px-4 py-3">
                       <p className="text-xs font-semibold text-[var(--text-muted)] mb-1">Your 20% off code — already applied below</p>
                       <span className="font-mono text-lg font-black tracking-widest text-[var(--lime-text)]">{discountCode}</span>
-                      <p className="text-xs text-[var(--text-muted)] mt-2">Expires 96 hours from now — real deadline, not a countdown gimmick.</p>
+                      {discountExpiresAt && (
+                        <DiscountCountdown
+                          expiresAt={discountExpiresAt}
+                          className="text-xs font-semibold text-[var(--lime-text)] mt-2"
+                        />
+                      )}
                     </div>
                   )}
                   <Link
-                    href={discountCode ? `/upload?coupon=${encodeURIComponent(discountCode)}` : "/upload"}
+                    href={
+                      discountCode
+                        ? `/upload?coupon=${encodeURIComponent(discountCode)}${email ? `&email=${encodeURIComponent(email)}` : ""}`
+                        : "/upload"
+                    }
                     className="inline-flex w-full items-center justify-center gap-2 bg-[var(--text)] text-[var(--bg)] px-6 py-3.5 rounded-xl font-bold hover:opacity-90 transition shadow-lg active:scale-95"
                   >
                     Get 40–150 HD Headshots <ArrowRight className="w-4 h-4" />

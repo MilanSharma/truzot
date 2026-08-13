@@ -136,7 +136,7 @@ export const POST = withContext(async (req: Request) => {
     // the same person. Case-insensitive so Name@x.com and name@x.com collide.
     const { data: waitlistEntry, error: waitlistLookupErr } = await supabaseAdmin
       .from("waitlist")
-      .select("id, free_preview_used_at, discount_code")
+      .select("id, free_preview_used_at, discount_code, created_at")
       .ilike("email", email)
       .maybeSingle();
 
@@ -247,8 +247,22 @@ export const POST = withContext(async (req: Request) => {
 
     // Returning the code here (not just emailing it) lets the result page
     // show it and carry it straight into checkout - see app/free-preview/page.tsx.
+    // expiresAt mirrors the DISCOUNT_VALID_HOURS enforced server-side in
+    // /api/validate-coupon and /api/checkout - single source of truth
+    // (waitlist.created_at), so the client only ever displays a real
+    // deadline instead of computing its own.
+    const expiresAt = waitlistEntry.created_at
+      ? new Date(
+          new Date(waitlistEntry.created_at).getTime() + 96 * 60 * 60 * 1000,
+        ).toISOString()
+      : null;
+
     return addCors(
-      NextResponse.json({ url, discountCode: waitlistEntry.discount_code ?? null }),
+      NextResponse.json({
+        url,
+        discountCode: waitlistEntry.discount_code ?? null,
+        expiresAt,
+      }),
       origin,
     );
   } catch (err) {
