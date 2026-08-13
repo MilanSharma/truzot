@@ -20,6 +20,7 @@ import { useToast } from "@/components/Toast";
 import UploadErrorBoundary from "@/components/UploadErrorBoundary";
 import PaymentErrorBoundary from "@/components/PaymentErrorBoundary";
 import { DiscountCountdown } from "@/components/DiscountCountdown";
+import { trackFunnel } from "@/lib/funnel";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Upload,
@@ -170,6 +171,18 @@ function UploadContent() {
       }
       setAuthLoading(false);
     });
+  }, []);
+
+  // Funnel step 0. Fires once per visit so every later step has a denominator -
+  // without this we'd know how many people clicked checkout but not out of how
+  // many who arrived.
+  useEffect(() => {
+    trackFunnel("upload_landed", {
+      fromFreePreview: (searchParams.get("coupon") || "")
+        .toUpperCase()
+        .startsWith("TRUZOT-"),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const urlStep = parseInt(searchParams.get("step") ?? "") as Step;
@@ -833,9 +846,30 @@ function UploadContent() {
       }
       if (errors.length > 0) {
         toast(errors.join("\n"), "error");
+        // Prime suspect for silent drop-off: client-side validation (min 512px,
+        // max 10MB, blur threshold, format) rejects photos before anything
+        // reaches the server, so today a visitor whose entire camera roll gets
+        // refused looks identical to one who never tried. Only a coarse reason
+        // category is sent - never the filename.
+        const reason = errors[0].includes("too small")
+          ? "too_small"
+          : errors[0].includes("too large")
+            ? "too_large"
+            : errors[0].includes("blurry")
+              ? "blurry"
+              : errors[0].includes("unsupported")
+                ? "unsupported_format"
+                : "other";
+        trackFunnel("upload_photos_rejected", {
+          reason,
+          count: errors.length,
+        });
       }
       const nextFiles = [...filesRef.current, ...converted].slice(0, 10);
       setFiles(nextFiles);
+      if (converted.length > 0) {
+        trackFunnel("upload_photos_added", { count: nextFiles.length });
+      }
 
       // Score each newly added file from its cached analysis (falls back to a
       // fresh analysis for the rare case it wasn't cached, e.g. odd code paths).
@@ -910,6 +944,7 @@ function UploadContent() {
     if (step === 1) {
       if (files.length < 2 && !storagePath) {
         setError("Please upload at least 2 photos to continue. We recommend 6–10 for the best, most accurate results.");
+        trackFunnel("upload_step1_blocked", { reason: "too_few_photos" });
         return;
       }
       // Required, not optional: without it every prompt uses a gender-neutral
@@ -922,6 +957,7 @@ function UploadContent() {
       // wording (a smaller, accepted residual risk for that choice).
       if (!demographics.gender) {
         setError("Please select a gender so we can generate consistent, accurate results.");
+        trackFunnel("upload_step1_blocked", { reason: "no_gender" });
         return;
       }
       if (files.length > 0 && !storagePath) {
@@ -937,12 +973,14 @@ function UploadContent() {
         } catch (err: any) {
           console.error("Upload failed:", err);
           setError(err.message || "Failed to upload photos. Please try again.");
+          trackFunnel("upload_step1_blocked", { reason: "upload_failed" });
           setIsProcessing(false);
           return;
         } finally {
           setIsProcessing(false);
         }
       }
+      trackFunnel("upload_step1_complete", { count: files.length });
       setStep(2);
       window.scrollTo(0, 0);
       
@@ -958,22 +996,30 @@ function UploadContent() {
   const handleSubmit = async () => {
     if (!consentChecked) {
       setError("Please consent to biometric data processing to continue.");
+      trackFunnel("upload_checkout_failed", { reason: "no_consent" });
       return;
     }
 
     if (!email || !email.includes("@")) {
       setError("Please enter a valid email address.");
+      trackFunnel("upload_checkout_failed", { reason: "invalid_email" });
       return;
     }
 
     if (!storagePath) {
       setError("Please upload your photos before proceeding to checkout.");
+      trackFunnel("upload_checkout_failed", { reason: "no_storage_path" });
       return;
     }
 
     setIsProcessing(true);
     setError("");
     setProgress("Processing payment...");
+
+    // The event that matters most: everything above this line is a visitor who
+    // wanted to pay but was stopped by our own form. Past it, they've asked to
+    // be charged.
+    trackFunnel("upload_checkout_clicked", { plan });
 
     // Track Checkout Initiated
     if (typeof window !== "undefined") {
@@ -1039,6 +1085,13 @@ function UploadContent() {
         const errBody = (await res.json().catch(() => ({}))) as {
           error?: string;
         };
+        // A server-side rejection here is the worst kind of loss: the visitor
+        // explicitly asked to pay and we refused. Records the HTTP status so a
+        // recurring 400 (bad coupon, expired code, validation) is separable
+        // from a 500.
+        trackFunnel("upload_checkout_failed", {
+          reason: `api_${res.status}`,
+        });
         throw new Error(errBody?.error || "Checkout failed");
       }
 
