@@ -1072,24 +1072,29 @@ export default function LandingPageContent() {
                 variants={fadeUp}
                 className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10"
               >
-                {/* Primary CTA — the actual paid product. Free preview is
-                    real and worth keeping (data: 100% of real sales have
-                    ever come through it), but it's a sampler, not the sale -
-                    the button that makes money shouldn't visually read as
-                    secondary to it. Matches the same primary/secondary
-                    pairing already used in the closing CTA section below. */}
+                {/* Hero primary reverted to free preview on direct evidence:
+                    in the ~36h after the paid button became hero-primary
+                    (commit 81e5b2a), ~26 ad clicks produced ZERO leads, zero
+                    previews, and zero orders - versus 3-4 leads/day right
+                    before it. Every real sale ever has come through the
+                    preview path, and the preview->paid bridge is now much
+                    stronger (20% code auto-applied, live countdown, email
+                    prefill). The nav, sticky mobile bar, and closing section
+                    keep "Get headshots" as the lime primary, so the paid
+                    path stays prominent everywhere except this first-touch
+                    decision point where trust hasn't been earned yet. */}
                 <Link
-                  href="/upload"
+                  href="/free-preview"
                   className="group w-full sm:w-auto bg-lime-400 text-black px-8 py-4 rounded-xl font-bold text-lg hover:bg-lime-300 transition-all shadow-xl shadow-lime-400/25 flex items-center justify-center gap-2 hover:-translate-y-0.5 active:translate-y-0"
                 >
-                  Create my headshots
+                  <Eye className="w-5 h-5" /> See My Free Headshot
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link
-                  href="/free-preview"
+                  href="/upload"
                   className="w-full sm:w-auto bg-[var(--surface2)] backdrop-blur-sm text-[var(--text)] border border-[var(--border)] px-8 py-4 rounded-xl font-bold text-lg hover:bg-[var(--surface3)] transition flex items-center justify-center gap-2"
                 >
-                  <Eye className="w-5 h-5" /> See My Free Headshot
+                  Create my headshots
                 </Link>
               </motion.div>
 
