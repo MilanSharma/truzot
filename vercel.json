@@ -26,10 +26,10 @@
     }
   ],
   "functions": {
-    "api/generate/**/*.ts": {
+    "app/api/generate/**": {
       "maxDuration": 300
     },
-    "api/**/*.ts": {
+    "app/api/**/*.ts": {
       "maxDuration": 60
     }
   }
