@@ -18,7 +18,7 @@
   --bg-tertiary:  #F1F5F9;
   --bg-card:      #FFFFFF;
 
-  /* Accents — Vibrant lime site-wide */
+  /* Accents — Lime green primary (Truzot brand) */
   --lime:        #A3E635;
   --lime-text:   #65A30D;
   --lime-on:     #000000;
@@ -28,10 +28,11 @@
   --indigo-dim:  rgba(79,70,229,0.08);
 
   /* Status */
-  --success:     #059669;
-  --warning:     #D97706;
-  --error:       #DC2626;
-  --info:        #2563EB;
+  --success:     #10B981;
+  --success-dim: rgba(16,185,129,0.15);
+  --warning:     #F59E0B;
+  --error:       #EF4444;
+  --info:        #3B82F6;
 
   /* Text — Crisp slate for readability */
   --text:        #0F172A;
@@ -91,9 +92,10 @@
   --indigo-dim:  rgba(99,102,241,0.12);
 
   --success:     #10B981;
+  --success-dim: rgba(16,185,129,0.12);
   --warning:     #F59E0B;
   --error:       #EF4444;
-  --info:        #6366F1;
+  --info:        #3B82F6;
 
   /* Text */
   --text:        #FAFAFA;

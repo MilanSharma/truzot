@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import { PAGE_SEO, SITE_CONFIG } from "@/lib/seo";
-import LandingPageContent from "@/components/LandingPageContent";
+import { SITE_CONFIG } from "@/lib/seo";
+import B2BHomepage from "@/components/B2BHomepage";
+import B2BNav from "@/components/B2BNav";
+import B2BFooter from "@/components/B2BFooter";
 import { WebPageSchema } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
-  title: "AI Professional Headshots in Minutes",
-  description: PAGE_SEO.home.description,
-  keywords: PAGE_SEO.home.keywords,
+  title: "Premium Synthetic Training Data for Agentic AI",
+  description: "Stop wasting engineering hours cleaning messy data. Get 100% schema-validated, human-verified JSONL datasets with built-in error-recovery logic.",
   alternates: { canonical: SITE_CONFIG.url },
   openGraph: {
-    title: PAGE_SEO.home.title,
-    description: PAGE_SEO.home.description,
+    title: "Truzot — Premium Synthetic Training Data for Agentic AI",
+    description: "Stop wasting engineering hours cleaning messy data. Get 100% schema-validated, human-verified JSONL datasets.",
     url: SITE_CONFIG.url,
   },
 };
@@ -19,10 +20,12 @@ export default function LandingPage() {
   return (
     <>
       <WebPageSchema
-        name="Truzot AI Headshots"
-        description="Generate AI-powered professional headshots from your photos. No studio, no photographer. Get LinkedIn-ready corporate headshots in as fast as 5 minutes."
+        name="Truzot Synthetic Training Data"
+        description="Premium synthetic training data for Agentic AI. 100% schema-validated JSONL datasets with built-in error-recovery logic."
       />
-      <LandingPageContent />
+      <B2BNav />
+      <B2BHomepage />
+      <B2BFooter />
     </>
   );
 }

@@ -11,6 +11,7 @@ const supabaseHost = SUPABASE_PROJECT_ID ? `${SUPABASE_PROJECT_ID}.supabase.co` 
 
 const nextConfig = {
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
+  allowedDevOrigins: ['127.0.0.1'],
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
