@@ -246,7 +246,7 @@ export default function DatasetsContent() {
                     View Quality Report
                   </button>
                   <a
-                    href="https://buy.stripe.com/YOUR_STRIPE_LINK_HERE"
+                    href="https://buy.stripe.com/28E4gA9Q09wrbzKai3cQU00"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn-primary inline-flex items-center gap-2"
@@ -292,10 +292,12 @@ export default function DatasetsContent() {
                       </ul>
                       {tier.tier === "Custom" && (
                         <a
-                          href="/custom-data"
+                          href="https://buy.stripe.com/6oU4gAd2c8sn33e2PBcQU01"
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="inline-flex items-center gap-1 text-sm text-[var(--lime)] font-semibold mt-3 hover:underline"
                         >
-                          Order Custom Scope
+                          Order Custom License
                           <ArrowRight className="w-3 h-3" />
                         </a>
                       )}
