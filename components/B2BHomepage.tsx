@@ -69,7 +69,7 @@ export default function B2BHomepage() {
                 Download Free Sample
               </Link>
               <a
-                href="mailto:milan@truzot.com?subject=Custom%20Agentic%20Dataset%20Inquiry"
+                href="mailto:hello@truzot.com?subject=Custom%20Agentic%20Dataset%20Inquiry"
                 className="inline-flex items-center justify-center gap-2 text-lg px-8 py-4 bg-[var(--surface2)] text-[var(--text)] font-semibold rounded-xl border border-[var(--border)] hover:border-[var(--border-hover)] hover:bg-[var(--surface3)] transition"
               >
                 Request Custom Dataset
@@ -377,7 +377,7 @@ export default function B2BHomepage() {
               <ArrowRight className="w-5 h-5" />
             </a>
             <a
-              href="mailto:milan@truzot.com?subject=Custom%20Agentic%20Dataset%20Inquiry"
+              href="mailto:hello@truzot.com?subject=Custom%20Agentic%20Dataset%20Inquiry"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[var(--surface2)] text-[var(--text)] font-semibold rounded-xl border border-[var(--border)] hover:border-[var(--border-hover)] hover:bg-[var(--surface3)] transition"
             >
               Get Custom Data

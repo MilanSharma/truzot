@@ -19,7 +19,7 @@ export default function CustomDataContent() {
     const body = encodeURIComponent(
       `Name: ${formData.name}\nCompany: ${formData.company}\nEmail: ${formData.email}\n\nRequirements:\n${formData.requirements}`
     );
-    window.location.href = `mailto:milan@truzot.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:hello@truzot.com?subject=${subject}&body=${body}`;
     setSubmitted(true);
   };
 
@@ -231,10 +231,10 @@ export default function CustomDataContent() {
                 <p className="text-sm text-[var(--text-muted)] mb-3">
                   Prefer direct email? Send your OpenAPI/Swagger spec to{" "}
                   <a
-                    href="mailto:milan@truzot.com?subject=Custom%20Agentic%20Dataset%20Inquiry"
+                    href="mailto:hello@truzot.com?subject=Custom%20Agentic%20Dataset%20Inquiry"
                     className="text-[var(--lime)] font-semibold hover:underline"
                   >
-                    milan@truzot.com
+                    hello@truzot.com
                   </a>{" "}
                   for a quote in 2 hours.
                 </p>

@@ -115,10 +115,10 @@ export default function TermsPage() {
             <p>
               For questions about these terms:{" "}
               <a
-                href="mailto:milan@truzot.com"
+                href="mailto:hello@truzot.com"
                 className="text-[var(--lime)] hover:underline"
               >
-                milan@truzot.com
+                hello@truzot.com
               </a>
             </p>
           </div>

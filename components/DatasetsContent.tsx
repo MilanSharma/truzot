@@ -316,7 +316,7 @@ export default function DatasetsContent() {
             We build custom datasets tailored to your domain, schema, and use case.
           </p>
           <a
-            href="mailto:milan@truzot.com?subject=Custom%20Agentic%20Dataset%20Inquiry"
+            href="mailto:hello@truzot.com?subject=Custom%20Agentic%20Dataset%20Inquiry"
             className="btn-primary inline-flex items-center gap-2"
           >
             Request Custom Dataset

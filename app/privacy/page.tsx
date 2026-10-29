@@ -68,7 +68,7 @@ export default function PrivacyPage() {
             <p>
               We retain contact information and communication history for as long as necessary
               to provide our services and comply with legal obligations. You may request
-              deletion of your data by contacting milan@truzot.com. We respond within 30 days.
+              deletion of your data by contacting hello@truzot.com. We respond within 30 days.
             </p>
 
             <h2 className="text-xl font-bold text-[var(--text)] mt-8">
@@ -92,7 +92,7 @@ export default function PrivacyPage() {
             </h2>
             <p>
               Depending on your jurisdiction, you may have the right to access, correct,
-              delete, or port your data. To exercise these rights, email milan@truzot.com.
+              delete, or port your data. To exercise these rights, email hello@truzot.com.
               We respond within 30 days.
             </p>
 
@@ -128,10 +128,10 @@ export default function PrivacyPage() {
             <p>
               For privacy inquiries:{" "}
               <a
-                href="mailto:milan@truzot.com"
+                href="mailto:hello@truzot.com"
                 className="text-[var(--lime)] hover:underline"
               >
-                milan@truzot.com
+                hello@truzot.com
               </a>
             </p>
           </div>

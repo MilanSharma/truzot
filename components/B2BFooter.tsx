@@ -87,7 +87,7 @@ export default function B2BFooter() {
                 <Linkedin className="w-5 h-5" />
               </a>
               <a
-                href="mailto:milan@truzot.com?subject=Custom%20Agentic%20Dataset%20Inquiry"
+                href="mailto:hello@truzot.com?subject=Custom%20Agentic%20Dataset%20Inquiry"
                 className="w-10 h-10 rounded-lg bg-[var(--surface2)] border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--border-hover)] flex items-center justify-center transition"
                 aria-label="Email"
               >

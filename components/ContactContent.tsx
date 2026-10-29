@@ -57,10 +57,10 @@ export default function ContactContent() {
               For general inquiries, dataset questions, or custom data requests.
             </p>
             <a
-              href="mailto:milan@truzot.com?subject=Custom%20Agentic%20Dataset%20Inquiry"
+              href="mailto:hello@truzot.com?subject=Custom%20Agentic%20Dataset%20Inquiry"
               className="text-[var(--lime)] font-semibold hover:underline"
             >
-              milan@truzot.com
+              hello@truzot.com
             </a>
           </div>
           <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-8">
@@ -159,7 +159,7 @@ export default function ContactContent() {
               </button>
               {status === "error" && (
                 <p className="text-[var(--error)] text-sm text-center">
-                  Failed to send. Please email us directly at milan@truzot.com.
+                  Failed to send. Please email us directly at hello@truzot.com.
                 </p>
               )}
             </form>
@@ -175,7 +175,7 @@ export default function ContactContent() {
             Describe your requirements and we'll build a dataset tailored to your needs.
           </p>
           <a
-            href="mailto:milan@truzot.com?subject=Custom%20Agentic%20Dataset%20Inquiry"
+            href="mailto:hello@truzot.com?subject=Custom%20Agentic%20Dataset%20Inquiry"
             className="btn-primary inline-flex items-center gap-2"
           >
             Request Custom Dataset
