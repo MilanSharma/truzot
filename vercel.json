@@ -24,5 +24,13 @@
       "path": "/api/cron/reconcile",
       "schedule": "0 1 * * *"
     }
-  ]
+  ],
+  "functions": {
+    "api/generate/**/*.ts": {
+      "maxDuration": 300
+    },
+    "api/**/*.ts": {
+      "maxDuration": 60
+    }
+  }
 }
