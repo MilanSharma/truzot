@@ -12,9 +12,8 @@ import { withContext } from "@/lib/request-context";
 import { failOrderAndRefund } from "@/lib/order-failure";
 
 const log = createLogger("generate");
-export const maxDuration = 800; // Vercel Pro max (GA). Raise to 1800 only if you've
-                                 // opted into the extended-duration beta — see notes.
-const LOCK_TTL_MS = 780_000; // slightly under maxDuration: if a lock is older than
+export const maxDuration = 300; // Vercel Hobby max (300s). Pro plan allows up to 800s.
+const LOCK_TTL_MS = 290_000; // slightly under maxDuration: if a lock is older than
                               // this, the invocation that set it is presumed dead.
 
 async function enqueueNextBatch(orderId: string): Promise<boolean> {
