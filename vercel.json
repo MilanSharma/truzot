@@ -6,7 +6,7 @@
     },
     {
       "path": "/api/cron/preview-followup",
-      "schedule": "0 */2 * * *"
+      "schedule": "0 10 * * *"
     },
     {
       "path": "/api/cron/second-touch-followup",
@@ -22,7 +22,7 @@
     },
     {
       "path": "/api/cron/reconcile",
-      "schedule": "*/5 * * * *"
+      "schedule": "0 1 * * *"
     }
   ]
 }
